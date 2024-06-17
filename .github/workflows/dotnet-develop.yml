@@ -40,48 +40,36 @@ name: .NET Build MVC angular
 
 on:
   push:
-    branches: [ "feature/*" ]
+    branches:
+      - 'feature/*'
+  pull_request:
+    branches:
+      - 'feature/*'
 
-stages:
-  - install
-  - checkout
-  - build
+jobs:
+  build:
+    runs-on: windows-latest
 
-variables:
-  NODE_ENV: 'production'
-  NPM_CACHE: 'cache'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-cache:
-  paths:
-    - node_modules/
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20' # Assurez-vous que la version de Node.js correspond à celle requise par votre projet Angular.
 
-before_script:
-  - echo "Using Node version:"
-  - node -v
-  - echo "Using npm version:"
-  - npm -v
+    - name: Cd angular project
+      run: cd ./ui/Altalents.MVC/Angular/Altalents-client
 
-install_dependencies:
-  stage: install
-  script:
-    - npm ci
-  tags:
-    - windows
-    
-checkout_app:
-  stage: checkout
-  uses: actions/checkout@v4
-  with:
-    fetch-depth: 0
+    - name: Install dependencies
+      run: npm install
 
-build_app:
-  stage: build
-  script:
-    - cd ./ui/Altalents.MVC/Angular/Altalents-client
-    - npm i
-    - npm run build -- --prod
-  artifacts:
-    paths:
-      - dist/
-  tags:
-    - windows
+    - name: Run lint
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build Angular project
+      run: npm run build -- --prod
