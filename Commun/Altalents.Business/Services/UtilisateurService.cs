@@ -1,0 +1,162 @@
+using AlteaTools.Application.Core.Helper;
+using AlteaTools.Session.Extension;
+
+using AlteaTools.Session;
+using AlteaTools.Session.Dto;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+
+namespace Altalents.Business.Services
+{
+    public class UtilisateurService : BaseAppService<CustomDbContext>, IUtilisateurService
+    {
+        private readonly IHttpContextAccessor _contextAccessor;
+
+        public UtilisateurService(IHttpContextAccessor contextAccessor,
+            ILogger<UtilisateurService> logger,
+            CustomDbContext dbContext,
+            IMapper mapper,
+            IServiceProvider serviceProvider)
+            : base(logger, dbContext, mapper, serviceProvider)
+        {
+            _contextAccessor = contextAccessor;
+        }
+
+        public async Task DeleteUtilisateurAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            await DbSetHelper<Utilisateur>.CheckIdExistAsync(DbContext.Utilisateurs, id, cancellationToken);
+            Utilisateur utilisateur = await DbContext.Utilisateurs.AsTracking()
+                                                                  .SingleAsync(x => x.Id == id, cancellationToken);
+            CheckUtilisateurIsSupprimable(utilisateur);
+
+            utilisateur.IsActif = false;
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+        }
+
+        private void CheckUtilisateurIsSupprimable(Utilisateur utilisateur)
+        {
+            if (!utilisateur.IsSupprimable)
+            {
+                throw new BusinessException(BusinessExceptionsResources.UTILISATEUR_NON_SUPPRIMABLE);
+            }
+
+            UserLoggedDto userLoggedDto = _contextAccessor.HttpContext.Session.Get<UserLoggedDto>(SessionKeyConstantes.UserLogged);
+            if (userLoggedDto.Login == utilisateur.Login)
+            {
+                throw new BusinessException(BusinessExceptionsResources.UTILISATEUR_NON_SUPPRIMABLE_CONNECTE);
+            }
+        }
+
+        public async Task<Guid> InsertUtilisateurAsync(UtilisateurDto utilisateur, CancellationToken cancellationToken = default)
+        {
+            await CheckLoginExistAsync(utilisateur.Login, cancellationToken);
+            Utilisateur nouvelUtilisateur = Mapper.Map<Utilisateur>(utilisateur);
+            nouvelUtilisateur.MotDePasseCrypte = MotDePasseHelper.GetHashedMotDePasse(utilisateur.MotDePasse);
+            nouvelUtilisateur.IsActif = true;
+            nouvelUtilisateur.IsModifiable = true;
+            nouvelUtilisateur.IsSupprimable = true;
+
+            await DbContext.Utilisateurs.AddAsync(nouvelUtilisateur, cancellationToken);
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+            return nouvelUtilisateur.Id;
+        }
+
+        public async Task UpdateUtilisateurAsync(UtilisateurDto utilisateurModifie, CancellationToken cancellationToken = default)
+        {
+            await DbSetHelper<Utilisateur>.CheckIdExistAsync(DbContext.Utilisateurs, utilisateurModifie.Id, cancellationToken);
+            Utilisateur utilisateur = await DbContext.Utilisateurs.AsTracking().SingleAsync(x => x.Id == utilisateurModifie.Id, cancellationToken);
+
+            if (!utilisateur.IsModifiable)
+            {
+                throw new BusinessException(BusinessExceptionsResources.UTILISATEUR_NON_MODIFIABLE);
+            }
+
+            if (utilisateur.IsModifiable)
+            {
+                utilisateur.Nom = utilisateurModifie.Nom;
+                utilisateur.Email = utilisateurModifie.Email;
+                utilisateur.IsSupprimable = utilisateurModifie.IsSupprimable;
+                utilisateur.IsModifiable = utilisateurModifie.IsModifiable;
+
+                if (!string.IsNullOrEmpty(utilisateurModifie.NouveauMotDePasse))
+                {
+                    utilisateur.MotDePasseCrypte = MotDePasseHelper.GetHashedMotDePasse(utilisateurModifie.NouveauMotDePasse);
+                }
+            }
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+        }
+
+        public IQueryable<UtilisateurDto> GetUtilisateursActifs()
+        {
+            return DbContext.Utilisateurs.Where(x => x.IsActif)
+                                         .ProjectTo<UtilisateurDto>(Mapper.ConfigurationProvider);
+        }
+
+        private async Task CheckLoginExistAsync(string login, CancellationToken cancellationToken = default)
+        {
+            IQueryable<Utilisateur> queryable = DbContext.Utilisateurs.AsQueryable();
+
+            if (await queryable.AnyAsync(x => x.Login == login, cancellationToken))
+            {
+                throw new BusinessException($"Le login '{login}' existe déjà pour un utilisateur (actif ou non).");
+            }
+        }
+
+        public Task<string> GetUserIdAsync(Utilisateur user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetUserNameAsync(Utilisateur user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetUserNameAsync(Utilisateur user, string userName, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetNormalizedUserNameAsync(Utilisateur user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetNormalizedUserNameAsync(Utilisateur user, string normalizedName, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IdentityResult> CreateAsync(Utilisateur user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IdentityResult> UpdateAsync(Utilisateur user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IdentityResult> DeleteAsync(Utilisateur user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Utilisateur> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Utilisateur> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+    }
+}

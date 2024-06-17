@@ -1,0 +1,90 @@
+@using Altalents.MVC.Controllers.Admin;
+@{
+    ViewData["Title"] = "Gestion des utilisateurs";
+    Layout = "_LayoutAdmin";
+    Dictionary<GridActionEnum, RouteActionModel> gridUtilisateurActionDictionary = new();
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetUtilisateurs", ControllerName = UtilisateurController.ControllerName });
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Create, new() { ActionName = "CreateUtilisateur", ControllerName = UtilisateurController.ControllerName });
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Update, new() { ActionName = "UpdateUtilisateur", ControllerName = UtilisateurController.ControllerName });
+}
+
+<script type="text/javascript">
+    function reloadGridUtilisateur(e) {
+        var grid = $("#gridUtilisateur").data("kendoGrid");
+        grid.dataSource.read();
+    }
+
+    function actionConfirmationSuppressionUtilisateur(idUser, callbackFinalize) {
+        $.ajax({
+            url: '@Url.Action("DeleteUtilisateur", UtilisateurController.ControllerName)',
+            type: "POST",
+            data: { utilisateurId: idUser },
+            success: function (recData) {
+                if (recData.Errors) {
+                    erreurFunction(recData.Errors);
+                }
+                else {
+                    suppressionReussie();
+                    reloadGridUtilisateur();
+                }
+            },
+            error: erreurFunction,
+            finalize: function () {
+                callbackFinalize();
+            }
+        });
+    }
+
+    function actionNonConfirmationUtilisateur(callbackFinalize) {
+        callbackFinalize();
+    }
+
+    function onSupprimerUtilisateurClick(e) {
+        var functionOnConfirmation = function (callbackFinalize) {
+            actionConfirmationSuppressionUtilisateur(e.model.Id, callbackFinalize);
+        }
+        openConfirmationSuppressionDialog(functionOnConfirmation, actionNonConfirmationUtilisateur);
+    }
+
+</script>
+
+<h2>Gestion des utilisateurs</h2>
+
+@(Html.Kendo().Grid<UtilisateurDto>()
+    .Name("gridUtilisateur")
+    .HtmlAttributes(new { @class = "cus-grid-height100p" })
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Nom).Title(LibellesResources.UtilisateurNom);
+        columns.Bound(p => p.Login).Title(LibellesResources.UtilisateurLogin);
+        columns.Bound(p => p.Email).Title(LibellesResources.UtilisateurEmail);
+        columns.CreateDefaultCommands(nameof(UtilisateurDto));
+    })
+    .Events(e => e.DataBound("onDataBoundUtilisateurs"))
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .CreateDefautPagger()
+    .CreateDefautToolBar()
+    .CreateDefautDataSource(gridUtilisateurActionDictionary, model => model.Id(p => p.Id), "DateCreation")
+    .CreateDefautPopUpEdit("AddOrUpdateUtilisateurPopUp", "OnPopUpOpenGridUtilisateur", "onSupprimerUtilisateurClick", actionOnCancel: "reloadGridUtilisateur")
+)
+
+<script>
+
+    function onDataBoundUtilisateurs(e) {
+        onDataBoundGloblalEdit(e, '@nameof(UtilisateurDto)');
+        onDataBoundGloblalDelete(e, '@nameof(UtilisateurDto)');
+    }
+
+    function OnPopUpOpenGridUtilisateur(e) {
+        let titleSpan = $('.k-window-title', $(e.container).parent());
+        if (e.model.isNew()) {
+            titleSpan.text('Ajouter un utilisateur');
+            $(".forUpdateUtilisateur").remove();
+        } else {
+            titleSpan.text('Modifier un utilisateur');
+            $(".forCreateUtilisateur").remove();
+        }
+    }
+</script>

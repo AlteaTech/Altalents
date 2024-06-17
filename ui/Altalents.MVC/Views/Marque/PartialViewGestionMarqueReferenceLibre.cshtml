@@ -1,0 +1,96 @@
+@using Altalents.Entities.Enum;
+@model PartialViewGestionMarqueReferenceLibreModel
+@{
+    long ticks = DateTime.Now.Ticks;
+    string updatePopup = "AddOrUpdateMarqueReferenceLibrePopUp";
+    Dictionary<GridActionEnum, RouteActionModel> gridMarqueReferenceLibreActionDictionary = new();
+    gridMarqueReferenceLibreActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetMarqueReferenceLibres", ControllerName = MarqueController.ControllerName, Parameters = new { type = Model.Type, marqueId = Model.MarqueId } });
+    if(Model.Type == EnumTypeMarqueReferenceLibre.MotLatin)
+    {
+        gridMarqueReferenceLibreActionDictionary.Add(GridActionEnum.Create, new() { ActionName = "CreateMarqueReferenceLibreMotLatin", ControllerName = MarqueController.ControllerName, Parameters = new { marqueId = Model.MarqueId } });
+    } else if (Model.Type == EnumTypeMarqueReferenceLibre.InitialeLatin)
+    {
+        updatePopup = "AddOrUpdateMarqueReferenceLibrePopUpInitialeLatine";
+        gridMarqueReferenceLibreActionDictionary.Add(GridActionEnum.Create, new() { ActionName = "CreateMarqueReferenceLibreInitialeLatin", ControllerName = MarqueController.ControllerName, Parameters = new { marqueId = Model.MarqueId } });
+    }
+    gridMarqueReferenceLibreActionDictionary.Add(GridActionEnum.Update, new() { ActionName = "UpdateMarqueReferenceLibre", ControllerName = MarqueController.ControllerName });
+}
+
+<script type="text/javascript">
+
+
+    function reloadGridMarqueReferenceLibre@(ticks)() {
+        var grid = $("#gridMarqueReferenceLibre@(ticks)").data("kendoGrid");
+        grid.dataSource.read();
+    }
+
+    function OnPopUpOpenGridMarqueReferenceLibre@(ticks)(e) {
+        let titleSpan = $('.k-window-title', $(e.container).parent());
+        if (e.model.isNew()) {
+            titleSpan.text('Ajouter un élément');
+        } else {
+            titleSpan.text('Modifier un élément');
+        }
+    }
+
+    function actionNonConfirmationMarqueReferenceLibre@(ticks)(callbackFinalize) {
+        callbackFinalize();
+    }
+
+    function onSupprimerMarqueReferenceLibreClick@(ticks)(e) {
+        var functionOnConfirmation = function (callbackFinalize) {
+                actionConfirmationSuppressionMarqueReferenceLibre@(ticks)(e.model, callbackFinalize);
+        }
+        openConfirmationSuppressionDialog(functionOnConfirmation, actionNonConfirmationMarqueReferenceLibre@(ticks));
+    }
+    function actionConfirmationSuppressionMarqueReferenceLibre@(ticks)(marqueReferenceLibre, callbackFinalize) {
+        $.ajax({
+            url: '@Url.Action("DeleteMarqueReferenceLibre", MarqueController.ControllerName)',
+            type: "POST",
+            data: { marqueReferenceLibreId: marqueReferenceLibre.Id, marqueId: marqueReferenceLibre.IdMarque },
+            success: function (recData) {
+                if (recData.Errors) {
+                    erreurFunction(recData.Errors);
+                }
+                else {
+                    suppressionReussie();
+                        reloadGridMarqueReferenceLibre@(ticks)();
+                }
+            },
+            error: erreurFunction,
+            finalize: function () {
+                callbackFinalize();
+            }
+        });
+    }
+
+    function onDataBoundMarqueReferenceLibres@(ticks)(e) {
+        onDataBoundGloblalEdit(e, '@nameof(MarqueReferenceLibreDto)');
+        onDataBoundGloblalDelete(e, '@nameof(MarqueReferenceLibreDto)');
+    }
+</script>
+
+@if (Model.Type == EnumTypeMarqueReferenceLibre.MotLatin)
+{
+    <p>Gestion des mots latins</p>
+} else if (Model.Type == EnumTypeMarqueReferenceLibre.InitialeLatin)
+{
+    <p>Gestion des initiales latines</p>
+}
+
+@(Html.Kendo().Grid<MarqueReferenceLibreDto>()
+    .Name("gridMarqueReferenceLibre"+ticks)
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Texte).Title(LibellesResources.MarqueReferenceLibreTexte);
+        columns.CreateDefaultCommands(nameof(MarqueReferenceLibreDto));
+    })
+    .Events(e => e.DataBound("onDataBoundMarqueReferenceLibres"+ticks))
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .Height("300px")
+    .CreateDefautToolBar()
+    .CreateDefautDataSource(gridMarqueReferenceLibreActionDictionary, model => model.Id(p => p.Id), "Texte")
+    .CreateDefautPopUpEdit(updatePopup, "OnPopUpOpenGridMarqueReferenceLibre"+ticks, "onSupprimerMarqueReferenceLibreClick"+ticks, actionOnCancel: "reloadGridMarqueReferenceLibre"+ticks)
+)

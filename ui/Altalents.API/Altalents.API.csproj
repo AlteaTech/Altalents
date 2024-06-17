@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Commun\Altalents.Business\Altalents.Business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System"/>
+    <Using Include="System.Data"/>
+    <Using Include="System.Text"/>
+    <Using Include="System.Threading"/>
+    <Using Include="System.Text.RegularExpressions"/>
+    <Using Include="System.IO"/>
+    <Using Include="System.Net.Http.Headers"/>
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading.Tasks" />
+    <Using Include="Altalents.IBusiness.DTO" />
+    <Using Include="Altalents.IBusiness.DTO.Api" />
+    <Using Include="Altalents.IBusiness.IServices" />
+    <Using Include="Microsoft.AspNetCore.Mvc" />
+    <Using Include="Altalents.Commun.Constants" />
+    <Using Include="Altalents.Commun.Resources" />
+  </ItemGroup>
+</Project>

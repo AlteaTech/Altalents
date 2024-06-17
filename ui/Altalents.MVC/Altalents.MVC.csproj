@@ -1,0 +1,227 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Angular\**" />
+    <Compile Remove="wwwroot\Images\**" />
+    <Content Remove="Angular\**" />
+    <Content Remove="wwwroot\Images\**" />
+    <EmbeddedResource Remove="Angular\**" />
+    <EmbeddedResource Remove="wwwroot\Images\**" />
+    <None Remove="Angular\**" />
+    <None Remove="wwwroot\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AnyAscii" Version="0.3.2" />
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="AlteaTools.Kendo" Version="8.0.6" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.10.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
+    <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2024.2.514" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Data" />
+    <Using Include="System.Text" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Text.RegularExpressions" />
+    <Using Include="System.IO" />
+    <Using Include="System.Net.Http.Headers" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading.Tasks" />
+    <Using Include="Altalents.IBusiness.DTO" />
+    <Using Include="Altalents.IBusiness.DTO.Marques" />
+    <Using Include="Altalents.IBusiness.IServices" />
+    <Using Include="Altalents.MVC.Controllers" />
+    <Using Include="Altalents.MVC.Extension" />
+    <Using Include="Altalents.MVC.Models" />
+    <Using Include="Altalents.MVC.Resources" />
+    <Using Include="Kendo.Mvc.Extensions" />
+    <Using Include="Kendo.Mvc.UI" />
+    <Using Include="Microsoft.AspNetCore.Mvc" />
+    <Using Include="Altalents.Commun.Constants" />
+    <Using Include="Altalents.Commun.Resources" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Commun\Altalents.Business\Altalents.Business.csproj" />
+    <ProjectReference Include="..\..\Commun\Altalents.Entities\Altalents.Entities.csproj" />
+    <ProjectReference Include="..\Altalents.API\Altalents.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\AutoLogout\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\css\app-client.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\favicon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\js\cultures\kendo.culture.fr-FR.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\js\cultures\kendo.messages.fr-FR.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\LibellesResources.Designer.cs">
+      <DependentUpon>LibellesResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\LibellesResources.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>LibellesResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_001.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_002.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_003.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_004.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_005.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_006.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_007.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_008.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_009.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_010.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_011.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_012.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_013.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_014.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_015.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_016.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_017.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_018.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_019.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_020.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_021.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_022.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_023.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_024.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_025.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_026.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_027.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_028.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_029.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_030.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_031.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_032.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_033.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_034.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_035.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Sql\RDD_MarquesSousRefRef_InsertScript\RDD_MotsCles_Finale_InsertScript_036.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

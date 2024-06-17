@@ -1,0 +1,22 @@
+@using Altalents.MVC.Models.Marque;
+@model PartialViewUploadFileToMarqueModel
+
+@if (Model.IsEnabled)
+{
+    @(
+        Html.Kendo().Upload()
+                .Name("FilesUploadFileMarque")
+                .Multiple(false)
+                .ShowFileList(false)
+                .Async(a => a
+                    .Save("AddFile", MarqueController.ControllerName, new { idMarque = Model.IdMarque })
+                    .AutoUpload(true)
+                    )
+                .HtmlAttributes(new { accept = Model.AcceptExtensions })
+                .Events(events => events
+                            .Success("successFilesUploadFileMarque")
+                            .Error("erreurFunction")
+        )
+        .Validation(validation => validation.AllowedExtensions(Model.AllowedExtensions))
+    )
+}

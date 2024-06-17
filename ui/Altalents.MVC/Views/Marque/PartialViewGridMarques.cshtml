@@ -1,0 +1,180 @@
+@model PartialViewGridMarquesModel
+@{
+    bool isMarqueRenvoisGrid = Model.MarqueId.HasValue;
+    Dictionary<GridActionEnum, RouteActionModel> gridMarqueActionDictionary = new();
+    if (Model.ReferenceId.HasValue)
+    {
+        gridMarqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetMarquesAssocieesReference", ControllerName = MarqueController.ControllerName, Parameters = new { referenceId = Model.ReferenceId.Value, sousReferenceId = Model.SousReferenceId } });
+    }
+    if (isMarqueRenvoisGrid)
+    {
+        gridMarqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetMarquesRenvoisByMarqueId", ControllerName = MarqueController.ControllerName, Parameters = new { marqueId = Model.MarqueId } });
+    }
+    Guid idMarqueTmp = Guid.NewGuid();
+}
+
+<script>
+    var selectedMarqueRenvoisIdAAjouter;
+
+    function onOpenUpdateMarqueClick(e) {
+        e.preventDefault();
+        var idMarque = this.dataItem($(e.currentTarget).closest("tr")).IdMarque;
+        var newUrl = '@(Url.Action("Update", MarqueController.ControllerName, new { idMarque = idMarqueTmp }))';
+        window.open(newUrl.replace("@idMarqueTmp", idMarque), '_blank').focus();
+    }
+
+    function reloadGridEtComboBoxMarque(e) {
+        var grid = $("#gridMarques").data("kendoGrid");
+        grid.dataSource.read();
+        var comboBox = $("#dropDownMarqueRenvois").data("kendoComboBox");
+        comboBox.value("");
+        comboBox.dataSource.read();
+        selectedMarqueRenvoisIdAAjouter = undefined;
+    }
+
+    function actionConfirmationSuppressionMarque(marqueIdASupprimer, marqueIdTravail, callbackFinalize) {
+        $("#AddMarqueRenvoisBtn").attr("disabled", "disabled");
+        $.ajax({
+            url: '@Url.Action("DeleteMarqueRenvois", MarqueController.ControllerName)',
+            type: "POST",
+            data: { marqueIdASupprimer: marqueIdASupprimer, marqueIdTravail: marqueIdTravail },
+            success: function (recData) {
+                if (recData.Errors) {
+                    erreurFunction(recData.Errors);
+                }
+                else {
+                    suppressionReussie();
+                    reloadGridEtComboBoxMarque();
+                }
+                $("#AddMarqueRenvoisBtn").removeAttr("disabled");
+            },
+            error: erreurFunction,
+            finalize: function () {
+                callbackFinalize();
+            }
+        });
+    }
+
+    function actionNonConfirmationMarque(callbackFinalize) {
+        callbackFinalize();
+    }
+
+    function onSupprimerMarqueClick(e) {
+        var functionOnConfirmation = function (callbackFinalize) {
+            actionConfirmationSuppressionMarque(e.model.IdMarque, '@Model.MarqueId', callbackFinalize);
+        }
+        openConfirmationSuppressionDialog(functionOnConfirmation, actionNonConfirmationMarque);
+    }
+
+    function onDataBoundMarques(e) {
+        onDataBoundGloblalDelete(e, '@nameof(MarqueLightDto)');
+    }
+
+    function onSelectMarqueRenvois(e) {
+        if (e.dataItem === undefined){
+            selectedMarqueRenvoisIdAAjouter = undefined;
+            $("#AddMarqueRenvoisBtn").attr('disabled', true);
+            return;
+        }
+        selectedMarqueRenvoisIdAAjouter = e.dataItem.IdMarque;
+        $("#AddMarqueRenvoisBtn").removeAttr("disabled");
+    }
+
+    function onAddMarqueRenvoisClick() {
+        if (selectedMarqueRenvoisIdAAjouter === undefined) {
+            return;
+        }
+
+        $("#AddMarqueRenvoisBtn").attr("disabled", "disabled");
+        $.ajax({
+            url: '@Url.Action("InsertMarqueRenvois", MarqueController.ControllerName)',
+            type: "POST",
+            data: { marqueIdAAjouter: selectedMarqueRenvoisIdAAjouter, marqueIdTravail: '@Model.MarqueId' },
+            success: function (recData) {
+                if (recData.Errors) {
+                    erreurFunction(recData.Errors);
+                }
+                else {
+                    reloadGridEtComboBoxMarque();
+                }
+                $("#AddMarqueRenvoisBtn").removeAttr("disabled");
+            },
+            error: erreurFunction,
+            finalize: function () {
+                callbackFinalize();
+            }
+        });
+    }
+
+    function onSaveRenvoisMarqueClick() {
+        $.ajax({
+            url: '@Url.Action("UpdateMarqueRenvois", MarqueController.ControllerName)',
+            type: "PUT",
+            data: { marqueId: "@Model.MarqueId" },
+            success: function () {
+                enregistrementReussi();
+                closeDialog("#gestionIndexMarqueDialog");
+                reloadBoutonRenvois('@Model.MarqueId');
+            },
+            error: erreurFunction
+        });
+    }
+</script>
+
+@if (Model.ReferenceId.HasValue)
+{
+    <h4>Marques associées :</h4>
+}
+@if (isMarqueRenvoisGrid)
+{
+    <div class="row">
+        <div class="col-md-10">
+            @(Html.Kendo().ComboBox()
+                .CreateDefautComboBox("dropDownMarqueRenvois", LibellesResources.MarqueComboBoxPlaceholder, nameof(MarqueLightDto.LibelleDropDownMarqueRenvois), nameof(MarqueLightDto.IdMarque))
+                .CreateDefautComboBoxDataSource("GetMarquesAjoutablesMarqueRenvois", MarqueController.ControllerName, new { text = "", marqueId = Model.MarqueId })
+                .ClearButton(false)
+                .Events(e => e.Select("onSelectMarqueRenvois"))
+                )
+        </div>
+        <div class="col-md-2">
+            @(Html.Kendo().Button().CreateDefautButton("AddMarqueRenvoisBtn", LibellesResources.MarqueAddMarqueRenvois, "onAddMarqueRenvoisClick", themeColor: ThemeColor.Primary, classCss: "cus-width-max"))
+        </div>
+    </div>
+}
+
+@(Html.Kendo().Grid<MarqueLightDto>()
+        .Name("gridMarques")
+        .HtmlAttributes(new { @class = "cus-grid-height100p cus-mt-10" })
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.ReferenceLugt).Title(LibellesResources.MarqueNumeroLugt).Width(CssConstantes.WidthGridColumnNumeroLugt);
+            columns.Bound(p => p.NomPrincipalLibelleFr).Title(LibellesResources.MarqueNomPrincipal);
+            columns.Command(command =>
+            {
+                command.Custom(" ")
+                        .HtmlAttributes(new { @class = "k-button-solid-primary" })
+                        .IconClass("k-i-eye ")
+                        .Click("onOpenUpdateMarqueClick");
+            }).Width(CssConstantes.WidthGridColumnCommandeUnique);
+            if (isMarqueRenvoisGrid)
+            {
+                columns.CreateDefaultCommands(nameof(MarqueLightDto), withEdit: false);
+            }
+        })
+        .Events(e => e.DataBound("onDataBoundMarques"))
+        .Sortable()
+        .Filterable()
+        .Scrollable()
+        .CreateDefautPagger()
+        .Height("80%")
+        .CreateDefautToolBar(withCreate: false)
+        .CreateDefautDataSource(gridMarqueActionDictionary, model => model.Id(p => p.IdMarque), nameof(MarqueLightDto.ReferenceLugt))
+        .CreateDefautSuppression("onSupprimerMarqueClick")
+    )
+
+@if (isMarqueRenvoisGrid)
+{
+    <div class="cus-textalign-droite">
+        @(Html.Kendo().Button().CreateDefautButtonEnregistrer($"Renvois{Model.MarqueId}", "onSaveRenvoisMarqueClick"))
+    </div>
+}

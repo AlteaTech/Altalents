@@ -1,0 +1,99 @@
+@model IntroductionDto
+
+<script type="text/javascript">
+
+    function onSaveIntroductionClick(e) {
+        $("#Enregistrer" + "@Model.Id").attr('disabled',true);
+        $("#Supprimer" + "@Model.Id").attr('disabled', true);
+
+        var textbox = $("#introductionDetailTitreFrTextBox").data("kendoTextBox");
+        let titreFr = textbox.value();
+        var editor = $("#introductionDetailDetailFrEditor").data("kendoEditor");
+        let detailFr = editor.value();
+        var numericTextBox = $("#introductionDetailOrdreFrNumericTextBox").data("kendoNumericTextBox");
+        let ordreFr = numericTextBox.value();
+
+        textbox = $("#introductionDetailTitreEnTextBox").data("kendoTextBox");
+        let titreEn = textbox.value();
+        editor = $("#introductionDetailDetailEnEditor").data("kendoEditor");
+        let detailEn = editor.value();
+        numericTextBox = $("#introductionDetailOrdreEnNumericTextBox").data("kendoNumericTextBox");
+        let ordreEn = numericTextBox.value();
+
+        $.ajax({
+            url: '@Url.Action("UpdateIntroduction", IntroductionController.ControllerName)',
+            type: "POST",
+            data: { introductionId: "@Model.Id", titreFr: titreFr, detailFr: detailFr, titreEn: titreEn, detailEn: detailEn, ordreFr: ordreFr, ordreEn: ordreEn },
+            success: function (recData) {
+                enregistrementReussi();
+                document.location.href = '@Url.Action("Index",IntroductionController.ControllerName,new {introductionId = Model.Id})';
+            },
+            error: erreurFunction
+        });
+    }
+    
+    function actionConfirmationSuppressionIntroduction(callbackFinalize) {
+        $.ajax({
+            url: '@Url.Action("DeleteIntroduction", IntroductionController.ControllerName)',
+            type: "POST",
+            data: { introductionId: "@Model.Id" },
+            success: function (recData) {
+                suppressionReussie();
+                document.location.href = '@Url.Action("Index", IntroductionController.ControllerName)';
+            },
+            error: erreurFunction,
+            finalize: function () {
+                $("#Enregistrer" + Model.Id).attr('disabled', false);
+                $("#Supprimer" + Model.Id).attr('disabled', false);
+                callbackFinalize();
+            }
+        });
+    }
+
+    function actionNonConfirmationIntroduction(callbackFinalize) {
+        callbackFinalize();
+    }
+
+    function onSupprimerIntroductionClick(e) {
+        openConfirmationSuppressionDialog(actionConfirmationSuppressionIntroduction, actionNonConfirmationIntroduction);
+    }
+
+</script>
+
+<div class="k-card">
+    @(Html.Kendo().TabStrip()
+            .Name("introductionDetailTabs")
+            .Animation(animation =>
+            {
+                animation.Open(effect =>
+            {
+                effect.Fade(FadeDirection.In);
+            });
+            })
+            .Items(tabstrip =>
+            {
+                tabstrip.Add().Text("Français")
+            .Selected(true)
+            .Content(@<text>
+                @(Html.CreateDefautTextBox(new() { Label = LibellesResources.IntroductionTitreFr, Name = "introductionDetailTitreFrTextBox", Value = Model.TitreFr, HtmlAttributes = new { @class = "cus-width-max" } }))
+                    <label class="cus-mt-10" for="introductionDetailOrdreFrNumericTextBox">@LibellesResources.IntroductionOrdreFr</label>
+                    @(Html.CreateDefautIntegerTextBox(new() { Name = "introductionDetailOrdreFrNumericTextBox", Min = 1, ValueInt = Model.OrdreFr, HtmlAttributes = new { @class = "cus-width-max", title = "ordreFr" } }))
+                    <label class="cus-mt-10" for="introductionDetailDetailFrEditor">@LibellesResources.IntroductionDetailFr</label>
+                    @(Html.CreateDefautEditor(new() { Name = "introductionDetailDetailFrEditor", Value = Model.DetailFr, HtmlAttributes = new { style = "width: 100%; height:470px" } }))
+                </text>);
+
+                tabstrip.Add().Text("Anglais")
+            .Content(@<text>
+                @(Html.CreateDefautTextBox(new() { Label = LibellesResources.IntroductionTitreEn, Name = "introductionDetailTitreEnTextBox", Value = Model.TitreEn, HtmlAttributes = new { @class = "cus-width-max" } }))
+                    <label class="cus-mt-10" for="introductionDetailOrdreEnNumericTextBox">@LibellesResources.IntroductionOrdreEn</label>
+                    @(Html.CreateDefautIntegerTextBox(new() { Name = "introductionDetailOrdreEnNumericTextBox", Min = 1, ValueInt = Model.OrdreEn, HtmlAttributes = new { @class = "cus-width-max", title = "ordreEn" } }))
+                    <label class="cus-mt-10" for="introductionDetailDetailEnEditor">@LibellesResources.IntroductionDetailEn</label>
+                    @(Html.CreateDefautEditor(new() { Name = "introductionDetailDetailEnEditor", Value = Model.DetailEn, HtmlAttributes = new { style = "width: 100%; height:470px" } }))
+                </text>);
+            })
+        )
+    <div class="cus-textalign-droite cus-m-10">
+        @(Html.Kendo().Button().CreateDefautButton("Supprimer" + Model.Id, LibellesResources.IntroductionSupprimer + Model.TitreFr, "onSupprimerIntroductionClick", themeColor: ThemeColor.Error))
+        @(Html.Kendo().Button().CreateDefautButtonEnregistrer(Model.Id.ToString(), "onSaveIntroductionClick"))
+    </div>
+</div>

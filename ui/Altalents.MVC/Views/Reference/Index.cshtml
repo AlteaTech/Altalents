@@ -1,0 +1,45 @@
+@model List<TypeReferenceDto>
+
+@{
+    ViewData["Title"] = "Gestion des mots-clés";
+    Layout = "_LayoutAdmin";
+}
+
+<h2>Gestion des mots-clés</h2>
+<div class="row cus-mb-10">
+    <div class="col-lg-4 col-md-4 col-xs-4">Administration des mots-clés : </div>
+    <div class="col-lg-8 col-md-8 col-xs-8">
+        @(Html.Kendo().ComboBox()
+            .CreateDefautComboBox("dropDownTypeReference", LibellesResources.TypeReferenceComboBoxPlaceholder, nameof(TypeReferenceDto.Libelle), nameof(TypeReferenceDto.Code))
+            .BindTo(Model)
+            .Events(e => e.Select("onSelect"))
+            )
+    </div>
+</div>
+
+<div class="col-lg-12 col-md-12 col-xs-12" id="PartialViewGridReferences"></div>
+
+<script type="text/javascript">
+
+    function onSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        $.ajax({
+            url: '@Url.Action("PartialViewGridReferences", ReferenceController.ControllerName)',
+            type: "POST",
+            data: { typeId: dataItem.TypeReferenceId },
+            success: function (recData) { $('#PartialViewGridReferences').html(recData) },
+            error: erreurFunction
+        });
+    }
+
+    function onDataBoundReferences(e) {
+        onDataBoundGloblalEdit(e, '@nameof(ReferenceDto)');
+        onDataBoundGloblalDelete(e, '@nameof(ReferenceDto)');
+    }
+
+    function onDataBoundSousReferences(e) {
+        onDataBoundGloblalEdit(e, '@nameof(SousReferenceDto)');
+        onDataBoundGloblalDelete(e, '@nameof(SousReferenceDto)');
+    }
+
+</script>

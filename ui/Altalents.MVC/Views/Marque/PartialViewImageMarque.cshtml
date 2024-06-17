@@ -1,0 +1,83 @@
+@using Altalents.MVC.Models.Marque;
+@using Altalents.IBusiness.DTO.Api;
+@model PartialViewImageMarqueModel
+@{
+    string idsToString = String.Join("','", Model.Images.Select(x => x.ImageId).ToList());
+}
+
+<script>
+    function actionConfirmationSuppressionImage(imageId, callbackFinalize) {
+        $.ajax({
+            url: '@Url.Action("DeleteImagesMarque", MarqueController.ControllerName)',
+            type: "POST",
+            data: { imageId: imageId },
+            success: function (recData) {
+                if (recData.Errors) {
+                    erreurFunction(recData.Errors);
+                }
+                else {
+                    suppressionReussie();
+                    reloadUpdateMarque();
+                }
+            },
+            error: erreurFunction,
+            finalize: function () {
+                callbackFinalize();
+            }
+        });
+    }
+
+    function actionNonConfirmationImage(callbackFinalize) {
+        callbackFinalize();
+    }
+
+    function onSupprimerImageClick(e) {
+        var functionOnConfirmation = function (callbackFinalize) {
+            actionConfirmationSuppressionImage(e.id, callbackFinalize);
+        }
+        openConfirmationSuppressionDialog(functionOnConfirmation, actionNonConfirmationImage);
+    }
+
+    function saveMarqueOrdresImages() {
+        var images = [];
+        var ids = ['@Html.Raw(idsToString)'];
+
+        if(ids[0] !== ''){
+            ids.forEach(imageId => {
+                var numericTextBox = $("#ordreImage_" + imageId).data("kendoNumericTextBox");
+                let ordre = numericTextBox.value();
+                var image = {
+                    ImageId: imageId,
+                    Ordre: ordre
+                }
+                images.push(image);
+            })
+        }
+
+        return $.ajax({
+            url: '@Url.Action("UpdateOrdresImagesMarque", MarqueController.ControllerName)',
+            type: "PUT",
+            data: { images: images }
+        });
+    }
+</script>
+
+@foreach (ImageDto image in Model.Images.OrderBy(x => x.Ordre))
+{
+    <div class="cus-mt-10">
+        <img src="/Images/Marques/@image.NomFichier" width="200" class="cus-mt-10" />
+        <label class="cus-mt-10" for="@image.ImageId">@LibellesResources.MarqueImageOrdre</label>
+
+        <div class="row">
+            <div class="col-md-10">
+                @(Html.CreateDefautIntegerTextBox(new() { Name = $"ordreImage_{image.ImageId}", Min = 1, ValueInt = image.Ordre, HtmlAttributes = new { @class = "cus-width-max", title = "Ordre" } }))
+            </div>
+            <div class="col-md-2">
+                @(Html.Kendo().Button()
+                    .CreateDefautButton(image.ImageId.ToString(), "", "onSupprimerImageClick", themeColor: ThemeColor.Error)
+                    .Icon("k-i-trash")
+                    )
+            </div>
+        </div>
+    </div>
+}

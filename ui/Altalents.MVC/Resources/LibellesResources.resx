@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CommunBtnExporter" xml:space="preserve">
+    <value>Exporter</value>
+    <comment>Libelle COMMUN</comment>
+  </data>
+  <data name="CommunBtnPrevisualiser" xml:space="preserve">
+    <value>Prévisualiser</value>
+    <comment>Libelle COMMUN</comment>
+  </data>
+  <data name="CommunBtnPublierAll" xml:space="preserve">
+    <value>Publier toutes les marques</value>
+    <comment>Libelle COMMUN</comment>
+  </data>
+  <data name="CommunBtnSupprimer" xml:space="preserve">
+    <value>Supprimer</value>
+    <comment>Libelle COMMUN</comment>
+  </data>
+  <data name="ExportReussi" xml:space="preserve">
+    <value>Export réussi</value>
+    <comment>Libelle Export</comment>
+  </data>
+  <data name="IntroductionComboBoxPlaceholder" xml:space="preserve">
+    <value>Sélectionner un onglet...</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionDetailEn" xml:space="preserve">
+    <value>Description anglaise</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionDetailFr" xml:space="preserve">
+    <value>Description française</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionOrdreEn" xml:space="preserve">
+    <value>Ordre d'apparition en anglais</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionOrdreEnRequired" xml:space="preserve">
+    <value>L'ordre d'apparition en anglais est obligatoire.</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionOrdreFr" xml:space="preserve">
+    <value>Ordre d'apparition en français</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionOrdreFrRequired" xml:space="preserve">
+    <value>L'ordre d'apparition en français est obligatoire.</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionSupprimer" xml:space="preserve">
+    <value>Supprimer l'onglet </value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionTitreEn" xml:space="preserve">
+    <value>Titre de l'onglet en anglais</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionTitreEnRequired" xml:space="preserve">
+    <value>Le titre de l'onglet en anglais est obligatoire.</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionTitreFr" xml:space="preserve">
+    <value>Titre de l'onglet en français</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="IntroductionTitreFrRequired" xml:space="preserve">
+    <value>Le titre de l'onglet en français est obligatoire.</value>
+    <comment>Libelle INTRODUCTION</comment>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Mauvaise combinaison identifiant / mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site.</value>
+    <comment>Libelle LOGIN</comment>
+  </data>
+  <data name="LoginIdentifiant" xml:space="preserve">
+    <value>Identifiant</value>
+    <comment>Libelle LOGIN</comment>
+  </data>
+  <data name="LoginIdentifiantObligatoire" xml:space="preserve">
+    <value>L'identifiant est obligatoire.</value>
+    <comment>Libelle LOGIN</comment>
+  </data>
+  <data name="LoginMotDePasse" xml:space="preserve">
+    <value>Mot de passe</value>
+    <comment>Libelle LOGIN</comment>
+  </data>
+  <data name="LoginMotDePasseObligatoire" xml:space="preserve">
+    <value>Le mot de passe est obligatoire.</value>
+    <comment>Libelle LOGIN</comment>
+  </data>
+  <data name="MarqueAddMarqueRenvois" xml:space="preserve">
+    <value>Ajouter un renvois</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueCategorie" xml:space="preserve">
+    <value>Categories</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueComboBoxPlaceholder" xml:space="preserve">
+    <value>Sélectionner une marque...</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueContour" xml:space="preserve">
+    <value>Contours</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueCouleurs" xml:space="preserve">
+    <value>Couleurs</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueGestionInitialesLatines" xml:space="preserve">
+    <value>Gestion des initiales latines</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueGestionMotsLatins" xml:space="preserve">
+    <value>Gestion des mots latins</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueGestionRenvois" xml:space="preserve">
+    <value>Gestion des renvois</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueHauteur" xml:space="preserve">
+    <value>Hauteur</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueImageOrdre" xml:space="preserve">
+    <value>Ordre d'apparition de l'image</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueImages" xml:space="preserve">
+    <value>Images</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueInitiales" xml:space="preserve">
+    <value>Initiales ordonnées</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueLargeur" xml:space="preserve">
+    <value>Largeur</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueLocalisation" xml:space="preserve">
+    <value>Localisations</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueNomPrincipal" xml:space="preserve">
+    <value>Nom principal</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueNoms" xml:space="preserve">
+    <value>Noms</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueNumeroLugt" xml:space="preserve">
+    <value>Numéro lugt</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarquePays" xml:space="preserve">
+    <value>Pays</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueReferenceLibreTexte" xml:space="preserve">
+    <value>Texte</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueTechnique" xml:space="preserve">
+    <value>Techniques</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MarqueTextes" xml:space="preserve">
+    <value>Textes</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="MenuAccueil" xml:space="preserve">
+    <value>Accueil</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuAdministration" xml:space="preserve">
+    <value>Administration</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuConnexion" xml:space="preserve">
+    <value>Connexion</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuContact" xml:space="preserve">
+    <value>Contact</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuCreditsEtMentionsLegales" xml:space="preserve">
+    <value>Crédits et mentions légales</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuDeconnexion" xml:space="preserve">
+    <value>Déconnexion</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuExport" xml:space="preserve">
+    <value>Export</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuIntroduction" xml:space="preserve">
+    <value>Introduction</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuNouvelleMarque" xml:space="preserve">
+    <value>Nouvelle marque</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuPublication" xml:space="preserve">
+    <value>Publication</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuReference" xml:space="preserve">
+    <value>Mots-clés</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuUpdateMarque" xml:space="preserve">
+    <value>Mise à jour d'une marque</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="MenuUtilisateur" xml:space="preserve">
+    <value>Utilisateurs</value>
+    <comment>Libelle MENU</comment>
+  </data>
+  <data name="NoticeAjoutOnglet2010Btn" xml:space="preserve">
+    <value>Ajouter l'onglet 2010</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="NoticeMarqueOrdre" xml:space="preserve">
+    <value>Ordre d'apparition</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="NoticeMarqueOrdreRequired" xml:space="preserve">
+    <value>L'ordre d'apparition est obligatoire.</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="NoticeMarqueTitre" xml:space="preserve">
+    <value>Titre</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="NoticeMarqueTitreRequired" xml:space="preserve">
+    <value>Le titre est obligatoire.</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="NoticePubliee" xml:space="preserve">
+    <value>Notice publiée</value>
+    <comment>Libelle MARQUE</comment>
+  </data>
+  <data name="ReferenceLibelle2" xml:space="preserve">
+    <value>Seconde langue</value>
+    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
+  </data>
+  <data name="ReferenceLibelleFr" xml:space="preserve">
+    <value>Langue française</value>
+    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
+  </data>
+  <data name="ReferenceLibelleFrRequired" xml:space="preserve">
+    <value>La langue française est obligatoire.</value>
+    <comment>Libelle REFERENCE</comment>
+  </data>
+  <data name="ReferenceNombreMarque" xml:space="preserve">
+    <value>Marques associées</value>
+    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
+  </data>
+  <data name="ReferenceNombreSousReference" xml:space="preserve">
+    <value>Mots-clés associés</value>
+    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
+  </data>
+  <data name="ReferenceOrdre2" xml:space="preserve">
+    <value>Ordre seconde langue</value>
+    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
+  </data>
+  <data name="ReferenceOrdreFr" xml:space="preserve">
+    <value>Ordre français</value>
+    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
+  </data>
+  <data name="ReferenceOrdreFrRequired" xml:space="preserve">
+    <value>L'ordre français est obligatoire.</value>
+    <comment>Libelle REFERENCE</comment>
+  </data>
+  <data name="TexteDiversDetailEn" xml:space="preserve">
+    <value>Description anglaise</value>
+    <comment>Libelle TEXTES DIVERS</comment>
+  </data>
+  <data name="TexteDiversDetailFr" xml:space="preserve">
+    <value>Description française</value>
+    <comment>Libelle TEXTES DIVERS</comment>
+  </data>
+  <data name="TexteDiversTitreEn" xml:space="preserve">
+    <value>Titre en anglais</value>
+    <comment>Libelle TEXTES DIVERS</comment>
+  </data>
+  <data name="TexteDiversTitreFr" xml:space="preserve">
+    <value>Titre en français</value>
+    <comment>Libelle TEXTES DIVERS</comment>
+  </data>
+  <data name="TypeReferenceComboBoxPlaceholder" xml:space="preserve">
+    <value>Sélectionner un type de mot-clé...</value>
+    <comment>Libelle REFERENCES</comment>
+  </data>
+  <data name="UtilisateurEmail" xml:space="preserve">
+    <value>Adresse email</value>
+    <comment>Libelle UTILISATEURS</comment>
+  </data>
+  <data name="UtilisateurLogin" xml:space="preserve">
+    <value>Identifiant</value>
+    <comment>Libelle UTILISATEURS</comment>
+  </data>
+  <data name="UtilisateurMotDePasse" xml:space="preserve">
+    <value>Mot de passe</value>
+    <comment>Libelle UTILISATEURS</comment>
+  </data>
+  <data name="UtilisateurNom" xml:space="preserve">
+    <value>Nom</value>
+    <comment>Libelle UTILISATEURS</comment>
+  </data>
+</root>

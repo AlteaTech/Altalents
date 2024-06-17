@@ -1,0 +1,110 @@
+@using Altalents.IBusiness.DTO.Api;
+@model PublicationIndexModel
+@{
+    ViewData["Title"] = "Publier les marques";
+    Layout = "_LayoutAdmin";
+}
+<style>
+    .custom-list-style {
+        border-top: 1px solid #ccc;
+        margin-top: 10px;
+    }
+
+    .custom-style-numero-lugt {
+        text-decoration: none;
+        text-decoration-line: none;
+        text-decoration-style: solid;
+        text-decoration-color: currentColor;
+        text-decoration-thickness: auto;
+    }
+
+    .truncate-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .no-wrap-text {
+        white-space: nowrap;
+    }
+
+    .cus-color-bordeaux {
+        color: #ce0000;
+    }
+
+    #marquesTrouveesText {
+        margin-top: 4px;
+    }
+</style>
+<script>
+    function actionConfirmationPublication(callbackFinalize) {
+        $.ajax({
+            url: '@Url.Action("Publier", PublicationController.ControllerName)',
+            type: "GET",
+            success: function (recdata)
+            {
+                var date = new Date();
+                var dateFormatted = date.getFullYear() + "-" + date.getMonth();
+
+                var data = decodeURIComponent(escape(window.atob(recdata)))
+                const blob = new Blob([data], { type: "text/csv" });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.getElementById("downloadFile");
+                a.setAttribute('href', url)
+                a.setAttribute('download', 'Export RKD ' + dateFormatted + '.csv');
+                 $("#downloadFile").show();
+                publicationReussie();
+            },
+            error: erreurFunction,
+            finalize: function () {
+                callbackFinalize();
+            }
+        });
+    }
+
+    function actionNonConfirmationPublication(callbackFinalize) {
+        callbackFinalize();
+    }
+
+    function onPublierClick() {
+        $("#downloadFile").hide();
+        var functionOnConfirmation = function (callbackFinalize) {
+            actionConfirmationPublication(callbackFinalize);
+        }
+        openConfirmationPublicationDialog(functionOnConfirmation, actionNonConfirmationPublication);
+    }
+
+</script>
+
+@(Html.Kendo().Button().CreateDefautButton("Publier", LibellesResources.CommunBtnPublierAll, "onPublierClick", themeColor: ThemeColor.Primary))
+<p id="marquesTrouveesText"></p>
+<a id="downloadFile" href=""> Telecharger le fichier</a>
+
+<ul class="list-group">
+    @foreach (MarqueNonPublieDto marqueNonPubliee in Model.MarqueNonPubliees)
+    {
+        <li>
+            <div class="custom-list-style">
+                <div class="row container-mobile-device">
+                    <div class="col-sm-2 col-md-5 col-lg-4 col-xl-3">
+                        <span class="cus-color-bordeaux custom-style-numero-lugt">@marqueNonPubliee.ReferenceLugt</span>
+                    </div>
+                    <div class="col-sm-10 col-md-7 col-lg-8 col-xl-9 truncate-text">
+                        <span>@marqueNonPubliee.NomPrincipal</span>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+<script>
+    $(function(){
+        $("#downloadFile").hide();
+    })
+
+    $(function () {
+        var nombreDeMarques = @Model.MarqueNonPubliees.Count();
+        $("#marquesTrouveesText").text(nombreDeMarques + " marques trouvées");
+    })
+</script>
