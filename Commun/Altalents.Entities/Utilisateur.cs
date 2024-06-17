@@ -1,3 +1,5 @@
+using Altalents.Commun.Enums;
+
 namespace Altalents.Entities
 {
     public partial class Utilisateur : BaseEntity
