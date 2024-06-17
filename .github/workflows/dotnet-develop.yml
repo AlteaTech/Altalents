@@ -36,4 +36,4 @@ jobs:
     - name: Build Angular project
       run: |
         cd ./ui/Altalents.MVC/Angular/Altalents-client
-        npm run build -- --prod
+        ng build --configuration production;

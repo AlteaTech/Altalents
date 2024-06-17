@@ -363,3 +363,5 @@ api/Altalents/Altalents.xml
 SQL/bundle.exe
 .vs
 ui/Altalents.MVC/Angular/Altalents-client/src/Images
+
+ui/Altalents.MVC/Angular/Altalents-client/package-lock.json
