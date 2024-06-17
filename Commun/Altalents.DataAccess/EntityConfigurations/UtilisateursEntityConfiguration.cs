@@ -49,4 +49,14 @@ namespace Altalents.DataAccess.EntityConfigurations
             });
         }
     }
+    internal class DossierTechniquesEntityConfiguration : IEntityTypeConfiguration<DossierTechnique>
+    {
+        public void Configure(EntityTypeBuilder<DossierTechnique> builder)
+        {
+            EntityTypeBuilderBaseHelper<DossierTechnique>.ConfigureBase(builder);
+            builder.ToTable("DossierTechniques");
+
+            builder.HasOne(e => e.Disponibilite).WithMany().HasForeignKey(e => e.DisponibiliteId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
 }

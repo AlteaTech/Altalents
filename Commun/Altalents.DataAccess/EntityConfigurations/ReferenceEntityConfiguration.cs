@@ -12,15 +12,21 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .IsRequired();
 
             builder.Property(e => e.Type)
+                .HasColumnType("varchar")
                 .HasMaxLength(250)
                 .IsRequired();
+            builder.Property(e => e.OrdreTri)
+                .HasDefaultValue(0)
+                .IsRequired();
             builder.Property(e => e.SousType)
+                .HasColumnType("varchar")
                 .HasMaxLength(250);
 
             builder.HasIndex(e => new { e.Type, e.SousType });
 
             builder.HasData(new List<Reference> {
-               new Reference(){
+                #region Langues
+                new Reference(){
                     Libelle = "Anglais",
                     Id = Guid.Parse("{cc2fe62f-a81d-437b-a257-7e89b150042e}"),
                     DateCrea = new DateTime(2024,6,17),
@@ -321,6 +327,33 @@ namespace Altalents.DataAccess.EntityConfigurations
                     UtiCrea= "ALTEA",
                     Type = Commun.Enums.TypeReferenceEnum.Langue
                 },
+                #endregion
+                #region Disponibilite
+                new Reference(){
+                    Libelle = "Immédiate",
+                    Id = Guid.Parse("{8f486cd6-6313-47f9-a4b5-5bd535c199a9}"),
+                    DateCrea = new DateTime(2024,6,17),
+                    UtiCrea= "ALTEA",
+                    Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+                    OrdreTri = 1
+                },
+                new Reference(){
+                    Libelle = "Sous un mois",
+                    Id = Guid.Parse("{92dfd90f-79b4-4d5e-93e6-fb7046b3416a}"),
+                    DateCrea = new DateTime(2024,6,17),
+                    UtiCrea= "ALTEA",
+                    Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+                    OrdreTri = 2
+                },
+                new Reference(){
+                    Libelle = "Sous trois mois",
+                    Id = Guid.Parse("{f35745ef-66d0-4cb0-9657-b57c2f149e3f}"),
+                    DateCrea = new DateTime(2024,6,17),
+                    UtiCrea= "ALTEA",
+                    Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+                    OrdreTri = 3
+                },
+                #endregion
             });
         }
     }
