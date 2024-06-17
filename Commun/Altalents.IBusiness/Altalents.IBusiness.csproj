@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Configurations>Debug;Release;Development;Qa;DevelopmentEborn</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Altalents.Commun\Altalents.Commun.csproj" />
+    <ProjectReference Include="..\Altalents.Entities\Altalents.Entities.csproj" />
+    <PackageReference Include="AlteaTools.Application.Core" Version="8.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.ComponentModel.DataAnnotations" />
+    <Using Include="System.Data" />
+    <Using Include="System.Text" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Text.RegularExpressions" />
+    <Using Include="System.IO" />
+    <Using Include="System.Net.Http.Headers" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading.Tasks" />
+    <Using Include="Altalents.IBusiness.DTO" />
+    <Using Include="AlteaTools.Application.Core" />
+  </ItemGroup>
+
+</Project>

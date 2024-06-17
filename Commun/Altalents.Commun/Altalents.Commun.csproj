@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Configurations>Debug;Release;Development;Qa;DevelopmentEborn</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ResourceBusinessException.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.6" />
+    <PackageReference Include="MailKit" Version="4.6.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Globalization" />
+    <Using Include="System.Data" />
+    <Using Include="System.Text" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Text.RegularExpressions" />
+    <Using Include="System.IO" />
+    <Using Include="System.Net.Http.Headers" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading.Tasks" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\BusinessExceptionsResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BusinessExceptionsResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\BusinessExceptionsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>BusinessExceptionsResources.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

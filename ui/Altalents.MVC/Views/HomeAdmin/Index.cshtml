@@ -1,0 +1,13 @@
+@using AlteaTools.Session.Extension
+@using AlteaTools.Session
+@using AlteaTools.Session.Dto
+
+@inject IHttpContextAccessor Accessor
+@{
+    ViewData["Title"] = "Panel d'administration Altalents";
+    Layout = "_LayoutAdmin";
+    ISession session = Accessor.HttpContext.Session;
+    UserLoggedDto userLoggedDto = session.Get<UserLoggedDto>(SessionKeyConstantes.UserLogged);
+}
+
+Bonjour @userLoggedDto.Nom

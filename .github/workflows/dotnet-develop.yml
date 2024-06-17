@@ -1,0 +1,49 @@
+name: .NET Build MVC angular
+
+on:
+  push:
+    branches:
+      - 'develop'
+  pull_request:
+    branches:
+      - 'develop'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20' # Assurez-vous que la version de Node.js correspond à celle requise par votre projet Angular.
+
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
+    - name: Install dependencies
+      run: |
+        cd ./ui/Altalents.MVC/Angular/Altalents-client
+        npm install
+
+    - name: Build Angular project
+      run: |
+        cd ./ui/Altalents.MVC/Angular/Altalents-client
+        ng build --configuration production;
+
+    - name: Add NuGet source telerik
+      run: dotnet nuget add source https://nuget.telerik.com/v3/index.json --name telerik --username ${{ secrets.TelerikLoginNuget }} --password ${{ secrets.TelerikPasswordNuget }}
+    - name: Add NuGet source Github
+      run: dotnet nuget add source https://nuget.pkg.github.com/AlteaTech/index.json --name AlteaTech --username AlteaTech --password ${{ secrets.GITHUBNUGET }}
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Build
+      run: dotnet build -c Debug

@@ -1,0 +1,78 @@
+@using AlteaTools.Session.Extension
+@using AlteaTools.Session
+@inject IHttpContextAccessor Accessor
+@{
+    var session = Accessor.HttpContext.Session;
+}
+<!DOCTYPE html>
+<html lang="fr">
+<partial name="_headerAdmin" />
+
+<script type="text/javascript">
+    kendo.culture("fr-FR");
+</script>
+
+<body>
+    <header>
+        @if (session.Get<bool>(SessionKeyConstantes.IsLogged) == true)
+        {
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    @(Html.Kendo().Menu()
+                        .Name("menuAdmin")
+                        .Items(items =>
+                        {
+                            items.Add().Text(LibellesResources.MenuAdministration)
+                            .Items(children =>
+                            {
+                                children.Add().Text(LibellesResources.MenuUtilisateur).Action("Index", UtilisateurController.ControllerName);
+                            });
+                            items.Add().Text(LibellesResources.MenuDeconnexion).Action("Logout", AccountController.ControllerName);
+                        }))
+                </div>
+            </nav>
+        }
+        @Html.Raw(JavaScriptSnippet.FullScript)
+    </header>
+    <div class="row cus-mh-90p cus-m-3prc-r cus-m-3prc-l">
+        <main role="main" class="col-12 pb-3">
+            @(Html.Kendo().Notification()
+                .Name("popupNotification")
+                .AutoHideAfter(5000)
+                .Width(300)
+                .Position(p => p.Top(70))
+                )
+
+            @(Html.Kendo().Dialog()
+                .CreateDefautDialog("confirmationDialog", 500)
+                .Actions(a =>
+                {
+                    a.Add().Text("Non").Action("onNonConfirmationDialogClick");
+                    a.Add().Text("Oui").Primary(true).Action("onConfirmationDialogClick");
+                })
+                )
+
+            @(Html.Kendo().Dialog().CreateDefautDialog("loadingDialog").Closable(false))
+            @RenderBody()
+        </main>
+    </div>
+
+    <div class="row cus-m-0 cus-footer">
+        <div class="col-12">
+            <div class="border-top footer text-muted">
+                <div class="container">
+                    <a href="http://www.marquesdecollections.fr/" class="cus-a-footer">Frits Lugt, Les Marques de Collections de Dessins &amp; d’Estampes</a>
+                     |
+                    <a href="http://www.fondationAltalents.fr" class="cus-a-footer">Fondation Altalents</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/siteAdmin.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<script src="/js/cultures/kendo.culture.fr-FR.min.js"></script>
+<script src="/js/cultures/kendo.messages.fr-FR.min.js"></script>

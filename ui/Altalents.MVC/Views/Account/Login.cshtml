@@ -1,0 +1,61 @@
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Se connecter";
+    Layout = "_LayoutAdmin";
+}
+<script src="https://kit.fontawesome.com/ef969af50e.js" crossorigin="anonymous"></script>
+
+<div id="loginView">
+    <h2>@ViewData["Title"]</h2>
+
+    <p class="text-danger cus-mt-10">@Model.ErrorMessage</p>
+    <form name="loginForm" action="@Url.Action("Login", AccountController.ControllerName)" method="POST">
+        <div class="row">
+            <div class="col-10">
+                @(Html.CreateDefautTextBox(new() { Label = LibellesResources.LoginIdentifiant, Name = "Login", Value = "", HtmlAttributes = new { @class = "cus-width-max" } }))
+
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                @(Html.CreateDefautTextBox(new() { Label = LibellesResources.LoginMotDePasse, Name = "Password", Value = "", HtmlAttributes = new { @class = "cus-width-max", @type = "password" } }))
+            </div>
+            <div class="col-2">
+                <button id="PasswordShow" class="k-button  k-rounded-md k-button-solid k-button-solid-primary" style="bottom: -40%" type="button" onclick="showOrHideMdp()">
+                    <i id="PasswordShowEye" class="fa-solid fa-eye"></i>
+                    <i id="PasswordShowEyeSlash" class="fa-solid fa-eye-slash"></i>
+                </button>
+            </div>
+        </div>
+        <div class="cus-textalign-droite cus-width-max">
+            <button class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-form-submit" type="submit">
+                <span class="k-button-text">Connexion</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script>
+    let isPassword = true;
+    $("#PasswordShowEyeSlash").hide();
+    function showOrHideMdp() {
+        if (isPassword) {
+            $("#Password").attr('type', 'text');
+            isPassword = false;
+            $("#PasswordShowEye").hide();
+            $("#PasswordShowEyeSlash").show();
+        }
+        else {
+            $("#Password").attr('type', 'password');
+            isPassword = true;
+            $("#PasswordShowEyeSlash").hide();
+            $("#PasswordShowEye").show();
+        }
+    }
+</script>
