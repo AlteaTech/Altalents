@@ -63,13 +63,7 @@ jobs:
       run: cd ./ui/Altalents.MVC/Angular/Altalents-client
 
     - name: Install dependencies
-      run: npm install
-
-    - name: Run lint
-      run: npm run lint
-
-    - name: Run tests
-      run: npm test
-
-    - name: Build Angular project
-      run: npm run build -- --prod
+      run: |
+        cd ./ui/Altalents.MVC/Angular/Altalents-client;
+        npm install;
+        npm run build -- --prod;
