@@ -37,4 +37,8 @@
     <Folder Include="Enum\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Altalents.Commun\Altalents.Commun.csproj" />
+  </ItemGroup>
+
 </Project>
