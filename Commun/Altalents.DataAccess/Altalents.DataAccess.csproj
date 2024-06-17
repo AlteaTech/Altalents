@@ -58,15 +58,10 @@
     <Using Include="System.Linq" />
     <Using Include="System.Threading.Tasks" />
     <Using Include="Altalents.Entities" />
-    <Using Include="Altalents.Entities.Enum" />
     <Using Include="Altalents.Entities.Extensions" />
     <Using Include="Microsoft.EntityFrameworkCore" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders" />
     <Using Include="Microsoft.EntityFrameworkCore.Migrations" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

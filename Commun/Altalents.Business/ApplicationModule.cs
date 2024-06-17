@@ -12,14 +12,8 @@ namespace Altalents.Business
         {
             services.AddInfrastructure(connectionString, apiExternesRoutes);
             services.AddAutoMapper(typeof(ApplicationModule));
-            services.AddScoped<IReferenceService, ReferenceService>();
-            services.AddScoped<ISousReferenceService, SousReferenceService>();
             services.AddScoped<IUtilisateurService, UtilisateurService>();
-            services.AddScoped<IIntroductionService, IntroductionService>();
-            services.AddScoped<ITexteDiversService, TexteDiversService>();
             services.AddScoped<IJobService, JobService>();
-            services.AddScoped<IMarqueService, MarqueService>();
-            services.AddScoped<IEmailService, EmailService>();
 
             services.AddScoped<IUserStore<Utilisateur>, UtilisateurService>();
             services.AddScoped<SignInManager<Utilisateur>>();

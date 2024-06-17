@@ -43,8 +43,6 @@
     <Using Include="Altalents.DataAccess" />
     <Using Include="Altalents.Entities" />
     <Using Include="Altalents.IBusiness.DTO" />
-    <Using Include="Altalents.IBusiness.DTO.Api" />
-    <Using Include="Altalents.IBusiness.DTO.Marques" />
     <Using Include="Altalents.IBusiness.IServices" />
     <Using Include="Microsoft.AspNetCore.Mvc" />
     <Using Include="Microsoft.EntityFrameworkCore" />

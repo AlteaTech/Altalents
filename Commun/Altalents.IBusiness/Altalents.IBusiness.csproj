@@ -24,8 +24,6 @@
     <Using Include="System.Linq" />
     <Using Include="System.Threading.Tasks" />
     <Using Include="Altalents.IBusiness.DTO" />
-    <Using Include="Altalents.IBusiness.DTO.Api" />
-    <Using Include="Altalents.IBusiness.DTO.Marques" />
     <Using Include="AlteaTools.Application.Core" />
   </ItemGroup>
 

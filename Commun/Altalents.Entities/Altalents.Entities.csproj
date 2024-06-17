@@ -33,4 +33,8 @@
     <Using Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enum\" />
+  </ItemGroup>
+
 </Project>

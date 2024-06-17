@@ -29,7 +29,7 @@ namespace Altalents.DataAccess.Supervision
                 CustomDbContext dbContext = scope.ServiceProvider.GetService<CustomDbContext>();
                 return await Task.Run(() =>
                 {
-                    bool requestFailed = dbContext.TypeReferences.Any();
+                    bool requestFailed = dbContext.Utilisateurs.Any();
 
                     return new MonitoringCheckResult()
                     {

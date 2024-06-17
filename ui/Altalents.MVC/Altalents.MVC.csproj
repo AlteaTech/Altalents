@@ -52,7 +52,6 @@
     <Using Include="System.Linq" />
     <Using Include="System.Threading.Tasks" />
     <Using Include="Altalents.IBusiness.DTO" />
-    <Using Include="Altalents.IBusiness.DTO.Marques" />
     <Using Include="Altalents.IBusiness.IServices" />
     <Using Include="Altalents.MVC.Controllers" />
     <Using Include="Altalents.MVC.Extension" />

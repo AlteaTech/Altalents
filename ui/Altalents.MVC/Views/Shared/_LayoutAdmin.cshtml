@@ -22,20 +22,11 @@
                         .Name("menuAdmin")
                         .Items(items =>
                         {
-                            items.Add().Text(LibellesResources.MenuNouvelleMarque).Action("Create", MarqueController.ControllerName);
-                            items.Add().Text(LibellesResources.MenuUpdateMarque).Action("Update", MarqueController.ControllerName);
                             items.Add().Text(LibellesResources.MenuAdministration)
                             .Items(children =>
                             {
-                                children.Add().Text(LibellesResources.MenuPublication).Action("Index", PublicationController.ControllerName);
-                                children.Add().Text(LibellesResources.MenuExport).Action("Index", ExportController.ControllerName);
                                 children.Add().Text(LibellesResources.MenuUtilisateur).Action("Index", UtilisateurController.ControllerName);
-                                children.Add().Text(LibellesResources.MenuReference).Action("Index", ReferenceController.ControllerName);
                             });
-                            items.Add().Text(LibellesResources.MenuCreditsEtMentionsLegales).Action("Index", CreditsEtMentionsLegalesController.ControllerName);
-                            items.Add().Text(LibellesResources.MenuIntroduction).Action("Index", IntroductionController.ControllerName);
-                            items.Add().Text(LibellesResources.MenuContact).Action("Index", ContactController.ControllerName);
-                            items.Add().Text(LibellesResources.MenuAccueil).Action("Index", HomeAdminController.ControllerName);
                             items.Add().Text(LibellesResources.MenuDeconnexion).Action("Logout", AccountController.ControllerName);
                         }))
                 </div>
