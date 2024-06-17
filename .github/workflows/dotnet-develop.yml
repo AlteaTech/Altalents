@@ -62,8 +62,8 @@ jobs:
     - name: Clean node_modules and temp files
       run: |
         cd ./ui/Altalents.MVC/Angular/Altalents-client
-        npx rimraf node_modules
-        npx rimraf temp
+        rm -rf node_modules
+        rm -rf temp
 
     - name: Install dependencies
       run: |
