@@ -23,7 +23,7 @@ jobs:
 
     - name: Install Angular CLI
       run: npm install -g @angular/cli
-      
+
     - name: Install dependencies
       run: |
         cd ./ui/Altalents.MVC/Angular/Altalents-client
@@ -33,3 +33,17 @@ jobs:
       run: |
         cd ./ui/Altalents.MVC/Angular/Altalents-client
         ng build --configuration production;
+
+    - name: Add NuGet source telerik
+      run: dotnet nuget add source https://nuget.telerik.com/v3/index.json --name telerik --username vlarguier@altea-si.com --password TeleRik2023!
+    - name: Add NuGet source Github
+      run: dotnet nuget add source https://nuget.pkg.github.com/AlteaTech/index.json --name AlteaTech --username AlteaTech --password ${{ secrets.TOKENGITHUB }}
+      
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Build
+      run: dotnet build -c Debug
