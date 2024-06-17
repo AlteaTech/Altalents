@@ -3,7 +3,6 @@ name: .NET Build MVC angular
 on:
   pull_request:
     branches:
-      - 'feature/*'
       - 'develop'
 
 jobs:
