@@ -21,13 +21,6 @@ jobs:
       with:
         node-version: '20' # Assurez-vous que la version de Node.js correspond à celle requise par votre projet Angular.
 
-    - name: Clean node_modules and temp files
-      run: |
-        cd ./ui/Altalents.MVC/Angular/Altalents-client
-        npm install rimraf
-        npx rimraf node_modules
-        npx rimraf temp
-
     - name: Install dependencies
       run: |
         cd ./ui/Altalents.MVC/Angular/Altalents-client
