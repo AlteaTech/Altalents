@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    [Migration("20240618075633_AddDossierComplementaireSize")]
-    partial class AddDossierComplementaireSize
+    [Migration("20240618083956_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace Altalents.DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Commentaire")
-                        .HasColumnType("varchar");
+                        .HasColumnType("varchar(max)");
 
                     b.Property<DateTime>("DateCrea")
                         .HasColumnType("datetime");
@@ -88,6 +88,9 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<Guid>("DisponibiliteId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PersonneId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Poste")
                         .HasColumnType("nvarchar(max)");
 
@@ -110,7 +113,119 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasIndex("DisponibiliteId");
 
+                    b.HasIndex("PersonneId");
+
                     b.ToTable("DossierTechniques", (string)null);
+                });
+
+            modelBuilder.Entity("Altalents.Entities.Personne", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BoondId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar");
+
+                    b.Property<DateTime>("DateCrea")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DateMaj")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar");
+
+                    b.Property<string>("Prenom")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar");
+
+                    b.Property<string>("Trigramme")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UtiCrea")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("UtiMaj")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoondId")
+                        .IsUnique()
+                        .HasFilter("[BoondId] IS NOT NULL");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Trigramme")
+                        .IsUnique()
+                        .HasFilter("[Trigramme] IS NOT NULL");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Personnes", (string)null);
+                });
+
+            modelBuilder.Entity("Altalents.Entities.QuestionDossierTechnique", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCrea")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DateMaj")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid?>("DossierTechniqueId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar");
+
+                    b.Property<string>("Reponse")
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("UtiCrea")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("UtiMaj")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DossierTechniqueId");
+
+                    b.ToTable("QuestionDossierTechniques", (string)null);
                 });
 
             modelBuilder.Entity("Altalents.Entities.Reference", b =>
@@ -668,17 +783,55 @@ namespace Altalents.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Altalents.Entities.Personne", "Personne")
+                        .WithMany("DossierTechniques")
+                        .HasForeignKey("PersonneId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Disponibilite");
+
+                    b.Navigation("Personne");
+                });
+
+            modelBuilder.Entity("Altalents.Entities.Personne", b =>
+                {
+                    b.HasOne("Altalents.Entities.Reference", "Type")
+                        .WithMany("Personnes")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Altalents.Entities.QuestionDossierTechnique", b =>
+                {
+                    b.HasOne("Altalents.Entities.DossierTechnique", "DossierTechnique")
+                        .WithMany("QuestionDossierTechniques")
+                        .HasForeignKey("DossierTechniqueId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("DossierTechnique");
                 });
 
             modelBuilder.Entity("Altalents.Entities.DossierTechnique", b =>
                 {
                     b.Navigation("DocumentComplementaires");
+
+                    b.Navigation("QuestionDossierTechniques");
+                });
+
+            modelBuilder.Entity("Altalents.Entities.Personne", b =>
+                {
+                    b.Navigation("DossierTechniques");
                 });
 
             modelBuilder.Entity("Altalents.Entities.Reference", b =>
                 {
                     b.Navigation("DossierTechniques");
+
+                    b.Navigation("Personnes");
                 });
 #pragma warning restore 612, 618
         }

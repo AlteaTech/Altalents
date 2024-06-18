@@ -783,7 +783,7 @@ namespace Altalents.DataAccess.Migrations
                     b.HasOne("Altalents.Entities.Personne", "Personne")
                         .WithMany("DossierTechniques")
                         .HasForeignKey("PersonneId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Disponibilite");

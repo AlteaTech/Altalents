@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Altalents.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +55,33 @@ namespace Altalents.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Personnes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nom = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false),
+                    Prenom = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false),
+                    Trigramme = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
+                    BoondId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateCrea = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DateMaj = table.Column<DateTime>(type: "datetime", nullable: true),
+                    UtiCrea = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UtiMaj = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Personnes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Personnes_References_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "References",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DossierTechniques",
                 columns: table => new
                 {
@@ -63,6 +90,7 @@ namespace Altalents.DataAccess.Migrations
                     PrixJour = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Poste = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisponibiliteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PersonneId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateCrea = table.Column<DateTime>(type: "datetime", nullable: false),
                     DateMaj = table.Column<DateTime>(type: "datetime", nullable: true),
                     UtiCrea = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -71,6 +99,11 @@ namespace Altalents.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DossierTechniques", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DossierTechniques_Personnes_PersonneId",
+                        column: x => x.PersonneId,
+                        principalTable: "Personnes",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DossierTechniques_References_DisponibiliteId",
                         column: x => x.DisponibiliteId,
@@ -84,14 +117,14 @@ namespace Altalents.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Commentaire = table.Column<string>(type: "varchar", nullable: true),
+                    Commentaire = table.Column<string>(type: "varchar(max)", nullable: true),
                     DossierTechniqueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateCrea = table.Column<DateTime>(type: "datetime", nullable: false),
                     DateMaj = table.Column<DateTime>(type: "datetime", nullable: true),
                     UtiCrea = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UtiMaj = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Nom = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Path = table.Column<string>(type: "varchar", nullable: false),
+                    Path = table.Column<string>(type: "varchar(max)", nullable: false),
                     MimeType = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
                 },
                 constraints: table =>
@@ -99,6 +132,32 @@ namespace Altalents.DataAccess.Migrations
                     table.PrimaryKey("PK_DocumentComplementaires", x => x.Id);
                     table.ForeignKey(
                         name: "FK_DocumentComplementaires_DossierTechniques_DossierTechniqueId",
+                        column: x => x.DossierTechniqueId,
+                        principalTable: "DossierTechniques",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionDossierTechniques",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Question = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false),
+                    Reponse = table.Column<string>(type: "varchar(max)", nullable: true),
+                    IsRequired = table.Column<bool>(type: "bit", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
+                    DossierTechniqueId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DateCrea = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DateMaj = table.Column<DateTime>(type: "datetime", nullable: true),
+                    UtiCrea = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UtiMaj = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionDossierTechniques", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionDossierTechniques_DossierTechniques_DossierTechniqueId",
                         column: x => x.DossierTechniqueId,
                         principalTable: "DossierTechniques",
                         principalColumn: "Id",
@@ -204,6 +263,41 @@ namespace Altalents.DataAccess.Migrations
                 column: "DisponibiliteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DossierTechniques_PersonneId",
+                table: "DossierTechniques",
+                column: "PersonneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnes_BoondId",
+                table: "Personnes",
+                column: "BoondId",
+                unique: true,
+                filter: "[BoondId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnes_Email",
+                table: "Personnes",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnes_Trigramme",
+                table: "Personnes",
+                column: "Trigramme",
+                unique: true,
+                filter: "[Trigramme] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnes_TypeId",
+                table: "Personnes",
+                column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionDossierTechniques_DossierTechniqueId",
+                table: "QuestionDossierTechniques",
+                column: "DossierTechniqueId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_References_Type_SousType",
                 table: "References",
                 columns: new[] { "Type", "SousType" });
@@ -227,10 +321,16 @@ namespace Altalents.DataAccess.Migrations
                 name: "DocumentComplementaires");
 
             migrationBuilder.DropTable(
+                name: "QuestionDossierTechniques");
+
+            migrationBuilder.DropTable(
                 name: "Utilisateurs");
 
             migrationBuilder.DropTable(
                 name: "DossierTechniques");
+
+            migrationBuilder.DropTable(
+                name: "Personnes");
 
             migrationBuilder.DropTable(
                 name: "References");
