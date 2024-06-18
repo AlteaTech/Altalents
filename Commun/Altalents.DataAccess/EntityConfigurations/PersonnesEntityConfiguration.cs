@@ -68,6 +68,11 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .WithOne(x => x.Personne)
                 .HasForeignKey(e => e.PersonneId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(navigationExpression: e => e.Experiences)
+                .WithOne(x => x.Personne)
+                .HasForeignKey(e => e.PersonneId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

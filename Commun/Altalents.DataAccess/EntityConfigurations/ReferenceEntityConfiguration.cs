@@ -47,6 +47,11 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasForeignKey(e => e.LangueId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(navigationExpression: e => e.Experiences)
+                .WithOne(x => x.TypeContrat)
+                .HasForeignKey(e => e.TypeContratId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasIndex(e => new { e.Type, e.SousType });
 
             builder.HasData(new List<Reference> {
@@ -405,6 +410,24 @@ namespace Altalents.DataAccess.EntityConfigurations
                     UtiCrea= "ALTEA",
                     Type = Commun.Enums.TypeReferenceEnum.Document,
                     OrdreTri = 1
+                },
+                #endregion
+                #region Document
+                new Reference(){
+                    Libelle = "CDI",
+                    Id = Guid.Parse("{A60B074D-B4AF-4157-AB49-453E28DA8514}"),
+                    DateCrea = new DateTime(2024,6,18),
+                    UtiCrea= "ALTEA",
+                    Type = Commun.Enums.TypeReferenceEnum.Contrat,
+                    OrdreTri = 1
+                },
+                new Reference(){
+                    Libelle = "CDD",
+                    Id = Guid.Parse("{4C573CDA-FC0C-42FA-B571-7829F26149CC}"),
+                    DateCrea = new DateTime(2024,6,18),
+                    UtiCrea= "ALTEA",
+                    Type = Commun.Enums.TypeReferenceEnum.Contrat,
+                    OrdreTri = 2
                 },
                 #endregion
             });
