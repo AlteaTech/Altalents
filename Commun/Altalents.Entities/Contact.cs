@@ -9,7 +9,7 @@ namespace Altalents.Entities
         }
 
         public string Valeur { get; set; }
-        // Reference de Type disponibilite
+
         public Guid PersonneId { get; set; }
         public Personne Personne { get; set; }
         public Guid TypeId { get; set; }
