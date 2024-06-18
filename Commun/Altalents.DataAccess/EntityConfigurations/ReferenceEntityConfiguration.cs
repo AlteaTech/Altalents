@@ -22,7 +22,6 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasColumnType("varchar")
                 .HasMaxLength(250);
 
-
             builder.HasMany(navigationExpression: e => e.DossierTechniques)
                 .WithOne(x => x.Disponibilite)
                 .HasForeignKey(e => e.DisponibiliteId)
@@ -34,6 +33,11 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.Contacts)
+                .WithOne(x => x.Type)
+                .HasForeignKey(e => e.TypeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(navigationExpression: e => e.Documents)
                 .WithOne(x => x.Type)
                 .HasForeignKey(e => e.TypeId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -377,6 +381,24 @@ namespace Altalents.DataAccess.EntityConfigurations
                     DateCrea = new DateTime(2024,6,18),
                     UtiCrea= "ALTEA",
                     Type = Commun.Enums.TypeReferenceEnum.Contact,
+                    OrdreTri = 1
+                },
+                #endregion
+                #region Document
+                new Reference(){
+                    Libelle = "Cv",
+                    Id = Guid.Parse("{B3E98178-68DD-4DE3-9E36-A2ED571F21C5}"),
+                    DateCrea = new DateTime(2024,6,18),
+                    UtiCrea= "ALTEA",
+                    Type = Commun.Enums.TypeReferenceEnum.Document,
+                    OrdreTri = 1
+                },
+                new Reference(){
+                    Libelle = "Dt",
+                    Id = Guid.Parse("{3A325813-E79D-445A-8953-B665C7581901}"),
+                    DateCrea = new DateTime(2024,6,18),
+                    UtiCrea= "ALTEA",
+                    Type = Commun.Enums.TypeReferenceEnum.Document,
                     OrdreTri = 1
                 },
                 #endregion

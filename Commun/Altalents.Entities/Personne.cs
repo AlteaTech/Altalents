@@ -19,5 +19,6 @@ namespace Altalents.Entities
         //navigations
         public List<DossierTechnique> DossierTechniques { get; set; }
         public List<Contact> Contacts { get; set; }
+        public List<Document> Documents { get; set; }
     }
 }

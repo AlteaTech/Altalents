@@ -1,12 +1,14 @@
+﻿using Altalents.Entities.BaseEntities;
+
 namespace Altalents.Entities
 {
-    public partial class Contact : BaseEntity
+    public partial class Document : FileEntity
     {
-        public Contact()
+        public Document()
         {
         }
 
-        public string Valeur { get; set; }
+        public string Nom { get; set; }
 
         public Guid PersonneId { get; set; }
         public Personne Personne { get; set; }
