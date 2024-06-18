@@ -20,5 +20,6 @@ namespace Altalents.Entities
         public List<DossierTechnique> DossierTechniques { get; set; }
         public List<Contact> Contacts { get; set; }
         public List<Document> Documents { get; set; }
+        public List<PersonneLangue> PersonneLangues { get; set; }
     }
 }
