@@ -1,4 +1,4 @@
-﻿namespace Altalents.DataAccess.EntityConfigurations
+namespace Altalents.DataAccess.EntityConfigurations
 {
     internal class PersonnesEntityConfiguration : IEntityTypeConfiguration<Personne>
     {
@@ -37,7 +37,7 @@
             builder.HasMany(navigationExpression: e => e.DossierTechniques)
                 .WithOne(x => x.Personne)
                 .HasForeignKey(e => e.PersonneId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
