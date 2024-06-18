@@ -6,6 +6,7 @@ namespace Altalents.Commun.Enums
         Disponibilite = 2,
         Contact = 3,
         Document = 4,
-        Contrat = 5
+        Contrat = 5,
+        StatutDt = 6
     }
 }

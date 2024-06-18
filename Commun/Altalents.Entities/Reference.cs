@@ -11,8 +11,10 @@ namespace Altalents.Entities
         public string Libelle { get; set; }
         public TypeReferenceEnum Type { get; set; }
         public SousTypeReferenceEnum? SousType { get; set; }
+        public string Code { get; set; }
         public int OrdreTri { get; set; }
-        public List<DossierTechnique> DossierTechniques { get; set; }
+        public List<DossierTechnique> DossierTechniquesByDisponibilite { get; set; }
+        public List<DossierTechnique> DossierTechniquesByStatut { get; set; }
         public List<Personne> Personnes { get; set; }
         public List<Contact> Contacts { get; set; }
         public List<Document> Documents { get; set; }
