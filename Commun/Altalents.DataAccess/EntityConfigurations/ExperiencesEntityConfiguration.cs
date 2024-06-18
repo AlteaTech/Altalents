@@ -35,6 +35,16 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.Property(e => e.DateFin)
                 .HasColumnType("datetime");
 
+            builder.HasMany(navigationExpression: e => e.LiaisonExperienceTechnologies)
+                .WithOne(x => x.Experience)
+                .HasForeignKey(e => e.ExperienceId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(navigationExpression: e => e.LiaisonExperienceCompetances)
+                .WithOne(x => x.Experience)
+                .HasForeignKey(e => e.ExperienceId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

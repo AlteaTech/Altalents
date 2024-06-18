@@ -18,5 +18,7 @@ namespace Altalents.Entities
         public List<Document> Documents { get; set; }
         public List<PersonneLangue> PersonneLangues { get; set; }
         public List<Experience> Experiences { get; set; }
+        public List<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
+        public List<LiaisonExperienceCompetance> LiaisonExperienceCompetances { get; set; }
     }
 }

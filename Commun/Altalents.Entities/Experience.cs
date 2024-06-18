@@ -1,4 +1,4 @@
-﻿namespace Altalents.Entities
+namespace Altalents.Entities
 {
     public partial class Experience : BaseEntity
     {
@@ -20,5 +20,8 @@
         public Personne Personne { get; set; }
         public Guid TypeContratId { get; set; }
         public Reference TypeContrat { get; set; }
+
+        public List<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
+        public List<LiaisonExperienceCompetance> LiaisonExperienceCompetances { get; set; }
     }
 }
