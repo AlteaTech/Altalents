@@ -23,5 +23,6 @@ namespace Altalents.Entities
         public List<PersonneLangue> PersonneLangues { get; set; }
         public List<Adresse> Adresses { get; set; }
         public List<Formation> Formations { get; set; }
+        public List<Certification> Certifications { get; set; }
     }
 }
