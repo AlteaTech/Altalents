@@ -13,5 +13,6 @@ namespace Altalents.Entities
         public SousTypeReferenceEnum? SousType { get; set; }
         public int OrdreTri { get; set; }
         public List<DossierTechnique> DossierTechniques { get; set; }
+        public List<Personne> Personnes { get; set; }
     }
 }

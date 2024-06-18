@@ -28,6 +28,11 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasForeignKey(e => e.DisponibiliteId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(navigationExpression: e => e.Personnes)
+                .WithOne(x => x.Type)
+                .HasForeignKey(e => e.TypeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasIndex(e => new { e.Type, e.SousType });
 
             builder.HasData(new List<Reference> {
