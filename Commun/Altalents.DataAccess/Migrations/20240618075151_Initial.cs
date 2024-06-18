@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Altalents.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +63,6 @@ namespace Altalents.DataAccess.Migrations
                     PrixJour = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Poste = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisponibiliteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReferenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DateCrea = table.Column<DateTime>(type: "datetime", nullable: false),
                     DateMaj = table.Column<DateTime>(type: "datetime", nullable: true),
                     UtiCrea = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -78,11 +77,32 @@ namespace Altalents.DataAccess.Migrations
                         principalTable: "References",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DocumentComplementaires",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Commentaire = table.Column<string>(type: "varchar", nullable: true),
+                    DossierTechniqueId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateCrea = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DateMaj = table.Column<DateTime>(type: "datetime", nullable: true),
+                    UtiCrea = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UtiMaj = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Nom = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Path = table.Column<string>(type: "varchar", nullable: false),
+                    MimeType = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentComplementaires", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DossierTechniques_References_ReferenceId",
-                        column: x => x.ReferenceId,
-                        principalTable: "References",
-                        principalColumn: "Id");
+                        name: "FK_DocumentComplementaires_DossierTechniques_DossierTechniqueId",
+                        column: x => x.DossierTechniqueId,
+                        principalTable: "DossierTechniques",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -174,14 +194,14 @@ namespace Altalents.DataAccess.Migrations
                 values: new object[] { new Guid("f05d0f23-00b2-47fe-91ab-59ebeaa867ee"), new DateTime(2021, 4, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "vlarguier@altea-si.com", true, false, false, "admin", "AQAAAAIAAYagAAAAEJJ8k1QzsOQCivB/OZ4fO3oRItU9ubWJwyTeSVD8FisyZN0vG9+vG72E5MCF35op2w==", "Super administrateur", "ALTEA", null });
 
             migrationBuilder.CreateIndex(
+                name: "IX_DocumentComplementaires_DossierTechniqueId",
+                table: "DocumentComplementaires",
+                column: "DossierTechniqueId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DossierTechniques_DisponibiliteId",
                 table: "DossierTechniques",
                 column: "DisponibiliteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DossierTechniques_ReferenceId",
-                table: "DossierTechniques",
-                column: "ReferenceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_References_Type_SousType",
@@ -204,10 +224,13 @@ namespace Altalents.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DossierTechniques");
+                name: "DocumentComplementaires");
 
             migrationBuilder.DropTable(
                 name: "Utilisateurs");
+
+            migrationBuilder.DropTable(
+                name: "DossierTechniques");
 
             migrationBuilder.DropTable(
                 name: "References");

@@ -22,6 +22,12 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasColumnType("varchar")
                 .HasMaxLength(250);
 
+
+            builder.HasMany(navigationExpression: e => e.DossierTechniques)
+                .WithOne(x => x.Disponibilite)
+                .HasForeignKey(e => e.DisponibiliteId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasIndex(e => new { e.Type, e.SousType });
 
             builder.HasData(new List<Reference> {

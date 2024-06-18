@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    [Migration("20240617153921_Init")]
-    partial class Init
+    [Migration("20240618075633_AddDossierComplementaireSize")]
+    partial class AddDossierComplementaireSize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,54 @@ namespace Altalents.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Altalents.Entities.DocumentComplementaire", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Commentaire")
+                        .HasColumnType("varchar");
+
+                    b.Property<DateTime>("DateCrea")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DateMaj")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("DossierTechniqueId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MimeType")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("UtiCrea")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("UtiMaj")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DossierTechniqueId");
+
+                    b.ToTable("DocumentComplementaires", (string)null);
+                });
 
             modelBuilder.Entity("Altalents.Entities.DossierTechnique", b =>
                 {
@@ -46,9 +94,6 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<decimal?>("PrixJour")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("ReferenceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("TokenAccesRapide")
                         .HasColumnType("uniqueidentifier");
 
@@ -64,8 +109,6 @@ namespace Altalents.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DisponibiliteId");
-
-                    b.HasIndex("ReferenceId");
 
                     b.ToTable("DossierTechniques", (string)null);
                 });
@@ -606,19 +649,31 @@ namespace Altalents.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Altalents.Entities.DocumentComplementaire", b =>
+                {
+                    b.HasOne("Altalents.Entities.DossierTechnique", "DossierTechnique")
+                        .WithMany("DocumentComplementaires")
+                        .HasForeignKey("DossierTechniqueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DossierTechnique");
+                });
+
             modelBuilder.Entity("Altalents.Entities.DossierTechnique", b =>
                 {
                     b.HasOne("Altalents.Entities.Reference", "Disponibilite")
-                        .WithMany()
+                        .WithMany("DossierTechniques")
                         .HasForeignKey("DisponibiliteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Altalents.Entities.Reference", null)
-                        .WithMany("DossierTechniques")
-                        .HasForeignKey("ReferenceId");
-
                     b.Navigation("Disponibilite");
+                });
+
+            modelBuilder.Entity("Altalents.Entities.DossierTechnique", b =>
+                {
+                    b.Navigation("DocumentComplementaires");
                 });
 
             modelBuilder.Entity("Altalents.Entities.Reference", b =>

@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20240618075151_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +32,7 @@ namespace Altalents.DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Commentaire")
-                        .HasColumnType("varchar(max)");
+                        .HasColumnType("varchar");
 
                     b.Property<DateTime>("DateCrea")
                         .HasColumnType("datetime");
@@ -52,7 +55,7 @@ namespace Altalents.DataAccess.Migrations
 
                     b.Property<string>("Path")
                         .IsRequired()
-                        .HasColumnType("varchar(max)");
+                        .HasColumnType("varchar");
 
                     b.Property<string>("UtiCrea")
                         .IsRequired()
@@ -108,51 +111,6 @@ namespace Altalents.DataAccess.Migrations
                     b.HasIndex("DisponibiliteId");
 
                     b.ToTable("DossierTechniques", (string)null);
-                });
-
-            modelBuilder.Entity("Altalents.Entities.QuestionDossierTechnique", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCrea")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("DateMaj")
-                        .HasColumnType("datetime");
-
-                    b.Property<Guid?>("DossierTechniqueId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Question")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("varchar");
-
-                    b.Property<string>("Reponse")
-                        .HasColumnType("varchar(max)");
-
-                    b.Property<string>("UtiCrea")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("UtiMaj")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DossierTechniqueId");
-
-                    b.ToTable("QuestionDossierTechniques", (string)null);
                 });
 
             modelBuilder.Entity("Altalents.Entities.Reference", b =>
@@ -713,21 +671,9 @@ namespace Altalents.DataAccess.Migrations
                     b.Navigation("Disponibilite");
                 });
 
-            modelBuilder.Entity("Altalents.Entities.QuestionDossierTechnique", b =>
-                {
-                    b.HasOne("Altalents.Entities.DossierTechnique", "DossierTechnique")
-                        .WithMany("QuestionDossierTechniques")
-                        .HasForeignKey("DossierTechniqueId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("DossierTechnique");
-                });
-
             modelBuilder.Entity("Altalents.Entities.DossierTechnique", b =>
                 {
                     b.Navigation("DocumentComplementaires");
-
-                    b.Navigation("QuestionDossierTechniques");
                 });
 
             modelBuilder.Entity("Altalents.Entities.Reference", b =>
