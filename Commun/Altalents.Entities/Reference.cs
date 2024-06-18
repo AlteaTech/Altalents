@@ -14,5 +14,6 @@ namespace Altalents.Entities
         public int OrdreTri { get; set; }
         public List<DossierTechnique> DossierTechniques { get; set; }
         public List<Personne> Personnes { get; set; }
+        public List<Contact> Contacts { get; set; }
     }
 }

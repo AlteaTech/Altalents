@@ -33,6 +33,11 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasForeignKey(e => e.TypeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(navigationExpression: e => e.Contacts)
+                .WithOne(x => x.Type)
+                .HasForeignKey(e => e.TypeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasIndex(e => new { e.Type, e.SousType });
 
             builder.HasData(new List<Reference> {
@@ -363,6 +368,16 @@ namespace Altalents.DataAccess.EntityConfigurations
                     UtiCrea= "ALTEA",
                     Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
                     OrdreTri = 3
+                },
+                #endregion
+                #region Contact
+                new Reference(){
+                    Libelle = "Telephone",
+                    Id = Guid.Parse("{AAD8F403-76C8-4DEE-B9B5-8ED5A8A28EEC}"),
+                    DateCrea = new DateTime(2024,6,18),
+                    UtiCrea= "ALTEA",
+                    Type = Commun.Enums.TypeReferenceEnum.Contact,
+                    OrdreTri = 1
                 },
                 #endregion
             });

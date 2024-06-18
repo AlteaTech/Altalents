@@ -1,4 +1,4 @@
-﻿namespace Altalents.Entities
+namespace Altalents.Entities
 {
     public partial class Personne : BaseEntity
     {
@@ -18,5 +18,6 @@
 
         //navigations
         public List<DossierTechnique> DossierTechniques { get; set; }
+        public List<Contact> Contacts { get; set; }
     }
 }
