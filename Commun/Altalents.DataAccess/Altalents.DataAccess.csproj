@@ -64,4 +64,8 @@
     <Using Include="Microsoft.EntityFrameworkCore.Migrations" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,7 @@ Pré-requis :
 Commande à lancer en power shell dans le dossier du fichier contenant le  .sln
 
 //Adds a new migration.
-dotnet ef migrations add NAME --project  Commun/Altalents.DataAccess --context MigrationContext
+dotnet ef migrations add AddDossierComplementaire --project  Commun/Altalents.DataAccess --context MigrationContext
 
 //Removes the last migration.
 dotnet ef migrations remove NAME --project  Commun/Altalents.DataAccess --context MigrationContext

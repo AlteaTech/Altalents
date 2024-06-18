@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace Altalents.Entities.Extensions
 {
-    public static class EnumExtensionMethod
+    public static partial class EnumExtensionMethod
     {
         // ATTRIBUTE BASE
         public static DateTime GetDateCreation(this System.Enum enumValue)

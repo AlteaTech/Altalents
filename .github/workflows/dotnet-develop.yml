@@ -47,3 +47,11 @@ jobs:
 
     - name: Build
       run: dotnet build -c Debug
+
+    - name: Instal dotnet tool
+      run: dotnet tool install --global dotnet-ef --version 8.0.6
+
+    - name: Build Bundle
+      run: |
+        New-Item -Path . -Name "SQL" -ItemType "directory"
+        dotnet ef migrations bundle --project Commun/Altalents.DataAccess --verbose --target-runtime win-x64 --self-contained --output ./SQL/bundle.exe --force --context MigrationContext --verbose

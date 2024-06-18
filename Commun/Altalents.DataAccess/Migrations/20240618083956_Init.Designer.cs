@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20240618083956_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,47 +24,6 @@ namespace Altalents.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Altalents.Entities.Contact", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCrea")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("DateMaj")
-                        .HasColumnType("datetime");
-
-                    b.Property<Guid>("PersonneId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UtiCrea")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("UtiMaj")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Valeur")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PersonneId");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("Contacts", (string)null);
-                });
 
             modelBuilder.Entity("Altalents.Entities.DocumentComplementaire", b =>
                 {
@@ -726,15 +688,6 @@ namespace Altalents.DataAccess.Migrations
                             OrdreTri = 3,
                             Type = "Disponibilite",
                             UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("aad8f403-76c8-4dee-b9b5-8ed5a8a28eec"),
-                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Libelle = "Telephone",
-                            OrdreTri = 1,
-                            Type = "Contact",
-                            UtiCrea = "ALTEA"
                         });
                 });
 
@@ -811,25 +764,6 @@ namespace Altalents.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Altalents.Entities.Contact", b =>
-                {
-                    b.HasOne("Altalents.Entities.Personne", "Personne")
-                        .WithMany("Contacts")
-                        .HasForeignKey("PersonneId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Altalents.Entities.Reference", "Type")
-                        .WithMany("Contacts")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Personne");
-
-                    b.Navigation("Type");
-                });
-
             modelBuilder.Entity("Altalents.Entities.DocumentComplementaire", b =>
                 {
                     b.HasOne("Altalents.Entities.DossierTechnique", "DossierTechnique")
@@ -890,15 +824,11 @@ namespace Altalents.DataAccess.Migrations
 
             modelBuilder.Entity("Altalents.Entities.Personne", b =>
                 {
-                    b.Navigation("Contacts");
-
                     b.Navigation("DossierTechniques");
                 });
 
             modelBuilder.Entity("Altalents.Entities.Reference", b =>
                 {
-                    b.Navigation("Contacts");
-
                     b.Navigation("DossierTechniques");
 
                     b.Navigation("Personnes");
