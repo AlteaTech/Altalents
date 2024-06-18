@@ -4,6 +4,7 @@ namespace Altalents.Commun.Enums
     {
         Langue = 1,
         Disponibilite = 2,
-        Contact = 3
+        Contact = 3,
+        Document = 4
     }
 }

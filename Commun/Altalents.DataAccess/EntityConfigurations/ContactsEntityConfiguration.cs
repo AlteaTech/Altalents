@@ -1,5 +1,3 @@
-using static Altalents.Entities.Extensions.EnumExtensionMethod;
-
 namespace Altalents.DataAccess.EntityConfigurations
 {
     internal class ContactsEntityConfiguration : IEntityTypeConfiguration<Contact>
