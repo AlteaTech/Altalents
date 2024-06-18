@@ -22,5 +22,6 @@ namespace Altalents.Entities
         public List<Document> Documents { get; set; }
         public List<PersonneLangue> PersonneLangues { get; set; }
         public List<Adresse> Adresses { get; set; }
+        public List<Formation> Formations { get; set; }
     }
 }
