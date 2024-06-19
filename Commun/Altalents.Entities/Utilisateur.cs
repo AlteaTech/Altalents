@@ -1,5 +1,3 @@
-using Altalents.Commun.Enums;
-
 namespace Altalents.Entities
 {
     public partial class Utilisateur : BaseEntity
@@ -15,5 +13,9 @@ namespace Altalents.Entities
         public bool IsActif { get; set; }
         public bool IsSupprimable { get; set; }
         public bool IsModifiable { get; set; }
+        public bool IsCommercial { get; set; }
+        public bool IsDefault { get; set; }
+
+        public List<DossierTechnique> DossierTechniques { get; set; }
     }
 }

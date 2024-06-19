@@ -1,5 +1,3 @@
-using Hangfire;
-
 namespace Altalents.Business.Jobs
 {
     public static class JobScheduler

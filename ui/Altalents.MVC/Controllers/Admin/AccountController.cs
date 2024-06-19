@@ -1,11 +1,11 @@
-using AlteaTools.Session.Extension;
-
 using Altalents.Entities;
 using Altalents.MVC.Constantes;
 
-using Microsoft.AspNetCore.Identity;
 using AlteaTools.Session;
 using AlteaTools.Session.Dto;
+using AlteaTools.Session.Extension;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace Altalents.MVC.Controllers.Admin
 {

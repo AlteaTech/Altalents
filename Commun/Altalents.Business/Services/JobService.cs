@@ -1,9 +1,3 @@
-using System.Runtime.CompilerServices;
-
-using Hangfire;
-
-using Microsoft.Data.SqlClient;
-
 namespace Altalents.Business.Services
 {
     public class JobService : BaseAppService<CustomDbContext>, IJobService

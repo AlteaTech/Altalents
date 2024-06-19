@@ -19,6 +19,8 @@ namespace Altalents.Entities
         public Guid StatutId { get; set; }
         public Reference Statut { get; set; }
         // Reference de Type disponibilite
+        public Guid UtilisateurId { get; set; }
+        public Utilisateur Utilisateur { get; set; }
         public Guid PersonneId { get; set; }
         public Personne Personne { get; set; }
 

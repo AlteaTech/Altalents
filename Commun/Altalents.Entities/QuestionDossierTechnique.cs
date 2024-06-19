@@ -10,7 +10,7 @@ namespace Altalents.Entities
         public string Reponse { get; set; }
         public bool IsRequired { get; set; }
         public bool IsDefault { get; set; }
-        
+
         public Guid? DossierTechniqueId { get; set; }
         public DossierTechnique DossierTechnique { get; set; }
     }

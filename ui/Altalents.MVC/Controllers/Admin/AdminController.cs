@@ -1,10 +1,10 @@
 using System.Globalization;
 
-using AlteaTools.Session.Extension;
-
 using Altalents.MVC.Constantes;
+
 using AlteaTools.Session;
 using AlteaTools.Session.Dto;
+using AlteaTools.Session.Extension;
 
 namespace Altalents.MVC.Controllers.Admin
 {

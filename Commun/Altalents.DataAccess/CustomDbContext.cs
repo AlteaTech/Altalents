@@ -1,8 +1,6 @@
-using AlteaTools.EntityFramework;
-
 using Altalents.Commun.Settings;
 
-using Hangfire;
+using AlteaTools.EntityFramework;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

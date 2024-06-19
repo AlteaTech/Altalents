@@ -1,6 +1,6 @@
-using AlteaTools.Api.Core.Exceptions;
-
 using Altalents.MVC.Controllers.Admin;
+
+using AlteaTools.Api.Core.Exceptions;
 
 namespace Altalents.MVC.Extension
 {

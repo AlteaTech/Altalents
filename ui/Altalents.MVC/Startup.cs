@@ -1,11 +1,4 @@
-using System.Net;
 using System.Text.Json.Serialization;
-
-using AlteaTools.Api.Core.Exceptions;
-using AlteaTools.Api.Core.Handler;
-using AlteaTools.Hangfire;
-
-using AnyAscii;
 
 using Altalents.Business;
 using Altalents.Business.Jobs;
@@ -14,6 +7,10 @@ using Altalents.Commun.Settings;
 using Altalents.DataAccess.Hangfire;
 using Altalents.DataAccess.Supervision;
 using Altalents.Entities;
+
+using AlteaTools.Api.Core.Exceptions;
+using AlteaTools.Api.Core.Handler;
+using AlteaTools.Hangfire;
 
 using Hangfire;
 using Hangfire.Dashboard;

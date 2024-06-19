@@ -30,6 +30,11 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.Property(e => e.IsModifiable)
                 .IsRequired();
 
+            builder.HasMany(navigationExpression: e => e.DossierTechniques)
+                .WithOne(x => x.Utilisateur)
+                .HasForeignKey(e => e.UtilisateurId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasIndex(e => e.Nom);
             builder.HasIndex(e => e.Login).IsUnique();
 

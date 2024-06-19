@@ -1,7 +1,3 @@
-using Altalents.Entities;
-
-using static Altalents.Entities.Extensions.EnumExtensionMethod;
-
 namespace Altalents.DataAccess.EntityConfigurations
 {
     internal class CertificationsEntityConfiguration : IEntityTypeConfiguration<Certification>

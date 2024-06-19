@@ -1,8 +1,7 @@
 using AlteaTools.Application.Core.Helper;
-using AlteaTools.Session.Extension;
-
 using AlteaTools.Session;
 using AlteaTools.Session.Dto;
+using AlteaTools.Session.Extension;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
