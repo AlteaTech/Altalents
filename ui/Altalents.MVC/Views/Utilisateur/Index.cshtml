@@ -58,6 +58,7 @@
         columns.Bound(p => p.Nom).Title(LibellesResources.UtilisateurNom);
         columns.Bound(p => p.Login).Title(LibellesResources.UtilisateurLogin);
         columns.Bound(p => p.Email).Title(LibellesResources.UtilisateurEmail);
+        columns.Bound(p => p.IsCommercial).Title(LibellesResources.IsCommercial);
         columns.CreateDefaultCommands(nameof(UtilisateurDto));
     })
     .Events(e => e.DataBound("onDataBoundUtilisateurs"))

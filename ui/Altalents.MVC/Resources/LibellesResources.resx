@@ -185,6 +185,10 @@
     <value>Le titre de l'onglet en français est obligatoire.</value>
     <comment>Libelle INTRODUCTION</comment>
   </data>
+  <data name="IsCommercial" xml:space="preserve">
+    <value>Commercial</value>
+    <comment>Commercial</comment>
+  </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Mauvaise combinaison identifiant / mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site.</value>
     <comment>Libelle LOGIN</comment>

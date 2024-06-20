@@ -40,4 +40,11 @@
         @Html.Kendo().TextBoxFor(model => model.Email)
         @Html.ValidationMessageFor(model => model.Email)
     </div>
+    <div class="k-edit-label forUpdateUtilisateur">
+        @Html.LabelFor(model => model.NouveauMotDePasse, LibellesResources.IsCommercial)
+    </div>
+    <div class="k-edit-field forUpdateUtilisateur">
+        @Html.Kendo().CheckBoxFor(model => model.IsCommercial)
+        @Html.ValidationMessageFor(model => model.IsCommercial)
+    </div>
 </div>

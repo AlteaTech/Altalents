@@ -1,4 +1,4 @@
-﻿namespace Altalents.IBusiness.DTO
+namespace Altalents.IBusiness.DTO
 {
     public class BaseUpdatableDto
     {
@@ -6,5 +6,7 @@
         public bool IsSupprimable { get; set; }
         [Required]
         public bool IsModifiable { get; set; }
+        [Required]
+        public bool IsCommercial { get; set; }
     }
 }

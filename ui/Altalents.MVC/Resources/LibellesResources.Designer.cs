@@ -214,6 +214,15 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Commercial.
+        /// </summary>
+        public static string IsCommercial {
+            get {
+                return ResourceManager.GetString("IsCommercial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Mauvaise combinaison identifiant / mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site..
         /// </summary>
         public static string LoginFailed {
