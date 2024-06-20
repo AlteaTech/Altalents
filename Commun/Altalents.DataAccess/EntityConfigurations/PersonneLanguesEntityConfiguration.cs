@@ -1,17 +1,16 @@
 namespace Altalents.DataAccess.EntityConfigurations
 {
-    internal class PersonneLanguesEntityConfiguration : IEntityTypeConfiguration<PersonneLangue>
+    internal class PersonneLanguesEntityConfiguration : IEntityTypeConfiguration<DossierTechniqueLangue>
     {
-        public void Configure(EntityTypeBuilder<PersonneLangue> builder)
+        public void Configure(EntityTypeBuilder<DossierTechniqueLangue> builder)
         {
-            EntityTypeBuilderBaseHelper<PersonneLangue>.ConfigureBase(builder);
-            builder.ToTable("PersonneLangues");
+            EntityTypeBuilderBaseHelper<DossierTechniqueLangue>.ConfigureBase(builder);
+            builder.ToTable("DossierTechniqueLangues");
 
             builder.Property(e => e.Niveau)
                 .HasColumnType("varchar")
                 .HasMaxLength(100)
                 .IsRequired();
-
         }
     }
 }

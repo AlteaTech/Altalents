@@ -27,5 +27,9 @@ namespace Altalents.Entities
         //navigations
         public List<DocumentComplementaire> DocumentComplementaires { get; set; }
         public List<QuestionDossierTechnique> QuestionDossierTechniques { get; set; }
+        public List<Formation> Formations { get; set; }
+        public List<Certification> Certifications { get; set; }
+        public List<Experience> Experiences { get; set; }
+        public List<DossierTechniqueLangue> DossierTechniqueLangues { get; set; }
     }
 }

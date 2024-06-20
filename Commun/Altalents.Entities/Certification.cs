@@ -8,7 +8,7 @@ namespace Altalents.Entities
         {
         }
 
-        public Guid PersonneId { get; set; }
-        public Personne Personne { get; set; }
+        public Guid DossierTechniqueId { get; set; }
+        public DossierTechnique DossierTechnique { get; set; }
     }
 }

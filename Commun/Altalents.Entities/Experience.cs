@@ -16,8 +16,8 @@ namespace Altalents.Entities
         public DateTime DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
 
-        public Guid PersonneId { get; set; }
-        public Personne Personne { get; set; }
+        public Guid DossierTechniqueId { get; set; }
+        public DossierTechnique DossierTechnique { get; set; }
         public Guid TypeContratId { get; set; }
         public Reference TypeContrat { get; set; }
 
