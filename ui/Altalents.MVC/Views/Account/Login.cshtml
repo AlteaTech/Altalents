@@ -1,40 +1,42 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Se connecter";
+    ViewData["Title"] = "Connexion";
     Layout = "_LayoutAdmin";
 }
 <script src="https://kit.fontawesome.com/ef969af50e.js" crossorigin="anonymous"></script>
 
-<div id="loginView">
-    <h2>@ViewData["Title"]</h2>
+<img class="logo-altalent" src="~/Images/LOGO_ALTALENTS.png" />
+<img class="logo-altalent-stabilo" src="~/Images/ILLUSTRATION_STABILO.png" />
+<div id="loginView" class="cadre-blanc-connexion">
+    <div class="grid-align-center mt-55px">
+        <span class="connexion-title">@ViewData["Title"]</span>
 
-    <p class="text-danger cus-mt-10">@Model.ErrorMessage</p>
-    <form name="loginForm" action="@Url.Action("Login", AccountController.ControllerName)" method="POST">
-        <div class="row">
-            <div class="col-10">
-                @(Html.CreateDefautTextBox(new() { Label = LibellesResources.LoginIdentifiant, Name = "Login", Value = "", HtmlAttributes = new { @class = "cus-width-max" } }))
+        <p class="text-danger cus-mt-10">@Model.ErrorMessage</p>
+        <form name="loginForm" action="@Url.Action("Login", AccountController.ControllerName)" method="POST">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    @(Html.CreateDefautTextBox(new() { Name = "Login", Value = "", HtmlAttributes = new { @placeholder = LibellesResources.LoginIdentifiant, @class="input-login" } }))
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="row mt-15px">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    @(Html.CreateDefautTextBox(new() { Name = "Password", Value = "", HtmlAttributes = new { @placeholder = LibellesResources.LoginMotDePasse, @class = "input-pwd", @type="password" } }))
+                </div>
+                <div class="col-2">
 
+                </div>
             </div>
-            <div class="col-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-10">
-                @(Html.CreateDefautTextBox(new() { Label = LibellesResources.LoginMotDePasse, Name = "Password", Value = "", HtmlAttributes = new { @class = "cus-width-max", @type = "password" } }))
-            </div>
-            <div class="col-2">
-                <button id="PasswordShow" class="k-button  k-rounded-md k-button-solid k-button-solid-primary" style="bottom: -40%" type="button" onclick="showOrHideMdp()">
-                    <i id="PasswordShowEye" class="fa-solid fa-eye"></i>
-                    <i id="PasswordShowEyeSlash" class="fa-solid fa-eye-slash"></i>
+            <div class="mt-55px">
+                <button class="btn-prim btn-fat-180-60" type="submit">
+                    Commencer
                 </button>
             </div>
-        </div>
-        <div class="cus-textalign-droite cus-width-max">
-            <button class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary k-form-submit" type="submit">
-                <span class="k-button-text">Connexion</span>
-            </button>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 @section Scripts {

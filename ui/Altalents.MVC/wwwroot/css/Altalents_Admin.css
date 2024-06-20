@@ -1,0 +1,80 @@
+body {
+  background-color: #F8F8FF;
+  height: 100%;
+  width: 90%;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 20px;
+}
+html {
+  height: 100%;
+}
+
+.grid-align-center {
+  text-align: center;
+}
+.logo-altalent-stabilo {
+  bottom: 0%;
+  right: 0%;
+  position: absolute;
+}
+.logo-altalent {
+  top: 3%;
+  left: 41%;
+  position: absolute;
+}
+.cadre-blanc-connexion {
+  top: 33%;
+  left: 33%;
+  width: 450px;
+  height: 417px;
+  /* UI Properties */
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 20px 30px #2E00AC1A;
+  border-radius: 5px;
+  opacity: 1;
+  position: absolute;
+}
+.connexion-title {
+  font-weight: bold;
+  font-size:40px;
+  letter-spacing: 0px;
+  color: #141431;
+  opacity: 1;
+}
+
+.grid-align-center {
+  align-items: center;
+}
+
+.input-login, .input-pwd {
+  border: 1px solid #141431;
+  border-radius: 5px;
+  opacity: 1;
+}
+
+.mt-15px {
+  margin-top: 15px;
+}
+
+.mt-55px {
+  margin-top: 55px;
+}
+
+.btn-fat-180-60 {
+  width: 180px;
+  height: 60px;
+}
+
+.btn-prim {
+  background: #7A4AFF 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  border-block-color: #7A4AFF;
+  opacity: 1;
+  text-align: center;
+  font: normal normal medium 20px/26px DM Sans;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+}

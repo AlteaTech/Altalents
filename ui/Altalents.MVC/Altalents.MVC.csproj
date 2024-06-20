@@ -18,6 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\Images\ILLUSTRATION_STABILO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\LOGO_ALTALENTS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AnyAscii" Version="0.3.2" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="AlteaTools.Kendo" Version="8.0.6" />
