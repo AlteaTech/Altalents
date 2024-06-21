@@ -3,6 +3,7 @@
 @inject IHttpContextAccessor Accessor
 @{
     var session = Accessor.HttpContext.Session;
+    var isLogged = session.Get<bool>(SessionKeyConstantes.IsLogged);
 }
 <!DOCTYPE html>
 <html lang="fr">
@@ -12,49 +13,50 @@
     kendo.culture("fr-FR");
 </script>
 
-<body>
-    <header>
-        @if (session.Get<bool>(SessionKeyConstantes.IsLogged) == true)
+<body class="@("h-100 " + (isLogged ? "" : "colorViolet"))">
+    <div class="row h-100">
+        @if (isLogged)
         {
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    @(Html.Kendo().Menu()
-                        .Name("menuAdmin")
-                        .Items(items =>
-                        {
-                            items.Add().Text(LibellesResources.MenuAdministration)
-                            .Items(children =>
-                            {
-                                children.Add().Text(LibellesResources.MenuUtilisateur).Action("Index", UtilisateurController.ControllerName);
-                            });
-                            items.Add().Text(LibellesResources.MenuDeconnexion).Action("Logout", AccountController.ControllerName);
-                        }))
+            <div class="col-3 colorViolet">
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4"><img src="~/Images/LOGO_ALTALENTS.png" /></div>
+                    <div class="col-4"></div>
                 </div>
-            </nav>
+                <a href="@Url.Action("Index", UtilisateurController.ControllerName)">Gestion des comptes utilisateurs</a>
+                <a href="@Url.Action("Logout", AccountController.ControllerName)">Se deconnecter</a>
+                @Html.Raw(JavaScriptSnippet.FullScript)
+            </div>
         }
-        @Html.Raw(JavaScriptSnippet.FullScript)
-    </header>
-    <div class="row cus-mh-90p cus-m-3prc-r cus-m-3prc-l">
-        <main role="main" class="col-12 pb-3">
-            @(Html.Kendo().Notification()
-                .Name("popupNotification")
-                .AutoHideAfter(5000)
-                .Width(300)
-                .Position(p => p.Top(70))
-                )
+        else
+        {
+            <div class="col-3">
+            </div>
+        }
+        <div class="col-9">
+            <div class="row">
+                <main role="main" class="col-12 pb-3">
+                    @(Html.Kendo().Notification()
+                        .Name("popupNotification")
+                        .AutoHideAfter(5000)
+                        .Width(300)
+                        .Position(p => p.Top(70))
+                        )
 
-            @(Html.Kendo().Dialog()
-                .CreateDefautDialog("confirmationDialog", 500)
-                .Actions(a =>
-                {
-                    a.Add().Text("Non").Action("onNonConfirmationDialogClick");
-                    a.Add().Text("Oui").Primary(true).Action("onConfirmationDialogClick");
-                })
-                )
+                    @(Html.Kendo().Dialog()
+                        .CreateDefautDialog("confirmationDialog", 500)
+                        .Actions(a =>
+                        {
+                            a.Add().Text("Non").Action("onNonConfirmationDialogClick");
+                            a.Add().Text("Oui").Primary(true).Action("onConfirmationDialogClick");
+                        })
+                        )
 
-            @(Html.Kendo().Dialog().CreateDefautDialog("loadingDialog").Closable(false))
-            @RenderBody()
-        </main>
+                    @(Html.Kendo().Dialog().CreateDefautDialog("loadingDialog").Closable(false))
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
     </div>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/siteAdmin.js" asp-append-version="true"></script>
