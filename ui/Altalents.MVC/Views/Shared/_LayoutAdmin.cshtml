@@ -8,7 +8,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <partial name="_headerAdmin" />
-
+@{
+    bool isUtilisateur = (bool?)ViewData["isUtilisateur"] ?? false;
+}
 <script type="text/javascript">
     kendo.culture("fr-FR");
 </script>
@@ -23,8 +25,8 @@
                     <div class="col-4"><img src="~/Images/LOGO_ALTALENTS.png" /></div>
                     <div class="col-4"></div>
                 </div>
-                <a href="@Url.Action("Index", UtilisateurController.ControllerName)">Gestion des comptes utilisateurs</a>
-                <a href="@Url.Action("Logout", AccountController.ControllerName)">Se deconnecter</a>
+                <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action("Index", UtilisateurController.ControllerName)">Gestion des comptes utilisateurs</a>
+                <a class="lienmenu" href="@Url.Action("Logout", AccountController.ControllerName)">Se deconnecter</a>
                 @Html.Raw(JavaScriptSnippet.FullScript)
             </div>
         }

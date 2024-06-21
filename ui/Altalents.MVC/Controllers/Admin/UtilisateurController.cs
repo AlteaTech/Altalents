@@ -17,6 +17,7 @@ namespace Altalents.MVC.Controllers.Admin
             {
                 return page;
             }
+            ViewData["isUtilisateur"] = true;
             return View();
         }
 
