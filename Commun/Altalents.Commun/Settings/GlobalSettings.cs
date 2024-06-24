@@ -6,5 +6,6 @@ namespace Altalents.Commun.Settings
     {
         public static string Section => "GlobalSettings";
         public int TimeoutSessionSeconds { get; set; }
+        public bool AutoMigrate { get; set; }
     }
 }

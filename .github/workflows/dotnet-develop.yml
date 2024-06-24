@@ -55,3 +55,44 @@ jobs:
       run: |
         New-Item -Path . -Name "SQL" -ItemType "directory"
         dotnet ef migrations bundle --project Commun/Altalents.DataAccess --verbose --target-runtime win-x64 --self-contained --output ./SQL/bundle.exe --force --context MigrationContext --verbose
+
+    - name: dotnet publish
+      run: |
+        New-Item -Path ${{github.workspace}} -Name "altalentDeploy" -ItemType "directory"
+        dotnet publish -c Debug -o ${{github.workspace}}/altalentDeploy
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: .net-app
+        path: ${{github.workspace}}/altalentDeploy
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Debug'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+      
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3CB117266C6F4FA9AFCDF46A90A5D869 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CF2183566B93459C8217B54B0D91F649 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9BCC10EC34264318A2126D8FB825B228 }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'altalent-dev'
+          slot-name: 'Production'
+          package: .

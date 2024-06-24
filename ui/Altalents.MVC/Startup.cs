@@ -4,6 +4,7 @@ using Altalents.Business;
 using Altalents.Business.Jobs;
 using Altalents.Business.Services;
 using Altalents.Commun.Settings;
+using Altalents.DataAccess;
 using Altalents.DataAccess.Hangfire;
 using Altalents.DataAccess.Supervision;
 using Altalents.Entities;
@@ -85,7 +86,7 @@ namespace Altalents.MVC
 
             };
 
-            services.AddApplication(Configuration.GetConnectionString("connectionStringData"), apiExternesRoutes);
+            services.AddApplication(Configuration.GetConnectionString("Data"), apiExternesRoutes);
             services.AddAuthenticationCore();
             services.AddScoped<ProtectedSessionStorage>();
             services.AddAutoMapper(typeof(Startup));
@@ -190,6 +191,18 @@ namespace Altalents.MVC
 
             loggerFactory.AddSerilog(serilogLogger);
             JobScheduler.ScheduleRecurringJobs("UI");
+
+            IConfigurationSection configurationHangfireSection = Configuration.GetSection(Commun.Settings.GlobalSettings.Section);
+            GlobalSettings globalSettings = configurationHangfireSection.Get<GlobalSettings>();
+            if (globalSettings.AutoMigrate)
+            {
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    MigrationContext context = new();
+                    context.Database.GetDbConnection().ConnectionString = Configuration.GetConnectionString("Data");
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }
