@@ -104,10 +104,7 @@ namespace Altalents.MVC
                 options.Cookie.IsEssential = true;
             });
 
-            services.Configure<EmailSettings>(Configuration.GetSection(EmailSettings.Section));
             services.Configure<GlobalSettings>(Configuration.GetSection(GlobalSettings.Section));
-            services.Configure<PurgeSettings>(Configuration.GetSection(PurgeSettings.Section));
-            services.Configure<MarqueSettings>(Configuration.GetSection(MarqueSettings.Section));
 
             HangfireSettings hangfireSettings = configurationHangfireSection.Get<HangfireSettings>();
             HangfireEnabled = hangfireSettings.IsActivated;
