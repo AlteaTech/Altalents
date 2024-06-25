@@ -19,6 +19,9 @@ body {
   height: 30px;
   margin-top: 30px;
   color: #7a4aff;
+  border: 0px;
+  border-right: 4px;
+  border-style: solid;
 }
 .h-100 {
   height: 100%;
