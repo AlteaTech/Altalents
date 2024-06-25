@@ -77,7 +77,9 @@ namespace Altalents.Business.Services
                 utilisateur.Email = utilisateurModifie.Email;
                 utilisateur.IsSupprimable = utilisateurModifie.IsSupprimable;
                 utilisateur.IsModifiable = utilisateurModifie.IsModifiable;
-                utilisateur.IsCommercial = utilisateurModifie.IsCommercial;
+                utilisateur.TypeCompte = utilisateurModifie.TypeCompteSelected.Value;
+                utilisateur.Telephone = utilisateurModifie.Telephone;
+                utilisateur.Poste = utilisateurModifie.Poste;
 
                 if (!string.IsNullOrEmpty(utilisateurModifie.NouveauMotDePasse))
                 {

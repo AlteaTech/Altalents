@@ -1,3 +1,7 @@
+using Altalents.Commun.Enums;
+
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace Altalents.MVC.Controllers.Admin
 {
     public class UtilisateurController : AdminController
@@ -42,6 +46,19 @@ namespace Altalents.MVC.Controllers.Admin
         public async Task<IActionResult> DeleteUtilisateurAsync([DataSourceRequest] DataSourceRequest request, Guid utilisateurId)
         {
             return await this.CallWithActionSecurisedAsync(request, DeleteUtilisateurRunnerAsync(request, utilisateurId));
+        }
+
+        [HttpGet]
+        public IActionResult TypeCompte()
+        {
+            List<TypeCompteModel> typeUtilisateurs = Enum.GetValues(typeof(TypeUtilisateurEnum))
+                .Cast<TypeUtilisateurEnum>()
+                .Select(v => new TypeCompteModel()
+                {
+                    Value = v
+                })
+                .ToList();
+            return Json(typeUtilisateurs);
         }
 
         private async Task<IActionResult> CreateUtilisateurRunnerAsync(DataSourceRequest request, UtilisateurDto utilisateur)

@@ -1,3 +1,5 @@
+using Altalents.Commun.Enums;
+
 namespace Altalents.DataAccess.EntityConfigurations
 {
     internal class UtilisateursEntityConfiguration : IEntityTypeConfiguration<Utilisateur>
@@ -9,6 +11,10 @@ namespace Altalents.DataAccess.EntityConfigurations
 
             builder.Property(e => e.Nom)
                 .HasMaxLength(100);
+            builder.Property(e => e.Telephone)
+                .HasMaxLength(100);
+            builder.Property(e => e.Poste)
+                .HasMaxLength(200);
 
             builder.Property(e => e.Login)
                 .HasMaxLength(50)
@@ -27,7 +33,9 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.Property(e => e.IsSupprimable)
                 .IsRequired();
 
-            builder.Property(e => e.IsModifiable)
+            builder.Property(e => e.TypeCompte)
+                .HasColumnType("varchar")
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.HasMany(navigationExpression: e => e.DossierTechniques)
@@ -50,6 +58,7 @@ namespace Altalents.DataAccess.EntityConfigurations
                     IsActif = true,
                     IsSupprimable = false,
                     IsModifiable = false,
+                    TypeCompte = TypeUtilisateurEnum.Admin
                 }
             });
         }

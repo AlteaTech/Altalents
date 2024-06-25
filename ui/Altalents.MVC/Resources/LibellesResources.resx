@@ -117,78 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CommunBtnExporter" xml:space="preserve">
-    <value>Exporter</value>
-    <comment>Libelle COMMUN</comment>
-  </data>
-  <data name="CommunBtnPrevisualiser" xml:space="preserve">
-    <value>Prévisualiser</value>
-    <comment>Libelle COMMUN</comment>
-  </data>
-  <data name="CommunBtnPublierAll" xml:space="preserve">
-    <value>Publier toutes les marques</value>
-    <comment>Libelle COMMUN</comment>
-  </data>
-  <data name="CommunBtnSupprimer" xml:space="preserve">
-    <value>Supprimer</value>
-    <comment>Libelle COMMUN</comment>
-  </data>
-  <data name="ExportReussi" xml:space="preserve">
-    <value>Export réussi</value>
-    <comment>Libelle Export</comment>
-  </data>
-  <data name="IntroductionComboBoxPlaceholder" xml:space="preserve">
-    <value>Sélectionner un onglet...</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionDetailEn" xml:space="preserve">
-    <value>Description anglaise</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionDetailFr" xml:space="preserve">
-    <value>Description française</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionOrdreEn" xml:space="preserve">
-    <value>Ordre d'apparition en anglais</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionOrdreEnRequired" xml:space="preserve">
-    <value>L'ordre d'apparition en anglais est obligatoire.</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionOrdreFr" xml:space="preserve">
-    <value>Ordre d'apparition en français</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionOrdreFrRequired" xml:space="preserve">
-    <value>L'ordre d'apparition en français est obligatoire.</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionSupprimer" xml:space="preserve">
-    <value>Supprimer l'onglet </value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionTitreEn" xml:space="preserve">
-    <value>Titre de l'onglet en anglais</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionTitreEnRequired" xml:space="preserve">
-    <value>Le titre de l'onglet en anglais est obligatoire.</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionTitreFr" xml:space="preserve">
-    <value>Titre de l'onglet en français</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IntroductionTitreFrRequired" xml:space="preserve">
-    <value>Le titre de l'onglet en français est obligatoire.</value>
-    <comment>Libelle INTRODUCTION</comment>
-  </data>
-  <data name="IsCommercial" xml:space="preserve">
-    <value>Commercial</value>
-    <comment>Commercial</comment>
-  </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Mauvaise combinaison identifiant / mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site.</value>
     <comment>Libelle LOGIN</comment>
@@ -209,90 +137,6 @@
     <value>Le mot de passe est obligatoire.</value>
     <comment>Libelle LOGIN</comment>
   </data>
-  <data name="MarqueAddMarqueRenvois" xml:space="preserve">
-    <value>Ajouter un renvois</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueCategorie" xml:space="preserve">
-    <value>Categories</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueComboBoxPlaceholder" xml:space="preserve">
-    <value>Sélectionner une marque...</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueContour" xml:space="preserve">
-    <value>Contours</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueCouleurs" xml:space="preserve">
-    <value>Couleurs</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueGestionInitialesLatines" xml:space="preserve">
-    <value>Gestion des initiales latines</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueGestionMotsLatins" xml:space="preserve">
-    <value>Gestion des mots latins</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueGestionRenvois" xml:space="preserve">
-    <value>Gestion des renvois</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueHauteur" xml:space="preserve">
-    <value>Hauteur</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueImageOrdre" xml:space="preserve">
-    <value>Ordre d'apparition de l'image</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueImages" xml:space="preserve">
-    <value>Images</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueInitiales" xml:space="preserve">
-    <value>Initiales ordonnées</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueLargeur" xml:space="preserve">
-    <value>Largeur</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueLocalisation" xml:space="preserve">
-    <value>Localisations</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueNomPrincipal" xml:space="preserve">
-    <value>Nom principal</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueNoms" xml:space="preserve">
-    <value>Noms</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueNumeroLugt" xml:space="preserve">
-    <value>Numéro lugt</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarquePays" xml:space="preserve">
-    <value>Pays</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueReferenceLibreTexte" xml:space="preserve">
-    <value>Texte</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueTechnique" xml:space="preserve">
-    <value>Techniques</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="MarqueTextes" xml:space="preserve">
-    <value>Textes</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
   <data name="MenuAccueil" xml:space="preserve">
     <value>Accueil</value>
     <comment>Libelle MENU</comment>
@@ -301,121 +145,21 @@
     <value>Administration</value>
     <comment>Libelle MENU</comment>
   </data>
-  <data name="MenuConnexion" xml:space="preserve">
-    <value>Connexion</value>
-    <comment>Libelle MENU</comment>
-  </data>
-  <data name="MenuContact" xml:space="preserve">
-    <value>Contact</value>
-    <comment>Libelle MENU</comment>
-  </data>
-  <data name="MenuCreditsEtMentionsLegales" xml:space="preserve">
-    <value>Crédits et mentions légales</value>
-    <comment>Libelle MENU</comment>
-  </data>
   <data name="MenuDeconnexion" xml:space="preserve">
     <value>Déconnexion</value>
     <comment>Libelle MENU</comment>
   </data>
-  <data name="MenuExport" xml:space="preserve">
-    <value>Export</value>
-    <comment>Libelle MENU</comment>
+  <data name="Poste" xml:space="preserve">
+    <value>Poste</value>
+    <comment>Poste</comment>
   </data>
-  <data name="MenuIntroduction" xml:space="preserve">
-    <value>Introduction</value>
-    <comment>Libelle MENU</comment>
+  <data name="Statut" xml:space="preserve">
+    <value>Statut</value>
+    <comment>Statut</comment>
   </data>
-  <data name="MenuNouvelleMarque" xml:space="preserve">
-    <value>Nouvelle marque</value>
-    <comment>Libelle MENU</comment>
-  </data>
-  <data name="MenuPublication" xml:space="preserve">
-    <value>Publication</value>
-    <comment>Libelle MENU</comment>
-  </data>
-  <data name="MenuReference" xml:space="preserve">
-    <value>Mots-clés</value>
-    <comment>Libelle MENU</comment>
-  </data>
-  <data name="MenuUpdateMarque" xml:space="preserve">
-    <value>Mise à jour d'une marque</value>
-    <comment>Libelle MENU</comment>
-  </data>
-  <data name="MenuUtilisateur" xml:space="preserve">
-    <value>Utilisateurs</value>
-    <comment>Libelle MENU</comment>
-  </data>
-  <data name="NoticeAjoutOnglet2010Btn" xml:space="preserve">
-    <value>Ajouter l'onglet 2010</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="NoticeMarqueOrdre" xml:space="preserve">
-    <value>Ordre d'apparition</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="NoticeMarqueOrdreRequired" xml:space="preserve">
-    <value>L'ordre d'apparition est obligatoire.</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="NoticeMarqueTitre" xml:space="preserve">
-    <value>Titre</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="NoticeMarqueTitreRequired" xml:space="preserve">
-    <value>Le titre est obligatoire.</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="NoticePubliee" xml:space="preserve">
-    <value>Notice publiée</value>
-    <comment>Libelle MARQUE</comment>
-  </data>
-  <data name="ReferenceLibelle2" xml:space="preserve">
-    <value>Seconde langue</value>
-    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
-  </data>
-  <data name="ReferenceLibelleFr" xml:space="preserve">
-    <value>Langue française</value>
-    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
-  </data>
-  <data name="ReferenceLibelleFrRequired" xml:space="preserve">
-    <value>La langue française est obligatoire.</value>
-    <comment>Libelle REFERENCE</comment>
-  </data>
-  <data name="ReferenceNombreMarque" xml:space="preserve">
-    <value>Marques associées</value>
-    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
-  </data>
-  <data name="ReferenceNombreSousReference" xml:space="preserve">
-    <value>Mots-clés associés</value>
-    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
-  </data>
-  <data name="ReferenceOrdre2" xml:space="preserve">
-    <value>Ordre seconde langue</value>
-    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
-  </data>
-  <data name="ReferenceOrdreFr" xml:space="preserve">
-    <value>Ordre français</value>
-    <comment>Libelle REFERENCES et SOUS REFERENCES</comment>
-  </data>
-  <data name="ReferenceOrdreFrRequired" xml:space="preserve">
-    <value>L'ordre français est obligatoire.</value>
-    <comment>Libelle REFERENCE</comment>
-  </data>
-  <data name="TexteDiversDetailEn" xml:space="preserve">
-    <value>Description anglaise</value>
-    <comment>Libelle TEXTES DIVERS</comment>
-  </data>
-  <data name="TexteDiversDetailFr" xml:space="preserve">
-    <value>Description française</value>
-    <comment>Libelle TEXTES DIVERS</comment>
-  </data>
-  <data name="TexteDiversTitreEn" xml:space="preserve">
-    <value>Titre en anglais</value>
-    <comment>Libelle TEXTES DIVERS</comment>
-  </data>
-  <data name="TexteDiversTitreFr" xml:space="preserve">
-    <value>Titre en français</value>
-    <comment>Libelle TEXTES DIVERS</comment>
+  <data name="Telephone" xml:space="preserve">
+    <value>Telephone</value>
+    <comment>Telephone</comment>
   </data>
   <data name="TypeReferenceComboBoxPlaceholder" xml:space="preserve">
     <value>Sélectionner un type de mot-clé...</value>

@@ -1,3 +1,7 @@
+using Altalents.Commun.Enums;
+
+using AlteaTools.Api.Core.Extensions;
+
 namespace Altalents.IBusiness.DTO
 {
     public class UtilisateurDto : BaseUpdatableDto
@@ -15,7 +19,18 @@ namespace Altalents.IBusiness.DTO
         public string Email { get; set; }
         [Required]
         public DateTime DateCreation { get; set; }
+        public string Telephone { get; set; }
+        public string Poste { get; set; }
         [Required]
         public bool IsActif { get; set; }
+        public TypeUtilisateurEnum TypeCompte { get; set; } = TypeUtilisateurEnum.Utilisateur;
+
+        public string Statut => TypeCompte.GetDisplayName(false);
+
+        [Required(ErrorMessage = "Le statut est obligatoire")]
+        public TypeCompteDto TypeCompteSelected { get; set; } = new()
+        {
+            Value = TypeUtilisateurEnum.Utilisateur
+        };
     }
 }
