@@ -118,15 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LoginFailed" xml:space="preserve">
-    <value>Mauvaise combinaison identifiant / mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site.</value>
+    <value>Mauvaise combinaison Email/ mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site.</value>
     <comment>Libelle LOGIN</comment>
   </data>
   <data name="LoginIdentifiant" xml:space="preserve">
-    <value>Identifiant</value>
-    <comment>Libelle LOGIN</comment>
-  </data>
-  <data name="LoginIdentifiantObligatoire" xml:space="preserve">
-    <value>L'identifiant est obligatoire.</value>
+    <value>Email</value>
     <comment>Libelle LOGIN</comment>
   </data>
   <data name="LoginMotDePasse" xml:space="preserve">

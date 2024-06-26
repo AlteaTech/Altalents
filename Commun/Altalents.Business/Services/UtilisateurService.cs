@@ -41,7 +41,7 @@ namespace Altalents.Business.Services
             }
 
             UserLoggedDto userLoggedDto = _contextAccessor.HttpContext.Session.Get<UserLoggedDto>(SessionKeyConstantes.UserLogged);
-            if (userLoggedDto.Login == utilisateur.Login)
+            if (userLoggedDto.Login == utilisateur.Email)
             {
                 throw new BusinessException(BusinessExceptionsResources.UTILISATEUR_NON_SUPPRIMABLE_CONNECTE);
             }
@@ -49,7 +49,7 @@ namespace Altalents.Business.Services
 
         public async Task<Guid> InsertUtilisateurAsync(UtilisateurDto utilisateur, CancellationToken cancellationToken = default)
         {
-            await CheckLoginExistAsync(utilisateur.Login, cancellationToken);
+            await CheckLoginExistAsync(utilisateur.Email, cancellationToken);
             Utilisateur nouvelUtilisateur = Mapper.Map<Utilisateur>(utilisateur);
             nouvelUtilisateur.MotDePasseCrypte = MotDePasseHelper.GetHashedMotDePasse(utilisateur.MotDePasse);
             nouvelUtilisateur.IsActif = true;
@@ -99,7 +99,7 @@ namespace Altalents.Business.Services
         {
             IQueryable<Utilisateur> queryable = DbContext.Utilisateurs.AsQueryable();
 
-            if (await queryable.AnyAsync(x => x.Login == login, cancellationToken))
+            if (await queryable.AnyAsync(x => x.Email == login, cancellationToken))
             {
                 throw new BusinessException($"Le login '{login}' existe déjà pour un utilisateur (actif ou non).");
             }

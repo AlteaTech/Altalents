@@ -9,7 +9,6 @@ namespace Altalents.Entities
         }
 
         public string Nom { get; set; }
-        public string Login { get; set; }
         public string MotDePasseCrypte { get; set; }
         public string Email { get; set; }
         public string Telephone { get; set; }

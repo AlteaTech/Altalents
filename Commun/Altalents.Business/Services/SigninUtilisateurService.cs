@@ -28,7 +28,7 @@ namespace Altalents.Business.Services
         {
             bool isConnectable = false;
             string mdpCrypte = MotDePasseHelper.GetHashedMotDePasse(motDePasse);
-            UtilisateurDto utilisateur = await _dbContext.Utilisateurs.Where(x => x.Login == login)
+            UtilisateurDto utilisateur = await _dbContext.Utilisateurs.Where(x => x.Email == login)
                                                                       .Where(x => x.IsActif)
                                                                       .ProjectTo<UtilisateurDto>(Mapper.ConfigurationProvider)
                                                                       .SingleOrDefaultAsync();
@@ -42,7 +42,7 @@ namespace Altalents.Business.Services
                     _contextAccessor.HttpContext.Session.Set(SessionKeyConstantes.UserLogged, new UserLoggedDto()
                     {
                         Nom = utilisateur.Nom,
-                        Login = utilisateur.Login
+                        Login = utilisateur.Email
                     });
                 }
             }

@@ -61,7 +61,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Mauvaise combinaison identifiant / mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site..
+        ///   Recherche une chaîne localisée semblable à Mauvaise combinaison Email/ mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site..
         /// </summary>
         public static string LoginFailed {
             get {
@@ -70,20 +70,11 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Identifiant.
+        ///   Recherche une chaîne localisée semblable à Email.
         /// </summary>
         public static string LoginIdentifiant {
             get {
                 return ResourceManager.GetString("LoginIdentifiant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à L&apos;identifiant est obligatoire..
-        /// </summary>
-        public static string LoginIdentifiantObligatoire {
-            get {
-                return ResourceManager.GetString("LoginIdentifiantObligatoire", resourceCulture);
             }
         }
         
