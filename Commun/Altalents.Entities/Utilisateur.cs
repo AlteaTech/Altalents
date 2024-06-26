@@ -19,6 +19,14 @@ namespace Altalents.Entities
         public bool IsModifiable { get; set; }
         public TypeUtilisateurEnum TypeCompte { get; set; }
         public bool IsDefault { get; set; }
+        public string Statut
+        {
+            get
+            {
+                return TypeCompte.GetDisplayName(false);
+            }
+            set { }
+        }
 
         public List<DossierTechnique> DossierTechniques { get; set; }
     }

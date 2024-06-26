@@ -25,7 +25,7 @@ namespace Altalents.IBusiness.DTO
         public bool IsActif { get; set; }
         public TypeUtilisateurEnum TypeCompte { get; set; } = TypeUtilisateurEnum.Utilisateur;
 
-        public string Statut => TypeCompte.GetDisplayName(false);
+        public string Statut { get; set; }
 
         [Required(ErrorMessage = "Le statut est obligatoire")]
         public TypeCompteDto TypeCompteSelected { get; set; } = new()
