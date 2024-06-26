@@ -7,6 +7,7 @@ import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
   templateUrl: './accueil.component.html'
 })
 export class AccueilComponent implements OnInit {
+  public tokenDossierTechnique: string = "";
   public nomPrenomCandidat: string = "";
 
   constructor(private route: ActivatedRoute) {
@@ -14,8 +15,12 @@ export class AccueilComponent implements OnInit {
   }
   
   public ngOnInit(): void {
-    const tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.accueilParamTokenDossierTechnique);
+    this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.accueilParamTokenDossierTechnique) ?? "";
+    this.loadNomPrenomCandidat();
+  }
+
+  private loadNomPrenomCandidat(): void {
     // TODO : appeler le back pour avoir le nom prénom du candidat 
-    this.nomPrenomCandidat = "Mr. MOCK " + tokenDossierTechnique;
+    this.nomPrenomCandidat = "Mr. MOCK " + this.tokenDossierTechnique;
   }
 }
