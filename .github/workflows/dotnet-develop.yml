@@ -57,11 +57,13 @@ jobs:
         dotnet ef migrations bundle --project Commun/Altalents.DataAccess --verbose --target-runtime win-x64 --self-contained --output ./SQL/bundle.exe --force --context MigrationContext --verbose
 
     - name: dotnet publish
+      if: github.event_name == 'push'
       run: |
         New-Item -Path ${{github.workspace}} -Name "altalentDeploy" -ItemType "directory"
         dotnet publish -c Debug -o ${{github.workspace}}/altalentDeploy
 
     - name: Upload artifact for deployment job
+      if: github.event_name == 'push'
       uses: actions/upload-artifact@v3
       with:
         name: .net-app
@@ -70,6 +72,7 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
+    if: github.event_name == 'push'
     environment:
       name: 'Debug'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
