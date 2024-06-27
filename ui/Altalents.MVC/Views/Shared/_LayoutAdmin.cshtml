@@ -25,8 +25,8 @@
                     <div class="col-4"><img src="~/Images/LOGO_ALTALENTS.png" /></div>
                     <div class="col-4"></div>
                 </div>
-                <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action("Index", UtilisateurController.ControllerName)">Gestion des comptes utilisateurs</a>
-                <a class="lienmenu" href="@Url.Action("Logout", AccountController.ControllerName)">Se deconnecter</a>
+                <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action("Index", UtilisateurController.ControllerName)">Gestion des comptes d’utilisateur</a>
+                <a class="lienmenu" href="@Url.Action("Logout", AccountController.ControllerName)">Se déconnecter</a>
                 @Html.Raw(JavaScriptSnippet.FullScript)
             </div>
         }

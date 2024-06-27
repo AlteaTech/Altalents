@@ -99,8 +99,18 @@ function openConfirmationDialog(actionSiConfirmation, actionSiNonConfirmation, i
   modelModaleDialog.actionSiNonConfirmation = actionSiNonConfirmation
 }
 
-function openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation) {
-  openConfirmationDialog(actionSiConfirmation, actionSiNonConfirmation, '#confirmationDialog', 'Suppression d\'un élément', "Etes-vous sûr(e) de vouloir supprimer cet élément ?")
+function openConfirmationSuppressionUtilisateurDialog(actionSiConfirmation, actionSiNonConfirmation) {
+  debugger;
+  openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, 'Supprimer un compte d’utilisateur', 'Etes-vous sûr(e) de vouloir supprimer le compte d’utilisateur');
+}
+function openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, deleteHeaderMessage, deleteQuestionMessage) {
+  if (!deleteHeaderMessage) {
+    deleteHeaderMessage = 'Suppression d\'un élément';
+  }
+  if (!deleteQuestionMessage) {
+    deleteQuestionMessage = 'Etes-vous sûr(e) de vouloir supprimer cet élément ?';
+  }
+  openConfirmationDialog(actionSiConfirmation, actionSiNonConfirmation, '#confirmationDialog', deleteHeaderMessage, deleteQuestionMessage)
 }
 
 function openConfirmationExportDialog(actionSiConfirmation, actionSiNonConfirmation) {

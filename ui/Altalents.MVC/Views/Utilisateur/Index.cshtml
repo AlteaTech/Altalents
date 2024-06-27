@@ -1,6 +1,6 @@
 @using Altalents.MVC.Controllers.Admin;
 @{
-    ViewData["Title"] = "Gestion des utilisateurs";
+    ViewData["Title"] = "Gestion des comptes d’utilisateur";
     Layout = "_LayoutAdmin";
     Dictionary<GridActionEnum, RouteActionModel> gridUtilisateurActionDictionary = new();
     gridUtilisateurActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetUtilisateurs", ControllerName = UtilisateurController.ControllerName });
@@ -43,12 +43,12 @@
         var functionOnConfirmation = function (callbackFinalize) {
             actionConfirmationSuppressionUtilisateur(e.model.Id, callbackFinalize);
         }
-        openConfirmationSuppressionDialog(functionOnConfirmation, actionNonConfirmationUtilisateur);
+        openConfirmationSuppressionUtilisateurDialog(functionOnConfirmation, actionNonConfirmationUtilisateur);
     }
 
 </script>
 
-<h2>Gestion des utilisateurs</h2>
+<h2>@ViewData["Title"]</h2>
 
 @(Html.Kendo().Grid<UtilisateurDto>()
     .Name("gridUtilisateur")
@@ -66,8 +66,8 @@
     .Sortable()
     .Filterable()
     .Scrollable()
-    .CreateDefautPagger()
-    .CreateDefautToolBar()
+    .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}")
+    .CreateDefautToolBar(creerTexte:"Créer un compte d’utilisateur")
     .CreateDefautDataSource(gridUtilisateurActionDictionary, model => model.Id(p => p.Id), "DateCreation")
     .CreateDefautPopUpEdit("AddOrUpdateUtilisateurPopUp", "OnPopUpOpenGridUtilisateur", "onSupprimerUtilisateurClick", actionOnCancel: "reloadGridUtilisateur")
 )
@@ -82,10 +82,10 @@
     function OnPopUpOpenGridUtilisateur(e) {
         let titleSpan = $('.k-window-title', $(e.container).parent());
         if (e.model.isNew()) {
-            titleSpan.text('Ajouter un utilisateur');
+            titleSpan.text('Créer un compte d’utilisateur');
             $(".forUpdateUtilisateur").remove();
         } else {
-            titleSpan.text('Modifier un utilisateur');
+            titleSpan.text('Modifier un compte d’utilisateur');
             $(".forCreateUtilisateur").remove();
         }
     }

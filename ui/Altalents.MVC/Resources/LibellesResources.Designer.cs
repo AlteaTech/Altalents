@@ -61,6 +61,15 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Action.
+        /// </summary>
+        public static string Action {
+            get {
+                return ResourceManager.GetString("Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Mauvaise combinaison Email/ mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site..
         /// </summary>
         public static string LoginFailed {
@@ -70,7 +79,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Email.
+        ///   Recherche une chaîne localisée semblable à E-mail.
         /// </summary>
         public static string LoginIdentifiant {
             get {
@@ -142,7 +151,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Telephone.
+        ///   Recherche une chaîne localisée semblable à Téléphone.
         /// </summary>
         public static string Telephone {
             get {
@@ -160,7 +169,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Adresse email.
+        ///   Recherche une chaîne localisée semblable à Adresse e-mail.
         /// </summary>
         public static string UtilisateurEmail {
             get {
@@ -187,7 +196,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Nom.
+        ///   Recherche une chaîne localisée semblable à Nom d’utilisateur.
         /// </summary>
         public static string UtilisateurNom {
             get {

@@ -117,12 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Mauvaise combinaison Email/ mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site.</value>
     <comment>Libelle LOGIN</comment>
   </data>
   <data name="LoginIdentifiant" xml:space="preserve">
-    <value>Email</value>
+    <value>E-mail</value>
     <comment>Libelle LOGIN</comment>
   </data>
   <data name="LoginMotDePasse" xml:space="preserve">
@@ -154,7 +157,7 @@
     <comment>Statut</comment>
   </data>
   <data name="Telephone" xml:space="preserve">
-    <value>Telephone</value>
+    <value>Téléphone</value>
     <comment>Telephone</comment>
   </data>
   <data name="TypeReferenceComboBoxPlaceholder" xml:space="preserve">
@@ -162,7 +165,7 @@
     <comment>Libelle REFERENCES</comment>
   </data>
   <data name="UtilisateurEmail" xml:space="preserve">
-    <value>Adresse email</value>
+    <value>Adresse e-mail</value>
     <comment>Libelle UTILISATEURS</comment>
   </data>
   <data name="UtilisateurLogin" xml:space="preserve">
@@ -174,7 +177,7 @@
     <comment>Libelle UTILISATEURS</comment>
   </data>
   <data name="UtilisateurNom" xml:space="preserve">
-    <value>Nom</value>
+    <value>Nom d’utilisateur</value>
     <comment>Libelle UTILISATEURS</comment>
   </data>
 </root>
