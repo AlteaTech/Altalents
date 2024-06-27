@@ -4,7 +4,7 @@ import { AccueilComponent } from './components/accueil/accueil.component';
 import { ConstantesRoutes } from './shared/constantes/constantes-routes';
 
 const routes: Routes = [
-  { path: `${ConstantesRoutes.accueilBaseUrl}:${ConstantesRoutes.accueilParamTokenDossierTechnique}`, component: AccueilComponent },
+  { path: `${ConstantesRoutes.accueilBaseUrl}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: AccueilComponent },
 ];
 
 @NgModule({

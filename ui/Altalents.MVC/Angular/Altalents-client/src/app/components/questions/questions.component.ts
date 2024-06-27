@@ -3,12 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 
 @Component({
-  selector: 'app-accueil',
-  templateUrl: './accueil.component.html'
+  selector: 'app-questions',
+  templateUrl: './questions.component.html'
 })
-export class AccueilComponent implements OnInit {
+export class QuestionsComponent implements OnInit {
   public tokenDossierTechnique: string = "";
-  public nomPrenomCandidat: string = "";
+  public questions: string = "";
 
   constructor(private route: ActivatedRoute) {
     
@@ -16,11 +16,11 @@ export class AccueilComponent implements OnInit {
   
   public ngOnInit(): void {
     this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.paramTokenDossierTechnique) ?? "";
-    this.loadNomPrenomCandidat();
+    this.loadData();
   }
 
-  private loadNomPrenomCandidat(): void {
-    // TODO : appeler le back pour avoir le nom prénom du candidat 
-    this.nomPrenomCandidat = "Mr. MOCK " + this.tokenDossierTechnique;
+  private loadData(): void {
+    // TODO : appeler le back pour avoir les infos
+    this.questions = "";
   }
 }
