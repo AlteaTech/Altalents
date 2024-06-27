@@ -160,6 +160,27 @@
     <value>Téléphone</value>
     <comment>Telephone</comment>
   </data>
+  <data name="TitreBiblioDT" xml:space="preserve">
+    <value>Bibliothèque de DT</value>
+  </data>
+  <data name="TitreDataControle" xml:space="preserve">
+    <value>Données à contrôler</value>
+  </data>
+  <data name="TitreGestionCompteUtilisateurs" xml:space="preserve">
+    <value>Gestion des comptes d’utilisateur</value>
+  </data>
+  <data name="TitreGestionDT" xml:space="preserve">
+    <value>Gestion des DT</value>
+  </data>
+  <data name="TitreIndicateurExtract" xml:space="preserve">
+    <value>Indicateurs et Extractions</value>
+  </data>
+  <data name="TitreTableauDeBord" xml:space="preserve">
+    <value>Tableau de bord</value>
+  </data>
+  <data name="TitreUpdateCandidat" xml:space="preserve">
+    <value>Modifier un candidat</value>
+  </data>
   <data name="TypeReferenceComboBoxPlaceholder" xml:space="preserve">
     <value>Sélectionner un type de mot-clé...</value>
     <comment>Libelle REFERENCES</comment>

@@ -10,6 +10,12 @@
 <partial name="_headerAdmin" />
 @{
     bool isUtilisateur = (bool?)ViewData["isUtilisateur"] ?? false;
+    bool isTableauDeBord = (bool?)ViewData["isTableauDeBord"] ?? false;
+    bool isGestionDt = (bool?)ViewData["isGestionDt"] ?? false;
+    bool isDataControle = (bool?)ViewData["isDataControle"] ?? false;
+    bool isIndicateurExtract = (bool?)ViewData["isIndicateurExtract"] ?? false;
+    bool isBiblioDT = (bool?)ViewData["isBiblioDT"] ?? false;
+    bool isUpdateCandidat = (bool?)ViewData["isUpdateCandidat"] ?? false;
 }
 <script type="text/javascript">
     kendo.culture("fr-FR");
@@ -25,8 +31,20 @@
                     <div class="col-4"><img src="~/Images/LOGO_ALTALENTS.png" /></div>
                     <div class="col-4"></div>
                 </div>
-                <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action("Index", UtilisateurController.ControllerName)">Gestion des comptes d’utilisateur</a>
-                <a class="lienmenu" href="@Url.Action("Logout", AccountController.ControllerName)">Se déconnecter</a>
+
+                <div class="row">
+                    <a class="lienmenu @(""+(isTableauDeBord ? "menuselected" : ""))" href="@Url.Action("Index", TableauDeBordController.ControllerName)">@LibellesResources.TitreTableauDeBord</a>
+                    <a class="lienmenu @(""+(isGestionDt ? "menuselected" : ""))" href="@Url.Action("Index", BiblioDtController.ControllerName)">@LibellesResources.TitreGestionDT</a>
+                    @if (isGestionDt)
+                    {
+                        <a class="liensousmenu @(""+(isBiblioDT ? "sousmenuselected" : ""))" href="@Url.Action("Index", BiblioDtController.ControllerName)">@LibellesResources.TitreBiblioDT</a>
+                        <a class="liensousmenu @(""+(isUpdateCandidat ? "sousmenuselected" : ""))" href="@Url.Action("Index", UpdateCandidatController.ControllerName)">@LibellesResources.TitreUpdateCandidat</a>
+                    }
+                    <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action("Index", UtilisateurController.ControllerName)">@LibellesResources.TitreGestionCompteUtilisateurs</a>
+                    <a class="lienmenu @(""+(isIndicateurExtract ? "menuselected" : ""))" href="@Url.Action("Index", IndicateurExtractController.ControllerName)">@LibellesResources.TitreIndicateurExtract</a>
+                    <a class="lienmenu @(""+(isDataControle ? "menuselected" : ""))" href="@Url.Action("Index", DataControleController.ControllerName)">@LibellesResources.TitreDataControle</a>
+                    <a class="lienmenu" href="@Url.Action("Logout", AccountController.ControllerName)">Se déconnecter</a>
+                </div>
                 @Html.Raw(JavaScriptSnippet.FullScript)
             </div>
         }

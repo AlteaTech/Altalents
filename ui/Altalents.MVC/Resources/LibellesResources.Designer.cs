@@ -160,6 +160,69 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Bibliothèque de DT.
+        /// </summary>
+        public static string TitreBiblioDT {
+            get {
+                return ResourceManager.GetString("TitreBiblioDT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Données à contrôler.
+        /// </summary>
+        public static string TitreDataControle {
+            get {
+                return ResourceManager.GetString("TitreDataControle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Gestion des comptes d’utilisateur.
+        /// </summary>
+        public static string TitreGestionCompteUtilisateurs {
+            get {
+                return ResourceManager.GetString("TitreGestionCompteUtilisateurs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Gestion des DT.
+        /// </summary>
+        public static string TitreGestionDT {
+            get {
+                return ResourceManager.GetString("TitreGestionDT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Indicateurs et Extractions.
+        /// </summary>
+        public static string TitreIndicateurExtract {
+            get {
+                return ResourceManager.GetString("TitreIndicateurExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Tableau de bord.
+        /// </summary>
+        public static string TitreTableauDeBord {
+            get {
+                return ResourceManager.GetString("TitreTableauDeBord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Modifier un candidat.
+        /// </summary>
+        public static string TitreUpdateCandidat {
+            get {
+                return ResourceManager.GetString("TitreUpdateCandidat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Sélectionner un type de mot-clé....
         /// </summary>
         public static string TypeReferenceComboBoxPlaceholder {

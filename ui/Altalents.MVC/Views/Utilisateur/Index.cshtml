@@ -1,6 +1,6 @@
 @using Altalents.MVC.Controllers.Admin;
 @{
-    ViewData["Title"] = "Gestion des comptes d’utilisateur";
+    ViewData["Title"] = LibellesResources.TitreGestionCompteUtilisateurs;
     Layout = "_LayoutAdmin";
     Dictionary<GridActionEnum, RouteActionModel> gridUtilisateurActionDictionary = new();
     gridUtilisateurActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetUtilisateurs", ControllerName = UtilisateurController.ControllerName });
