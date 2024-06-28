@@ -10,11 +10,13 @@ import { ExperiencesComponent } from './components/experiences/experiences.compo
 import { CompetencesComponent } from './components/competences/competences.component';
 import { QuestionsComponent } from './components/questions/questions.component';
 import { RecapitulatifComponent } from './components/recapitulatif/recapitulatif.component';
+import { FormContainerComponent } from './components/form-container/form-container.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AccueilComponent,
+    FormContainerComponent,
     DonneesLegalesComponent,
     FormationsComponent,
     ExperiencesComponent,

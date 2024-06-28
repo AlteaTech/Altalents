@@ -19,6 +19,10 @@ export class AccueilComponent implements OnInit {
     this.loadNomPrenomCandidat();
   }
 
+  public onDemarrerClick(): void {
+    document.location.href = `${ConstantesRoutes.dossierTechniqueBaseUrl}${this.tokenDossierTechnique}`
+  }
+
   private loadNomPrenomCandidat(): void {
     // TODO : appeler le back pour avoir le nom prénom du candidat 
     this.nomPrenomCandidat = "Mr. MOCK " + this.tokenDossierTechnique;
