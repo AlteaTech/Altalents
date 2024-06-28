@@ -2,8 +2,35 @@
 @{
     ViewData["Title"] = LibellesResources.TitreBiblioDT;
     Layout = "_LayoutAdmin";
+    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueActionDictionary = new();
+    gridDossierTechniqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetBiblioDts", ControllerName = BiblioDtController.ControllerName });
 }
 
 
 <h2>@ViewData["Title"]</h2>
 
+@(Html.Kendo().Grid<DossierTechniqueDto>()
+    .Name("gridDossierTechnique")
+    .HtmlAttributes(new { @class = "h-90" })
+    .Columns(columns =>
+    {
+        columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT);
+        columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
+        columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
+        columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
+        columns.Bound(p => p.PosteVoulu).Title(LibellesResources.PosteVoulu);
+        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
+        .ClientTemplate("#=formatDate(DateUpdate)#"); ;
+        columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
+    })
+    .Selectable()
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}")
+    .CreateDefautToolBar(withCreate: false, withSearch: false)
+    .CreateDefautDataSource(gridDossierTechniqueActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
+)
+<script>
+</script>

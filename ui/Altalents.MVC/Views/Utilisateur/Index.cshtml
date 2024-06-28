@@ -52,7 +52,7 @@
 
 @(Html.Kendo().Grid<UtilisateurDto>()
     .Name("gridUtilisateur")
-    .HtmlAttributes(new { @class = "cus-grid-height100p" })
+    .HtmlAttributes(new { @class = "h-90" })
     .Columns(columns =>
     {
         columns.Bound(p => p.Nom).Title(LibellesResources.UtilisateurNom);
@@ -60,7 +60,7 @@
         columns.Bound(p => p.Email).Title(LibellesResources.UtilisateurEmail);
         columns.Bound(p => p.Poste).Title(LibellesResources.Poste);
         columns.Bound(p => p.Statut).Title(LibellesResources.Statut);
-        columns.CreateDefaultCommands(nameof(UtilisateurDto));
+        columns.CreateDefaultCommands(nameof(UtilisateurDto)).Title(LibellesResources.Action);
     })
     .Events(e => e.DataBound("onDataBoundUtilisateurs"))
     .Sortable()

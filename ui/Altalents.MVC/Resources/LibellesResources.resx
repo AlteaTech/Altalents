@@ -120,6 +120,18 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Commercial" xml:space="preserve">
+    <value>Commercial</value>
+  </data>
+  <data name="DateUpdate" xml:space="preserve">
+    <value>Dernière modification</value>
+  </data>
+  <data name="IdBoond" xml:space="preserve">
+    <value>Identifiant Boond</value>
+  </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Mauvaise combinaison Email/ mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site.</value>
     <comment>Libelle LOGIN</comment>
@@ -148,9 +160,21 @@
     <value>Déconnexion</value>
     <comment>Libelle MENU</comment>
   </data>
+  <data name="NomCandidat" xml:space="preserve">
+    <value>Nom du candidat</value>
+  </data>
+  <data name="NumDT" xml:space="preserve">
+    <value>Numéro DT</value>
+  </data>
   <data name="Poste" xml:space="preserve">
     <value>Poste</value>
     <comment>Poste</comment>
+  </data>
+  <data name="PosteVoulu" xml:space="preserve">
+    <value>Poste souhaité</value>
+  </data>
+  <data name="PrenomCandidat" xml:space="preserve">
+    <value>Prenom du candidat</value>
   </data>
   <data name="Statut" xml:space="preserve">
     <value>Statut</value>
