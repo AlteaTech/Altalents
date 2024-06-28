@@ -1,2 +1,25 @@
-test
-
+<div>
+    <div class="row">
+        <div class="col-6">
+            <h1>{{titreStep}}</h1>
+        </div>
+        <div class="col-6">
+            <ol class="stepper">
+                <li  class="active" (click)="onStepClick(dossierTechniqueEnum.DonneesLegales)"></li>
+                <li (click)="onStepClick(dossierTechniqueEnum.Formations)"></li>
+                <li (click)="onStepClick(dossierTechniqueEnum.Experiences)"></li>
+                <li (click)="onStepClick(dossierTechniqueEnum.Competences)"></li>
+                <li (click)="onStepClick(dossierTechniqueEnum.Questions)"></li>
+                <li (click)="onStepClick(dossierTechniqueEnum.Recapitulatif)"></li>
+              </ol>
+        </div>
+    </div>
+    <div [ngSwitch]="currentStep">
+        <app-donnees-legales *ngSwitchCase="dossierTechniqueEnum.DonneesLegales" [tokenDossierTechnique]="tokenDossierTechnique"></app-donnees-legales>
+        <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations" [tokenDossierTechnique]="tokenDossierTechnique"></app-formations>
+        <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences" [tokenDossierTechnique]="tokenDossierTechnique"></app-experiences>
+        <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences" [tokenDossierTechnique]="tokenDossierTechnique"></app-competences>
+        <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions" [tokenDossierTechnique]="tokenDossierTechnique"></app-questions>
+        <app-recapitulatif *ngSwitchCase="dossierTechniqueEnum.Recapitulatif" [tokenDossierTechnique]="tokenDossierTechnique"></app-recapitulatif>
+    </div>
+</div>
