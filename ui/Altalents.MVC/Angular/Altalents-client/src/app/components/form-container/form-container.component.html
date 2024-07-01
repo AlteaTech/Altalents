@@ -21,7 +21,7 @@
         <app-recapitulatif *ngSwitchCase="dossierTechniqueEnum.Recapitulatif" [tokenDossierTechnique]="tokenDossierTechnique"></app-recapitulatif>
     </div>
     <div class="row">
-        <button (click)="onRetourClick()">Retour</button>
-        <button (click)="onSuivantClick()">Suivant</button>
+        <button (click)="onRetourClick()" *ngIf="currentStep != dossierTechniqueEnum.Recapitulatif">Retour</button>
+        <button (click)="onSuivantClick()">{{currentStep != dossierTechniqueEnum.Recapitulatif ? "Suivant" : "Terminer"}}</button>
     </div>
 </div>
