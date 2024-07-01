@@ -70,6 +70,42 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Actions.
+        /// </summary>
+        public static string Actions {
+            get {
+                return ResourceManager.GetString("Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Commercial.
+        /// </summary>
+        public static string Commercial {
+            get {
+                return ResourceManager.GetString("Commercial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Dernière modification.
+        /// </summary>
+        public static string DateUpdate {
+            get {
+                return ResourceManager.GetString("DateUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Identifiant Boond.
+        /// </summary>
+        public static string IdBoond {
+            get {
+                return ResourceManager.GetString("IdBoond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Mauvaise combinaison Email/ mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site..
         /// </summary>
         public static string LoginFailed {
@@ -133,11 +169,47 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Nom du candidat.
+        /// </summary>
+        public static string NomCandidat {
+            get {
+                return ResourceManager.GetString("NomCandidat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Numéro DT.
+        /// </summary>
+        public static string NumDT {
+            get {
+                return ResourceManager.GetString("NumDT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Poste.
         /// </summary>
         public static string Poste {
             get {
                 return ResourceManager.GetString("Poste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Poste souhaité.
+        /// </summary>
+        public static string PosteVoulu {
+            get {
+                return ResourceManager.GetString("PosteVoulu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Prenom du candidat.
+        /// </summary>
+        public static string PrenomCandidat {
+            get {
+                return ResourceManager.GetString("PrenomCandidat", resourceCulture);
             }
         }
         

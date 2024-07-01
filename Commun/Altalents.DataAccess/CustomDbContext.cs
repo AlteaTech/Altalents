@@ -25,5 +25,6 @@ namespace Altalents.DataAccess
 
         public virtual DbSet<Reference> References { get; set; }
         public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
+        public virtual DbSet<DossierTechnique> DossierTechniques { get; set; }
     }
 }

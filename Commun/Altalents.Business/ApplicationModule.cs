@@ -13,6 +13,7 @@ namespace Altalents.Business
             services.AddInfrastructure(connectionString, apiExternesRoutes);
             services.AddAutoMapper(typeof(ApplicationModule));
             services.AddScoped<IUtilisateurService, UtilisateurService>();
+            services.AddScoped<IDossierTechniqueService, DossierTechniqueService>();
             services.AddScoped<IJobService, JobService>();
 
             services.AddScoped<IUserStore<Utilisateur>, UtilisateurService>();
