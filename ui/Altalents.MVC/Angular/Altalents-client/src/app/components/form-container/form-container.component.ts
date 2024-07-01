@@ -24,7 +24,7 @@ export class FormContainerComponent implements OnInit {
     this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.paramTokenDossierTechnique) ?? "";
 
     // Les enums sont gérés bizarrement en Angular, on ne peut pas simplement boucler dessus (valeurs en double). 
-    // On récupère les keys de chaque valeur de l'enum pour pouvoir boucler dessus pour afficher le stepper. 
+    // On récupère les keys de chaque valeur de l'enum pour pouvoir boucler dessus pour afficher le stepper dynamiquement. 
     this.steps = Object.keys(this.dossierTechniqueEnum).filter(f => !isNaN(Number(f))).map(k => parseInt(k));
   }
 
@@ -33,9 +33,22 @@ export class FormContainerComponent implements OnInit {
     this.changeStep();
   }
 
-  public stepSuivant(): void {
-    this.currentStep += 1;
-    this.changeStep();
+  public onRetourClick(): void {
+    if(this.currentStep == 0){
+      document.location.href = `${ConstantesRoutes.accueilBaseUrl}${this.tokenDossierTechnique}`
+    } else {
+      this.currentStep -= 1;
+      this.changeStep();
+    }
+  }
+
+  public onSuivantClick(): void {
+    if(this.currentStep == this.steps.length - 1){
+      document.location.href = `${ConstantesRoutes.finBaseUrl}${this.tokenDossierTechnique}`
+    } else {
+      this.currentStep += 1;
+      this.changeStep();
+    }
   }
 
   private changeStep(): void {

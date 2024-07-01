@@ -11,6 +11,7 @@ import { CompetencesComponent } from './components/competences/competences.compo
 import { QuestionsComponent } from './components/questions/questions.component';
 import { RecapitulatifComponent } from './components/recapitulatif/recapitulatif.component';
 import { FormContainerComponent } from './components/form-container/form-container.component';
+import { FinComponent } from './components/fin/fin.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FormContainerComponent } from './components/form-container/form-contain
     ExperiencesComponent,
     CompetencesComponent,
     QuestionsComponent,
-    RecapitulatifComponent
+    RecapitulatifComponent,
+    FinComponent
   ],
   imports: [
     BrowserModule,

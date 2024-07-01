@@ -20,4 +20,8 @@
         <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions" [tokenDossierTechnique]="tokenDossierTechnique"></app-questions>
         <app-recapitulatif *ngSwitchCase="dossierTechniqueEnum.Recapitulatif" [tokenDossierTechnique]="tokenDossierTechnique"></app-recapitulatif>
     </div>
+    <div class="row">
+        <button (click)="onRetourClick()">Retour</button>
+        <button (click)="onSuivantClick()">Suivant</button>
+    </div>
 </div>
