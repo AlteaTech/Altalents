@@ -1,1 +1,35 @@
-<h1>Parlons de vous</h1>
+<div>
+    C'est parti, pour la première étape nous allons avoir besoin de recueillir vos infos personnelles histoire de tout revendre à Zukerberg. Je plaisante, ces informations ne seront évidemment partagées à personne, comme nos meilleures vannes d'ailleurs.
+</div>
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-6">
+            <fieldset>
+                <legend>Informations personnelles</legend>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="prenom">Prénom<span class="champ-obligatoire">*</span></label>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" formControlName="prenom" placeholder="Julien">
+                    </div>                    
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-6">
+            <fieldset>
+                <legend>Coordonnées de contact</legend>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <fieldset>
+                <legend>Adresse</legend>
+            </fieldset>
+        </div>
+        <div class="col-6">
+
+        </div>
+    </div>
+</form>

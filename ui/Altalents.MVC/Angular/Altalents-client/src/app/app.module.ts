@@ -12,6 +12,7 @@ import { QuestionsComponent } from './components/questions/questions.component';
 import { RecapitulatifComponent } from './components/recapitulatif/recapitulatif.component';
 import { FormContainerComponent } from './components/form-container/form-container.component';
 import { FinComponent } from './components/fin/fin.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,8 @@ import { FinComponent } from './components/fin/fin.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
