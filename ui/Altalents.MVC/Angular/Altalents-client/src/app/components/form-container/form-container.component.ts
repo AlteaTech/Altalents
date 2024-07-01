@@ -12,8 +12,9 @@ import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-ste
 export class FormContainerComponent implements OnInit {
   public tokenDossierTechnique: string = "";
   public dossierTechniqueEnum = DossierTechniqueEnum;
-  public currentStep = DossierTechniqueEnum.DonneesLegales;
-  public titreStep = ConstantesTitresSteps.donneesLegales;
+  public currentStep: DossierTechniqueEnum = DossierTechniqueEnum.DonneesLegales;
+  public titreStep: string = ConstantesTitresSteps.donneesLegales;
+  public steps: number[] = [];
 
   constructor(private route: ActivatedRoute) {
     
@@ -21,6 +22,10 @@ export class FormContainerComponent implements OnInit {
   
   public ngOnInit(): void {
     this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.paramTokenDossierTechnique) ?? "";
+
+    // Les enums sont gérés bizarrement en Angular, on ne peut pas simplement boucler dessus (valeurs en double). 
+    // On récupère les keys de chaque valeur de l'enum pour pouvoir boucler dessus pour afficher le stepper. 
+    this.steps = Object.keys(this.dossierTechniqueEnum).filter(f => !isNaN(Number(f))).map(k => parseInt(k));
   }
 
   public onStepClick(stepSelected: DossierTechniqueEnum): void {
@@ -33,7 +38,7 @@ export class FormContainerComponent implements OnInit {
     this.changeStep();
   }
 
-  private changeStep() {
+  private changeStep(): void {
     switch (this.currentStep) {
       case DossierTechniqueEnum.DonneesLegales:
         this.titreStep = ConstantesTitresSteps.donneesLegales;
