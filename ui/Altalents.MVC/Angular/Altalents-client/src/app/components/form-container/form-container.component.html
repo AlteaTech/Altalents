@@ -1,0 +1,27 @@
+<div>
+    <div class="row">
+        <div class="col-6">
+            <h1>{{titreStep}}</h1>
+        </div>
+        <div class="col-6">
+            <ol class="stepper">
+                <li *ngFor="let step of steps"
+                    [ngClass]="{'active' : currentStep == step}" 
+                    (click)="onStepClick(step)">
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div [ngSwitch]="currentStep">
+        <app-donnees-legales *ngSwitchCase="dossierTechniqueEnum.DonneesLegales" [tokenDossierTechnique]="tokenDossierTechnique"></app-donnees-legales>
+        <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations" [tokenDossierTechnique]="tokenDossierTechnique"></app-formations>
+        <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences" [tokenDossierTechnique]="tokenDossierTechnique"></app-experiences>
+        <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences" [tokenDossierTechnique]="tokenDossierTechnique"></app-competences>
+        <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions" [tokenDossierTechnique]="tokenDossierTechnique"></app-questions>
+        <app-recapitulatif *ngSwitchCase="dossierTechniqueEnum.Recapitulatif" [tokenDossierTechnique]="tokenDossierTechnique"></app-recapitulatif>
+    </div>
+    <div class="row">
+        <button (click)="onRetourClick()" *ngIf="currentStep != dossierTechniqueEnum.Recapitulatif">Retour</button>
+        <button (click)="onSuivantClick()">{{currentStep != dossierTechniqueEnum.Recapitulatif ? "Suivant" : "Terminer"}}</button>
+    </div>
+</div>

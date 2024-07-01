@@ -15,8 +15,12 @@ export class AccueilComponent implements OnInit {
   }
   
   public ngOnInit(): void {
-    this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.accueilParamTokenDossierTechnique) ?? "";
+    this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.paramTokenDossierTechnique) ?? "";
     this.loadNomPrenomCandidat();
+  }
+
+  public onDemarrerClick(): void {
+    document.location.href = `${ConstantesRoutes.dossierTechniqueBaseUrl}${this.tokenDossierTechnique}`
   }
 
   private loadNomPrenomCandidat(): void {
