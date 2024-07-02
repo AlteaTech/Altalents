@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTitresSteps } from 'src/app/shared/constantes/constantes-titres-steps';
 import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-step.enum';
@@ -15,6 +16,7 @@ export class FormContainerComponent implements OnInit {
   public currentStep: DossierTechniqueEnum = DossierTechniqueEnum.DonneesLegales;
   public titreStep: string = ConstantesTitresSteps.donneesLegales;
   public steps: number[] = [];
+  public validationCallBack: (() => Promise<boolean>) | undefined;
 
   constructor(private route: ActivatedRoute) {
     
@@ -43,12 +45,25 @@ export class FormContainerComponent implements OnInit {
   }
 
   public onSuivantClick(): void {
-    if(this.currentStep == this.steps.length - 1){
-      document.location.href = `${ConstantesRoutes.finBaseUrl}${this.tokenDossierTechnique}`
-    } else {
-      this.currentStep += 1;
-      this.changeStep();
+    if(this.validationCallBack){
+      this.validationCallBack().then((isValid: boolean) => {
+        if(!isValid){
+          return;
+        }
+        
+        this.validationCallBack = undefined;
+        if(this.currentStep == this.steps.length - 1){
+          document.location.href = `${ConstantesRoutes.finBaseUrl}${this.tokenDossierTechnique}`
+        } else {
+          this.currentStep += 1;
+          this.changeStep();
+        }
+      })
     }
+  }
+
+  public onValidationCallbackChange(callback: () => Promise<boolean>): void {
+    this.validationCallBack = callback;
   }
 
   private changeStep(): void {
