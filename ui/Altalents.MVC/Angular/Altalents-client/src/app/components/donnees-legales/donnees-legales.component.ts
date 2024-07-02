@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { DonneesLegalesForm } from 'src/app/shared/interfaces/donnees-legales-form';
 
 @Component({
@@ -8,6 +9,8 @@ import { DonneesLegalesForm } from 'src/app/shared/interfaces/donnees-legales-fo
 })
 export class DonneesLegalesComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
+  @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
+
   public donneesLegales: string = "";
   public formGroup: FormGroup<DonneesLegalesForm>;
 
@@ -27,7 +30,19 @@ export class DonneesLegalesComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.validationCallback.emit(() => this.submit());
     this.loadData();
+  }
+
+  private submit(): Promise<boolean> {
+    let isValid: boolean = false;
+
+    if(this.formGroup.valid){
+// Appeler la route de save
+      isValid = true;
+    }
+
+    return new Promise<boolean>(resolve => resolve(isValid));
   }
 
   private loadData(): void {
