@@ -17,7 +17,7 @@ export class FormationsComponent implements OnInit {
   }
 
   public onAddFormationClick(): void {
-    this.formationDialog.open();
+    this.formationDialog.openDialog();
   }
 
   private loadData(): void {

@@ -9,7 +9,7 @@ import { FormationForm } from 'src/app/shared/interfaces/formation-form';
 })
 export class FormationDialogComponent implements OnInit {
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
-  @ViewChild('dialog', { static: false }) myModal!: ElementRef<HTMLDialogElement>;
+  @ViewChild('dialog', { static: false }) dialog!: ElementRef<HTMLDialogElement>;
   
   public formGroup: FormGroup<FormationForm>;
 
@@ -28,8 +28,12 @@ export class FormationDialogComponent implements OnInit {
     this.validationCallback.emit(() => this.submit());
   }
 
-  public open(): void {
-    this.myModal.nativeElement.show();
+  public openDialog(): void {
+    this.dialog.nativeElement.show();
+  }
+
+  public closeDialog(): void {
+    this.dialog.nativeElement.close();
   }
 
   private submit(): Promise<boolean> {
