@@ -1,10 +1,10 @@
 import { FormControl } from "@angular/forms";
 
 export interface FormationForm {
-    formation: FormControl<string | null>,
-    domaine: FormControl<string | null>,
-    niveau: FormControl<string | null>,
-    organisme: FormControl<string | null>,
-    dateDebut: FormControl<string | null>,
-    dateFin: FormControl<string | null>
+    formationLibelle: FormControl<string | undefined>,
+    domaine: FormControl<string | undefined>,
+    niveau: FormControl<string | undefined>,
+    organisme: FormControl<string | undefined>,
+    dateDebut: FormControl<string | undefined>,
+    dateFin: FormControl<string | undefined>
 }
