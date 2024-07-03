@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { DonneesLegalesForm } from 'src/app/shared/interfaces/donnees-legales-form';
 
 @Component({

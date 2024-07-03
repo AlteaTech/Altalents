@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { FormationDialogComponent } from '../dialogs/formation-dialog/formation-dialog.component';
 
 @Component({
   selector: 'app-formations',
@@ -6,10 +7,17 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class FormationsComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
+  @ViewChild('formationDialog') formationDialog!: FormationDialogComponent;
+  
+  public isFormationDialogOpen: boolean = false;
   public formations: string = "";
   
   public ngOnInit(): void {
     this.loadData();
+  }
+
+  public onAddFormationClick(): void {
+    this.formationDialog.open();
   }
 
   private loadData(): void {

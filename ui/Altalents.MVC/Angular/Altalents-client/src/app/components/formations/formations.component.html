@@ -3,7 +3,7 @@
 </div>
 <fieldset>
     <legend>Formation</legend>
-    <button>Ajouter une formation</button>
+    <button (click)="onAddFormationClick()">Ajouter une formation</button>
 </fieldset>
 <fieldset>
     <legend>Certifications</legend>
@@ -13,3 +13,5 @@
     <legend>Langues parlées</legend>
     <button>Ajouter une langue</button>
 </fieldset>
+
+<app-formation-dialog #formationDialog></app-formation-dialog>

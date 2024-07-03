@@ -13,6 +13,7 @@ import { RecapitulatifComponent } from './components/recapitulatif/recapitulatif
 import { FormContainerComponent } from './components/form-container/form-container.component';
 import { FinComponent } from './components/fin/fin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormationDialogComponent } from './components/dialogs/formation-dialog/formation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CompetencesComponent,
     QuestionsComponent,
     RecapitulatifComponent,
-    FinComponent
+    FinComponent,
+    FormationDialogComponent
   ],
   imports: [
     BrowserModule,
