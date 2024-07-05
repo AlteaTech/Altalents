@@ -15,9 +15,9 @@ namespace Altalents.Business.Services
                                          .ProjectTo<DossierTechniqueDto>(Mapper.ConfigurationProvider);
         }
 
-        public IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EnumEtatFiltreDt etat)
+        public IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat)
         {
-            if(etat == EnumEtatFiltreDt.InProgress)
+            if(etat == EtatFiltreDtEnum.InProgress)
             {
                 return DbContext.DossierTechniques
                     .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)

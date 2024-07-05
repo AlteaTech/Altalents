@@ -1,6 +1,6 @@
-namespace Altalents.IBusiness.DTO
+﻿namespace Altalents.IBusiness.DTO
 {
-    public class DossierTechniqueDto
+    public class DossierTechniqueEnCoursDto
     {
         [Required]
         public Guid Id { get; set; }
@@ -11,5 +11,7 @@ namespace Altalents.IBusiness.DTO
         public string PosteVoulu { get; set; }
         public DateTime DateUpdate { get; set; }
         public string Commercial { get; set; }
+        public string Statut { get; set; }
+        public string StatutCode { get; set; }
     }
 }

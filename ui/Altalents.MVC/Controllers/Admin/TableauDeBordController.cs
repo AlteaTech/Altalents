@@ -25,16 +25,17 @@ namespace Altalents.MVC.Controllers.Admin
             return View();
         }
 
-        public async Task<IActionResult> GetDtsEnCoursLimitedReal([DataSourceRequest] DataSourceRequest request)
+        public async Task<IActionResult> GetDtsEnCoursLimitedRealAsync([DataSourceRequest] DataSourceRequest request)
         {
-            return await this.CallWithActionSecurisedAsync(request, GetDtsEnCoursLimitedRunnerAsync(request, EnumEtatFiltreDt.InProgress));
-        }
-        public async Task<IActionResult> GetDtsAControllerLimitedReal([DataSourceRequest] DataSourceRequest request)
-        {
-            return await this.CallWithActionSecurisedAsync(request, GetDtsEnCoursLimitedRunnerAsync(request, EnumEtatFiltreDt.AController));
+            return await this.CallWithActionSecurisedAsync(request, GetDtsEnCoursLimitedRunnerAsync(request, EtatFiltreDtEnum.InProgress));
         }
 
-        private async Task<IActionResult> GetDtsEnCoursLimitedRunnerAsync(DataSourceRequest request, EnumEtatFiltreDt etat)
+        public async Task<IActionResult> GetDtsAControllerLimitedRealAsync([DataSourceRequest] DataSourceRequest request)
+        {
+            return await this.CallWithActionSecurisedAsync(request, GetDtsEnCoursLimitedRunnerAsync(request, EtatFiltreDtEnum.AController));
+        }
+
+        private async Task<IActionResult> GetDtsEnCoursLimitedRunnerAsync(DataSourceRequest request, EtatFiltreDtEnum etat)
         {
             DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetDtsEnCours(etat).Take(6).ToDataSourceResultAsync(request);
             return base.Json(bibliothequeDossierTechniques);
