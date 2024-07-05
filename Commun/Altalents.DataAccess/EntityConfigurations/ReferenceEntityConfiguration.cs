@@ -509,7 +509,18 @@ namespace Altalents.DataAccess.EntityConfigurations
                     Code= Commun.Enums.CodeReferenceEnum.Cree.ToString("g"),
                     Id = Guid.Parse("{5f92b7d6-4ddf-4ec5-965b-9824387afa57}"),
                     DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
+                    UtiCrea= "ALTEA",
+                    IsValide=true,
+                    Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+                    OrdreTri = 1
+                },
+                new Reference(){
+                    Libelle = "Inactif",
+                    Code= Commun.Enums.CodeReferenceEnum.Inactif.ToString("g"),
+                    Id = Guid.Parse("{C09DB97A-1547-41C1-AFA9-428DD1D5BA55}"),
+                    DateCrea = new DateTime(2024,6,18),
+                    UtiCrea= "ALTEA",
+                    IsValide=true,
                     Type = Commun.Enums.TypeReferenceEnum.StatutDt,
                     OrdreTri = 1
                 },
@@ -518,7 +529,8 @@ namespace Altalents.DataAccess.EntityConfigurations
                     Code= Commun.Enums.CodeReferenceEnum.EnCours.ToString("g"),
                     Id = Guid.Parse("{5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5}"),
                     DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
+                    UtiCrea= "ALTEA",
+                    IsValide=true,
                     Type = Commun.Enums.TypeReferenceEnum.StatutDt,
                     OrdreTri = 2
                 },
@@ -527,7 +539,8 @@ namespace Altalents.DataAccess.EntityConfigurations
                     Code= Commun.Enums.CodeReferenceEnum.NonValide.ToString("g"),
                     Id = Guid.Parse("{610f6ca4-0f22-44ec-9269-f744873b92f2}"),
                     DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
+                    UtiCrea= "ALTEA",
+                    IsValide=true,
                     Type = Commun.Enums.TypeReferenceEnum.StatutDt,
                     OrdreTri = 3
                 },
@@ -536,7 +549,8 @@ namespace Altalents.DataAccess.EntityConfigurations
                     Code= Commun.Enums.CodeReferenceEnum.Valide.ToString("g"),
                     Id = Guid.Parse("{78a3cb44-9fd3-4c6c-9848-677937324ecd}"),
                     DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
+                    UtiCrea= "ALTEA",
+                    IsValide=true,
                     Type = Commun.Enums.TypeReferenceEnum.StatutDt,
                     OrdreTri = 4
                 },
@@ -545,7 +559,8 @@ namespace Altalents.DataAccess.EntityConfigurations
                     Code= Commun.Enums.CodeReferenceEnum.AModifier.ToString("g"),
                     Id = Guid.Parse("{02e3d3ee-f745-4bf1-a00d-61e640dac8ae}"),
                     DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
+                    UtiCrea= "ALTEA",
+                    IsValide=true,
                     Type = Commun.Enums.TypeReferenceEnum.StatutDt,
                     OrdreTri = 5
                 },

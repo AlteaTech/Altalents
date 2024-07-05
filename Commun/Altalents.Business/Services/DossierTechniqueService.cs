@@ -1,4 +1,6 @@
 
+using Altalents.Commun.Enums;
+
 namespace Altalents.Business.Services
 {
     public class DossierTechniqueService : BaseAppService<CustomDbContext>, IDossierTechniqueService
@@ -11,6 +13,22 @@ namespace Altalents.Business.Services
         {
             return DbContext.DossierTechniques
                                          .ProjectTo<DossierTechniqueDto>(Mapper.ConfigurationProvider);
+        }
+
+        public IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EnumEtatFiltreDt etat)
+        {
+            if(etat == EnumEtatFiltreDt.InProgress)
+            {
+                return DbContext.DossierTechniques
+                    .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
+                    .Where(x => x.Statut.Code == CodeReferenceEnum.EnCours.ToString("g") || x.Statut.Code == CodeReferenceEnum.Inactif.ToString("g"))
+                                             .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
+            }
+
+            return DbContext.DossierTechniques
+                    .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
+                    .Where(x => x.Statut.Code == CodeReferenceEnum.AModifier.ToString("g") || x.Statut.Code == CodeReferenceEnum.NonValide.ToString("g") || x.Statut.Code == CodeReferenceEnum.Valide.ToString("g"))
+                                         .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
         }
     }
 }

@@ -40,6 +40,18 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.PosteVoulu, opt => opt.MapFrom(src => src.Poste))
                 .ForMember(dest => dest.DateUpdate, opt => opt.MapFrom(src => src.DateMaj))
                 .ForMember(dest => dest.Commercial, opt => opt.MapFrom(src => src.Commercial));
+
+            CreateMap<DossierTechnique, DossierTechniqueEnCoursDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.NumeroDt, opt => opt.MapFrom(src => src.Numero))
+                .ForMember(dest => dest.IdBoond, opt => opt.MapFrom(src => src.Personne.BoondId))
+                .ForMember(dest => dest.NomCandidat, opt => opt.MapFrom(src => src.Personne.Nom))
+                .ForMember(dest => dest.PrenomCandidat, opt => opt.MapFrom(src => src.Personne.Prenom))
+                .ForMember(dest => dest.PosteVoulu, opt => opt.MapFrom(src => src.Poste))
+                .ForMember(dest => dest.DateUpdate, opt => opt.MapFrom(src => src.DateMaj))
+                .ForMember(dest => dest.Statut, opt => opt.MapFrom(src => src.Statut.Libelle))
+                .ForMember(dest => dest.StatutCode, opt => opt.MapFrom(src => src.Statut.Code))
+                .ForMember(dest => dest.Commercial, opt => opt.MapFrom(src => src.Commercial));
         }
     }
 }

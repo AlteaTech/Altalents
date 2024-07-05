@@ -2,8 +2,62 @@
 @{
     ViewData["Title"] = LibellesResources.TitreTableauDeBord;
     Layout = "_LayoutAdmin";
+
+    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueEnCoursActionDictionary = new();
+    gridDossierTechniqueEnCoursActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetDtsEnCoursLimitedReal", ControllerName = TableauDeBordController.ControllerName });
+    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueAControllerActionDictionary = new();
+    gridDossierTechniqueAControllerActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetDtsAControllerLimitedReal", ControllerName = TableauDeBordController.ControllerName });
 }
 
 
 <h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-10"></div>
+    <div class="col-2"><a href="" class="btn-link"> <i class="fa-solid fa-plus"></i> Créer un DT</a></div>
+</div>
 
+<div class="at-sub-title">Liste des DT en cours de réalisation <a href="" class="at-link">Voir tout ></a></div>
+
+
+@(Html.Kendo().Grid<DossierTechniqueEnCoursDto>()
+    .Name("gridDossierTechniqueEnCoursLimitedDto")
+    .HtmlAttributes(new { @class = "h-40" })
+    .Columns(columns =>
+    {
+        columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT);
+        columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
+        columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
+        columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
+        columns.Bound(p => p.PosteVoulu).Title(LibellesResources.PosteVoulu);
+        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
+                        .ClientTemplate("#=formatDate(DateUpdate)#");
+        columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut);
+    })
+    .CreateDefautToolBar(withCreate: false, withSearch: false)
+    .CreateDefautDataSource(gridDossierTechniqueEnCoursActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
+)
+
+<div class="at-sub-title">Liste des DT en cours à contrôler <a href="" class="at-link">Voir tout ></a></div>
+
+
+@(Html.Kendo().Grid<DossierTechniqueEnCoursDto>()
+    .Name("gridDossierTechniqueAController")
+    .HtmlAttributes(new { @class = "h-40" })
+    .Columns(columns =>
+    {
+        columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT);
+        columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
+        columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
+        columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
+        columns.Bound(p => p.PosteVoulu).Title(LibellesResources.PosteVoulu);
+        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
+                        .ClientTemplate("#=formatDate(DateUpdate)#");
+        columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut);
+    })
+    .CreateDefautToolBar(withCreate: false, withSearch: false)
+    .CreateDefautDataSource(gridDossierTechniqueAControllerActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
+) 
