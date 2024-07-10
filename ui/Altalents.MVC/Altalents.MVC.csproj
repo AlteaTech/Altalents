@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\Images\BULLE.png" />
     <Content Include="wwwroot\Images\ILLUSTRATION_STABILO.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
