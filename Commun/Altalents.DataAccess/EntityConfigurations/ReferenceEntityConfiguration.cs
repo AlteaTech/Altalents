@@ -425,148 +425,159 @@ namespace Altalents.DataAccess.EntityConfigurations
                     Type = Commun.Enums.TypeReferenceEnum.Langue
                 },
                 #endregion
-                #region Disponibilite
-                new Reference(){
-                    Libelle = "Immédiate",
-                    Code= Commun.Enums.CodeReferenceEnum.Immediate.ToString("g"),
-                    Id = Guid.Parse("{8f486cd6-6313-47f9-a4b5-5bd535c199a9}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
-                    OrdreTri = 1
-                },
-                new Reference(){
-                    Libelle = "Sous un mois",
-                    Code= Commun.Enums.CodeReferenceEnum.SousUnMois.ToString("g"),
-                    Id = Guid.Parse("{92dfd90f-79b4-4d5e-93e6-fb7046b3416a}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
-                    OrdreTri = 2
-                },
-                new Reference(){
-                    Libelle = "Sous trois mois",
-                    Code= Commun.Enums.CodeReferenceEnum.SousTroisMois.ToString("g"),
-                    Id = Guid.Parse("{f35745ef-66d0-4cb0-9657-b57c2f149e3f}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
-                    OrdreTri = 3
-                },
-                #endregion
-                #region Contact
-                new Reference(){
-                    Libelle = "Telephone",
-                    Code= Commun.Enums.CodeReferenceEnum.Telephone.ToString("g"),
-                    Id = Guid.Parse(IdsConstantes.ContactTelephoneId),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Contact,
-                    OrdreTri = 1
-                },
-                #endregion
-                #region Document
-                new Reference(){
-                    Libelle = "Cv",
-                    Code= Commun.Enums.CodeReferenceEnum.Cv.ToString("g"),
-                    Id = Guid.Parse("{B3E98178-68DD-4DE3-9E36-A2ED571F21C5}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Document,
-                    OrdreTri = 1
-                },
-                new Reference(){
-                    Libelle = "Dt",
-                    Code= Commun.Enums.CodeReferenceEnum.Dt.ToString("g"),
-                    Id = Guid.Parse("{3A325813-E79D-445A-8953-B665C7581901}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Document,
-                    OrdreTri = 1
-                },
-                #endregion
-                #region Contrat
-                new Reference(){
-                    Libelle = "CDI",
-                    Code= Commun.Enums.CodeReferenceEnum.Cdi.ToString("g"),
-                    Id = Guid.Parse("{A60B074D-B4AF-4157-AB49-453E28DA8514}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Contrat,
-                    OrdreTri = 1
-                },
-                new Reference(){
-                    Libelle = "CDD",
-                    Code= Commun.Enums.CodeReferenceEnum.Cdd.ToString("g"),
-                    Id = Guid.Parse("{4C573CDA-FC0C-42FA-B571-7829F26149CC}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Contrat,
-                    OrdreTri = 2
-                },
-                #endregion
-                #region Statut
-                new Reference(){
-                    Libelle = "Créé",
-                    Code= Commun.Enums.CodeReferenceEnum.Cree.ToString("g"),
-                    Id = Guid.Parse("{5f92b7d6-4ddf-4ec5-965b-9824387afa57}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",
-                    IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                    OrdreTri = 1
-                },
-                new Reference(){
-                    Libelle = "Inactif",
-                    Code= Commun.Enums.CodeReferenceEnum.Inactif.ToString("g"),
-                    Id = Guid.Parse("{C09DB97A-1547-41C1-AFA9-428DD1D5BA55}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",
-                    IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                    OrdreTri = 1
-                },
-                new Reference(){
-                    Libelle = "En Cours",
-                    Code= Commun.Enums.CodeReferenceEnum.EnCours.ToString("g"),
-                    Id = Guid.Parse("{5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",
-                    IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                    OrdreTri = 2
-                },
-                new Reference(){
-                    Libelle = "Non valide",
-                    Code= Commun.Enums.CodeReferenceEnum.NonValide.ToString("g"),
-                    Id = Guid.Parse("{610f6ca4-0f22-44ec-9269-f744873b92f2}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",
-                    IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                    OrdreTri = 3
-                },
-                new Reference(){
-                    Libelle = "Valide",
-                    Code= Commun.Enums.CodeReferenceEnum.Valide.ToString("g"),
-                    Id = Guid.Parse("{78a3cb44-9fd3-4c6c-9848-677937324ecd}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",
-                    IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                    OrdreTri = 4
-                },
-                new Reference(){
-                    Libelle = "A Modifier",
-                    Code= Commun.Enums.CodeReferenceEnum.AModifier.ToString("g"),
-                    Id = Guid.Parse("{02e3d3ee-f745-4bf1-a00d-61e640dac8ae}"),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",
-                    IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                    OrdreTri = 5
-                },
-               #endregion
+            #region Disponibilite
+            new Reference(){
+                Libelle = "Immédiate",
+                Code= Commun.Enums.CodeReferenceEnum.Immediate.ToString("g"),
+                Id = Guid.Parse("{8f486cd6-6313-47f9-a4b5-5bd535c199a9}"),
+                DateCrea = new DateTime(2024,6,17),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+                OrdreTri = 1
+            },
+            new Reference(){
+                Libelle = "Sous un mois",
+                Code= Commun.Enums.CodeReferenceEnum.SousUnMois.ToString("g"),
+                Id = Guid.Parse("{92dfd90f-79b4-4d5e-93e6-fb7046b3416a}"),
+                DateCrea = new DateTime(2024,6,17),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+                OrdreTri = 2
+            },
+            new Reference(){
+                Libelle = "Sous trois mois",
+                Code= Commun.Enums.CodeReferenceEnum.SousTroisMois.ToString("g"),
+                Id = Guid.Parse("{f35745ef-66d0-4cb0-9657-b57c2f149e3f}"),
+                DateCrea = new DateTime(2024,6,17),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+                OrdreTri = 3
+            },
+            #endregion
+            #region Contact
+            new Reference(){
+                Libelle = "Telephone",
+                Code= Commun.Enums.CodeReferenceEnum.Telephone.ToString("g"),
+                Id = Guid.Parse(IdsConstantes.ContactTelephoneId),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Contact,
+                OrdreTri = 1
+            },
+            #endregion
+            #region Document
+            new Reference(){
+                Libelle = "Cv",
+                Code= Commun.Enums.CodeReferenceEnum.Cv.ToString("g"),
+                Id = Guid.Parse("{B3E98178-68DD-4DE3-9E36-A2ED571F21C5}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Document,
+                OrdreTri = 1
+            },
+            new Reference(){
+                Libelle = "Dt",
+                Code= Commun.Enums.CodeReferenceEnum.Dt.ToString("g"),
+                Id = Guid.Parse("{3A325813-E79D-445A-8953-B665C7581901}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Document,
+                OrdreTri = 1
+            },
+            #endregion
+            #region Contrat
+            new Reference(){
+                Libelle = "CDI",
+                Code= Commun.Enums.CodeReferenceEnum.Cdi.ToString("g"),
+                Id = Guid.Parse("{A60B074D-B4AF-4157-AB49-453E28DA8514}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Contrat,
+                OrdreTri = 1
+            },
+            new Reference(){
+                Libelle = "CDD",
+                Code= Commun.Enums.CodeReferenceEnum.Cdd.ToString("g"),
+                Id = Guid.Parse("{4C573CDA-FC0C-42FA-B571-7829F26149CC}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Contrat,
+                OrdreTri = 2
+            },
+            #endregion
+            #region Statut
+            new Reference(){
+                Libelle = "Créé",
+                Code= Commun.Enums.CodeReferenceEnum.Cree.ToString("g"),
+                Id = Guid.Parse(IdsConstantes.StatutDtCreeId),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+                OrdreTri = 1
+            },
+            new Reference(){
+                Libelle = "Inactif",
+                Code= Commun.Enums.CodeReferenceEnum.Inactif.ToString("g"),
+                Id = Guid.Parse("{C09DB97A-1547-41C1-AFA9-428DD1D5BA55}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+                OrdreTri = 1
+            },
+            new Reference(){
+                Libelle = "En Cours",
+                Code= Commun.Enums.CodeReferenceEnum.EnCours.ToString("g"),
+                Id = Guid.Parse("{5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+                OrdreTri = 2
+            },
+            new Reference(){
+                Libelle = "Non valide",
+                Code= Commun.Enums.CodeReferenceEnum.NonValide.ToString("g"),
+                Id = Guid.Parse("{610f6ca4-0f22-44ec-9269-f744873b92f2}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+                OrdreTri = 3
+            },
+            new Reference(){
+                Libelle = "Valide",
+                Code= Commun.Enums.CodeReferenceEnum.Valide.ToString("g"),
+                Id = Guid.Parse("{78a3cb44-9fd3-4c6c-9848-677937324ecd}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+                OrdreTri = 4
+            },
+            new Reference(){
+                Libelle = "A Modifier",
+                Code= Commun.Enums.CodeReferenceEnum.AModifier.ToString("g"),
+                Id = Guid.Parse("{02e3d3ee-f745-4bf1-a00d-61e640dac8ae}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+                OrdreTri = 5
+            },
+            #endregion
+            #region TypePersonne
+            new Reference(){
+                Libelle = "Candidat",
+                Code= Commun.Enums.CodeReferenceEnum.Candidat.ToString("g"),
+                Id = Guid.Parse(IdsConstantes.TypePersonneCandidatId),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.Contact,
+                OrdreTri = 1
+            },
+            #endregion
             });
         }
     }

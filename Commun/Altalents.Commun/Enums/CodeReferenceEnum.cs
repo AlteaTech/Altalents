@@ -59,6 +59,6 @@ namespace Altalents.Commun.Enums
         Valide = 55,
         AModifier = 56,
         Inactif = 57,
-        Email = 58
+        Candidat = 58
     }
 }

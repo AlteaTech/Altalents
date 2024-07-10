@@ -1,35 +1,5 @@
-using Altalents.IBusiness.DTO.Requesst;
-
 namespace Altalents.Business.Mappings
 {
-    internal class DossiersTechniquesMappingProfile : Profile
-    {
-
-        public DossiersTechniquesMappingProfile()
-        {
-            CreateMap<DossierTechniqueInsertRequestDto, DossierTechnique>()
-                .ForMember(dest => dest.Personne, opt => opt.MapFrom(src => src))
-                .ForMember(dest => dest.PrixJour, opt => opt.MapFrom(src => src.TarifJournalier))
-                .ForMember(dest => dest.Poste, opt => opt.MapFrom(src => src.Poste))
-                .ForMember(dest => dest.DisponibiliteId, opt => opt.MapFrom(src => src.DisponibiliteId))
-                ;
-
-            CreateMap<DossierTechniqueInsertRequestDto, Personne>()
-                .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
-                .ForMember(dest => dest.Prenom, opt => opt.MapFrom(src => src.Prenom))
-                .ForMember(dest => dest.Trigramme, opt => opt.MapFrom(src => src.Trigramme))
-                .ForMember(dest => dest.BoondId, opt => opt.MapFrom(src => src.IdBoond))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AdresseMail))
-                .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => new List<Contact>
-                {
-                    new()
-                    {
-                        TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId),
-                        Valeur = src.Telephone,
-                    }
-                }));
-        }
-    }
 
 
     internal class UtilisateursMappingProfile : Profile
@@ -71,7 +41,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.PrenomCandidat, opt => opt.MapFrom(src => src.Personne.Prenom))
                 .ForMember(dest => dest.PosteVoulu, opt => opt.MapFrom(src => src.Poste))
                 .ForMember(dest => dest.DateUpdate, opt => opt.MapFrom(src => src.DateMaj))
-                .ForMember(dest => dest.Commercial, opt => opt.MapFrom(src => src.Commercial));
+                .ForMember(dest => dest.Commercial, opt => opt.MapFrom(src => src.Commercial.Nom));
 
             CreateMap<DossierTechnique, DossierTechniqueEnCoursDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -83,7 +53,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.DateUpdate, opt => opt.MapFrom(src => src.DateMaj))
                 .ForMember(dest => dest.Statut, opt => opt.MapFrom(src => src.Statut.Libelle))
                 .ForMember(dest => dest.StatutCode, opt => opt.MapFrom(src => src.Statut.Code))
-                .ForMember(dest => dest.Commercial, opt => opt.MapFrom(src => src.Commercial));
+                .ForMember(dest => dest.Commercial, opt => opt.MapFrom(src => src.Commercial.Nom));
         }
     }
 }

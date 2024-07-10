@@ -1,6 +1,6 @@
 namespace Altalents.IBusiness.DTO.Requesst
 {
-    public class DossierTechniqueInsertRequestDto
+    public class DossierTechniqueInsertRequestDto : BaseRequestDto
     {
         [Required]
         [MaxLength(250)]
