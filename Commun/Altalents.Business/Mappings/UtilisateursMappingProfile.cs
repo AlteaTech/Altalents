@@ -19,14 +19,9 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.Prenom, opt => opt.MapFrom(src => src.Prenom))
                 .ForMember(dest => dest.Trigramme, opt => opt.MapFrom(src => src.Trigramme))
                 .ForMember(dest => dest.BoondId, opt => opt.MapFrom(src => src.IdBoond))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AdresseMail))
                 .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => new List<Contact>
                 {
-                    new()
-                    {
-                        TypeId = Guid.Parse(IdsConstantes.ContactEmailId),
-                        Valeur = src.AdresseMail,
-                    } ,
-
                     new()
                     {
                         TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId),

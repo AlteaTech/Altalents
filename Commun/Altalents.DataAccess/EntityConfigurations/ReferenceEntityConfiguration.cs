@@ -464,15 +464,6 @@ namespace Altalents.DataAccess.EntityConfigurations
                     Type = Commun.Enums.TypeReferenceEnum.Contact,
                     OrdreTri = 1
                 },
-                new Reference(){
-                    Libelle = "Email",
-                    Code= Commun.Enums.CodeReferenceEnum.Email.ToString("g"),
-                    Id = Guid.Parse(IdsConstantes.ContactEmailId),
-                    DateCrea = new DateTime(2024,6,18),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Contact,
-                    OrdreTri = 1
-                },
                 #endregion
                 #region Document
                 new Reference(){
