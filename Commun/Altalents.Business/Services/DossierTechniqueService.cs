@@ -33,7 +33,7 @@ namespace Altalents.Business.Services
             {
                 return DbContext.DossierTechniques
                     .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
-                    .Where(x => x.Statut.Code == CodeReferenceEnum.EnCours.ToString("g") || x.Statut.Code == CodeReferenceEnum.Inactif.ToString("g"))
+                    .Where(x => x.Statut.Code == CodeReferenceEnum.EnCours.ToString("g") || x.Statut.Code == CodeReferenceEnum.Inactif.ToString("g") || x.Statut.Code == CodeReferenceEnum.Cree.ToString("g"))
                                              .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
             }
 
