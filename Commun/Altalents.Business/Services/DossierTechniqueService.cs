@@ -21,6 +21,18 @@ namespace Altalents.Business.Services
 
         }
 
+        public async Task ChangerStatutDossierTechniqueAsync(Guid id, Guid statutId, CancellationToken cancellationToken)
+        {
+            DossierTechnique dt = await DbContext.DossierTechniques.AsTracking().SingleAsync(x => x.Id == id, cancellationToken);
+            bool statutExist = await DbContext.References.AnyAsync(x => x.Id == statutId && x.Type == TypeReferenceEnum.StatutDt, cancellationToken);
+            if (!statutExist)
+            {
+                throw new BusinessException("Statut inexistant");
+            }
+            dt.StatutId = statutId;
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+        }
+
         public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
         {
             return DbContext.DossierTechniques

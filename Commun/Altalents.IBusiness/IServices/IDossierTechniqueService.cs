@@ -6,6 +6,7 @@ namespace Altalents.IBusiness.IServices
     public interface IDossierTechniqueService : IInjectableService
     {
         Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken);
+        Task ChangerStatutDossierTechniqueAsync(Guid id, Guid statutId, CancellationToken cancellationToken);
         IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques();
         IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat);
     }

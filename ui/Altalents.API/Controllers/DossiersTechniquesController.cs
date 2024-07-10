@@ -24,5 +24,11 @@ namespace Altalents.API.Controllers
         {
             return await _dossierTechniqueService.AddDossierTechniqueAsync(dossierTechnique, cancellationToken);
         }
+
+        [HttpPut("{id}/statut/{statutId}", Name = "ChangerStatutDossierTechnique")]
+        public async Task ChangerStatutDossierTechniqueAsync([FromRoute] Guid id,[FromRoute] Guid statutId, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, cancellationToken);
+        }
     }
 }
