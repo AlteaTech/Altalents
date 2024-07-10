@@ -1,3 +1,5 @@
+using Altalents.Commun.Constants;
+
 namespace Altalents.DataAccess.EntityConfigurations
 {
     internal class ReferenceEntityConfiguration : IEntityTypeConfiguration<Reference>
@@ -456,7 +458,16 @@ namespace Altalents.DataAccess.EntityConfigurations
                 new Reference(){
                     Libelle = "Telephone",
                     Code= Commun.Enums.CodeReferenceEnum.Telephone.ToString("g"),
-                    Id = Guid.Parse("{AAD8F403-76C8-4DEE-B9B5-8ED5A8A28EEC}"),
+                    Id = Guid.Parse(IdsConstantes.ContactTelephoneId),
+                    DateCrea = new DateTime(2024,6,18),
+                    UtiCrea= "ALTEA",IsValide=true,
+                    Type = Commun.Enums.TypeReferenceEnum.Contact,
+                    OrdreTri = 1
+                },
+                new Reference(){
+                    Libelle = "Email",
+                    Code= Commun.Enums.CodeReferenceEnum.Email.ToString("g"),
+                    Id = Guid.Parse(IdsConstantes.ContactEmailId),
                     DateCrea = new DateTime(2024,6,18),
                     UtiCrea= "ALTEA",IsValide=true,
                     Type = Commun.Enums.TypeReferenceEnum.Contact,

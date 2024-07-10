@@ -27,8 +27,4 @@
     <Using Include="Altalents.Commun.Constants" />
     <Using Include="Altalents.Commun.Resources" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
 </Project>

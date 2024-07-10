@@ -1,5 +1,42 @@
+using Altalents.IBusiness.DTO.Requesst;
+
 namespace Altalents.Business.Mappings
 {
+    internal class DossiersTechniquesMappingProfile : Profile
+    {
+
+        public DossiersTechniquesMappingProfile()
+        {
+            CreateMap<DossierTechniqueInsertRequestDto, DossierTechnique>()
+                .ForMember(dest => dest.Personne, opt => opt.MapFrom(src => src))
+                .ForMember(dest => dest.PrixJour, opt => opt.MapFrom(src => src.TarifJournalier))
+                .ForMember(dest => dest.Poste, opt => opt.MapFrom(src => src.Poste))
+                .ForMember(dest => dest.DisponibiliteId, opt => opt.MapFrom(src => src.DisponibiliteId))
+                ;
+
+            CreateMap<DossierTechniqueInsertRequestDto, Personne>()
+                .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
+                .ForMember(dest => dest.Prenom, opt => opt.MapFrom(src => src.Prenom))
+                .ForMember(dest => dest.Trigramme, opt => opt.MapFrom(src => src.Trigramme))
+                .ForMember(dest => dest.BoondId, opt => opt.MapFrom(src => src.IdBoond))
+                .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => new List<Contact>
+                {
+                    new()
+                    {
+                        TypeId = Guid.Parse(IdsConstantes.ContactEmailId),
+                        Valeur = src.AdresseMail,
+                    } ,
+
+                    new()
+                    {
+                        TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId),
+                        Valeur = src.Telephone,
+                    }
+                }));
+        }
+    }
+
+
     internal class UtilisateursMappingProfile : Profile
     {
         public UtilisateursMappingProfile()
