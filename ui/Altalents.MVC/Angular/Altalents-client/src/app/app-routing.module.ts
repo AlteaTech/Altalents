@@ -5,12 +5,14 @@ import { ConstantesRoutes } from './shared/constantes/constantes-routes';
 import { FormContainerComponent } from './components/form-container/form-container.component';
 import { FinComponent } from './components/fin/fin.component';
 import { CommercialCreationDtAccueilComponent } from './components/commercial-creation-dt-accueil/commercial-creation-dt-accueil.component';
+import { CommercialCreationDtConfigurationComponent } from './components/commercial-creation-dt-configuration/commercial-creation-dt-configuration.component';
 
 const routes: Routes = [
   { path: `${ConstantesRoutes.accueilBaseUrl}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: AccueilComponent },
   { path: `${ConstantesRoutes.dossierTechniqueBaseUrl}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: FormContainerComponent },
   { path: `${ConstantesRoutes.finBaseUrl}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: FinComponent },
   { path: `${ConstantesRoutes.commercialAccueilCreateDt}`, component: CommercialCreationDtAccueilComponent },
+  { path: `${ConstantesRoutes.commercialAccueilCreateDt}/${ConstantesRoutes.commercialAccueilConfigurationDt}`, component: CommercialCreationDtConfigurationComponent },
 ];
 
 @NgModule({

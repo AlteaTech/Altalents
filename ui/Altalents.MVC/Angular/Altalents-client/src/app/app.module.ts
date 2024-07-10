@@ -14,6 +14,7 @@ import { FormContainerComponent } from './components/form-container/form-contain
 import { FinComponent } from './components/fin/fin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommercialCreationDtAccueilComponent } from './components/commercial-creation-dt-accueil/commercial-creation-dt-accueil.component';
+import { CommercialCreationDtConfigurationComponent } from './components/commercial-creation-dt-configuration/commercial-creation-dt-configuration.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CommercialCreationDtAccueilComponent } from './components/commercial-cr
     QuestionsComponent,
     RecapitulatifComponent,
     FinComponent,
-    CommercialCreationDtAccueilComponent
+    CommercialCreationDtAccueilComponent,
+    CommercialCreationDtConfigurationComponent
   ],
   imports: [
     BrowserModule,
