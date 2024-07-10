@@ -13,6 +13,8 @@ import { RecapitulatifComponent } from './components/recapitulatif/recapitulatif
 import { FormContainerComponent } from './components/form-container/form-container.component';
 import { FinComponent } from './components/fin/fin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommercialCreationDtAccueilComponent } from './components/commercial-creation-dt-accueil/commercial-creation-dt-accueil.component';
+import { CommercialCreationDtConfigurationComponent } from './components/commercial-creation-dt-configuration/commercial-creation-dt-configuration.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CompetencesComponent,
     QuestionsComponent,
     RecapitulatifComponent,
-    FinComponent
+    FinComponent,
+    CommercialCreationDtAccueilComponent,
+    CommercialCreationDtConfigurationComponent
   ],
   imports: [
     BrowserModule,
