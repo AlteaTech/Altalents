@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20240710070522_TypePersonne")]
+    partial class TypePersonne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -273,8 +276,8 @@ namespace Altalents.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CommercialId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Commercial")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCrea")
                         .HasColumnType("datetime");
@@ -312,15 +315,18 @@ namespace Altalents.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UtilisateurId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("CommercialId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DisponibiliteId");
 
                     b.HasIndex("PersonneId");
 
                     b.HasIndex("StatutId");
+
+                    b.HasIndex("UtilisateurId");
 
                     b.ToTable("DossierTechniques", (string)null);
                 });
@@ -1543,12 +1549,6 @@ namespace Altalents.DataAccess.Migrations
 
             modelBuilder.Entity("Altalents.Entities.DossierTechnique", b =>
                 {
-                    b.HasOne("Altalents.Entities.Utilisateur", "Commercial")
-                        .WithMany("DossierTechniques")
-                        .HasForeignKey("CommercialId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Altalents.Entities.Reference", "Disponibilite")
                         .WithMany("DossierTechniquesByDisponibilite")
                         .HasForeignKey("DisponibiliteId")
@@ -1567,13 +1567,19 @@ namespace Altalents.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Commercial");
+                    b.HasOne("Altalents.Entities.Utilisateur", "Utilisateur")
+                        .WithMany("DossierTechniques")
+                        .HasForeignKey("UtilisateurId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Disponibilite");
 
                     b.Navigation("Personne");
 
                     b.Navigation("Statut");
+
+                    b.Navigation("Utilisateur");
                 });
 
             modelBuilder.Entity("Altalents.Entities.DossierTechniqueLangue", b =>

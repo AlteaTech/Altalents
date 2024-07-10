@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Altalents.IBusiness.DTO.Requesst;
+using Altalents.IBusiness.Enums;
+
+namespace Altalents.API.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class DossiersTechniquesController
+    {
+        private readonly IDossierTechniqueService _dossierTechniqueService;
+
+        public DossiersTechniquesController(IDossierTechniqueService dossierTechniqueService)
+        {
+            _dossierTechniqueService = dossierTechniqueService;
+        }
+
+        [HttpPost("", Name = "AddDossierTechnique")]
+        public async Task<Guid> AddDossierTechniqueAsync([FromBody] DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.AddDossierTechniqueAsync(dossierTechnique, cancellationToken);
+        }
+    }
+}

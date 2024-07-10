@@ -1,5 +1,7 @@
 
+
 using Altalents.Commun.Enums;
+using Altalents.IBusiness.DTO.Requesst;
 
 namespace Altalents.Business.Services
 {
@@ -7,6 +9,16 @@ namespace Altalents.Business.Services
     {
         public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider) : base(logger, contexte, mapper, serviceProvider)
         {
+        }
+
+        public async Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
+        {
+            DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
+            dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
+            await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+            return dt.Id;
+
         }
 
         public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
@@ -17,7 +29,7 @@ namespace Altalents.Business.Services
 
         public IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat)
         {
-            if(etat == EtatFiltreDtEnum.InProgress)
+            if (etat == EtatFiltreDtEnum.InProgress)
             {
                 return DbContext.DossierTechniques
                     .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
