@@ -1,5 +1,3 @@
-
-
 using Altalents.Commun.Enums;
 using Altalents.IBusiness.DTO.Requesst;
 
@@ -13,12 +11,40 @@ namespace Altalents.Business.Services
 
         public async Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
+            await CheckNouveauCandidat(dossierTechnique, cancellationToken);
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
             return dt.Id;
 
+        }
+
+        private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
+        {
+            List<string> messagesErreur = new();
+            Task<bool> taskCheckMail = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Email == dossierTechnique.AdresseMail, cancellationToken);
+            Task<bool> taskCheckIdBoond = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.BoondId == dossierTechnique.IdBoond, cancellationToken);
+            Task<bool> taskCheckTrigramme = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Trigramme == dossierTechnique.Trigramme, cancellationToken);
+            if (await taskCheckMail)
+            {
+                messagesErreur.Add($"Adresse mail ({dossierTechnique.AdresseMail})");
+            }
+
+            if (await taskCheckIdBoond)
+            {
+                messagesErreur.Add($"BoondId ({dossierTechnique.IdBoond})");
+            }
+
+            if (await taskCheckTrigramme)
+            {
+                messagesErreur.Add($"Trigramme ({dossierTechnique.Trigramme})");
+            }
+
+            if (messagesErreur.Any())
+            {
+                throw new BusinessException($"Un Candidat avec les données suivantes existe deja : {string.Join(", ", messagesErreur)}");
+            }
         }
 
         public async Task ChangerStatutDossierTechniqueAsync(Guid id, Guid statutId, CancellationToken cancellationToken)

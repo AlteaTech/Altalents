@@ -36,6 +36,8 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .WithOne(x => x.DossierTechnique)
                 .HasForeignKey(e => e.DossierTechniqueId)
                 .OnDelete(DeleteBehavior.NoAction);
+            builder.HasIndex(x => x.TokenAccesRapide).IsUnique();
+            builder.HasIndex(x => x.Numero).IsUnique();
         }
     }
 }

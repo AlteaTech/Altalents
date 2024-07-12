@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Altalents.Entities
 {
 
@@ -10,6 +12,7 @@ namespace Altalents.Entities
         public Guid TokenAccesRapide { get; set; }
         public decimal? PrixJour { get; set; }
         public string Poste { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Numero { get; set; }
 
         // Reference de Type disponibilite

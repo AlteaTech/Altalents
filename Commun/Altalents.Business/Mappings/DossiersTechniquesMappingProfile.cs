@@ -9,6 +9,7 @@ namespace Altalents.Business.Mappings
         {
             CreateMap<DossierTechniqueInsertRequestDto, DossierTechnique>()
                 .ForMember(dest => dest.Personne, opt => opt.MapFrom(src => src))
+                .ForMember(dest => dest.TokenAccesRapide, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.PrixJour, opt => opt.MapFrom(src => src.TarifJournalier))
                 .ForMember(dest => dest.Poste, opt => opt.MapFrom(src => src.Poste))
                 .ForMember(dest => dest.DisponibiliteId, opt => opt.MapFrom(src => src.DisponibiliteId))
