@@ -1,1 +1,119 @@
-<p>commercial-creation-dt-configuration works!</p>
+<div class="at-c-container">
+    <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h4>Configuration</h4>
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-lg-6">
+                    <fieldset>
+                        <legend>Informations personnelles</legend>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="prenom">Prénom<span class="champ-obligatoire">*</span></label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="prenom" placeholder="Julien">
+                            </div>                    
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="nom">Nom<span class="champ-obligatoire">*</span></label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="nom" placeholder="Dupont">
+                            </div>                    
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="trigram">Trigramme<span class="champ-obligatoire">*</span></label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="trigram" placeholder="JUD">
+                            </div>                    
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Conditions</legend>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="poste">Poste</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="poste" placeholder="12 rue des Fleurs">
+                            </div>                    
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="prixJour">Tarif journalier</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="prixJour" placeholder="€">
+                            </div>                    
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="disponibilite">Disponibilite</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="disponibilite" placeholder="22 rue des Adresses">
+                            </div>                    
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-lg-6">
+                    <fieldset>
+                        <legend>Coordonnées de contact</legend>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="numeroTelephone1">N° de téléphone</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="numeroTelephone1" placeholder="00 00 00 00 00">
+                            </div>                    
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="adresseMail">Adresse mail<span class="champ-obligatoire">*</span></label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="adresseMail" placeholder="adresse@mail.com">
+                            </div>                    
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Questionnaires & documents</legend>
+                        
+                    </fieldset>
+                    <fieldset>
+                        <legend>Identifiant Boond du candidat</legend>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="idboond">ID Boond</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="idboond" placeholder="15415s">
+                            </div>                    
+                        </div>
+                        
+                    </fieldset>
+                </div>
+            </div>
+        </form></div>
+    <div class="col-2"></div>
+</div>
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3">        <a class="at-c-btn-link-second" href="/{{pathConfigDt}}"><i class="fa-solid fa-backward-step"></i>&nbsp;&nbsp; Retour</a>
+            </div>
+            <div class="col-sm-3">        <button class="at-c-btn-link-primary at-w-250"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+    <div class="col-3"></div>
+</div>
+</div>

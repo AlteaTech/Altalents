@@ -37,7 +37,7 @@
 }
 
 
-.at-c-btn-link {
+.at-c-btn-link-primary {
   /* UI Properties */
   text-align: center;
   letter-spacing: 0px;
@@ -51,4 +51,25 @@
   display: block;
   padding-top: 12px;
   text-decoration: none;
+}
+
+
+.at-c-btn-link-second {
+  /* UI Properties */
+  text-align: center;
+  letter-spacing: 0px;
+  color: #7A4AFF;
+  width: 180px;
+  height: 60px;
+  /* UI Properties */
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  border-color: #7A4AFF;
+  opacity: 1;
+  display: block;
+  padding-top: 12px;
+  text-decoration: none;
+}
+.at-w-250{
+  width: 250px;
 }
