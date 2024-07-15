@@ -1,59 +1,57 @@
-<dialog #dialog>
-     <form [formGroup]="formGroup">
-        <fieldset>
-            <legend>Formation</legend>
-            <div class="row">
-                <div class="col-6">
-                    <label for="formationLibelle">Formation</label>
-                </div>
-                <div class="col-6">
-                    <input type="text" formControlName="formation" placeholder="Libellé de la formation">
-                </div>               
+<form [formGroup]="formGroup">
+    <fieldset>
+        <legend>Formation</legend>
+        <div class="row">
+            <div class="col-6">
+                <label for="formationLibelle">Formation</label>
             </div>
-            <div class="row">
-                <div class="col-6">
-                    <label for="domaine">Domaine</label>
-                </div>
-                <div class="col-6">
-                    <input type="text" formControlName="domaine" placeholder="Histoire">
-                </div>               
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <label for="niveau">Niveau</label>
-                </div>
-                <div class="col-6">
-                    <input type="text" formControlName="niveau" placeholder="Bac">
-                </div>               
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <label for="organisme">organisme</label>
-                </div>
-                <div class="col-6">
-                    <input type="text" formControlName="organisme" placeholder="Nom de l'organisme">
-                </div>               
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <label for="dateDebut">Date de début</label>
-                </div>
-                <div class="col-6">
-                    <input type="text" formControlName="dateDebut" placeholder="JJ/MM/YYYY">
-                </div>               
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <label for="dateFin">Date de fin</label>
-                </div>
-                <div class="col-6">
-                    <input type="text" formControlName="dateFin" placeholder="JJ/MM/YYYY">
-                </div>               
-            </div>
-        </fieldset>
-        <div>
-            <button (click)="closeDialog()">Annuler</button>
-            <button>Valider</button>
+            <div class="col-6">
+                <input type="text" formControlName="formationLibelle" placeholder="Libellé de la formation">
+            </div>               
         </div>
-    </form>
-</dialog>
+        <div class="row">
+            <div class="col-6">
+                <label for="domaine">Domaine</label>
+            </div>
+            <div class="col-6">
+                <input type="text" formControlName="domaine" placeholder="Histoire">
+            </div>               
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="niveau">Niveau</label>
+            </div>
+            <div class="col-6">
+                <input type="text" formControlName="niveau" placeholder="Bac">
+            </div>               
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="organisme">Organisme</label>
+            </div>
+            <div class="col-6">
+                <input type="text" formControlName="organisme" placeholder="Nom de l'organisme">
+            </div>               
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="dateDebut">Date de début</label>
+            </div>
+            <div class="col-6">
+                <input type="text" formControlName="dateDebut" placeholder="JJ/MM/AAAA">
+            </div>               
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="dateFin">Date de fin</label>
+            </div>
+            <div class="col-6">
+                <input type="text" formControlName="dateFin" placeholder="JJ/MM/AAAA">
+            </div>               
+        </div>
+    </fieldset>
+    <div>
+        <button (click)="closeDialog()">Annuler</button>
+        <button (click)="submit()">Valider</button>
+    </div>
+</form>

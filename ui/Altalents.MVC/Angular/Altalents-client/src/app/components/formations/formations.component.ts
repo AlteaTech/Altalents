@@ -1,6 +1,8 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormationDialogComponent } from '../dialogs/formation-dialog/formation-dialog.component';
 import { StepFormation } from 'src/app/shared/models/step-formation.model';
+import { Formation } from 'src/app/shared/models/formation.model';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-formations',
@@ -8,16 +10,23 @@ import { StepFormation } from 'src/app/shared/models/step-formation.model';
 })
 export class FormationsComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
-  @ViewChild('formationDialog') formationDialog!: FormationDialogComponent;
   
   public stepFormation: StepFormation = new StepFormation();
+  public validationFormationCallBack: (() => Promise<Formation | undefined>) | undefined;
   
+  constructor(private modalService: NgbModal){
+    
+  }
+
   public ngOnInit(): void {
     this.loadData();
   }
 
   public onAddFormationClick(): void {
-    this.formationDialog.openDialog();
+    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent);
+    dialogRef.result.then(result => {
+      debugger;
+    })
   }
 
   private loadData(): void {
