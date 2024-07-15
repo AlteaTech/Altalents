@@ -1,4 +1,4 @@
-export class Formation {
+export class Certification {
     id!: number;
     libelle?: string;
     domaine?: string;

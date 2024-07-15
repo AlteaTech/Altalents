@@ -1,6 +1,6 @@
 import { FormControl } from "@angular/forms";
 
-export interface FormationForm {
+export interface CertificationForm {
     libelle: FormControl<string | undefined>,
     domaine: FormControl<string | undefined>,
     niveau: FormControl<string | undefined>,

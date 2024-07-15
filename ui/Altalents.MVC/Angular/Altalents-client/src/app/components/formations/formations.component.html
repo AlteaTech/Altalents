@@ -4,7 +4,7 @@
 <fieldset>
     <legend>Formation</legend>
     <div *ngFor="let formation of stepFormation.formations">
-        <p>{{formation.formationLibelle}}</p>
+        <p>{{formation.libelle}}</p>
         <p>{{formation.domaine}} - {{formation.niveau}}</p>
         <p>{{formation.organisme}}</p>
         <p>Du {{formation.dateDebut}} au {{formation.dateFin}}</p>
@@ -13,8 +13,15 @@
     <button (click)="onAddFormationClick()">Ajouter une formation</button>
 </fieldset>
 <fieldset>
-    <legend>Certifications</legend>
-    <button>Ajouter une certification</button>
+    <legend>Certification</legend>
+    <div *ngFor="let certification of stepFormation.certifications">
+        <p>{{certification.libelle}}</p>
+        <p>{{certification.domaine}} - {{certification.niveau}}</p>
+        <p>{{certification.organisme}}</p>
+        <p>Du {{certification.dateDebut}} au {{certification.dateFin}}</p>
+        <a (click)="onModifierCertificationClick(certification)">Modifier</a>
+    </div>
+    <button (click)="onAddCertificationClick()">Ajouter une certification</button>
 </fieldset>
 <fieldset>
     <legend>Langues parlées</legend>

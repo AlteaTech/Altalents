@@ -8,7 +8,7 @@ import { Formation } from "../models/formation.model";
 export class MockService {
     public getStepFormation(): StepFormation {
         let formation = new Formation();
-        formation.formationLibelle = "Libelle de la formation";
+        formation.libelle = "Libelle de la formation";
         formation.domaine = "Codage de code";
         formation.niveau = "BAC +34";
         formation.organisme = "école nationale du codage de code";

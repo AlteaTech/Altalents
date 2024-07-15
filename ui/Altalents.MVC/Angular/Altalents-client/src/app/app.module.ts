@@ -17,6 +17,7 @@ import { CommercialCreationDtAccueilComponent } from './components/commercial-cr
 import { CommercialCreationDtConfigurationComponent } from './components/commercial-creation-dt-configuration/commercial-creation-dt-configuration.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormationDialogComponent } from './components/dialogs/formation-dialog/formation-dialog.component';
+import { CertificationDialogComponent } from './components/dialogs/certification-dialog/certification-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { FormationDialogComponent } from './components/dialogs/formation-dialog/
     FinComponent,
     CommercialCreationDtAccueilComponent,
     CommercialCreationDtConfigurationComponent,
-    FormationDialogComponent
+    FormationDialogComponent,
+    CertificationDialogComponent
   ],
   imports: [
     HttpClientModule,

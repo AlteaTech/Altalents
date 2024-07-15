@@ -14,7 +14,7 @@ export class FormationDialogComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal) {
     this.formGroup = new FormGroup<FormationForm>({
-      formationLibelle: new FormControl(),
+      libelle: new FormControl(),
       domaine: new FormControl(),
       niveau: new FormControl(),
       organisme: new FormControl(),
@@ -26,7 +26,7 @@ export class FormationDialogComponent implements OnInit {
   public ngOnInit(): void {
     if (this.formation) {
       this.formGroup.patchValue({
-        formationLibelle: this.formation.formationLibelle,
+        libelle: this.formation.libelle,
         domaine: this.formation.domaine,
         niveau: this.formation.niveau,
         organisme: this.formation.organisme,
@@ -40,7 +40,7 @@ export class FormationDialogComponent implements OnInit {
     if (this.formGroup.valid) {
       const values = this.formGroup.value;
       let formation: Formation = this.formation ?? new Formation();
-      formation.formationLibelle = values.formationLibelle;
+      formation.libelle = values.libelle;
       formation.domaine = values.domaine;
       formation.niveau = values.niveau;
       formation.organisme = values.organisme;
