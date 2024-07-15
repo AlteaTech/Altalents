@@ -9,13 +9,10 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './formations.component.html'
 })
 export class FormationsComponent implements OnInit {
-  @Input() public tokenDossierTechnique: string = "";
-  
+  @Input() public tokenDossierTechnique: string = "";  
   public stepFormation: StepFormation = new StepFormation();
-  public validationFormationCallBack: (() => Promise<Formation | undefined>) | undefined;
   
-  constructor(private modalService: NgbModal){
-    
+  constructor(private modalService: NgbModal) {
   }
 
   public ngOnInit(): void {
@@ -24,9 +21,16 @@ export class FormationsComponent implements OnInit {
 
   public onAddFormationClick(): void {
     let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent);
-    dialogRef.result.then(result => {
-      debugger;
+    dialogRef.result.then((formationAAjouter: Formation | undefined) => {
+      if(formationAAjouter) {
+        this.stepFormation.formations.push(formationAAjouter)
+      }
     })
+  }
+
+  public onModifierFormationClick(formation: Formation): void {
+    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent);
+    dialogRef.componentInstance.formation = formation;
   }
 
   private loadData(): void {
