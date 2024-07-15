@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Altalents.Entities
 {
 
@@ -10,17 +12,16 @@ namespace Altalents.Entities
         public Guid TokenAccesRapide { get; set; }
         public decimal? PrixJour { get; set; }
         public string Poste { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Numero { get; set; }
-        public string Commercial { get; set; }
 
         // Reference de Type disponibilite
         public Guid DisponibiliteId { get; set; }
         public Reference Disponibilite { get; set; }
         public Guid StatutId { get; set; }
         public Reference Statut { get; set; }
-        // Reference de Type disponibilite
-        public Guid UtilisateurId { get; set; }
-        public Utilisateur Utilisateur { get; set; }
+        public Guid CommercialId { get; set; }
+        public Utilisateur Commercial { get; set; }
         public Guid PersonneId { get; set; }
         public Personne Personne { get; set; }
 

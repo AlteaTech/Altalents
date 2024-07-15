@@ -273,8 +273,8 @@ namespace Altalents.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Commercial")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("CommercialId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCrea")
                         .HasColumnType("datetime");
@@ -286,7 +286,10 @@ namespace Altalents.DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Numero")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Numero"));
 
                     b.Property<Guid>("PersonneId")
                         .HasColumnType("uniqueidentifier");
@@ -312,18 +315,21 @@ namespace Altalents.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("UtilisateurId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
+                    b.HasIndex("CommercialId");
+
                     b.HasIndex("DisponibiliteId");
+
+                    b.HasIndex("Numero")
+                        .IsUnique();
 
                     b.HasIndex("PersonneId");
 
                     b.HasIndex("StatutId");
 
-                    b.HasIndex("UtilisateurId");
+                    b.HasIndex("TokenAccesRapide")
+                        .IsUnique();
 
                     b.ToTable("DossierTechniques", (string)null);
                 });
@@ -1318,6 +1324,17 @@ namespace Altalents.DataAccess.Migrations
                         },
                         new
                         {
+                            Id = new Guid("c09db97a-1547-41c1-afa9-428dd1d5ba55"),
+                            Code = "Inactif",
+                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsValide = true,
+                            Libelle = "Inactif",
+                            OrdreTri = 1,
+                            Type = "StatutDt",
+                            UtiCrea = "ALTEA"
+                        },
+                        new
+                        {
                             Id = new Guid("5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5"),
                             Code = "EnCours",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -1358,6 +1375,17 @@ namespace Altalents.DataAccess.Migrations
                             Libelle = "A Modifier",
                             OrdreTri = 5,
                             Type = "StatutDt",
+                            UtiCrea = "ALTEA"
+                        },
+                        new
+                        {
+                            Id = new Guid("d47f9a2d-f4b8-42b1-a184-6e3ba4a0eba8"),
+                            Code = "Candidat",
+                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsValide = true,
+                            Libelle = "Candidat",
+                            OrdreTri = 1,
+                            Type = "Contact",
                             UtiCrea = "ALTEA"
                         });
                 });
@@ -1524,6 +1552,12 @@ namespace Altalents.DataAccess.Migrations
 
             modelBuilder.Entity("Altalents.Entities.DossierTechnique", b =>
                 {
+                    b.HasOne("Altalents.Entities.Utilisateur", "Commercial")
+                        .WithMany("DossierTechniques")
+                        .HasForeignKey("CommercialId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Altalents.Entities.Reference", "Disponibilite")
                         .WithMany("DossierTechniquesByDisponibilite")
                         .HasForeignKey("DisponibiliteId")
@@ -1542,19 +1576,13 @@ namespace Altalents.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Altalents.Entities.Utilisateur", "Utilisateur")
-                        .WithMany("DossierTechniques")
-                        .HasForeignKey("UtilisateurId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Navigation("Commercial");
 
                     b.Navigation("Disponibilite");
 
                     b.Navigation("Personne");
 
                     b.Navigation("Statut");
-
-                    b.Navigation("Utilisateur");
                 });
 
             modelBuilder.Entity("Altalents.Entities.DossierTechniqueLangue", b =>

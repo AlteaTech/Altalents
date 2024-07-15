@@ -19,11 +19,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
-    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.10" />
-    <PackageReference Include="AlteaTools.Application.Core" Version="8.0.10" />
-    <PackageReference Include="AlteaTools.EntityFramework" Version="8.0.10" />
-    <PackageReference Include="AlteaTools.Hangfire" Version="8.0.10" />
-    <PackageReference Include="AlteaTools.Session" Version="8.0.10" />
+    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.11" />
+    <PackageReference Include="AlteaTools.Application.Core" Version="8.0.11" />
+    <PackageReference Include="AlteaTools.EntityFramework" Version="8.0.11" />
+    <PackageReference Include="AlteaTools.Hangfire" Version="8.0.11" />
+    <PackageReference Include="AlteaTools.Session" Version="8.0.11" />
   </ItemGroup>
 
   <ItemGroup>

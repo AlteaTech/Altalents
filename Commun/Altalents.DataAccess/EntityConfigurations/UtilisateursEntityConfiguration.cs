@@ -35,8 +35,8 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .IsRequired();
 
             builder.HasMany(navigationExpression: e => e.DossierTechniques)
-                .WithOne(x => x.Utilisateur)
-                .HasForeignKey(e => e.UtilisateurId)
+                .WithOne(x => x.Commercial)
+                .HasForeignKey(e => e.CommercialId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasIndex(e => e.Nom);

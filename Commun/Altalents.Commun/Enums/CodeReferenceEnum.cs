@@ -1,4 +1,4 @@
-﻿namespace Altalents.Commun.Enums
+namespace Altalents.Commun.Enums
 {
     public enum CodeReferenceEnum
     {
@@ -58,5 +58,7 @@
         NonValide = 54,
         Valide = 55,
         AModifier = 56,
+        Inactif = 57,
+        Candidat = 58
     }
 }

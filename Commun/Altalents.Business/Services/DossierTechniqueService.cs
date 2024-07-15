@@ -1,3 +1,5 @@
+using Altalents.Commun.Enums;
+using Altalents.IBusiness.DTO.Requesst;
 
 namespace Altalents.Business.Services
 {
@@ -7,10 +9,76 @@ namespace Altalents.Business.Services
         {
         }
 
+        public async Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
+        {
+            await CheckNouveauCandidat(dossierTechnique, cancellationToken);
+            DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
+            dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
+            await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+            return dt.Id;
+
+        }
+
+        private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
+        {
+            List<string> messagesErreur = new();
+            Task<bool> taskCheckMail = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Email == dossierTechnique.AdresseMail, cancellationToken);
+            Task<bool> taskCheckIdBoond = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.BoondId == dossierTechnique.IdBoond, cancellationToken);
+            Task<bool> taskCheckTrigramme = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Trigramme == dossierTechnique.Trigramme, cancellationToken);
+            if (await taskCheckMail)
+            {
+                messagesErreur.Add($"Adresse mail ({dossierTechnique.AdresseMail})");
+            }
+
+            if (await taskCheckIdBoond)
+            {
+                messagesErreur.Add($"BoondId ({dossierTechnique.IdBoond})");
+            }
+
+            if (await taskCheckTrigramme)
+            {
+                messagesErreur.Add($"Trigramme ({dossierTechnique.Trigramme})");
+            }
+
+            if (messagesErreur.Any())
+            {
+                throw new BusinessException($"Un Candidat avec les données suivantes existe deja : {string.Join(", ", messagesErreur)}");
+            }
+        }
+
+        public async Task ChangerStatutDossierTechniqueAsync(Guid id, Guid statutId, CancellationToken cancellationToken)
+        {
+            DossierTechnique dt = await DbContext.DossierTechniques.AsTracking().SingleAsync(x => x.Id == id, cancellationToken);
+            bool statutExist = await DbContext.References.AnyAsync(x => x.Id == statutId && x.Type == TypeReferenceEnum.StatutDt, cancellationToken);
+            if (!statutExist)
+            {
+                throw new BusinessException("Statut inexistant");
+            }
+            dt.StatutId = statutId;
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+        }
+
         public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
         {
             return DbContext.DossierTechniques
                                          .ProjectTo<DossierTechniqueDto>(Mapper.ConfigurationProvider);
+        }
+
+        public IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat)
+        {
+            if (etat == EtatFiltreDtEnum.InProgress)
+            {
+                return DbContext.DossierTechniques
+                    .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
+                    .Where(x => x.Statut.Code == CodeReferenceEnum.EnCours.ToString("g") || x.Statut.Code == CodeReferenceEnum.Inactif.ToString("g") || x.Statut.Code == CodeReferenceEnum.Cree.ToString("g"))
+                                             .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
+            }
+
+            return DbContext.DossierTechniques
+                    .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
+                    .Where(x => x.Statut.Code == CodeReferenceEnum.AModifier.ToString("g") || x.Statut.Code == CodeReferenceEnum.NonValide.ToString("g") || x.Statut.Code == CodeReferenceEnum.Valide.ToString("g"))
+                                         .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
         }
     }
 }
