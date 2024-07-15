@@ -1,19 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BaseComponent } from 'src/app/shared/components/base.component';
+import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-commercial-form';
+import { DossierTechniqueInsertRequestDto } from 'src/app/shared/services/generated/api/api.client';
+import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
   templateUrl: './commercial-creation-dt-configuration.component.html',
   styleUrls: ['./commercial-creation-dt-configuration.component.css','../../app.component.css']
 })
-export class CommercialCreationDtConfigurationComponent {
 
+export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
   public formGroup: FormGroup<CreationDtCommercialForm>;
   pathConfigDt: string = `${ConstantesRoutes.commercialAccueilCreateDt}`;
 
-  constructor() {
+  constructor(
+    private readonly service: ApiServiceAgent) {
+    super();
     this.formGroup = new FormGroup<CreationDtCommercialForm>({
       prenom: new FormControl('', Validators.required),
       nom: new FormControl('', Validators.required),
@@ -22,8 +28,42 @@ export class CommercialCreationDtConfigurationComponent {
       numeroTelephone1: new FormControl(null),
       poste: new FormControl(null),
       prixJour: new FormControl(null),
-      disponibilite: new FormControl('', Validators.required),
-      idboond: new FormControl('', Validators.required),
+      disponibilite: new FormControl('8f486cd6-6313-47f9-a4b5-5bd535c199a9', Validators.required),
+      idBoond: new FormControl('', Validators.required),
     });
   }
+  
+  ngOnInit(): void {
+    this.populateData();
+  }
+
+  sendCancidat() {    
+    if(this.formGroup.valid){
+      this.callRequest(ConstantesRequest.addDossierTechnique, this.service.addDossierTechnique(this.generateDossierTechniqueInsertRequestDto())
+        .subscribe((response: string) => {
+          window.location.href = "/Admin/TableauDeBord";
+        }));
+    }
+  }
+  
+  generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
+    
+    const formValues = this.formGroup.value;
+    const retour = new DossierTechniqueInsertRequestDto();
+    retour.adresseMail = formValues.adresseMail ?? "";
+    retour.disponibiliteId = formValues.disponibilite ?? "";
+    retour.idBoond = formValues.idBoond ?? "";
+    retour.nom = formValues.nom ?? "";
+    retour.poste = formValues.poste;
+    retour.prenom = formValues.prenom ?? "";
+    retour.tarifJournalier = formValues.prixJour;
+    retour.telephone = formValues.numeroTelephone1;
+    retour.trigramme = formValues.trigram ?? "";
+    retour.utilisateurId = "f6715e92-3600-44a0-d65b-08dc95bde4eb";
+    return retour;
+  }
+  
+  public override populateData(): void {
+  }
 }
+

@@ -89,10 +89,10 @@
                         <legend>Identifiant Boond du candidat</legend>
                         <div class="row">
                             <div class="col-lg-6">
-                                <label for="idboond">ID Boond</label>
+                                <label for="idBoond">ID Boond</label>
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" formControlName="idboond" placeholder="15415s">
+                                <input type="text" formControlName="idBoond" placeholder="15415s">
                             </div>                    
                         </div>
                         
@@ -109,7 +109,7 @@
             <div class="col-sm-3"></div>
             <div class="col-sm-3">        <a class="at-c-btn-link-second" href="/{{pathConfigDt}}"><i class="fa-solid fa-backward-step"></i>&nbsp;&nbsp; Retour</a>
             </div>
-            <div class="col-sm-3">        <button class="at-c-btn-link-primary at-w-250"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
+            <div class="col-sm-3">        <button class="at-c-btn-link-primary at-w-250" (click)="sendCancidat()"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
             </div>
             <div class="col-sm-3"></div>
         </div>

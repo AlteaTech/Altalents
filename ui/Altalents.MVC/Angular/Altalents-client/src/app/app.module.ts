@@ -15,6 +15,7 @@ import { FinComponent } from './components/fin/fin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommercialCreationDtAccueilComponent } from './components/commercial-creation-dt-accueil/commercial-creation-dt-accueil.component';
 import { CommercialCreationDtConfigurationComponent } from './components/commercial-creation-dt-configuration/commercial-creation-dt-configuration.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CommercialCreationDtConfigurationComponent } from './components/commerc
     CommercialCreationDtConfigurationComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

@@ -9,5 +9,5 @@ export interface CreationDtCommercialForm {
     poste: FormControl<string | null>,
     prixJour: FormControl<number | null>,
     disponibilite: FormControl<string | null>,
-    idboond: FormControl<string | null>,
+    idBoond: FormControl<string | null>,
 }
