@@ -9,7 +9,7 @@ export class ApiServiceAgent {
 
   constructor(private readonly httpClient: HttpClient) {
     //@ts-ignore
-    const baseUrl = window.baseUrlApi ?? "https://localhost:7195";
+    const baseUrl = window.baseUrlApi ?? "https://altalent-dev.azurewebsites.net";
     this.apiClient = new ApiClient(httpClient, baseUrl);
   }
 

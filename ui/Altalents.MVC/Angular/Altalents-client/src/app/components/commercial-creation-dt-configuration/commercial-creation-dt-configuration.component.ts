@@ -75,7 +75,6 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
         },() => {
           window.location.href = "/Admin";
         }));
-debugger;
     this.callRequest(ConstantesRequest.getReferences, this.service.getReferences(ConstantesTypesReferences.disponibilite)
         .subscribe((response: ReferenceDto[]) => {
           this.disponibilites = ReferenceFun.fromListReferenceDto(response);
