@@ -4,7 +4,7 @@ import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-commercial-form';
-import { DossierTechniqueInsertRequestDto } from 'src/app/shared/services/generated/api/api.client';
+import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
 @Component({
@@ -16,6 +16,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
   public formGroup: FormGroup<CreationDtCommercialForm>;
   pathConfigDt: string = `${ConstantesRoutes.commercialAccueilCreateDt}`;
+  userIdLogged: string | undefined;
 
   constructor(
     private readonly service: ApiServiceAgent) {
@@ -32,12 +33,12 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
       idBoond: new FormControl('', Validators.required),
     });
   }
-  
+
   ngOnInit(): void {
     this.populateData();
   }
 
-  sendCancidat() {    
+  sendCancidat() {
     if(this.formGroup.valid){
       this.callRequest(ConstantesRequest.addDossierTechnique, this.service.addDossierTechnique(this.generateDossierTechniqueInsertRequestDto())
         .subscribe((response: string) => {
@@ -45,9 +46,9 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
         }));
     }
   }
-  
+
   generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
-    
+
     const formValues = this.formGroup.value;
     const retour = new DossierTechniqueInsertRequestDto();
     retour.adresseMail = formValues.adresseMail ?? "";
@@ -59,11 +60,17 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     retour.tarifJournalier = formValues.prixJour;
     retour.telephone = formValues.numeroTelephone1;
     retour.trigramme = formValues.trigram ?? "";
-    retour.utilisateurId = "f6715e92-3600-44a0-d65b-08dc95bde4eb";
+    retour.utilisateurId = this.userIdLogged;
     return retour;
   }
-  
+
   public override populateData(): void {
+    this.callRequest(ConstantesRequest.getUserLoggedDto, this.service.getUserLoggedDto()
+        .subscribe((response: CustomUserLoggedDto) => {
+          this.userIdLogged = response.userId;
+        },() => {
+          window.location.href = "/Admin";
+        }));
   }
 }
 

@@ -39,10 +39,11 @@ namespace Altalents.Business.Services
                 if (isConnectable)
                 {
                     _contextAccessor.HttpContext.Session.Set(SessionKeyConstantes.IsLogged, true);
-                    _contextAccessor.HttpContext.Session.Set(SessionKeyConstantes.UserLogged, new UserLoggedDto()
+                    _contextAccessor.HttpContext.Session.Set(SessionKeyConstantes.UserLogged, new CustomUserLoggedDto()
                     {
                         Nom = utilisateur.Nom,
-                        Login = utilisateur.Email
+                        Login = utilisateur.Email,
+                        UserId = utilisateur.Id
                     });
                 }
             }

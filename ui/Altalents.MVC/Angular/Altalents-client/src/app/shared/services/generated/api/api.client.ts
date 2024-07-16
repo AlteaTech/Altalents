@@ -135,6 +135,101 @@ export class ApiClient {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @return OK
+     */
+    getUserLoggedDto(): Observable<CustomUserLoggedDto> {
+        let url_ = this.baseUrl + "/UserLogged";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUserLoggedDto(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUserLoggedDto(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CustomUserLoggedDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CustomUserLoggedDto>;
+        }));
+    }
+
+    protected processGetUserLoggedDto(response: HttpResponseBase): Observable<CustomUserLoggedDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CustomUserLoggedDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+export class CustomUserLoggedDto implements ICustomUserLoggedDto {
+    nom?: string | null;
+    login?: string | null;
+    userId?: string;
+
+    constructor(data?: ICustomUserLoggedDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
+            this.login = _data["Login"] !== undefined ? _data["Login"] : <any>null;
+            this.userId = _data["UserId"] !== undefined ? _data["UserId"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): CustomUserLoggedDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomUserLoggedDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
+        data["Login"] = this.login !== undefined ? this.login : <any>null;
+        data["UserId"] = this.userId !== undefined ? this.userId : <any>null;
+        return data;
+    }
+}
+
+export interface ICustomUserLoggedDto {
+    nom?: string | null;
+    login?: string | null;
+    userId?: string;
 }
 
 export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsertRequestDto {
