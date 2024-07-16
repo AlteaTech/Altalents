@@ -1,34 +1,34 @@
-<div class="at-c-container" *ngIf="userIdLogged">
+<div class="at-c-container" *ngIf="userIdLogged && isReady">
     <div class="row">
     <div class="col-2"></div>
     <div class="col-8">
         <h4>Configuration</h4>
         <form [formGroup]="formGroup">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                     <fieldset>
                         <legend>Informations personnelles</legend>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="prenom">Prénom<span class="champ-obligatoire">*</span></label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <input type="text" formControlName="prenom" placeholder="Julien">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="nom">Nom<span class="champ-obligatoire">*</span></label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <input type="text" formControlName="nom" placeholder="Dupont">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="trigram">Trigramme<span class="champ-obligatoire">*</span></label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <input type="text" formControlName="trigram" placeholder="JUD">
                             </div>
                         </div>
@@ -36,47 +36,50 @@
                     <fieldset>
                         <legend>Conditions</legend>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="poste">Poste</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <input type="text" formControlName="poste" placeholder="12 rue des Fleurs">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="prixJour">Tarif journalier</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <input type="text" formControlName="prixJour" placeholder="€">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="disponibilite">Disponibilite</label>
                             </div>
-                            <div class="col-lg-6">
-                                <input type="text" formControlName="disponibilite" placeholder="22 rue des Adresses">
+                            <div class="col-xl-6">
+                                <!-- <input type="text" formControlName="disponibilite" placeholder="22 rue des Adresses"> -->
+                              <select id="country" formControlName="disponibilite">
+                                  <option *ngFor="let disponibilite of disponibilites" [ngValue]="disponibilite.id">{{ disponibilite.libelle }}</option>
+                              </select>
                             </div>
                         </div>
                     </fieldset>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                     <fieldset>
                         <legend>Coordonnées de contact</legend>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="numeroTelephone1">N° de téléphone</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <input type="text" formControlName="numeroTelephone1" placeholder="00 00 00 00 00">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="adresseMail">Adresse mail<span class="champ-obligatoire">*</span></label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <input type="text" formControlName="adresseMail" placeholder="adresse@mail.com">
                             </div>
                         </div>
@@ -88,10 +91,10 @@
                     <fieldset>
                         <legend>Identifiant Boond du candidat</legend>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <label for="idBoond">ID Boond</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-xl-6">
                                 <input type="text" formControlName="idBoond" placeholder="15415s">
                             </div>
                         </div>

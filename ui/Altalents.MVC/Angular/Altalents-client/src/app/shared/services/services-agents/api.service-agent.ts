@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto } from '../generated/api/api.client';
+import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto, ReferenceDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -26,5 +26,9 @@ export class ApiServiceAgent {
     mock.login = "a";
     mock.userId = "870eab28-378d-48e3-84bd-08dc96b4bf1b";
     return new Observable<CustomUserLoggedDto>((subscriber: Subscriber<CustomUserLoggedDto>) => subscriber.next(mock));
+  }
+
+  getReferences(typeReferenceCode: string): Observable<ReferenceDto[]> {
+    return this.apiClient.getReferences(typeReferenceCode);
   }
 }

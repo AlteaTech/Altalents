@@ -3,8 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
+import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-commercial-form';
-import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto } from 'src/app/shared/services/generated/api/api.client';
+import { ReferenceFun } from 'src/app/shared/models/ReferenceFun';
+import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto, ReferenceDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
 @Component({
@@ -17,6 +19,8 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
   public formGroup: FormGroup<CreationDtCommercialForm>;
   pathConfigDt: string = `${ConstantesRoutes.commercialAccueilCreateDt}`;
   userIdLogged: string | undefined;
+  isReady = false;
+  disponibilites: ReferenceFun[] = [];
 
   constructor(
     private readonly service: ApiServiceAgent) {
@@ -70,6 +74,12 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
           this.userIdLogged = response.userId;
         },() => {
           window.location.href = "/Admin";
+        }));
+debugger;
+    this.callRequest(ConstantesRequest.getReferences, this.service.getReferences(ConstantesTypesReferences.disponibilite)
+        .subscribe((response: ReferenceDto[]) => {
+          this.disponibilites = ReferenceFun.fromListReferenceDto(response);
+          this.isReady = true;
         }));
   }
 }
