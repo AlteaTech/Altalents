@@ -7,10 +7,10 @@
     <div class="container">
         <div class="content">
             <div class="row">
-                <div class="col-6">
+                <div class="col-lg-6">
                     <h1>{{titreStep}}</h1>
                 </div>
-                <div class="col-6">
+                <div class="col-lg-6">
                     <ol class="stepper">
                         <li *ngFor="let step of steps" [ngClass]="{'active' : currentStep == step}"
                             (click)="onStepClick(step)">
