@@ -5,6 +5,8 @@ import { Formation } from 'src/app/shared/models/formation.model';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CertificationDialogComponent } from '../dialogs/certification-dialog/certification-dialog.component';
 import { Certification } from 'src/app/shared/models/certification.model';
+import { LangueDialogComponent } from '../dialogs/langue-dialog/langue-dialog.component';
+import { Langue } from 'src/app/shared/models/langue.model';
 
 @Component({
   selector: 'app-formations',
@@ -47,6 +49,15 @@ export class FormationsComponent implements OnInit {
   public onModifierCertificationClick(certification: Certification): void {
     let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent);
     dialogRef.componentInstance.certification = certification;
+  }
+
+  public onAddLangueClick(): void {
+    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent);
+    dialogRef.result.then((nouvelElement: Langue | undefined) => {
+      if(nouvelElement) {
+        this.stepFormation.langues.push(nouvelElement)
+      }
+    })
   }
 
   private loadData(): void {

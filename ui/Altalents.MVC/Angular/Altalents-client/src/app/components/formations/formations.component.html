@@ -25,5 +25,10 @@
 </fieldset>
 <fieldset>
     <legend>Langues parlées</legend>
-    <button>Ajouter une langue</button>
+    <div>
+        <span *ngFor="let langue of stepFormation.langues; last as isLast">
+            {{langue.libelle}} {{langue.niveau?.libelle}} <i *ngIf="!isLast">.</i>
+        </span>
+    </div>
+    <button (click)="onAddLangueClick()">Ajouter une langue</button>
 </fieldset>

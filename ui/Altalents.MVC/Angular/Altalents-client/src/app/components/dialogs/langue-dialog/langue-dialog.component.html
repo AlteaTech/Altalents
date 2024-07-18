@@ -1,0 +1,27 @@
+<form [formGroup]="formGroup">
+    <fieldset>
+        <legend>Langues parlées</legend>
+        <div class="row">
+            <div class="col-6">
+                <label for="libelle">Langue</label>
+            </div>
+            <div class="col-6">
+                <input type="text" formControlName="libelle" placeholder="Langue">
+            </div>               
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="niveau">Niveau</label>
+            </div>
+            <div class="col-6">
+                <select formControlName="niveau">
+                    <option *ngFor="let niveauLangue of niveauxLangues" [ngValue]="niveauLangue">{{niveauLangue.libelle}}</option>
+                </select>
+            </div>               
+        </div>
+    </fieldset>
+    <div>
+        <button (click)="closeDialog()">Annuler</button>
+        <button (click)="submit()">Valider</button>
+    </div>
+</form>
