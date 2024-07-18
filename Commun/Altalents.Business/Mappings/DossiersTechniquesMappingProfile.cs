@@ -17,6 +17,12 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.CommercialId, opt => opt.MapFrom(src => src.UtilisateurId))
                 ;
 
+            CreateMap<Reference, ReferenceDto>()
+                .ForMember(dest => dest.CommentaireFun, opt => opt.MapFrom(src => src.CommentaireFun))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
+                ;
+
             CreateMap<DossierTechniqueInsertRequestDto, Personne>()
                 .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
                 .ForMember(dest => dest.Prenom, opt => opt.MapFrom(src => src.Prenom))

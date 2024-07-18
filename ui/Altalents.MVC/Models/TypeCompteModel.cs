@@ -1,4 +1,5 @@
 using Altalents.Commun.Enums;
+
 using AlteaTools.Api.Core.Extensions;
 
 namespace Altalents.MVC.Models

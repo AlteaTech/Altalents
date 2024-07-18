@@ -135,6 +135,164 @@ export class ApiClient {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param typeReferenceCode (optional) 
+     * @return OK
+     */
+    getReferences(typeReferenceCode?: string | undefined): Observable<ReferenceDto[]> {
+        let url_ = this.baseUrl + "/References?";
+        if (typeReferenceCode === null)
+            throw new Error("The parameter 'typeReferenceCode' cannot be null.");
+        else if (typeReferenceCode !== undefined)
+            url_ += "typeReferenceCode=" + encodeURIComponent("" + typeReferenceCode) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetReferences(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetReferences(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ReferenceDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ReferenceDto[]>;
+        }));
+    }
+
+    protected processGetReferences(response: HttpResponseBase): Observable<ReferenceDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ReferenceDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getUserLoggedDto(): Observable<CustomUserLoggedDto> {
+        let url_ = this.baseUrl + "/UserLogged";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUserLoggedDto(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUserLoggedDto(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CustomUserLoggedDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CustomUserLoggedDto>;
+        }));
+    }
+
+    protected processGetUserLoggedDto(response: HttpResponseBase): Observable<CustomUserLoggedDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CustomUserLoggedDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+export class CustomUserLoggedDto implements ICustomUserLoggedDto {
+    nom?: string | null;
+    login?: string | null;
+    userId?: string;
+
+    constructor(data?: ICustomUserLoggedDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
+            this.login = _data["Login"] !== undefined ? _data["Login"] : <any>null;
+            this.userId = _data["UserId"] !== undefined ? _data["UserId"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): CustomUserLoggedDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomUserLoggedDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
+        data["Login"] = this.login !== undefined ? this.login : <any>null;
+        data["UserId"] = this.userId !== undefined ? this.userId : <any>null;
+        return data;
+    }
+}
+
+export interface ICustomUserLoggedDto {
+    nom?: string | null;
+    login?: string | null;
+    userId?: string;
 }
 
 export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsertRequestDto {
@@ -207,6 +365,50 @@ export interface IDossierTechniqueInsertRequestDto {
     telephone?: string | null;
     poste?: string | null;
     tarifJournalier?: number | null;
+}
+
+export class ReferenceDto implements IReferenceDto {
+    id?: string;
+    libelle?: string | null;
+    commentaireFun?: string | null;
+
+    constructor(data?: IReferenceDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
+            this.libelle = _data["Libelle"] !== undefined ? _data["Libelle"] : <any>null;
+            this.commentaireFun = _data["CommentaireFun"] !== undefined ? _data["CommentaireFun"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ReferenceDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReferenceDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id !== undefined ? this.id : <any>null;
+        data["Libelle"] = this.libelle !== undefined ? this.libelle : <any>null;
+        data["CommentaireFun"] = this.commentaireFun !== undefined ? this.commentaireFun : <any>null;
+        return data;
+    }
+}
+
+export interface IReferenceDto {
+    id?: string;
+    libelle?: string | null;
+    commentaireFun?: string | null;
 }
 
 export class ApiException extends Error {

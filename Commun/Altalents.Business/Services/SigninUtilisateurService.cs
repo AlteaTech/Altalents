@@ -1,6 +1,5 @@
 using AlteaTools.Application.Core.Helper;
 using AlteaTools.Session;
-using AlteaTools.Session.Dto;
 using AlteaTools.Session.Extension;
 
 using Microsoft.AspNetCore.Authentication;
@@ -39,10 +38,11 @@ namespace Altalents.Business.Services
                 if (isConnectable)
                 {
                     _contextAccessor.HttpContext.Session.Set(SessionKeyConstantes.IsLogged, true);
-                    _contextAccessor.HttpContext.Session.Set(SessionKeyConstantes.UserLogged, new UserLoggedDto()
+                    _contextAccessor.HttpContext.Session.Set(SessionKeyConstantes.UserLogged, new CustomUserLoggedDto()
                     {
                         Nom = utilisateur.Nom,
-                        Login = utilisateur.Email
+                        Login = utilisateur.Email,
+                        UserId = utilisateur.Id
                     });
                 }
             }

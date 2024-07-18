@@ -1,7 +1,5 @@
 using Altalents.Commun.Enums;
 
-using AlteaTools.Api.Core.Extensions;
-
 namespace Altalents.IBusiness.DTO
 {
     public class UtilisateurDto : BaseUpdatableDto

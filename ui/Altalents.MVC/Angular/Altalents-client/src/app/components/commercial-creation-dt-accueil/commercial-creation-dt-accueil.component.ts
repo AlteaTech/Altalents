@@ -7,6 +7,7 @@ import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
   styleUrls: ['./commercial-creation-dt-accueil.component.css','../../app.component.css']
 })
 export class CommercialCreationDtAccueilComponent {
-pathConfigDt: string = `${ConstantesRoutes.commercialAccueilCreateDt}/${ConstantesRoutes.commercialAccueilConfigurationDt}`;
-
+  vamos() {
+    window.location.href = `/${ConstantesRoutes.commercialAccueilCreateDt}/${ConstantesRoutes.commercialAccueilConfigurationDt}`;
+  }
 }

@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Altalents.IBusiness.DTO.Requesst;
-using Altalents.IBusiness.Enums;
 
 namespace Altalents.API.Controllers
 {
@@ -26,7 +20,7 @@ namespace Altalents.API.Controllers
         }
 
         [HttpPut("{id}/statut/{statutId}", Name = "ChangerStatutDossierTechnique")]
-        public async Task ChangerStatutDossierTechniqueAsync([FromRoute] Guid id,[FromRoute] Guid statutId, CancellationToken cancellationToken)
+        public async Task ChangerStatutDossierTechniqueAsync([FromRoute] Guid id, [FromRoute] Guid statutId, CancellationToken cancellationToken)
         {
             await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, cancellationToken);
         }

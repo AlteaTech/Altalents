@@ -1,5 +1,5 @@
 body {
-  width: 98%;
+  width: 99%;
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -8,7 +8,6 @@ body {
 
 .lienmenu {
   padding-left: 30px;
-  height: 30px;
   margin-top: 30px;
   text-decoration: none;
   display: block;
@@ -18,7 +17,6 @@ body {
 .liensousmenu {
   margin-left: 30px;
   padding-left: 20px;
-  height: 30px;
   margin-top: 30px;
   text-decoration: none;
   display: block;
@@ -36,7 +34,6 @@ body {
 .menuselected {
   background-color: #DEDEF2;
   margin-right: 0px;
-  height: 30px;
   margin-top: 30px;
   color: #7A4AFF;
   border: 0px;

@@ -1,7 +1,5 @@
 using Altalents.Commun.Enums;
 
-using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace Altalents.MVC.Controllers.Admin
 {
     public class UtilisateurController : AdminController
