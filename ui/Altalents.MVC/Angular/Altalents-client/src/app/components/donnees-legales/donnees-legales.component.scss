@@ -1,0 +1,99 @@
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-text {
+    text-align: center;
+    margin-bottom: 20px;
+    
+    h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    
+    p {
+        font-size: 1.2em;
+        color: #666;
+    }
+}
+
+.form-section {
+    margin-bottom: 20px;
+
+    fieldset {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+
+        legend {
+            font-size: 1.2em;
+            width: auto;
+            padding: 0 10px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+
+            label {
+                font-size: 1em;
+            }
+
+            input {
+                font-size: 1em;
+                padding: 5px;
+            }
+        }
+    }
+}
+
+.champ-obligatoire {
+    color: red;
+}
+
+.drop-zone {
+    border: 2px dashed #6c757d;
+    border-radius: 5px;
+    text-align: center;
+    padding: 30px;
+    color: #6c757d;
+
+    p {
+        margin: 0;
+        font-size: 1.2em;
+    }
+}
+
+button {
+    margin: 10px;
+}
+
+.info-section {
+    display: flex;
+    align-items: center;
+    background-color: #F5F5FF;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.info-image {
+    width: 50px;
+    height: auto;
+    margin-right: 20px; /* Espacement entre l'image et le texte */
+}
+
+.info-text {
+    font-size: 16px; /* Taille de police */
+    line-height: 1.5; /* Hauteur de ligne */
+    color: #333333; /* Couleur du texte */
+    font-family: Arial, sans-serif; /* Police de caractères */
+    margin: 0; /* Enlever la marge par défaut */
+}
