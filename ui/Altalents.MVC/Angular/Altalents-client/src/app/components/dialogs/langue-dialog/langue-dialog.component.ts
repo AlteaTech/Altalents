@@ -48,13 +48,14 @@ export class LangueDialogComponent extends BaseComponent implements OnInit {
   }
 
   public populateData(): void {
-    this.callRequest(ConstantesRequest.getReferencesNiveauxLangues, this.service.getReferences(ConstantesTypesReferences.niveauLangue)
-        .subscribe((response: ReferenceDto[]) => {
-          this.niveauxLangues = Reference.fromListReferenceDto(response);
-        }));
     this.callRequest(ConstantesRequest.getReferencesLangues, this.service.getReferences(ConstantesTypesReferences.langue)
         .subscribe((response: ReferenceDto[]) => {
           this.langues = Reference.fromListReferenceDto(response);
+        }));
+    this.callRequest(ConstantesRequest.getReferencesNiveauxLangues, this.service.getReferences(ConstantesTypesReferences.niveauLangue)
+        .subscribe((response: ReferenceDto[]) => {
+          this.niveauxLangues = Reference.fromListReferenceDto(response);
+          this.formGroup.controls.niveau.setValue(this.niveauxLangues[0]);
         }));
   }
 }
