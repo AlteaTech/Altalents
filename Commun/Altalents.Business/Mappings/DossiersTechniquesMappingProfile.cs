@@ -26,7 +26,7 @@ namespace Altalents.Business.Mappings
             CreateMap<DossierTechniqueInsertRequestDto, Personne>()
                 .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
                 .ForMember(dest => dest.Prenom, opt => opt.MapFrom(src => src.Prenom))
-                .ForMember(dest => dest.Trigramme, opt => opt.MapFrom(src => src.Trigramme))
+                .ForMember(dest => dest.Trigramme, opt => opt.MapFrom(src => src.Trigramme.ToLower()))
                 .ForMember(dest => dest.BoondId, opt => opt.MapFrom(src => src.IdBoond))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AdresseMail))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => Guid.Parse(IdsConstantes.TypePersonneCandidatId)))

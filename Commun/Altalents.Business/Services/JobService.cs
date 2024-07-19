@@ -10,5 +10,11 @@ namespace Altalents.Business.Services
             : base(logger, dbContext, mapper, serviceProvider)
         {
         }
+
+        public void PurgeTrigrammeLocks()
+        {
+            DateTime dateLimite = DateTime.UtcNow.AddDays(-1);
+            DbContext.TrigrammeLocks.Where(x => x.DateLock <= dateLimite).ExecuteDelete();
+        }
     }
 }
