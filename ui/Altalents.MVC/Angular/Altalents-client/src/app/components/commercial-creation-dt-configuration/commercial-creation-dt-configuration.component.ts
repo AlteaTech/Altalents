@@ -5,7 +5,7 @@ import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request'
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-commercial-form';
-import { ReferenceFun } from 'src/app/shared/models/ReferenceFun';
+import { Reference } from 'src/app/shared/models/Reference';
 import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
@@ -21,7 +21,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
   pathConfigDt: string = `${ConstantesRoutes.commercialAccueilCreateDt}`;
   userIdLogged: string | undefined;
   isReady = false;
-  disponibilites: ReferenceFun[] = [];
+  disponibilites: Reference[] = [];
 
   constructor(
     private readonly service: ApiServiceAgent) {
@@ -92,7 +92,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
         }));
     this.callRequest(ConstantesRequest.getReferences, this.service.getReferences(ConstantesTypesReferences.disponibilite)
         .subscribe((response: ReferenceDto[]) => {
-          this.disponibilites = ReferenceFun.fromListReferenceDto(response);
+          this.disponibilites = Reference.fromListReferenceDto(response);
           this.isReady = true;
         }));
   }
