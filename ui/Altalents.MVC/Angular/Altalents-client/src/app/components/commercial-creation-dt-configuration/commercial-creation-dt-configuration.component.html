@@ -14,7 +14,7 @@
                                   <label for="prenom">Prénom<span class="champ-obligatoire">*</span></label>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="prenom" placeholder="Julien">
+                                  <input type="text" formControlName="prenom" placeholder="Julien" (change)="nomPrenomChange()">
                               </div>
                           </div>
                           <div class="row">
@@ -22,7 +22,7 @@
                                   <label for="nom">Nom<span class="champ-obligatoire">*</span></label>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="nom" placeholder="Dupont">
+                                  <input type="text" formControlName="nom" placeholder="Dupont" (change)="nomPrenomChange()">
                               </div>
                           </div>
                           <div class="row">
