@@ -58,7 +58,7 @@
                               </div>
                               <div class="col-xl-6">
                                   <!-- <input type="text" formControlName="disponibilite" placeholder="22 rue des Adresses"> -->
-                                <select id="country" formControlName="disponibilite">
+                                <select id="country" class="at-w-200" formControlName="disponibilite">
                                     <option *ngFor="let disponibilite of disponibilites" [ngValue]="disponibilite.id">{{ disponibilite.libelle }} <span *ngIf="disponibilite.commentaireFun">(<em>{{disponibilite.commentaireFun}}</em>)</span></option>
                                 </select>
                               </div>
