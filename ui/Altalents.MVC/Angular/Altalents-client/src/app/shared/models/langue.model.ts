@@ -1,7 +1,7 @@
-import { CodeLibelle } from "./code-libelle.model";
+import { Reference } from "./reference.model";
 
 export class Langue {
     id!: number;
-    libelle?: string;
-    niveau?: CodeLibelle;
+    langue?: Reference;
+    niveau?: Reference;
 }

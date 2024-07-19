@@ -1,37 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { BaseComponent } from 'src/app/shared/components/base.component';
+import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
+import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { LangueForm } from 'src/app/shared/interfaces/langue-form';
-import { CodeLibelle } from 'src/app/shared/models/code-libelle.model';
 import { Langue } from 'src/app/shared/models/langue.model';
-import { MockService } from 'src/app/shared/services/mock.service';
+import { Reference } from 'src/app/shared/models/reference.model';
+import { ReferenceDto } from 'src/app/shared/services/generated/api/api.client';
+import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
 @Component({
   selector: 'app-langue-dialog',
   templateUrl: './langue-dialog.component.html'
 })
-export class LangueDialogComponent implements OnInit {
+export class LangueDialogComponent extends BaseComponent implements OnInit {
   public formGroup: FormGroup<LangueForm>;
-  public niveauxLangues: CodeLibelle[] = [];
+  public langues: Reference[] = [];
+  public niveauxLangues: Reference[] = [];
 
   constructor(public activeModal: NgbActiveModal,
-    private mockService: MockService
-  ) {
+    private readonly service: ApiServiceAgent) {
+    super();
     this.formGroup = new FormGroup<LangueForm>({
-      libelle: new FormControl(),
+      langue: new FormControl(),
       niveau: new FormControl()
     });
   }
 
   public ngOnInit(): void {
-    this.loadNiveauxLangues();  
+    this.populateData();
   }
 
   public submit(): void {
     if (this.formGroup.valid) {
       const values = this.formGroup.value;
       let langue: Langue = new Langue();
-      langue.libelle = values.libelle;
+      langue.langue = values.langue;
       langue.niveau = values.niveau;
       
       this.activeModal.close(langue);
@@ -42,8 +47,14 @@ export class LangueDialogComponent implements OnInit {
     this.activeModal.close();
   }
 
-  private loadNiveauxLangues(): void {
-    // TODO : appeler le back pour avoir les infos
-    this.niveauxLangues = this.mockService.getNiveauxLangues();
+  public populateData(): void {
+    this.callRequest(ConstantesRequest.getReferencesNiveauxLangues, this.service.getReferences(ConstantesTypesReferences.niveauLangue)
+        .subscribe((response: ReferenceDto[]) => {
+          this.niveauxLangues = Reference.fromListReferenceDto(response);
+        }));
+    this.callRequest(ConstantesRequest.getReferencesLangues, this.service.getReferences(ConstantesTypesReferences.langue)
+        .subscribe((response: ReferenceDto[]) => {
+          this.langues = Reference.fromListReferenceDto(response);
+        }));
   }
 }

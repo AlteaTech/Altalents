@@ -3,10 +3,12 @@
         <legend>Langues parlées</legend>
         <div class="row">
             <div class="col-6">
-                <label for="libelle">Langue</label>
+                <label for="langue">Langue</label>
             </div>
             <div class="col-6">
-                <input type="text" formControlName="libelle" placeholder="Langue">
+                <select formControlName="langue">
+                    <option *ngFor="let langue of langues" [ngValue]="langue">{{langue.libelle}} <span *ngIf="langue.commentaireFun">({{langue.commentaireFun}})</span></option>
+                </select>
             </div>               
         </div>
         <div class="row">
@@ -15,9 +17,9 @@
             </div>
             <div class="col-6">
                 <select formControlName="niveau">
-                    <option *ngFor="let niveauLangue of niveauxLangues" [ngValue]="niveauLangue">{{niveauLangue.libelle}}</option>
+                    <option *ngFor="let niveauLangue of niveauxLangues" [ngValue]="niveauLangue">{{niveauLangue.libelle}} <span *ngIf="niveauLangue.commentaireFun">({{niveauLangue.commentaireFun}})</span></option>
                 </select>
-            </div>               
+            </div>
         </div>
     </fieldset>
     <div>

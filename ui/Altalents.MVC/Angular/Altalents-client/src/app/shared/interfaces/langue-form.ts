@@ -1,7 +1,7 @@
 import { FormControl } from "@angular/forms";
-import { CodeLibelle } from "../models/code-libelle.model";
+import { Reference } from "../models/reference.model";
 
 export interface LangueForm {
-    libelle: FormControl<string | undefined>,
-    niveau: FormControl<CodeLibelle | undefined>
+    langue: FormControl<Reference | undefined>,
+    niveau: FormControl<Reference | undefined>
 }
