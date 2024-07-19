@@ -9,5 +9,6 @@ namespace Altalents.IBusiness.IServices
         Task ChangerStatutDossierTechniqueAsync(Guid id, Guid statutId, CancellationToken cancellationToken);
         IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques();
         IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat);
+        Task<TrigrammeDto> GetTrigrammeAsync(GetTrigrammeRequestDto request, CancellationToken cancellationToken);
     }
 }

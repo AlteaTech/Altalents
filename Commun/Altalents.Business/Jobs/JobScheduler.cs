@@ -1,3 +1,6 @@
+using Hangfire;
+using Hangfire.Server;
+
 namespace Altalents.Business.Jobs
 {
     public static class JobScheduler
@@ -7,6 +10,7 @@ namespace Altalents.Business.Jobs
         /// </summary>
         public static void ScheduleRecurringJobs(string name)
         {
+            RecurringJob.AddOrUpdate<IJobService>(name + "PurgeTrigrammeLocks", job => job.PurgeTrigrammeLocks(), Cron.Daily);
         }
     }
 }

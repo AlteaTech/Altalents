@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20240719092851_TrigrammeLock")]
+    partial class TrigrammeLock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1386,53 +1389,6 @@ namespace Altalents.DataAccess.Migrations
                             Libelle = "Candidat",
                             OrdreTri = 1,
                             Type = "Contact",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("307b0cc3-cd1a-41b5-854f-6b9a866e7f35"),
-                            Code = "Basique",
-                            CommentaireFun = "et encore",
-                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Basique",
-                            OrdreTri = 1,
-                            Type = "NiveauLangue",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("8b3a139d-7365-4e82-9d09-78e10a2b1919"),
-                            Code = "Intermediaire",
-                            CommentaireFun = "qu'est ce à dire que ceci",
-                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Intermediaire",
-                            OrdreTri = 2,
-                            Type = "NiveauLangue",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("2aa6bdda-0bf1-4792-9209-c3b05b37a3af"),
-                            Code = "Avance",
-                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Avance",
-                            OrdreTri = 3,
-                            Type = "NiveauLangue",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("9398ffec-86fa-43f1-a180-478cd43b85a7"),
-                            Code = "Bilingue",
-                            CommentaireFun = "tu te la pète",
-                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Bilingue",
-                            OrdreTri = 4,
-                            Type = "NiveauLangue",
                             UtiCrea = "ALTEA"
                         });
                 });

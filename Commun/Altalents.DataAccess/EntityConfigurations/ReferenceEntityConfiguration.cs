@@ -578,6 +578,48 @@ namespace Altalents.DataAccess.EntityConfigurations
                 OrdreTri = 1
             },
             #endregion
+            #region Niveau Langue
+            new Reference(){
+                Libelle = "Basique",
+                CommentaireFun = "et encore",
+                Code= Commun.Enums.CodeReferenceEnum.Basique.ToString("g"),
+                Id = Guid.Parse("{307B0CC3-CD1A-41B5-854F-6B9A866E7F35}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
+                OrdreTri = 1
+            },new Reference(){
+                Libelle = "Intermediaire",
+                CommentaireFun = "qu'est ce à dire que ceci",
+                Code= Commun.Enums.CodeReferenceEnum.Intermediaire.ToString("g"),
+                Id = Guid.Parse("{8B3A139D-7365-4E82-9D09-78E10A2B1919}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
+                OrdreTri = 2
+            },new Reference(){
+                Libelle = "Avance",
+                Code= Commun.Enums.CodeReferenceEnum.Avance.ToString("g"),
+                Id = Guid.Parse("{2AA6BDDA-0BF1-4792-9209-C3B05B37A3AF}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
+                OrdreTri = 3
+            },new Reference(){
+                Libelle = "Bilingue",
+                CommentaireFun = "tu te la pète",
+                Code= Commun.Enums.CodeReferenceEnum.Bilingue.ToString("g"),
+                Id = Guid.Parse("{9398FFEC-86FA-43F1-A180-478CD43B85A7}"),
+                DateCrea = new DateTime(2024,6,18),
+                UtiCrea= "ALTEA",
+                IsValide=true,
+                Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
+                OrdreTri = 4
+            },
+            #endregion
             });
         }
     }

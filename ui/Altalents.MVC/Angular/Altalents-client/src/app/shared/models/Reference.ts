@@ -1,21 +1,23 @@
 import { ReferenceDto } from "../services/generated/api/api.client"
 
-export class ReferenceFun {
+export class Reference {
   id!: string
   libelle!: string
+  commentaireFun!: string
 
-  static fromReferenceDto(dto : ReferenceDto):ReferenceFun{
-    var model = new ReferenceFun ();
+  static fromReferenceDto(dto : ReferenceDto):Reference{
+    var model = new Reference ();
     model.id = dto.id!;
     model.libelle = dto.libelle!;
     if(dto.commentaireFun && dto.commentaireFun.length > 0){
-      model.libelle = model.libelle + "("+dto.commentaireFun+")";
+      model.libelle = model.libelle;
+      model.commentaireFun = dto.commentaireFun;
     }
     return model;
   }
 
-  static fromListReferenceDto(dtos : ReferenceDto[]):ReferenceFun[]{
-    var model :ReferenceFun[] = [];
+  static fromListReferenceDto(dtos : ReferenceDto[]):Reference[]{
+    var model :Reference[] = [];
     dtos.forEach(dto => {
       model.push(this.fromReferenceDto(dto));
     });
