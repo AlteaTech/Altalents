@@ -16,6 +16,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommercialCreationDtAccueilComponent } from './components/commercial-creation-dt-accueil/commercial-creation-dt-accueil.component';
 import { CommercialCreationDtConfigurationComponent } from './components/commercial-creation-dt-configuration/commercial-creation-dt-configuration.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormationDialogComponent } from './components/dialogs/formation-dialog/formation-dialog.component';
+import { CertificationDialogComponent } from './components/dialogs/certification-dialog/certification-dialog.component';
+import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { HttpClientModule } from '@angular/common/http';
     RecapitulatifComponent,
     FinComponent,
     CommercialCreationDtAccueilComponent,
-    CommercialCreationDtConfigurationComponent
+    CommercialCreationDtConfigurationComponent,
+    FormationDialogComponent,
+    CertificationDialogComponent,
+    LangueDialogComponent
   ],
   imports: [
     HttpClientModule,

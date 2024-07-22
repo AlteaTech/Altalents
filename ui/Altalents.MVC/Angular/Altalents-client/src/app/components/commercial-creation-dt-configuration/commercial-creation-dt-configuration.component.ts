@@ -5,7 +5,7 @@ import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request'
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-commercial-form';
-import { Reference } from 'src/app/shared/models/Reference';
+import { Reference } from 'src/app/shared/models/reference.model';
 import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
