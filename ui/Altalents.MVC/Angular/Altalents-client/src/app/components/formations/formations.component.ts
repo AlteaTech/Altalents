@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormationDialogComponent } from '../dialogs/formation-dialog/formation-dialog.component';
 import { StepFormation } from 'src/app/shared/models/step-formation.model';
 import { Formation } from 'src/app/shared/models/formation.model';
@@ -13,13 +13,15 @@ import { Langue } from 'src/app/shared/models/langue.model';
   templateUrl: './formations.component.html'
 })
 export class FormationsComponent implements OnInit {
-  @Input() public tokenDossierTechnique: string = "";  
+  @Input() public tokenDossierTechnique: string = "";
+  @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   public stepFormation: StepFormation = new StepFormation();
   
   constructor(private modalService: NgbModal) {
   }
 
   public ngOnInit(): void {
+    this.validationCallback.emit(() => this.submit());
     this.loadData();
   }
 
@@ -58,6 +60,11 @@ export class FormationsComponent implements OnInit {
         this.stepFormation.langues.push(nouvelElement)
       }
     })
+  }
+
+  private submit(): Promise<boolean> {
+    // Appeler la route de save
+    return new Promise<boolean>(resolve => resolve(true));
   }
 
   private loadData(): void {
