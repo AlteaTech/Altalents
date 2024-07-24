@@ -7,6 +7,7 @@ namespace Altalents.Commun.Enums
         Contact = 3,
         Document = 4,
         Contrat = 5,
-        StatutDt = 6
+        StatutDt = 6,
+        NiveauLangue = 7
     }
 }

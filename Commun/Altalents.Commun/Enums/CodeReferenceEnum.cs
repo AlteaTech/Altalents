@@ -59,6 +59,10 @@ namespace Altalents.Commun.Enums
         Valide = 55,
         AModifier = 56,
         Inactif = 57,
-        Candidat = 58
+        Candidat = 58,
+        Basique = 59,
+        Intermediaire = 60,
+        Avance = 61,
+        Bilingue = 62
     }
 }

@@ -12,9 +12,12 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="prenom">Prénom<span class="champ-obligatoire">*</span></label>
+                                  <div *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
+                                    Prénom est requis.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="prenom" placeholder="Julien">
+                                  <input type="text" formControlName="prenom" placeholder="Julien" (change)="nomPrenomChange()">
                               </div>
                           </div>
                           <div class="row">
@@ -22,7 +25,7 @@
                                   <label for="nom">Nom<span class="champ-obligatoire">*</span></label>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="nom" placeholder="Dupont">
+                                  <input type="text" formControlName="nom" placeholder="Dupont" (change)="nomPrenomChange()">
                               </div>
                           </div>
                           <div class="row">
@@ -58,8 +61,8 @@
                               </div>
                               <div class="col-xl-6">
                                   <!-- <input type="text" formControlName="disponibilite" placeholder="22 rue des Adresses"> -->
-                                <select id="country" formControlName="disponibilite">
-                                    <option *ngFor="let disponibilite of disponibilites" [ngValue]="disponibilite.id">{{ disponibilite.libelle }}</option>
+                                <select id="country" class="at-w-200" formControlName="disponibilite">
+                                    <option *ngFor="let disponibilite of disponibilites" [ngValue]="disponibilite.id">{{ disponibilite.libelle }} <span *ngIf="disponibilite.commentaireFun">(<em>{{disponibilite.commentaireFun}}</em>)</span></option>
                                 </select>
                               </div>
                           </div>
@@ -93,7 +96,7 @@
                           <legend>Identifiant Boond du candidat</legend>
                           <div class="row">
                               <div class="col-xl-6">
-                                  <label for="idBoond">ID Boond</label>
+                                  <label for="idBoond">ID Boond<span class="champ-obligatoire">*</span></label>
                               </div>
                               <div class="col-xl-6">
                                   <input type="text" formControlName="idBoond" placeholder="15415s">

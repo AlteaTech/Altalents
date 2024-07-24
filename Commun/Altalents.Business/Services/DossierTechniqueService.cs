@@ -80,5 +80,32 @@ namespace Altalents.Business.Services
                     .Where(x => x.Statut.Code == CodeReferenceEnum.AModifier.ToString("g") || x.Statut.Code == CodeReferenceEnum.NonValide.ToString("g") || x.Statut.Code == CodeReferenceEnum.Valide.ToString("g"))
                                          .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
         }
+
+        public async Task<TrigrammeDto> GetTrigrammeAsync(GetTrigrammeRequestDto request, CancellationToken cancellationToken)
+        {
+            string baseTtrigramme = $"{request.Prenom[0]}{request.Nom[0..2]}".ToUpper();
+            TrigrammeDto retour = new TrigrammeDto
+            {
+                Valeur = baseTtrigramme
+            };
+            int i = 1;
+
+            while(await DbContext.Personnes.AnyAsync(x => x.Trigramme == retour.Valeur.ToLower(), cancellationToken) ||
+                await DbContext.TrigrammeLocks.AnyAsync(x => x.Trigramme == retour.Valeur.ToLower(), cancellationToken)
+                )
+            {
+                retour.Valeur = baseTtrigramme+i;
+               i++;
+            }
+
+            await DbContext.TrigrammeLocks.AddAsync(new()
+            {
+                Trigramme = retour.Valeur.ToLower(),
+                DateLock = DateTime.UtcNow,
+            }, cancellationToken);
+
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+            return retour;
+        }
     }
 }

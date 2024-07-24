@@ -5,8 +5,8 @@ import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request'
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-commercial-form';
-import { ReferenceFun } from 'src/app/shared/models/ReferenceFun';
-import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto, ReferenceDto } from 'src/app/shared/services/generated/api/api.client';
+import { Reference } from 'src/app/shared/models/reference.model';
+import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
 @Component({
@@ -16,11 +16,12 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 })
 
 export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
+
   public formGroup: FormGroup<CreationDtCommercialForm>;
   pathConfigDt: string = `${ConstantesRoutes.commercialAccueilCreateDt}`;
   userIdLogged: string | undefined;
   isReady = false;
-  disponibilites: ReferenceFun[] = [];
+  disponibilites: Reference[] = [];
 
   constructor(
     private readonly service: ApiServiceAgent) {
@@ -48,6 +49,22 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
         .subscribe((response: string) => {
           window.location.href = "/Admin/TableauDeBord";
         }));
+    }else{
+      this.formGroup.markAllAsTouched();
+    }
+  }
+
+  nomPrenomChange() {
+    const formValues = this.formGroup.value;
+    let body = new GetTrigrammeRequestDto();
+    body.nom =  formValues.nom ?? "";
+    body.prenom = formValues.prenom ?? "";
+
+    if(body.nom.length > 0 && body.prenom.length > 0){
+      this.callRequest(ConstantesRequest.getTrigramme, this.service.getTrigramme(body)
+      .subscribe((response: TrigrammeDto) => {
+        this.formGroup.controls.trigram.setValue(response.valeur);
+    }));
     }
   }
 
@@ -77,9 +94,10 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
         }));
     this.callRequest(ConstantesRequest.getReferences, this.service.getReferences(ConstantesTypesReferences.disponibilite)
         .subscribe((response: ReferenceDto[]) => {
-          this.disponibilites = ReferenceFun.fromListReferenceDto(response);
+          this.disponibilites = Reference.fromListReferenceDto(response);
           this.isReady = true;
         }));
   }
 }
+
 

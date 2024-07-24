@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto, ReferenceDto } from '../generated/api/api.client';
+import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -30,5 +30,9 @@ export class ApiServiceAgent {
 
   getReferences(typeReferenceCode: string): Observable<ReferenceDto[]> {
     return this.apiClient.getReferences(typeReferenceCode);
+  }
+
+  getTrigramme(body: GetTrigrammeRequestDto): Observable<TrigrammeDto> {
+    return this.apiClient.getTrigramme(body);
   }
 }

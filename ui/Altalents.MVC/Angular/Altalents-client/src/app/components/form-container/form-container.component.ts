@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTitresSteps } from 'src/app/shared/constantes/constantes-titres-steps';
 import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-step.enum';
