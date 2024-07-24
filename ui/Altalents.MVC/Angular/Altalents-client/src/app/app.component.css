@@ -9,9 +9,9 @@
 }
 
 .logo-altalent {
-  top: 3%;
-  left: 41%;
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .at-c-title
@@ -98,4 +98,11 @@ legend
 
 input.ng-touched.ng-invalid {
   border-color: red;
+}
+
+.at-p-header {
+  width: 100%;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
 }
