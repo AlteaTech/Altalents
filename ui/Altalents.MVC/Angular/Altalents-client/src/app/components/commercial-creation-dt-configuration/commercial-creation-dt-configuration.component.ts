@@ -8,6 +8,9 @@ import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-
 import { Reference } from 'src/app/shared/models/reference.model';
 import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
+import { ValidateEmailWithApi } from 'src/app/shared/services/services/validate-email-with-api';
+import { ValidateIdBoondWithApi } from 'src/app/shared/services/services/validate-idboond-with-api';
+import { ValidateTrigramWithApi } from 'src/app/shared/services/services/validate-trigram-with-api';
 
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
@@ -32,13 +35,13 @@ return() {
     this.formGroup = new FormGroup<CreationDtCommercialForm>({
       prenom: new FormControl('', Validators.required),
       nom: new FormControl('', Validators.required),
-      trigram: new FormControl('', Validators.required),
-      adresseMail: new FormControl('', Validators.required),
+      trigram: new FormControl('', Validators.required,ValidateTrigramWithApi(this.service)),
+      adresseMail: new FormControl('', Validators.required,ValidateEmailWithApi(this.service)),
       numeroTelephone1: new FormControl(null),
       poste: new FormControl(null),
       prixJour: new FormControl(null),
       disponibilite: new FormControl('8f486cd6-6313-47f9-a4b5-5bd535c199a9', Validators.required),
-      idBoond: new FormControl('', Validators.required),
+      idBoond: new FormControl('', Validators.required,ValidateIdBoondWithApi(this.service)),
     });
   }
 
@@ -102,5 +105,4 @@ return() {
         }));
   }
 }
-
 

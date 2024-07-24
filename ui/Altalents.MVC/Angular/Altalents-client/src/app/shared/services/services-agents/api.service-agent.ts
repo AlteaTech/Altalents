@@ -35,4 +35,13 @@ export class ApiServiceAgent {
   getTrigramme(body: GetTrigrammeRequestDto): Observable<TrigrammeDto> {
     return this.apiClient.getTrigramme(body);
   }
+  isEmailValid(email: string): Observable<boolean> {
+    return this.apiClient.isEmailValid(email);
+  }
+  isIdBoondValid(idboond: string): Observable<boolean> {
+    return this.apiClient.isIdBoondValid(idboond);
+  }
+  isTrigramValid(trigram: string): Observable<boolean> {
+    return this.apiClient.isTrigrammeValid(trigram);
+  }
 }
