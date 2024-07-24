@@ -16,9 +16,12 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 })
 
 export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
+return() {
+
+  window.location.href = `/${ConstantesRoutes.commercialAccueilCreateDt}`;
+}
 
   public formGroup: FormGroup<CreationDtCommercialForm>;
-  pathConfigDt: string = `${ConstantesRoutes.commercialAccueilCreateDt}`;
   userIdLogged: string | undefined;
   isReady = false;
   disponibilites: Reference[] = [];

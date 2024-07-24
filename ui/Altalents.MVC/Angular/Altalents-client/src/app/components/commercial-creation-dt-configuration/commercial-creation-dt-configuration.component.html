@@ -4,7 +4,8 @@
       <div class="col-2"></div>
       <div class="col-8 at-c-white-box">
           <h4>Configuration</h4>
-          <form [formGroup]="formGroup">
+          <div class="row">
+          <form [formGroup]="formGroup" class="col-12">
               <div class="row">
                   <div class="col-xl-6">
                       <fieldset>
@@ -23,6 +24,9 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="nom">Nom<span class="champ-obligatoire">*</span></label>
+                                  <div class="error-message" *ngIf="formGroup.get('nom')?.invalid && formGroup.get('nom')?.touched">
+                                    Nom est requis.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
                                   <input type="text"  class="form-control" formControlName="nom" placeholder="Dupont" (change)="nomPrenomChange()">
@@ -31,6 +35,9 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="trigram">Trigramme<span class="champ-obligatoire">*</span></label>
+                                  <div class="error-message" *ngIf="formGroup.get('trigram')?.invalid && formGroup.get('trigram')?.touched">
+                                    Trigramme est requis.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
                                   <input type="text"  class="form-control" formControlName="trigram" placeholder="JUD">
@@ -82,6 +89,9 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="adresseMail">Adresse mail<span class="champ-obligatoire">*</span></label>
+                                  <div class="error-message" *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
+                                    Adresse mail est requis.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
                                   <input type="text"  class="form-control" formControlName="adresseMail" placeholder="adresse@mail.com">
@@ -97,6 +107,9 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="idBoond">ID Boond<span class="champ-obligatoire">*</span></label>
+                                  <div class="error-message" *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
+                                    ID Boond mail est requis.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
                                   <input type="text"  class="form-control" formControlName="idBoond" placeholder="15415s">
@@ -107,12 +120,13 @@
                   </div>
               </div>
           </form>
-          <div class="row">
+          </div>
+          <div class="row at-mt-10">
             <div class="col-3"></div>
             <div class="col-6">
                 <div class="row">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-3">        <a class="at-c-btn-link-second" href="/{{pathConfigDt}}"><i class="fa-solid fa-backward-step"></i>&nbsp;&nbsp; Retour</a>
+                    <div class="col-sm-6">
+                      <button class="at-c-btn-link-second" (click)="return()"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
                     </div>
                     <div class="col-sm-6">        <button class="at-c-btn-link-primary at-w-250" (click)="sendCancidat()"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
                     </div>
