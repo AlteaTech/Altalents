@@ -12,6 +12,9 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="prenom">Prénom<span class="champ-obligatoire">*</span></label>
+                                  <div *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
+                                    Prénom est requis.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
                                   <input type="text" formControlName="prenom" placeholder="Julien" (change)="nomPrenomChange()">
@@ -93,7 +96,7 @@
                           <legend>Identifiant Boond du candidat</legend>
                           <div class="row">
                               <div class="col-xl-6">
-                                  <label for="idBoond">ID Boond</label>
+                                  <label for="idBoond">ID Boond<span class="champ-obligatoire">*</span></label>
                               </div>
                               <div class="col-xl-6">
                                   <input type="text" formControlName="idBoond" placeholder="15415s">

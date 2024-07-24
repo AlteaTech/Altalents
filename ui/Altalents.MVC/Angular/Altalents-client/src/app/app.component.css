@@ -95,3 +95,7 @@ legend
 {
   width: 200px;
 }
+
+input.ng-touched.ng-invalid {
+  border-color: red;
+}

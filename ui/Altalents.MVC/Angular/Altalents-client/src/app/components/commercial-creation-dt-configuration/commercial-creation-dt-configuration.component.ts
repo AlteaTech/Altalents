@@ -49,6 +49,8 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
         .subscribe((response: string) => {
           window.location.href = "/Admin/TableauDeBord";
         }));
+    }else{
+      this.formGroup.markAllAsTouched();
     }
   }
 
