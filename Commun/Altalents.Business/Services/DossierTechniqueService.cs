@@ -134,5 +134,15 @@ namespace Altalents.Business.Services
             }
             return true;
         }
+
+        public async Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken)
+        {
+            return !await DbContext.Personnes.AnyAsync(x => x.BoondId == idboond, cancellationToken: cancellationToken);
+        }
+
+        public async Task<bool> IsTrigrammeValidAsync(string trigram, CancellationToken cancellationToken)
+        {
+            return !await DbContext.Personnes.AnyAsync(x => x.Trigramme == trigram.ToLower(), cancellationToken);
+        }
     }
 }
