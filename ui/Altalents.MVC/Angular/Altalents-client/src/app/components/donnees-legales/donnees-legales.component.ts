@@ -6,7 +6,7 @@ import { DonneesLegalesForm } from 'src/app/shared/interfaces/donnees-legales-fo
 @Component({
   selector: 'app-donnees-legales',
   templateUrl: './donnees-legales.component.html',
-  styleUrls: ['./donnees-legales.component.scss']
+  styleUrls: ['./donnees-legales.component.scss','../../app.component.css']
 })
 export class DonneesLegalesComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
