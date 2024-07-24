@@ -18,14 +18,14 @@ export class FormContainerComponent implements OnInit {
   public validationCallBack: (() => Promise<boolean>) | undefined;
 
   constructor(private route: ActivatedRoute) {
-    
+
   }
-  
+
   public ngOnInit(): void {
     this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.paramTokenDossierTechnique) ?? "";
 
-    // Les enums sont gérés bizarrement en Angular, on ne peut pas simplement boucler dessus (valeurs en double). 
-    // On récupère les keys de chaque valeur de l'enum pour pouvoir boucler dessus pour afficher le stepper dynamiquement. 
+    // Les enums sont gérés bizarrement en Angular, on ne peut pas simplement boucler dessus (valeurs en double).
+    // On récupère les keys de chaque valeur de l'enum pour pouvoir boucler dessus pour afficher le stepper dynamiquement.
     this.steps = Object.keys(this.dossierTechniqueEnum).filter(f => !isNaN(Number(f))).map(k => parseInt(k));
   }
 
@@ -49,7 +49,7 @@ export class FormContainerComponent implements OnInit {
         if(!isValid){
           return;
         }
-        
+
         this.validationCallBack = undefined;
         if(this.currentStep == this.steps.length - 1){
           document.location.href = `${ConstantesRoutes.finBaseUrl}${this.tokenDossierTechnique}`

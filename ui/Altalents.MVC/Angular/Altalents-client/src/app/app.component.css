@@ -95,3 +95,23 @@ legend
 {
   width: 200px;
 }
+
+input.ng-touched.ng-invalid {
+  border-color: red;
+}
+
+input,select {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Style pour les messages d'erreur */
+.error-message {
+  color: red;
+  margin-top: 5px;
+  font-size: 0.875em;
+  font-weight: bold;
+}

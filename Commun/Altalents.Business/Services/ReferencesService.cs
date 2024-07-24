@@ -15,6 +15,7 @@ namespace Altalents.Business.Services
             return await DbContext.References
                  .Where(x => x.Type == typeReference)
                  .OrderBy(x => x.OrdreTri)
+                 .ThenBy(x => x.Libelle)
                  .ProjectTo<ReferenceDto>(Mapper.ConfigurationProvider)
                  .ToListAsync(cancellationToken);
         }
