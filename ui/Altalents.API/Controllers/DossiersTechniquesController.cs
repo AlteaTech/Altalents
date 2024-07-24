@@ -19,6 +19,13 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.AddDossierTechniqueAsync(dossierTechnique, cancellationToken);
         }
 
+
+        [HttpPost("/is-email-valid", Name = "IsEmailValid")]
+        public async Task<bool> IsEmailValidAsync([FromBody] string email, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.IsEmailValidAsync(email, cancellationToken);
+        }
+
         [HttpPut("{id}/statut/{statutId}", Name = "ChangerStatutDossierTechnique")]
         public async Task ChangerStatutDossierTechniqueAsync([FromRoute] Guid id, [FromRoute] Guid statutId, CancellationToken cancellationToken)
         {
