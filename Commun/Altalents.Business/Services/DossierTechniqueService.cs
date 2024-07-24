@@ -90,12 +90,12 @@ namespace Altalents.Business.Services
             };
             int i = 1;
 
-            while(await DbContext.Personnes.AnyAsync(x => x.Trigramme == retour.Valeur.ToLower(), cancellationToken) ||
+            while (await DbContext.Personnes.AnyAsync(x => x.Trigramme == retour.Valeur.ToLower(), cancellationToken) ||
                 await DbContext.TrigrammeLocks.AnyAsync(x => x.Trigramme == retour.Valeur.ToLower(), cancellationToken)
                 )
             {
-                retour.Valeur = baseTtrigramme+i;
-               i++;
+                retour.Valeur = baseTtrigramme + i;
+                i++;
             }
 
             await DbContext.TrigrammeLocks.AddAsync(new()
@@ -106,6 +106,33 @@ namespace Altalents.Business.Services
 
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
             return retour;
+        }
+
+        public async Task<bool> IsEmailValidAsync(string email, CancellationToken cancellationToken)
+        {
+            string trimmedEmail = email.Trim().ToLower();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false; // suggested by @TK-421
+            }
+            try
+            {
+                System.Net.Mail.MailAddress addr = new System.Net.Mail.MailAddress(email);
+                if (addr.Address.ToLower() != trimmedEmail)
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            if (await DbContext.Personnes.AnyAsync(x => x.Email == trimmedEmail, cancellationToken: cancellationToken))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
