@@ -65,6 +65,19 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
         budgetGere: this.experience.budgetGere
       });
     }
+
+    this.updateInputClientFinal();
+    this.updateInputBudgetGere();
+  }
+
+  public updateInputClientFinal(): void {
+    let controls = this.formGroup.controls;
+    controls.isClientFinal.value ? controls.clientFinal.enable() : controls.clientFinal.disable();
+  }
+
+  public updateInputBudgetGere(): void {
+    let controls = this.formGroup.controls;
+    controls.isBudgetGere.value ? controls.budgetGere.enable() : controls.budgetGere.disable();
   }
 
   public override populateData(): void {
