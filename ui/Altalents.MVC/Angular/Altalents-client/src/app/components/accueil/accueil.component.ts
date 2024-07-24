@@ -4,7 +4,9 @@ import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 
 @Component({
   selector: 'app-accueil',
-  templateUrl: './accueil.component.html'
+  templateUrl: './accueil.component.html',
+  styleUrls: ['./accueil.component.scss','../../app.component.css']
+
 })
 export class AccueilComponent implements OnInit {
   public tokenDossierTechnique: string = "";

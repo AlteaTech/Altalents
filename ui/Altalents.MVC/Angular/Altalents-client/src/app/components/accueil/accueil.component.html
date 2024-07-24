@@ -1,13 +1,33 @@
-<h1>Dossier de compétences de <span>{{nomPrenomCandidat}}</span></h1>
-<div>
-    <h2>Bienvenue !</h2>
-    <p>
-        Cette page vous permet de générer et mettre à jour votre dossier de compétences en quelques clics. Et c'est très simple : il vous suffit de suivre les étapes une par une comme indiqué, et de remplir les données nécessaires. N'oubliez pas de prendre bien soin d'être clair et concis.
+<nav class="navbar">
+    <a class="mx-auto order-0">
+        <img src="Images/LOGO_ALTALENTS.png">
+    </a>
+</nav>
+<div class="container custom-container-1">
+    <p class="custom-paragraph-1">Dossier de compétences de <span
+            class="custom-paragraph-2">{{nomPrenomCandidat}}</span>
     </p>
-    <p>
-        <strong>
-            Cliquez sur démarrer pour commencer à remplir le formulaire !
-        </strong>
-    </p>
-    <button (click)="onDemarrerClick()">Démarrer</button>
 </div>
+
+<div class="container border custom-container-2">
+    <p class="custom-paragraph-3">Bienvenue !</p>
+    <p class="custom-paragraph-4">
+        Cette page vous permet de générer et mettre à jour votre dossier de compétences en quelques clics.
+        Et c'est très simple : il vous suffit de suivre les étapes une par une comme indiqué, et de remplir
+        les données nécessaires. N'oubliez pas de prendre bien soin d'être clair et concis.
+    </p>
+    <p class="custom-paragraph-5">
+        Cliquez sur démarrer pour commencer à remplir le formulaire !
+    </p>
+</div>
+
+<img class="logo-altalent-stabilo" src="Images/ILLUSTRATION_STABILO.png" />
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-2"></div>
+    <div class="col-3"><button class="at-c-btn-link-primary at-w-250" (click)="onDemarrerClick()"><i
+                class="fa-solid fa-play"></i>&nbsp;&nbsp; Démarrer</button></div>
+    <div class="col-2"></div>
+    <div class="col-2"></div>
+</div>
+<div class="col-3"></div>
