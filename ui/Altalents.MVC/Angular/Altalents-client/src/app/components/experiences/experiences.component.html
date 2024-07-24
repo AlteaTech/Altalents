@@ -1,1 +1,14 @@
-<h1>Vos expériences</h1>
+<div>
+    Troisième étape! Tenez bon, il ne restera plus grand chose à faire ensuite. Buvez un verre d'eau, détendez-vous et tout va bien se passer : il est venu le temps de nous communiquer vos expériences professionnelles. Courage moussaillon.
+</div>
+<fieldset>
+    <legend>Expérience professionnelle</legend>
+    <!-- <div *ngFor="let formation of stepFormation.formations">
+        <p>{{formation.libelle}}</p>
+        <p>{{formation.domaine}} - {{formation.niveau}}</p>
+        <p>{{formation.organisme}}</p>
+        <p>Du {{formation.dateDebut}} au {{formation.dateFin}}</p>
+        <a (click)="onModifierFormationClick(formation)">Modifier</a>
+    </div> -->
+    <button (click)="onAddExperienceClick()">Ajouter une expérience</button>
+</fieldset>

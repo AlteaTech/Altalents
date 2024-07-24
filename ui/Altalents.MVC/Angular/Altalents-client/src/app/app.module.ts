@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormationDialogComponent } from './components/dialogs/formation-dialog/formation-dialog.component';
 import { CertificationDialogComponent } from './components/dialogs/certification-dialog/certification-dialog.component';
 import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue-dialog.component';
+import { ExperienceDialogComponent } from './components/dialogs/experience-dialog/experience-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue
     CommercialCreationDtConfigurationComponent,
     FormationDialogComponent,
     CertificationDialogComponent,
-    LangueDialogComponent
+    LangueDialogComponent,
+    ExperienceDialogComponent
   ],
   imports: [
     HttpClientModule,
