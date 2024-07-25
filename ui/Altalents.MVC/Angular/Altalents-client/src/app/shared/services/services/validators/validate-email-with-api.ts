@@ -1,7 +1,7 @@
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { ApiServiceAgent } from '../services-agents/api.service-agent';
+import { ApiServiceAgent } from '../../services-agents/api.service-agent';
 
 export function ValidateEmailWithApi(apiService: ApiServiceAgent): AsyncValidatorFn {
   return (control: AbstractControl) => {
