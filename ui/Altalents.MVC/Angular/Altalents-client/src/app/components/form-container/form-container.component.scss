@@ -20,19 +20,21 @@
   .enum-dossier-technique {
     text-align: center;
   }
-
+}
+body {
+  margin-bottom: 50px;
 }
 
 @media (min-width: 821px) {
   .container {
-    margin-top: 59.52px;
+    margin-top: 20px;
     width: 95%;
     max-width: 82vw;
     max-height: 108vh;
     background: #ffffff;
-    padding-left: 10vw;
-    padding-right: 10vw;
-    padding-top: 5vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    padding-top: 2vh;
     padding-bottom: 5vh;
     overflow: auto;
   }
@@ -59,7 +61,6 @@ ol.stepper {
   --default-c: white;
   --active-b: #7A4AFF;
   --active-c: white;
-
 
   display: flex;
   list-style: none;
@@ -111,4 +112,8 @@ ol.stepper li.active::after {
   top: calc((var(--circle) - var(--b))/2);
   width: 100vw;
   background: var(--active-b);
+}
+
+h1 {
+  font-weight: bold;
 }

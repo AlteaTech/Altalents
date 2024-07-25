@@ -35,10 +35,18 @@
                     [tokenDossierTechnique]="tokenDossierTechnique"></app-recapitulatif>
             </div>
             <div>
-                <button (click)="onRetourClick()"
-                    *ngIf="currentStep != dossierTechniqueEnum.Recapitulatif">Retour</button>
-                <button (click)="onSuivantClick()">{{currentStep != dossierTechniqueEnum.Recapitulatif ? "Suivant" :
-                    "Terminer"}}</button>
+                <div class="at-p-button-container">
+                    <button class="at-p-secondary-button" (click)="onRetourClick()"
+                        *ngIf="currentStep != dossierTechniqueEnum.Recapitulatif">
+                        <img src="Images/ICONE_REPLAY.png">
+                        <p>Retour</p>
+                    </button>
+                    <button class="at-p-button" (click)="onSuivantClick()">
+                        <img src="Images/ICONE_PLAY.png">
+                        <p>{{currentStep != dossierTechniqueEnum.Recapitulatif ? "Suivant" :
+                            "Terminer"}}</p>
+                    </button>
+                </div>    
             </div>
         </div>
     </div>

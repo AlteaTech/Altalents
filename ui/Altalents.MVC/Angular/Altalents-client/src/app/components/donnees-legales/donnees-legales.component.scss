@@ -86,13 +86,9 @@ button {
 
 .info-text {
     font-size: 17px;
-    /* Taille de police */
     line-height: 1.5;
-    /* Hauteur de ligne */
     color: #333333;
-    /* Couleur du texte */
     margin: 0;
-    /* Enlever la marge par défaut */
 }
 
 
@@ -100,9 +96,11 @@ button {
     .info-image {
         width: 50px;
         height: auto;
-        /* Hauteur automatique pour garder le ratio */
         margin-right: 20px;
-        /* Espacement entre l'image et le texte */
+    }
+    .drop-zone img {
+        width: 8vw;
+        padding-bottom: 2vh;
     }
 }
 
@@ -110,13 +108,30 @@ button {
     .info-image {
         width: 50px;
         height: auto;
-        /* Hauteur automatique pour garder le ratio */
         margin-right: 40px;
-        /* Espacement entre l'image et le texte */
+    }
+    .drop-zone img {
+        width: 3vw;
+        padding-bottom: 2vh;
     }
 }
 
 .legent-text{
     font-weight: bold;
 }
+
+.label-right {
+    text-align: right;
+}
+
+.drop-zone{
+    margin-top: 4vh;
+    border-color: #7A4AFF;
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 

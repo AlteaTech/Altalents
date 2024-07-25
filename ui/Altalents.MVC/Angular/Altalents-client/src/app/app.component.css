@@ -30,10 +30,14 @@
   font-size: 15px;
 }
 
+.at-p-container {
+  height: 55vh;
+  position: relative;
+}
+
 .at-c-violet {
   color: #7A4AFF;
 }
-
 
 .at-c-btn-link-primary {
   /* UI Properties */
@@ -124,4 +128,99 @@ select {
   margin-top: 5px;
   font-size: 0.875em;
   font-weight: bold;
+}
+
+
+@media (max-width: 1400px) and (min-width: 1000px) {
+  .logo-altalent-stabilo {
+    display: none;
+  }
+
+  ol.stepper {
+    --circle: 45px;
+    --b: 10px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .logo-altalent-stabilo {
+    display: none;
+  }
+}
+
+@media (min-width: 1400px) {
+  .at-c-title {
+    font-size: 35px;
+    padding-top: 20px;
+  }
+
+  .logo-altalent-stabilo {
+    position: fixed;
+    bottom: 10px;
+    right: 50px;
+    width: 15%;
+    height: auto;
+    z-index: 10;
+  }
+}
+
+.at-p-button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 5px;
+}
+
+.at-p-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #7A4AFF;
+  padding: 15px;
+  margin-bottom: 20px;
+  width: 17vh;
+  border-radius: 5px;
+  border-color: #7A4AFF;
+
+  p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: white;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  img {
+    width: 15%;
+    height: auto;
+    margin-right: 10px;
+  }
+}
+
+.at-p-secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 20px;
+  width: 17vh;
+  border-radius: 5px;
+  border-color:#7A4AFF;
+
+  p {
+    font-size: 1em;
+    line-height: 1.5;
+    color:#7A4AFF;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  img {
+    width: 15%;
+    height: auto;
+    margin-right: 10px;
+  }
 }
