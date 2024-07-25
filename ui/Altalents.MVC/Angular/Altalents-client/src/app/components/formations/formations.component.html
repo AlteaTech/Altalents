@@ -1,5 +1,10 @@
-<div>
-    Deuxième étape : vous avez étudié à Poudlard? Vous parlez couramment le patois péruvien avec un léger accent du sud? Vous possèdez une certification officielle de meilleur imitateur de France que Nicolas Canteloup vous jalouse? C'est ici qu'il faut nous le dire.
+<div class="at-p-formulaire-info-section">
+    <img src="Images/HONNETETE.png">
+    <p>
+        Deuxième étape : vous avez étudié à Poudlard? Vous parlez couramment le patois péruvien avec un léger accent du sud? 
+        Vous possèdez une certification officielle de meilleur imitateur de France que Nicolas Canteloup vous jalouse? 
+        C'est ici qu'il faut nous le dire.
+    </p>
 </div>
 <fieldset>
     <legend>Formation</legend>
@@ -10,7 +15,12 @@
         <p>Du {{formation.dateDebut}} au {{formation.dateFin}}</p>
         <a (click)="onModifierFormationClick(formation)">Modifier</a>
     </div>
-    <button (click)="onAddFormationClick()">Ajouter une formation</button>
+    <div class="at-p-button-ajouter">
+        <button (click)="onAddFormationClick()">
+            <img src="Images/ICONE_PLUS.png">
+            <p>Ajouter une formation</p>
+        </button>
+    </div>   
 </fieldset>
 <fieldset>
     <legend>Certification</legend>
@@ -21,7 +31,12 @@
         <p>Du {{certification.dateDebut}} au {{certification.dateFin}}</p>
         <a (click)="onModifierCertificationClick(certification)">Modifier</a>
     </div>
-    <button (click)="onAddCertificationClick()">Ajouter une certification</button>
+    <div class="at-p-button-ajouter">
+        <button (click)="onAddCertificationClick()">
+            <img src="Images/ICONE_PLUS.png">
+            <p>Ajouter une certification</p>
+        </button>
+    </div>   
 </fieldset>
 <fieldset>
     <legend>Langues parlées</legend>
@@ -30,5 +45,10 @@
             {{langue.langue?.libelle}} {{langue.niveau?.libelle}} <i *ngIf="!isLast">.</i>
         </span>
     </div>
-    <button (click)="onAddLangueClick()">Ajouter une langue</button>
+    <div class="at-p-button-ajouter">
+        <button (click)="onAddLangueClick()">
+            <img src="Images/ICONE_PLUS.png">
+            <p>Ajouter une langue</p>
+        </button>
+    </div>  
 </fieldset>

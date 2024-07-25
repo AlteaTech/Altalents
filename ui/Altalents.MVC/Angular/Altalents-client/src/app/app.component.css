@@ -140,11 +140,27 @@ select {
     --circle: 45px;
     --b: 10px;
   }
+
+  .at-p-formulaire-info-section {
+    img {
+      width: 50px;
+      height: auto;
+      margin-right: 40px;
+    }
+  }
 }
 
 @media (max-width: 1000px) {
   .logo-altalent-stabilo {
     display: none;
+  }
+
+  .at-p-formulaire-info-section {
+    img {
+      width: 50px;
+      height: auto;
+      margin-right: 20px;
+    }
   }
 }
 
@@ -162,6 +178,14 @@ select {
     height: auto;
     z-index: 10;
   }
+
+  .at-p-formulaire-info-section {
+    img {
+      width: 50px;
+      height: auto;
+      margin-right: 40px;
+    }
+  }
 }
 
 .at-p-button-container {
@@ -171,6 +195,40 @@ select {
   align-items: center;
   width: 100%;
   padding-top: 5px;
+}
+
+.at-p-button-ajouter {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 5px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 35vh;
+    border-radius: 5px;
+    border-color: #7A4AFF;
+
+    p {
+      font-size: 1em;
+      line-height: 1.5;
+      color: #7A4AFF;
+      margin: 0;
+      font-weight: bold;
+    }
+
+    img {
+      width: 10%;
+      height: auto;
+      margin-right: 10px;
+    }
+  }
 }
 
 .at-p-button {
@@ -208,12 +266,12 @@ select {
   margin-bottom: 20px;
   width: 17vh;
   border-radius: 5px;
-  border-color:#7A4AFF;
+  border-color: #7A4AFF;
 
   p {
     font-size: 1em;
     line-height: 1.5;
-    color:#7A4AFF;
+    color: #7A4AFF;
     margin: 0;
     font-weight: bold;
   }
@@ -222,5 +280,20 @@ select {
     width: 15%;
     height: auto;
     margin-right: 10px;
+  }
+}
+
+.at-p-formulaire-info-section {
+  display: flex;
+  align-items: center;
+  background-color: #F5F5FF;
+  padding: 20px;
+  margin-bottom: 20px;
+
+  p {
+    font-size: 17px;
+    line-height: 1.5;
+    color: #333333;
+    margin: 0;
   }
 }
