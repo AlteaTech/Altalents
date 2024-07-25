@@ -145,8 +145,16 @@ namespace Altalents.Business.Services
             return !await DbContext.Personnes.AnyAsync(x => x.Trigramme == trigram.ToLower(), cancellationToken);
         }
 
-        public bool IsTelephoneValid(string telephone)
+        public bool IsTelephoneValid(string telephone, bool isOptionnal = false)
         {
+            if(isOptionnal && telephone == null)
+            {
+                return true;
+            }
+            else if(telephone == null)
+            {
+                return false;
+            }
             telephone = telephone.Trim();
             if (telephone.Length > 50)
                 return false;

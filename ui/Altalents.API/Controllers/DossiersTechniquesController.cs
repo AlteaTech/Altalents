@@ -39,9 +39,9 @@ namespace Altalents.API.Controllers
         }
 
         [HttpPost("/is-telephone-valid", Name = "IsTelephoneValid")]
-        public bool IsTelephoneValid([FromBody] string telephone)
+        public bool IsTelephoneValid([FromBody] IsTelephoneValidRequestDto request)
         {
-            return _dossierTechniqueService.IsTelephoneValid(telephone);
+            return _dossierTechniqueService.IsTelephoneValid(request.Telephone, request.IsOptionnal);
         }
 
         [HttpPut("{id}/statut/{statutId}", Name = "ChangerStatutDossierTechnique")]

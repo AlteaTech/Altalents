@@ -13,6 +13,6 @@ namespace Altalents.IBusiness.IServices
         Task<bool> IsEmailValidAsync(string email, CancellationToken cancellationToken);
         Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken);
         Task<bool> IsTrigrammeValidAsync(string trigram, CancellationToken cancellationToken);
-        bool IsTelephoneValid(string telephone);
+        bool IsTelephoneValid(string telephone, bool isOptionnal = false);
     }
 }
