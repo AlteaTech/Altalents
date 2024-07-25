@@ -18,7 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\Images\BULLE.png" />
+    <Content Include="wwwroot\Images\BULLE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\GROUPE_5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\HONNETETE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\Images\ILLUSTRATION_STABILO.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -88,7 +96,7 @@
     <Content Update="wwwroot\css\app-client.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\favicon.png">
+    <Content Update="wwwroot\favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\js\cultures\kendo.culture.fr-FR.min.js">

@@ -4,7 +4,8 @@
       <div class="col-2"></div>
       <div class="col-8 at-c-white-box">
           <h4>Configuration</h4>
-          <form [formGroup]="formGroup">
+          <div class="row">
+          <form [formGroup]="formGroup" class="col-12">
               <div class="row">
                   <div class="col-xl-6">
                       <fieldset>
@@ -12,28 +13,34 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="prenom">Prénom<span class="champ-obligatoire">*</span></label>
-                                  <div *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
+                                  <div class="error-message" *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
                                     Prénom est requis.
                                   </div>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="prenom" placeholder="Julien" (change)="nomPrenomChange()">
+                                  <input type="text"  class="form-control" formControlName="prenom" placeholder="Julien" (change)="nomPrenomChange()">
                               </div>
                           </div>
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="nom">Nom<span class="champ-obligatoire">*</span></label>
+                                  <div class="error-message" *ngIf="formGroup.get('nom')?.invalid && formGroup.get('nom')?.touched">
+                                    Nom est requis.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="nom" placeholder="Dupont" (change)="nomPrenomChange()">
+                                  <input type="text"  class="form-control" formControlName="nom" placeholder="Dupont" (change)="nomPrenomChange()">
                               </div>
                           </div>
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="trigram">Trigramme<span class="champ-obligatoire">*</span></label>
+                                  <div class="error-message" *ngIf="formGroup.get('trigram')?.invalid && formGroup.get('trigram')?.touched">
+                                    Trigramme est invalide.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="trigram" placeholder="JUD">
+                                  <input type="text"  class="form-control" formControlName="trigram" placeholder="JUD">
                               </div>
                           </div>
                       </fieldset>
@@ -44,7 +51,7 @@
                                   <label for="poste">Poste</label>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="poste" placeholder="12 rue des Fleurs">
+                                  <input type="text"  class="form-control" formControlName="poste" placeholder="12 rue des Fleurs">
                               </div>
                           </div>
                           <div class="row">
@@ -52,7 +59,7 @@
                                   <label for="prixJour">Tarif journalier</label>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="prixJour" placeholder="€">
+                                  <input type="text"  class="form-control" formControlName="prixJour" placeholder="€">
                               </div>
                           </div>
                           <div class="row">
@@ -60,8 +67,8 @@
                                   <label for="disponibilite">Disponibilite</label>
                               </div>
                               <div class="col-xl-6">
-                                  <!-- <input type="text" formControlName="disponibilite" placeholder="22 rue des Adresses"> -->
-                                <select id="country" class="at-w-200" formControlName="disponibilite">
+                                  <!-- <input type="text"  class="form-control" formControlName="disponibilite" placeholder="22 rue des Adresses"> -->
+                                <select id="country" class="at-w-200"  class="form-control" formControlName="disponibilite">
                                     <option *ngFor="let disponibilite of disponibilites" [ngValue]="disponibilite.id">{{ disponibilite.libelle }} <span *ngIf="disponibilite.commentaireFun">(<em>{{disponibilite.commentaireFun}}</em>)</span></option>
                                 </select>
                               </div>
@@ -76,15 +83,18 @@
                                   <label for="numeroTelephone1">N° de téléphone</label>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="numeroTelephone1" placeholder="00 00 00 00 00">
+                                  <input type="text"  class="form-control" formControlName="numeroTelephone1" placeholder="00 00 00 00 00">
                               </div>
                           </div>
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="adresseMail">Adresse mail<span class="champ-obligatoire">*</span></label>
+                                  <div class="error-message" *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
+                                    Adresse mail est invalide.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="adresseMail" placeholder="adresse@mail.com">
+                                  <input type="text"  class="form-control" formControlName="adresseMail" placeholder="adresse@mail.com">
                               </div>
                           </div>
                       </fieldset>
@@ -97,9 +107,12 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="idBoond">ID Boond<span class="champ-obligatoire">*</span></label>
+                                  <div class="error-message" *ngIf="formGroup.get('idBoond')?.invalid && formGroup.get('idBoond')?.touched">
+                                    ID Boond est invalide.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
-                                  <input type="text" formControlName="idBoond" placeholder="15415s">
+                                  <input type="text"  class="form-control" formControlName="idBoond" placeholder="15415s">
                               </div>
                           </div>
 
@@ -107,16 +120,16 @@
                   </div>
               </div>
           </form>
-          <div class="row">
+          </div>
+          <div class="row at-mt-10">
             <div class="col-3"></div>
             <div class="col-6">
                 <div class="row">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-3">        <a class="at-c-btn-link-second" href="/{{pathConfigDt}}"><i class="fa-solid fa-backward-step"></i>&nbsp;&nbsp; Retour</a>
+                    <div class="col-sm-6">
+                      <button class="at-c-btn-link-second" (click)="return()"><i class="fa-solid fa-backward-step"></i>&nbsp;&nbsp; Retour</button>
                     </div>
-                    <div class="col-sm-3">        <button class="at-c-btn-link-primary at-w-250" (click)="sendCancidat()"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
+                    <div class="col-sm-6">        <button class="at-c-btn-link-primary at-w-250" (click)="sendCancidat()"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
                     </div>
-                    <div class="col-sm-3"></div>
                 </div>
             </div>
             <div class="col-3"></div>
