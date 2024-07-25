@@ -144,5 +144,20 @@ namespace Altalents.Business.Services
         {
             return !await DbContext.Personnes.AnyAsync(x => x.Trigramme == trigram.ToLower(), cancellationToken);
         }
+
+        public bool IsTelephoneValid(string telephone)
+        {
+            telephone = telephone.Trim();
+            if (telephone.Length > 50)
+                return false;
+            telephone = telephone.Replace(" ", "");
+            string motif1 = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+            string motif2 = @"^([\+]?33[-]?|[0])?[1-9][0-9]{8}$";
+
+            if (telephone != null && (Regex.IsMatch(telephone, motif1) || Regex.IsMatch(telephone, motif2)))
+                return true;
+            else
+                return false;
+        }
     }
 }

@@ -38,6 +38,12 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.IsTrigrammeValidAsync(trigram, cancellationToken);
         }
 
+        [HttpPost("/is-telephone-valid", Name = "IsTelephoneValid")]
+        public bool IsTelephoneValid([FromBody] string telephone)
+        {
+            return _dossierTechniqueService.IsTelephoneValid(telephone);
+        }
+
         [HttpPut("{id}/statut/{statutId}", Name = "ChangerStatutDossierTechnique")]
         public async Task ChangerStatutDossierTechniqueAsync([FromRoute] Guid id, [FromRoute] Guid statutId, CancellationToken cancellationToken)
         {
