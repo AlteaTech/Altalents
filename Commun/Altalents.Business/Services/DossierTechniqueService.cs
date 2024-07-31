@@ -35,12 +35,12 @@ namespace Altalents.Business.Services
             Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail, cancellationToken);
             Task<bool> taskCheckIdBoond = IsIdBoondValidAsync(dossierTechnique.IdBoond, cancellationToken);
             Task<bool> taskCheckTrigramme = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Trigramme == dossierTechnique.Trigramme, cancellationToken);
-            if (await taskCheckMail)
+            if (!await taskCheckMail)
             {
                 messagesErreur.Add($"Adresse mail ({dossierTechnique.AdresseMail})");
             }
 
-            if (await taskCheckIdBoond)
+            if (!await taskCheckIdBoond)
             {
                 messagesErreur.Add($"BoondId ({dossierTechnique.IdBoond})");
             }
