@@ -21,7 +21,7 @@ export class ExperiencesComponent implements OnInit {
   }
 
   public onAddExperienceClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent);
+    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, { size: 'lg' });
     dialogRef.result.then((nouvelElement: Experience | undefined) => {
       if(nouvelElement) {
         this.experiences.push(nouvelElement)
