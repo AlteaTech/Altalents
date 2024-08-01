@@ -366,14 +366,19 @@ export class ApiClient {
 
     /**
      * @param typeReferenceCode (optional) 
+     * @param startWith (optional) 
      * @return OK
      */
-    getReferences(typeReferenceCode?: string | undefined): Observable<ReferenceDto[]> {
+    getReferences(typeReferenceCode?: string | undefined, startWith?: string | undefined): Observable<ReferenceDto[]> {
         let url_ = this.baseUrl + "/References?";
         if (typeReferenceCode === null)
             throw new Error("The parameter 'typeReferenceCode' cannot be null.");
         else if (typeReferenceCode !== undefined)
             url_ += "typeReferenceCode=" + encodeURIComponent("" + typeReferenceCode) + "&";
+        if (startWith === null)
+            throw new Error("The parameter 'startWith' cannot be null.");
+        else if (startWith !== undefined)
+            url_ += "startWith=" + encodeURIComponent("" + startWith) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
