@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormationDialogComponent } from '../dialogs/formation-dialog/formation-dialog.component';
 import { StepFormation } from 'src/app/shared/models/step-formation.model';
 import { Formation } from 'src/app/shared/models/formation.model';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CertificationDialogComponent } from '../dialogs/certification-dialog/certification-dialog.component';
 import { Certification } from 'src/app/shared/models/certification.model';
 import { LangueDialogComponent } from '../dialogs/langue-dialog/langue-dialog.component';
@@ -11,13 +11,15 @@ import { Langue } from 'src/app/shared/models/langue.model';
 @Component({
   selector: 'app-formations',
   templateUrl: './formations.component.html',
-  styleUrls: ['../../app.component.css']
+  styleUrls: ['./formations.component.scss','../../app.component.css']
 })
 export class FormationsComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   public stepFormation: StepFormation = new StepFormation();
-  
+  public customDialog : NgbModalOptions = {
+    centered: true
+  };
   constructor(private modalService: NgbModal) {
   }
 
@@ -27,7 +29,7 @@ export class FormationsComponent implements OnInit {
   }
 
   public onAddFormationClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent);
+    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent, this.customDialog);
     dialogRef.result.then((nouvelElement: Formation | undefined) => {
       if(nouvelElement) {
         this.stepFormation.formations.push(nouvelElement)
@@ -41,7 +43,7 @@ export class FormationsComponent implements OnInit {
   }
 
   public onAddCertificationClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent);
+    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent, this.customDialog);
     dialogRef.result.then((nouvelElement: Certification | undefined) => {
       if(nouvelElement) {
         this.stepFormation.certifications.push(nouvelElement)
@@ -55,7 +57,7 @@ export class FormationsComponent implements OnInit {
   }
 
   public onAddLangueClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent);
+    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, this.customDialog);
     dialogRef.result.then((nouvelElement: Langue | undefined) => {
       if(nouvelElement) {
         this.stepFormation.langues.push(nouvelElement)
