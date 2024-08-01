@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Experience } from 'src/app/shared/models/experience.model';
 import { ExperienceDialogComponent } from '../dialogs/experience-dialog/experience-dialog.component';
 
@@ -21,7 +21,12 @@ export class ExperiencesComponent implements OnInit {
   }
 
   public onAddExperienceClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, { size: 'lg' });
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop : 'static',
+      keyboard : false,
+      size: 'lg'
+    };
+    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, ngbModalOptions);
     dialogRef.result.then((nouvelElement: Experience | undefined) => {
       if(nouvelElement) {
         this.populateDureeExperience(nouvelElement);
@@ -51,7 +56,12 @@ export class ExperiencesComponent implements OnInit {
   }
 
   public onModifierExperienceClick(experience: Experience): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, { size: 'lg' });
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop : 'static',
+      keyboard : false,
+      size: 'lg'
+    };
+    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, ngbModalOptions);
     dialogRef.componentInstance.experience = experience;
   }
 
