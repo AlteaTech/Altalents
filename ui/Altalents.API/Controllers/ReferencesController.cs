@@ -12,9 +12,9 @@ namespace Altalents.API.Controllers
         }
 
         [HttpGet("", Name = "GetReferencesAsync")]
-        public async Task<List<ReferenceDto>> GetReferencesAsync([FromQuery] string typeReferenceCode, CancellationToken cancellationToken)
+        public async Task<List<ReferenceDto>> GetReferencesAsync([FromQuery] string typeReferenceCode, [FromQuery] string startWith, CancellationToken cancellationToken)
         {
-            return await _referencesService.GetReferencesAsync(typeReferenceCode, cancellationToken);
+            return await _referencesService.GetReferencesAsync(typeReferenceCode, startWith, cancellationToken);
         }
     }
 }
