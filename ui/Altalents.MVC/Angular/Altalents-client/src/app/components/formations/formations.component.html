@@ -9,11 +9,11 @@
 <fieldset>
     <legend>Formation</legend>
     <div *ngFor="let formation of stepFormation.formations">
-        <p>{{formation.libelle}}</p>
-        <p>{{formation.domaine}} - {{formation.niveau}}</p>
-        <p>{{formation.organisme}}</p>
-        <p>Du {{formation.dateDebut}} au {{formation.dateFin}}</p>
-        <a (click)="onModifierFormationClick(formation)">Modifier</a>
+        <p class="at-c-violet custom-margin">{{formation.libelle}}</p>
+        <p class="font-bold ">{{formation.domaine}} - {{formation.niveau}}</p>
+        <p class="font-normal">{{formation.organisme}}</p>
+        <p class="font-normal">Du {{formation.dateDebut}} au {{formation.dateFin}}</p>
+        <a (click)="onModifierFormationClick(formation)"> <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p></a>
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddFormationClick()">
@@ -25,11 +25,11 @@
 <fieldset>
     <legend>Certification</legend>
     <div *ngFor="let certification of stepFormation.certifications">
-        <p>{{certification.libelle}}</p>
-        <p>{{certification.domaine}} - {{certification.niveau}}</p>
-        <p>{{certification.organisme}}</p>
-        <p>Du {{certification.dateDebut}} au {{certification.dateFin}}</p>
-        <a (click)="onModifierCertificationClick(certification)">Modifier</a>
+        <p class="at-c-violet custom-margin">{{certification.libelle}}</p>
+        <p class="font-bold ">{{certification.domaine}} - {{certification.niveau}}</p>
+        <p class="font-normal">{{certification.organisme}}</p>
+        <p class="font-normal">Du {{certification.dateDebut}} au {{certification.dateFin}}</p>
+        <a (click)="onModifierCertificationClick(certification)"><p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p></a>
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddCertificationClick()">
