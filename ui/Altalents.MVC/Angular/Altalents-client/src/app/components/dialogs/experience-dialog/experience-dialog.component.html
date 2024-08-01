@@ -96,9 +96,9 @@
                 <label for="technologie">Technologies</label>
             </div>
             <div class="col-9">
-                <app-autocomplete placeholder="Décrivez les technologies utilisées" 
+                <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées" 
                                   [sourceReferences]="sourceTechnologies" [selectedReferences]="formGroup.value.technologies ?? []"
-                                  (selectedReferencesCallback)="onSelectedTechnologiesChange($event)"></app-autocomplete>
+                                  (selectedReferencesCallback)="onSelectedTechnologiesChange($event)"></app-multiple-autocomplete>
             </div>
         </div>
         <div class="row">
@@ -106,9 +106,9 @@
                 <label for="competences">Compétences</label>
             </div>
             <div class="col-9">
-                <app-autocomplete placeholder="Gestion de projet, Management, etc"
+                <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
                                   [sourceReferences]="sourceCompetences" [selectedReferences]="formGroup.value.competences ?? []"
-                                  (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-autocomplete>
+                                  (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete>
             </div>
         </div>
         <div class="row">
@@ -116,9 +116,9 @@
                 <label for="methodologies">Méthodologies</label>
             </div>
             <div class="col-9">
-                <app-autocomplete placeholder="SCRUM, etc" 
+                <app-multiple-autocomplete placeholder="SCRUM, etc" 
                                   [sourceReferences]="sourceMethodologies" [selectedReferences]="formGroup.value.methodologies ?? []"
-                                  (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-autocomplete>
+                                  (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete>
             </div>
         </div>
         <div class="row">

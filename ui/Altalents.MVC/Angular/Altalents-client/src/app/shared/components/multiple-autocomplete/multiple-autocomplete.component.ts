@@ -4,11 +4,11 @@ import { Reference } from 'src/app/shared/models/reference.model';
 import { AutocompleteForm } from '../../interfaces/autocomplete-form';
 
 @Component({
-  selector: 'app-autocomplete',
-  templateUrl: './autocomplete.component.html',
-  styleUrls: ['autocomplete.component.scss']
+  selector: 'app-multiple-autocomplete',
+  templateUrl: './multiple-autocomplete.component.html',
+  styleUrls: ['multiple-autocomplete.component.scss']
 })
-export class AutocompleteComponent implements OnInit {
+export class MultipleAutocompleteComponent implements OnInit {
   @Input() public placeholder: string = "";
   @Input() public sourceReferences: Reference[] = [];
   @Input() public selectedReferences: Reference[] = [];

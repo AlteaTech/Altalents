@@ -20,7 +20,7 @@ import { FormationDialogComponent } from './components/dialogs/formation-dialog/
 import { CertificationDialogComponent } from './components/dialogs/certification-dialog/certification-dialog.component';
 import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue-dialog.component';
 import { ExperienceDialogComponent } from './components/dialogs/experience-dialog/experience-dialog.component';
-import { AutocompleteComponent } from './shared/components/autocomplete/autocomplete.component';
+import { MultipleAutocompleteComponent } from './shared/components/multiple-autocomplete/multiple-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { AutocompleteComponent } from './shared/components/autocomplete/autocomp
     CertificationDialogComponent,
     LangueDialogComponent,
     ExperienceDialogComponent,
-    AutocompleteComponent
+    MultipleAutocompleteComponent
   ],
   imports: [
     HttpClientModule,
