@@ -7,7 +7,7 @@ import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-ste
 @Component({
   selector: 'app-form-container',
   templateUrl: './form-container.component.html',
-  styleUrls: ['form-container.component.scss']
+  styleUrls: ['form-container.component.scss','../../app.component.css']
 })
 export class FormContainerComponent implements OnInit {
   public tokenDossierTechnique: string = "";
