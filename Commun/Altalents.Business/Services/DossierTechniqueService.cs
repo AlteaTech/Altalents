@@ -1,12 +1,20 @@
 using Altalents.Commun.Enums;
+using Altalents.Commun.Settings;
 using Altalents.IBusiness.DTO.Requesst;
+
+using Microsoft.Extensions.Options;
 
 namespace Altalents.Business.Services
 {
     public class DossierTechniqueService : BaseAppService<CustomDbContext>, IDossierTechniqueService
     {
-        public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider) : base(logger, contexte, mapper, serviceProvider)
+        private readonly GlobalSettings _globalSettings;
+        private readonly IEmailService _emailService;
+        public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider,
+            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService) : base(logger, contexte, mapper, serviceProvider)
         {
+            _globalSettings = globalSettings.CurrentValue;
+            _emailService = emailService;
         }
 
         public async Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
@@ -16,6 +24,7 @@ namespace Altalents.Business.Services
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+            await _emailService.SendEmailWithRetryAsync(dossierTechnique.AdresseMail, "Demande de creation de dossier technique", $"Merci de remplir le dossier suivant : <a href=\"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}\"> ce dossier là </a>");
             return dt.Id;
 
         }
@@ -23,15 +32,15 @@ namespace Altalents.Business.Services
         private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
             List<string> messagesErreur = new();
-            Task<bool> taskCheckMail = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Email == dossierTechnique.AdresseMail, cancellationToken);
-            Task<bool> taskCheckIdBoond = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.BoondId == dossierTechnique.IdBoond, cancellationToken);
+            Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail, cancellationToken);
+            Task<bool> taskCheckIdBoond = IsIdBoondValidAsync(dossierTechnique.IdBoond, cancellationToken);
             Task<bool> taskCheckTrigramme = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Trigramme == dossierTechnique.Trigramme, cancellationToken);
-            if (await taskCheckMail)
+            if (!await taskCheckMail)
             {
                 messagesErreur.Add($"Adresse mail ({dossierTechnique.AdresseMail})");
             }
 
-            if (await taskCheckIdBoond)
+            if (!await taskCheckIdBoond)
             {
                 messagesErreur.Add($"BoondId ({dossierTechnique.IdBoond})");
             }
@@ -128,7 +137,7 @@ namespace Altalents.Business.Services
             {
                 return false;
             }
-            if (await DbContext.Personnes.AnyAsync(x => x.Email == trimmedEmail, cancellationToken: cancellationToken))
+            if (await GetScopedDbContexte().Personnes.AnyAsync(x => x.Email == trimmedEmail, cancellationToken: cancellationToken))
             {
                 return false;
             }
@@ -137,7 +146,7 @@ namespace Altalents.Business.Services
 
         public async Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken)
         {
-            return !await DbContext.Personnes.AnyAsync(x => x.BoondId == idboond, cancellationToken: cancellationToken);
+            return !await GetScopedDbContexte().Personnes.AnyAsync(x => x.BoondId == idboond, cancellationToken: cancellationToken);
         }
 
         public async Task<bool> IsTrigrammeValidAsync(string trigram, CancellationToken cancellationToken)
