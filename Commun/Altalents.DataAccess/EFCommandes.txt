@@ -12,7 +12,7 @@ dotnet ef migrations add NAME --project  Commun/Altalents.DataAccess --context M
 dotnet ef migrations remove NAME --project  Commun/Altalents.DataAccess --context MigrationContext
 
 //Genere le bundle de migration
-dotnet ef migrations bundle --project Commun/Altalents.DataAccess --verbose --target-runtime win10-x64 --self-contained --output ./SQL/bundle.exe --force --context MigrationContext
+dotnet ef migrations bundle --project Commun/Altalents.DataAccess --verbose --target-runtime win-x64 --self-contained --output ./SQL/bundle.exe --force --context MigrationContext
 
 //Updates the database with bundle.
 .\SQL\bundle.exe --verbose  --connection "Server=localhost;Database=Altalents;Trusted_Connection=True;Encrypt=False;"

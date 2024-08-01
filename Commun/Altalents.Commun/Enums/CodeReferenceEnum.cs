@@ -63,6 +63,14 @@ namespace Altalents.Commun.Enums
         Basique = 59,
         Intermediaire = 60,
         Avance = 61,
-        Bilingue = 62
+        Bilingue = 62,
+        GestionProjet = 63,
+        RedactionSpecifications = 64,
+        AnalyseDonnees = 65,
+        MarketingDigital = 66,
+        ResponsabiliteEquipes = 67,
+        Design = 68,
+        GestionEquipe = 69,
+        DeveloppementLogiciels = 70
     }
 }
