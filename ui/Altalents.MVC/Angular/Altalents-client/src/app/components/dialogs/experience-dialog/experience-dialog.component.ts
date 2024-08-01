@@ -12,16 +12,13 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 
 @Component({
   selector: 'app-experience-dialog',
-  templateUrl: './experience-dialog.component.html',
-  styleUrls: ['experience-dialog.component.scss']
+  templateUrl: './experience-dialog.component.html'
 })
 export class ExperienceDialogComponent extends BaseComponent implements OnInit {
   public experience?: Experience;
   public formGroup: FormGroup<ExperienceForm>;
   public typesContrats: Reference[] = [];
   public sourceTechnologies: Reference[] = [];
-  public filtredTechnologies: Reference[] = [];
-  public selectedTechnologies: Reference[] = [];
   public competences: Reference[] = [];
   public methodologies: Reference[] = [];
   public isDropdownTechnologieVisible: boolean = false;
@@ -42,7 +39,7 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
       description: new FormControl(),
       domaineMetier: new FormControl(),
       compositionEquipe: new FormControl(),
-      technologie: new FormControl(),
+      technologies: new FormControl(),
       competences: new FormControl(),
       methodologies: new FormControl(),
       isBudgetGere: new FormControl(),
@@ -66,12 +63,11 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
         description: this.experience.description,
         domaineMetier: this.experience.domaineMetier,
         compositionEquipe: this.experience.compositionEquipe,
+        technologies: this.experience.technologies,
         competences: this.experience.competences,
         methodologies: this.experience.methodologies,
         budgetGere: this.experience.budgetGere
       });
-
-      this.selectedTechnologies = this.experience.technologies;
     }
 
     this.updateInputClientFinal();
@@ -97,8 +93,7 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
     // ------ CONSTANTES TYPES REFERENCES A CHANGER ------ 
     this.callRequest(ConstantesRequest.getReferencesTechnologies, this.service.getReferences(ConstantesTypesReferences.langue)
         .subscribe((response: ReferenceDto[]) => {
-          this.filtredTechnologies = this.sourceTechnologies = Reference.fromListReferenceDto(response);
-          this.filterTechnologies();
+          this.sourceTechnologies = Reference.fromListReferenceDto(response);
         }));
     this.callRequest(ConstantesRequest.getReferencesCompetences, this.service.getReferences(ConstantesTypesReferences.langue)
         .subscribe((response: ReferenceDto[]) => {
@@ -126,7 +121,7 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
       experience.description = values.description;
       experience.domaineMetier = values.domaineMetier;
       experience.compositionEquipe = values.compositionEquipe;
-      experience.technologies = this.selectedTechnologies;
+      experience.technologies = values.technologies ?? [];
       experience.competences = values.competences ?? [];
       experience.methodologies = values.methodologies ?? [];
       experience.budgetGere = values.budgetGere;
@@ -138,36 +133,8 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
   public closeDialog(): void {
     this.activeModal.close();
   }
-  
-  public inputTechnologies(): void {
-    this.filtredTechnologies = this.sourceTechnologies.filter(x => 
-      x.libelle.toLowerCase()
-               .startsWith(this.formGroup.value.technologie?.toLowerCase() ?? "")
-    ).filter(x => !this.selectedTechnologies.includes(x));
-  }
 
-  public onInputTechnologiesFocus(): void {
-    this.isDropdownTechnologieVisible = true;
-  }
-
-  public onAutocompleteTechnologieBlur(): void {
-    this.isDropdownTechnologieVisible = false;
-  }
-
-  public onTechnologieClick(technologie: Reference): void {
-    this.formGroup.controls.technologie.reset();
-    this.selectedTechnologies.push(technologie);
-    this.filterTechnologies();
-  }
-
-  public onTechnologieRemoveClick(technologie: Reference): void {
-    this.formGroup.controls.technologie.reset();
-    const index = this.selectedTechnologies.indexOf(technologie);
-    this.selectedTechnologies.splice(index, 1);
-    this.filterTechnologies();
-  }
-
-  private filterTechnologies(): void {
-    this.filtredTechnologies = this.sourceTechnologies.filter(x => !this.selectedTechnologies.includes(x));
+  public onSelectedTechnologiesChange(technologies: Reference[]): void {
+    this.formGroup.controls.technologies.setValue(technologies);
   }
 }

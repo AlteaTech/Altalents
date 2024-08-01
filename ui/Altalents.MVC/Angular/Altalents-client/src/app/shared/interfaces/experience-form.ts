@@ -14,7 +14,7 @@ export interface ExperienceForm {
     description: FormControl<string | undefined>,
     domaineMetier: FormControl<string | undefined>,
     compositionEquipe: FormControl<string | undefined>,
-    technologie: FormControl<string | undefined>,
+    technologies: FormControl<Reference[] | undefined>,
     competences: FormControl<Reference[] | undefined>,
     methodologies: FormControl<Reference[] | undefined>,
     isBudgetGere: FormControl<boolean | undefined>,

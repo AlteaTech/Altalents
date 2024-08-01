@@ -96,20 +96,9 @@
                 <label for="technologie">Technologies</label>
             </div>
             <div class="col-9">
-                <div (blur)="onAutocompleteTechnologieBlur()" tabindex="-1">
-                    <input type="text" formControlName="technologie" placeholder="Décrivez les technologies utilisées" (input)="inputTechnologies()" (focus)="onInputTechnologiesFocus()">
-                    <div *ngIf="isDropdownTechnologieVisible && filtredTechnologies.length" class="autocomplete-dropdown">
-                        <p *ngFor="let technologie of filtredTechnologies" (click)="onTechnologieClick(technologie)">{{technologie.libelle}}</p>
-                    </div>
-                </div>
-                <div class="autocomplete-container">
-                    <ul class="autocomplete-ul">
-                        <li *ngFor="let item of selectedTechnologies" class="autocomplete-choix">
-                            {{item.libelle}}
-                            <span class="autocomplete-remove" (click)="onTechnologieRemoveClick(item)">X</span>
-                        </li>
-                    </ul>
-                </div>
+                <app-autocomplete placeholder="Décrivez les technologies utilisées" 
+                                  [sourceReferences]="sourceTechnologies" [selectedReferences]="formGroup.value.technologies ?? []"
+                                  (selectedReferencesCallback)="onSelectedTechnologiesChange($event)"></app-autocomplete>
             </div>
         </div>
         <div class="row">
