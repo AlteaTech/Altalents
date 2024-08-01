@@ -36,7 +36,7 @@
                               <div class="col-xl-6">
                                   <label for="trigram">Trigramme<span class="champ-obligatoire">*</span></label>
                                   <div class="error-message" *ngIf="formGroup.get('trigram')?.invalid && formGroup.get('trigram')?.touched">
-                                    Trigramme est requis.
+                                    Trigramme est invalide.
                                   </div>
                               </div>
                               <div class="col-xl-6">
@@ -81,6 +81,9 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="numeroTelephone1">N° de téléphone</label>
+                                  <div class="error-message" *ngIf="formGroup.get('numeroTelephone1')?.invalid && formGroup.get('numeroTelephone1')?.touched">
+                                    N° de téléphone est invalide.
+                                  </div>
                               </div>
                               <div class="col-xl-6">
                                   <input type="text"  class="form-control" formControlName="numeroTelephone1" placeholder="00 00 00 00 00">
@@ -90,7 +93,7 @@
                               <div class="col-xl-6">
                                   <label for="adresseMail">Adresse mail<span class="champ-obligatoire">*</span></label>
                                   <div class="error-message" *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
-                                    Adresse mail est requis.
+                                    Adresse mail est invalide.
                                   </div>
                               </div>
                               <div class="col-xl-6">
@@ -107,8 +110,8 @@
                           <div class="row">
                               <div class="col-xl-6">
                                   <label for="idBoond">ID Boond<span class="champ-obligatoire">*</span></label>
-                                  <div class="error-message" *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
-                                    ID Boond mail est requis.
+                                  <div class="error-message" *ngIf="formGroup.get('idBoond')?.invalid && formGroup.get('idBoond')?.touched">
+                                    ID Boond est invalide.
                                   </div>
                               </div>
                               <div class="col-xl-6">
@@ -126,7 +129,7 @@
             <div class="col-6">
                 <div class="row">
                     <div class="col-sm-6">
-                      <button class="at-c-btn-link-second" (click)="return()"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
+                      <button class="at-c-btn-link-second" (click)="return()"><i class="fa-solid fa-backward-step"></i>&nbsp;&nbsp; Retour</button>
                     </div>
                     <div class="col-sm-6">        <button class="at-c-btn-link-primary at-w-250" (click)="sendCancidat()"><i class="fa-solid fa-play"></i>&nbsp;&nbsp; Envoyer au candidat</button>
                     </div>

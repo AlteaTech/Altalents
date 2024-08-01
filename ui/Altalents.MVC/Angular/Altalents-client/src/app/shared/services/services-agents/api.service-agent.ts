@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from '../generated/api/api.client';
+import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, ReferenceDto, TrigrammeDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -34,5 +34,20 @@ export class ApiServiceAgent {
 
   getTrigramme(body: GetTrigrammeRequestDto): Observable<TrigrammeDto> {
     return this.apiClient.getTrigramme(body);
+  }
+  isEmailValid(email: string): Observable<boolean> {
+    return this.apiClient.isEmailValid(email);
+  }
+  isIdBoondValid(idboond: string): Observable<boolean> {
+    return this.apiClient.isIdBoondValid(idboond);
+  }
+  isTrigramValid(trigram: string): Observable<boolean> {
+    return this.apiClient.isTrigrammeValid(trigram);
+  }
+  isTelephoneValid(telephone: string, isOptionnal: boolean): Observable<boolean> {
+    let request = new IsTelephoneValidRequestDto();
+    request.isOptionnal = isOptionnal;
+    request.telephone = telephone;
+    return this.apiClient.isTelephoneValid(request);
   }
 }

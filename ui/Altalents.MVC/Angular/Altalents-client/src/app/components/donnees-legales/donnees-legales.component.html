@@ -1,7 +1,9 @@
-<div class="info-section">
-    <img src="Images/HONNETETE.png" alt="Megaphone" class="info-image">
-    <p class="info-text">
-        C’est parti, pour la première étape nous allons avoir besoin de recueillir vos infos personnelles histoire de tout revendre à Zukerberg. Je plaisante, ces informations ne seront évidemment partagées à personne, comme nos meilleures vannes d’ailleurs.
+<div class="at-p-formulaire-info-section">
+    <img src="Images/HONNETETE.png">
+    <p>
+        C’est parti, pour la première étape nous allons avoir besoin de recueillir vos infos personnelles histoire de
+        tout revendre à Zukerberg. Je plaisante, ces informations ne seront évidemment partagées à personne, comme nos
+        meilleures vannes d’ailleurs.
     </p>
 </div>
 
@@ -9,78 +11,89 @@
     <div class="row">
         <div class="col-lg-6">
             <fieldset>
-                <legend class="legent-text">Informations personnelles</legend>
-                <div class="row mb-3">
-                    <div class="col-6 align-items-center">
-                        <label for="prenom">Prénom<span class="champ-obligatoire">*</span></label>
+                <legend class="legend-text">Informations personnelles</legend>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label for="prenom" class="col-form-label">Prénom<span
+                                class="champ-obligatoire">*</span></label>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="prenom" placeholder="Julien">
-                    </div>                    
+                    </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6 align-items-center">
-                        <label for="nom">Nom<span class="champ-obligatoire">*</span></label>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label for="nom" class="col-form-label">Nom<span class="champ-obligatoire">*</span></label>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="nom" placeholder="Dupont">
-                    </div>                    
+                    </div>
                 </div>
             </fieldset>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6">
             <fieldset>
                 <legend class="legent-text">Coordonnées de contact</legend>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label for="numeroTelephone1 align-items-center">N° de téléphone 1<span class="champ-obligatoire">*</span></label>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label for="numeroTelephone1 align-items-center" class="col-form-label">N° de téléphone 1<span
+                                class="champ-obligatoire">*</span></label>
                     </div>
                     <div class="col-6">
-                        <input type="text" class="form-control" formControlName="numeroTelephone1" placeholder="00 00 00 00 00">
-                    </div>                    
+                        <input type="text" class="form-control" formControlName="numeroTelephone1"
+                            placeholder="00 00 00 00 00">
+                    </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label for="numeroTelephone2 align-items-center">N° de téléphone 2</label>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label for="numeroTelephone2 align-items-center" class="col-form-label">N° de téléphone
+                            2</label>
                     </div>
                     <div class="col-6">
-                        <input type="text" class="form-control" formControlName="numeroTelephone2" placeholder="00 00 00 00 00">
-                    </div>                    
+                        <input type="text" class="form-control" formControlName="numeroTelephone2"
+                            placeholder="00 00 00 00 00">
+                    </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label for="adresseMail align-items-center">Adresse mail<span class="champ-obligatoire">*</span></label>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label for="adresseMail align-items-center" class="col-form-label">Adresse mail<span
+                                class="champ-obligatoire">*</span></label>
                     </div>
                     <div class="col-6">
-                        <input type="text" class="form-control" formControlName="adresseMail" placeholder="adresse@mail.com">
-                    </div>                    
+                        <input type="text" class="form-control" formControlName="adresseMail"
+                            placeholder="adresse@mail.com">
+                    </div>
                 </div>
             </fieldset>
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6">
             <fieldset>
                 <legend class="legent-text">Adresse</legend>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label for="adresse1 align-items-center">Adresse 1<span class="champ-obligatoire">*</span></label>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label for="adresse1 align-items-center" class="col-form-label">Adresse 1<span
+                                class="champ-obligatoire">*</span></label>
                     </div>
                     <div class="col-6">
-                        <input type="text" class="form-control" formControlName="adresse1" placeholder="12 rue des Fleurs">
-                    </div>                    
+                        <input type="text" class="form-control" formControlName="adresse1"
+                            placeholder="12 rue des Fleurs">
+                    </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label for="adresse2 align-items-center">Adresse 2</label>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label for="adresse2 align-items-center" class="col-form-label">Adresse 2</label>
                     </div>
                     <div class="col-6">
-                        <input type="text" class="form-control" formControlName="adresse2" placeholder="22 rue des Adresses">
-                    </div>                    
+                        <input type="text" class="form-control" formControlName="adresse2"
+                            placeholder="22 rue des Adresses">
+                    </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6 align-items-center">
-                        <label>Code postal / Ville<span class="champ-obligatoire">*</span></label>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label class="col-form-label">Code postal / Ville<span
+                                class="champ-obligatoire">*</span></label>
                     </div>
                     <div class="col-2">
                         <input type="text" class="form-control" formControlName="codePostal" placeholder="08000">
@@ -89,17 +102,21 @@
                         <input type="text" class="form-control" formControlName="ville" placeholder="Charleville">
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label for="pays">Pays<span class="champ-obligatoire">*</span></label>
+                <div class="row mb-2">
+                    <div class="col-6 label-right">
+                        <label for="pays" class="col-form-label">Pays<span class="champ-obligatoire">*</span></label>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="pays" placeholder="France">
-                    </div>                    
+                    </div>
                 </div>
             </fieldset>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6">
+            <div class="drop-zone">
+                <img src="Images/ICON_FEATHER_DOWNLOAD.png">
+                <p class="at-c-violet">Déposez votre CV</p>
+            </div>
         </div>
     </div>
 </form>
