@@ -42,7 +42,7 @@
             </div>
             <div class="col-3">
                 <label class="switch">
-                    <input type="checkbox" formControlName="isPosteActuel">
+                    <input type="checkbox" formControlName="isPosteActuel" (change)="updateInputPosteActuel()">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -108,11 +108,11 @@
                 <label for="competences">Compétences</label>
             </div>
             <div class="col-9">
-                <!-- <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
+                <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
                     [constanteRequest]="constantesRequest.getReferencesCompetences"
                     [constanteTypeReference]="constantesTypesReferences.langue"
                     [selectedReferences]="formGroup.value.competences ?? []"
-                    (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete> -->
+                    (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete>
             </div>
         </div>
         <div class="row">
@@ -120,11 +120,11 @@
                 <label for="methodologies">Méthodologies</label>
             </div>
             <div class="col-9">
-                <!-- <app-multiple-autocomplete placeholder="SCRUM, etc" 
+                <app-multiple-autocomplete placeholder="SCRUM, etc" 
                     [constanteRequest]="constantesRequest.getReferencesMethodologies"
-                    [constanteTypeReference]="constantesTypesReferences.competences"
+                    [constanteTypeReference]="constantesTypesReferences.competence"
                     [selectedReferences]="formGroup.value.methodologies ?? []"
-                    (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete> -->
+                    (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete>
             </div>
         </div>
         <div class="row">

@@ -68,8 +68,14 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
       });
     }
 
+    this.updateInputPosteActuel();
     this.updateInputClientFinal();
     this.updateInputBudgetGere();
+  }
+
+  public updateInputPosteActuel(): void {
+    let controls = this.formGroup.controls;
+    controls.isPosteActuel.value ? controls.dateFin.enable() : controls.dateFin.disable();
   }
 
   public updateInputClientFinal(): void {
