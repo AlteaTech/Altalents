@@ -106,11 +106,9 @@
                 <label for="competences">Compétences</label>
             </div>
             <div class="col-9">
-                <select formControlName="competences" multiple>
-                    <option *ngFor="let competence of competences" [ngValue]="competence">
-                        {{competence.libelle}}
-                    </option>
-                </select>
+                <app-autocomplete placeholder="Gestion de projet, Management, etc"
+                                  [sourceReferences]="sourceCompetences" [selectedReferences]="formGroup.value.competences ?? []"
+                                  (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-autocomplete>
             </div>
         </div>
         <div class="row">
@@ -118,11 +116,9 @@
                 <label for="methodologies">Méthodologies</label>
             </div>
             <div class="col-9">
-                <select formControlName="methodologies" multiple>
-                    <option *ngFor="let methodologie of methodologies" [ngValue]="methodologie">
-                        {{methodologie.libelle}}
-                    </option>
-                </select>
+                <app-autocomplete placeholder="SCRUM, etc" 
+                                  [sourceReferences]="sourceMethodologies" [selectedReferences]="formGroup.value.methodologies ?? []"
+                                  (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-autocomplete>
             </div>
         </div>
         <div class="row">

@@ -19,9 +19,8 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
   public formGroup: FormGroup<ExperienceForm>;
   public typesContrats: Reference[] = [];
   public sourceTechnologies: Reference[] = [];
-  public competences: Reference[] = [];
-  public methodologies: Reference[] = [];
-  public isDropdownTechnologieVisible: boolean = false;
+  public sourceCompetences: Reference[] = [];
+  public sourceMethodologies: Reference[] = [];
 
   constructor(public activeModal: NgbActiveModal,
     private readonly service: ApiServiceAgent) {
@@ -97,11 +96,11 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
         }));
     this.callRequest(ConstantesRequest.getReferencesCompetences, this.service.getReferences(ConstantesTypesReferences.langue)
         .subscribe((response: ReferenceDto[]) => {
-          this.competences = Reference.fromListReferenceDto(response);
+          this.sourceCompetences = Reference.fromListReferenceDto(response);
         }));
     this.callRequest(ConstantesRequest.getReferencesMethodologies, this.service.getReferences(ConstantesTypesReferences.langue)
         .subscribe((response: ReferenceDto[]) => {
-          this.methodologies = Reference.fromListReferenceDto(response);
+          this.sourceMethodologies = Reference.fromListReferenceDto(response);
         }));
     // ------ END CONSTANTES TYPES REFERENCES A CHANGER ------ 
   }
@@ -136,5 +135,13 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
 
   public onSelectedTechnologiesChange(technologies: Reference[]): void {
     this.formGroup.controls.technologies.setValue(technologies);
+  }
+
+  public onSelectedCompetencesChange(competences: Reference[]): void {
+    this.formGroup.controls.competences.setValue(competences);
+  }
+
+  public onSelectedMethodologiesChange(methodologies: Reference[]): void {
+    this.formGroup.controls.methodologies.setValue(methodologies);
   }
 }
