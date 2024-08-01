@@ -24,6 +24,7 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
   public selectedTechnologies: Reference[] = [];
   public competences: Reference[] = [];
   public methodologies: Reference[] = [];
+  public isDropdownTechnologieVisible: boolean = false;
 
   constructor(public activeModal: NgbActiveModal,
     private readonly service: ApiServiceAgent) {
@@ -143,6 +144,14 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
       x.libelle.toLowerCase()
                .startsWith(this.formGroup.value.technologie?.toLowerCase() ?? "")
     ).filter(x => !this.selectedTechnologies.includes(x));
+  }
+
+  public onInputTechnologiesFocus(): void {
+    this.isDropdownTechnologieVisible = true;
+  }
+
+  public onAutocompleteTechnologieBlur(): void {
+    this.isDropdownTechnologieVisible = false;
   }
 
   public onTechnologieClick(technologie: Reference): void {
