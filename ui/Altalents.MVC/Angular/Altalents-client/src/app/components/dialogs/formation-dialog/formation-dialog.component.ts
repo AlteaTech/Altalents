@@ -6,7 +6,8 @@ import { Formation } from 'src/app/shared/models/formation.model';
 
 @Component({
   selector: 'app-formation-dialog',
-  templateUrl: './formation-dialog.component.html'
+  templateUrl: './formation-dialog.component.html',
+  styleUrls: ['../../../app.component.css']
 })
 export class FormationDialogComponent implements OnInit {
   public formation?: Formation;
@@ -31,7 +32,7 @@ export class FormationDialogComponent implements OnInit {
         niveau: this.formation.niveau,
         organisme: this.formation.organisme,
         dateDebut: this.formation.dateDebut,
-        dateFin: this.formation.dateFin 
+        dateFin: this.formation.dateFin
       });
     }
   }
@@ -46,7 +47,7 @@ export class FormationDialogComponent implements OnInit {
       formation.organisme = values.organisme;
       formation.dateDebut = values.dateDebut;
       formation.dateFin = values.dateFin;
-      
+
       this.activeModal.close(formation);
     }
   }

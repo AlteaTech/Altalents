@@ -1,57 +1,64 @@
-<form [formGroup]="formGroup">
+<div class="at-p-fenetre-dialog"><form [formGroup]="formGroup">
     <fieldset>
         <legend>Certification</legend>
-        <div class="row">
-            <div class="col-6">
-                <label for="libelle">Certification</label>
+        <div class="row mb-2">
+            <div class="col-6 at-p-label-champ-input">
+                <label for="libelle" class="col-form-label">Certification</label>
             </div>
             <div class="col-6">
-                <input type="text" formControlName="libelle" placeholder="Libellé de la certification">
+                <input type="text" class="form-control" formControlName="libelle" placeholder="Libellé de la certification">
             </div>               
         </div>
-        <div class="row">
-            <div class="col-6">
-                <label for="domaine">Domaine</label>
+        <div class="row mb-2">
+            <div class="col-6 at-p-label-champ-input">
+                <label for="domaine" class="col-form-label">Domaine</label>
             </div>
             <div class="col-6">
-                <input type="text" formControlName="domaine" placeholder="Histoire">
+                <input type="text" class="form-control" formControlName="domaine" placeholder="Histoire">
             </div>               
         </div>
-        <div class="row">
-            <div class="col-6">
-                <label for="niveau">Niveau</label>
+        <div class="row mb-2">
+            <div class="col-6 at-p-label-champ-input">
+                <label for="niveau" class="col-form-label">Niveau</label>
             </div>
             <div class="col-6">
-                <input type="text" formControlName="niveau" placeholder="Bac">
+                <input type="text" class="form-control" formControlName="niveau" placeholder="Bac">
             </div>               
         </div>
-        <div class="row">
-            <div class="col-6">
-                <label for="organisme">Organisme</label>
+        <div class="row mb-2">
+            <div class="col-6 at-p-label-champ-input">
+                <label for="organisme" class="col-form-label">Organisme</label>
             </div>
             <div class="col-6">
-                <input type="text" formControlName="organisme" placeholder="Nom de l'organisme">
+                <input type="text" class="form-control" formControlName="organisme" placeholder="Nom de l'organisme">
             </div>               
         </div>
-        <div class="row">
-            <div class="col-6">
-                <label for="dateDebut">Date de début</label>
+        <div class="row mb-2">
+            <div class="col-6 at-p-label-champ-input">
+                <label for="dateDebut" class="col-form-label">Date de début</label>
             </div>
             <div class="col-6">
-                <input type="text" formControlName="dateDebut" placeholder="JJ/MM/AAAA">
+                <input type="text" class="form-control" formControlName="dateDebut" placeholder="JJ/MM/AAAA">
             </div>               
         </div>
-        <div class="row">
-            <div class="col-6">
-                <label for="dateFin">Date de fin</label>
+        <div class="row mb-3">
+            <div class="col-6 at-p-label-champ-input">
+                <label for="dateFin" class="col-form-label">Date de fin</label>
             </div>
             <div class="col-6">
-                <input type="text" formControlName="dateFin" placeholder="JJ/MM/AAAA">
+                <input type="text" class="form-control" formControlName="dateFin" placeholder="JJ/MM/AAAA">
             </div>               
         </div>
     </fieldset>
     <div>
-        <button (click)="closeDialog()">Annuler</button>
-        <button (click)="submit()">Valider</button>
+        <div class="at-p-button-container">
+            <button class="at-p-secondary-button" (click)="closeDialog()">
+                <p>Annuler</p>
+            </button>
+            <button class="at-p-button" (click)="submit()">
+                <p>Valider</p>
+            </button>
+        </div>
     </div>
 </form>
+</div>
