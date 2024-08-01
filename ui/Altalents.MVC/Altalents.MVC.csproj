@@ -24,7 +24,22 @@
     <Content Include="wwwroot\Images\GROUPE_5.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\Images\GROUPE_6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wwwroot\Images\HONNETETE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ICONE_PLAY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ICONE_PLUS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ICONE_REPLAY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ICON_FEATHER_DOWNLOAD.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\Images\ILLUSTRATION_STABILO.png">
