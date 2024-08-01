@@ -24,9 +24,35 @@ export class ExperiencesComponent implements OnInit {
     let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, { size: 'lg' });
     dialogRef.result.then((nouvelElement: Experience | undefined) => {
       if(nouvelElement) {
+        this.populateDureeExperience(nouvelElement);
         this.experiences.push(nouvelElement)
       }
     })
+  }
+
+  private populateDureeExperience(experience: Experience) {
+    if (experience.dateDebut && experience.dateFin) {
+      const dateFin = new Date(experience.dateFin);
+      const dateDebut = new Date(experience.dateDebut);
+      const jours: number = Math.round((Date.UTC(dateFin.getFullYear(), dateFin.getMonth(), dateFin.getDate())
+                                          - Date.UTC(dateDebut.getFullYear(), dateDebut.getMonth(), dateDebut.getDate()))
+                                        / (1000 * 60 * 60 * 24));
+
+      if(jours <= 30) {
+        experience.dureeExperience = jours + " jours";
+      }
+      else if(jours < 365) {
+        experience.dureeExperience = Math.round(jours/30) + " mois";
+      }
+      else {
+        experience.dureeExperience = Math.round(jours/365) + " ans";
+      }
+    }
+  }
+
+  public onModifierExperienceClick(experience: Experience): void {
+    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, { size: 'lg' });
+    dialogRef.componentInstance.experience = experience;
   }
 
   private submit(): Promise<boolean> {

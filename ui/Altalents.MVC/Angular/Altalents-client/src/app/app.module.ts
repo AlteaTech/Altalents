@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,9 @@ import { CertificationDialogComponent } from './components/dialogs/certification
 import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue-dialog.component';
 import { ExperienceDialogComponent } from './components/dialogs/experience-dialog/experience-dialog.component';
 import { MultipleAutocompleteComponent } from './shared/components/multiple-autocomplete/multiple-autocomplete.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -49,7 +52,7 @@ import { MultipleAutocompleteComponent } from './shared/components/multiple-auto
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{provide: LOCALE_ID, useValue: "fr-FR" } ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

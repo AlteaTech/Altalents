@@ -6,8 +6,8 @@ export class Experience {
     intitulePoste?: string;
     entreprise?: string;
     clientFinal?: string;
-    dateDebut?: string;
-    dateFin?: string;
+    dateDebut?: Date;
+    dateFin?: Date;
     isPosteActuel!: boolean;
     lieu?: string;
     description?: string;
@@ -17,4 +17,7 @@ export class Experience {
     competences: Reference[] = [];
     methodologies: Reference[] = [];
     budgetGere?: number;
+
+    // champs calculés 
+    dureeExperience?: string;
 }
