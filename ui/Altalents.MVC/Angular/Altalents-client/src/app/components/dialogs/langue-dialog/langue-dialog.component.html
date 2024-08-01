@@ -3,11 +3,11 @@
     <fieldset>
         <legend>Langues parlées</legend>
         <div class="row mb-2">
-            <div class="col-6 at-p-label-champ-input">
+            <div class="col-lg-2">
                 <label for="langue" class="col-form-label">Langue</label>
             </div>
-            <div class="col-6">
-                <select formControlName="langue" autocomplete="on">
+            <div class="col-10">
+                <select formControlName="langue" autocomplete="on" class="form-select">
                     <option *ngFor="let langue of langues" [ngValue]="langue">
                         {{langue.libelle}}
                     </option>
@@ -15,11 +15,11 @@
             </div>               
         </div>
         <div class="row mb-3">
-            <div class="col-6 at-p-label-champ-input">
+            <div class="col-lg-2">
                 <label for="niveau" class="col-form-label">Niveau</label>
             </div>
-            <div class="col-6">
-                <select formControlName="niveau">
+            <div class="col-10">
+                <select formControlName="niveau" class="form-select">
                     <option *ngFor="let niveauLangue of niveauxLangues" [ngValue]="niveauLangue">
                         {{niveauLangue.libelle}} <span *ngIf="niveauLangue.commentaireFun">({{niveauLangue.commentaireFun}})</span>
                     </option>

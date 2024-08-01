@@ -16,7 +16,7 @@ import { ValidateTrigramWithApi } from 'src/app/shared/services/services/validat
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
   templateUrl: './commercial-creation-dt-configuration.component.html',
-  styleUrls: ['./commercial-creation-dt-configuration.component.css','../../app.component.css']
+  styleUrls: ['./commercial-creation-dt-configuration.component.scss','../../app.component.css']
 })
 
 export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
@@ -50,7 +50,7 @@ return() {
     this.populateData();
   }
 
-  sendCancidat() {
+  sendCandidat() {
     if(this.formGroup.valid){
       this.callRequest(ConstantesRequest.addDossierTechnique, this.service.addDossierTechnique(this.generateDossierTechniqueInsertRequestDto())
         .subscribe((response: string) => {

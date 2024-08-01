@@ -42,7 +42,7 @@
     <legend>Langues parlées</legend>
     <div>
         <span *ngFor="let langue of stepFormation.langues; last as isLast">
-            {{langue.langue?.libelle}} {{langue.niveau?.libelle}} <i *ngIf="!isLast">.</i>
+            {{langue.langue?.libelle}} {{langue.niveau?.libelle}} <i *ngIf="!isLast"><i class="bi bi-dot"></i></i>
         </span>
     </div>
     <div class="at-p-button-ajouter">
