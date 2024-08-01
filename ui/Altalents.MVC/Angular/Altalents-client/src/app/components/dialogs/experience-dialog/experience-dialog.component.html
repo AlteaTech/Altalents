@@ -96,9 +96,11 @@
                 <label for="technologie">Technologies</label>
             </div>
             <div class="col-9">
-                <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées" 
-                                  [sourceReferences]="sourceTechnologies" [selectedReferences]="formGroup.value.technologies ?? []"
-                                  (selectedReferencesCallback)="onSelectedTechnologiesChange($event)"></app-multiple-autocomplete>
+                <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées"
+                    [constanteRequest]="constantesRequest.getReferencesTechnologies"
+                    [constanteTypeReference]="constantesTypesReferences.langue"
+                    [selectedReferences]="formGroup.value.technologies ?? []"
+                    (selectedReferencesCallback)="onSelectedTechnologiesChange($event)"></app-multiple-autocomplete>
             </div>
         </div>
         <div class="row">
@@ -106,9 +108,11 @@
                 <label for="competences">Compétences</label>
             </div>
             <div class="col-9">
-                <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
-                                  [sourceReferences]="sourceCompetences" [selectedReferences]="formGroup.value.competences ?? []"
-                                  (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete>
+                <!-- <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
+                    [constanteRequest]="constantesRequest.getReferencesCompetences"
+                    [constanteTypeReference]="constantesTypesReferences.langue"
+                    [selectedReferences]="formGroup.value.competences ?? []"
+                    (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete> -->
             </div>
         </div>
         <div class="row">
@@ -116,9 +120,11 @@
                 <label for="methodologies">Méthodologies</label>
             </div>
             <div class="col-9">
-                <app-multiple-autocomplete placeholder="SCRUM, etc" 
-                                  [sourceReferences]="sourceMethodologies" [selectedReferences]="formGroup.value.methodologies ?? []"
-                                  (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete>
+                <!-- <app-multiple-autocomplete placeholder="SCRUM, etc" 
+                    [constanteRequest]="constantesRequest.getReferencesMethodologies"
+                    [constanteTypeReference]="constantesTypesReferences.competences"
+                    [selectedReferences]="formGroup.value.methodologies ?? []"
+                    (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete> -->
             </div>
         </div>
         <div class="row">

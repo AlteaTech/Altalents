@@ -3,4 +3,5 @@ export class ConstantesTypesReferences {
     public static niveauLangue: string = "NiveauLangue";
     public static langue: string = "Langue";
     public static typeContrat: string = "Contrat";
+    public static competence: string = "Competence";
 }

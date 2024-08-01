@@ -18,9 +18,8 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
   public experience?: Experience;
   public formGroup: FormGroup<ExperienceForm>;
   public typesContrats: Reference[] = [];
-  public sourceTechnologies: Reference[] = [];
-  public sourceCompetences: Reference[] = [];
-  public sourceMethodologies: Reference[] = [];
+  public constantesRequest = ConstantesRequest;
+  public constantesTypesReferences = ConstantesTypesReferences;
 
   constructor(public activeModal: NgbActiveModal,
     private readonly service: ApiServiceAgent) {
@@ -88,21 +87,6 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
         .subscribe((response: ReferenceDto[]) => {
           this.typesContrats = Reference.fromListReferenceDto(response);
         }));
-    
-    // ------ CONSTANTES TYPES REFERENCES A CHANGER ------ 
-    this.callRequest(ConstantesRequest.getReferencesTechnologies, this.service.getReferences(ConstantesTypesReferences.langue)
-        .subscribe((response: ReferenceDto[]) => {
-          this.sourceTechnologies = Reference.fromListReferenceDto(response);
-        }));
-    this.callRequest(ConstantesRequest.getReferencesCompetences, this.service.getReferences(ConstantesTypesReferences.langue)
-        .subscribe((response: ReferenceDto[]) => {
-          this.sourceCompetences = Reference.fromListReferenceDto(response);
-        }));
-    this.callRequest(ConstantesRequest.getReferencesMethodologies, this.service.getReferences(ConstantesTypesReferences.langue)
-        .subscribe((response: ReferenceDto[]) => {
-          this.sourceMethodologies = Reference.fromListReferenceDto(response);
-        }));
-    // ------ END CONSTANTES TYPES REFERENCES A CHANGER ------ 
   }
 
   public submit(): void {
