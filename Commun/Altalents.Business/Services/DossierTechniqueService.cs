@@ -2,6 +2,7 @@ using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
 using Altalents.IBusiness.DTO.Requesst;
 
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 
 namespace Altalents.Business.Services
@@ -66,6 +67,19 @@ namespace Altalents.Business.Services
             }
             dt.StatutId = statutId;
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+        }
+
+        public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await DbContext.DossierTechniques
+                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
+                .Select(dt => new NomPrenomPersonneDto
+                {
+                    Nom = dt.Personne.Nom,
+                    Prenom = dt.Personne.Prenom
+                })
+                .FirstOrDefaultAsync(cancellationToken)
+                ?? throw new BusinessException("DossierTechnique inexistant.");
         }
 
         public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
@@ -156,11 +170,11 @@ namespace Altalents.Business.Services
 
         public bool IsTelephoneValid(string telephone, bool isOptionnal = false)
         {
-            if(isOptionnal && telephone == null)
+            if (isOptionnal && telephone == null)
             {
                 return true;
             }
-            else if(telephone == null)
+            else if (telephone == null)
             {
                 return false;
             }
@@ -175,6 +189,118 @@ namespace Altalents.Business.Services
                 return true;
             else
                 return false;
+        }
+
+        public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync(Guid tokenRapide, CancellationToken cancellationToken)
+        {
+            DossierTechnique dt = await GetQueryParlonsDeVous(GetScopedDbContexte(), tokenRapide).SingleAsync(cancellationToken);
+
+            AdresseDto adresseDto = dt.Personne.Adresses?.Select(x => new AdresseDto()
+            {
+                Adresse1 = x.Adresse1,
+                Adresse2 = x.Adresse2,
+                CodePostal = x.CodePostal,
+                Pays = x.Pays,
+                Ville = x.Ville
+            })
+            .FirstOrDefault();
+
+            List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
+
+            ParlonsDeVousDto reponse = new ParlonsDeVousDto()
+            {
+                Adresse = adresseDto,
+                Telephone1 = contactTelephones.FirstOrDefault()?.Valeur,
+                Telephone2 = contactTelephones.Count <= 1 ? null : contactTelephones.LastOrDefault()?.Valeur,
+                Email = dt.Personne.Email,
+                Nom = dt.Personne.Nom,
+                Prenom = dt.Personne.Prenom
+            };
+            return reponse;
+        }
+
+        private IIncludableQueryable<DossierTechnique, List<Contact>> GetQueryParlonsDeVous(CustomDbContext context, Guid tokenRapide)
+        {
+            return context.DossierTechniques
+                            .Where(x => x.TokenAccesRapide == tokenRapide)
+                            .Include(x => x.Personne)
+                                .ThenInclude(x => x.Adresses)
+                            .Include(x => x.Personne)
+                                .ThenInclude(x => x.Contacts);
+        }
+
+        public async Task PutParlonsDeVousAsync(Guid tokenRapide, ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
+        {
+            DossierTechnique dt = await GetQueryParlonsDeVous(DbContext, tokenRapide)
+                .AsTracking()
+                .SingleAsync(cancellationToken);
+
+            Adresse adresse = dt.Personne.Adresses?.FirstOrDefault();
+            if (adresse != null)
+            {
+                adresse.Pays = request.Adresse.Pays;
+                adresse.Adresse1 = request.Adresse.Adresse1;
+                adresse.Adresse2 = request.Adresse.Adresse2;
+                adresse.CodePostal = request.Adresse.CodePostal;
+                adresse.Ville = request.Adresse.Ville;
+            }
+            else
+            {
+                dt.Personne.Adresses = new()
+                {
+                    new()
+                    {
+                        Pays = request.Adresse.Pays,
+                        Adresse1 = request.Adresse.Adresse1,
+                        Adresse2 = request.Adresse.Adresse2,
+                        CodePostal= request.Adresse.CodePostal,
+                        Ville = request.Adresse.Ville
+                    }
+                };
+            }
+            dt.Personne.Nom = request.Nom;
+            dt.Personne.Prenom = request.Prenom;
+            dt.Personne.Email = request.Email;
+
+            List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
+            Contact tel1 = contactTelephones.FirstOrDefault();
+            if(tel1 != null)
+            {
+                tel1.Valeur = request.Telephone1;
+            }
+            else
+            {
+                dt.Personne.Contacts.Add(new Contact()
+                {
+                    Valeur = request.Telephone1,
+                    TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
+                });
+                if (!string.IsNullOrEmpty(request.Telephone2))
+                {
+                    dt.Personne.Contacts.Add(new Contact()
+                    {
+                        Valeur = request.Telephone2,
+                        TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
+                    });
+                }
+            }
+            if(contactTelephones.Count<=1 && !string.IsNullOrEmpty(request.Telephone2))
+            {
+                dt.Personne.Contacts.Add(new Contact()
+                {
+                    Valeur = request.Telephone2,
+                    TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
+                });
+            }
+            else if (contactTelephones.Count > 1)
+            {
+                dt.Personne.Contacts[1].Valeur = request.Telephone2;
+            }
+
+            dt.StatutId = Guid.Parse(IdsConstantes.StatutDtEnCoursId);
+
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+
         }
     }
 }
