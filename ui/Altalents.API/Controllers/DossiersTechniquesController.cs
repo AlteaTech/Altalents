@@ -49,5 +49,11 @@ namespace Altalents.API.Controllers
         {
             await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, cancellationToken);
         }
+
+        [HttpGet("/get-nom-prenom/{tokenAccesRapide}", Name = "GetNomPrenomFromTokenAsync")]
+        public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetNomPrenomFromTokenAsync(tokenAccesRapide, cancellationToken);
+        }
     }
 }

@@ -1,7 +1,6 @@
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
 using Altalents.IBusiness.DTO.Requesst;
-
 using Microsoft.Extensions.Options;
 
 namespace Altalents.Business.Services
@@ -66,6 +65,20 @@ namespace Altalents.Business.Services
             }
             dt.StatutId = statutId;
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+        }
+
+        public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await DbContext.DossierTechniques
+                .Include(dt => dt.Personne)
+                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
+                .Select(dt => new NomPrenomPersonneDto
+                {
+                    Nom = dt.Personne.Nom,
+                    Prenom = dt.Personne.Prenom
+                })
+                .FirstOrDefaultAsync(cancellationToken)
+                ?? throw new BusinessException("DossierTechnique inexistant.");
         }
 
         public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
