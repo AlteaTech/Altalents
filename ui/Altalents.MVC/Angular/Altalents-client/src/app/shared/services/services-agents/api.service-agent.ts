@@ -29,7 +29,7 @@ export class ApiServiceAgent {
   }
 
   getReferences(typeReferenceCode: string): Observable<ReferenceDto[]> {
-    return this.apiClient.getReferences(typeReferenceCode);
+    return this.apiClient.getReferences(typeReferenceCode, undefined);
   }
 
   getTrigramme(body: GetTrigrammeRequestDto): Observable<TrigrammeDto> {
