@@ -22,7 +22,7 @@ export class DonneesLegalesComponent implements OnInit {
       prenom: new FormControl('', Validators.required),
       nom: new FormControl('', Validators.required),
       numeroTelephone1: new FormControl('', Validators.required, ValidateTelephoneWithApi(this.service, true)),
-      numeroTelephone2: new FormControl(null),
+      numeroTelephone2: new FormControl(null, undefined, ValidateTelephoneWithApi(this.service, true)),
       adresseMail: new FormControl('', Validators.required, ValidateEmailWithApi(this.service)),
       adresse1: new FormControl('', Validators.required),
       adresse2: new FormControl(null),
