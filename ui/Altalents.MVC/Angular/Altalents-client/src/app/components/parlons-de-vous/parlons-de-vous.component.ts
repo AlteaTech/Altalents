@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
-import { DonneesLegalesForm as ParlonsDeVousForm } from 'src/app/shared/interfaces/parlons-de-vous-form';
+import { ParlonsDeVousForm } from 'src/app/shared/interfaces/parlons-de-vous-form';
 import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
 import { ParlonsDeVousDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
