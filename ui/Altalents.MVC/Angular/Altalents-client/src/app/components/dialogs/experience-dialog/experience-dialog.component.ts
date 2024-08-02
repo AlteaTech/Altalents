@@ -54,6 +54,7 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
         intitulePoste: this.experience.intitulePoste,
         entreprise: this.experience.entreprise,
         clientFinal: this.experience.clientFinal,
+        isClientFinal: this.experience.clientFinal ? true : false,
         dateDebut: this.experience.dateDebut,
         dateFin: this.experience.dateFin,
         isPosteActuel: this.experience.isPosteActuel,
@@ -64,7 +65,8 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
         technologies: this.experience.technologies,
         competences: this.experience.competences,
         methodologies: this.experience.methodologies,
-        budgetGere: this.experience.budgetGere
+        budgetGere: this.experience.budgetGere,
+        isBudgetGere: this.experience.budgetGere ? true : false
       });
     }
 

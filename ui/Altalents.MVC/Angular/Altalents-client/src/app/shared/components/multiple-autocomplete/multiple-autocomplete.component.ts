@@ -89,7 +89,6 @@ export class MultipleAutocompleteComponent extends BaseComponent implements OnIn
   }
 
   private filterReferences(): void {
-    debugger;
     this.filtredReferences = this.sourceReferences.filter(x => !this.selectedReferences.includes(x));
   }
 }
