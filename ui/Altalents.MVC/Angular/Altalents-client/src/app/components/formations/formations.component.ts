@@ -17,9 +17,12 @@ export class FormationsComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   public stepFormation: StepFormation = new StepFormation();
-  public customDialog : NgbModalOptions = {
-    centered: true
+  public customDialog: NgbModalOptions = {
+    centered: true,
+    backdrop : 'static',
+    keyboard : false,
   };
+
   constructor(private modalService: NgbModal) {
   }
 

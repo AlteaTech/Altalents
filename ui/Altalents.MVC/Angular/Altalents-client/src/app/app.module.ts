@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +19,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormationDialogComponent } from './components/dialogs/formation-dialog/formation-dialog.component';
 import { CertificationDialogComponent } from './components/dialogs/certification-dialog/certification-dialog.component';
 import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue-dialog.component';
+import { ExperienceDialogComponent } from './components/dialogs/experience-dialog/experience-dialog.component';
+import { MultipleAutocompleteComponent } from './shared/components/multiple-autocomplete/multiple-autocomplete.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -36,7 +41,9 @@ import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue
     CommercialCreationDtConfigurationComponent,
     FormationDialogComponent,
     CertificationDialogComponent,
-    LangueDialogComponent
+    LangueDialogComponent,
+    ExperienceDialogComponent,
+    MultipleAutocompleteComponent
   ],
   imports: [
     HttpClientModule,
@@ -45,7 +52,7 @@ import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{provide: LOCALE_ID, useValue: "fr-FR" } ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
