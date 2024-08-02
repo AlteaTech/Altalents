@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DonneesLegalesForm } from 'src/app/shared/interfaces/donnees-legales-form';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ValidateEmailWithApi } from 'src/app/shared/services/services/validators/validate-email-with-api';
+import { ValidateIsNumber } from 'src/app/shared/services/services/validators/validate-is-number';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 
 @Component({
@@ -26,7 +27,7 @@ export class DonneesLegalesComponent implements OnInit {
       adresseMail: new FormControl('', Validators.required, ValidateEmailWithApi(this.service)),
       adresse1: new FormControl('', Validators.required),
       adresse2: new FormControl(null),
-      codePostal: new FormControl('', Validators.required),
+      codePostal: new FormControl('', Validators.required, ValidateIsNumber()),
       ville: new FormControl('', Validators.required),
       pays: new FormControl('', Validators.required)
     });
@@ -43,6 +44,8 @@ export class DonneesLegalesComponent implements OnInit {
     if (this.formGroup.valid) {
       // Appeler la route de save
       isValid = true;
+    }else{
+      this.formGroup.markAllAsTouched();
     }
 
     return new Promise<boolean>(resolve => resolve(isValid));

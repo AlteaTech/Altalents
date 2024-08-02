@@ -120,7 +120,7 @@
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
                             *ngIf="formGroup.get('codePostal')?.invalid && formGroup.get('codePostal')?.touched">
-                            Code Postal est requis.
+                            Code Postal est invalide.
                         </div>
                         <div class="error-message"
                             *ngIf="formGroup.get('ville')?.invalid && formGroup.get('ville')?.touched">
