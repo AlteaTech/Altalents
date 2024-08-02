@@ -70,7 +70,6 @@ namespace Altalents.Business.Services
         public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await DbContext.DossierTechniques
-                .Include(dt => dt.Personne)
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
                 .Select(dt => new NomPrenomPersonneDto
                 {
