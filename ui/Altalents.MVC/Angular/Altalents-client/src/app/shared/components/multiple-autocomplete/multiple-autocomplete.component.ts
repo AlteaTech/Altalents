@@ -19,9 +19,7 @@ export class MultipleAutocompleteComponent extends BaseComponent implements OnIn
   @Output() public selectedReferencesCallback: EventEmitter<Reference[]> = new EventEmitter();
 
   public formGroup: FormGroup<AutocompleteForm>;
-  public sourceReferences: Reference[] = [];
-  public filtredReferences: Reference[] = [];
-  public isDropdownVisible: boolean = false;
+  public references: Reference[] = [];
   
   constructor(private readonly service: ApiServiceAgent) {
     super()
@@ -34,61 +32,51 @@ export class MultipleAutocompleteComponent extends BaseComponent implements OnIn
     this.populateData();
   }
 
-  public override populateData(): void {
-    this.callRequest(this.constanteRequest, this.service.getReferences(this.constanteTypeReference)
-        .subscribe((response: ReferenceDto[]) => {
-          this.sourceReferences = Reference.fromListReferenceDto(response);
-          this.filterReferences();
-        }));
-  }
+  public override populateData(): void {}
   
   public onInputReferences(): void {
-    const input: string = this.formGroup.value.input ?? "";
+    const input: string | undefined = this.formGroup.value.input;
+    this.callRequest(this.constanteRequest, this.service.getReferences(this.constanteTypeReference, input)
+        .subscribe((response: ReferenceDto[]) => {
+          this.references = Reference.fromListReferenceDto(response);
+          this.filterReferences();
 
-    // APPELER LE BACK POUR LE FILTRE
-    this.filtredReferences = this.sourceReferences.filter(x => 
-      x.libelle.toLowerCase()
-       .startsWith(input.toLowerCase())
-    ).filter(x => !this.selectedReferences.includes(x));
-
-    const referenceInput: Reference | undefined = this.filtredReferences.find(x => x.libelle.toLowerCase() === input.toLowerCase());
-    if(!referenceInput) {
-      let referenceAAjouter = new Reference();
-      referenceAAjouter.libelle = input;
-      this.filtredReferences.unshift(referenceAAjouter);
-    }
-  }
-
-  public onFocus(): void {
-    this.isDropdownVisible = true;
+          if(input) {
+            const referenceInput: Reference | undefined = this.references.find(x => x.libelle.toLowerCase() === input.toLowerCase());
+            if(!referenceInput) {
+              let referenceAAjouter = new Reference();
+              referenceAAjouter.libelle = input;
+              this.references.unshift(referenceAAjouter);
+            }
+          }
+        }));
   }
 
   public onFocusOut(): void {
-    this.isDropdownVisible = false;
     this.formGroup.reset();
-    this.filterReferences();
+    this.references = [];
     this.selectedReferencesCallback.emit(this.selectedReferences);
   }
 
   public onReferenceClick(reference: Reference): void {
     this.formGroup.reset();
+    this.references = [];
 
     if(!reference.id) {
       // APPEL BACK POUR ADD LA REF (+ GET)
     }
 
     this.selectedReferences.push(reference);
-    this.filterReferences();
   }
 
   public onRemoveReferenceClick(reference: Reference): void {
     this.formGroup.reset();
+    this.references = [];
     const index = this.selectedReferences.indexOf(reference);
     this.selectedReferences.splice(index, 1);
-    this.filterReferences();
   }
 
   private filterReferences(): void {
-    this.filtredReferences = this.sourceReferences.filter(x => !this.selectedReferences.includes(x));
+    this.references = this.references.filter(x => !this.selectedReferences.find(y => y.id == x.id));
   }
 }

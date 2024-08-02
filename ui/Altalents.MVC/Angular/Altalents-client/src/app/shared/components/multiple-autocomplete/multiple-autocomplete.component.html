@@ -1,8 +1,8 @@
 <form [formGroup]="formGroup" (blur)="onFocusOut()"tabindex="-1">
-    <input type="text" formControlName="input" [placeholder]="placeholder" (input)="onInputReferences()" (focus)="onFocus()">
+    <input type="text" formControlName="input" [placeholder]="placeholder" (input)="onInputReferences()">
     <button (click)="onFocusOut()">Fermer</button>
-    <div *ngIf="isDropdownVisible && filtredReferences.length" class="autocomplete-dropdown">
-        <p *ngFor="let reference of filtredReferences" (click)="onReferenceClick(reference)">{{reference.libelle}}</p>
+    <div *ngIf="references.length" class="autocomplete-dropdown">
+        <p *ngFor="let reference of references" (click)="onReferenceClick(reference)">{{reference.libelle}}</p>
     </div>
     <div class="autocomplete-container">
         <ul class="autocomplete-ul">

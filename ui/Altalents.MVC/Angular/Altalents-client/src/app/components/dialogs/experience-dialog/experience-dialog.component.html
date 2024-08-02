@@ -110,7 +110,7 @@
             <div class="col-9">
                 <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
                     [constanteRequest]="constantesRequest.getReferencesCompetences"
-                    [constanteTypeReference]="constantesTypesReferences.langue"
+                    [constanteTypeReference]="constantesTypesReferences.competence"
                     [selectedReferences]="formGroup.value.competences ?? []"
                     (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete>
             </div>
@@ -122,7 +122,7 @@
             <div class="col-9">
                 <app-multiple-autocomplete placeholder="SCRUM, etc" 
                     [constanteRequest]="constantesRequest.getReferencesMethodologies"
-                    [constanteTypeReference]="constantesTypesReferences.competence"
+                    [constanteTypeReference]="constantesTypesReferences.langue"
                     [selectedReferences]="formGroup.value.methodologies ?? []"
                     (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete>
             </div>
