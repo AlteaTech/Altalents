@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccueilComponent } from './components/accueil/accueil.component';
-import { DonneesLegalesComponent } from './components/donnees-legales/donnees-legales.component';
+import { ParlonsDeVousComponent } from './components/parlons-de-vous/parlons-de-vous.component';
 import { FormationsComponent } from './components/formations/formations.component';
 import { ExperiencesComponent } from './components/experiences/experiences.component';
 import { CompetencesComponent } from './components/competences/competences.component';
@@ -30,7 +30,7 @@ registerLocaleData(localeFr);
     AppComponent,
     AccueilComponent,
     FormContainerComponent,
-    DonneesLegalesComponent,
+    ParlonsDeVousComponent,
     FormationsComponent,
     ExperiencesComponent,
     CompetencesComponent,

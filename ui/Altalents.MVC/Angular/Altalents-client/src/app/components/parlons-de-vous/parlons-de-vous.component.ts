@@ -1,25 +1,30 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DonneesLegalesForm } from 'src/app/shared/interfaces/donnees-legales-form';
+import { BaseComponent } from 'src/app/shared/components/base.component';
+import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
+import { DonneesLegalesForm as ParlonsDeVousForm } from 'src/app/shared/interfaces/parlons-de-vous-form';
+import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
+import { ParlonsDeVousDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ValidateEmailWithApi } from 'src/app/shared/services/services/validators/validate-email-with-api';
 import { ValidateIsNumber } from 'src/app/shared/services/services/validators/validate-is-number';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 
 @Component({
-  selector: 'app-donnees-legales',
-  templateUrl: './donnees-legales.component.html',
-  styleUrls: ['./donnees-legales.component.scss', '../../app.component.css']
+  selector: 'app-parlons-de-vous',
+  templateUrl: './parlons-de-vous.component.html',
+  styleUrls: ['./parlons-de-vous.component.scss', '../../app.component.css']
 })
-export class DonneesLegalesComponent implements OnInit {
+export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
-  public donneesLegales: string = "";
-  public formGroup: FormGroup<DonneesLegalesForm>;
+  public parlonsDeVous: ParlonsDeVous = new ParlonsDeVous();
+  public formGroup: FormGroup<ParlonsDeVousForm>;
 
   constructor(private readonly service: ApiServiceAgent) {
-    this.formGroup = new FormGroup<DonneesLegalesForm>({
+    super();
+    this.formGroup = new FormGroup<ParlonsDeVousForm>({
       prenom: new FormControl('', Validators.required),
       nom: new FormControl('', Validators.required),
       numeroTelephone1: new FormControl('', Validators.required, ValidateTelephoneWithApi(this.service, true)),
@@ -35,7 +40,14 @@ export class DonneesLegalesComponent implements OnInit {
 
   public ngOnInit(): void {
     this.validationCallback.emit(() => this.submit());
-    this.loadData();
+    this.populateData();
+  }
+
+  public override populateData(): void {
+    this.callRequest(ConstantesRequest.getParlonsDeVous, this.service.getParlonsDeVous(this.tokenDossierTechnique)
+        .subscribe((response: ParlonsDeVousDto) => {
+          this.parlonsDeVous = ParlonsDeVous.from(response);
+        }));
   }
 
   private submit(): Promise<boolean> {
@@ -49,10 +61,5 @@ export class DonneesLegalesComponent implements OnInit {
     }
 
     return new Promise<boolean>(resolve => resolve(isValid));
-  }
-
-  private loadData(): void {
-    // TODO : appeler le back pour avoir les infos
-    this.donneesLegales = "";
   }
 }

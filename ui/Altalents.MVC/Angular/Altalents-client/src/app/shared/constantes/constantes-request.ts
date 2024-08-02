@@ -10,4 +10,5 @@ export class ConstantesRequest {
   public static getReferencesMethodologies = "getReferencesMethodologies";
   public static getTrigramme = "getTrigramme";
   public static getNomPrenom = "getNomPrenom";
+  public static getParlonsDeVous = "getParlonsDeVous";
 }
