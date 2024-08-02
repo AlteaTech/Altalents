@@ -16,6 +16,10 @@
                     <div class="col-6 at-p-label-champ-input">
                         <label for="prenom" class="col-form-label">Prénom<span
                                 class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
+                            Prénom est requis.
+                        </div>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="prenom" placeholder="Julien">
@@ -24,6 +28,10 @@
                 <div class="row mb-2">
                     <div class="col-6 at-p-label-champ-input ">
                         <label for="nom" class="col-form-label">Nom<span class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('nom')?.invalid && formGroup.get('nom')?.touched">
+                            Nom est requis.
+                        </div>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="nom" placeholder="Dupont">
@@ -38,6 +46,10 @@
                     <div class="col-6 at-p-label-champ-input ">
                         <label for="numeroTelephone1 align-items-center" class="col-form-label">N° de téléphone 1<span
                                 class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('numeroTelephone1')?.invalid && formGroup.get('numeroTelephone1')?.touched">
+                            N° de téléphone est invalide.
+                        </div>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="numeroTelephone1"
@@ -48,6 +60,10 @@
                     <div class="col-6 at-p-label-champ-input ">
                         <label for="numeroTelephone2 align-items-center" class="col-form-label">N° de téléphone
                             2</label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('numeroTelephone2')?.invalid && formGroup.get('numeroTelephone2')?.touched">
+                            N° de téléphone est invalide.
+                        </div>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="numeroTelephone2"
@@ -58,6 +74,10 @@
                     <div class="col-6 at-p-label-champ-input ">
                         <label for="adresseMail align-items-center" class="col-form-label">Adresse mail<span
                                 class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
+                            Adresse mail est invalide.
+                        </div>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="adresseMail"
@@ -75,6 +95,10 @@
                     <div class="col-6 at-p-label-champ-input ">
                         <label for="adresse1 align-items-center" class="col-form-label">Adresse 1<span
                                 class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('adresse1')?.invalid && formGroup.get('adresse1')?.touched">
+                            Adresse est requis.
+                        </div>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="adresse1"
@@ -94,6 +118,14 @@
                     <div class="col-6 at-p-label-champ-input ">
                         <label class="col-form-label">Code postal / Ville<span
                                 class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('codePostal')?.invalid && formGroup.get('codePostal')?.touched">
+                            Code Postal est invalide.
+                        </div>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('ville')?.invalid && formGroup.get('ville')?.touched">
+                            Ville est requise.
+                        </div>
                     </div>
                     <div class="col-2">
                         <input type="text" class="form-control" formControlName="codePostal" placeholder="08000">
@@ -105,6 +137,10 @@
                 <div class="row mb-2">
                     <div class="col-6 at-p-label-champ-input ">
                         <label for="pays" class="col-form-label">Pays<span class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('pays')?.invalid && formGroup.get('pays')?.touched">
+                            Pays est requise.
+                        </div>
                     </div>
                     <div class="col-6">
                         <input type="text" class="form-control" formControlName="pays" placeholder="France">
@@ -120,26 +156,3 @@
         </div>
     </div>
 </form>
-
-<script>
-    function dragStart(event) {
-      event.dataTransfer.setData("Text", event.target.id);
-    }
-    
-    function dragging(event) {
-      document.getElementById("demo").innerHTML = "The text is being dragged.";
-    }
-    
-    function allowDrop(event) {
-      event.preventDefault();
-      document.getElementById("demo").innerHTML = "The text is OVER the droptarget.";
-      event.target.style.border = "4px dotted purple";
-    }
-    
-    function drop(event) {
-      event.preventDefault();
-      const data = event.dataTransfer.getData("Text");
-      event.target.appendChild(document.getElementById(data));
-      document.getElementById("demo").innerHTML = "The text was dropped.";
-    }
-    </script>
