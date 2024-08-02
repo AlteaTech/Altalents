@@ -69,6 +69,19 @@ namespace Altalents.Business.Services
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
+        public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await DbContext.DossierTechniques
+                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
+                .Select(dt => new NomPrenomPersonneDto
+                {
+                    Nom = dt.Personne.Nom,
+                    Prenom = dt.Personne.Prenom
+                })
+                .FirstOrDefaultAsync(cancellationToken)
+                ?? throw new BusinessException("DossierTechnique inexistant.");
+        }
+
         public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
         {
             return DbContext.DossierTechniques
