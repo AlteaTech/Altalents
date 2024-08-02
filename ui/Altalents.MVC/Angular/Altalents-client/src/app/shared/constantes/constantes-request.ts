@@ -5,4 +5,5 @@ export class ConstantesRequest {
   public static getReferencesLangues = "getReferencesLangues";
   public static getReferencesNiveauxLangues = "getReferencesNiveauxLangues";
   public static getTrigramme = "getTrigramme";
+  public static getNomPrenom = "getNomPrenom";
 }

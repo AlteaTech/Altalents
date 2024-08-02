@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, ReferenceDto, TrigrammeDto } from '../generated/api/api.client';
+import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ReferenceDto, TrigrammeDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -50,4 +50,8 @@ export class ApiServiceAgent {
     request.telephone = telephone;
     return this.apiClient.isTelephoneValid(request);
   }
+
+  getNomPrenomFromToken(token: string): Observable<NomPrenomPersonneDto> {
+    return this.apiClient.getNomPrenomFromToken(token);
+  }  
 }
