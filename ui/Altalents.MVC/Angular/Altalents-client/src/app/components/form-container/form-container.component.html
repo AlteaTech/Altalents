@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div [ngSwitch]="currentStep">
-                <app-parlons-de-vous *ngSwitchCase="dossierTechniqueEnum.DonneesLegales"
+                <app-parlons-de-vous *ngSwitchCase="dossierTechniqueEnum.ParlonsDeVous"
                     [tokenDossierTechnique]="tokenDossierTechnique"
                     (validationCallback)="onValidationCallbackChange($event)"></app-parlons-de-vous>
                 <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations"
