@@ -26,6 +26,10 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250)
                 .IsRequired();
+            builder.Property(e => e.Pays)
+                .HasColumnType("nvarchar")
+                .HasMaxLength(250)
+                .IsRequired();
 
         }
     }

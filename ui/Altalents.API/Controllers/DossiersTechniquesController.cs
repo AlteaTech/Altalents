@@ -49,5 +49,17 @@ namespace Altalents.API.Controllers
         {
             await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, cancellationToken);
         }
+
+        [HttpGet("{tokenRapide}/parlons-de-vous", Name = "GetParlonsDeVous")]
+        public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync([FromRoute] Guid tokenRapide,CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetParlonsDeVousAsync(tokenRapide, cancellationToken);
+        }
+
+        [HttpPut("{tokenRapide}/parlons-de-vous", Name = "PutParlonsDeVous")]
+        public async Task PutParlonsDeVousAsync([FromRoute] Guid tokenRapide,[FromBody] ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.PutParlonsDeVousAsync(tokenRapide, request, cancellationToken);
+        }
     }
 }

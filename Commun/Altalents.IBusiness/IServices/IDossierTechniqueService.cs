@@ -14,5 +14,7 @@ namespace Altalents.IBusiness.IServices
         Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken);
         Task<bool> IsTrigrammeValidAsync(string trigram, CancellationToken cancellationToken);
         bool IsTelephoneValid(string telephone, bool isOptionnal = false);
+        Task<ParlonsDeVousDto> GetParlonsDeVousAsync(Guid tokenRapide, CancellationToken cancellationToken);
+        Task PutParlonsDeVousAsync(Guid tokenRapide, ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken);
     }
 }

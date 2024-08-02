@@ -1,18 +1,11 @@
-namespace Altalents.Entities
+namespace Altalents.IBusiness.DTO
 {
-    public partial class Adresse : BaseEntity
+    public class AdresseDto
     {
-        public Adresse()
-        {
-        }
-
         public string Adresse1 { get; set; }
         public string Adresse2 { get; set; }
         public string CodePostal { get; set; }
         public string Ville { get; set; }
         public string Pays { get; set; }
-
-        public Guid PersonneId { get; set; }
-        public Personne Personne { get; set; }
     }
 }
