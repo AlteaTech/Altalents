@@ -28,8 +28,8 @@ export class ApiServiceAgent {
     return new Observable<CustomUserLoggedDto>((subscriber: Subscriber<CustomUserLoggedDto>) => subscriber.next(mock));
   }
 
-  getReferences(typeReferenceCode: string): Observable<ReferenceDto[]> {
-    return this.apiClient.getReferences(typeReferenceCode, undefined);
+  getReferences(typeReferenceCode: string, startsWith?: string | undefined): Observable<ReferenceDto[]> {
+    return this.apiClient.getReferences(typeReferenceCode, startsWith);
   }
 
   getTrigramme(body: GetTrigrammeRequestDto): Observable<TrigrammeDto> {
