@@ -3,8 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ParlonsDeVousForm } from 'src/app/shared/interfaces/parlons-de-vous-form';
-import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
-import { ParlonsDeVousDto } from 'src/app/shared/services/generated/api/api.client';
+import { AdresseUpdateRequestDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ValidateEmailWithApi } from 'src/app/shared/services/services/validators/validate-email-with-api';
 import { ValidateIsNumber } from 'src/app/shared/services/services/validators/validate-is-number';
@@ -19,7 +18,6 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
-  public parlonsDeVous: ParlonsDeVous = new ParlonsDeVous();
   public formGroup: FormGroup<ParlonsDeVousForm>;
 
   constructor(private readonly service: ApiServiceAgent) {
@@ -46,7 +44,18 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
   public override populateData(): void {
     this.callRequest(ConstantesRequest.getParlonsDeVous, this.service.getParlonsDeVous(this.tokenDossierTechnique)
         .subscribe((response: ParlonsDeVousDto) => {
-          this.parlonsDeVous = ParlonsDeVous.from(response);
+          this.formGroup.patchValue({
+            prenom: response.prenom,
+            nom: response.nom,
+            numeroTelephone1: response.telephone1,
+            numeroTelephone2: response.telephone2,
+            adresseMail: response.email,
+            adresse1: response.adresse?.adresse1,
+            adresse2: response.adresse?.adresse2,
+            codePostal: response.adresse?.codePostal,
+            ville: response.adresse?.ville,
+            pays: response.adresse?.pays
+          });
         }));
   }
 
@@ -54,12 +63,33 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
     let isValid: boolean = false;
 
     if (this.formGroup.valid) {
-      // Appeler la route de save
-      isValid = true;
-    }else{
+      this.callRequest(ConstantesRequest.putParlonsDeVous, this.service.putParlonsDeVous(this.tokenDossierTechnique, this.populateRequestDto())
+          .subscribe(() => {
+            isValid = true;
+          }));
+    } else {
       this.formGroup.markAllAsTouched();
     }
 
     return new Promise<boolean>(resolve => resolve(isValid));
+  }
+
+  private populateRequestDto(): ParlonsDeVousUpdateRequestDto {
+    const values = this.formGroup.value;
+    let adresseRequestDto: AdresseUpdateRequestDto = new AdresseUpdateRequestDto();
+    adresseRequestDto.adresse1 = values.adresse1 ?? "";
+    adresseRequestDto.adresse2 = values.adresse2;
+    adresseRequestDto.codePostal = values.codePostal ?? "";
+    adresseRequestDto.ville = values.ville ?? "";
+    adresseRequestDto.pays = values.pays ?? "";
+
+    let requestDto: ParlonsDeVousUpdateRequestDto = new ParlonsDeVousUpdateRequestDto();
+    requestDto.nom = values.nom ?? "";
+    requestDto.prenom = values.prenom ?? "";
+    requestDto.telephone1 = values.numeroTelephone1 ?? "";
+    requestDto.telephone2 = values.numeroTelephone2;
+    requestDto.email = values.adresseMail ?? "";
+    requestDto.adresse = adresseRequestDto;
+    return requestDto;
   }
 }
