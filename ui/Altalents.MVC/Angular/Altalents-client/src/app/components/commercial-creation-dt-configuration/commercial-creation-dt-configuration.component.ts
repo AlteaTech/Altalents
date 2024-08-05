@@ -20,15 +20,10 @@ import { ValidateTrigramWithApi } from 'src/app/shared/services/services/validat
 })
 
 export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
-return() {
-
-  window.location.href = `/${ConstantesRoutes.commercialAccueilCreateDt}`;
-}
-
   public formGroup: FormGroup<CreationDtCommercialForm>;
-  userIdLogged: string | undefined;
-  isReady = false;
-  disponibilites: Reference[] = [];
+  public userIdLogged: string | undefined;
+  public isReady = false;
+  public disponibilites: Reference[] = [];
 
   constructor(
     private readonly service: ApiServiceAgent) {
@@ -46,11 +41,15 @@ return() {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.populateData();
   }
+  
+  public return(): void {
+    window.location.href = `/${ConstantesRoutes.commercialAccueilCreateDt}`;
+  }
 
-  sendCandidat() {
+  public sendCandidat(): void {
     if(this.formGroup.valid){
       this.callRequest(ConstantesRequest.addDossierTechnique, this.service.addDossierTechnique(this.generateDossierTechniqueInsertRequestDto())
         .subscribe((response: string) => {
@@ -61,7 +60,7 @@ return() {
     }
   }
 
-  nomPrenomChange() {
+  public nomPrenomChange(): void {
     const formValues = this.formGroup.value;
     let body = new GetTrigrammeRequestDto();
     body.nom =  formValues.nom ?? "";
@@ -75,8 +74,7 @@ return() {
     }
   }
 
-  generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
-
+  public generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
     const formValues = this.formGroup.value;
     const retour = new DossierTechniqueInsertRequestDto();
     retour.adresseMail = formValues.adresseMail ?? "";
