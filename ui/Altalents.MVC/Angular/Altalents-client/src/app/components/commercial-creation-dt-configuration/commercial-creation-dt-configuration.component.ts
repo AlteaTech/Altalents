@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
@@ -12,6 +13,8 @@ import { ValidateEmailWithApi } from 'src/app/shared/services/services/validator
 import { ValidateIdBoondWithApi } from 'src/app/shared/services/services/validators/validate-idboond-with-api';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 import { ValidateTrigramWithApi } from 'src/app/shared/services/services/validators/validate-trigram-with-api';
+import { QuestionnaireDialogComponent } from '../dialogs/questionnaire-dialog/questionnaire-dialog.component';
+import { Questionnaire } from 'src/app/shared/models/questionnaire.model';
 
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
@@ -24,8 +27,9 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
   public userIdLogged: string | undefined;
   public isReady = false;
   public disponibilites: Reference[] = [];
+  public questionnaire: Questionnaire | undefined;
 
-  constructor(
+  constructor(private modalService: NgbModal,
     private readonly service: ApiServiceAgent) {
     super();
     this.formGroup = new FormGroup<CreationDtCommercialForm>({
@@ -74,7 +78,22 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     }
   }
 
-  public generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
+  public onAjouterQuestionnaireClick(): void {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop : 'static',
+      keyboard : false,
+      size: 'lg'
+    };
+    let dialogRef: NgbModalRef = this.modalService.open(QuestionnaireDialogComponent, ngbModalOptions);
+    dialogRef.componentInstance.questionnaire = this.questionnaire;
+    dialogRef.result.then((nouvelElement: Questionnaire | undefined) => {
+      if(nouvelElement) {
+        this.questionnaire = nouvelElement;
+      }
+    })
+  }
+
+  private generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
     const formValues = this.formGroup.value;
     const retour = new DossierTechniqueInsertRequestDto();
     retour.adresseMail = formValues.adresseMail ?? "";
@@ -87,6 +106,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     retour.telephone = formValues.numeroTelephone1;
     retour.trigramme = formValues.trigram ?? "";
     retour.utilisateurId = this.userIdLogged;
+    // AJOUTER QUESTIONNAIRE
     return retour;
   }
 

@@ -127,10 +127,9 @@
                                     <div class="col-xl-6"></div>
                                     <div class="col-xl-6">
                                         <div class="at-p-button-ajouter">
-                                        <!-- Ajouter click() -->
-                                            <button>
+                                            <button (click)="onAjouterQuestionnaireClick()">
                                                 <img src="Images/ICONE_PLUS.png">
-                                                <p>Ajouter un questionnaire</p>
+                                                <p>{{questionnaire ? 'Modifier le ' : 'Ajouter un '}} questionnaire</p>
                                             </button>
                                         </div>
                                     </div>

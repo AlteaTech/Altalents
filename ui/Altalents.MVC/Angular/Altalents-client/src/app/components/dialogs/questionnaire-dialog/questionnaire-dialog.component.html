@@ -1,0 +1,117 @@
+<form [formGroup]="formGroup">
+    <fieldset>
+        <legend>Questionnaire</legend>
+        <div class="row">
+            <div class="col-3">
+                <label>Question 1<span class="champ-obligatoire">*</span></label>
+            </div>
+            <div class="col-9">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" formControlName="question1" placeholder="Ta marque de slips préférée?">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="isShowDt1">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label for="isShowDt1">Apparait dans le DT?</label>
+                    </div>
+                    <div class="col-2">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="isObligatoire1">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label for="isObligatoire1">Obligatoire?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1">
+                <label class="switch">
+                    <input type="checkbox" formControlName="isQuestion2Enable" (change)="updateInputIsQuestion2Enable()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="col-2">
+                <label>Question 2</label>
+            </div>
+            <div class="col-9">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" formControlName="question2" placeholder="Ta marque de slips préférée?">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="isShowDt2">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label for="isShowDt2">Apparait dans le DT?</label>
+                    </div>
+                    <div class="col-2">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="isObligatoire2">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label for="isObligatoire2">Obligatoire?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1">
+                <label class="switch">
+                    <input type="checkbox" formControlName="isQuestion3Enable" (change)="updateInputIsQuestion3Enable()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="col-2">
+                <label>Question 3</label>
+            </div>
+            <div class="col-9">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" formControlName="question3" placeholder="Tu me rends mes 20 balles?">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="isShowDt3">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label for="isShowDt3">Apparait dans le DT?</label>
+                    </div>
+                    <div class="col-2">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="isObligatoire3">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label for="isObligatoire3">Obligatoire?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div>
+        <button (click)="closeDialog()">Annuler</button>
+        <button (click)="submit()">Valider</button>
+    </div>
+</form>
