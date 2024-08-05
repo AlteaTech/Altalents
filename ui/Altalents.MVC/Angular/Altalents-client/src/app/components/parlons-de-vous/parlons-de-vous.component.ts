@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ParlonsDeVousForm } from 'src/app/shared/interfaces/parlons-de-vous-form';
@@ -59,14 +60,13 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
         }));
   }
 
-  private submit(): Promise<boolean> {
+  private async submit(): Promise<boolean> {
     let isValid: boolean = false;
-
     if (this.formGroup.valid) {
-      this.callRequest(ConstantesRequest.putParlonsDeVous, this.service.putParlonsDeVous(this.tokenDossierTechnique, this.populateRequestDto())
-          .subscribe(() => {
-            isValid = true;
-          }));
+      // On n'utilise pas callRequest ici pour pouvoir await l'appel au back.
+      await firstValueFrom(this.service.putParlonsDeVous(this.tokenDossierTechnique, this.populateRequestDto())).then(() => {
+        isValid = true;
+      });     
     } else {
       this.formGroup.markAllAsTouched();
     }

@@ -11,5 +11,4 @@ export class ConstantesRequest {
   public static getTrigramme = "getTrigramme";
   public static getNomPrenom = "getNomPrenom";
   public static getParlonsDeVous = "getParlonsDeVous";
-  public static putParlonsDeVous = "putParlonsDeVous";
 }
