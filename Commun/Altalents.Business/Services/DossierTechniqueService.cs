@@ -33,7 +33,7 @@ namespace Altalents.Business.Services
         private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
             List<string> messagesErreur = new();
-            Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail, cancellationToken);
+            Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail,null, cancellationToken);
             Task<bool> taskCheckIdBoond = IsIdBoondValidAsync(dossierTechnique.IdBoond, cancellationToken);
             Task<bool> taskCheckTrigramme = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Trigramme == dossierTechnique.Trigramme, cancellationToken);
             if (!await taskCheckMail)
@@ -131,7 +131,7 @@ namespace Altalents.Business.Services
             return retour;
         }
 
-        public async Task<bool> IsEmailValidAsync(string email, CancellationToken cancellationToken)
+        public async Task<bool> IsEmailValidAsync(string email,Guid? tokenRapide, CancellationToken cancellationToken)
         {
             string trimmedEmail = email.Trim().ToLower();
 
@@ -151,10 +151,22 @@ namespace Altalents.Business.Services
             {
                 return false;
             }
-            if (await GetScopedDbContexte().Personnes.AnyAsync(x => x.Email == trimmedEmail, cancellationToken: cancellationToken))
+
+            if (!tokenRapide.HasValue)
             {
-                return false;
+                if (await GetScopedDbContexte().Personnes.AnyAsync(x => x.Email == trimmedEmail, cancellationToken: cancellationToken))
+                {
+                    return false;
+                }
             }
+            else
+            {
+                if (await GetScopedDbContexte().Personnes.AnyAsync(x => !x.DossierTechniques.Any(y => y.TokenAccesRapide == tokenRapide) && x.Email == trimmedEmail, cancellationToken: cancellationToken))
+                {
+                    return false;
+                }
+            }
+           
             return true;
         }
 
