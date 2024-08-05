@@ -21,9 +21,9 @@ namespace Altalents.API.Controllers
 
 
         [HttpPost("/is-email-valid", Name = "IsEmailValid")]
-        public async Task<bool> IsEmailValidAsync([FromBody] string email, CancellationToken cancellationToken)
+        public async Task<bool> IsEmailValidAsync([FromBody] string email, [FromQuery] Guid? tokenRapide, CancellationToken cancellationToken)
         {
-            return await _dossierTechniqueService.IsEmailValidAsync(email, cancellationToken);
+            return await _dossierTechniqueService.IsEmailValidAsync(email, tokenRapide, cancellationToken);
         }
 
         [HttpPost("/is-idboond-valid", Name = "IsIdBoondValid")]
