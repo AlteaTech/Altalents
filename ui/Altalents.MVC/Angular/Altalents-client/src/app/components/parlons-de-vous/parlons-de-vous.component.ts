@@ -19,26 +19,26 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
-  public formGroup: FormGroup<ParlonsDeVousForm>;
+  public formGroup!: FormGroup<ParlonsDeVousForm>;
 
   constructor(private readonly service: ApiServiceAgent) {
     super();
+  }
+
+  public ngOnInit(): void {
+    this.validationCallback.emit(() => this.submit());
     this.formGroup = new FormGroup<ParlonsDeVousForm>({
       prenom: new FormControl('', Validators.required),
       nom: new FormControl('', Validators.required),
       numeroTelephone1: new FormControl('', Validators.required, ValidateTelephoneWithApi(this.service, true)),
       numeroTelephone2: new FormControl(null, undefined, ValidateTelephoneWithApi(this.service, true)),
-      adresseMail: new FormControl('', Validators.required, ValidateEmailWithApi(this.service)),
+      adresseMail: new FormControl('', Validators.required, ValidateEmailWithApi(this.service, this.tokenDossierTechnique)),
       adresse1: new FormControl('', Validators.required),
       adresse2: new FormControl(null),
       codePostal: new FormControl('', Validators.required, ValidateIsNumber()),
       ville: new FormControl('', Validators.required),
       pays: new FormControl('', Validators.required)
     });
-  }
-
-  public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
     this.populateData();
   }
 

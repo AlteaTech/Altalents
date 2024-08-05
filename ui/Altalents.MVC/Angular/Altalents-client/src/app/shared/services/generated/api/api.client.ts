@@ -84,11 +84,16 @@ export class ApiClient {
     }
 
     /**
+     * @param tokenRapide (optional) 
      * @param body (optional) 
      * @return OK
      */
-    isEmailValid(body?: string | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/is-email-valid";
+    isEmailValid(tokenRapide?: string | undefined, body?: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/is-email-valid?";
+        if (tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' cannot be null.");
+        else if (tokenRapide !== undefined)
+            url_ += "tokenRapide=" + encodeURIComponent("" + tokenRapide) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
