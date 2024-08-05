@@ -37,7 +37,7 @@ return() {
       prenom: new FormControl('', Validators.required),
       nom: new FormControl('', Validators.required),
       trigram: new FormControl('', Validators.required,ValidateTrigramWithApi(this.service)),
-      adresseMail: new FormControl('', Validators.required,ValidateEmailWithApi(this.service)),
+      adresseMail: new FormControl('', Validators.required,ValidateEmailWithApi(this.service, undefined)),
       numeroTelephone1: new FormControl(null, undefined,ValidateTelephoneWithApi(this.service,true)),
       poste: new FormControl(null),
       prixJour: new FormControl(null),

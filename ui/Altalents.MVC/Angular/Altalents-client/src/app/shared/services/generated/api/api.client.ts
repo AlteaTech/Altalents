@@ -84,11 +84,16 @@ export class ApiClient {
     }
 
     /**
+     * @param tokenRapide (optional) 
      * @param body (optional) 
      * @return OK
      */
-    isEmailValid(body?: string | undefined): Observable<boolean> {
-        let url_ = this.baseUrl + "/is-email-valid";
+    isEmailValid(tokenRapide?: string | undefined, body?: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/is-email-valid?";
+        if (tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' cannot be null.");
+        else if (tokenRapide !== undefined)
+            url_ += "tokenRapide=" + encodeURIComponent("" + tokenRapide) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -365,6 +370,169 @@ export class ApiClient {
     }
 
     /**
+     * @return OK
+     */
+    getParlonsDeVous(tokenRapide: string): Observable<ParlonsDeVousDto> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/parlons-de-vous";
+        if (tokenRapide === undefined || tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' must be defined.");
+        url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetParlonsDeVous(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetParlonsDeVous(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ParlonsDeVousDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ParlonsDeVousDto>;
+        }));
+    }
+
+    protected processGetParlonsDeVous(response: HttpResponseBase): Observable<ParlonsDeVousDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ParlonsDeVousDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    putParlonsDeVous(tokenRapide: string, body?: ParlonsDeVousUpdateRequestDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/parlons-de-vous";
+        if (tokenRapide === undefined || tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' must be defined.");
+        url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPutParlonsDeVous(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPutParlonsDeVous(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processPutParlonsDeVous(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getNomPrenomFromToken(tokenAccesRapide: string): Observable<NomPrenomPersonneDto> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/nom-prenom";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNomPrenomFromToken(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNomPrenomFromToken(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<NomPrenomPersonneDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<NomPrenomPersonneDto>;
+        }));
+    }
+
+    protected processGetNomPrenomFromToken(response: HttpResponseBase): Observable<NomPrenomPersonneDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = NomPrenomPersonneDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param typeReferenceCode (optional) 
      * @param startWith (optional) 
      * @return OK
@@ -538,6 +706,110 @@ export class ApiClient {
         }
         return _observableOf(null as any);
     }
+}
+
+export class AdresseDto implements IAdresseDto {
+    adresse1?: string | null;
+    adresse2?: string | null;
+    codePostal?: string | null;
+    ville?: string | null;
+    pays?: string | null;
+
+    constructor(data?: IAdresseDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.adresse1 = _data["Adresse1"] !== undefined ? _data["Adresse1"] : <any>null;
+            this.adresse2 = _data["Adresse2"] !== undefined ? _data["Adresse2"] : <any>null;
+            this.codePostal = _data["CodePostal"] !== undefined ? _data["CodePostal"] : <any>null;
+            this.ville = _data["Ville"] !== undefined ? _data["Ville"] : <any>null;
+            this.pays = _data["Pays"] !== undefined ? _data["Pays"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): AdresseDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AdresseDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Adresse1"] = this.adresse1 !== undefined ? this.adresse1 : <any>null;
+        data["Adresse2"] = this.adresse2 !== undefined ? this.adresse2 : <any>null;
+        data["CodePostal"] = this.codePostal !== undefined ? this.codePostal : <any>null;
+        data["Ville"] = this.ville !== undefined ? this.ville : <any>null;
+        data["Pays"] = this.pays !== undefined ? this.pays : <any>null;
+        return data;
+    }
+}
+
+export interface IAdresseDto {
+    adresse1?: string | null;
+    adresse2?: string | null;
+    codePostal?: string | null;
+    ville?: string | null;
+    pays?: string | null;
+}
+
+export class AdresseUpdateRequestDto implements IAdresseUpdateRequestDto {
+    adresse1!: string;
+    adresse2?: string | null;
+    codePostal!: string;
+    ville!: string;
+    pays!: string;
+
+    constructor(data?: IAdresseUpdateRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.adresse1 = _data["Adresse1"] !== undefined ? _data["Adresse1"] : <any>null;
+            this.adresse2 = _data["Adresse2"] !== undefined ? _data["Adresse2"] : <any>null;
+            this.codePostal = _data["CodePostal"] !== undefined ? _data["CodePostal"] : <any>null;
+            this.ville = _data["Ville"] !== undefined ? _data["Ville"] : <any>null;
+            this.pays = _data["Pays"] !== undefined ? _data["Pays"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): AdresseUpdateRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AdresseUpdateRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Adresse1"] = this.adresse1 !== undefined ? this.adresse1 : <any>null;
+        data["Adresse2"] = this.adresse2 !== undefined ? this.adresse2 : <any>null;
+        data["CodePostal"] = this.codePostal !== undefined ? this.codePostal : <any>null;
+        data["Ville"] = this.ville !== undefined ? this.ville : <any>null;
+        data["Pays"] = this.pays !== undefined ? this.pays : <any>null;
+        return data;
+    }
+}
+
+export interface IAdresseUpdateRequestDto {
+    adresse1: string;
+    adresse2?: string | null;
+    codePostal: string;
+    ville: string;
+    pays: string;
 }
 
 export class CustomUserLoggedDto implements ICustomUserLoggedDto {
@@ -734,6 +1006,161 @@ export class IsTelephoneValidRequestDto implements IIsTelephoneValidRequestDto {
 export interface IIsTelephoneValidRequestDto {
     telephone?: string | null;
     isOptionnal?: boolean;
+}
+
+export class NomPrenomPersonneDto implements INomPrenomPersonneDto {
+    nom?: string | null;
+    prenom?: string | null;
+
+    constructor(data?: INomPrenomPersonneDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
+            this.prenom = _data["Prenom"] !== undefined ? _data["Prenom"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): NomPrenomPersonneDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NomPrenomPersonneDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
+        data["Prenom"] = this.prenom !== undefined ? this.prenom : <any>null;
+        return data;
+    }
+}
+
+export interface INomPrenomPersonneDto {
+    nom?: string | null;
+    prenom?: string | null;
+}
+
+export class ParlonsDeVousDto implements IParlonsDeVousDto {
+    prenom?: string | null;
+    nom?: string | null;
+    telephone1?: string | null;
+    telephone2?: string | null;
+    email?: string | null;
+    adresse?: AdresseDto;
+
+    constructor(data?: IParlonsDeVousDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.prenom = _data["Prenom"] !== undefined ? _data["Prenom"] : <any>null;
+            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
+            this.telephone1 = _data["Telephone1"] !== undefined ? _data["Telephone1"] : <any>null;
+            this.telephone2 = _data["Telephone2"] !== undefined ? _data["Telephone2"] : <any>null;
+            this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
+            this.adresse = _data["Adresse"] ? AdresseDto.fromJS(_data["Adresse"]) : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ParlonsDeVousDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ParlonsDeVousDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Prenom"] = this.prenom !== undefined ? this.prenom : <any>null;
+        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
+        data["Telephone1"] = this.telephone1 !== undefined ? this.telephone1 : <any>null;
+        data["Telephone2"] = this.telephone2 !== undefined ? this.telephone2 : <any>null;
+        data["Email"] = this.email !== undefined ? this.email : <any>null;
+        data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
+        return data;
+    }
+}
+
+export interface IParlonsDeVousDto {
+    prenom?: string | null;
+    nom?: string | null;
+    telephone1?: string | null;
+    telephone2?: string | null;
+    email?: string | null;
+    adresse?: AdresseDto;
+}
+
+export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateRequestDto {
+    prenom!: string;
+    nom!: string;
+    telephone1!: string;
+    telephone2?: string | null;
+    email!: string;
+    adresse!: AdresseUpdateRequestDto;
+
+    constructor(data?: IParlonsDeVousUpdateRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.adresse = new AdresseUpdateRequestDto();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.prenom = _data["Prenom"] !== undefined ? _data["Prenom"] : <any>null;
+            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
+            this.telephone1 = _data["Telephone1"] !== undefined ? _data["Telephone1"] : <any>null;
+            this.telephone2 = _data["Telephone2"] !== undefined ? _data["Telephone2"] : <any>null;
+            this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
+            this.adresse = _data["Adresse"] ? AdresseUpdateRequestDto.fromJS(_data["Adresse"]) : new AdresseUpdateRequestDto();
+        }
+    }
+
+    static fromJS(data: any): ParlonsDeVousUpdateRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ParlonsDeVousUpdateRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Prenom"] = this.prenom !== undefined ? this.prenom : <any>null;
+        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
+        data["Telephone1"] = this.telephone1 !== undefined ? this.telephone1 : <any>null;
+        data["Telephone2"] = this.telephone2 !== undefined ? this.telephone2 : <any>null;
+        data["Email"] = this.email !== undefined ? this.email : <any>null;
+        data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
+        return data;
+    }
+}
+
+export interface IParlonsDeVousUpdateRequestDto {
+    prenom: string;
+    nom: string;
+    telephone1: string;
+    telephone2?: string | null;
+    email: string;
+    adresse: AdresseUpdateRequestDto;
 }
 
 export class ReferenceDto implements IReferenceDto {

@@ -1,6 +1,6 @@
 import { FormControl } from "@angular/forms";
 
-export interface DonneesLegalesForm {
+export interface ParlonsDeVousForm {
     prenom: FormControl<string | null>,
     nom: FormControl<string | null>,
     numeroTelephone1: FormControl<string | null>,

@@ -12,8 +12,8 @@ import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-ste
 export class FormContainerComponent implements OnInit {
   public tokenDossierTechnique: string = "";
   public dossierTechniqueEnum = DossierTechniqueEnum;
-  public currentStep: DossierTechniqueEnum = DossierTechniqueEnum.DonneesLegales;
-  public titreStep: string = ConstantesTitresSteps.donneesLegales;
+  public currentStep: DossierTechniqueEnum = DossierTechniqueEnum.ParlonsDeVous;
+  public titreStep: string = ConstantesTitresSteps.parlonsDeVous;
   public steps: number[] = [];
   public validationCallBack: (() => Promise<boolean>) | undefined;
 
@@ -67,8 +67,8 @@ export class FormContainerComponent implements OnInit {
 
   private changeStep(): void {
     switch (this.currentStep) {
-      case DossierTechniqueEnum.DonneesLegales:
-        this.titreStep = ConstantesTitresSteps.donneesLegales;
+      case DossierTechniqueEnum.ParlonsDeVous:
+        this.titreStep = ConstantesTitresSteps.parlonsDeVous;
         break;
       case DossierTechniqueEnum.Formations:
         this.titreStep = ConstantesTitresSteps.formations;
