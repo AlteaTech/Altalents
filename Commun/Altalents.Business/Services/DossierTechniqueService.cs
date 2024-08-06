@@ -1,5 +1,6 @@
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
+using Altalents.Entities;
 using Altalents.IBusiness.DTO.Requesst;
 
 using Microsoft.EntityFrameworkCore.Query;
@@ -23,6 +24,7 @@ namespace Altalents.Business.Services
             await CheckNouveauCandidat(dossierTechnique, cancellationToken);
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
+            dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
             await _emailService.SendEmailWithRetryAsync(dossierTechnique.AdresseMail, "Demande de creation de dossier technique", $"Merci de remplir le dossier suivant : <a href=\"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}\"> ce dossier là </a>");
@@ -33,14 +35,15 @@ namespace Altalents.Business.Services
         private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
             List<string> messagesErreur = new();
+            bool checkTelephone = IsTelephoneValid(dossierTechnique.Telephone, true);
             Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail,null, cancellationToken);
             Task<bool> taskCheckIdBoond = IsIdBoondValidAsync(dossierTechnique.IdBoond, cancellationToken);
             Task<bool> taskCheckTrigramme = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Trigramme == dossierTechnique.Trigramme, cancellationToken);
+
             if (!await taskCheckMail)
             {
                 messagesErreur.Add($"Adresse mail ({dossierTechnique.AdresseMail})");
             }
-
             if (!await taskCheckIdBoond)
             {
                 messagesErreur.Add($"BoondId ({dossierTechnique.IdBoond})");
@@ -54,6 +57,10 @@ namespace Altalents.Business.Services
             if (messagesErreur.Any())
             {
                 throw new BusinessException($"Un Candidat avec les données suivantes existe deja : {string.Join(", ", messagesErreur)}");
+            }
+            if (!checkTelephone)
+            {
+                throw new BusinessException($"Le telephone ({dossierTechnique.Telephone}) est invalide.");
             }
         }
 
