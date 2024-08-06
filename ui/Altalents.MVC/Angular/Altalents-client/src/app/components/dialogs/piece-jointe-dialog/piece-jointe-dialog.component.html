@@ -1,0 +1,25 @@
+<div class="at-p-fenetre-dialog">
+    <form [formGroup]="formGroup">
+        <fieldset>
+            <legend>Documents</legend>
+            <div class="row mb-2">
+                <div class="drop-zone">
+                    <img src="Images/ICON_FEATHER_DOWNLOAD.png">
+                    <p class="at-c-violet">Déposez votre document</p>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="commentaire" class="col-form-label">Commentaire de pièce jointe</label>
+                <input type="text" class="form-control" formControlName="commentaire" placeholder="Pas de commentaire">
+            </div>
+        </fieldset>
+        <div class="at-p-button-container">
+            <button class="at-p-secondary-button" (click)="closeDialog()">
+                <p>Annuler</p>
+            </button>
+            <button class="at-p-button" (click)="submit()">
+                <p>Valider</p>
+            </button>
+        </div>
+    </form>
+</div>

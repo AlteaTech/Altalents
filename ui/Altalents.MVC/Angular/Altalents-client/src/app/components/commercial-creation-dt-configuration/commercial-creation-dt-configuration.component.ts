@@ -15,6 +15,8 @@ import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/valid
 import { ValidateTrigramWithApi } from 'src/app/shared/services/services/validators/validate-trigram-with-api';
 import { QuestionnaireDialogComponent } from '../dialogs/questionnaire-dialog/questionnaire-dialog.component';
 import { Questionnaire } from 'src/app/shared/models/questionnaire.model';
+import { PieceJointeDialogComponent } from '../dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
+import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
 
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
@@ -28,6 +30,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
   public isReady = false;
   public disponibilites: Reference[] = [];
   public questionnaire: Questionnaire | undefined;
+  public pieceJointe: PieceJointe | undefined;
 
   constructor(private modalService: NgbModal,
     private readonly service: ApiServiceAgent) {
@@ -89,6 +92,21 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     dialogRef.result.then((nouvelElement: Questionnaire | undefined) => {
       if(nouvelElement) {
         this.questionnaire = nouvelElement;
+      }
+    })
+  }
+
+  public onAjouterDocumentClick(): void {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop : 'static',
+      keyboard : false,
+      size: 'lg'
+    };
+    let dialogRef: NgbModalRef = this.modalService.open(PieceJointeDialogComponent, ngbModalOptions);
+    dialogRef.componentInstance.pieceJointe = this.pieceJointe;
+    dialogRef.result.then((nouvelElement: PieceJointe | undefined) => {
+      if(nouvelElement) {
+        this.pieceJointe = nouvelElement;
       }
     })
   }

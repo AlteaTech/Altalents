@@ -24,6 +24,7 @@ import { MultipleAutocompleteComponent } from './shared/components/multiple-auto
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { QuestionnaireDialogComponent } from './components/dialogs/questionnaire-dialog/questionnaire-dialog.component';
+import { PieceJointeDialogComponent } from './components/dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -45,7 +46,8 @@ registerLocaleData(localeFr);
     LangueDialogComponent,
     ExperienceDialogComponent,
     MultipleAutocompleteComponent,
-    QuestionnaireDialogComponent
+    QuestionnaireDialogComponent,
+    PieceJointeDialogComponent
   ],
   imports: [
     HttpClientModule,

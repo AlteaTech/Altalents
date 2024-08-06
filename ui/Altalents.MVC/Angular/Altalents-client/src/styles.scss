@@ -75,3 +75,33 @@ legend{
     transform: translateX(26px);
   }
 // ------ END SWITCH ------
+
+.drop-zone {
+  border: 2px dashed #6c757d;
+  border-radius: 5px;
+  border-color: #7A4AFF;
+  margin-top: 4vh;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  p {
+      margin: 0;
+      font-size: 1.2em;
+  }
+}
+
+@media (max-width: 820px) {
+  .drop-zone img {
+      width: 8vw;
+      padding-bottom: 2vh;
+  }
+}
+
+@media (min-width: 821px) {
+  .drop-zone img {
+      width: 3vw;
+      padding-bottom: 2vh;
+  }
+}
