@@ -1,5 +1,5 @@
 export enum DossierTechniqueEnum {
-    DonneesLegales = 0,
+    ParlonsDeVous = 0,
     Formations = 1,
     Experiences = 2,
     Competences = 3,
