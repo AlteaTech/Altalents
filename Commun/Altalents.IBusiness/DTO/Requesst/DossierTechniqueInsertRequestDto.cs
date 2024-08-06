@@ -22,5 +22,7 @@ namespace Altalents.IBusiness.DTO.Requesst
         public string Telephone { get; set; }
         public string Poste { get; set; }
         public decimal? TarifJournalier { get; set; }
+
+        public List<QuestionInsertDto> Questionnaires { get; set; }
     }
 }
