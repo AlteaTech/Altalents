@@ -24,5 +24,6 @@ namespace Altalents.IBusiness.DTO.Requesst
         public decimal? TarifJournalier { get; set; }
 
         public List<QuestionInsertDto> Questionnaires { get; set; }
+        public List<DocumentDto> Documents { get; set; }
     }
 }
