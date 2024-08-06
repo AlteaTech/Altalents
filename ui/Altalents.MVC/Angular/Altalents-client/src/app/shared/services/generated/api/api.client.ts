@@ -867,6 +867,7 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
     telephone?: string | null;
     poste?: string | null;
     tarifJournalier?: number | null;
+    questionnaires?: QuestionInsertDto[] | null;
 
     constructor(data?: IDossierTechniqueInsertRequestDto) {
         if (data) {
@@ -889,6 +890,14 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
             this.telephone = _data["Telephone"] !== undefined ? _data["Telephone"] : <any>null;
             this.poste = _data["Poste"] !== undefined ? _data["Poste"] : <any>null;
             this.tarifJournalier = _data["TarifJournalier"] !== undefined ? _data["TarifJournalier"] : <any>null;
+            if (Array.isArray(_data["Questionnaires"])) {
+                this.questionnaires = [] as any;
+                for (let item of _data["Questionnaires"])
+                    this.questionnaires!.push(QuestionInsertDto.fromJS(item));
+            }
+            else {
+                this.questionnaires = <any>null;
+            }
         }
     }
 
@@ -911,6 +920,11 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
         data["Telephone"] = this.telephone !== undefined ? this.telephone : <any>null;
         data["Poste"] = this.poste !== undefined ? this.poste : <any>null;
         data["TarifJournalier"] = this.tarifJournalier !== undefined ? this.tarifJournalier : <any>null;
+        if (Array.isArray(this.questionnaires)) {
+            data["Questionnaires"] = [];
+            for (let item of this.questionnaires)
+                data["Questionnaires"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -926,6 +940,7 @@ export interface IDossierTechniqueInsertRequestDto {
     telephone?: string | null;
     poste?: string | null;
     tarifJournalier?: number | null;
+    questionnaires?: QuestionInsertDto[] | null;
 }
 
 export class GetTrigrammeRequestDto implements IGetTrigrammeRequestDto {
@@ -1161,6 +1176,54 @@ export interface IParlonsDeVousUpdateRequestDto {
     telephone2?: string | null;
     email: string;
     adresse: AdresseUpdateRequestDto;
+}
+
+export class QuestionInsertDto implements IQuestionInsertDto {
+    ordre?: number;
+    isObligatoire?: boolean;
+    isShowDt?: boolean;
+    question?: string | null;
+
+    constructor(data?: IQuestionInsertDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.ordre = _data["Ordre"] !== undefined ? _data["Ordre"] : <any>null;
+            this.isObligatoire = _data["IsObligatoire"] !== undefined ? _data["IsObligatoire"] : <any>null;
+            this.isShowDt = _data["IsShowDt"] !== undefined ? _data["IsShowDt"] : <any>null;
+            this.question = _data["Question"] !== undefined ? _data["Question"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): QuestionInsertDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionInsertDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Ordre"] = this.ordre !== undefined ? this.ordre : <any>null;
+        data["IsObligatoire"] = this.isObligatoire !== undefined ? this.isObligatoire : <any>null;
+        data["IsShowDt"] = this.isShowDt !== undefined ? this.isShowDt : <any>null;
+        data["Question"] = this.question !== undefined ? this.question : <any>null;
+        return data;
+    }
+}
+
+export interface IQuestionInsertDto {
+    ordre?: number;
+    isObligatoire?: boolean;
+    isShowDt?: boolean;
+    question?: string | null;
 }
 
 export class ReferenceDto implements IReferenceDto {
