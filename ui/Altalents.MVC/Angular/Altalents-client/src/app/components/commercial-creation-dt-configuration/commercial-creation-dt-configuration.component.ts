@@ -14,9 +14,9 @@ import { ValidateIdBoondWithApi } from 'src/app/shared/services/services/validat
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 import { ValidateTrigramWithApi } from 'src/app/shared/services/services/validators/validate-trigram-with-api';
 import { QuestionnaireDialogComponent } from '../dialogs/questionnaire-dialog/questionnaire-dialog.component';
-import { Questionnaire } from 'src/app/shared/models/questionnaire.model';
 import { PieceJointeDialogComponent } from '../dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
 import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
+import { Question } from 'src/app/shared/models/question.model';
 
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
@@ -29,7 +29,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
   public userIdLogged: string | undefined;
   public isReady = false;
   public disponibilites: Reference[] = [];
-  public questionnaire: Questionnaire | undefined;
+  public questions: Question[] | undefined;
   public pieceJointe: PieceJointe | undefined;
 
   constructor(private modalService: NgbModal,
@@ -88,10 +88,10 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
       size: 'lg'
     };
     let dialogRef: NgbModalRef = this.modalService.open(QuestionnaireDialogComponent, ngbModalOptions);
-    dialogRef.componentInstance.questionnaire = this.questionnaire;
-    dialogRef.result.then((nouvelElement: Questionnaire | undefined) => {
+    dialogRef.componentInstance.questionnaire = this.questions;
+    dialogRef.result.then((nouvelElement: Question[] | undefined) => {
       if(nouvelElement) {
-        this.questionnaire = nouvelElement;
+        this.questions = nouvelElement;
       }
     })
   }
@@ -124,7 +124,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     retour.telephone = formValues.numeroTelephone1;
     retour.trigramme = formValues.trigram ?? "";
     retour.utilisateurId = this.userIdLogged;
-    // AJOUTER QUESTIONNAIRE
+    retour.questionnaires = this.questions ? Question.toList(this.questions) : undefined;
     return retour;
   }
 

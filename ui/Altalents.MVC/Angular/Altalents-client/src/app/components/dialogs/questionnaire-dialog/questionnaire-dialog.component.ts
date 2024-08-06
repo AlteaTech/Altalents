@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionnaireForm } from 'src/app/shared/interfaces/questionnaire-form';
 import { Question } from 'src/app/shared/models/question.model';
-import { Questionnaire } from 'src/app/shared/models/questionnaire.model';
 
 @Component({
   selector: 'app-questionnaire-dialog',
@@ -11,7 +10,7 @@ import { Questionnaire } from 'src/app/shared/models/questionnaire.model';
   styleUrls: ['../../../app.component.css']
 })
 export class QuestionnaireDialogComponent implements OnInit {
-  public questionnaire?: Questionnaire;
+  public questions?: Question[];
   public formGroup: FormGroup<QuestionnaireForm>;
 
   constructor(public activeModal: NgbActiveModal) {
@@ -31,19 +30,19 @@ export class QuestionnaireDialogComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.questionnaire) {
+    if (this.questions) {
       this.formGroup.patchValue({
-        question1: this.questionnaire.questions[0].question,
-        isShowDt1: this.questionnaire.questions[0].isShowDt,
-        isObligatoire1: this.questionnaire.questions[0].isObligatoire,
-        isQuestion2Enable: this.questionnaire.questions[1].question ? true : false,
-        question2: this.questionnaire.questions[1].question,
-        isShowDt2: this.questionnaire.questions[1].isShowDt,
-        isObligatoire2: this.questionnaire.questions[1].isObligatoire,
-        isQuestion3Enable: this.questionnaire.questions[2].question ? true : false,
-        question3: this.questionnaire.questions[2].question,
-        isShowDt3: this.questionnaire.questions[2].isShowDt,
-        isObligatoire3: this.questionnaire.questions[2].isObligatoire
+        question1: this.questions[0].question,
+        isShowDt1: this.questions[0].isShowDt,
+        isObligatoire1: this.questions[0].isObligatoire,
+        isQuestion2Enable: this.questions[1].question ? true : false,
+        question2: this.questions[1].question,
+        isShowDt2: this.questions[1].isShowDt,
+        isObligatoire2: this.questions[1].isObligatoire,
+        isQuestion3Enable: this.questions[2].question ? true : false,
+        question3: this.questions[2].question,
+        isShowDt3: this.questions[2].isShowDt,
+        isObligatoire3: this.questions[2].isObligatoire
       });
     }
 
@@ -86,24 +85,24 @@ export class QuestionnaireDialogComponent implements OnInit {
   public submit(): void {
     if (this.formGroup.valid) {
       const values = this.formGroup.value;
-      let questionnaire: Questionnaire = this.questionnaire ?? new Questionnaire();
-      questionnaire.questions[0] = new Question();
-      questionnaire.questions[0].ordre = 1;
-      questionnaire.questions[0].isObligatoire = values.isObligatoire1 ?? false;
-      questionnaire.questions[0].isShowDt = values.isShowDt1 ?? false;
-      questionnaire.questions[0].question = values.question1 ?? "";
-      questionnaire.questions[1] = new Question();
-      questionnaire.questions[1].ordre = 2;
-      questionnaire.questions[1].isObligatoire = values.isObligatoire2 ?? false;
-      questionnaire.questions[1].isShowDt = values.isShowDt2 ?? false;
-      questionnaire.questions[1].question = values.question2 ?? "";
-      questionnaire.questions[2] = new Question();
-      questionnaire.questions[2].ordre = 3;
-      questionnaire.questions[2].isObligatoire = values.isObligatoire3 ?? false;
-      questionnaire.questions[2].isShowDt = values.isShowDt3 ?? false;
-      questionnaire.questions[2].question = values.question3 ?? "";
+      let questions: Question[] = this.questions ?? [];
+      questions[0] = new Question();
+      questions[0].ordre = 1;
+      questions[0].isObligatoire = values.isObligatoire1 ?? false;
+      questions[0].isShowDt = values.isShowDt1 ?? false;
+      questions[0].question = values.question1 ?? "";
+      questions[1] = new Question();
+      questions[1].ordre = 2;
+      questions[1].isObligatoire = values.isObligatoire2 ?? false;
+      questions[1].isShowDt = values.isShowDt2 ?? false;
+      questions[1].question = values.question2 ?? "";
+      questions[2] = new Question();
+      questions[2].ordre = 3;
+      questions[2].isObligatoire = values.isObligatoire3 ?? false;
+      questions[2].isShowDt = values.isShowDt3 ?? false;
+      questions[2].question = values.question3 ?? "";
 
-      this.activeModal.close(questionnaire);
+      this.activeModal.close(questions);
     }
   }
 
