@@ -1,4 +1,6 @@
 export class PieceJointe {
-    pieceJointe!: File;
+    mimeType!: string;
+    nomFichier!: string;
+    data!: string;
     commentaire?: string;
 }

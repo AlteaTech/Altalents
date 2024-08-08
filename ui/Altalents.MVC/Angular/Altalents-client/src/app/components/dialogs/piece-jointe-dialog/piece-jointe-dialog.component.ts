@@ -12,10 +12,10 @@ import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
 export class PieceJointeDialogComponent implements OnInit {
   public pieceJointe?: PieceJointe;
   public formGroup: FormGroup<PieceJointeForm>;
+  public isFileLoaded: boolean = false;
 
   constructor(public activeModal: NgbActiveModal) {
     this.formGroup = new FormGroup<PieceJointeForm>({
-      pieceJointe: new FormControl(null, Validators.required),
       commentaire: new FormControl()
     });
   }
@@ -23,7 +23,6 @@ export class PieceJointeDialogComponent implements OnInit {
   public ngOnInit(): void {
     if (this.pieceJointe) {
       this.formGroup.patchValue({
-        pieceJointe: this.pieceJointe.pieceJointe,
         commentaire: this.pieceJointe.commentaire
       });
     }
@@ -33,14 +32,39 @@ export class PieceJointeDialogComponent implements OnInit {
     if (this.formGroup.valid) {
       const values = this.formGroup.value;
       let pieceJointe: PieceJointe = this.pieceJointe ?? new PieceJointe();
-      pieceJointe.pieceJointe = values.pieceJointe!;
       pieceJointe.commentaire = values.commentaire ?? undefined;
-
       this.activeModal.close(pieceJointe);
     }
   }
 
   public closeDialog(): void {
     this.activeModal.close();
+  }
+
+  public async onFileUploadChange(event: Event): Promise<void> {
+    const fichiers: FileList | null = (event.target as HTMLInputElement).files;
+
+    if(fichiers) {
+      this.isFileLoaded = false;
+      const file: File = fichiers[0];
+      this.pieceJointe = this.pieceJointe ?? new PieceJointe();
+      this.pieceJointe.mimeType = file.type;
+      this.pieceJointe.nomFichier = file.name;
+      this.pieceJointe.data = await this.toBase64(file)
+      .then((data: string) => {
+        return data;
+      });
+      this.isFileLoaded = true;
+    }
+  }
+
+  private toBase64(file: File): Promise<string> {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        resolve(reader.result?.toString().split(',')[1] ?? "");
+      };
+    })
   }
 }

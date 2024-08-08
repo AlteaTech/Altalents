@@ -856,6 +856,58 @@ export interface ICustomUserLoggedDto {
     userId?: string;
 }
 
+export class DocumentDto implements IDocumentDto {
+    mimeType!: string;
+    dateExpiration?: string | null;
+    nomFichier!: string;
+    commentaire?: string | null;
+    data!: string;
+
+    constructor(data?: IDocumentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.mimeType = _data["MimeType"] !== undefined ? _data["MimeType"] : <any>null;
+            this.dateExpiration = _data["DateExpiration"] !== undefined ? _data["DateExpiration"] : <any>null;
+            this.nomFichier = _data["NomFichier"] !== undefined ? _data["NomFichier"] : <any>null;
+            this.commentaire = _data["Commentaire"] !== undefined ? _data["Commentaire"] : <any>null;
+            this.data = _data["Data"] !== undefined ? _data["Data"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): DocumentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["MimeType"] = this.mimeType !== undefined ? this.mimeType : <any>null;
+        data["DateExpiration"] = this.dateExpiration !== undefined ? this.dateExpiration : <any>null;
+        data["NomFichier"] = this.nomFichier !== undefined ? this.nomFichier : <any>null;
+        data["Commentaire"] = this.commentaire !== undefined ? this.commentaire : <any>null;
+        data["Data"] = this.data !== undefined ? this.data : <any>null;
+        return data;
+    }
+}
+
+export interface IDocumentDto {
+    mimeType: string;
+    dateExpiration?: string | null;
+    nomFichier: string;
+    commentaire?: string | null;
+    data: string;
+}
+
 export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsertRequestDto {
     utilisateurId?: string;
     nom!: string;
@@ -868,6 +920,7 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
     poste?: string | null;
     tarifJournalier?: number | null;
     questionnaires?: QuestionInsertDto[] | null;
+    documents?: DocumentDto[] | null;
 
     constructor(data?: IDossierTechniqueInsertRequestDto) {
         if (data) {
@@ -898,6 +951,14 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
             else {
                 this.questionnaires = <any>null;
             }
+            if (Array.isArray(_data["Documents"])) {
+                this.documents = [] as any;
+                for (let item of _data["Documents"])
+                    this.documents!.push(DocumentDto.fromJS(item));
+            }
+            else {
+                this.documents = <any>null;
+            }
         }
     }
 
@@ -925,6 +986,11 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
             for (let item of this.questionnaires)
                 data["Questionnaires"].push(item.toJSON());
         }
+        if (Array.isArray(this.documents)) {
+            data["Documents"] = [];
+            for (let item of this.documents)
+                data["Documents"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -941,6 +1007,7 @@ export interface IDossierTechniqueInsertRequestDto {
     poste?: string | null;
     tarifJournalier?: number | null;
     questionnaires?: QuestionInsertDto[] | null;
+    documents?: DocumentDto[] | null;
 }
 
 export class GetTrigrammeRequestDto implements IGetTrigrammeRequestDto {

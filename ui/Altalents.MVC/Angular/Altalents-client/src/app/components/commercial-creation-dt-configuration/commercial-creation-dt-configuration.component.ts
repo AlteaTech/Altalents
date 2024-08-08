@@ -7,7 +7,7 @@ import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-commercial-form';
 import { Reference } from 'src/app/shared/models/reference.model';
-import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from 'src/app/shared/services/generated/api/api.client';
+import { CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ValidateEmailWithApi } from 'src/app/shared/services/services/validators/validate-email-with-api';
 import { ValidateIdBoondWithApi } from 'src/app/shared/services/services/validators/validate-idboond-with-api';
@@ -127,7 +127,20 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     retour.trigramme = formValues.trigram ?? "";
     retour.utilisateurId = this.userIdLogged;
     retour.questionnaires = this.questions ? Question.toList(this.questions) : undefined;
+    this.populateDocumentDto(retour);
+    debugger;
     return retour;
+  }
+
+  private populateDocumentDto(retour: DossierTechniqueInsertRequestDto) {
+    if (this.pieceJointe) {
+      let documentDto: DocumentDto = new DocumentDto();
+      documentDto.mimeType = this.pieceJointe.mimeType;
+      documentDto.nomFichier = this.pieceJointe.nomFichier;
+      documentDto.commentaire = this.pieceJointe.commentaire;
+      documentDto.data = this.pieceJointe.data;
+      retour.documents = [documentDto];
+    }
   }
 
   public override populateData(): void {
