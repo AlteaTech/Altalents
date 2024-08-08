@@ -54,11 +54,15 @@ export class QuestionnaireDialogComponent implements OnInit {
     let controls = this.formGroup.controls;
     if(controls.isQuestion2Enable.value) {
       controls.question2.enable();
+      controls.question2.setValidators([Validators.required]);
+      controls.question2.updateValueAndValidity();
       controls.isObligatoire2.enable();
       controls.isShowDt2.enable();
     } else {
       controls.question2.disable();
       controls.question2.reset();
+      controls.question2.clearValidators();
+      controls.question2.updateValueAndValidity();
       controls.isObligatoire2.disable();
       controls.isObligatoire2.reset();
       controls.isShowDt2.disable();
@@ -70,11 +74,15 @@ export class QuestionnaireDialogComponent implements OnInit {
     let controls = this.formGroup.controls;
     if(controls.isQuestion3Enable.value) {
       controls.question3.enable();
+      controls.question3.setValidators([Validators.required]);
+      controls.question3.updateValueAndValidity();
       controls.isObligatoire3.enable();
       controls.isShowDt3.enable();
     } else {
       controls.question3.disable();
       controls.question3.reset();
+      controls.question3.clearValidators();
+      controls.question3.updateValueAndValidity();
       controls.isObligatoire3.disable();
       controls.isObligatoire3.reset();
       controls.isShowDt3.disable();
@@ -103,6 +111,8 @@ export class QuestionnaireDialogComponent implements OnInit {
       questions[2].question = values.question3 ?? "";
 
       this.activeModal.close(questions);
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

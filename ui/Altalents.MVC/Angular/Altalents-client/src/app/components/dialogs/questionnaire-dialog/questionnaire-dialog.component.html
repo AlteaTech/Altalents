@@ -53,6 +53,10 @@
                         <div class="col-lg-12">
                             <input type="text" class="form-control" formControlName="question2" placeholder="Ta marque de slips préférée?">
                         </div>
+                        <div class="error-message"
+                            *ngIf="formGroup.controls.question2.invalid && formGroup.controls.question2.touched">
+                            La question est requise.
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-2">
@@ -90,6 +94,10 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <input type="text" class="form-control" formControlName="question3" placeholder="Tu me rends mes 20 balles?">
+                        </div>
+                        <div class="error-message"
+                            *ngIf="formGroup.controls.question3.invalid && formGroup.controls.question3.touched">
+                            La question est requise.
                         </div>
                     </div>
                     <div class="row">
