@@ -61,16 +61,20 @@
                                     </div>
                                     <div class="col-xl-6">
                                         <input type="text" class="form-control" formControlName="poste"
-                                            placeholder="12 rue des Fleurs">
+                                            placeholder="Titre">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
+                                        <label class="switch">
+                                            <input type="checkbox" formControlName="isPrixJourEnable" (change)="updateInputPrixJour()">
+                                            <span class="slider"></span>
+                                        </label>
                                         <label for="prixJour">Tarif journalier</label>
                                     </div>
                                     <div class="col-xl-6">
                                         <input type="text" class="form-control" formControlName="prixJour"
-                                            placeholder="€">
+                                            placeholder="100 €">
                                     </div>
                                 </div>
                                 <div class="row mb-2">

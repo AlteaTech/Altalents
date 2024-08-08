@@ -42,6 +42,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
       adresseMail: new FormControl('', Validators.required,ValidateEmailWithApi(this.service, undefined)),
       numeroTelephone1: new FormControl(null, undefined,ValidateTelephoneWithApi(this.service,true)),
       poste: new FormControl(null),
+      isPrixJourEnable: new FormControl(false),
       prixJour: new FormControl(null),
       disponibilite: new FormControl('8f486cd6-6313-47f9-a4b5-5bd535c199a9', Validators.required),
       idBoond: new FormControl('', Validators.required,ValidateIdBoondWithApi(this.service)),
@@ -50,6 +51,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
 
   public ngOnInit(): void {
     this.populateData();
+    this.updateInputPrixJour();
   }
   
   public return(): void {
@@ -88,7 +90,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
       size: 'lg'
     };
     let dialogRef: NgbModalRef = this.modalService.open(QuestionnaireDialogComponent, ngbModalOptions);
-    dialogRef.componentInstance.questionnaire = this.questions;
+    dialogRef.componentInstance.questions = this.questions;
     dialogRef.result.then((nouvelElement: Question[] | undefined) => {
       if(nouvelElement) {
         this.questions = nouvelElement;
@@ -140,6 +142,11 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
           this.disponibilites = Reference.fromListReferenceDto(response);
           this.isReady = true;
         }));
+  }
+
+  public updateInputPrixJour(): void {
+    let controls = this.formGroup.controls;
+    controls.isPrixJourEnable.value ? controls.prixJour.enable() : controls.prixJour.disable();
   }
 }
 
