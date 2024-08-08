@@ -15,7 +15,7 @@
                                 <legend>Informations personnelles</legend>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
-                                        <label for="prenom">Prénom<span class="champ-obligatoire ">*</span></label>
+                                        <label for="prenom" class="col-form-label">Prénom<span class="champ-obligatoire ">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
                                             Prénom est requis.
@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
-                                        <label for="nom">Nom<span class="champ-obligatoire">*</span></label>
+                                        <label for="nom" class="col-form-label">Nom<span class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('nom')?.invalid && formGroup.get('nom')?.touched">
                                             Nom est requis.
@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
-                                        <label for="trigram">Trigramme<span class="champ-obligatoire">*</span></label>
+                                        <label for="trigram" class="col-form-label">Trigramme<span class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('trigram')?.invalid && formGroup.get('trigram')?.touched">
                                             Trigramme est invalide.
@@ -57,7 +57,7 @@
                                 <legend>Conditions</legend>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
-                                        <label for="poste">Poste</label>
+                                        <label for="poste" class="col-form-label">Poste</label>
                                     </div>
                                     <div class="col-xl-6">
                                         <input type="text" class="form-control" formControlName="poste"
@@ -65,12 +65,14 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-xl-1">
                                         <label class="switch">
                                             <input type="checkbox" formControlName="isPrixJourEnable" (change)="updateInputPrixJour()">
                                             <span class="slider"></span>
                                         </label>
-                                        <label for="prixJour">Tarif journalier</label>
+                                    </div>
+                                    <div class="col-xl-5 label-champ-input">
+                                        <label for="prixJour" class="col-form-label">Tarif journalier</label>
                                     </div>
                                     <div class="col-xl-6">
                                         <input type="text" class="form-control" formControlName="prixJour"
@@ -79,10 +81,9 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
-                                        <label for="disponibilite">Disponibilite</label>
+                                        <label for="disponibilite" class="col-form-label">Disponibilite</label>
                                     </div>
                                     <div class="col-xl-6">
-                                        <!-- <input type="text"  class="form-control" formControlName="disponibilite" placeholder="22 rue des Adresses"> -->
                                         <select id="country" class="at-w-200" class="form-control"
                                             formControlName="disponibilite">
                                             <option *ngFor="let disponibilite of disponibilites"
@@ -99,7 +100,7 @@
                                 <legend>Coordonnées de contact</legend>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
-                                        <label for="numeroTelephone1">N° de téléphone</label>
+                                        <label for="numeroTelephone1" class="col-form-label">N° de téléphone</label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('numeroTelephone1')?.invalid && formGroup.get('numeroTelephone1')?.touched">
                                             N° de téléphone est invalide.
@@ -112,7 +113,7 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
-                                        <label for="adresseMail">Adresse mail<span
+                                        <label for="adresseMail" class="col-form-label">Adresse mail<span
                                                 class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
@@ -154,7 +155,7 @@
                                 <legend>Identifiant Boond du candidat</legend>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
-                                        <label for="idBoond">ID Boond<span class="champ-obligatoire">*</span></label>
+                                        <label for="idBoond" class="col-form-label">ID Boond<span class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('idBoond')?.invalid && formGroup.get('idBoond')?.touched">
                                             ID Boond est invalide.
