@@ -10,698 +10,725 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.ToTable("References");
 
             builder.Property(e => e.Libelle)
-                .HasMaxLength(250)
-                .IsRequired();
+ .HasMaxLength(250)
+ .IsRequired();
 
             builder.Property(e => e.CommentaireFun)
-                .HasMaxLength(250);
+ .HasMaxLength(250);
 
             builder.Property(e => e.Type)
-                .HasColumnType("varchar")
-                .HasMaxLength(250)
-                .IsRequired();
+ .HasColumnType("varchar")
+ .HasMaxLength(250)
+ .IsRequired();
             builder.Property(e => e.Code)
-                .HasColumnType("varchar")
-                .HasMaxLength(250)
-                .IsRequired();
+ .HasColumnType("varchar")
+ .HasMaxLength(250)
+ .IsRequired();
             builder.Property(e => e.OrdreTri)
-                .HasDefaultValue(0)
-                .IsRequired();
+ .HasDefaultValue(0)
+ .IsRequired();
             builder.Property(e => e.SousType)
-                .HasColumnType("varchar")
-                .HasMaxLength(250);
+ .HasColumnType("varchar")
+ .HasMaxLength(250);
 
             builder.HasMany(navigationExpression: e => e.DossierTechniquesByDisponibilite)
-                .WithOne(x => x.Disponibilite)
-                .HasForeignKey(e => e.DisponibiliteId)
-                .OnDelete(DeleteBehavior.Cascade);
+ .WithOne(x => x.Disponibilite)
+ .HasForeignKey(e => e.DisponibiliteId)
+ .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.DossierTechniquesByStatut)
-                .WithOne(x => x.Statut)
-                .HasForeignKey(e => e.StatutId)
-                .OnDelete(DeleteBehavior.NoAction);
+ .WithOne(x => x.Statut)
+ .HasForeignKey(e => e.StatutId)
+ .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(navigationExpression: e => e.Personnes)
-                .WithOne(x => x.Type)
-                .HasForeignKey(e => e.TypeId)
-                .OnDelete(DeleteBehavior.Cascade);
+ .WithOne(x => x.Type)
+ .HasForeignKey(e => e.TypeId)
+ .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.Contacts)
-                .WithOne(x => x.Type)
-                .HasForeignKey(e => e.TypeId)
-                .OnDelete(DeleteBehavior.Cascade);
+ .WithOne(x => x.Type)
+ .HasForeignKey(e => e.TypeId)
+ .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.Documents)
-                .WithOne(x => x.Type)
-                .HasForeignKey(e => e.TypeId)
-                .OnDelete(DeleteBehavior.Cascade);
+ .WithOne(x => x.Type)
+ .HasForeignKey(e => e.TypeId)
+ .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.PersonneLangues)
-                .WithOne(x => x.Langue)
-                .HasForeignKey(e => e.LangueId)
-                .OnDelete(DeleteBehavior.Cascade);
+ .WithOne(x => x.Langue)
+ .HasForeignKey(e => e.LangueId)
+ .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.Experiences)
-                .WithOne(x => x.TypeContrat)
-                .HasForeignKey(e => e.TypeContratId)
-                .OnDelete(DeleteBehavior.Cascade);
+ .WithOne(x => x.TypeContrat)
+ .HasForeignKey(e => e.TypeContratId)
+ .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.LiaisonExperienceTechnologies)
-                .WithOne(x => x.Technologie)
-                .HasForeignKey(e => e.TechnologieId)
-                .OnDelete(DeleteBehavior.Cascade);
+ .WithOne(x => x.Technologie)
+ .HasForeignKey(e => e.TechnologieId)
+ .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.LiaisonExperienceCompetances)
-                .WithOne(x => x.Competance)
-                .HasForeignKey(e => e.CompetanceId)
-                .OnDelete(DeleteBehavior.Cascade);
+ .WithOne(x => x.Competance)
+ .HasForeignKey(e => e.CompetanceId)
+ .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(e => new { e.Type, e.SousType });
 
             builder.HasData(new List<Reference> {
             #region Langues
-                new Reference(){
-                    Libelle = "Anglais",
-                    Code= Commun.Enums.CodeReferenceEnum.Anglais.ToString("g"),
-                    Id = Guid.Parse("{cc2fe62f-a81d-437b-a257-7e89b150042e}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Arabe",
-                    Code= Commun.Enums.CodeReferenceEnum.Arabe.ToString("g"),
-                    Id = Guid.Parse("{2ad460a4-afa9-4ac0-986f-42d626b82bf1}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Chinois",
-                    Code= Commun.Enums.CodeReferenceEnum.Chinois.ToString("g"),
-                    Id = Guid.Parse("{e47e9d1a-590d-4b4a-8f9e-219781d36902}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Espagnol",
-                    Code= Commun.Enums.CodeReferenceEnum.Espagnol.ToString("g"),
-                    Id = Guid.Parse("{91cad6f6-cfb2-43bc-b5f5-a1e90ceba77c}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Français",
-                    Code= Commun.Enums.CodeReferenceEnum.Francais.ToString("g"),
-                    Id = Guid.Parse("{356fce26-caaa-4b4e-94d2-f7341d1851b1}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Russe",
-                    Code= Commun.Enums.CodeReferenceEnum.Russe.ToString("g"),
-                    Id = Guid.Parse("{3fbcdd3e-7dfa-46bb-bf5d-ae39e4137a07}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Albanais",
-                    Code= Commun.Enums.CodeReferenceEnum.Albanais.ToString("g"),
-                    Id = Guid.Parse("{cfb960f2-d501-4154-a53a-83f9497bc0ad}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Allemand",
-                    Code= Commun.Enums.CodeReferenceEnum.Allemand.ToString("g"),
-                    Id = Guid.Parse("{fe2be6bb-fbda-4115-bc06-5603447cbcbd}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Amazigh",
-                    Code= Commun.Enums.CodeReferenceEnum.Amazigh.ToString("g"),
-                    Id = Guid.Parse("{9a5769e9-f63f-4f30-85d6-c785247a621a}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Arménien",
-                    Code= Commun.Enums.CodeReferenceEnum.Armenien.ToString("g"),
-                    Id = Guid.Parse("{3ca6db24-303d-4fa3-9b5b-5cd8cfd02f11}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Aymara",
-                    Code= Commun.Enums.CodeReferenceEnum.Aymara.ToString("g"),
-                    Id = Guid.Parse("{8883e43d-9d64-4976-a0de-cf2fce12c00d}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Bengali",
-                    Code= Commun.Enums.CodeReferenceEnum.Bengali.ToString("g"),
-                    Id = Guid.Parse("{f3e4d4b8-4406-4098-ae7f-1ccbf938c5b8}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Catalan",
-                    Code= Commun.Enums.CodeReferenceEnum.Catalan.ToString("g"),
-                    Id = Guid.Parse("{389314c5-b5b2-4055-85ef-a0a688b71d1c}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Coréen",
-                    Code= Commun.Enums.CodeReferenceEnum.Coreen.ToString("g"),
-                    Id = Guid.Parse("{560f923c-27de-4891-8e96-db9fe47ca235}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Croate",
-                    Code= Commun.Enums.CodeReferenceEnum.Croate.ToString("g"),
-                    Id = Guid.Parse("{077fa7cc-9f80-4d11-a791-1109ec17987b}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Danois",
-                    Code= Commun.Enums.CodeReferenceEnum.Danois.ToString("g"),
-                    Id = Guid.Parse("{eb36539d-64bd-4cd7-adc9-27fe1c30a039}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Éwé",
-                    Code= Commun.Enums.CodeReferenceEnum.Ewe.ToString("g"),
-                    Id = Guid.Parse("{41fb2299-36ec-4854-bc78-ee7899af318f}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Guarani",
-                    Code= Commun.Enums.CodeReferenceEnum.Guarani.ToString("g"),
-                    Id = Guid.Parse("{57580b70-c631-4d9c-8dfa-920b54bfbfaf}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Grec",
-                    Code= Commun.Enums.CodeReferenceEnum.Grec.ToString("g"),
-                    Id = Guid.Parse("{1fbfbf6e-957e-4565-afd1-173b5cd709d3}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Hongrois",
-                    Code= Commun.Enums.CodeReferenceEnum.Hongrois.ToString("g"),
-                    Id = Guid.Parse("{b25017fe-4709-474d-9d28-73489c12730b}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Italien",
-                    Code= Commun.Enums.CodeReferenceEnum.Italien.ToString("g"),
-                    Id = Guid.Parse("{b78239d4-c118-4887-8296-8494cef315bc}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Japonais",
-                    Code= Commun.Enums.CodeReferenceEnum.Japonais.ToString("g"),
-                    Id = Guid.Parse("{e673effc-4ca5-46d4-bba8-0c4e5c658cb5}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Kikongo",
-                    Code= Commun.Enums.CodeReferenceEnum.Kikongo.ToString("g"),
-                    Id = Guid.Parse("{21a7b72e-456c-4b07-9cda-125917d43396}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Kiswahili",
-                    Code= Commun.Enums.CodeReferenceEnum.Kiswahili.ToString("g"),
-                    Id = Guid.Parse("{25c764de-a813-4848-9d13-2ffea2a2ca44}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Lingala",
-                    Code= Commun.Enums.CodeReferenceEnum.Lingala.ToString("g"),
-                    Id = Guid.Parse("{09bf9503-dea6-4133-a3de-49d8cdcfcdc9}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Malgache",
-                    Code= Commun.Enums.CodeReferenceEnum.Malgache.ToString("g"),
-                    Id = Guid.Parse("{792a266d-f629-419a-8346-59400b460b2d}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Malais",
-                    Code= Commun.Enums.CodeReferenceEnum.Malais.ToString("g"),
-                    Id = Guid.Parse("{224a6eb6-c5c0-44a2-8504-46fa0f158527}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Mongol",
-                    Code= Commun.Enums.CodeReferenceEnum.Mongol.ToString("g"),
-                    Id = Guid.Parse("{5ecd41d8-0a66-4315-b489-b26582e78e47}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Néerlandais",
-                    Code= Commun.Enums.CodeReferenceEnum.Neerlandais.ToString("g"),
-                    Id = Guid.Parse("{ac04b377-a830-43cc-b249-3ace079a4e61}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Occitan",
-                    Code= Commun.Enums.CodeReferenceEnum.Occitan.ToString("g"),
-                    Id = Guid.Parse("{bb490fb1-c45c-4735-ac44-3524dde36275}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Ourdou",
-                    Code= Commun.Enums.CodeReferenceEnum.Ourdou.ToString("g"),
-                    Id = Guid.Parse("{7dc19496-4d9b-413a-b088-090da9f29a08}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Persan",
-                    Code= Commun.Enums.CodeReferenceEnum.Persan.ToString("g"),
-                    Id = Guid.Parse("{f2ed3127-4acd-4e4b-90b2-b51958dc1357}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Portugais",
-                    Code= Commun.Enums.CodeReferenceEnum.Portugais.ToString("g"),
-                    Id = Guid.Parse("{39577e09-4464-41bc-b9ad-e69b03ba3266}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Quechua",
-                    Code= Commun.Enums.CodeReferenceEnum.Quechua.ToString("g"),
-                    Id = Guid.Parse("{0f6fda7c-e474-4196-8afb-1bab65bacfd1}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Roumain",
-                    Code= Commun.Enums.CodeReferenceEnum.Roumain.ToString("g"),
-                    Id = Guid.Parse("{05c38683-5c3a-43a9-a603-c553e429ab99}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Samoan",
-                    Code= Commun.Enums.CodeReferenceEnum.Samoan.ToString("g"),
-                    Id = Guid.Parse("{d63f7ab4-b41c-40f5-867b-03b2a7571aca}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Serbe",
-                    Code= Commun.Enums.CodeReferenceEnum.Serbe.ToString("g"),
-                    Id = Guid.Parse("{3b004521-dc2f-43ec-bd60-5e8c95aa9dae}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Sesotho",
-                    Code= Commun.Enums.CodeReferenceEnum.Sesotho.ToString("g"),
-                    Id = Guid.Parse("{cf3524e8-53a1-4170-81a0-191ebe2e9507}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Slovaque",
-                    Code= Commun.Enums.CodeReferenceEnum.Slovaque.ToString("g"),
-                    Id = Guid.Parse("{9ed8dd18-affb-4a96-b35a-d0ed17943492}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Slovène",
-                    Code= Commun.Enums.CodeReferenceEnum.Slovene.ToString("g"),
-                    Id = Guid.Parse("{3329384f-af76-4eb6-9f15-b8b838af7999}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Suédois",
-                    Code= Commun.Enums.CodeReferenceEnum.Suedois.ToString("g"),
-                    Id = Guid.Parse("{d4a4a33a-f5d3-488c-89ad-7f552d262b88}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Tamoul",
-                    Code= Commun.Enums.CodeReferenceEnum.Tamoul.ToString("g"),
-                    Id = Guid.Parse("{b809599c-6b49-452a-b26c-7438c059bbf8}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                new Reference(){
-                    Libelle = "Turc",
-                    Code= Commun.Enums.CodeReferenceEnum.Turc.ToString("g"),
-                    Id = Guid.Parse("{1aeef696-c31e-4987-84f3-2215a98bf350}"),
-                    DateCrea = new DateTime(2024,6,17),
-                    UtiCrea= "ALTEA",IsValide=true,
-                    Type = Commun.Enums.TypeReferenceEnum.Langue
-                },
-                #endregion
+ new (){
+     Libelle = "Anglais",
+     Code= Commun.Enums.CodeReferenceEnum.Anglais.ToString("g"),
+     Id = Guid.Parse("{cc2fe62f-a81d-437b-a257-7e89b150042e}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Arabe",
+     Code= Commun.Enums.CodeReferenceEnum.Arabe.ToString("g"),
+     Id = Guid.Parse("{2ad460a4-afa9-4ac0-986f-42d626b82bf1}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Chinois",
+     Code= Commun.Enums.CodeReferenceEnum.Chinois.ToString("g"),
+     Id = Guid.Parse("{e47e9d1a-590d-4b4a-8f9e-219781d36902}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Espagnol",
+     Code= Commun.Enums.CodeReferenceEnum.Espagnol.ToString("g"),
+     Id = Guid.Parse("{91cad6f6-cfb2-43bc-b5f5-a1e90ceba77c}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Français",
+     Code= Commun.Enums.CodeReferenceEnum.Francais.ToString("g"),
+     Id = Guid.Parse("{356fce26-caaa-4b4e-94d2-f7341d1851b1}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Russe",
+     Code= Commun.Enums.CodeReferenceEnum.Russe.ToString("g"),
+     Id = Guid.Parse("{3fbcdd3e-7dfa-46bb-bf5d-ae39e4137a07}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Albanais",
+     Code= Commun.Enums.CodeReferenceEnum.Albanais.ToString("g"),
+     Id = Guid.Parse("{cfb960f2-d501-4154-a53a-83f9497bc0ad}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Allemand",
+     Code= Commun.Enums.CodeReferenceEnum.Allemand.ToString("g"),
+     Id = Guid.Parse("{fe2be6bb-fbda-4115-bc06-5603447cbcbd}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Amazigh",
+     Code= Commun.Enums.CodeReferenceEnum.Amazigh.ToString("g"),
+     Id = Guid.Parse("{9a5769e9-f63f-4f30-85d6-c785247a621a}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Arménien",
+     Code= Commun.Enums.CodeReferenceEnum.Armenien.ToString("g"),
+     Id = Guid.Parse("{3ca6db24-303d-4fa3-9b5b-5cd8cfd02f11}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Aymara",
+     Code= Commun.Enums.CodeReferenceEnum.Aymara.ToString("g"),
+     Id = Guid.Parse("{8883e43d-9d64-4976-a0de-cf2fce12c00d}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Bengali",
+     Code= Commun.Enums.CodeReferenceEnum.Bengali.ToString("g"),
+     Id = Guid.Parse("{f3e4d4b8-4406-4098-ae7f-1ccbf938c5b8}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Catalan",
+     Code= Commun.Enums.CodeReferenceEnum.Catalan.ToString("g"),
+     Id = Guid.Parse("{389314c5-b5b2-4055-85ef-a0a688b71d1c}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Coréen",
+     Code= Commun.Enums.CodeReferenceEnum.Coreen.ToString("g"),
+     Id = Guid.Parse("{560f923c-27de-4891-8e96-db9fe47ca235}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Croate",
+     Code= Commun.Enums.CodeReferenceEnum.Croate.ToString("g"),
+     Id = Guid.Parse("{077fa7cc-9f80-4d11-a791-1109ec17987b}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Danois",
+     Code= Commun.Enums.CodeReferenceEnum.Danois.ToString("g"),
+     Id = Guid.Parse("{eb36539d-64bd-4cd7-adc9-27fe1c30a039}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Éwé",
+     Code= Commun.Enums.CodeReferenceEnum.Ewe.ToString("g"),
+     Id = Guid.Parse("{41fb2299-36ec-4854-bc78-ee7899af318f}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Guarani",
+     Code= Commun.Enums.CodeReferenceEnum.Guarani.ToString("g"),
+     Id = Guid.Parse("{57580b70-c631-4d9c-8dfa-920b54bfbfaf}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Grec",
+     Code= Commun.Enums.CodeReferenceEnum.Grec.ToString("g"),
+     Id = Guid.Parse("{1fbfbf6e-957e-4565-afd1-173b5cd709d3}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Hongrois",
+     Code= Commun.Enums.CodeReferenceEnum.Hongrois.ToString("g"),
+     Id = Guid.Parse("{b25017fe-4709-474d-9d28-73489c12730b}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Italien",
+     Code= Commun.Enums.CodeReferenceEnum.Italien.ToString("g"),
+     Id = Guid.Parse("{b78239d4-c118-4887-8296-8494cef315bc}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Japonais",
+     Code= Commun.Enums.CodeReferenceEnum.Japonais.ToString("g"),
+     Id = Guid.Parse("{e673effc-4ca5-46d4-bba8-0c4e5c658cb5}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Kikongo",
+     Code= Commun.Enums.CodeReferenceEnum.Kikongo.ToString("g"),
+     Id = Guid.Parse("{21a7b72e-456c-4b07-9cda-125917d43396}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Kiswahili",
+     Code= Commun.Enums.CodeReferenceEnum.Kiswahili.ToString("g"),
+     Id = Guid.Parse("{25c764de-a813-4848-9d13-2ffea2a2ca44}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Lingala",
+     Code= Commun.Enums.CodeReferenceEnum.Lingala.ToString("g"),
+     Id = Guid.Parse("{09bf9503-dea6-4133-a3de-49d8cdcfcdc9}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Malgache",
+     Code= Commun.Enums.CodeReferenceEnum.Malgache.ToString("g"),
+     Id = Guid.Parse("{792a266d-f629-419a-8346-59400b460b2d}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Malais",
+     Code= Commun.Enums.CodeReferenceEnum.Malais.ToString("g"),
+     Id = Guid.Parse("{224a6eb6-c5c0-44a2-8504-46fa0f158527}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Mongol",
+     Code= Commun.Enums.CodeReferenceEnum.Mongol.ToString("g"),
+     Id = Guid.Parse("{5ecd41d8-0a66-4315-b489-b26582e78e47}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Néerlandais",
+     Code= Commun.Enums.CodeReferenceEnum.Neerlandais.ToString("g"),
+     Id = Guid.Parse("{ac04b377-a830-43cc-b249-3ace079a4e61}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Occitan",
+     Code= Commun.Enums.CodeReferenceEnum.Occitan.ToString("g"),
+     Id = Guid.Parse("{bb490fb1-c45c-4735-ac44-3524dde36275}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Ourdou",
+     Code= Commun.Enums.CodeReferenceEnum.Ourdou.ToString("g"),
+     Id = Guid.Parse("{7dc19496-4d9b-413a-b088-090da9f29a08}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Persan",
+     Code= Commun.Enums.CodeReferenceEnum.Persan.ToString("g"),
+     Id = Guid.Parse("{f2ed3127-4acd-4e4b-90b2-b51958dc1357}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Portugais",
+     Code= Commun.Enums.CodeReferenceEnum.Portugais.ToString("g"),
+     Id = Guid.Parse("{39577e09-4464-41bc-b9ad-e69b03ba3266}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Quechua",
+     Code= Commun.Enums.CodeReferenceEnum.Quechua.ToString("g"),
+     Id = Guid.Parse("{0f6fda7c-e474-4196-8afb-1bab65bacfd1}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Roumain",
+     Code= Commun.Enums.CodeReferenceEnum.Roumain.ToString("g"),
+     Id = Guid.Parse("{05c38683-5c3a-43a9-a603-c553e429ab99}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Samoan",
+     Code= Commun.Enums.CodeReferenceEnum.Samoan.ToString("g"),
+     Id = Guid.Parse("{d63f7ab4-b41c-40f5-867b-03b2a7571aca}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Serbe",
+     Code= Commun.Enums.CodeReferenceEnum.Serbe.ToString("g"),
+     Id = Guid.Parse("{3b004521-dc2f-43ec-bd60-5e8c95aa9dae}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Sesotho",
+     Code= Commun.Enums.CodeReferenceEnum.Sesotho.ToString("g"),
+     Id = Guid.Parse("{cf3524e8-53a1-4170-81a0-191ebe2e9507}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Slovaque",
+     Code= Commun.Enums.CodeReferenceEnum.Slovaque.ToString("g"),
+     Id = Guid.Parse("{9ed8dd18-affb-4a96-b35a-d0ed17943492}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Slovène",
+     Code= Commun.Enums.CodeReferenceEnum.Slovene.ToString("g"),
+     Id = Guid.Parse("{3329384f-af76-4eb6-9f15-b8b838af7999}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Suédois",
+     Code= Commun.Enums.CodeReferenceEnum.Suedois.ToString("g"),
+     Id = Guid.Parse("{d4a4a33a-f5d3-488c-89ad-7f552d262b88}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Tamoul",
+     Code= Commun.Enums.CodeReferenceEnum.Tamoul.ToString("g"),
+     Id = Guid.Parse("{b809599c-6b49-452a-b26c-7438c059bbf8}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ new (){
+     Libelle = "Turc",
+     Code= Commun.Enums.CodeReferenceEnum.Turc.ToString("g"),
+     Id = Guid.Parse("{1aeef696-c31e-4987-84f3-2215a98bf350}"),
+     DateCrea = new DateTime(2024,6,17),
+     UtiCrea= "ALTEA",IsValide=true,
+     Type = Commun.Enums.TypeReferenceEnum.Langue
+ },
+ #endregion
             #region Disponibilite
-            new Reference(){
-                Libelle = "Immédiate",
-                Code= Commun.Enums.CodeReferenceEnum.Immediate.ToString("g"),
-                Id = Guid.Parse("{8f486cd6-6313-47f9-a4b5-5bd535c199a9}"),
-                DateCrea = new DateTime(2024,6,17),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
-                OrdreTri = 1
+            new (){
+ Libelle = "Immédiate",
+ Code= Commun.Enums.CodeReferenceEnum.Immediate.ToString("g"),
+ Id = Guid.Parse("{8f486cd6-6313-47f9-a4b5-5bd535c199a9}"),
+ DateCrea = new DateTime(2024,6,17),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+ OrdreTri = 1
             },
-            new Reference(){
-                Libelle = "Sous un mois",
-                Code= Commun.Enums.CodeReferenceEnum.SousUnMois.ToString("g"),
-                Id = Guid.Parse("{92dfd90f-79b4-4d5e-93e6-fb7046b3416a}"),
-                DateCrea = new DateTime(2024,6,17),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
-                OrdreTri = 2
+            new (){
+ Libelle = "Sous un mois",
+ Code= Commun.Enums.CodeReferenceEnum.SousUnMois.ToString("g"),
+ Id = Guid.Parse("{92dfd90f-79b4-4d5e-93e6-fb7046b3416a}"),
+ DateCrea = new DateTime(2024,6,17),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+ OrdreTri = 2
             },
-            new Reference(){
-                Libelle = "Sous trois mois",
-                Code= Commun.Enums.CodeReferenceEnum.SousTroisMois.ToString("g"),
-                Id = Guid.Parse("{f35745ef-66d0-4cb0-9657-b57c2f149e3f}"),
-                DateCrea = new DateTime(2024,6,17),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
-                OrdreTri = 3
+            new (){
+ Libelle = "Sous trois mois",
+ Code= Commun.Enums.CodeReferenceEnum.SousTroisMois.ToString("g"),
+ Id = Guid.Parse("{f35745ef-66d0-4cb0-9657-b57c2f149e3f}"),
+ DateCrea = new DateTime(2024,6,17),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
+ OrdreTri = 3
             },
             #endregion
             #region Contact
-            new Reference(){
-                Libelle = "Telephone",
-                Code= Commun.Enums.CodeReferenceEnum.Telephone.ToString("g"),
-                Id = Guid.Parse(IdsConstantes.ContactTelephoneId),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Contact,
-                OrdreTri = 1
+            new (){
+ Libelle = "Telephone",
+ Code= Commun.Enums.CodeReferenceEnum.Telephone.ToString("g"),
+ Id = Guid.Parse(IdsConstantes.ContactTelephoneId),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Contact,
+ OrdreTri = 1
             },
             #endregion
             #region Document
-            new Reference(){
-                Libelle = "Cv",
-                Code= Commun.Enums.CodeReferenceEnum.Cv.ToString("g"),
-                Id = Guid.Parse("{B3E98178-68DD-4DE3-9E36-A2ED571F21C5}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Document,
-                OrdreTri = 1
+            new (){
+ Libelle = "Cv",
+ Code= Commun.Enums.CodeReferenceEnum.Cv.ToString("g"),
+ Id = Guid.Parse("{B3E98178-68DD-4DE3-9E36-A2ED571F21C5}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Document,
+ OrdreTri = 1
             },
-            new Reference(){
-                Libelle = "Dt",
-                Code= Commun.Enums.CodeReferenceEnum.Dt.ToString("g"),
-                Id = Guid.Parse("{3A325813-E79D-445A-8953-B665C7581901}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Document,
-                OrdreTri = 1
+            new (){
+ Libelle = "Dt",
+ Code= Commun.Enums.CodeReferenceEnum.Dt.ToString("g"),
+ Id = Guid.Parse("{3A325813-E79D-445A-8953-B665C7581901}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Document,
+ OrdreTri = 1
             },
             #endregion
             #region Contrat
-            new Reference(){
-                Libelle = "CDI",
-                Code= Commun.Enums.CodeReferenceEnum.Cdi.ToString("g"),
-                Id = Guid.Parse("{A60B074D-B4AF-4157-AB49-453E28DA8514}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Contrat,
-                OrdreTri = 1
+            new (){
+ Libelle = "CDI",
+ Code= Commun.Enums.CodeReferenceEnum.Cdi.ToString("g"),
+ Id = Guid.Parse("{A60B074D-B4AF-4157-AB49-453E28DA8514}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Contrat,
+ OrdreTri = 1
             },
-            new Reference(){
-                Libelle = "CDD",
-                Code= Commun.Enums.CodeReferenceEnum.Cdd.ToString("g"),
-                Id = Guid.Parse("{4C573CDA-FC0C-42FA-B571-7829F26149CC}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Contrat,
-                OrdreTri = 2
+            new (){
+ Libelle = "CDD",
+ Code= Commun.Enums.CodeReferenceEnum.Cdd.ToString("g"),
+ Id = Guid.Parse("{4C573CDA-FC0C-42FA-B571-7829F26149CC}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Contrat,
+ OrdreTri = 2
             },
             #endregion
             #region Statut
-            new Reference(){
-                Libelle = "Créé",
-                Code= Commun.Enums.CodeReferenceEnum.Cree.ToString("g"),
-                Id = Guid.Parse(IdsConstantes.StatutDtCreeId),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                OrdreTri = 1
+            new (){
+ Libelle = "Créé",
+ Code= Commun.Enums.CodeReferenceEnum.Cree.ToString("g"),
+ Id = Guid.Parse(IdsConstantes.StatutDtCreeId),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+ OrdreTri = 1
             },
-            new Reference(){
-                Libelle = "Inactif",
-                Code= Commun.Enums.CodeReferenceEnum.Inactif.ToString("g"),
-                Id = Guid.Parse("{C09DB97A-1547-41C1-AFA9-428DD1D5BA55}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                OrdreTri = 1
+            new (){
+ Libelle = "Inactif",
+ Code= Commun.Enums.CodeReferenceEnum.Inactif.ToString("g"),
+ Id = Guid.Parse("{C09DB97A-1547-41C1-AFA9-428DD1D5BA55}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+ OrdreTri = 1
             },
-            new Reference(){
-                Libelle = "En Cours",
-                Code= Commun.Enums.CodeReferenceEnum.EnCours.ToString("g"),
-                Id = Guid.Parse("{5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                OrdreTri = 2
+            new (){
+ Libelle = "En Cours",
+ Code= Commun.Enums.CodeReferenceEnum.EnCours.ToString("g"),
+ Id = Guid.Parse("{5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+ OrdreTri = 2
             },
-            new Reference(){
-                Libelle = "Non valide",
-                Code= Commun.Enums.CodeReferenceEnum.NonValide.ToString("g"),
-                Id = Guid.Parse("{610f6ca4-0f22-44ec-9269-f744873b92f2}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                OrdreTri = 3
+            new (){
+ Libelle = "Non valide",
+ Code= Commun.Enums.CodeReferenceEnum.NonValide.ToString("g"),
+ Id = Guid.Parse("{610f6ca4-0f22-44ec-9269-f744873b92f2}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+ OrdreTri = 3
             },
-            new Reference(){
-                Libelle = "Valide",
-                Code= Commun.Enums.CodeReferenceEnum.Valide.ToString("g"),
-                Id = Guid.Parse("{78a3cb44-9fd3-4c6c-9848-677937324ecd}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                OrdreTri = 4
+            new (){
+ Libelle = "Valide",
+ Code= Commun.Enums.CodeReferenceEnum.Valide.ToString("g"),
+ Id = Guid.Parse("{78a3cb44-9fd3-4c6c-9848-677937324ecd}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+ OrdreTri = 4
             },
-            new Reference(){
-                Libelle = "A Modifier",
-                Code= Commun.Enums.CodeReferenceEnum.AModifier.ToString("g"),
-                Id = Guid.Parse("{02e3d3ee-f745-4bf1-a00d-61e640dac8ae}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.StatutDt,
-                OrdreTri = 5
+            new (){
+ Libelle = "A Modifier",
+ Code= Commun.Enums.CodeReferenceEnum.AModifier.ToString("g"),
+ Id = Guid.Parse("{02e3d3ee-f745-4bf1-a00d-61e640dac8ae}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.StatutDt,
+ OrdreTri = 5
             },
             #endregion
             #region TypePersonne
-            new Reference(){
-                Libelle = "Candidat",
-                Code= Commun.Enums.CodeReferenceEnum.Candidat.ToString("g"),
-                Id = Guid.Parse(IdsConstantes.TypePersonneCandidatId),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Contact,
-                OrdreTri = 1
+            new (){
+ Libelle = "Candidat",
+ Code= Commun.Enums.CodeReferenceEnum.Candidat.ToString("g"),
+ Id = Guid.Parse(IdsConstantes.TypePersonneCandidatId),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Contact,
+ OrdreTri = 1
             },
             #endregion
             #region Niveau Langue
-            new Reference(){
-                Libelle = "Basique",
-                CommentaireFun = "et encore",
-                Code= Commun.Enums.CodeReferenceEnum.Basique.ToString("g"),
-                Id = Guid.Parse("{307B0CC3-CD1A-41B5-854F-6B9A866E7F35}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
-                OrdreTri = 1
-            },new Reference(){
-                Libelle = "Intermediaire",
-                CommentaireFun = "qu'est ce à dire que ceci",
-                Code= Commun.Enums.CodeReferenceEnum.Intermediaire.ToString("g"),
-                Id = Guid.Parse("{8B3A139D-7365-4E82-9D09-78E10A2B1919}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
-                OrdreTri = 2
-            },new Reference(){
-                Libelle = "Avance",
-                Code= Commun.Enums.CodeReferenceEnum.Avance.ToString("g"),
-                Id = Guid.Parse("{2AA6BDDA-0BF1-4792-9209-C3B05B37A3AF}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
-                OrdreTri = 3
-            },new Reference(){
-                Libelle = "Bilingue",
-                CommentaireFun = "tu te la pète",
-                Code= Commun.Enums.CodeReferenceEnum.Bilingue.ToString("g"),
-                Id = Guid.Parse("{9398FFEC-86FA-43F1-A180-478CD43B85A7}"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
-                OrdreTri = 4
+            new (){
+ Libelle = "Basique",
+ CommentaireFun = "et encore",
+ Code= Commun.Enums.CodeReferenceEnum.Basique.ToString("g"),
+ Id = Guid.Parse("{307B0CC3-CD1A-41B5-854F-6B9A866E7F35}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
+ OrdreTri = 1
+            },new (){
+ Libelle = "Intermediaire",
+ CommentaireFun = "qu'est ce à dire que ceci",
+ Code= Commun.Enums.CodeReferenceEnum.Intermediaire.ToString("g"),
+ Id = Guid.Parse("{8B3A139D-7365-4E82-9D09-78E10A2B1919}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
+ OrdreTri = 2
+            },new (){
+ Libelle = "Avance",
+ Code= Commun.Enums.CodeReferenceEnum.Avance.ToString("g"),
+ Id = Guid.Parse("{2AA6BDDA-0BF1-4792-9209-C3B05B37A3AF}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
+ OrdreTri = 3
+            },new (){
+ Libelle = "Bilingue",
+ CommentaireFun = "tu te la pète",
+ Code= Commun.Enums.CodeReferenceEnum.Bilingue.ToString("g"),
+ Id = Guid.Parse("{9398FFEC-86FA-43F1-A180-478CD43B85A7}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
+ OrdreTri = 4
             },
-                #endregion
+ #endregion
             #region Competences
-            new Reference(){
-                Libelle = "Gestion de projet",
-                Id = Guid.Parse("104ea49e-009d-49a5-b492-97fc6635d85f"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Competence,
-                OrdreTri = 1,
-                Code=Commun.Enums.CodeReferenceEnum.GestionProjet.ToString("g"),
+            new (){
+ Libelle = "Gestion de projet",
+ Id = Guid.Parse("104ea49e-009d-49a5-b492-97fc6635d85f"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Competence,
+ OrdreTri = 1,
+ Code=Commun.Enums.CodeReferenceEnum.GestionProjet.ToString("g"),
             },
-            new Reference(){
-                Libelle = "Rédaction des spécifications",
-                Id = Guid.Parse("680e7b45-9a0c-4085-816d-a63d2f108b5c"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Competence,
-                OrdreTri = 1,
-                Code=Commun.Enums.CodeReferenceEnum.RedactionSpecifications.ToString("g"),
+            new (){
+ Libelle = "Rédaction des spécifications",
+ Id = Guid.Parse("680e7b45-9a0c-4085-816d-a63d2f108b5c"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Competence,
+ OrdreTri = 1,
+ Code=Commun.Enums.CodeReferenceEnum.RedactionSpecifications.ToString("g"),
             },
-            new Reference(){
-                Libelle = "Développement des logiciels",
-                Id = Guid.Parse("f3c51be9-857a-4096-9ec6-d51e821b3d53"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Competence,
-                OrdreTri = 1,
-                Code=Commun.Enums.CodeReferenceEnum.DeveloppementLogiciels.ToString("g"),
+            new (){
+ Libelle = "Développement des logiciels",
+ Id = Guid.Parse("f3c51be9-857a-4096-9ec6-d51e821b3d53"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Competence,
+ OrdreTri = 1,
+ Code=Commun.Enums.CodeReferenceEnum.DeveloppementLogiciels.ToString("g"),
             },
-            new Reference(){
-                Libelle = "Gestion de l’équipe",
-                Id = Guid.Parse("74a57be3-a87a-4d0e-8154-22bf8ba93fa4"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Competence,
-                OrdreTri = 1,
-                Code=Commun.Enums.CodeReferenceEnum.GestionEquipe.ToString("g"),
+            new (){
+ Libelle = "Gestion de l’équipe",
+ Id = Guid.Parse("74a57be3-a87a-4d0e-8154-22bf8ba93fa4"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Competence,
+ OrdreTri = 1,
+ Code=Commun.Enums.CodeReferenceEnum.GestionEquipe.ToString("g"),
             },
-            new Reference(){
-                Libelle = "Design",
-                Id = Guid.Parse("bd663538-52e3-49bb-8c60-4bb46a4ed9b6"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Competence,
-                OrdreTri = 1,
-                Code=Commun.Enums.CodeReferenceEnum.Design.ToString("g"),
+            new (){
+ Libelle = "Design",
+ Id = Guid.Parse("bd663538-52e3-49bb-8c60-4bb46a4ed9b6"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Competence,
+ OrdreTri = 1,
+ Code=Commun.Enums.CodeReferenceEnum.Design.ToString("g"),
             },
-            new Reference(){
-                Libelle = "Responsabilité des équipes",
-                Id = Guid.Parse("5de29a71-6a7c-459f-9cdb-acf9cf2f3447"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Competence,
-                OrdreTri = 1,
-                Code=Commun.Enums.CodeReferenceEnum.ResponsabiliteEquipes.ToString("g"),
+            new (){
+ Libelle = "Responsabilité des équipes",
+ Id = Guid.Parse("5de29a71-6a7c-459f-9cdb-acf9cf2f3447"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Competence,
+ OrdreTri = 1,
+ Code=Commun.Enums.CodeReferenceEnum.ResponsabiliteEquipes.ToString("g"),
             },
-            new Reference(){
-                Libelle = "Analyse de données",
-                Id = Guid.Parse("7de2d798-683d-493e-90b9-cd6e2c93aa18"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Competence,
-                OrdreTri = 1,
-                Code=Commun.Enums.CodeReferenceEnum.AnalyseDonnees.ToString("g"),
+            new (){
+ Libelle = "Analyse de données",
+ Id = Guid.Parse("7de2d798-683d-493e-90b9-cd6e2c93aa18"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Competence,
+ OrdreTri = 1,
+ Code=Commun.Enums.CodeReferenceEnum.AnalyseDonnees.ToString("g"),
             },
-            new Reference(){
-                Libelle = "Marketing digital",
-                Id = Guid.Parse("5c38dce7-20a2-4aae-a29e-ed16193e92b0"),
-                DateCrea = new DateTime(2024,6,18),
-                UtiCrea= "ALTEA",
-                IsValide=true,
-                Type = Commun.Enums.TypeReferenceEnum.Competence,
-                OrdreTri = 1,
-                Code=Commun.Enums.CodeReferenceEnum.MarketingDigital.ToString("g"),
-                },
-            #endregion
+            new (){
+ Libelle = "Marketing digital",
+ Id = Guid.Parse("5c38dce7-20a2-4aae-a29e-ed16193e92b0"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",
+ IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Competence,
+ OrdreTri = 1,
+ Code=Commun.Enums.CodeReferenceEnum.MarketingDigital.ToString("g"),
+ },
+ #endregion
+ #region OutilEtEnvironnement
+     new (){
+         Libelle = "Microsoft Office 365",
+         Id = Guid.Parse("d13fd336-150e-4cc0-bfc2-0bb974561de3"),
+         DateCrea = new DateTime(2024,6,18),
+         UtiCrea= "ALTEA",
+         IsValide=true,
+         Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,
+         OrdreTri = 1,
+         Code=Commun.Enums.CodeReferenceEnum.MicrosoftOffice365.ToString("g")
+     },
+     new (){Libelle = "Microsoft Office", Id = Guid.Parse("fc88220d-c3b5-45ac-9de8-fcd406f96b11"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.MicrosoftOffice.ToString("g")},
+     new (){Libelle = "Linux", Id = Guid.Parse("a3853f2d-bb30-4f82-950d-77dda048c99d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Linux.ToString("g")},
+     new (){Libelle = "Windows", Id = Guid.Parse("a6b3992a-dd4c-4f21-b74a-5e528d47ea71"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Windows.ToString("g")},
+     new (){Libelle = "C#", Id = Guid.Parse("9bd90bab-2825-4f36-a49f-9227be2c1f72"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Csharp.ToString("g")},
+     new (){Libelle = "Java", Id = Guid.Parse("36ec7894-609d-4238-bdcd-5a5962a56eb8"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Java.ToString("g")},
+     new (){Libelle = "JEE", Id = Guid.Parse("a12fecbe-e5ec-40f8-86e5-9fc7ffcf1236"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Jee.ToString("g")},
+     new (){Libelle = "Notion.so", Id = Guid.Parse("ba160a68-8e50-4f8f-92d9-09663dc6684b"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Notion.ToString("g")},
+     new (){Libelle = "inVision", Id = Guid.Parse("c5e29778-d6ce-4d83-a663-83fa37bf861d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.InVision.ToString("g")},
+ #endregion
+ #region Méthodologies 
+     new (){Libelle = "SCRUM", Id = Guid.Parse("6a575078-66ed-4151-b089-5dad1cdacc53"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.SCRUM.ToString("g")},
+     new (){Libelle = "KANBAN", Id = Guid.Parse("fcda6459-bf8b-468c-b8fc-999eaa3d1500"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.KANBAN.ToString("g")},
+     new (){Libelle = "Cycle en V", Id = Guid.Parse("f9ed505f-8a9e-41fd-90e3-dc92bb0508c9"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.CycleV.ToString("g")},
+     new (){Libelle = "PERT", Id = Guid.Parse("051cbeb3-a9fe-4fad-bc3c-1cc3577d3c5d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.PERT.ToString("g")},
+     new (){Libelle = "Lean", Id = Guid.Parse("88308351-55b8-4ae6-8a9a-827863f380ff"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Lean.ToString("g")},
+ #endregion
             });
         }
     }

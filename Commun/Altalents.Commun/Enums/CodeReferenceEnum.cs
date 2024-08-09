@@ -71,6 +71,20 @@ namespace Altalents.Commun.Enums
         ResponsabiliteEquipes = 67,
         Design = 68,
         GestionEquipe = 69,
-        DeveloppementLogiciels = 70
+        DeveloppementLogiciels = 70,
+        MicrosoftOffice365 = 71,
+        MicrosoftOffice = 72,
+        Linux = 73,
+        Windows = 74,
+        Csharp = 75,
+        Java = 76,
+        Jee = 77,
+        InVision = 78,
+        Notion = 79,
+        SCRUM = 80,
+        KANBAN = 81,
+        CycleV = 82,
+        PERT = 83,
+        Lean = 84
     }
 }
