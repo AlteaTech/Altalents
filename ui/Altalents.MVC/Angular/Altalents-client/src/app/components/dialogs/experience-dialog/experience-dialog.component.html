@@ -41,7 +41,8 @@
                     <label for="entreprise">Entreprise</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" formControlName="entreprise" class="form-select" placeholder="Nom de l'entreprise">
+                    <input type="text" formControlName="entreprise" class="form-select"
+                        placeholder="Nom de l'entreprise">
                 </div>
                 <div class="col-lg-6 d-flex align-items-center custom-justify-end">
                     <div class=" text-end">
@@ -50,69 +51,73 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <div >
+                    <div>
                         <label for="isPosteActuel" class="ms-3">J'occupe actuellement ce poste</label>
                     </div>
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-3 d-flex align-items-center justify-content-end">
+                <div class="col-lg-3 d-flex align-items-center custom-justify-end">
                     <label class="switch">
                         <input type="checkbox" formControlName="isClientFinal" (change)="updateInputClientFinal()">
                         <span class="slider"></span>
                     </label>
                     <label for="clientFinal" class="ms-2">Client final</label>
                 </div>
-                <div class="col-3">
-                    <input type="text" formControlName="clientFinal" placeholder="Nom du client final">
+                <div class="col-lg-3">
+                    <input type="text" formControlName="clientFinal" placeholder="Nom du client final" class="form-control">
                 </div>
-                <div class="col-3">
-                    <label for="lieu">Lieu</label>
+                <div class="col-lg-3 label-champ-input">
+                    <label for="lieu" class="col-form-label">Lieu</label>
                 </div>
-                <div class="col-3">
-                    <input type="text" formControlName="lieu" placeholder="Jumanji">
+                <div class="col-lg-3">
+                    <input type="text" formControlName="lieu" class="form-control" placeholder="Jumanji">
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-3">
+                <div class="col-lg-3">
                     <label for="description">Description de l'expérience professionnelle</label>
                     <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
                 </div>
-                <div class="col-9">
-                    <textarea formControlName="description" placeholder="Il était une fois..."></textarea>
+                <div class="col-lg-9">
+                    <textarea formControlName="description" placeholder="Il était une fois..."
+                        class="custom-text-area form-control"></textarea>
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-3">
-                    <label for="domaineMetier">Domaine métier</label>
+                <div class="col-lg-3 label-champ-input">
+                    <label for="domaineMetier" class="col-form-label">Domaine métier</label>
                 </div>
-                <div class="col-3">
-                    <input type="text" formControlName="domaineMetier" placeholder="Services secrets">
+                <div class=col-lg-3>
+                    <input type="text" formControlName="domaineMetier" class="form-control"
+                        placeholder="Services secrets">
                 </div>
-                <div class="col-3">
-                    <label for="compositionEquipe">Composition d'équipe</label>
+                <div class="col-lg-3 label-champ-input">
+                    <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
                 </div>
-                <div class="col-3">
-                    <input type="text" formControlName="compositionEquipe" placeholder="Avec qui travailliez-vous?">
+                <div class="col-lg-3">
+                    <input type="text" formControlName="compositionEquipe" class="form-control"
+                        placeholder="Avec qui travailliez-vous?">
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-3">
-                    <label for="technologie">Technologies</label>
+            <div class="row">
+                <div class="col-lg-3 label-champ-input">
+                    <label for="technologie" class="col-form-label">Technologies</label>
                 </div>
-                <div class="col-9">
+                <div class="col-lg-9">
                     <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées"
                         [constanteRequest]="constantesRequest.getReferencesTechnologies"
                         [constanteTypeReference]="constantesTypesReferences.langue"
                         [selectedReferences]="formGroup.value.technologies ?? []"
-                        (selectedReferencesCallback)="onSelectedTechnologiesChange($event)"></app-multiple-autocomplete>
+                        (selectedReferencesCallback)="onSelectedTechnologiesChange($event)">
+                    </app-multiple-autocomplete>
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-3">
-                    <label for="competences">Compétences</label>
+            <div class="row">
+                <div class="col-lg-3 label-champ-input">
+                    <label for="competences" >Compétences</label>
                 </div>
-                <div class="col-9">
+                <div class="col-lg-9">
                     <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
                         [constanteRequest]="constantesRequest.getReferencesCompetences"
                         [constanteTypeReference]="constantesTypesReferences.competence"
@@ -120,11 +125,11 @@
                         (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete>
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-3">
-                    <label for="methodologies">Méthodologies</label>
+            <div class="row">
+                <div class="col-lg-3 label-champ-input">
+                    <label for="methodologies" class="col-form-label">Méthodologies</label>
                 </div>
-                <div class="col-9">
+                <div class="col-lg-9">
                     <app-multiple-autocomplete placeholder="SCRUM, etc"
                         [constanteRequest]="constantesRequest.getReferencesMethodologies"
                         [constanteTypeReference]="constantesTypesReferences.langue"
@@ -133,21 +138,27 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-3">
+                <div class="col-lg-3 d-flex align-items-center custom-justify-end">
                     <label class="switch">
                         <input type="checkbox" formControlName="isBudgetGere" (change)="updateInputBudgetGere()">
                         <span class="slider"></span>
                     </label>
-                    <label for="budgetGere">Budget géré</label>
+                    <label for="budgetGere" class="ms-2">Budget géré</label>
                 </div>
-                <div class="col-3">
-                    <input type="number" formControlName="budgetGere" placeholder="0€">
+                <div class="col-lg-3">
+                    <input type="number" formControlName="budgetGere" placeholder="0€" class="form-control">
                 </div>
             </div>
         </fieldset>
         <div>
-            <button (click)="closeDialog()">Annuler</button>
-            <button (click)="submit()">Valider</button>
+            <div class="at-p-button-container">
+                <button class="at-p-secondary-button" (click)="closeDialog()">
+                    <p>Annuler</p>
+                </button>
+                <button class="at-p-button" (click)="submit()">
+                    <p>Valider</p>
+                </button>
+            </div>
         </div>
     </form>
 </div>
