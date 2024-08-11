@@ -5,7 +5,8 @@ import { ExperienceDialogComponent } from '../dialogs/experience-dialog/experien
 
 @Component({
   selector: 'app-experiences',
-  templateUrl: './experiences.component.html'
+  templateUrl: './experiences.component.html',
+  styleUrls: ['./experiences.component.scss','../../app.component.css']
 })
 export class ExperiencesComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";

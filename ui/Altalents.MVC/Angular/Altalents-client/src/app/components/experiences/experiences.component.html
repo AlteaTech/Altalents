@@ -1,5 +1,10 @@
-<div>
-    Troisième étape! Tenez bon, il ne restera plus grand chose à faire ensuite. Buvez un verre d'eau, détendez-vous et tout va bien se passer : il est venu le temps de nous communiquer vos expériences professionnelles. Courage moussaillon.
+<div class="at-p-formulaire-info-section">
+    <img src="Images/HONNETETE.png">
+    <p>
+        Troisième étape! Tenez bon, il ne restera plus grand chose à faire ensuite. 
+        Buvez un verre d'eau, détendez-vous et tout va bien se passer : 
+        il est venu le temps de nous communiquer vos expériences professionnelles. Courage moussaillon.
+    </p>
 </div>
 <fieldset>
     <legend>Expérience professionnelle</legend>
@@ -25,5 +30,10 @@
         <p>{{experience.description}}</p>
         <a (click)="onModifierExperienceClick(experience)">Modifier</a>
     </div>
-    <button (click)="onAddExperienceClick()">Ajouter une expérience</button>
+    <div class="at-p-button-ajouter">
+        <button (click)="onAddExperienceClick()">
+            <img src="Images/ICONE_PLUS.png">
+            <p>Ajouter une expérience</p>
+        </button>
+    </div>   
 </fieldset>

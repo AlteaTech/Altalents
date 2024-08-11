@@ -1,3 +1,5 @@
-.modal-experience-dialog {
-  max-width: 80%;
+::ng-deep {
+    .modal-lg {
+      --bs-modal-width: 80%;
+    }
 }

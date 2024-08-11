@@ -1,147 +1,153 @@
-<form [formGroup]="formGroup">
-    <fieldset>
-        <legend>Expérience professionelle</legend>
-        <div class="row">
-            <div class="col-3">
-                <label for="typeContrat">Type de contrat</label>
+<div class="fenetre-dialog">
+    <form [formGroup]="formGroup">
+        <fieldset>
+            <legend>Expérience professionelle</legend>
+            <div class="row mb-2">
+                <div class="col-lg-3 label-champ-input">
+                    <label for="typeContrat" class="col-form-label">Type de contrat</label>
+                </div>
+                <div class="col-lg-3">
+                    <select formControlName="typeContrat" class="form-select">
+                        <option *ngFor="let typeContrat of typesContrats" [ngValue]="typeContrat">
+                            {{typeContrat.libelle}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-3 label-champ-input">
+                    <label for="dateDebut" class="col-form-label">Date de début</label>
+                </div>
+                <div class="col-lg-3">
+                    <input type="date" formControlName="dateDebut" class="form-control" class="form-control"
+                        placeholder="JJ/MM/AAAA">
+                </div>
             </div>
-            <div class="col-3">
-                <select formControlName="typeContrat">
-                    <option *ngFor="let typeContrat of typesContrats" [ngValue]="typeContrat">
-                        {{typeContrat.libelle}}
-                    </option>
-                </select>
+            <div class="row mb-2">
+                <div class="col-lg-3 label-champ-input">
+                    <label for="intitulePoste" class="col-form-label">Intitulé du poste</label>
+                </div>
+                <div class=col-lg-3>
+                    <input type="text" formControlName="intitulePoste" class="form-control"
+                        placeholder="Professeur d'histoire">
+                </div>
+                <div class="col-lg-3 label-champ-input">
+                    <label for="dateFin" class="col-form-label">Date de fin</label>
+                </div>
+                <div class="col-lg-3">
+                    <input type="date" formControlName="dateFin" class="form-control" placeholder="JJ/MM/AAAA">
+                </div>
             </div>
-            <div class="col-3">
-                <label for="dateDebut">Date de début</label>
+            <div class="row mb-2">
+                <div class="col-lg-3 label-champ-input">
+                    <label for="entreprise">Entreprise</label>
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" formControlName="entreprise" class="form-select" placeholder="Nom de l'entreprise">
+                </div>
+                <div class="col-lg-6 d-flex align-items-center custom-justify-end">
+                    <div class=" text-end">
+                        <label class="switch">
+                            <input type="checkbox" formControlName="isPosteActuel" (change)="updateInputPosteActuel()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div >
+                        <label for="isPosteActuel" class="ms-3">J'occupe actuellement ce poste</label>
+                    </div>
+                </div>
             </div>
-            <div class="col-3">
-                <input type="date" formControlName="dateDebut" placeholder="JJ/MM/AAAA">
+            <div class="row mb-2">
+                <div class="col-3 d-flex align-items-center justify-content-end">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="isClientFinal" (change)="updateInputClientFinal()">
+                        <span class="slider"></span>
+                    </label>
+                    <label for="clientFinal" class="ms-2">Client final</label>
+                </div>
+                <div class="col-3">
+                    <input type="text" formControlName="clientFinal" placeholder="Nom du client final">
+                </div>
+                <div class="col-3">
+                    <label for="lieu">Lieu</label>
+                </div>
+                <div class="col-3">
+                    <input type="text" formControlName="lieu" placeholder="Jumanji">
+                </div>
             </div>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <label for="description">Description de l'expérience professionnelle</label>
+                    <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
+                </div>
+                <div class="col-9">
+                    <textarea formControlName="description" placeholder="Il était une fois..."></textarea>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <label for="domaineMetier">Domaine métier</label>
+                </div>
+                <div class="col-3">
+                    <input type="text" formControlName="domaineMetier" placeholder="Services secrets">
+                </div>
+                <div class="col-3">
+                    <label for="compositionEquipe">Composition d'équipe</label>
+                </div>
+                <div class="col-3">
+                    <input type="text" formControlName="compositionEquipe" placeholder="Avec qui travailliez-vous?">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <label for="technologie">Technologies</label>
+                </div>
+                <div class="col-9">
+                    <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées"
+                        [constanteRequest]="constantesRequest.getReferencesTechnologies"
+                        [constanteTypeReference]="constantesTypesReferences.langue"
+                        [selectedReferences]="formGroup.value.technologies ?? []"
+                        (selectedReferencesCallback)="onSelectedTechnologiesChange($event)"></app-multiple-autocomplete>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <label for="competences">Compétences</label>
+                </div>
+                <div class="col-9">
+                    <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
+                        [constanteRequest]="constantesRequest.getReferencesCompetences"
+                        [constanteTypeReference]="constantesTypesReferences.competence"
+                        [selectedReferences]="formGroup.value.competences ?? []"
+                        (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <label for="methodologies">Méthodologies</label>
+                </div>
+                <div class="col-9">
+                    <app-multiple-autocomplete placeholder="SCRUM, etc"
+                        [constanteRequest]="constantesRequest.getReferencesMethodologies"
+                        [constanteTypeReference]="constantesTypesReferences.langue"
+                        [selectedReferences]="formGroup.value.methodologies ?? []"
+                        (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="isBudgetGere" (change)="updateInputBudgetGere()">
+                        <span class="slider"></span>
+                    </label>
+                    <label for="budgetGere">Budget géré</label>
+                </div>
+                <div class="col-3">
+                    <input type="number" formControlName="budgetGere" placeholder="0€">
+                </div>
+            </div>
+        </fieldset>
+        <div>
+            <button (click)="closeDialog()">Annuler</button>
+            <button (click)="submit()">Valider</button>
         </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="intitulePoste">Intitulé du poste</label>
-            </div>
-            <div class="col-3">
-                <input type="text" formControlName="intitulePoste" placeholder="Professeur d'histoire">
-            </div>
-            <div class="col-3">
-                <label for="dateFin">Date de fin</label>
-            </div>
-            <div class="col-3">
-                <input type="date" formControlName="dateFin" placeholder="JJ/MM/AAAA">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="entreprise">Entreprise</label>
-            </div>
-            <div class="col-3">
-                <input type="text" formControlName="entreprise" placeholder="Nom de l'entreprise">
-            </div>
-            <div class="col-3">
-                <label class="switch">
-                    <input type="checkbox" formControlName="isPosteActuel" (change)="updateInputPosteActuel()">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <div class="col-3">
-                <label for="isPosteActuel">J'occupe actuellement ce poste</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <label class="switch">
-                    <input type="checkbox" formControlName="isClientFinal" (change)="updateInputClientFinal()">
-                    <span class="slider"></span>
-                </label>
-                <label for="clientFinal">Client final</label>
-            </div>
-            <div class="col-3">
-                <input type="text" formControlName="clientFinal" placeholder="Nom du client final">
-            </div>
-            <div class="col-3">
-                <label for="lieu">Lieu</label>
-            </div>
-            <div class="col-3">
-                <input type="text" formControlName="lieu" placeholder="Jumanji">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="description">Description de l'expérience professionnelle</label>
-                <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
-            </div>
-            <div class="col-9">
-                <textarea formControlName="description" placeholder="Il était une fois..."></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="domaineMetier">Domaine métier</label>
-            </div>
-            <div class="col-3">
-                <input type="text" formControlName="domaineMetier" placeholder="Services secrets">
-            </div>
-            <div class="col-3">
-                <label for="compositionEquipe">Composition d'équipe</label>
-            </div>
-            <div class="col-3">
-                <input type="text" formControlName="compositionEquipe" placeholder="Avec qui travailliez-vous?">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="technologie">Technologies</label>
-            </div>
-            <div class="col-9">
-                <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées"
-                    [constanteRequest]="constantesRequest.getReferencesTechnologies"
-                    [constanteTypeReference]="constantesTypesReferences.langue"
-                    [selectedReferences]="formGroup.value.technologies ?? []"
-                    (selectedReferencesCallback)="onSelectedTechnologiesChange($event)"></app-multiple-autocomplete>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="competences">Compétences</label>
-            </div>
-            <div class="col-9">
-                <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
-                    [constanteRequest]="constantesRequest.getReferencesCompetences"
-                    [constanteTypeReference]="constantesTypesReferences.competence"
-                    [selectedReferences]="formGroup.value.competences ?? []"
-                    (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <label for="methodologies">Méthodologies</label>
-            </div>
-            <div class="col-9">
-                <app-multiple-autocomplete placeholder="SCRUM, etc" 
-                    [constanteRequest]="constantesRequest.getReferencesMethodologies"
-                    [constanteTypeReference]="constantesTypesReferences.langue"
-                    [selectedReferences]="formGroup.value.methodologies ?? []"
-                    (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <label class="switch">
-                    <input type="checkbox" formControlName="isBudgetGere" (change)="updateInputBudgetGere()">
-                    <span class="slider"></span>
-                </label>
-                <label for="budgetGere">Budget géré</label>
-            </div>
-            <div class="col-3">
-                <input type="number" formControlName="budgetGere" placeholder="0€">
-            </div>
-        </div>
-    </fieldset>
-    <div>
-        <button (click)="closeDialog()">Annuler</button>
-        <button (click)="submit()">Valider</button>
-    </div>
-</form>
+    </form>
+</div>
