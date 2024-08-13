@@ -321,5 +321,14 @@ namespace Altalents.Business.Services
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
 
         }
+
+        public Task<List<QuestionnaireDto>> GetQuestionnairesAsync(Guid tokenRapide, CancellationToken cancellationToken)
+        {
+            return GetScopedDbContexte().QuestionDossierTechniques
+                .Where(x => x.DossierTechnique.TokenAccesRapide == tokenRapide)
+                .OrderBy(x => x.Ordre)
+                .ProjectTo<QuestionnaireDto>(Mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

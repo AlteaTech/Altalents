@@ -18,5 +18,6 @@ namespace Altalents.IBusiness.IServices
         bool IsTelephoneValid(string telephone, bool isOptionnal = false);
         Task<ParlonsDeVousDto> GetParlonsDeVousAsync(Guid tokenRapide, CancellationToken cancellationToken);
         Task PutParlonsDeVousAsync(Guid tokenRapide, ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken);
+        Task<List<QuestionnaireDto>> GetQuestionnairesAsync(Guid tokenRapide, CancellationToken cancellationToken);
     }
 }

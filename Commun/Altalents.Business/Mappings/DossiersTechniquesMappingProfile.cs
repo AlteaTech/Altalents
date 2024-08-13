@@ -23,6 +23,12 @@ namespace Altalents.Business.Mappings
                                 .ForMember(dest => dest.IsRequired, opt => opt.MapFrom(src => src.IsObligatoire))
                                 .ForMember(dest => dest.Question, opt => opt.MapFrom(src => src.Question));
 
+            CreateMap<QuestionDossierTechnique, QuestionnaireDto>()
+                                .ForMember(dest => dest.IsObligatoire, opt => opt.MapFrom(src => src.IsRequired))
+                                .ForMember(dest => dest.Reponse, opt => opt.MapFrom(src => src.Reponse))
+                                .ForMember(dest => dest.Question, opt => opt.MapFrom(src => src.Question))
+                                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+
             CreateMap<Reference, ReferenceDto>()
                 .ForMember(dest => dest.CommentaireFun, opt => opt.MapFrom(src => src.CommentaireFun))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
