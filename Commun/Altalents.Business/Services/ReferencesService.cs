@@ -9,6 +9,22 @@ namespace Altalents.Business.Services
         {
         }
 
+        public async Task<Guid> CreateReferencesAsync(ReferenceRequestDto reference, CancellationToken cancellationToken)
+        {
+            TypeReferenceEnum typeReference = (TypeReferenceEnum)Enum.Parse(typeof(TypeReferenceEnum), reference.TypeReference);
+            using CustomDbContext customDbContext = GetScopedDbContexte();
+            Reference refe = new()
+            {
+                Type = typeReference,
+                Code = reference.Libelle.Replace(" ", ""),
+                Libelle = reference.Libelle,
+                IsValide = false,
+            };
+            await customDbContext.References.AddAsync(refe, cancellationToken);
+            await customDbContext.SaveBaseEntityChangesAsync(cancellationToken);
+            return refe.Id;
+        }
+
         public async Task<List<ReferenceDto>> GetReferencesAsync(string typeReferenceCode, string startWith, CancellationToken cancellationToken)
         {
             TypeReferenceEnum typeReference = (TypeReferenceEnum)Enum.Parse(typeof(TypeReferenceEnum), typeReferenceCode);

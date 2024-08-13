@@ -21,9 +21,9 @@ namespace Altalents.DataAccess.EntityConfigurations
  .HasMaxLength(250)
  .IsRequired();
             builder.Property(e => e.Code)
- .HasColumnType("varchar")
- .HasMaxLength(250)
- .IsRequired();
+             .HasColumnType("varchar")
+             .HasMaxLength(250)
+             .IsRequired();
             builder.Property(e => e.OrdreTri)
  .HasDefaultValue(0)
  .IsRequired();
