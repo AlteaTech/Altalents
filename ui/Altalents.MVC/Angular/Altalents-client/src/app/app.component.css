@@ -139,6 +139,19 @@ select {
   padding-top: 5px;
 }
 
+.at-p-autocomplete-choix {
+  display: inline-flex;
+  align-items: center;
+  background-color: #fce5cd;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  cursor: default;
+  margin-right: 5px;
+  margin-top: 5px;
+  border: 1px solid #fce5cd;
+}
+
 .at-p-button-ajouter {
   justify-content: center;
   align-items: center;

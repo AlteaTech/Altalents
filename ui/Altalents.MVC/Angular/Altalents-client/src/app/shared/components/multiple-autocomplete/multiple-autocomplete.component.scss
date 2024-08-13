@@ -2,16 +2,15 @@
   height: 200px;
   overflow-y: scroll;
   border: solid grey 1px;
+  border-radius: 5px;
+  width: 92%;
 }
 
-.autocomplete-container {
-  width: 1.6px;
-  min-width: 600px;
+.autocomplete-input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
   box-sizing: border-box;
-  display: inline-block;
-  margin: 0;
-  position: relative;
-vertical-align: middle;
 }
 
 .autocomplete-ul {
@@ -26,23 +25,56 @@ vertical-align: middle;
   white-space: nowrap;
 }
 
-.autocomplete-choix {
-  border: none;
-  background: rgba(0, 0, 0, 0.1);
-  font-size: 15px;
-  padding: 2px 10px;
-  color: gray;
-  border-radius: 4px;
-  cursor: default;
-  float: left;
-  margin-right: 5px;
-  margin-top: 5px;
+.autocomplete-remove {
+  margin-left: 10px;
+  color: #6a1b9a;
+  cursor: pointer;
 }
 
-.autocomplete-remove {
-  margin-right: 5px;
-  color: #999;
-  cursor: pointer;
-  display: inline-block;
+.autocomplete-form {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.autocomplete-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.autocomplete-input-container {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.autocomplete-button {
+  background-color: #7A4AFF;
+  border-radius: 5px;
+  border: none;
+  font-size: 1em;
+  color: white;
+  margin-left: 6px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+@media (max-width: 1400px) and (min-width: 1000px) {
+  .autocomplete-button {
+    height: 6.5vh;
+  }
+}
+
+@media (max-width: 1000px) {
+  .autocomplete-button {
+    height: 4.5vh;
+  }
+}
+
+@media (min-width: 1400px) {
+  .autocomplete-button {
+    height: 4.5vh;
+  }
 }
