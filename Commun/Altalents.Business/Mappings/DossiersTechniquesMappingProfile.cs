@@ -77,6 +77,22 @@ namespace Altalents.Business.Mappings
                 }).ToList()
                 ))
                 ;
+
+            CreateMap<Experience, ExperienceDto>()
+                .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
+                .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.Entreprise))
+                .ForMember(dest => dest.Lieu, opt => opt.MapFrom(src => src.Lieu))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.DomaineMetier, opt => opt.MapFrom(src => src.DomaineMetier))
+                .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
+                .ForMember(dest => dest.TypeContrat, opt => opt.MapFrom(src => src.TypeContrat))
+                .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+                .ForMember(dest => dest.Budget, opt => opt.MapFrom(src => src.Budget))
+                .ForMember(dest => dest.ClientFinal, opt => opt.MapFrom(src => src.ClientFinal))
+                .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.LiaisonExperienceTechnologies.Select(x => x.Technologie)))
+                .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences.Select(x => x.Competance)))
+                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)))
+                ;
         }
     }
 }

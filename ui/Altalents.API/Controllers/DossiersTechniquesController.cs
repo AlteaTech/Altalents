@@ -87,5 +87,11 @@ namespace Altalents.API.Controllers
         {
             await _dossierTechniqueService.PutExperiencesAsync(tokenAccesRapide, request, cancellationToken);
         }
+
+        [HttpGet("{tokenAccesRapide}/experiences", Name = "GetExperiences")]
+        public async Task<List<ExperienceDto>> GetExperiencesAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+           return await _dossierTechniqueService.GetExperiencesAsync(tokenAccesRapide, cancellationToken);
+        }
     }
 }

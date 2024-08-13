@@ -361,5 +361,13 @@ namespace Altalents.Business.Services
 
             await context.SaveBaseEntityChangesAsync();
         }
+
+        public async Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            return await context.Experiences.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+                .ProjectTo<ExperienceDto>(Mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+        }
     }
 }
