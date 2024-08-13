@@ -347,5 +347,19 @@ namespace Altalents.Business.Services
 
             await contexte.SaveBaseEntityChangesAsync();
         }
+
+        public async Task PutExperiencesAsync(Guid tokenAccesRapide, PutExperiencesRequestDto request, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            DossierTechnique dt = await context.DossierTechniques
+                .Include(x => x.Experiences)
+                .AsTracking()
+                .SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide, cancellationToken);
+
+            context.Experiences.RemoveRange(dt.Experiences);
+            dt.Experiences = Mapper.Map<List<Experience>>(request.Experiences);
+
+            await context.SaveBaseEntityChangesAsync();
+        }
     }
 }

@@ -69,12 +69,16 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.HasMany(navigationExpression: e => e.LiaisonExperienceTechnologies)
  .WithOne(x => x.Technologie)
  .HasForeignKey(e => e.TechnologieId)
- .OnDelete(DeleteBehavior.Cascade);
+ .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(navigationExpression: e => e.LiaisonExperienceCompetances)
  .WithOne(x => x.Competance)
- .HasForeignKey(e => e.CompetanceId)
- .OnDelete(DeleteBehavior.Cascade);
+ .HasForeignKey(e => e.CompetenceId)
+ .OnDelete(DeleteBehavior.NoAction);
+            builder.HasMany(navigationExpression: e => e.LiaisonExperienceMethodologies)
+ .WithOne(x => x.Methodologie)
+ .HasForeignKey(e => e.MethodologieId)
+ .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasIndex(e => new { e.Type, e.SousType });
 

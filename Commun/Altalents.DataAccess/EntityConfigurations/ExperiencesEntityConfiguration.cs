@@ -38,12 +38,17 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.HasMany(navigationExpression: e => e.LiaisonExperienceTechnologies)
                 .WithOne(x => x.Experience)
                 .HasForeignKey(e => e.ExperienceId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceCompetances)
+            builder.HasMany(navigationExpression: e => e.LiaisonExperienceCompetences)
                 .WithOne(x => x.Experience)
                 .HasForeignKey(e => e.ExperienceId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(navigationExpression: e => e.LiaisonExperienceMethodologies)
+                .WithOne(x => x.Experience)
+                .HasForeignKey(e => e.ExperienceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

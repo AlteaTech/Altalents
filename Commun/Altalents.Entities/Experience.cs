@@ -22,6 +22,7 @@ namespace Altalents.Entities
         public Reference TypeContrat { get; set; }
 
         public List<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
-        public List<LiaisonExperienceCompetance> LiaisonExperienceCompetances { get; set; }
+        public List<LiaisonExperienceMethodologie> LiaisonExperienceMethodologies { get; set; }
+        public List<LiaisonExperienceCompetence> LiaisonExperienceCompetences { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Altalents.Entities
+namespace Altalents.Entities
 {
     public partial class LiaisonExperienceTechnologie : BaseEntity
     {

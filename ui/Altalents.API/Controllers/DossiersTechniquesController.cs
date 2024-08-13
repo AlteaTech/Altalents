@@ -51,7 +51,7 @@ namespace Altalents.API.Controllers
         }
 
         [HttpGet("{tokenRapide}/parlons-de-vous", Name = "GetParlonsDeVous")]
-        public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync([FromRoute] Guid tokenRapide,CancellationToken cancellationToken)
+        public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync([FromRoute] Guid tokenRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetParlonsDeVousAsync(tokenRapide, cancellationToken);
         }
@@ -70,7 +70,7 @@ namespace Altalents.API.Controllers
         }
 
         [HttpPut("{tokenRapide}/parlons-de-vous", Name = "PutParlonsDeVous")]
-        public async Task PutParlonsDeVousAsync([FromRoute] Guid tokenRapide,[FromBody] ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
+        public async Task PutParlonsDeVousAsync([FromRoute] Guid tokenRapide, [FromBody] ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
         {
             await _dossierTechniqueService.PutParlonsDeVousAsync(tokenRapide, request, cancellationToken);
         }
@@ -79,6 +79,13 @@ namespace Altalents.API.Controllers
         public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetNomPrenomFromTokenAsync(tokenAccesRapide, cancellationToken);
+        }
+
+
+        [HttpPut("{tokenAccesRapide}/experiences", Name = "PutExperiences")]
+        public async Task PutExperiencesAsync([FromRoute] Guid tokenAccesRapide, [FromBody] PutExperiencesRequestDto request, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.PutExperiencesAsync(tokenAccesRapide, request, cancellationToken);
         }
     }
 }
