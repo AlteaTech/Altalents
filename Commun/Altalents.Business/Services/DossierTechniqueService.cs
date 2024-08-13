@@ -330,5 +330,22 @@ namespace Altalents.Business.Services
                 .ProjectTo<QuestionnaireDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task SetReponseQuestionnairesAsync(List<QuestionnaireUpdateDto> questionnaires, CancellationToken cancellationToken)
+        {
+            List<Guid> idsQuestionnaires = questionnaires.Select(x => x.Id).ToList();
+            CustomDbContext contexte = GetScopedDbContexte();
+            List<QuestionDossierTechnique> questionReponses = await contexte.QuestionDossierTechniques
+                .Where(x => idsQuestionnaires.Contains(x.Id))
+                .AsTracking()
+                .ToListAsync(cancellationToken);
+
+            questionReponses.ForEach(question =>
+            {
+                question.Reponse = questionnaires.Single(x => x.Id == question.Id).Reponse;
+            });
+
+            await contexte.SaveBaseEntityChangesAsync();
+        }
     }
 }
