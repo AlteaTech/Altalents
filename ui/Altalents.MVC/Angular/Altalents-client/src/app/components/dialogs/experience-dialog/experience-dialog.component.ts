@@ -78,17 +78,32 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
 
   public updateInputPosteActuel(): void {
     let controls = this.formGroup.controls;
-    controls.isPosteActuel.value ? controls.dateFin.disable() : controls.dateFin.enable();
+    if(controls.isPosteActuel.value) {
+      controls.dateFin.disable();
+      controls.dateFin.reset();
+    } else {
+      controls.dateFin.enable();
+    }
   }
 
   public updateInputClientFinal(): void {
     let controls = this.formGroup.controls;
-    controls.isClientFinal.value ? controls.clientFinal.enable() : controls.clientFinal.disable();
+    if(controls.isClientFinal.value) {
+      controls.clientFinal.enable();
+    } else {
+      controls.clientFinal.disable();
+      controls.clientFinal.reset();
+    }
   }
 
   public updateInputBudgetGere(): void {
     let controls = this.formGroup.controls;
-    controls.isBudgetGere.value ? controls.budgetGere.enable() : controls.budgetGere.disable();
+    if(controls.isBudgetGere.value) {
+      controls.budgetGere.enable();
+    } else {
+      controls.budgetGere.disable();
+      controls.budgetGere.reset();
+    }
   }
 
   public override populateData(): void {
