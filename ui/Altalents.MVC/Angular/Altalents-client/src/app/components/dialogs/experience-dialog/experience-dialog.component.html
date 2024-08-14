@@ -135,7 +135,7 @@
                 <div class="col-lg-9">
                     <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées"
                         [constanteRequest]="constantesRequest.getReferencesTechnologies"
-                        [constanteTypeReference]="constantesTypesReferences.langue"
+                        [constanteTypeReference]="constantesTypesReferences.technologie"
                         [selectedReferences]="formGroup.value.technologies ?? []"
                         (selectedReferencesCallback)="onSelectedTechnologiesChange($event)">
                     </app-multiple-autocomplete>
@@ -160,7 +160,7 @@
                 <div class="col-lg-9">
                     <app-multiple-autocomplete placeholder="SCRUM, etc"
                         [constanteRequest]="constantesRequest.getReferencesMethodologies"
-                        [constanteTypeReference]="constantesTypesReferences.langue"
+                        [constanteTypeReference]="constantesTypesReferences.methodologie"
                         [selectedReferences]="formGroup.value.methodologies ?? []"
                         (selectedReferencesCallback)="onSelectedMethodologiesChange($event)"></app-multiple-autocomplete>
                 </div>
