@@ -1,4 +1,6 @@
 
+using System.Reflection.Metadata;
+
 using Altalents.Commun.Enums;
 
 namespace Altalents.Business.Services
@@ -41,6 +43,18 @@ namespace Altalents.Business.Services
                  .ThenBy(x => x.Libelle)
                  .ProjectTo<ReferenceDto>(Mapper.ConfigurationProvider)
                  .ToListAsync(cancellationToken);
+        }
+
+        public IQueryable<ReferenceAValiderDto> GetReferencesAValider()
+        {
+            return DbContext.References
+                             .Where(x => !x.IsValide)
+                             .ProjectTo<ReferenceAValiderDto>(Mapper.ConfigurationProvider);
+        }
+
+        public Task UpdateReferenceAsync(ReferenceAValiderDto reference)
+        {
+            throw new NotImplementedException();
         }
     }
 }

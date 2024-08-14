@@ -1,11 +1,13 @@
-﻿namespace Altalents.MVC.Controllers.Admin
+namespace Altalents.MVC.Controllers.Admin
 {
     public class DataControleController : AdminController
     {
         public static string ControllerName = "DataControle";
+        private readonly IReferencesService _referencesService;
 
-        public DataControleController(ILogger<DataControleController> logger) : base(logger)
+        public DataControleController(IReferencesService referencesService, ILogger<DataControleController> logger) : base(logger)
         {
+            _referencesService = referencesService;
         }
 
         public IActionResult Index()
@@ -17,6 +19,29 @@
             }
             ViewData["isDataControle"] = true;
             return View();
+        }
+
+        public async Task<IActionResult> GetReferencesAsync([DataSourceRequest] DataSourceRequest request)
+        {
+            return await this.CallWithActionSecurisedAsync(request, GetReferencesRunnerAsync(request));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateReferenceAsync([DataSourceRequest] DataSourceRequest request, ReferenceAValiderDto reference)
+        {
+            return await this.CallWithActionSecurisedAsync(request, UpdateReferenceRunnerAsync(request, reference));
+        }
+
+        private async Task<IActionResult> GetReferencesRunnerAsync(DataSourceRequest request)
+        {
+            DataSourceResult references = await _referencesService.GetReferencesAValider().ToDataSourceResultAsync(request);
+            return base.Json(references);
+        }
+
+        private async Task<IActionResult> UpdateReferenceRunnerAsync(DataSourceRequest request, ReferenceAValiderDto reference)
+        {
+            await _referencesService.UpdateReferenceAsync(reference);
+            return Json(new[] { reference }.ToDataSourceResult(request));
         }
     }
 }

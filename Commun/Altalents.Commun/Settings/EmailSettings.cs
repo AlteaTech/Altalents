@@ -7,6 +7,7 @@ namespace Altalents.Commun.Settings
 
         public static string Section => "EmailSettings";
         public string SenderName { get; set; }
+        public string PrefixMail { get; set; }
         public string SmtpServer { get; set; }
         public int SmtpPort { get; set; }
         public string SmtpUsername { get; set; }

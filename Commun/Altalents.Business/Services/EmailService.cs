@@ -38,6 +38,7 @@ namespace Altalents.Business.Services
         }
         public async Task SendEmailAsync(string toEmail, string subject, string message, CancellationToken token = default)
         {
+            subject = $"{_emailSettings.PrefixMail}{subject}";
             MimeMessage emailMessage = new();
             emailMessage.From.Add(new MailboxAddress(_emailSettings.SenderName, _emailSettings.SmtpUsername));
             foreach (string to in toEmail.Split(';'))

@@ -2,8 +2,57 @@
 @{
     ViewData["Title"] = LibellesResources.TitreDataControle;
     Layout = "_LayoutAdmin";
+    Dictionary<GridActionEnum, RouteActionModel> gridReferenceAValiderActionDictionary = new();
+    gridReferenceAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetReferences", ControllerName = DataControleController.ControllerName });
+    gridReferenceAValiderActionDictionary.Add(GridActionEnum.Update, new() { ActionName = "UpdateReferenc", ControllerName = DataControleController.ControllerName });
 }
 
+<script type="text/javascript">
+    function reloadGridReferenceAValider(e) {
+        var grid = $("#gridReferenceAValider").data("kendoGrid");
+        grid.dataSource.read();
+    }
+
+</script>
 
 <h2>@ViewData["Title"]</h2>
+
+@(Html.Kendo().Grid<ReferenceAValiderDto>()
+    .Name("gridReferenceAValider")
+    .HtmlAttributes(new { @class = "h-90" })
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.TypeReference).Title(LibellesResources.ReferenceType).ClientTemplate("<span>#: TypeReferenceString #</span>");
+        columns.Bound(p => p.Libelle).Title(LibellesResources.ReferenceLibelle);
+        columns.Bound(p => p.CommentaireFun).Title(LibellesResources.ReferenceCommentaireFun);
+        columns.Bound(p => p.NbDtAssocie).Title(LibellesResources.ReferenceNbDtAssocie);
+        columns.CreateDefaultCommands(nameof(ReferenceAValiderDto)).Title(LibellesResources.Action);
+    })
+    .Events(e => e.DataBound("onDataBoundReferenceAValiders"))
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}")
+    .CreateDefautToolBar(creerTexte: "Créer une reference")
+    .CreateDefautDataSource(gridReferenceAValiderActionDictionary, model => model.Id(p => p.Id), colonneTriInitiale: "TypeReference", colonneTriSecondaire:"Libelle")
+)
+
+<script>
+
+    function onDataBoundReferenceAValiders(e) {
+        onDataBoundGloblalEdit(e, '@nameof(ReferenceAValiderDto)');
+        onDataBoundGloblalDelete(e, '@nameof(ReferenceAValiderDto)');
+    }
+
+    function OnPopUpOpenGridReferenceAValider(e) {
+        let titleSpan = $('.k-window-title', $(e.container).parent());
+        if (e.model.isNew()) {
+            titleSpan.text('Créer un compte d’ReferenceAValider');
+            $(".forUpdateReferenceAValider").remove();
+        } else {
+            titleSpan.text('Modifier un compte d’ReferenceAValider');
+            $(".forCreateReferenceAValider").remove();
+        }
+    }
+</script>
 
