@@ -481,6 +481,119 @@ export class ApiClient {
     /**
      * @return OK
      */
+    getQuestionnaires(tokenRapide: string): Observable<QuestionnaireDto[]> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/questionnaires";
+        if (tokenRapide === undefined || tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' must be defined.");
+        url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetQuestionnaires(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetQuestionnaires(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<QuestionnaireDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<QuestionnaireDto[]>;
+        }));
+    }
+
+    protected processGetQuestionnaires(response: HttpResponseBase): Observable<QuestionnaireDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(QuestionnaireDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    setReponseQuestionnaires(body?: QuestionnaireUpdateDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/questionnaires-reponse";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSetReponseQuestionnaires(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetReponseQuestionnaires(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processSetReponseQuestionnaires(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getNomPrenomFromToken(tokenAccesRapide: string): Observable<NomPrenomPersonneDto> {
         let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/nom-prenom";
         if (tokenAccesRapide === undefined || tokenAccesRapide === null)
@@ -522,6 +635,183 @@ export class ApiClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = NomPrenomPersonneDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    putExperiences(tokenAccesRapide: string, body?: PutExperiencesRequestDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/experiences";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPutExperiences(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPutExperiences(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processPutExperiences(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getExperiences(tokenAccesRapide: string): Observable<ExperienceDto[]> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/experiences";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetExperiences(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetExperiences(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ExperienceDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ExperienceDto[]>;
+        }));
+    }
+
+    protected processGetExperiences(response: HttpResponseBase): Observable<ExperienceDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ExperienceDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getDocuments(tokenAccesRapide: string): Observable<DocumentDto[]> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/documents";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDocuments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDocuments(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DocumentDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DocumentDto[]>;
+        }));
+    }
+
+    protected processGetDocuments(response: HttpResponseBase): Observable<DocumentDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(DocumentDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -590,6 +880,63 @@ export class ApiClient {
             else {
                 result200 = <any>null;
             }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    createReferences(body?: ReferenceRequestDto | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/References";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateReferences(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateReferences(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processCreateReferences(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -858,7 +1205,6 @@ export interface ICustomUserLoggedDto {
 
 export class DocumentDto implements IDocumentDto {
     mimeType!: string;
-    dateExpiration?: string | null;
     nomFichier!: string;
     commentaire?: string | null;
     data!: string;
@@ -875,7 +1221,6 @@ export class DocumentDto implements IDocumentDto {
     init(_data?: any) {
         if (_data) {
             this.mimeType = _data["MimeType"] !== undefined ? _data["MimeType"] : <any>null;
-            this.dateExpiration = _data["DateExpiration"] !== undefined ? _data["DateExpiration"] : <any>null;
             this.nomFichier = _data["NomFichier"] !== undefined ? _data["NomFichier"] : <any>null;
             this.commentaire = _data["Commentaire"] !== undefined ? _data["Commentaire"] : <any>null;
             this.data = _data["Data"] !== undefined ? _data["Data"] : <any>null;
@@ -892,7 +1237,6 @@ export class DocumentDto implements IDocumentDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["MimeType"] = this.mimeType !== undefined ? this.mimeType : <any>null;
-        data["DateExpiration"] = this.dateExpiration !== undefined ? this.dateExpiration : <any>null;
         data["NomFichier"] = this.nomFichier !== undefined ? this.nomFichier : <any>null;
         data["Commentaire"] = this.commentaire !== undefined ? this.commentaire : <any>null;
         data["Data"] = this.data !== undefined ? this.data : <any>null;
@@ -902,7 +1246,6 @@ export class DocumentDto implements IDocumentDto {
 
 export interface IDocumentDto {
     mimeType: string;
-    dateExpiration?: string | null;
     nomFichier: string;
     commentaire?: string | null;
     data: string;
@@ -1008,6 +1351,243 @@ export interface IDossierTechniqueInsertRequestDto {
     tarifJournalier?: number | null;
     questionnaires?: QuestionInsertDto[] | null;
     documents?: DocumentDto[] | null;
+}
+
+export class ExperienceDto implements IExperienceDto {
+    intitulePoste!: string;
+    entreprise!: string;
+    lieu!: string;
+    description!: string;
+    domaineMetier!: string;
+    dateDebut!: string;
+    typeContrat!: ReferenceDto;
+    dateFin?: string | null;
+    budget?: number | null;
+    clientFinal?: string | null;
+    technologies?: ReferenceDto[] | null;
+    methodologies?: ReferenceDto[] | null;
+    competences?: ReferenceDto[] | null;
+
+    constructor(data?: IExperienceDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.typeContrat = new ReferenceDto();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.intitulePoste = _data["IntitulePoste"] !== undefined ? _data["IntitulePoste"] : <any>null;
+            this.entreprise = _data["Entreprise"] !== undefined ? _data["Entreprise"] : <any>null;
+            this.lieu = _data["Lieu"] !== undefined ? _data["Lieu"] : <any>null;
+            this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
+            this.domaineMetier = _data["DomaineMetier"] !== undefined ? _data["DomaineMetier"] : <any>null;
+            this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
+            this.typeContrat = _data["TypeContrat"] ? ReferenceDto.fromJS(_data["TypeContrat"]) : new ReferenceDto();
+            this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
+            this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
+            this.clientFinal = _data["ClientFinal"] !== undefined ? _data["ClientFinal"] : <any>null;
+            if (Array.isArray(_data["Technologies"])) {
+                this.technologies = [] as any;
+                for (let item of _data["Technologies"])
+                    this.technologies!.push(ReferenceDto.fromJS(item));
+            }
+            else {
+                this.technologies = <any>null;
+            }
+            if (Array.isArray(_data["Methodologies"])) {
+                this.methodologies = [] as any;
+                for (let item of _data["Methodologies"])
+                    this.methodologies!.push(ReferenceDto.fromJS(item));
+            }
+            else {
+                this.methodologies = <any>null;
+            }
+            if (Array.isArray(_data["Competences"])) {
+                this.competences = [] as any;
+                for (let item of _data["Competences"])
+                    this.competences!.push(ReferenceDto.fromJS(item));
+            }
+            else {
+                this.competences = <any>null;
+            }
+        }
+    }
+
+    static fromJS(data: any): ExperienceDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExperienceDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["IntitulePoste"] = this.intitulePoste !== undefined ? this.intitulePoste : <any>null;
+        data["Entreprise"] = this.entreprise !== undefined ? this.entreprise : <any>null;
+        data["Lieu"] = this.lieu !== undefined ? this.lieu : <any>null;
+        data["Description"] = this.description !== undefined ? this.description : <any>null;
+        data["DomaineMetier"] = this.domaineMetier !== undefined ? this.domaineMetier : <any>null;
+        data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
+        data["TypeContrat"] = this.typeContrat ? this.typeContrat.toJSON() : <any>null;
+        data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
+        data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
+        data["ClientFinal"] = this.clientFinal !== undefined ? this.clientFinal : <any>null;
+        if (Array.isArray(this.technologies)) {
+            data["Technologies"] = [];
+            for (let item of this.technologies)
+                data["Technologies"].push(item.toJSON());
+        }
+        if (Array.isArray(this.methodologies)) {
+            data["Methodologies"] = [];
+            for (let item of this.methodologies)
+                data["Methodologies"].push(item.toJSON());
+        }
+        if (Array.isArray(this.competences)) {
+            data["Competences"] = [];
+            for (let item of this.competences)
+                data["Competences"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IExperienceDto {
+    intitulePoste: string;
+    entreprise: string;
+    lieu: string;
+    description: string;
+    domaineMetier: string;
+    dateDebut: string;
+    typeContrat: ReferenceDto;
+    dateFin?: string | null;
+    budget?: number | null;
+    clientFinal?: string | null;
+    technologies?: ReferenceDto[] | null;
+    methodologies?: ReferenceDto[] | null;
+    competences?: ReferenceDto[] | null;
+}
+
+export class ExperienceRequestDto implements IExperienceRequestDto {
+    intitulePoste!: string;
+    entreprise!: string;
+    lieu!: string;
+    description!: string;
+    domaineMetier!: string;
+    dateDebut!: string;
+    typeContratId!: string;
+    dateFin?: string | null;
+    budget?: number | null;
+    clientFinal?: string | null;
+    technologieIds?: string[] | null;
+    methodologieIds?: string[] | null;
+    competenceIds?: string[] | null;
+
+    constructor(data?: IExperienceRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.intitulePoste = _data["IntitulePoste"] !== undefined ? _data["IntitulePoste"] : <any>null;
+            this.entreprise = _data["Entreprise"] !== undefined ? _data["Entreprise"] : <any>null;
+            this.lieu = _data["Lieu"] !== undefined ? _data["Lieu"] : <any>null;
+            this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
+            this.domaineMetier = _data["DomaineMetier"] !== undefined ? _data["DomaineMetier"] : <any>null;
+            this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
+            this.typeContratId = _data["TypeContratId"] !== undefined ? _data["TypeContratId"] : <any>null;
+            this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
+            this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
+            this.clientFinal = _data["ClientFinal"] !== undefined ? _data["ClientFinal"] : <any>null;
+            if (Array.isArray(_data["TechnologieIds"])) {
+                this.technologieIds = [] as any;
+                for (let item of _data["TechnologieIds"])
+                    this.technologieIds!.push(item);
+            }
+            else {
+                this.technologieIds = <any>null;
+            }
+            if (Array.isArray(_data["MethodologieIds"])) {
+                this.methodologieIds = [] as any;
+                for (let item of _data["MethodologieIds"])
+                    this.methodologieIds!.push(item);
+            }
+            else {
+                this.methodologieIds = <any>null;
+            }
+            if (Array.isArray(_data["CompetenceIds"])) {
+                this.competenceIds = [] as any;
+                for (let item of _data["CompetenceIds"])
+                    this.competenceIds!.push(item);
+            }
+            else {
+                this.competenceIds = <any>null;
+            }
+        }
+    }
+
+    static fromJS(data: any): ExperienceRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExperienceRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["IntitulePoste"] = this.intitulePoste !== undefined ? this.intitulePoste : <any>null;
+        data["Entreprise"] = this.entreprise !== undefined ? this.entreprise : <any>null;
+        data["Lieu"] = this.lieu !== undefined ? this.lieu : <any>null;
+        data["Description"] = this.description !== undefined ? this.description : <any>null;
+        data["DomaineMetier"] = this.domaineMetier !== undefined ? this.domaineMetier : <any>null;
+        data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
+        data["TypeContratId"] = this.typeContratId !== undefined ? this.typeContratId : <any>null;
+        data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
+        data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
+        data["ClientFinal"] = this.clientFinal !== undefined ? this.clientFinal : <any>null;
+        if (Array.isArray(this.technologieIds)) {
+            data["TechnologieIds"] = [];
+            for (let item of this.technologieIds)
+                data["TechnologieIds"].push(item);
+        }
+        if (Array.isArray(this.methodologieIds)) {
+            data["MethodologieIds"] = [];
+            for (let item of this.methodologieIds)
+                data["MethodologieIds"].push(item);
+        }
+        if (Array.isArray(this.competenceIds)) {
+            data["CompetenceIds"] = [];
+            for (let item of this.competenceIds)
+                data["CompetenceIds"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface IExperienceRequestDto {
+    intitulePoste: string;
+    entreprise: string;
+    lieu: string;
+    description: string;
+    domaineMetier: string;
+    dateDebut: string;
+    typeContratId: string;
+    dateFin?: string | null;
+    budget?: number | null;
+    clientFinal?: string | null;
+    technologieIds?: string[] | null;
+    methodologieIds?: string[] | null;
+    competenceIds?: string[] | null;
 }
 
 export class GetTrigrammeRequestDto implements IGetTrigrammeRequestDto {
@@ -1245,6 +1825,53 @@ export interface IParlonsDeVousUpdateRequestDto {
     adresse: AdresseUpdateRequestDto;
 }
 
+export class PutExperiencesRequestDto implements IPutExperiencesRequestDto {
+    experiences?: ExperienceRequestDto[] | null;
+
+    constructor(data?: IPutExperiencesRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["Experiences"])) {
+                this.experiences = [] as any;
+                for (let item of _data["Experiences"])
+                    this.experiences!.push(ExperienceRequestDto.fromJS(item));
+            }
+            else {
+                this.experiences = <any>null;
+            }
+        }
+    }
+
+    static fromJS(data: any): PutExperiencesRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PutExperiencesRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.experiences)) {
+            data["Experiences"] = [];
+            for (let item of this.experiences)
+                data["Experiences"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPutExperiencesRequestDto {
+    experiences?: ExperienceRequestDto[] | null;
+}
+
 export class QuestionInsertDto implements IQuestionInsertDto {
     ordre?: number;
     isObligatoire?: boolean;
@@ -1293,8 +1920,96 @@ export interface IQuestionInsertDto {
     question?: string | null;
 }
 
+export class QuestionnaireDto implements IQuestionnaireDto {
+    id!: string;
+    isObligatoire!: boolean;
+    question?: string | null;
+    reponse?: string | null;
+
+    constructor(data?: IQuestionnaireDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
+            this.isObligatoire = _data["IsObligatoire"] !== undefined ? _data["IsObligatoire"] : <any>null;
+            this.question = _data["Question"] !== undefined ? _data["Question"] : <any>null;
+            this.reponse = _data["Reponse"] !== undefined ? _data["Reponse"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): QuestionnaireDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionnaireDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id !== undefined ? this.id : <any>null;
+        data["IsObligatoire"] = this.isObligatoire !== undefined ? this.isObligatoire : <any>null;
+        data["Question"] = this.question !== undefined ? this.question : <any>null;
+        data["Reponse"] = this.reponse !== undefined ? this.reponse : <any>null;
+        return data;
+    }
+}
+
+export interface IQuestionnaireDto {
+    id: string;
+    isObligatoire: boolean;
+    question?: string | null;
+    reponse?: string | null;
+}
+
+export class QuestionnaireUpdateDto implements IQuestionnaireUpdateDto {
+    id!: string;
+    reponse?: string | null;
+
+    constructor(data?: IQuestionnaireUpdateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
+            this.reponse = _data["Reponse"] !== undefined ? _data["Reponse"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): QuestionnaireUpdateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionnaireUpdateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id !== undefined ? this.id : <any>null;
+        data["Reponse"] = this.reponse !== undefined ? this.reponse : <any>null;
+        return data;
+    }
+}
+
+export interface IQuestionnaireUpdateDto {
+    id: string;
+    reponse?: string | null;
+}
+
 export class ReferenceDto implements IReferenceDto {
-    id?: string;
+    id!: string;
     libelle?: string | null;
     commentaireFun?: string | null;
 
@@ -1332,9 +2047,49 @@ export class ReferenceDto implements IReferenceDto {
 }
 
 export interface IReferenceDto {
-    id?: string;
+    id: string;
     libelle?: string | null;
     commentaireFun?: string | null;
+}
+
+export class ReferenceRequestDto implements IReferenceRequestDto {
+    typeReference!: string;
+    libelle!: string;
+
+    constructor(data?: IReferenceRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.typeReference = _data["TypeReference"] !== undefined ? _data["TypeReference"] : <any>null;
+            this.libelle = _data["Libelle"] !== undefined ? _data["Libelle"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ReferenceRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReferenceRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["TypeReference"] = this.typeReference !== undefined ? this.typeReference : <any>null;
+        data["Libelle"] = this.libelle !== undefined ? this.libelle : <any>null;
+        return data;
+    }
+}
+
+export interface IReferenceRequestDto {
+    typeReference: string;
+    libelle: string;
 }
 
 export class TrigrammeDto implements ITrigrammeDto {
