@@ -9,6 +9,8 @@ namespace Altalents.Commun.Enums
         Contrat = 5,
         StatutDt = 6,
         NiveauLangue = 7,
-        Competence = 8
+        Competence = 8,
+        OutilEtEnvironnement = 9,
+        Methodologies = 10
     }
 }

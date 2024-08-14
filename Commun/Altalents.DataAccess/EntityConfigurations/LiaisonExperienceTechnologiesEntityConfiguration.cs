@@ -1,4 +1,4 @@
-﻿namespace Altalents.DataAccess.EntityConfigurations
+namespace Altalents.DataAccess.EntityConfigurations
 {
     internal class LiaisonExperienceTechnologiesEntityConfiguration : IEntityTypeConfiguration<LiaisonExperienceTechnologie>
     {

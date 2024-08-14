@@ -16,5 +16,11 @@ namespace Altalents.API.Controllers
         {
             return await _referencesService.GetReferencesAsync(typeReferenceCode, startWith, cancellationToken);
         }
+
+        [HttpPost("", Name = "CreateReferencesAsync")]
+        public async Task<Guid> CreateReferencesAsync([FromBody] ReferenceRequestDto reference, CancellationToken cancellationToken)
+        {
+            return await _referencesService.CreateReferencesAsync(reference, cancellationToken);
+        }
     }
 }

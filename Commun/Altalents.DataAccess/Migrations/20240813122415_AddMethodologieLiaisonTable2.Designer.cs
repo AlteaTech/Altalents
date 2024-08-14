@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20240813122415_AddMethodologieLiaisonTable2")]
+    partial class AddMethodologieLiaisonTable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -508,13 +511,13 @@ namespace Altalents.DataAccess.Migrations
                     b.ToTable("Formations", (string)null);
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetence", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetance", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CompetenceId")
+                    b.Property<Guid>("CompetanceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCrea")
@@ -540,11 +543,11 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompetenceId");
+                    b.HasIndex("CompetanceId");
 
                     b.HasIndex("ExperienceId");
 
-                    b.ToTable("LiaisonExperienceCompetences", (string)null);
+                    b.ToTable("LiaisonExperienceCompetances", (string)null);
                 });
 
             modelBuilder.Entity("Altalents.Entities.LiaisonExperienceMethodologie", b =>
@@ -1989,16 +1992,16 @@ namespace Altalents.DataAccess.Migrations
                     b.Navigation("DossierTechnique");
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetence", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetance", b =>
                 {
                     b.HasOne("Altalents.Entities.Reference", "Competance")
                         .WithMany("LiaisonExperienceCompetances")
-                        .HasForeignKey("CompetenceId")
+                        .HasForeignKey("CompetanceId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Altalents.Entities.Experience", "Experience")
-                        .WithMany("LiaisonExperienceCompetences")
+                        .WithMany("LiaisonExperienceCompetances")
                         .HasForeignKey("ExperienceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2084,7 +2087,7 @@ namespace Altalents.DataAccess.Migrations
 
             modelBuilder.Entity("Altalents.Entities.Experience", b =>
                 {
-                    b.Navigation("LiaisonExperienceCompetences");
+                    b.Navigation("LiaisonExperienceCompetances");
 
                     b.Navigation("LiaisonExperienceMethodologies");
 

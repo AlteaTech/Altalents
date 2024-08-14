@@ -321,5 +321,53 @@ namespace Altalents.Business.Services
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
 
         }
+
+        public Task<List<QuestionnaireDto>> GetQuestionnairesAsync(Guid tokenRapide, CancellationToken cancellationToken)
+        {
+            return GetScopedDbContexte().QuestionDossierTechniques
+                .Where(x => x.DossierTechnique.TokenAccesRapide == tokenRapide)
+                .OrderBy(x => x.Ordre)
+                .ProjectTo<QuestionnaireDto>(Mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task SetReponseQuestionnairesAsync(List<QuestionnaireUpdateDto> questionnaires, CancellationToken cancellationToken)
+        {
+            List<Guid> idsQuestionnaires = questionnaires.Select(x => x.Id).ToList();
+            CustomDbContext contexte = GetScopedDbContexte();
+            List<QuestionDossierTechnique> questionReponses = await contexte.QuestionDossierTechniques
+                .Where(x => idsQuestionnaires.Contains(x.Id))
+                .AsTracking()
+                .ToListAsync(cancellationToken);
+
+            questionReponses.ForEach(question =>
+            {
+                question.Reponse = questionnaires.Single(x => x.Id == question.Id).Reponse;
+            });
+
+            await contexte.SaveBaseEntityChangesAsync();
+        }
+
+        public async Task PutExperiencesAsync(Guid tokenAccesRapide, PutExperiencesRequestDto request, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            DossierTechnique dt = await context.DossierTechniques
+                .Include(x => x.Experiences)
+                .AsTracking()
+                .SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide, cancellationToken);
+
+            context.Experiences.RemoveRange(dt.Experiences);
+            dt.Experiences = Mapper.Map<List<Experience>>(request.Experiences);
+
+            await context.SaveBaseEntityChangesAsync();
+        }
+
+        public async Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            return await context.Experiences.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+                .ProjectTo<ExperienceDto>(Mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20240809090213_MethodoEnvironnement")]
+    partial class MethodoEnvironnement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -508,13 +511,13 @@ namespace Altalents.DataAccess.Migrations
                     b.ToTable("Formations", (string)null);
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetence", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetance", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CompetenceId")
+                    b.Property<Guid>("CompetanceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCrea")
@@ -540,50 +543,11 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompetenceId");
+                    b.HasIndex("CompetanceId");
 
                     b.HasIndex("ExperienceId");
 
-                    b.ToTable("LiaisonExperienceCompetences", (string)null);
-                });
-
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceMethodologie", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCrea")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("DateMaj")
-                        .HasColumnType("datetime");
-
-                    b.Property<Guid>("ExperienceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MethodologieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Niveau")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UtiCrea")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("UtiMaj")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExperienceId");
-
-                    b.HasIndex("MethodologieId");
-
-                    b.ToTable("LiaisonExperienceMethodologies", (string)null);
+                    b.ToTable("LiaisonExperienceCompetances", (string)null);
                 });
 
             modelBuilder.Entity("Altalents.Entities.LiaisonExperienceTechnologie", b =>
@@ -1989,18 +1953,18 @@ namespace Altalents.DataAccess.Migrations
                     b.Navigation("DossierTechnique");
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetence", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetance", b =>
                 {
                     b.HasOne("Altalents.Entities.Reference", "Competance")
                         .WithMany("LiaisonExperienceCompetances")
-                        .HasForeignKey("CompetenceId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("CompetanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Altalents.Entities.Experience", "Experience")
-                        .WithMany("LiaisonExperienceCompetences")
+                        .WithMany("LiaisonExperienceCompetances")
                         .HasForeignKey("ExperienceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Competance");
@@ -2008,37 +1972,18 @@ namespace Altalents.DataAccess.Migrations
                     b.Navigation("Experience");
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceMethodologie", b =>
-                {
-                    b.HasOne("Altalents.Entities.Experience", "Experience")
-                        .WithMany("LiaisonExperienceMethodologies")
-                        .HasForeignKey("ExperienceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Altalents.Entities.Reference", "Methodologie")
-                        .WithMany("LiaisonExperienceMethodologies")
-                        .HasForeignKey("MethodologieId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Experience");
-
-                    b.Navigation("Methodologie");
-                });
-
             modelBuilder.Entity("Altalents.Entities.LiaisonExperienceTechnologie", b =>
                 {
                     b.HasOne("Altalents.Entities.Experience", "Experience")
                         .WithMany("LiaisonExperienceTechnologies")
                         .HasForeignKey("ExperienceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Altalents.Entities.Reference", "Technologie")
                         .WithMany("LiaisonExperienceTechnologies")
                         .HasForeignKey("TechnologieId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Experience");
@@ -2084,9 +2029,7 @@ namespace Altalents.DataAccess.Migrations
 
             modelBuilder.Entity("Altalents.Entities.Experience", b =>
                 {
-                    b.Navigation("LiaisonExperienceCompetences");
-
-                    b.Navigation("LiaisonExperienceMethodologies");
+                    b.Navigation("LiaisonExperienceCompetances");
 
                     b.Navigation("LiaisonExperienceTechnologies");
                 });
@@ -2115,8 +2058,6 @@ namespace Altalents.DataAccess.Migrations
                     b.Navigation("Experiences");
 
                     b.Navigation("LiaisonExperienceCompetances");
-
-                    b.Navigation("LiaisonExperienceMethodologies");
 
                     b.Navigation("LiaisonExperienceTechnologies");
 

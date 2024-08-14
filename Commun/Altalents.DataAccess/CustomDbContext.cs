@@ -1,4 +1,5 @@
 using Altalents.Commun.Settings;
+using Altalents.Entities;
 
 using AlteaTools.EntityFramework;
 
@@ -20,12 +21,13 @@ namespace Altalents.DataAccess
         // ne pas utiliser là que pour les migration
         public CustomDbContext() : base()
         {
-
         }
 
+        public virtual DbSet<QuestionDossierTechnique> QuestionDossierTechniques { get; set; }
         public virtual DbSet<Reference> References { get; set; }
         public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
         public virtual DbSet<DossierTechnique> DossierTechniques { get; set; }
+        public virtual DbSet<Experience> Experiences { get; set; }
         public virtual DbSet<Personne> Personnes { get; set; }
         public virtual DbSet<TrigrammeLock> TrigrammeLocks { get; set; }
     }

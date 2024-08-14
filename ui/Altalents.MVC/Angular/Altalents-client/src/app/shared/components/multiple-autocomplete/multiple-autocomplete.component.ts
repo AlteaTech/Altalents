@@ -9,7 +9,7 @@ import { ApiServiceAgent } from '../../services/services-agents/api.service-agen
 @Component({
   selector: 'app-multiple-autocomplete',
   templateUrl: './multiple-autocomplete.component.html',
-  styleUrls: ['multiple-autocomplete.component.scss']
+  styleUrls: ['multiple-autocomplete.component.scss','../../../app.component.css']
 })
 export class MultipleAutocompleteComponent extends BaseComponent implements OnInit {
   @Input() public placeholder: string = "";

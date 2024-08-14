@@ -51,13 +51,26 @@ namespace Altalents.API.Controllers
         }
 
         [HttpGet("{tokenRapide}/parlons-de-vous", Name = "GetParlonsDeVous")]
-        public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync([FromRoute] Guid tokenRapide,CancellationToken cancellationToken)
+        public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync([FromRoute] Guid tokenRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetParlonsDeVousAsync(tokenRapide, cancellationToken);
         }
 
+        [HttpGet("{tokenRapide}/questionnaires", Name = "GetQuestionnaires")]
+        public async Task<List<QuestionnaireDto>> GetQuestionnairesAsync([FromRoute] Guid tokenRapide, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetQuestionnairesAsync(tokenRapide, cancellationToken);
+        }
+
+
+        [HttpPut("questionnaires-reponse", Name = "SetReponseQuestionnaires")]
+        public async Task SetReponseQuestionnairesAsync([FromBody] List<QuestionnaireUpdateDto> questionnaires, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.SetReponseQuestionnairesAsync(questionnaires, cancellationToken);
+        }
+
         [HttpPut("{tokenRapide}/parlons-de-vous", Name = "PutParlonsDeVous")]
-        public async Task PutParlonsDeVousAsync([FromRoute] Guid tokenRapide,[FromBody] ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
+        public async Task PutParlonsDeVousAsync([FromRoute] Guid tokenRapide, [FromBody] ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
         {
             await _dossierTechniqueService.PutParlonsDeVousAsync(tokenRapide, request, cancellationToken);
         }
@@ -66,6 +79,19 @@ namespace Altalents.API.Controllers
         public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetNomPrenomFromTokenAsync(tokenAccesRapide, cancellationToken);
+        }
+
+
+        [HttpPut("{tokenAccesRapide}/experiences", Name = "PutExperiences")]
+        public async Task PutExperiencesAsync([FromRoute] Guid tokenAccesRapide, [FromBody] PutExperiencesRequestDto request, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.PutExperiencesAsync(tokenAccesRapide, request, cancellationToken);
+        }
+
+        [HttpGet("{tokenAccesRapide}/experiences", Name = "GetExperiences")]
+        public async Task<List<ExperienceDto>> GetExperiencesAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+           return await _dossierTechniqueService.GetExperiencesAsync(tokenAccesRapide, cancellationToken);
         }
     }
 }
