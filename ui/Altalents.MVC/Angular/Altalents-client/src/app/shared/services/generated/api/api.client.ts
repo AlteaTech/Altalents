@@ -856,6 +856,58 @@ export interface ICustomUserLoggedDto {
     userId?: string;
 }
 
+export class DocumentDto implements IDocumentDto {
+    mimeType!: string;
+    dateExpiration?: string | null;
+    nomFichier!: string;
+    commentaire?: string | null;
+    data!: string;
+
+    constructor(data?: IDocumentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.mimeType = _data["MimeType"] !== undefined ? _data["MimeType"] : <any>null;
+            this.dateExpiration = _data["DateExpiration"] !== undefined ? _data["DateExpiration"] : <any>null;
+            this.nomFichier = _data["NomFichier"] !== undefined ? _data["NomFichier"] : <any>null;
+            this.commentaire = _data["Commentaire"] !== undefined ? _data["Commentaire"] : <any>null;
+            this.data = _data["Data"] !== undefined ? _data["Data"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): DocumentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["MimeType"] = this.mimeType !== undefined ? this.mimeType : <any>null;
+        data["DateExpiration"] = this.dateExpiration !== undefined ? this.dateExpiration : <any>null;
+        data["NomFichier"] = this.nomFichier !== undefined ? this.nomFichier : <any>null;
+        data["Commentaire"] = this.commentaire !== undefined ? this.commentaire : <any>null;
+        data["Data"] = this.data !== undefined ? this.data : <any>null;
+        return data;
+    }
+}
+
+export interface IDocumentDto {
+    mimeType: string;
+    dateExpiration?: string | null;
+    nomFichier: string;
+    commentaire?: string | null;
+    data: string;
+}
+
 export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsertRequestDto {
     utilisateurId?: string;
     nom!: string;
@@ -867,6 +919,8 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
     telephone?: string | null;
     poste?: string | null;
     tarifJournalier?: number | null;
+    questionnaires?: QuestionInsertDto[] | null;
+    documents?: DocumentDto[] | null;
 
     constructor(data?: IDossierTechniqueInsertRequestDto) {
         if (data) {
@@ -889,6 +943,22 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
             this.telephone = _data["Telephone"] !== undefined ? _data["Telephone"] : <any>null;
             this.poste = _data["Poste"] !== undefined ? _data["Poste"] : <any>null;
             this.tarifJournalier = _data["TarifJournalier"] !== undefined ? _data["TarifJournalier"] : <any>null;
+            if (Array.isArray(_data["Questionnaires"])) {
+                this.questionnaires = [] as any;
+                for (let item of _data["Questionnaires"])
+                    this.questionnaires!.push(QuestionInsertDto.fromJS(item));
+            }
+            else {
+                this.questionnaires = <any>null;
+            }
+            if (Array.isArray(_data["Documents"])) {
+                this.documents = [] as any;
+                for (let item of _data["Documents"])
+                    this.documents!.push(DocumentDto.fromJS(item));
+            }
+            else {
+                this.documents = <any>null;
+            }
         }
     }
 
@@ -911,6 +981,16 @@ export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsert
         data["Telephone"] = this.telephone !== undefined ? this.telephone : <any>null;
         data["Poste"] = this.poste !== undefined ? this.poste : <any>null;
         data["TarifJournalier"] = this.tarifJournalier !== undefined ? this.tarifJournalier : <any>null;
+        if (Array.isArray(this.questionnaires)) {
+            data["Questionnaires"] = [];
+            for (let item of this.questionnaires)
+                data["Questionnaires"].push(item.toJSON());
+        }
+        if (Array.isArray(this.documents)) {
+            data["Documents"] = [];
+            for (let item of this.documents)
+                data["Documents"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -926,6 +1006,8 @@ export interface IDossierTechniqueInsertRequestDto {
     telephone?: string | null;
     poste?: string | null;
     tarifJournalier?: number | null;
+    questionnaires?: QuestionInsertDto[] | null;
+    documents?: DocumentDto[] | null;
 }
 
 export class GetTrigrammeRequestDto implements IGetTrigrammeRequestDto {
@@ -1161,6 +1243,54 @@ export interface IParlonsDeVousUpdateRequestDto {
     telephone2?: string | null;
     email: string;
     adresse: AdresseUpdateRequestDto;
+}
+
+export class QuestionInsertDto implements IQuestionInsertDto {
+    ordre?: number;
+    isObligatoire?: boolean;
+    isShowDt?: boolean;
+    question?: string | null;
+
+    constructor(data?: IQuestionInsertDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.ordre = _data["Ordre"] !== undefined ? _data["Ordre"] : <any>null;
+            this.isObligatoire = _data["IsObligatoire"] !== undefined ? _data["IsObligatoire"] : <any>null;
+            this.isShowDt = _data["IsShowDt"] !== undefined ? _data["IsShowDt"] : <any>null;
+            this.question = _data["Question"] !== undefined ? _data["Question"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): QuestionInsertDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionInsertDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Ordre"] = this.ordre !== undefined ? this.ordre : <any>null;
+        data["IsObligatoire"] = this.isObligatoire !== undefined ? this.isObligatoire : <any>null;
+        data["IsShowDt"] = this.isShowDt !== undefined ? this.isShowDt : <any>null;
+        data["Question"] = this.question !== undefined ? this.question : <any>null;
+        return data;
+    }
+}
+
+export interface IQuestionInsertDto {
+    ordre?: number;
+    isObligatoire?: boolean;
+    isShowDt?: boolean;
+    question?: string | null;
 }
 
 export class ReferenceDto implements IReferenceDto {

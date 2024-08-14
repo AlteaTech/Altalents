@@ -7,6 +7,7 @@ export interface CreationDtCommercialForm {
     numeroTelephone1: FormControl<string | null>,
     adresseMail: FormControl<string | null>,
     poste: FormControl<string | null>,
+    isPrixJourEnable: FormControl<boolean | null>,
     prixJour: FormControl<number | null>,
     disponibilite: FormControl<string | null>,
     idBoond: FormControl<string | null>,

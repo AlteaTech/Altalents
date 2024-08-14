@@ -23,6 +23,8 @@ import { ExperienceDialogComponent } from './components/dialogs/experience-dialo
 import { MultipleAutocompleteComponent } from './shared/components/multiple-autocomplete/multiple-autocomplete.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { QuestionnaireDialogComponent } from './components/dialogs/questionnaire-dialog/questionnaire-dialog.component';
+import { PieceJointeDialogComponent } from './components/dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -43,7 +45,9 @@ registerLocaleData(localeFr);
     CertificationDialogComponent,
     LangueDialogComponent,
     ExperienceDialogComponent,
-    MultipleAutocompleteComponent
+    MultipleAutocompleteComponent,
+    QuestionnaireDialogComponent,
+    PieceJointeDialogComponent
   ],
   imports: [
     HttpClientModule,
