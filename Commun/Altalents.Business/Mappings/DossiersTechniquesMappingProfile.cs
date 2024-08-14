@@ -13,6 +13,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.PrixJour, opt => opt.MapFrom(src => src.TarifJournalier))
                 .ForMember(dest => dest.Poste, opt => opt.MapFrom(src => src.Poste))
                 .ForMember(dest => dest.DisponibiliteId, opt => opt.MapFrom(src => src.DisponibiliteId))
+                .ForMember(dest => dest.DocumentComplementaires, opt => opt.Ignore())
                 .ForMember(dest => dest.StatutId, opt => opt.MapFrom(src => Guid.Parse(IdsConstantes.StatutDtCreeId)))
                 .ForMember(dest => dest.CommercialId, opt => opt.MapFrom(src => src.UtilisateurId));
 
@@ -38,6 +39,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.Prenom, opt => opt.MapFrom(src => src.Prenom))
                 .ForMember(dest => dest.Trigramme, opt => opt.MapFrom(src => src.Trigramme.ToLower()))
                 .ForMember(dest => dest.BoondId, opt => opt.MapFrom(src => src.IdBoond))
+                .ForMember(dest => dest.Documents, opt => opt.Ignore())
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AdresseMail.ToLower().Trim()))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => Guid.Parse(IdsConstantes.TypePersonneCandidatId)))
                 .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => new List<Contact>

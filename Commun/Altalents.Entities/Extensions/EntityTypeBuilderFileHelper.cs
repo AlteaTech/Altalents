@@ -18,8 +18,7 @@ namespace Altalents.Entities.Extensions
                 .HasMaxLength(250)
                 .IsRequired();
 
-            builder.Property(e => e.Path)
-                .HasColumnType("varchar(max)")
+            builder.Property(e => e.Data)
                 .IsRequired();
 
             builder.Property(e => e.MimeType)

@@ -93,5 +93,11 @@ namespace Altalents.API.Controllers
         {
            return await _dossierTechniqueService.GetExperiencesAsync(tokenAccesRapide, cancellationToken);
         }
+
+        [HttpGet("{tokenAccesRapide}/documents", Name = "GetDocuments")]
+        public async Task<List<DocumentDto>> GetDocumentsAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetDocumentsAsync(tokenAccesRapide, cancellationToken);
+        }
     }
 }

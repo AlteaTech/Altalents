@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
 using Altalents.Entities;
@@ -25,11 +27,31 @@ namespace Altalents.Business.Services
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
+            if (dossierTechnique.Documents.Any())
+            {
+                dt.DocumentComplementaires = GetDocumentComplementaires(dossierTechnique.Documents);
+            }
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
             await _emailService.SendEmailWithRetryAsync(dossierTechnique.AdresseMail, "Demande de creation de dossier technique", $"Merci de remplir le dossier suivant : <a href=\"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}\"> ce dossier là </a>");
             return dt.Id;
 
+        }
+
+        public List<DocumentComplementaire> GetDocumentComplementaires(List<DocumentDto> documents)
+        {
+            List<DocumentComplementaire> retour = new();
+            foreach (var item in documents)
+            {
+                retour.Add(new()
+                {
+                    Commentaire = item.Commentaire,
+                    MimeType = item.MimeType,
+                    Nom = item.NomFichier,
+                    Data = item.Data
+                });
+            }
+            return retour;
         }
 
         private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
@@ -367,6 +389,20 @@ namespace Altalents.Business.Services
             using CustomDbContext context = GetScopedDbContexte();
             return await context.Experiences.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
                 .ProjectTo<ExperienceDto>(Mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+        }
+
+        [Obsolete("Methode de test")]
+        public Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return GetScopedDbContexte().DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
+                .SelectMany(x => x.DocumentComplementaires.Select(d => new DocumentDto()
+                {
+                    Commentaire = d.Commentaire,
+                    Data = d.Data,
+                    MimeType = d.MimeType,
+                    NomFichier = d.Nom
+                }))
                 .ToListAsync(cancellationToken);
         }
     }
