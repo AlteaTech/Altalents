@@ -109,3 +109,25 @@ legend{
       padding-bottom: 2vh;
   }
 }
+
+@media (max-width: 1400px) and (min-width: 1000px) {
+  .label-champ-input {
+      text-align: right;
+  }
+
+  .custom-justify-end {
+      justify-content: flex-end;
+  }
+
+}
+
+@media (min-width: 1400px) {
+  .label-champ-input {
+      text-align: right;
+  }
+
+  .custom-justify-end {
+      justify-content: flex-end;
+  }
+
+}

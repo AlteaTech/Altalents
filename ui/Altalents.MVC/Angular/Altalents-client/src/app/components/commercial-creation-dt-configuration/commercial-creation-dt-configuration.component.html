@@ -65,14 +65,16 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-xl-1">
-                                        <label class="switch">
-                                            <input type="checkbox" formControlName="isPrixJourEnable" (change)="updateInputPrixJour()">
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-                                    <div class="col-xl-5 label-champ-input">
-                                        <label for="prixJour" class="col-form-label">Tarif journalier</label>
+                                    <div class="col-xl-6 d-flex align-items-center custom-justify-end">
+                                        <div class=" text-end">
+                                            <label class="switch">
+                                                <input type="checkbox" formControlName="isPrixJourEnable" (change)="updateInputPrixJour()">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label for="prixJour" class="ms-3">Tarif journalier</label>
+                                        </div>
                                     </div>
                                     <div class="col-xl-6">
                                         <input type="text" class="form-control" formControlName="prixJour"
