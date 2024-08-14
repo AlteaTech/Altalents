@@ -3,10 +3,16 @@
         <fieldset>
             <legend>Documents</legend>
             <div class="row mb-2">
+                <div *ngIf="pieceJointe?.nomFichier">
+                    Document : {{ pieceJointe?.nomFichier }}
+                </div>
                 <div class="col-lg-12 drop-zone" dropzone="move">
                     <input type="file" (change)="onFileUploadChange($event)">
                     <img src="Images/ICON_FEATHER_DOWNLOAD.png">
-                    <p class="at-c-violet">Déposez votre document</p>
+                    <p class="at-c-violet">{{ pieceJointe?.data ? 'Modifier le' : 'Déposez votre' }} document</p>
+                </div>
+                <div class="error-message" *ngIf="!pieceJointe?.data && formGroup.touched">
+                    Le document est obligatoire.
                 </div>
             </div>
             <div class="row mb-2">
@@ -18,7 +24,7 @@
             <button class="at-p-secondary-button" (click)="closeDialog()">
                 <p>Annuler</p>
             </button>
-            <button class="at-p-button" [disabled]="!isFileLoaded" (click)="submit()">
+            <button class="at-p-button" [disabled]="isLoading" (click)="submit()">
                 <p>Valider</p>
             </button>
         </div>

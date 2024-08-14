@@ -18,7 +18,9 @@ export class Question {
     public static toList(models: Question[]): QuestionInsertDto[] {
       let dto: QuestionInsertDto[] = [];
       models.forEach(model => {
-        dto.push(Question.to(model));
+        if(model.question) {
+          dto.push(Question.to(model));
+        }
       });
       return dto;
     }

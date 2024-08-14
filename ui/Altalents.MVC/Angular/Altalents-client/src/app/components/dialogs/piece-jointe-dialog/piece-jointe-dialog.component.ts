@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PieceJointeForm } from 'src/app/shared/interfaces/piece-jointe-form';
 import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
@@ -12,7 +12,7 @@ import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
 export class PieceJointeDialogComponent implements OnInit {
   public pieceJointe?: PieceJointe;
   public formGroup: FormGroup<PieceJointeForm>;
-  public isFileLoaded: boolean = false;
+  public isLoading: boolean = true;
 
   constructor(public activeModal: NgbActiveModal) {
     this.formGroup = new FormGroup<PieceJointeForm>({
@@ -26,14 +26,17 @@ export class PieceJointeDialogComponent implements OnInit {
         commentaire: this.pieceJointe.commentaire
       });
     }
+
+    this.isLoading = false;
   }
 
   public submit(): void {
-    if (this.formGroup.valid) {
+    if (this.formGroup.valid && this.pieceJointe) {
       const values = this.formGroup.value;
-      let pieceJointe: PieceJointe = this.pieceJointe ?? new PieceJointe();
-      pieceJointe.commentaire = values.commentaire ?? undefined;
-      this.activeModal.close(pieceJointe);
+      this.pieceJointe.commentaire = values.commentaire ?? undefined;
+      this.activeModal.close(this.pieceJointe);
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 
@@ -45,7 +48,7 @@ export class PieceJointeDialogComponent implements OnInit {
     const fichiers: FileList | null = (event.target as HTMLInputElement).files;
 
     if(fichiers) {
-      this.isFileLoaded = false;
+      this.isLoading = true;
       const file: File = fichiers[0];
       this.pieceJointe = this.pieceJointe ?? new PieceJointe();
       this.pieceJointe.mimeType = file.type;
@@ -54,7 +57,7 @@ export class PieceJointeDialogComponent implements OnInit {
       .then((data: string) => {
         return data;
       });
-      this.isFileLoaded = true;
+      this.isLoading = false;
     }
   }
 
