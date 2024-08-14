@@ -2,16 +2,16 @@ import { Reference } from "./reference.model";
 
 export class Experience {
     id!: number;
-    typeContrat?: Reference;
-    intitulePoste?: string;
-    entreprise?: string;
+    typeContrat!: Reference;
+    intitulePoste!: string;
+    entreprise!: string;
     clientFinal?: string;
-    dateDebut?: Date;
+    dateDebut!: Date;
     dateFin?: Date;
     isPosteActuel!: boolean;
-    lieu?: string;
-    description?: string;
-    domaineMetier?: string;
+    lieu!: string;
+    description!: string;
+    domaineMetier!: string;
     compositionEquipe?: string;
     technologies: Reference[] = [];
     competences: Reference[] = [];

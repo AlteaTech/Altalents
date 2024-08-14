@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
@@ -26,17 +26,17 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
     private readonly service: ApiServiceAgent) {
     super();
     this.formGroup = new FormGroup<ExperienceForm>({
-      typeContrat: new FormControl(),
-      intitulePoste: new FormControl(),
-      entreprise: new FormControl(),
+      typeContrat: new FormControl(null, Validators.required),
+      intitulePoste: new FormControl(null, Validators.required),
+      entreprise: new FormControl(null, Validators.required),
       isClientFinal: new FormControl(),
       clientFinal: new FormControl(),
-      dateDebut: new FormControl(),
+      dateDebut: new FormControl(null, Validators.required),
       dateFin: new FormControl(),
       isPosteActuel: new FormControl(),
-      lieu: new FormControl(),
-      description: new FormControl(),
-      domaineMetier: new FormControl(),
+      lieu: new FormControl(null, Validators.required),
+      description: new FormControl(null, Validators.required),
+      domaineMetier: new FormControl(null, Validators.required),
       compositionEquipe: new FormControl(),
       technologies: new FormControl(),
       competences: new FormControl(),
@@ -117,23 +117,25 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
     if (this.formGroup.valid) {
       const values = this.formGroup.value;
       let experience: Experience = this.experience ?? new Experience();
-      experience.typeContrat = values.typeContrat;
-      experience.intitulePoste = values.intitulePoste;
-      experience.entreprise = values.entreprise;
-      experience.clientFinal = values.clientFinal;
-      experience.dateDebut = values.dateDebut;
-      experience.dateFin = values.dateFin;
+      experience.typeContrat = values.typeContrat ?? new Reference();
+      experience.intitulePoste = values.intitulePoste ?? "";
+      experience.entreprise = values.entreprise ?? "";
+      experience.clientFinal = values.clientFinal ?? undefined;
+      experience.dateDebut = values.dateDebut ?? new Date();
+      experience.dateFin = values.dateFin ?? undefined;
       experience.isPosteActuel = values.isPosteActuel ?? false;
-      experience.lieu = values.lieu;
-      experience.description = values.description;
-      experience.domaineMetier = values.domaineMetier;
-      experience.compositionEquipe = values.compositionEquipe;
+      experience.lieu = values.lieu ?? "";
+      experience.description = values.description ?? "";
+      experience.domaineMetier = values.domaineMetier ?? "";
+      experience.compositionEquipe = values.compositionEquipe ?? undefined;
       experience.technologies = values.technologies ?? [];
       experience.competences = values.competences ?? [];
       experience.methodologies = values.methodologies ?? [];
-      experience.budgetGere = values.budgetGere;
+      experience.budgetGere = values.budgetGere ?? undefined;
       
       this.activeModal.close(experience);
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

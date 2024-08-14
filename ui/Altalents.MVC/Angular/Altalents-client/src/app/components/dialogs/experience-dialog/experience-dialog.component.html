@@ -4,7 +4,11 @@
             <legend>Expérience professionelle</legend>
             <div class="row mb-2">
                 <div class="col-lg-3 label-champ-input">
-                    <label for="typeContrat" class="col-form-label">Type de contrat</label>
+                    <label for="typeContrat" class="col-form-label">Type de contrat<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.typeContrat.invalid && formGroup.controls.typeContrat.touched">
+                        Le type de contrat est requis.
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     <select formControlName="typeContrat" class="form-select">
@@ -14,7 +18,11 @@
                     </select>
                 </div>
                 <div class="col-lg-3 label-champ-input">
-                    <label for="dateDebut" class="col-form-label">Date de début</label>
+                    <label for="dateDebut" class="col-form-label">Date de début<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.dateDebut.invalid && formGroup.controls.dateDebut.touched">
+                        La date de début est requise.
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     <input type="date" formControlName="dateDebut" class="form-control"
@@ -23,7 +31,11 @@
             </div>
             <div class="row mb-2">
                 <div class="col-lg-3 label-champ-input">
-                    <label for="intitulePoste" class="col-form-label">Intitulé du poste</label>
+                    <label for="intitulePoste" class="col-form-label">Intitulé du poste<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.intitulePoste.invalid && formGroup.controls.intitulePoste.touched">
+                        L'intitulé du poste est requis.
+                    </div>
                 </div>
                 <div class=col-lg-3>
                     <input type="text" formControlName="intitulePoste" class="form-control"
@@ -38,7 +50,11 @@
             </div>
             <div class="row mb-2">
                 <div class="col-lg-3 label-champ-input">
-                    <label for="entreprise">Entreprise</label>
+                    <label for="entreprise">Entreprise<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.intitulePoste.invalid && formGroup.controls.intitulePoste.touched">
+                        L'intitulé du poste est requis.
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     <input type="text" formControlName="entreprise" class="form-control"
@@ -68,7 +84,11 @@
                     <input type="text" formControlName="clientFinal" placeholder="Nom du client final" class="form-control">
                 </div>
                 <div class="col-lg-3 label-champ-input">
-                    <label for="lieu" class="col-form-label">Lieu</label>
+                    <label for="lieu" class="col-form-label">Lieu<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.lieu.invalid && formGroup.controls.lieu.touched">
+                        Le lieu est requis.
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     <input type="text" formControlName="lieu" class="form-control" placeholder="Jumanji">
@@ -76,8 +96,12 @@
             </div>
             <div class="row mb-2">
                 <div class="col-lg-3">
-                    <label for="description">Description de l'expérience professionnelle</label>
+                    <label for="description">Description de l'expérience professionnelle<span class="champ-obligatoire">*</span></label>
                     <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
+                        La description est requise.
+                    </div>
                 </div>
                 <div class="col-lg-9">
                     <textarea formControlName="description" placeholder="Il était une fois..."
@@ -86,7 +110,11 @@
             </div>
             <div class="row mb-2">
                 <div class="col-lg-3 label-champ-input">
-                    <label for="domaineMetier" class="col-form-label">Domaine métier</label>
+                    <label for="domaineMetier" class="col-form-label">Domaine métier<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.domaineMetier.invalid && formGroup.controls.domaineMetier.touched">
+                        Le domaine métier est requis.
+                    </div>
                 </div>
                 <div class=col-lg-3>
                     <input type="text" formControlName="domaineMetier" class="form-control"
