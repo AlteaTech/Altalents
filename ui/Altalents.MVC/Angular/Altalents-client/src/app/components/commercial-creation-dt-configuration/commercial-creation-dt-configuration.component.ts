@@ -1,17 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { CreationDtCommercialForm } from 'src/app/shared/interfaces/creation-dt-commercial-form';
 import { Reference } from 'src/app/shared/models/reference.model';
-import { CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from 'src/app/shared/services/generated/api/api.client';
+import { CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, ReferenceDto, TrigrammeDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ValidateEmailWithApi } from 'src/app/shared/services/services/validators/validate-email-with-api';
 import { ValidateIdBoondWithApi } from 'src/app/shared/services/services/validators/validate-idboond-with-api';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 import { ValidateTrigramWithApi } from 'src/app/shared/services/services/validators/validate-trigram-with-api';
+import { QuestionnaireDialogComponent } from '../dialogs/questionnaire-dialog/questionnaire-dialog.component';
+import { PieceJointeDialogComponent } from '../dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
+import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
+import { Question } from 'src/app/shared/models/question.model';
 
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
@@ -20,17 +25,14 @@ import { ValidateTrigramWithApi } from 'src/app/shared/services/services/validat
 })
 
 export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
-return() {
-
-  window.location.href = `/${ConstantesRoutes.commercialAccueilCreateDt}`;
-}
-
   public formGroup: FormGroup<CreationDtCommercialForm>;
-  userIdLogged: string | undefined;
-  isReady = false;
-  disponibilites: Reference[] = [];
+  public userIdLogged: string | undefined;
+  public isReady = false;
+  public disponibilites: Reference[] = [];
+  public questions: Question[] | undefined;
+  public pieceJointe: PieceJointe | undefined;
 
-  constructor(
+  constructor(private modalService: NgbModal,
     private readonly service: ApiServiceAgent) {
     super();
     this.formGroup = new FormGroup<CreationDtCommercialForm>({
@@ -40,17 +42,23 @@ return() {
       adresseMail: new FormControl('', Validators.required,ValidateEmailWithApi(this.service, undefined)),
       numeroTelephone1: new FormControl(null, undefined,ValidateTelephoneWithApi(this.service,true)),
       poste: new FormControl(null),
+      isPrixJourEnable: new FormControl(false),
       prixJour: new FormControl(null),
       disponibilite: new FormControl('8f486cd6-6313-47f9-a4b5-5bd535c199a9', Validators.required),
       idBoond: new FormControl('', Validators.required,ValidateIdBoondWithApi(this.service)),
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.populateData();
+    this.updateInputPrixJour();
+  }
+  
+  public return(): void {
+    window.location.href = `/${ConstantesRoutes.commercialAccueilCreateDt}`;
   }
 
-  sendCandidat() {
+  public sendCandidat(): void {
     if(this.formGroup.valid){
       this.callRequest(ConstantesRequest.addDossierTechnique, this.service.addDossierTechnique(this.generateDossierTechniqueInsertRequestDto())
         .subscribe((response: string) => {
@@ -61,7 +69,7 @@ return() {
     }
   }
 
-  nomPrenomChange() {
+  public nomPrenomChange(): void {
     const formValues = this.formGroup.value;
     let body = new GetTrigrammeRequestDto();
     body.nom =  formValues.nom ?? "";
@@ -75,8 +83,37 @@ return() {
     }
   }
 
-  generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
+  public onAjouterQuestionnaireClick(): void {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop : 'static',
+      keyboard : false,
+      size: 'lg'
+    };
+    let dialogRef: NgbModalRef = this.modalService.open(QuestionnaireDialogComponent, ngbModalOptions);
+    dialogRef.componentInstance.questions = this.questions;
+    dialogRef.result.then((nouvelElement: Question[] | undefined) => {
+      if(nouvelElement) {
+        this.questions = nouvelElement;
+      }
+    })
+  }
 
+  public onAjouterDocumentClick(): void {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop : 'static',
+      keyboard : false,
+      size: 'lg'
+    };
+    let dialogRef: NgbModalRef = this.modalService.open(PieceJointeDialogComponent, ngbModalOptions);
+    dialogRef.componentInstance.pieceJointe = this.pieceJointe;
+    dialogRef.result.then((nouvelElement: PieceJointe | undefined) => {
+      if(nouvelElement) {
+        this.pieceJointe = nouvelElement;
+      }
+    })
+  }
+
+  private generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
     const formValues = this.formGroup.value;
     const retour = new DossierTechniqueInsertRequestDto();
     retour.adresseMail = formValues.adresseMail ?? "";
@@ -89,7 +126,21 @@ return() {
     retour.telephone = formValues.numeroTelephone1;
     retour.trigramme = formValues.trigram ?? "";
     retour.utilisateurId = this.userIdLogged;
+    retour.questionnaires = this.questions ? Question.toList(this.questions) : undefined;
+    this.populateDocumentDto(retour);
+    debugger;
     return retour;
+  }
+
+  private populateDocumentDto(retour: DossierTechniqueInsertRequestDto) {
+    if (this.pieceJointe) {
+      let documentDto: DocumentDto = new DocumentDto();
+      documentDto.mimeType = this.pieceJointe.mimeType;
+      documentDto.nomFichier = this.pieceJointe.nomFichier;
+      documentDto.commentaire = this.pieceJointe.commentaire;
+      documentDto.data = this.pieceJointe.data;
+      retour.documents = [documentDto];
+    }
   }
 
   public override populateData(): void {
@@ -104,6 +155,11 @@ return() {
           this.disponibilites = Reference.fromListReferenceDto(response);
           this.isReady = true;
         }));
+  }
+
+  public updateInputPrixJour(): void {
+    let controls = this.formGroup.controls;
+    controls.isPrixJourEnable.value ? controls.prixJour.enable() : controls.prixJour.disable();
   }
 }
 

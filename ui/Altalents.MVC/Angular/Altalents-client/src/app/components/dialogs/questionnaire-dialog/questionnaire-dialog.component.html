@@ -1,0 +1,147 @@
+<div class="at-p-fenetre-dialog">
+    <form [formGroup]="formGroup">
+        <fieldset>
+            <legend>Questionnaire</legend>
+            <div class="row mb-2">
+                <div class="col-lg-3 at-p-label-champ-input">
+                    <label for="question1" class="col-form-label">Question 1<span class="champ-obligatoire">*</span></label>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="text" class="form-control" formControlName="question1" placeholder="Ta marque de slips préférée?">
+                        </div>
+                        <div class="error-message"
+                            *ngIf="formGroup.controls.question1.invalid && formGroup.controls.question1.touched">
+                            La première question est requise.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="text-end">
+                                <label class="switch">
+                                    <input type="checkbox" formControlName="isShowDt1">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label for="isShowDt1" class="col-form-label ms-3">Apparait dans le DT?</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="text-end">
+                                <label class="switch">
+                                    <input type="checkbox" formControlName="isObligatoire1">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label for="isObligatoire1" class="col-form-label ms-3">Obligatoire?</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-3 d-flex custom-justify-end">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="isQuestion2Enable" (change)="updateInputIsQuestion2Enable()">
+                        <span class="slider"></span>
+                    </label>
+                    <div>
+                        <label for="question2" class="col-form-label ms-3">Question 2</label>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="text" class="form-control" formControlName="question2" placeholder="Ta marque de slips préférée?">
+                        </div>
+                        <div class="error-message"
+                            *ngIf="formGroup.controls.question2.invalid && formGroup.controls.question2.touched">
+                            La question est requise.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="text-end">
+                                <label class="switch">
+                                    <input type="checkbox" formControlName="isShowDt2">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label for="isShowDt2" class="col-form-label ms-3">Apparait dans le DT?</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="text-end">
+                                <label class="switch">
+                                    <input type="checkbox" formControlName="isObligatoire2">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label for="isObligatoire2" class="col-form-label ms-3">Obligatoire?</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-3 d-flex custom-justify-end">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="isQuestion3Enable" (change)="updateInputIsQuestion3Enable()">
+                        <span class="slider"></span>
+                    </label>
+                    <div>
+                        <label for="question3" class="col-form-label ms-3">Question 3</label>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="text" class="form-control" formControlName="question3" placeholder="Tu me rends mes 20 balles?">
+                        </div>
+                        <div class="error-message"
+                            *ngIf="formGroup.controls.question3.invalid && formGroup.controls.question3.touched">
+                            La question est requise.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="text-end">
+                                <label class="switch">
+                                    <input type="checkbox" formControlName="isShowDt3">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label for="isShowDt3" class="col-form-label ms-3">Apparait dans le DT?</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="text-end">
+                                <label class="switch">
+                                    <input type="checkbox" formControlName="isObligatoire3">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label for="isObligatoire3" class="col-form-label ms-3">Obligatoire?</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="at-p-button-container">
+            <button class="at-p-secondary-button" (click)="closeDialog()">
+                <p>Annuler</p>
+            </button>
+            <button class="at-p-button" (click)="submit()">
+                <p>Valider</p>
+            </button>
+        </div>
+    </form>
+</div>
