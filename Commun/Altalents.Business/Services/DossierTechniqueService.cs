@@ -1,8 +1,5 @@
-using System.Collections.Generic;
-
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
-using Altalents.Entities;
 using Altalents.IBusiness.DTO.Requesst;
 
 using Microsoft.EntityFrameworkCore.Query;
@@ -27,7 +24,7 @@ namespace Altalents.Business.Services
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
-            if (dossierTechnique.Documents.Any())
+            if (dossierTechnique.Documents != null && dossierTechnique.Documents.Any())
             {
                 dt.DocumentComplementaires = GetDocumentComplementaires(dossierTechnique.Documents);
             }
@@ -58,7 +55,7 @@ namespace Altalents.Business.Services
         {
             List<string> messagesErreur = new();
             bool checkTelephone = IsTelephoneValid(dossierTechnique.Telephone, true);
-            Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail,null, cancellationToken);
+            Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail, null, cancellationToken);
             Task<bool> taskCheckIdBoond = IsIdBoondValidAsync(dossierTechnique.IdBoond, cancellationToken);
             Task<bool> taskCheckTrigramme = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Trigramme == dossierTechnique.Trigramme, cancellationToken);
 
@@ -160,7 +157,7 @@ namespace Altalents.Business.Services
             return retour;
         }
 
-        public async Task<bool> IsEmailValidAsync(string email,Guid? tokenRapide, CancellationToken cancellationToken)
+        public async Task<bool> IsEmailValidAsync(string email, Guid? tokenRapide, CancellationToken cancellationToken)
         {
             string trimmedEmail = email.Trim().ToLower();
 
@@ -195,7 +192,7 @@ namespace Altalents.Business.Services
                     return false;
                 }
             }
-           
+
             return true;
         }
 
@@ -305,7 +302,7 @@ namespace Altalents.Business.Services
 
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
             Contact tel1 = contactTelephones.FirstOrDefault();
-            if(tel1 != null)
+            if (tel1 != null)
             {
                 tel1.Valeur = request.Telephone1;
             }
@@ -325,7 +322,7 @@ namespace Altalents.Business.Services
                     });
                 }
             }
-            if(contactTelephones.Count<=1 && !string.IsNullOrEmpty(request.Telephone2))
+            if (contactTelephones.Count <= 1 && !string.IsNullOrEmpty(request.Telephone2))
             {
                 dt.Personne.Contacts.Add(new Contact()
                 {
