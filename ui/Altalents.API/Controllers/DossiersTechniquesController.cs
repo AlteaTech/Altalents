@@ -99,5 +99,10 @@ namespace Altalents.API.Controllers
         {
             return await _dossierTechniqueService.GetDocumentsAsync(tokenAccesRapide, cancellationToken);
         }
+        [HttpGet("{tokenAccesRapide}/generate-dt", Name = "GenerateDossierCometanceFile")]
+        public async Task<DocumentDto> GenerateDossierCometanceFileAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GenerateDossierCometanceFileAsync(tokenAccesRapide, cancellationToken);
+        }
     }
 }

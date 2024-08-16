@@ -1,3 +1,8 @@
+using System.Collections;
+
+using Altalent.ReportLibrary;
+using Altalent.ReportLibrary.DSO;
+
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
 using Altalents.IBusiness.DTO.Requesst;
@@ -5,12 +10,16 @@ using Altalents.IBusiness.DTO.Requesst;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 
+using Telerik.Reporting;
+using Telerik.Reporting.Processing;
+
 namespace Altalents.Business.Services
 {
     public class DossierTechniqueService : BaseAppService<CustomDbContext>, IDossierTechniqueService
     {
         private readonly GlobalSettings _globalSettings;
         private readonly IEmailService _emailService;
+
         public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider,
             IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService) : base(logger, contexte, mapper, serviceProvider)
         {
@@ -401,6 +410,47 @@ namespace Altalents.Business.Services
                     NomFichier = d.Nom
                 }))
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<DocumentDto> GenerateDossierCometanceFileAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            DossierCompetenceDso dt = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
+                .ProjectTo<DossierCompetenceDso>(Mapper.ConfigurationProvider)
+                .FirstAsync(cancellationToken);
+
+            ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();
+
+            // set any deviceInfo settings if necessary
+            Hashtable deviceInfo = new System.Collections.Hashtable();
+
+            DossierCompetance rpt = new DossierCompetance();
+
+            rpt.dossierCompetanceDataSource.DataSource = dt;
+            rpt.experienceDataSource.DataSource = dt.Experiences;
+
+            InstanceReportSource reportSource = new InstanceReportSource
+            {
+                ReportDocument = rpt
+            };
+
+            RenderingResult result = reportProcessor.RenderReport("PDF", reportSource, deviceInfo);
+
+            if (!result.HasErrors)
+            {
+                string fileName = result.DocumentName + "." + result.Extension;
+
+                return new DocumentDto()
+                {
+                    MimeType = "application/pdf",
+                    NomFichier = fileName,
+                    Data = result.DocumentBytes
+                };
+            }
+            else
+            {
+                throw new Exception(result.Errors.ToString());
+            }
         }
     }
 }

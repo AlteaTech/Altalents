@@ -45,16 +45,16 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1.0.0
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        
+    - name: Restore NuGet Packages
+      run: nuget restore Altalents.sln
+
     - name: Build
-      run: dotnet build -c Debug
-
-    - name: Instal dotnet tool
-      run: dotnet tool install --global dotnet-ef --version 8.0.6
-
-    - name: Build Bundle
-      run: |
-        New-Item -Path . -Name "SQL" -ItemType "directory"
-        dotnet ef migrations bundle --project Commun/Altalents.DataAccess --verbose --target-runtime win-x64 --self-contained --output ./SQL/bundle.exe --force --context MigrationContext --verbose
+      run: msbuild Altalents.sln /p:Configuration=Debug /p:Platform="Any CPU"
 
     - name: dotnet publish
       if: github.event_name == 'push'
@@ -70,7 +70,7 @@ jobs:
         path: ${{github.workspace}}/altalentDeploy
 
   deploy:
-    runs-on: windows-latest
+    runs-on: windows-latest 
     needs: build
     if: github.event_name == 'push'
     environment:
