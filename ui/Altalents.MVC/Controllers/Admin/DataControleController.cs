@@ -21,9 +21,9 @@ namespace Altalents.MVC.Controllers.Admin
             return View();
         }
 
-        public async Task<IActionResult> GetReferencesAsync([DataSourceRequest] DataSourceRequest request)
+        public async Task<IActionResult> GetReferencesAsync([DataSourceRequest] DataSourceRequest request, bool showAll)
         {
-            return await this.CallWithActionSecurisedAsync(request, GetReferencesRunnerAsync(request));
+            return await this.CallWithActionSecurisedAsync(request, GetReferencesRunnerAsync(request, showAll));
         }
 
         [HttpPost]
@@ -32,9 +32,9 @@ namespace Altalents.MVC.Controllers.Admin
             return await this.CallWithActionSecurisedAsync(request, UpdateReferenceRunnerAsync(request, reference));
         }
 
-        private async Task<IActionResult> GetReferencesRunnerAsync(DataSourceRequest request)
+        private async Task<IActionResult> GetReferencesRunnerAsync(DataSourceRequest request, bool showAll)
         {
-            DataSourceResult references = await _referencesService.GetReferencesAValider().ToDataSourceResultAsync(request);
+            DataSourceResult references = await _referencesService.GetReferencesAValider(showAll).ToDataSourceResultAsync(request);
             return base.Json(references);
         }
 

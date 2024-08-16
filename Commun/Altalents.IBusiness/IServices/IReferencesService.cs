@@ -6,7 +6,7 @@ namespace Altalents.IBusiness.IServices
     {
         Task<Guid> CreateReferencesAsync(ReferenceRequestDto reference, CancellationToken cancellationToken);
         Task<List<ReferenceDto>> GetReferencesAsync(string typeReferenceCode, string startWith, CancellationToken cancellationToken);
-        IQueryable<ReferenceAValiderDto> GetReferencesAValider();
+        IQueryable<ReferenceAValiderDto> GetReferencesAValider(bool showAll);
         Task UpdateReferenceAsync(ReferenceAValiderDto reference);
     }
 }

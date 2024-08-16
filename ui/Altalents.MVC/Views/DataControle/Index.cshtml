@@ -3,19 +3,47 @@
     ViewData["Title"] = LibellesResources.TitreDataControle;
     Layout = "_LayoutAdmin";
     Dictionary<GridActionEnum, RouteActionModel> gridReferenceAValiderActionDictionary = new();
-    gridReferenceAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetReferences", ControllerName = DataControleController.ControllerName });
+    gridReferenceAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetReferences", ControllerName = DataControleController.ControllerName, DynamicAdditionnalDataMethode = "gridReferenceAValiderGetAditionnalData" });
     gridReferenceAValiderActionDictionary.Add(GridActionEnum.Update, new() { ActionName = "UpdateReferenc", ControllerName = DataControleController.ControllerName });
 }
 
 <script type="text/javascript">
+    var showAllGetReferences = false;
+    function gridReferenceAValiderGetAditionnalData(){
+        return { ShowAll: showAllGetReferences };
+    }
+
     function reloadGridReferenceAValider(e) {
         var grid = $("#gridReferenceAValider").data("kendoGrid");
-        grid.dataSource.read();
+        grid.dataSource.read(gridReferenceAValiderGetAditionnalData());
     }
 
 </script>
+<script>
+    function onChangeSwitchAValiderAll(e) {
+        showAllGetReferences = false;
+        if (e.checked) {
+            showAllGetReferences = true;
+        }
+        reloadGridReferenceAValider();
+    }
+</script>
 
 <h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-3">
+        Voir tout : @(Html.Kendo().Switch()
+        .Name("switchAValiderAll")
+        .Events(ev => ev.Change("onChangeSwitchAValiderAll"))
+        .Messages(c =>
+        c.Checked("Oui")
+        .Unchecked("Non")
+        )
+        )
+    </div>
+
+</div>
+
 
 @(Html.Kendo().Grid<ReferenceAValiderDto>()
     .Name("gridReferenceAValider")
@@ -33,10 +61,9 @@
     .Filterable()
     .Scrollable()
     .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}")
-    .CreateDefautToolBar(creerTexte: "Créer une reference")
+    .CreateDefautToolBar(withCreate: false, creerTexte: "Créer une reference")
     .CreateDefautDataSource(gridReferenceAValiderActionDictionary, model => model.Id(p => p.Id), colonneTriInitiale: "TypeReference", colonneTriSecondaire:"Libelle")
-)
-
+) 
 <script>
 
     function onDataBoundReferenceAValiders(e) {

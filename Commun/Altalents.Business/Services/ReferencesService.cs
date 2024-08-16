@@ -45,10 +45,16 @@ namespace Altalents.Business.Services
                  .ToListAsync(cancellationToken);
         }
 
-        public IQueryable<ReferenceAValiderDto> GetReferencesAValider()
+        public IQueryable<ReferenceAValiderDto> GetReferencesAValider(bool showAll)
         {
-            return DbContext.References
-                             .Where(x => !x.IsValide)
+            List<TypeReferenceEnum> listType = [TypeReferenceEnum.Competence, TypeReferenceEnum.OutilEtEnvironnement, TypeReferenceEnum.Methodologies];
+            IQueryable<Reference> references = DbContext.References.Where(x => listType.Contains(x.Type)).AsQueryable();
+            if (!showAll)
+            {
+                references = references
+                                         .Where(x => !x.IsValide);
+            }
+            return references
                              .ProjectTo<ReferenceAValiderDto>(Mapper.ConfigurationProvider);
         }
 
