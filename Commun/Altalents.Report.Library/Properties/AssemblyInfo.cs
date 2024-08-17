@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Altalent.ReportLibrary")]
+[assembly: AssemblyTitle("Altalents.Report.Library")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Progress Software Corporation")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e9db30a3-db24-44a8-8b3a-a7360648f44c")]
+[assembly: Guid("9be9031e-e3a7-4ba4-9bda-9fe643156193")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,11 +1,10 @@
 using System.Collections;
 
-using Altalent.ReportLibrary;
-using Altalent.ReportLibrary.DSO;
-
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
 using Altalents.IBusiness.DTO.Requesst;
+using Altalents.Report.Library;
+using Altalents.Report.Library.DSO;
 
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;

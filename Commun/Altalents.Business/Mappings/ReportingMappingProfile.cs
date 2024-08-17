@@ -1,6 +1,4 @@
-using Altalent.ReportLibrary.DSO;
-
-using Altalents.IBusiness.DTO.Requesst;
+using Altalents.Report.Library.DSO;
 
 namespace Altalents.Business.Mappings
 {

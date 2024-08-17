@@ -1,4 +1,4 @@
-namespace Altalent.ReportLibrary
+namespace Altalents.Report.Library
 {
     using System;
     using System.ComponentModel;

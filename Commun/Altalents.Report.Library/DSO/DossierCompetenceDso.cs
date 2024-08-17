@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Altalent.ReportLibrary.DSO
+namespace Altalents.Report.Library.DSO
 {
     public class DossierCompetenceDso
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Altalent.ReportLibrary.DSO
+namespace Altalents.Report.Library.DSO
 {
     public class ExperienceDso
     {
