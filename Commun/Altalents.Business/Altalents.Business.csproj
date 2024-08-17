@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -28,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Altalent.ReportLibrary\Altalent.ReportLibrary.csproj" />
     <ProjectReference Include="..\Altalents.Commun\Altalents.Commun.csproj" />
     <ProjectReference Include="..\Altalents.IBusiness\Altalents.IBusiness.csproj" />
     <ProjectReference Include="..\Altalents.DataAccess\Altalents.DataAccess.csproj" />
+    <ProjectReference Include="..\Altalents.Report.Library\Altalents.Report.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>

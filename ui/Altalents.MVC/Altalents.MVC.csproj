@@ -95,7 +95,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Altalent.ReportLibrary\Altalent.ReportLibrary.csproj" />
     <ProjectReference Include="..\..\Commun\Altalents.Business\Altalents.Business.csproj" />
     <ProjectReference Include="..\..\Commun\Altalents.Entities\Altalents.Entities.csproj" />
     <ProjectReference Include="..\Altalents.API\Altalents.API.csproj" />
