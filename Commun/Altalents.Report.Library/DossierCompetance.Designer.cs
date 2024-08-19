@@ -29,20 +29,20 @@ namespace Altalents.Report.Library
             this.textBox2 = new Telerik.Reporting.TextBox();
             this.textBox4 = new Telerik.Reporting.TextBox();
             this.textBox6 = new Telerik.Reporting.TextBox();
+            this.experienceDataSource = new Telerik.Reporting.ObjectDataSource();
             this.pageHeader = new Telerik.Reporting.PageHeaderSection();
             this.AlteaLogo = new Telerik.Reporting.PictureBox();
+            this.alteaGear = new Telerik.Reporting.PictureBox();
             this.pageFooter = new Telerik.Reporting.PageFooterSection();
             this.currentTimeTextBox = new Telerik.Reporting.TextBox();
             this.pageInfoTextBox = new Telerik.Reporting.TextBox();
             this.reportHeader = new Telerik.Reporting.ReportHeaderSection();
             this.Trigrame = new Telerik.Reporting.TextBox();
+            this.poste = new Telerik.Reporting.TextBox();
+            this.titreDossierCompetences = new Telerik.Reporting.TextBox();
             this.reportFooter = new Telerik.Reporting.ReportFooterSection();
             this.detail = new Telerik.Reporting.DetailSection();
-            this.alteaGear = new Telerik.Reporting.PictureBox();
-            this.poste = new Telerik.Reporting.TextBox();
             this.dossierCompetanceDataSource = new Telerik.Reporting.ObjectDataSource();
-            this.experienceDataSource = new Telerik.Reporting.ObjectDataSource();
-            this.titreDossierCompetences = new Telerik.Reporting.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // textBox1
@@ -125,6 +125,11 @@ namespace Altalents.Report.Library
             this.textBox6.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(5.633D), Telerik.Reporting.Drawing.Unit.Cm(0.609D));
             this.textBox6.Value = "= Fields.DateFin";
             // 
+            // experienceDataSource
+            // 
+            this.experienceDataSource.DataSource = typeof(Altalents.Report.Library.DSO.ExperienceDso);
+            this.experienceDataSource.Name = "experienceDataSource";
+            // 
             // pageHeader
             // 
             this.pageHeader.Height = Telerik.Reporting.Drawing.Unit.Cm(5.5D);
@@ -141,6 +146,15 @@ namespace Altalents.Report.Library
             this.AlteaLogo.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(5.547D), Telerik.Reporting.Drawing.Unit.Cm(1.3D));
             this.AlteaLogo.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
             this.AlteaLogo.Value = ((object)(resources.GetObject("AlteaLogo.Value")));
+            // 
+            // alteaGear
+            // 
+            this.alteaGear.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(15D), Telerik.Reporting.Drawing.Unit.Cm(0D));
+            this.alteaGear.MimeType = "";
+            this.alteaGear.Name = "alteaGear";
+            this.alteaGear.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(3.1D), Telerik.Reporting.Drawing.Unit.Cm(5.5D));
+            this.alteaGear.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
+            this.alteaGear.Value = ((object)(resources.GetObject("alteaGear.Value")));
             // 
             // pageFooter
             // 
@@ -186,25 +200,6 @@ namespace Altalents.Report.Library
             this.Trigrame.StyleName = "Title";
             this.Trigrame.Value = "= Fields.Trigrame";
             // 
-            // reportFooter
-            // 
-            this.reportFooter.Height = Telerik.Reporting.Drawing.Unit.Cm(0.714D);
-            this.reportFooter.Name = "reportFooter";
-            // 
-            // detail
-            // 
-            this.detail.Height = Telerik.Reporting.Drawing.Unit.Cm(0.714D);
-            this.detail.Name = "detail";
-            // 
-            // alteaGear
-            // 
-            this.alteaGear.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(15D), Telerik.Reporting.Drawing.Unit.Cm(0D));
-            this.alteaGear.MimeType = "";
-            this.alteaGear.Name = "alteaGear";
-            this.alteaGear.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(3.1D), Telerik.Reporting.Drawing.Unit.Cm(5.5D));
-            this.alteaGear.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
-            this.alteaGear.Value = ((object)(resources.GetObject("alteaGear.Value")));
-            // 
             // poste
             // 
             this.poste.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.053D), Telerik.Reporting.Drawing.Unit.Cm(1.3D));
@@ -213,16 +208,6 @@ namespace Altalents.Report.Library
             this.poste.Style.Font.Bold = true;
             this.poste.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(22D);
             this.poste.Value = "= Fields.Poste";
-            // 
-            // dossierCompetanceDataSource
-            // 
-            this.dossierCompetanceDataSource.DataSource = typeof(Altalents.Report.Library.DSO.DossierCompetenceDso);
-            this.dossierCompetanceDataSource.Name = "dossierCompetanceDataSource";
-            // 
-            // experienceDataSource
-            // 
-            this.experienceDataSource.DataSource = typeof(Altalents.Report.Library.DSO.ExperienceDso);
-            this.experienceDataSource.Name = "experienceDataSource";
             // 
             // titreDossierCompetences
             // 
@@ -234,7 +219,22 @@ namespace Altalents.Report.Library
             this.titreDossierCompetences.Style.Font.Bold = true;
             this.titreDossierCompetences.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(16D);
             this.titreDossierCompetences.Style.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(74)))), ((int)(((byte)(255)))));
-            this.titreDossierCompetences.Value = "Dossier de comp�tences";
+            this.titreDossierCompetences.Value = "Dossier de compétences";
+            // 
+            // reportFooter
+            // 
+            this.reportFooter.Height = Telerik.Reporting.Drawing.Unit.Cm(0.714D);
+            this.reportFooter.Name = "reportFooter";
+            // 
+            // detail
+            // 
+            this.detail.Height = Telerik.Reporting.Drawing.Unit.Cm(0.714D);
+            this.detail.Name = "detail";
+            // 
+            // dossierCompetanceDataSource
+            // 
+            this.dossierCompetanceDataSource.DataSource = typeof(Altalents.Report.Library.DSO.DossierCompetenceDso);
+            this.dossierCompetanceDataSource.Name = "dossierCompetanceDataSource";
             // 
             // DossierCompetance
             // 
