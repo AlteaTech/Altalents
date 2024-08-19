@@ -31,7 +31,8 @@
                 <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences"
                     [tokenDossierTechnique]="tokenDossierTechnique"></app-competences>
                 <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions"
-                    [tokenDossierTechnique]="tokenDossierTechnique"></app-questions>
+                    [tokenDossierTechnique]="tokenDossierTechnique"
+                    (validationCallback)="onValidationCallbackChange($event)"></app-questions>
                 <app-recapitulatif *ngSwitchCase="dossierTechniqueEnum.Recapitulatif"
                     [tokenDossierTechnique]="tokenDossierTechnique"></app-recapitulatif>
             </div>

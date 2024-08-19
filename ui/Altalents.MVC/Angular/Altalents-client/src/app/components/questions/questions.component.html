@@ -1,1 +1,7 @@
-<h1>Questions spécifiques & documentation</h1>
+<div *ngFor="let question of questions">
+    <label class="col-form-label">{{ question.question }}<span class="champ-obligatoire" *ngIf="question.isObligatoire">*</span></label>
+    <input type="text" class="form-control" placeholder="Répondez ici" [(ngModel)]="question.reponse"/>
+    <div class="error-message" *ngIf="question.isObligatoire && !question.reponse && showErreurs">
+        La réponse est requise.
+    </div>
+</div>
