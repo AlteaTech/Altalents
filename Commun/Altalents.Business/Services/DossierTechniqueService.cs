@@ -1,12 +1,16 @@
-using System.Collections.Generic;
+using System.Collections;
 
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
-using Altalents.Entities;
 using Altalents.IBusiness.DTO.Requesst;
+using Altalents.Report.Library;
+using Altalents.Report.Library.DSO;
 
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
+
+using Telerik.Reporting;
+using Telerik.Reporting.Processing;
 
 namespace Altalents.Business.Services
 {
@@ -14,6 +18,7 @@ namespace Altalents.Business.Services
     {
         private readonly GlobalSettings _globalSettings;
         private readonly IEmailService _emailService;
+
         public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider,
             IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService) : base(logger, contexte, mapper, serviceProvider)
         {
@@ -27,7 +32,7 @@ namespace Altalents.Business.Services
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
-            if (dossierTechnique.Documents.Any())
+            if (dossierTechnique.Documents != null && dossierTechnique.Documents.Any())
             {
                 dt.DocumentComplementaires = GetDocumentComplementaires(dossierTechnique.Documents);
             }
@@ -58,7 +63,7 @@ namespace Altalents.Business.Services
         {
             List<string> messagesErreur = new();
             bool checkTelephone = IsTelephoneValid(dossierTechnique.Telephone, true);
-            Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail,null, cancellationToken);
+            Task<bool> taskCheckMail = IsEmailValidAsync(dossierTechnique.AdresseMail, null, cancellationToken);
             Task<bool> taskCheckIdBoond = IsIdBoondValidAsync(dossierTechnique.IdBoond, cancellationToken);
             Task<bool> taskCheckTrigramme = GetScopedDbContexte().DossierTechniques.AnyAsync(x => x.Personne.Trigramme == dossierTechnique.Trigramme, cancellationToken);
 
@@ -160,7 +165,7 @@ namespace Altalents.Business.Services
             return retour;
         }
 
-        public async Task<bool> IsEmailValidAsync(string email,Guid? tokenRapide, CancellationToken cancellationToken)
+        public async Task<bool> IsEmailValidAsync(string email, Guid? tokenRapide, CancellationToken cancellationToken)
         {
             string trimmedEmail = email.Trim().ToLower();
 
@@ -195,7 +200,7 @@ namespace Altalents.Business.Services
                     return false;
                 }
             }
-           
+
             return true;
         }
 
@@ -305,7 +310,7 @@ namespace Altalents.Business.Services
 
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
             Contact tel1 = contactTelephones.FirstOrDefault();
-            if(tel1 != null)
+            if (tel1 != null)
             {
                 tel1.Valeur = request.Telephone1;
             }
@@ -325,7 +330,7 @@ namespace Altalents.Business.Services
                     });
                 }
             }
-            if(contactTelephones.Count<=1 && !string.IsNullOrEmpty(request.Telephone2))
+            if (contactTelephones.Count <= 1 && !string.IsNullOrEmpty(request.Telephone2))
             {
                 dt.Personne.Contacts.Add(new Contact()
                 {
@@ -404,6 +409,47 @@ namespace Altalents.Business.Services
                     NomFichier = d.Nom
                 }))
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<DocumentDto> GenerateDossierCometanceFileAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            DossierCompetenceDso dt = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
+                .ProjectTo<DossierCompetenceDso>(Mapper.ConfigurationProvider)
+                .FirstAsync(cancellationToken);
+
+            ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();
+
+            // set any deviceInfo settings if necessary
+            Hashtable deviceInfo = new System.Collections.Hashtable();
+
+            DossierCompetance rpt = new DossierCompetance();
+
+            rpt.dossierCompetanceDataSource.DataSource = dt;
+            rpt.experienceDataSource.DataSource = dt.Experiences;
+
+            InstanceReportSource reportSource = new InstanceReportSource
+            {
+                ReportDocument = rpt
+            };
+
+            RenderingResult result = reportProcessor.RenderReport("PDF", reportSource, deviceInfo);
+
+            if (!result.HasErrors)
+            {
+                string fileName = result.DocumentName + "." + result.Extension;
+
+                return new DocumentDto()
+                {
+                    MimeType = "application/pdf",
+                    NomFichier = fileName,
+                    Data = result.DocumentBytes
+                };
+            }
+            else
+            {
+                throw new Exception(result.Errors.ToString());
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -14,22 +14,33 @@
   <ItemGroup>
     <PackageReference Include="AnyAscii" Version="0.3.2" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
     <PackageReference Include="MailKit" Version="4.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
-    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.11" />
-    <PackageReference Include="AlteaTools.Application.Core" Version="8.0.11" />
-    <PackageReference Include="AlteaTools.EntityFramework" Version="8.0.11" />
-    <PackageReference Include="AlteaTools.Hangfire" Version="8.0.11" />
-    <PackageReference Include="AlteaTools.Session" Version="8.0.11" />
+    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.13" />
+    <PackageReference Include="AlteaTools.Application.Core" Version="8.0.13" />
+    <PackageReference Include="AlteaTools.EntityFramework" Version="8.0.13" />
+    <PackageReference Include="AlteaTools.Hangfire" Version="8.0.13" />
+    <PackageReference Include="AlteaTools.Session" Version="8.0.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Altalents.Commun\Altalents.Commun.csproj" />
     <ProjectReference Include="..\Altalents.IBusiness\Altalents.IBusiness.csproj" />
     <ProjectReference Include="..\Altalents.DataAccess\Altalents.DataAccess.csproj" />
+    <ProjectReference Include="..\Altalents.Report.Library\Altalents.Report.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Telerik.Reporting">
+      <HintPath>dll\Telerik.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.OpenXmlRendering.2.7.2">
+      <HintPath>dll\Telerik.Reporting.OpenXmlRendering.2.7.2.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +69,18 @@
     <Using Include="System.Collections.Generic" />
     <Using Include="System.Linq" />
     <Using Include="System.Threading.Tasks" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dll\Telerik.Reporting.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="dll\Telerik.Reporting.OpenXmlRendering.2.7.2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="dll\Telerik.Reporting.OpenXmlRendering.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

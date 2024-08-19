@@ -176,6 +176,18 @@
   <data name="PrenomCandidat" xml:space="preserve">
     <value>Prenom du candidat</value>
   </data>
+  <data name="ReferenceCommentaireFun" xml:space="preserve">
+    <value>Commentaire</value>
+  </data>
+  <data name="ReferenceLibelle" xml:space="preserve">
+    <value>Libelle</value>
+  </data>
+  <data name="ReferenceNbDtAssocie" xml:space="preserve">
+    <value>Nombre de Dt Associés</value>
+  </data>
+  <data name="ReferenceType" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="Statut" xml:space="preserve">
     <value>Statut</value>
     <comment>Statut</comment>

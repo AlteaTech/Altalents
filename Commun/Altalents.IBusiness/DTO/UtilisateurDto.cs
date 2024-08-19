@@ -15,11 +15,9 @@ namespace Altalents.IBusiness.DTO
         public string Email { get; set; }
         [Required]
         public DateTime DateCreation { get; set; }
-        public string Telephone { get; set; }
-        public string Poste { get; set; }
         [Required]
         public bool IsActif { get; set; }
-        public TypeUtilisateurEnum TypeCompte { get; set; } = TypeUtilisateurEnum.Utilisateur;
+        public new TypeUtilisateurEnum TypeCompte { get; set; } = TypeUtilisateurEnum.Utilisateur;
 
         public string Statut { get; set; }
 

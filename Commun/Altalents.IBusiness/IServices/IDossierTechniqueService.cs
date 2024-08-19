@@ -23,5 +23,6 @@ namespace Altalents.IBusiness.IServices
         Task PutExperiencesAsync(Guid tokenAccesRapide, PutExperiencesRequestDto request, CancellationToken cancellationToken);
         Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
+        Task<DocumentDto> GenerateDossierCometanceFileAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
     }
 }

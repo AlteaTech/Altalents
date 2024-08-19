@@ -214,6 +214,42 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Commentaire.
+        /// </summary>
+        public static string ReferenceCommentaireFun {
+            get {
+                return ResourceManager.GetString("ReferenceCommentaireFun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Libelle.
+        /// </summary>
+        public static string ReferenceLibelle {
+            get {
+                return ResourceManager.GetString("ReferenceLibelle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Nombre de Dt Associés.
+        /// </summary>
+        public static string ReferenceNbDtAssocie {
+            get {
+                return ResourceManager.GetString("ReferenceNbDtAssocie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Type.
+        /// </summary>
+        public static string ReferenceType {
+            get {
+                return ResourceManager.GetString("ReferenceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Statut.
         /// </summary>
         public static string Statut {

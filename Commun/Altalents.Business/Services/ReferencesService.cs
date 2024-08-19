@@ -1,4 +1,6 @@
 
+using System.Reflection.Metadata;
+
 using Altalents.Commun.Enums;
 
 namespace Altalents.Business.Services
@@ -41,6 +43,24 @@ namespace Altalents.Business.Services
                  .ThenBy(x => x.Libelle)
                  .ProjectTo<ReferenceDto>(Mapper.ConfigurationProvider)
                  .ToListAsync(cancellationToken);
+        }
+
+        public IQueryable<ReferenceAValiderDto> GetReferencesAValider(bool showAll)
+        {
+            List<TypeReferenceEnum> listType = [TypeReferenceEnum.Competence, TypeReferenceEnum.OutilEtEnvironnement, TypeReferenceEnum.Methodologies];
+            IQueryable<Reference> references = DbContext.References.Where(x => listType.Contains(x.Type)).AsQueryable();
+            if (!showAll)
+            {
+                references = references
+                                         .Where(x => !x.IsValide);
+            }
+            return references
+                             .ProjectTo<ReferenceAValiderDto>(Mapper.ConfigurationProvider);
+        }
+
+        public Task UpdateReferenceAsync(ReferenceAValiderDto reference)
+        {
+            throw new NotImplementedException();
         }
     }
 }
