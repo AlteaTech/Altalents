@@ -6,11 +6,13 @@ import { FormContainerComponent } from './components/form-container/form-contain
 import { FinComponent } from './components/fin/fin.component';
 import { CommercialCreationDtAccueilComponent } from './components/commercial-creation-dt-accueil/commercial-creation-dt-accueil.component';
 import { CommercialCreationDtConfigurationComponent } from './components/commercial-creation-dt-configuration/commercial-creation-dt-configuration.component';
+import { TelechargementDtComponent } from './components/telechargement-dt/telechargement-dt.component';
 
 const routes: Routes = [
   { path: `${ConstantesRoutes.accueilBaseUrl}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: AccueilComponent },
   { path: `${ConstantesRoutes.dossierTechniqueBaseUrl}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: FormContainerComponent },
   { path: `${ConstantesRoutes.finBaseUrl}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: FinComponent },
+  { path: `${ConstantesRoutes.telechargementDt}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: TelechargementDtComponent },
   { path: `${ConstantesRoutes.commercialAccueilCreateDt}`, component: CommercialCreationDtAccueilComponent },
   { path: `${ConstantesRoutes.commercialAccueilCreateDt}/${ConstantesRoutes.commercialAccueilConfigurationDt}`, component: CommercialCreationDtConfigurationComponent },
 ];
