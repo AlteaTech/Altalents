@@ -53,7 +53,6 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
 
     if (this.experience) {
       this.formGroup.patchValue({
-        typeContrat: this.experience.typeContrat,
         intitulePoste: this.experience.intitulePoste,
         entreprise: this.experience.entreprise,
         clientFinal: this.experience.clientFinal,
@@ -112,6 +111,13 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
     this.callRequest(ConstantesRequest.getReferencesTypesContrats, this.service.getReferences(ConstantesTypesReferences.typeContrat)
         .subscribe((response: ReferenceDto[]) => {
           this.typesContrats = Reference.fromListReferenceDto(response);
+
+          if(this.experience) {
+            const type: Reference = this.typesContrats.find(x => x.id == this.experience!.typeContrat.id) ?? this.typesContrats[0];
+            this.formGroup.controls.typeContrat.setValue(type);
+          } else {
+            this.formGroup.controls.typeContrat.setValue(this.typesContrats[0]);
+          }
         }));
   }
 
