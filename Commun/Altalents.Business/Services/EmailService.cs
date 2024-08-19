@@ -15,9 +15,9 @@ namespace Altalents.Business.Services
     {
         private readonly EmailSettings _emailSettings;
 
-        public EmailService(IOptions<EmailSettings> emailSettings)
+        public EmailService(IOptions<EmailSettings> emailSetting)
         {
-            _emailSettings = emailSettings.Value;
+            _emailSettings = emailSetting.Value;
         }
 
         public void SendEmail(string toEmail, string subject, string message)

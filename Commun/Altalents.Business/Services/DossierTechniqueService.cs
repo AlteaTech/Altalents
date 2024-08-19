@@ -18,12 +18,14 @@ namespace Altalents.Business.Services
     {
         private readonly GlobalSettings _globalSettings;
         private readonly IEmailService _emailService;
+        private readonly CommercialSettings _commercialSettings;
 
         public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider,
-            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService) : base(logger, contexte, mapper, serviceProvider)
+            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService, IOptions<CommercialSettings> commercialSettings) : base(logger, contexte, mapper, serviceProvider)
         {
             _globalSettings = globalSettings.CurrentValue;
             _emailService = emailService;
+            _commercialSettings = commercialSettings.Value;
         }
 
         public async Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
@@ -425,6 +427,13 @@ namespace Altalents.Business.Services
 
             DossierCompetance rpt = new DossierCompetance();
 
+            dt.Commercial = new()
+            {
+                Mail = _commercialSettings.Mail,
+                Telephone = _commercialSettings.Telephone,
+                Name = _commercialSettings.Nom,
+                WebSite = _commercialSettings.SiteWeb
+            };
             rpt.dossierCompetanceDataSource.DataSource = dt;
             rpt.experienceDataSource.DataSource = dt.Experiences;
 

@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DSO\CommercialDso.cs" />
     <Compile Include="DSO\DossierCompetenceDso.cs" />
     <Compile Include="DSO\ExperienceDso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

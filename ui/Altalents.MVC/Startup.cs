@@ -92,6 +92,7 @@ namespace Altalents.MVC
             services.AddAutoMapper(typeof(Startup));
             services.AddDistributedMemoryCache();
             services.Configure<EmailSettings>(Configuration.GetSection(EmailSettings.Section));
+            services.Configure<CommercialSettings>(Configuration.GetSection(CommercialSettings.Section));
 
             IConfigurationSection configurationHangfireSection = Configuration.GetSection(Commun.Settings.GlobalSettings.Section);
             GlobalSettings globalSettings = configurationHangfireSection.Get<GlobalSettings>();
