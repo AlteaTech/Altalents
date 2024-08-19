@@ -12,5 +12,6 @@ namespace Altalents.Report.Library.DSO
         public int NumeroDt { get; set; }
         public string Poste { get; set; }
         public List<ExperienceDso> Experiences { get; set; }
+        public CommercialDso Commercial { get; set; }
     }
 }
