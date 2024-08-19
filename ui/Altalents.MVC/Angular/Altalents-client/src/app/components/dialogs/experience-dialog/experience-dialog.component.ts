@@ -1,7 +1,9 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponent } from 'src/app/shared/components/base.component';
+import { Constantes } from 'src/app/shared/constantes/constantes';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { ExperienceForm } from 'src/app/shared/interfaces/experience-form';
@@ -56,8 +58,8 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
         entreprise: this.experience.entreprise,
         clientFinal: this.experience.clientFinal,
         isClientFinal: this.experience.clientFinal ? true : false,
-        dateDebut: this.experience.dateDebut,
-        dateFin: this.experience.dateFin,
+        dateDebut: formatDate(this.experience.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale),
+        dateFin: this.experience.dateFin ? formatDate(this.experience.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
         isPosteActuel: !this.experience.dateFin,
         lieu: this.experience.lieu,
         description: this.experience.description,
@@ -121,8 +123,8 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
       experience.intitulePoste = values.intitulePoste ?? "";
       experience.entreprise = values.entreprise ?? "";
       experience.clientFinal = values.clientFinal ?? undefined;
-      experience.dateDebut = values.dateDebut ?? new Date();
-      experience.dateFin = values.dateFin ?? undefined;
+      experience.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
+      experience.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
       experience.lieu = values.lieu ?? "";
       experience.description = values.description ?? "";
       experience.domaineMetier = values.domaineMetier ?? "";

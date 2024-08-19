@@ -8,6 +8,7 @@ import { ExperienceDto, ExperienceRequestDto, PutExperiencesRequestDto } from 's
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { formatDate } from '@angular/common';
+import { Constantes } from 'src/app/shared/constantes/constantes';
 
 @Component({
   selector: 'app-experiences',
@@ -34,6 +35,7 @@ export class ExperiencesComponent extends BaseComponent implements OnInit {
     this.callRequest(ConstantesRequest.getExperiences, this.service.getExperiences(this.tokenDossierTechnique)
         .subscribe((response: ExperienceDto[]) => {
           this.experiences = Experience.fromList(response);
+          this.experiences.forEach(x => this.populateDureeExperience(x));
         }));
   }
 
@@ -53,8 +55,8 @@ export class ExperiencesComponent extends BaseComponent implements OnInit {
   }
 
   private populateDureeExperience(experience: Experience) {
-    if (experience.dateDebut && experience.dateFin) {
-      const dateFin = new Date(experience.dateFin);
+    if (experience.dateDebut) {
+      const dateFin = experience.dateFin ? new Date(experience.dateFin) : new Date();
       const dateDebut = new Date(experience.dateDebut);
       const jours: number = Math.round((Date.UTC(dateFin.getFullYear(), dateFin.getMonth(), dateFin.getDate())
                                           - Date.UTC(dateDebut.getFullYear(), dateDebut.getMonth(), dateDebut.getDate()))
@@ -80,6 +82,11 @@ export class ExperiencesComponent extends BaseComponent implements OnInit {
     };
     let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, ngbModalOptions);
     dialogRef.componentInstance.experience = experience;
+    dialogRef.result.then((nouvelElement: Experience | undefined) => {
+      if(nouvelElement) {
+        this.populateDureeExperience(nouvelElement);
+      }
+    })
   }
 
   private async submit(): Promise<boolean> {
@@ -98,8 +105,8 @@ export class ExperiencesComponent extends BaseComponent implements OnInit {
       experienceDto.intitulePoste = experience.intitulePoste;
       experienceDto.entreprise = experience.entreprise;
       experienceDto.clientFinal = experience.clientFinal;
-      experienceDto.dateDebut = formatDate(experience.dateDebut, 'yyyy-MM-ddT00:00:00', 'fr-FR');
-      experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, 'yyyy-MM-ddT00:00:00', 'fr-FR') : undefined;
+      experienceDto.dateDebut = formatDate(experience.dateDebut, Constantes.formatDateBack, Constantes.formatDateLocale);
+      experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
       experienceDto.lieu = experience.lieu;
       experienceDto.description = experience.description;
       experienceDto.domaineMetier = experience.domaineMetier;
