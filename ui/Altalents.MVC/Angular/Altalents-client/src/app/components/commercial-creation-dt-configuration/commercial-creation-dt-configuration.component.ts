@@ -128,7 +128,6 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     retour.utilisateurId = this.userIdLogged;
     retour.questionnaires = this.questions ? Question.toList(this.questions) : undefined;
     this.populateDocumentDto(retour);
-    debugger;
     return retour;
   }
 

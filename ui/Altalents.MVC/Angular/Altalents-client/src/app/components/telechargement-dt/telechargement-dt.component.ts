@@ -27,7 +27,7 @@ export class TelechargementDtComponent extends BaseComponent implements OnInit {
     this.callRequest(ConstantesRequest.generateDossierCompetenceFile, this.service.generateDossierCompetenceFile(this.tokenDossierTechnique)
         .subscribe((response: DocumentDto) => {
           var a = document.createElement("a"); //Create <a>
-          a.href = "data:image/png;base64," + response.data; //Image Base64 Goes here
+          a.href = "data:" + response.mimeType + ";base64," + response.data; //Image Base64 Goes here
           a.download = response.nomFichier; //File name Here
           a.click(); //Downloaded file
         }));

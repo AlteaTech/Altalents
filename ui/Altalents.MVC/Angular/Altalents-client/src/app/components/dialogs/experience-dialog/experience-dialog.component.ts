@@ -1,7 +1,9 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponent } from 'src/app/shared/components/base.component';
+import { Constantes } from 'src/app/shared/constantes/constantes';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { ExperienceForm } from 'src/app/shared/interfaces/experience-form';
@@ -26,17 +28,17 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
     private readonly service: ApiServiceAgent) {
     super();
     this.formGroup = new FormGroup<ExperienceForm>({
-      typeContrat: new FormControl(),
-      intitulePoste: new FormControl(),
-      entreprise: new FormControl(),
+      typeContrat: new FormControl(null, Validators.required),
+      intitulePoste: new FormControl(null, Validators.required),
+      entreprise: new FormControl(null, Validators.required),
       isClientFinal: new FormControl(),
       clientFinal: new FormControl(),
-      dateDebut: new FormControl(),
+      dateDebut: new FormControl(null, Validators.required),
       dateFin: new FormControl(),
       isPosteActuel: new FormControl(),
-      lieu: new FormControl(),
-      description: new FormControl(),
-      domaineMetier: new FormControl(),
+      lieu: new FormControl(null, Validators.required),
+      description: new FormControl(null, Validators.required),
+      domaineMetier: new FormControl(null, Validators.required),
       compositionEquipe: new FormControl(),
       technologies: new FormControl(),
       competences: new FormControl(),
@@ -51,14 +53,13 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
 
     if (this.experience) {
       this.formGroup.patchValue({
-        typeContrat: this.experience.typeContrat,
         intitulePoste: this.experience.intitulePoste,
         entreprise: this.experience.entreprise,
         clientFinal: this.experience.clientFinal,
         isClientFinal: this.experience.clientFinal ? true : false,
-        dateDebut: this.experience.dateDebut,
-        dateFin: this.experience.dateFin,
-        isPosteActuel: this.experience.isPosteActuel,
+        dateDebut: formatDate(this.experience.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale),
+        dateFin: this.experience.dateFin ? formatDate(this.experience.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
+        isPosteActuel: !this.experience.dateFin,
         lieu: this.experience.lieu,
         description: this.experience.description,
         domaineMetier: this.experience.domaineMetier,
@@ -78,23 +79,45 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
 
   public updateInputPosteActuel(): void {
     let controls = this.formGroup.controls;
-    controls.isPosteActuel.value ? controls.dateFin.disable() : controls.dateFin.enable();
+    if(controls.isPosteActuel.value) {
+      controls.dateFin.disable();
+      controls.dateFin.reset();
+    } else {
+      controls.dateFin.enable();
+    }
   }
 
   public updateInputClientFinal(): void {
     let controls = this.formGroup.controls;
-    controls.isClientFinal.value ? controls.clientFinal.enable() : controls.clientFinal.disable();
+    if(controls.isClientFinal.value) {
+      controls.clientFinal.enable();
+    } else {
+      controls.clientFinal.disable();
+      controls.clientFinal.reset();
+    }
   }
 
   public updateInputBudgetGere(): void {
     let controls = this.formGroup.controls;
-    controls.isBudgetGere.value ? controls.budgetGere.enable() : controls.budgetGere.disable();
+    if(controls.isBudgetGere.value) {
+      controls.budgetGere.enable();
+    } else {
+      controls.budgetGere.disable();
+      controls.budgetGere.reset();
+    }
   }
 
   public override populateData(): void {
     this.callRequest(ConstantesRequest.getReferencesTypesContrats, this.service.getReferences(ConstantesTypesReferences.typeContrat)
         .subscribe((response: ReferenceDto[]) => {
           this.typesContrats = Reference.fromListReferenceDto(response);
+
+          if(this.experience) {
+            const type: Reference = this.typesContrats.find(x => x.id == this.experience!.typeContrat.id) ?? this.typesContrats[0];
+            this.formGroup.controls.typeContrat.setValue(type);
+          } else {
+            this.formGroup.controls.typeContrat.setValue(this.typesContrats[0]);
+          }
         }));
   }
 
@@ -102,23 +125,24 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
     if (this.formGroup.valid) {
       const values = this.formGroup.value;
       let experience: Experience = this.experience ?? new Experience();
-      experience.typeContrat = values.typeContrat;
-      experience.intitulePoste = values.intitulePoste;
-      experience.entreprise = values.entreprise;
-      experience.clientFinal = values.clientFinal;
-      experience.dateDebut = values.dateDebut;
-      experience.dateFin = values.dateFin;
-      experience.isPosteActuel = values.isPosteActuel ?? false;
-      experience.lieu = values.lieu;
-      experience.description = values.description;
-      experience.domaineMetier = values.domaineMetier;
-      experience.compositionEquipe = values.compositionEquipe;
+      experience.typeContrat = values.typeContrat ?? new Reference();
+      experience.intitulePoste = values.intitulePoste ?? "";
+      experience.entreprise = values.entreprise ?? "";
+      experience.clientFinal = values.clientFinal ?? undefined;
+      experience.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
+      experience.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
+      experience.lieu = values.lieu ?? "";
+      experience.description = values.description ?? "";
+      experience.domaineMetier = values.domaineMetier ?? "";
+      experience.compositionEquipe = values.compositionEquipe ?? undefined;
       experience.technologies = values.technologies ?? [];
       experience.competences = values.competences ?? [];
       experience.methodologies = values.methodologies ?? [];
-      experience.budgetGere = values.budgetGere;
+      experience.budgetGere = values.budgetGere ?? undefined;
       
       this.activeModal.close(experience);
+    } else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

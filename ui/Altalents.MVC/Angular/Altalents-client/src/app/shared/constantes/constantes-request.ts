@@ -11,5 +11,7 @@ export class ConstantesRequest {
   public static getTrigramme = "getTrigramme";
   public static getNomPrenom = "getNomPrenom";
   public static getParlonsDeVous = "getParlonsDeVous";
+  public static getExperiences = "getExperiences";
   public static generateDossierCompetenceFile = "generateDossierCompetenceFile";
+  public static createReferences = "createReferences";
 }
