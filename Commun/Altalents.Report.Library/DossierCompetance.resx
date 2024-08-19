@@ -117,6 +117,54 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="AlteaLogo.Value" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        mpmbdbRaLv8BJwMG6HkuuisAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="$this.SnapGridSize" type="Telerik.Reporting.Drawing.Unit, Telerik.Reporting, Version=18.2.24.806, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
     <value>0.1cm</value>
   </metadata>
