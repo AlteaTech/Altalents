@@ -31,7 +31,7 @@ namespace Altalents.Business.Services
         {
             TypeReferenceEnum typeReference = (TypeReferenceEnum)Enum.Parse(typeof(TypeReferenceEnum), typeReferenceCode);
             IQueryable<Reference> referencesQuery = DbContext.References
-                             .Where(x => x.Type == typeReference);
+                             .Where(x => x.Type == typeReference && x.IsValide);
 
             if (!string.IsNullOrEmpty(startWith))
             {
