@@ -12,4 +12,5 @@ export class ConstantesRequest {
   public static getNomPrenom = "getNomPrenom";
   public static getParlonsDeVous = "getParlonsDeVous";
   public static getExperiences = "getExperiences";
+  public static generateDossierCompetenceFile = "generateDossierCompetenceFile";
 }
