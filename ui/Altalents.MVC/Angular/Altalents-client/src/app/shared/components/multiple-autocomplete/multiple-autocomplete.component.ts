@@ -3,8 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Reference } from 'src/app/shared/models/reference.model';
 import { AutocompleteForm } from '../../interfaces/autocomplete-form';
 import { BaseComponent } from '../base.component';
-import { ReferenceDto } from '../../services/generated/api/api.client';
+import { ReferenceDto, ReferenceRequestDto } from '../../services/generated/api/api.client';
 import { ApiServiceAgent } from '../../services/services-agents/api.service-agent';
+import { ConstantesRequest } from '../../constantes/constantes-request';
 
 @Component({
   selector: 'app-multiple-autocomplete',
@@ -63,10 +64,18 @@ export class MultipleAutocompleteComponent extends BaseComponent implements OnIn
     this.references = [];
 
     if(!reference.id) {
-      // APPEL BACK POUR ADD LA REF (+ GET)
-    }
+      let requestDto = new ReferenceRequestDto();
+      requestDto.typeReference = this.constanteTypeReference;
+      requestDto.libelle = reference.libelle;
 
-    this.selectedReferences.push(reference);
+      this.callRequest(ConstantesRequest.createReferences, this.service.createReferences(requestDto)
+        .subscribe((response: string) => {
+          reference.id = response;
+          this.selectedReferences.push(reference);
+        }));
+    } else {
+      this.selectedReferences.push(reference);
+    }
   }
 
   public onRemoveReferenceClick(reference: Reference): void {
