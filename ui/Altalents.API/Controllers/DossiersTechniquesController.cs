@@ -1,3 +1,4 @@
+using Altalents.Commun.Enums;
 using Altalents.IBusiness.DTO.Requesst;
 
 namespace Altalents.API.Controllers
@@ -99,10 +100,10 @@ namespace Altalents.API.Controllers
         {
             return await _dossierTechniqueService.GetDocumentsAsync(tokenAccesRapide, cancellationToken);
         }
-        [HttpGet("{tokenAccesRapide}/generate-dt", Name = "GenerateDossierCometanceFile")]
-        public async Task<DocumentDto> GenerateDossierCometanceFileAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        [HttpGet("{tokenAccesRapide}/generate-dt", Name = "GenerateDossierCompetenceFile")]
+        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery]TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
         {
-            return await _dossierTechniqueService.GenerateDossierCometanceFileAsync(tokenAccesRapide, cancellationToken);
+            return await _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken);
         }
     }
 }
