@@ -234,7 +234,7 @@ namespace Altalents.Report.Library
             this.titreDossierCompetences.Style.Font.Bold = true;
             this.titreDossierCompetences.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(16D);
             this.titreDossierCompetences.Style.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(74)))), ((int)(((byte)(255)))));
-            this.titreDossierCompetences.Value = "Dossier de compétences";
+            this.titreDossierCompetences.Value = "Dossier de compï¿½tences";
             // 
             // DossierCompetance
             // 
