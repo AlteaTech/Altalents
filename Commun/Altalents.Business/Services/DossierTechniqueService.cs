@@ -413,7 +413,7 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<DocumentDto> GenerateDossierCometanceFileAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide,TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
             DossierCompetenceDso dt = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
@@ -442,7 +442,15 @@ namespace Altalents.Business.Services
                 ReportDocument = rpt
             };
 
-            RenderingResult result = reportProcessor.RenderReport("PDF", reportSource, deviceInfo);
+            string formatDocument = "PDF";
+            string mimeType = "application/pdf";
+            if (typeExportEnum == TypeExportEnum.RTF)
+            {
+                formatDocument = "RTF";
+                mimeType = "application/rtf";
+            }
+
+            RenderingResult result = reportProcessor.RenderReport(formatDocument, reportSource, deviceInfo);
 
             if (!result.HasErrors)
             {
@@ -450,7 +458,7 @@ namespace Altalents.Business.Services
 
                 return new DocumentDto()
                 {
-                    MimeType = "application/pdf",
+                    MimeType = mimeType,
                     NomFichier = fileName,
                     Data = result.DocumentBytes
                 };
