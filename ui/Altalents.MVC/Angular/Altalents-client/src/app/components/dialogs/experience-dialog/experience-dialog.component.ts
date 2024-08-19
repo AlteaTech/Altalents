@@ -58,7 +58,7 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
         isClientFinal: this.experience.clientFinal ? true : false,
         dateDebut: this.experience.dateDebut,
         dateFin: this.experience.dateFin,
-        isPosteActuel: this.experience.isPosteActuel,
+        isPosteActuel: !this.experience.dateFin,
         lieu: this.experience.lieu,
         description: this.experience.description,
         domaineMetier: this.experience.domaineMetier,
@@ -123,7 +123,6 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
       experience.clientFinal = values.clientFinal ?? undefined;
       experience.dateDebut = values.dateDebut ?? new Date();
       experience.dateFin = values.dateFin ?? undefined;
-      experience.isPosteActuel = values.isPosteActuel ?? false;
       experience.lieu = values.lieu ?? "";
       experience.description = values.description ?? "";
       experience.domaineMetier = values.domaineMetier ?? "";

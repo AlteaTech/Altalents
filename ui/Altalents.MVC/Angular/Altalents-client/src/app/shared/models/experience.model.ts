@@ -8,7 +8,6 @@ export class Experience {
     clientFinal?: string;
     dateDebut!: Date;
     dateFin?: Date;
-    isPosteActuel!: boolean;
     lieu!: string;
     description!: string;
     domaineMetier!: string;
