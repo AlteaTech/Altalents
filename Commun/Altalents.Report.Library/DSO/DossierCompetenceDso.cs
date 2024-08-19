@@ -10,6 +10,7 @@ namespace Altalents.Report.Library.DSO
     {
         public string Trigrame { get; set; }
         public int NumeroDt { get; set; }
+        public string Poste { get; set; }
         public List<ExperienceDso> Experiences { get; set; }
     }
 }
