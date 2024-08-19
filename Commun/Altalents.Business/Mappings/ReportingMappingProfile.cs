@@ -9,6 +9,7 @@ namespace Altalents.Business.Mappings
         {
             CreateMap<DossierTechnique, DossierCompetenceDso>()
                 .ForMember(dest => dest.NumeroDt, opt => opt.MapFrom(src => src.Numero))
+                .ForMember(dest => dest.Poste, opt => opt.MapFrom(src => src.Poste))
                 .ForMember(dest => dest.Experiences, opt => opt.MapFrom(src => src.Experiences))
                 .ForMember(dest => dest.Trigrame, opt => opt.MapFrom(src => src.Personne.Trigramme))
                 ;

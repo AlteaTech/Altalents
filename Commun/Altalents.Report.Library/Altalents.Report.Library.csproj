@@ -54,7 +54,9 @@
     <Compile Include="DSO\DossierCompetenceDso.cs" />
     <Compile Include="DSO\ExperienceDso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DossierCompetance.cs" />
+    <Compile Include="DossierCompetance.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DossierCompetance.Designer.cs">
       <DependentUpon>DossierCompetance.cs</DependentUpon>
     </Compile>
