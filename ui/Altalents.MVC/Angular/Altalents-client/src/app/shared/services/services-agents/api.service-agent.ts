@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CustomUserLoggedDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, ReferenceDto, TrigrammeDto } from '../generated/api/api.client';
+import { ApiClient, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, ReferenceDto, TrigrammeDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -63,5 +63,9 @@ export class ApiServiceAgent {
 
   putParlonsDeVous(token: string, body: ParlonsDeVousUpdateRequestDto): Observable<void> {
     return this.apiClient.putParlonsDeVous(token, body);
+  }
+
+  generateDossierCompetenceFile(token: string): Observable<DocumentDto> {
+    return this.apiClient.generateDossierCometanceFile(token);
   }
 }
