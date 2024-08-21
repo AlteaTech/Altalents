@@ -27,6 +27,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies))
                 .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences))
                 .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
+                .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.Entreprise))
                 ;
 
             CreateMap<LiaisonExperienceTechnologie, ConnaissanceDso>()
