@@ -44,10 +44,8 @@ namespace Altalents.Report.Library
             this.panel3 = new Telerik.Reporting.Panel();
             this.loupe = new Telerik.Reporting.PictureBox();
             this.focus = new Telerik.Reporting.TextBox();
-            this.petitbonhome = new Telerik.Reporting.PictureBox();
             this.detail = new Telerik.Reporting.DetailSection();
             this.subReportExperience = new Telerik.Reporting.SubReport();
-            this.reportFooterSection1 = new Telerik.Reporting.ReportFooterSection();
             this.dossierCompetanceDataSource = new Telerik.Reporting.ObjectDataSource();
             this.experienceDataSource = new Telerik.Reporting.ObjectDataSource();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -113,7 +111,6 @@ namespace Altalents.Report.Library
             // 
             // panel1
             // 
-            this.panel1.Anchoring = Telerik.Reporting.AnchoringStyles.None;
             this.panel1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.alteaPhone,
             this.CtcCommercial,
@@ -341,18 +338,9 @@ namespace Altalents.Report.Library
             this.focus.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(18D);
             this.focus.Value = "Focus";
             // 
-            // petitbonhome
-            // 
-            this.petitbonhome.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(15.1D), Telerik.Reporting.Drawing.Unit.Cm(0.204D));
-            this.petitbonhome.MimeType = "";
-            this.petitbonhome.Name = "petitbonhome";
-            this.petitbonhome.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(5.9D), Telerik.Reporting.Drawing.Unit.Cm(3.036D));
-            this.petitbonhome.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
-            this.petitbonhome.Value = ((object)(resources.GetObject("petitbonhome.Value")));
-            // 
             // detail
             // 
-            this.detail.Height = Telerik.Reporting.Drawing.Unit.Cm(26.2D);
+            this.detail.Height = Telerik.Reporting.Drawing.Unit.Cm(16.5D);
             this.detail.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.panel2,
             this.subReportExperience,
@@ -371,14 +359,7 @@ namespace Altalents.Report.Library
             typeReportSource1.TypeName = "Altalents.Report.Library.Experience, Altalents.Report.Library, Version=18.2.24.80" +
     "6, Culture=neutral, PublicKeyToken=null";
             this.subReportExperience.ReportSource = typeReportSource1;
-            this.subReportExperience.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(19.28D), Telerik.Reporting.Drawing.Unit.Cm(3D));
-            // 
-            // reportFooterSection1
-            // 
-            this.reportFooterSection1.Height = Telerik.Reporting.Drawing.Unit.Cm(3.24D);
-            this.reportFooterSection1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
-            this.petitbonhome});
-            this.reportFooterSection1.Name = "reportFooterSection1";
+            this.subReportExperience.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(19.28D), Telerik.Reporting.Drawing.Unit.Cm(0.664D));
             // 
             // dossierCompetanceDataSource
             // 
@@ -395,8 +376,7 @@ namespace Altalents.Report.Library
             this.DataSource = this.dossierCompetanceDataSource;
             this.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.pageHeader,
-            this.detail,
-            this.reportFooterSection1});
+            this.detail});
             this.Name = "DossierCompetance";
             this.PageSettings.ContinuousPaper = false;
             this.PageSettings.Landscape = false;
@@ -466,7 +446,6 @@ namespace Altalents.Report.Library
         private Telerik.Reporting.Panel panel3;
         private Telerik.Reporting.PictureBox loupe;
         private Telerik.Reporting.TextBox focus;
-        private Telerik.Reporting.PictureBox petitbonhome;
         private Telerik.Reporting.Panel panel4;
         private Telerik.Reporting.TextBox vExperience;
         private Telerik.Reporting.TextBox textBox1;
@@ -475,7 +454,6 @@ namespace Altalents.Report.Library
         private Telerik.Reporting.TextBox textBox3;
         private Telerik.Reporting.TextBox EnSynthèse;
         private Telerik.Reporting.TextBox textBox2;
-        private Telerik.Reporting.ReportFooterSection reportFooterSection1;
         private Telerik.Reporting.SubReport subReportExperience;
     }
 }
