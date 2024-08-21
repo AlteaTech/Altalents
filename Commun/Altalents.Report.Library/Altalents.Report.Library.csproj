@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="DSO\CommercialDso.cs" />
     <Compile Include="DSO\ConnaissanceDso.cs" />
+    <Compile Include="Comparer\ConnaissanceDsoComparer.cs" />
     <Compile Include="DSO\DossierCompetenceDso.cs" />
     <Compile Include="DSO\ExperienceDso.cs" />
     <Compile Include="Experience.partial.report.cs">

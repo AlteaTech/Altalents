@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Altalents.Report.Library.Comparer;
+
 namespace Altalents.Report.Library.DSO
 {
     public class DossierCompetenceDso
@@ -18,6 +20,7 @@ namespace Altalents.Report.Library.DSO
                 retour.AddRange(Experiences.SelectMany(x => x.AllConnaissances));
                 retour = retour.OrderByDescending(x => x.Niveau)
                     .ThenBy(x => x.Libelle)
+                    .Distinct(new ConnaissanceDsoComparer())
                     .Take(5)
                     .ToList();
                 return string.Join(", ", retour.Select(x => x.Libelle));            }
