@@ -20,10 +20,7 @@ namespace Altalents.Report.Library.DSO
                     .ThenBy(x => x.Libelle)
                     .Take(5)
                     .ToList();
-                return string.Join(", ", retour.Select(x => x.Libelle));
-
-                return "C#.net Framework 4+ et core 5à8, HTML/CSS, JavaScript natif, EXTjs 3-5, JQuery, Bootstrap,  Telerik, Angular 12à18, Blazor Server (Radzen, Mud), TypeScript, NoSQL, Cloud, DevOps, Kafka, Azure";
-            }
+                return string.Join(", ", retour.Select(x => x.Libelle));            }
         }
         public string FormatedSynthese
         {

@@ -10,6 +10,7 @@ namespace Altalents.Report.Library
 		private void InitializeComponent()
 		{
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DossierCompetance));
+            Telerik.Reporting.TypeReportSource typeReportSource1 = new Telerik.Reporting.TypeReportSource();
             Telerik.Reporting.Group group1 = new Telerik.Reporting.Group();
             Telerik.Reporting.Drawing.StyleRule styleRule1 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.StyleRule styleRule2 = new Telerik.Reporting.Drawing.StyleRule();
@@ -20,28 +21,26 @@ namespace Altalents.Report.Library
             this.labelsGroupHeaderSection = new Telerik.Reporting.GroupHeaderSection();
             this.pageHeader = new Telerik.Reporting.PageHeaderSection();
             this.AlteaLogo = new Telerik.Reporting.PictureBox();
-            this.reportHeader = new Telerik.Reporting.ReportHeaderSection();
-            this.titreDossierCompetences = new Telerik.Reporting.TextBox();
-            this.detail = new Telerik.Reporting.DetailSection();
-            this.poste = new Telerik.Reporting.TextBox();
-            this.Trigrame = new Telerik.Reporting.TextBox();
             this.alteaGear = new Telerik.Reporting.PictureBox();
+            this.reportHeader = new Telerik.Reporting.ReportHeaderSection();
+            this.Trigrame = new Telerik.Reporting.TextBox();
+            this.poste = new Telerik.Reporting.TextBox();
+            this.titreDossierCompetences = new Telerik.Reporting.TextBox();
             this.panel1 = new Telerik.Reporting.Panel();
             this.alteaPhone = new Telerik.Reporting.PictureBox();
             this.CtcCommercial = new Telerik.Reporting.TextBox();
             this.nomCommercial = new Telerik.Reporting.TextBox();
             this.AlteaServiceCommercial = new Telerik.Reporting.TextBox();
-            this.pictureBox3 = new Telerik.Reporting.PictureBox();
-            this.pictureBox2 = new Telerik.Reporting.PictureBox();
             this.pictureBox1 = new Telerik.Reporting.PictureBox();
-            this.textBox8 = new Telerik.Reporting.TextBox();
-            this.textBox7 = new Telerik.Reporting.TextBox();
             this.textBox9 = new Telerik.Reporting.TextBox();
+            this.textBox7 = new Telerik.Reporting.TextBox();
+            this.pictureBox2 = new Telerik.Reporting.PictureBox();
+            this.textBox8 = new Telerik.Reporting.TextBox();
+            this.pictureBox3 = new Telerik.Reporting.PictureBox();
             this.panel2 = new Telerik.Reporting.Panel();
-            this.loupe = new Telerik.Reporting.PictureBox();
             this.panel3 = new Telerik.Reporting.Panel();
+            this.loupe = new Telerik.Reporting.PictureBox();
             this.focus = new Telerik.Reporting.TextBox();
-            this.petitbonhome = new Telerik.Reporting.PictureBox();
             this.panel4 = new Telerik.Reporting.Panel();
             this.vExperience = new Telerik.Reporting.TextBox();
             this.textBox1 = new Telerik.Reporting.TextBox();
@@ -50,8 +49,12 @@ namespace Altalents.Report.Library
             this.textBox3 = new Telerik.Reporting.TextBox();
             this.EnSynthèse = new Telerik.Reporting.TextBox();
             this.textBox2 = new Telerik.Reporting.TextBox();
+            this.petitbonhome = new Telerik.Reporting.PictureBox();
+            this.detail = new Telerik.Reporting.DetailSection();
+            this.reportFooterSection1 = new Telerik.Reporting.ReportFooterSection();
             this.dossierCompetanceDataSource = new Telerik.Reporting.ObjectDataSource();
             this.experienceDataSource = new Telerik.Reporting.ObjectDataSource();
+            this.subReportExperience = new Telerik.Reporting.SubReport();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // labelsGroupFooterSection
@@ -84,18 +87,47 @@ namespace Altalents.Report.Library
             this.AlteaLogo.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
             this.AlteaLogo.Value = ((object)(resources.GetObject("AlteaLogo.Value")));
             // 
+            // alteaGear
+            // 
+            this.alteaGear.ImageAlignment = Telerik.Reporting.Drawing.ImageAlignment.Right;
+            this.alteaGear.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(17.9D), Telerik.Reporting.Drawing.Unit.Cm(0D));
+            this.alteaGear.MimeType = "";
+            this.alteaGear.Name = "alteaGear";
+            this.alteaGear.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(3.1D), Telerik.Reporting.Drawing.Unit.Cm(3.8D));
+            this.alteaGear.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
+            this.alteaGear.Value = ((object)(resources.GetObject("alteaGear.Value")));
+            // 
             // reportHeader
             // 
-            this.reportHeader.Height = Telerik.Reporting.Drawing.Unit.Cm(24.5D);
+            this.reportHeader.Height = Telerik.Reporting.Drawing.Unit.Cm(27D);
             this.reportHeader.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.Trigrame,
             this.poste,
             this.titreDossierCompetences,
             this.panel1,
             this.panel2,
-            this.petitbonhome});
+            this.subReportExperience});
             this.reportHeader.Name = "reportHeader";
             this.reportHeader.Style.BackgroundColor = System.Drawing.Color.GhostWhite;
+            // 
+            // Trigrame
+            // 
+            this.Trigrame.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.719D), Telerik.Reporting.Drawing.Unit.Cm(0.2D));
+            this.Trigrame.Name = "Trigrame";
+            this.Trigrame.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(20.281D), Telerik.Reporting.Drawing.Unit.Cm(1.3D));
+            this.Trigrame.Style.Font.Name = "Arial";
+            this.Trigrame.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(28D);
+            this.Trigrame.StyleName = "Title";
+            this.Trigrame.Value = "= Fields.Trigrame";
+            // 
+            // poste
+            // 
+            this.poste.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.719D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
+            this.poste.Name = "poste";
+            this.poste.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(20.281D), Telerik.Reporting.Drawing.Unit.Cm(0.9D));
+            this.poste.Style.Font.Bold = true;
+            this.poste.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(22D);
+            this.poste.Value = "= Fields.Poste";
             // 
             // titreDossierCompetences
             // 
@@ -109,40 +141,6 @@ namespace Altalents.Report.Library
             this.titreDossierCompetences.Style.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(74)))), ((int)(((byte)(255)))));
             this.titreDossierCompetences.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
             this.titreDossierCompetences.Value = "Dossier de compétences";
-            // 
-            // detail
-            // 
-            this.detail.Height = Telerik.Reporting.Drawing.Unit.Cm(0.132D);
-            this.detail.Name = "detail";
-            // 
-            // poste
-            // 
-            this.poste.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.719D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
-            this.poste.Name = "poste";
-            this.poste.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(20.281D), Telerik.Reporting.Drawing.Unit.Cm(0.9D));
-            this.poste.Style.Font.Bold = true;
-            this.poste.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(22D);
-            this.poste.Value = "= Fields.Poste";
-            // 
-            // Trigrame
-            // 
-            this.Trigrame.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.719D), Telerik.Reporting.Drawing.Unit.Cm(0.2D));
-            this.Trigrame.Name = "Trigrame";
-            this.Trigrame.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(20.281D), Telerik.Reporting.Drawing.Unit.Cm(1.3D));
-            this.Trigrame.Style.Font.Name = "Arial";
-            this.Trigrame.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(28D);
-            this.Trigrame.StyleName = "Title";
-            this.Trigrame.Value = "= Fields.Trigrame";
-            // 
-            // alteaGear
-            // 
-            this.alteaGear.ImageAlignment = Telerik.Reporting.Drawing.ImageAlignment.Right;
-            this.alteaGear.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(17.9D), Telerik.Reporting.Drawing.Unit.Cm(0D));
-            this.alteaGear.MimeType = "";
-            this.alteaGear.Name = "alteaGear";
-            this.alteaGear.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(3.1D), Telerik.Reporting.Drawing.Unit.Cm(3.8D));
-            this.alteaGear.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
-            this.alteaGear.Value = ((object)(resources.GetObject("alteaGear.Value")));
             // 
             // panel1
             // 
@@ -207,25 +205,6 @@ namespace Altalents.Report.Library
             this.AlteaServiceCommercial.StyleName = "Title";
             this.AlteaServiceCommercial.Value = "- Altea Services";
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(12.781D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
-            this.pictureBox3.MimeType = "";
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(0.834D), Telerik.Reporting.Drawing.Unit.Cm(0.6D));
-            this.pictureBox3.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
-            this.pictureBox3.Value = ((object)(resources.GetObject("pictureBox3.Value")));
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchoring = ((Telerik.Reporting.AnchoringStyles)((Telerik.Reporting.AnchoringStyles.Top | Telerik.Reporting.AnchoringStyles.Left)));
-            this.pictureBox2.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(6.88D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
-            this.pictureBox2.MimeType = "";
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(0.834D), Telerik.Reporting.Drawing.Unit.Cm(0.6D));
-            this.pictureBox2.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
-            this.pictureBox2.Value = ((object)(resources.GetObject("pictureBox2.Value")));
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Anchoring = ((Telerik.Reporting.AnchoringStyles)((Telerik.Reporting.AnchoringStyles.Top | Telerik.Reporting.AnchoringStyles.Left)));
@@ -236,16 +215,16 @@ namespace Altalents.Report.Library
             this.pictureBox1.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
             this.pictureBox1.Value = ((object)(resources.GetObject("pictureBox1.Value")));
             // 
-            // textBox8
+            // textBox9
             // 
-            this.textBox8.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(7.738D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(4.509D), Telerik.Reporting.Drawing.Unit.Cm(0.6D));
-            this.textBox8.Style.BorderStyle.Right = Telerik.Reporting.Drawing.BorderType.Solid;
-            this.textBox8.Style.Font.Italic = true;
-            this.textBox8.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(12D);
-            this.textBox8.Style.TextAlign = Telerik.Reporting.Drawing.HorizontalAlign.Center;
-            this.textBox8.Value = "= Fields.Commercial.Telephone";
+            this.textBox9.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(13.615D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(4.932D), Telerik.Reporting.Drawing.Unit.Cm(0.6D));
+            this.textBox9.Style.BorderStyle.Right = Telerik.Reporting.Drawing.BorderType.None;
+            this.textBox9.Style.Font.Italic = true;
+            this.textBox9.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(12D);
+            this.textBox9.Style.TextAlign = Telerik.Reporting.Drawing.HorizontalAlign.Center;
+            this.textBox9.Value = "= Fields.Commercial.WebSite";
             // 
             // textBox7
             // 
@@ -258,16 +237,35 @@ namespace Altalents.Report.Library
             this.textBox7.Style.TextAlign = Telerik.Reporting.Drawing.HorizontalAlign.Center;
             this.textBox7.Value = "= Fields.Commercial.Mail";
             // 
-            // textBox9
+            // pictureBox2
             // 
-            this.textBox9.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(13.615D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(4.932D), Telerik.Reporting.Drawing.Unit.Cm(0.6D));
-            this.textBox9.Style.BorderStyle.Right = Telerik.Reporting.Drawing.BorderType.None;
-            this.textBox9.Style.Font.Italic = true;
-            this.textBox9.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(12D);
-            this.textBox9.Style.TextAlign = Telerik.Reporting.Drawing.HorizontalAlign.Center;
-            this.textBox9.Value = "= Fields.Commercial.WebSite";
+            this.pictureBox2.Anchoring = ((Telerik.Reporting.AnchoringStyles)((Telerik.Reporting.AnchoringStyles.Top | Telerik.Reporting.AnchoringStyles.Left)));
+            this.pictureBox2.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(6.88D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
+            this.pictureBox2.MimeType = "";
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(0.834D), Telerik.Reporting.Drawing.Unit.Cm(0.6D));
+            this.pictureBox2.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
+            this.pictureBox2.Value = ((object)(resources.GetObject("pictureBox2.Value")));
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(7.738D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(4.509D), Telerik.Reporting.Drawing.Unit.Cm(0.6D));
+            this.textBox8.Style.BorderStyle.Right = Telerik.Reporting.Drawing.BorderType.Solid;
+            this.textBox8.Style.Font.Italic = true;
+            this.textBox8.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(12D);
+            this.textBox8.Style.TextAlign = Telerik.Reporting.Drawing.HorizontalAlign.Center;
+            this.textBox8.Value = "= Fields.Commercial.Telephone";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(12.781D), Telerik.Reporting.Drawing.Unit.Cm(1.6D));
+            this.pictureBox3.MimeType = "";
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(0.834D), Telerik.Reporting.Drawing.Unit.Cm(0.6D));
+            this.pictureBox3.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
+            this.pictureBox3.Value = ((object)(resources.GetObject("pictureBox3.Value")));
             // 
             // panel2
             // 
@@ -282,15 +280,6 @@ namespace Altalents.Report.Library
             this.panel2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(19.281D), Telerik.Reporting.Drawing.Unit.Cm(13.964D));
             this.panel2.Style.BackgroundColor = System.Drawing.Color.White;
             // 
-            // loupe
-            // 
-            this.loupe.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.086D), Telerik.Reporting.Drawing.Unit.Cm(0D));
-            this.loupe.MimeType = "";
-            this.loupe.Name = "loupe";
-            this.loupe.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(1.38D), Telerik.Reporting.Drawing.Unit.Cm(1.38D));
-            this.loupe.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
-            this.loupe.Value = ((object)(resources.GetObject("loupe.Value")));
-            // 
             // panel3
             // 
             this.panel3.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
@@ -302,6 +291,15 @@ namespace Altalents.Report.Library
             this.panel3.Style.BorderColor.Bottom = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(74)))), ((int)(((byte)(255)))));
             this.panel3.Style.BorderStyle.Bottom = Telerik.Reporting.Drawing.BorderType.Solid;
             // 
+            // loupe
+            // 
+            this.loupe.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.086D), Telerik.Reporting.Drawing.Unit.Cm(0D));
+            this.loupe.MimeType = "";
+            this.loupe.Name = "loupe";
+            this.loupe.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(1.38D), Telerik.Reporting.Drawing.Unit.Cm(1.38D));
+            this.loupe.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
+            this.loupe.Value = ((object)(resources.GetObject("loupe.Value")));
+            // 
             // focus
             // 
             this.focus.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(1.466D), Telerik.Reporting.Drawing.Unit.Cm(0.2D));
@@ -310,15 +308,6 @@ namespace Altalents.Report.Library
             this.focus.Style.Font.Bold = true;
             this.focus.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(18D);
             this.focus.Value = "Focus";
-            // 
-            // petitbonhome
-            // 
-            this.petitbonhome.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(15.1D), Telerik.Reporting.Drawing.Unit.Cm(21.464D));
-            this.petitbonhome.MimeType = "";
-            this.petitbonhome.Name = "petitbonhome";
-            this.petitbonhome.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(5.9D), Telerik.Reporting.Drawing.Unit.Cm(3.036D));
-            this.petitbonhome.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
-            this.petitbonhome.Value = ((object)(resources.GetObject("petitbonhome.Value")));
             // 
             // panel4
             // 
@@ -397,6 +386,27 @@ namespace Altalents.Report.Library
             this.textBox2.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(10D);
             this.textBox2.Value = "= Fields.FormatedSynthese";
             // 
+            // petitbonhome
+            // 
+            this.petitbonhome.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(15.1D), Telerik.Reporting.Drawing.Unit.Cm(0.204D));
+            this.petitbonhome.MimeType = "";
+            this.petitbonhome.Name = "petitbonhome";
+            this.petitbonhome.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(5.9D), Telerik.Reporting.Drawing.Unit.Cm(3.036D));
+            this.petitbonhome.Sizing = Telerik.Reporting.Drawing.ImageSizeMode.ScaleProportional;
+            this.petitbonhome.Value = ((object)(resources.GetObject("petitbonhome.Value")));
+            // 
+            // detail
+            // 
+            this.detail.Height = Telerik.Reporting.Drawing.Unit.Cm(0.132D);
+            this.detail.Name = "detail";
+            // 
+            // reportFooterSection1
+            // 
+            this.reportFooterSection1.Height = Telerik.Reporting.Drawing.Unit.Cm(3.24D);
+            this.reportFooterSection1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
+            this.petitbonhome});
+            this.reportFooterSection1.Name = "reportFooterSection1";
+            // 
             // dossierCompetanceDataSource
             // 
             this.dossierCompetanceDataSource.DataSource = typeof(Altalents.Report.Library.DSO.DossierCompetenceDso);
@@ -406,6 +416,16 @@ namespace Altalents.Report.Library
             // 
             this.experienceDataSource.DataSource = typeof(Altalents.Report.Library.DSO.ExperienceDso);
             this.experienceDataSource.Name = "experienceDataSource";
+            // 
+            // subReportExperience
+            // 
+            this.subReportExperience.DataSource = this.experienceDataSource;
+            this.subReportExperience.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.719D), Telerik.Reporting.Drawing.Unit.Cm(21.9D));
+            this.subReportExperience.Name = "subReportExperience";
+            typeReportSource1.TypeName = "Altalents.Report.Library.Experience, Altalents.Report.Library, Version=18.2.24.80" +
+    "6, Culture=neutral, PublicKeyToken=null";
+            this.subReportExperience.ReportSource = typeReportSource1;
+            this.subReportExperience.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(19.28D), Telerik.Reporting.Drawing.Unit.Cm(3D));
             // 
             // DossierCompetance
             // 
@@ -420,7 +440,8 @@ namespace Altalents.Report.Library
             this.labelsGroupFooterSection,
             this.pageHeader,
             this.reportHeader,
-            this.detail});
+            this.detail,
+            this.reportFooterSection1});
             this.Name = "DossierCompetance";
             this.PageSettings.ContinuousPaper = false;
             this.PageSettings.Landscape = false;
@@ -503,5 +524,7 @@ namespace Altalents.Report.Library
         private Telerik.Reporting.TextBox textBox3;
         private Telerik.Reporting.TextBox EnSynthèse;
         private Telerik.Reporting.TextBox textBox2;
+        private Telerik.Reporting.ReportFooterSection reportFooterSection1;
+        private Telerik.Reporting.SubReport subReportExperience;
     }
 }
