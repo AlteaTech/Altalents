@@ -23,6 +23,10 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
 
   constructor(private readonly service: ApiServiceAgent) {
     super();
+  }
+
+  public ngOnInit(): void {
+    this.validationCallback.emit(() => this.submit());
     this.formGroup = new FormGroup<ParlonsDeVousForm>({
       prenom: new FormControl('', Validators.required),
       nom: new FormControl('', Validators.required),
@@ -35,10 +39,6 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
       ville: new FormControl('', Validators.required),
       pays: new FormControl('', Validators.required)
     });
-  }
-
-  public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
     this.populateData();
   }
 
