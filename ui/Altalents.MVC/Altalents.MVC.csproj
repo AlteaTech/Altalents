@@ -52,9 +52,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AlteaTools.ApplicationInsight" Version="8.0.14" />
     <PackageReference Include="AnyAscii" Version="0.3.2" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="AlteaTools.Kendo" Version="8.0.13" />
+    <PackageReference Include="AlteaTools.Kendo" Version="8.0.14" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />

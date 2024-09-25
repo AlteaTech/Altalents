@@ -10,12 +10,15 @@ using Altalents.DataAccess.Supervision;
 using Altalents.Entities;
 
 using AlteaTools.Api.Core.Exceptions;
+using AlteaTools.Api.Core.Extensions;
 using AlteaTools.Api.Core.Handler;
+using AlteaTools.ApplicationInsight.Extensions;
 using AlteaTools.Hangfire;
 
 using Hangfire;
 using Hangfire.Dashboard;
 
+using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.DataProtection;
@@ -49,15 +52,12 @@ namespace Altalents.MVC
                 throw new TechnicalException($"Impossible de set le nombre de thread de sync à 500 et assync 500.");
             }
 
-            Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions aiOptions = new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions
-            {
-                EnableAdaptiveSampling = false
-            };
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "AltalentsApi", Version = "v1" });
             });
-            services.AddApplicationInsightsTelemetry(aiOptions);
+            services.AddSeedworkApplicationInsightServices(Configuration);
+            services.AddBaseServices(Configuration);
             services
                 .AddMvc()
                 .AddJsonOptions(options =>
