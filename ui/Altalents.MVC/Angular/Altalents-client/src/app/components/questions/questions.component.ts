@@ -3,7 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { BaseComponent } from 'src/app/shared/components/base.component';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { Question } from 'src/app/shared/models/question.model';
-import { QuestionnaireDto } from 'src/app/shared/services/generated/api/api.client';
+import { QuestionnaireDto, QuestionnaireUpdateDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
 @Component({
@@ -45,13 +45,24 @@ export class QuestionsComponent extends BaseComponent implements OnInit {
     
     if (isValid) {
       // On n'utilise pas callRequest ici pour pouvoir await l'appel au back.
-      // await firstValueFrom(this.service.putQuestionnaires(this.populateRequestDto)).then(() => {
-      //   isValid = true;
-      // });
+      await firstValueFrom(this.service.putQuestionnaires(this.populateRequestDto())).then(() => {
+        isValid = true;
+      });
     } else {
       this.showErreurs = true;
     }
 
     return new Promise<boolean>(resolve => resolve(isValid));
+  }
+
+  private populateRequestDto(): QuestionnaireUpdateDto[] {
+    let dtos: QuestionnaireUpdateDto[] = [];
+    this.questions.forEach((question: Question) => {
+      let dto = new QuestionnaireUpdateDto();
+      dto.id = question.id ?? "";
+      dto.reponse = question.reponse;
+      dtos.push(dto);
+    })
+    return dtos;
   }
 }
