@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, PutExperiencesRequestDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto } from '../generated/api/api.client';
+import { ApiClient, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, PutExperiencesRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -79,5 +79,13 @@ export class ApiServiceAgent {
 
   createReferences(body: ReferenceRequestDto): Observable<string> {
     return this.apiClient.createReferences(body);
+  }
+
+  getQuestionnaires(token: string): Observable<QuestionnaireDto[]> {
+    return this.apiClient.getQuestionnaires(token);
+  }
+
+  putQuestionnaires(body: QuestionnaireUpdateDto[]): Observable<void> {
+    return this.apiClient.setReponseQuestionnaires(body);
   }
 }

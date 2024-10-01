@@ -1,10 +1,12 @@
-import { QuestionInsertDto } from "../services/generated/api/api.client";
+import { QuestionInsertDto, QuestionnaireDto } from "../services/generated/api/api.client";
 
 export class Question {
+    id?: string;
     ordre!: number;
     isObligatoire!: boolean;
     isShowDt!: boolean;
     question!: string;
+    reponse?: string | null;
     
     public static to(model: Question): QuestionInsertDto {
       let dto = new QuestionInsertDto();
@@ -23,5 +25,24 @@ export class Question {
         }
       });
       return dto;
+    }
+    
+    public static from(dto: QuestionnaireDto): Question {
+      let model = new Question();
+      model.id = dto.id;
+      model.isObligatoire = dto.isObligatoire;
+      model.question = dto.question ?? "";
+      model.reponse = dto.reponse;
+      return model;
+    }
+
+    public static fromList(dtos: QuestionnaireDto[]): Question[] {
+      let models: Question[] = [];
+      dtos.forEach(dto => {
+        if(dto.question) {
+          models.push(Question.from(dto));
+        }
+      });
+      return models;
     }
 }
