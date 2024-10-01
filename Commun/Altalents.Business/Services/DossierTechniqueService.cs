@@ -386,7 +386,7 @@ namespace Altalents.Business.Services
                 .SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide, cancellationToken);
 
             context.Experiences.RemoveRange(dt.Experiences);
-            dt.Experiences = Mapper.Map<List<Experience>>(request.Experiences);
+            dt.Experiences = Mapper.Map<List<Entities.Experience>>(request.Experiences);
 
             await context.SaveBaseEntityChangesAsync();
         }

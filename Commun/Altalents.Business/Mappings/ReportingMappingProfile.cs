@@ -23,8 +23,27 @@ namespace Altalents.Business.Mappings
                 ;
 
             CreateMap<Experience, ExperienceDso>()
-                                .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
-                                ;
+                .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.LiaisonExperienceTechnologies))
+                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies))
+                .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences))
+                .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
+                .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.Entreprise))
+                ;
+
+            CreateMap<LiaisonExperienceTechnologie, ConnaissanceDso>()
+                .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+                .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Technologie.Libelle))
+                ;
+            CreateMap<LiaisonExperienceMethodologie, ConnaissanceDso>()
+                .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+                .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Methodologie.Libelle))
+                ;
+            CreateMap<LiaisonExperienceCompetence, ConnaissanceDso>()
+                .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+                .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Competance.Libelle))
+                ;
+
+
 
 
         }
