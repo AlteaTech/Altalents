@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +26,7 @@ import localeFr from '@angular/common/locales/fr';
 import { QuestionnaireDialogComponent } from './components/dialogs/questionnaire-dialog/questionnaire-dialog.component';
 import { PieceJointeDialogComponent } from './components/dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
 import { TelechargementDtComponent } from './components/telechargement-dt/telechargement-dt.component';
+import { CustomLoaderComponent } from './shared/components/custom-loader/custom-loader.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -49,7 +50,8 @@ registerLocaleData(localeFr);
     MultipleAutocompleteComponent,
     QuestionnaireDialogComponent,
     PieceJointeDialogComponent,
-    TelechargementDtComponent
+    TelechargementDtComponent,
+    CustomLoaderComponent
   ],
   imports: [
     HttpClientModule,
@@ -59,6 +61,7 @@ registerLocaleData(localeFr);
     ReactiveFormsModule
   ],
   providers: [{provide: LOCALE_ID, useValue: "fr-FR" } ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }
