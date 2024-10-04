@@ -43,6 +43,7 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
   }
 
   public override populateData(): void {
+    this.isLoading = true;
     this.callRequest(ConstantesRequest.getParlonsDeVous, this.service.getParlonsDeVous(this.tokenDossierTechnique)
         .subscribe((response: ParlonsDeVousDto) => {
           this.formGroup.patchValue({
@@ -57,16 +58,19 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
             ville: response.adresse?.ville,
             pays: response.adresse?.pays
           });
+          this.isLoading = false;
         }));
   }
 
   private async submit(): Promise<boolean> {
     let isValid: boolean = false;
     if (this.formGroup.valid) {
+      this.isLoading = true;
       // On n'utilise pas callRequest ici pour pouvoir await l'appel au back.
       await firstValueFrom(this.service.putParlonsDeVous(this.tokenDossierTechnique, this.populateRequestDto())).then(() => {
         isValid = true;
-      });     
+        this.isLoading = false;
+      });
     } else {
       this.formGroup.markAllAsTouched();
     }

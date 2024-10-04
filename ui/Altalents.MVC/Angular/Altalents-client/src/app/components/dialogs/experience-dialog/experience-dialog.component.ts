@@ -108,6 +108,7 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
   }
 
   public override populateData(): void {
+    this.isLoading = true;
     this.callRequest(ConstantesRequest.getReferencesTypesContrats, this.service.getReferences(ConstantesTypesReferences.typeContrat)
         .subscribe((response: ReferenceDto[]) => {
           this.typesContrats = Reference.fromListReferenceDto(response);
@@ -118,6 +119,8 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
           } else {
             this.formGroup.controls.typeContrat.setValue(this.typesContrats[0]);
           }
+          
+          this.isLoading = false;
         }));
   }
 

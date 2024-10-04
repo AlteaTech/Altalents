@@ -1,41 +1,42 @@
+<app-custom-loader [isLoading]="isLoading" />
 <div class="at-p-fenetre-dialog">
-<form [formGroup]="formGroup">
-    <fieldset>
-        <legend>Langues parlées</legend>
-        <div class="row mb-2">
-            <div class="col-lg-2">
-                <label for="langue" class="col-form-label">Langue</label>
+    <form [formGroup]="formGroup">
+        <fieldset>
+            <legend>Langues parlées</legend>
+            <div class="row mb-2">
+                <div class="col-lg-2">
+                    <label for="langue" class="col-form-label">Langue</label>
+                </div>
+                <div class="col-10">
+                    <select formControlName="langue" autocomplete="on" class="form-select">
+                        <option *ngFor="let langue of langues" [ngValue]="langue">
+                            {{langue.libelle}}
+                        </option>
+                    </select>
+                </div>               
             </div>
-            <div class="col-10">
-                <select formControlName="langue" autocomplete="on" class="form-select">
-                    <option *ngFor="let langue of langues" [ngValue]="langue">
-                        {{langue.libelle}}
-                    </option>
-                </select>
-            </div>               
-        </div>
-        <div class="row mb-3">
-            <div class="col-lg-2">
-                <label for="niveau" class="col-form-label">Niveau</label>
+            <div class="row mb-3">
+                <div class="col-lg-2">
+                    <label for="niveau" class="col-form-label">Niveau</label>
+                </div>
+                <div class="col-10">
+                    <select formControlName="niveau" class="form-select">
+                        <option *ngFor="let niveauLangue of niveauxLangues" [ngValue]="niveauLangue">
+                            {{niveauLangue.libelle}} <span *ngIf="niveauLangue.commentaireFun">({{niveauLangue.commentaireFun}})</span>
+                        </option>
+                    </select>
+                </div>
             </div>
-            <div class="col-10">
-                <select formControlName="niveau" class="form-select">
-                    <option *ngFor="let niveauLangue of niveauxLangues" [ngValue]="niveauLangue">
-                        {{niveauLangue.libelle}} <span *ngIf="niveauLangue.commentaireFun">({{niveauLangue.commentaireFun}})</span>
-                    </option>
-                </select>
+        </fieldset>
+        <div>
+            <div class="at-p-button-container">
+                <button class="at-p-secondary-button" (click)="closeDialog()">
+                    <p>Annuler</p>
+                </button>
+                <button class="at-p-button" (click)="submit()">
+                    <p>Valider</p>
+                </button>
             </div>
         </div>
-    </fieldset>
-    <div>
-        <div class="at-p-button-container">
-            <button class="at-p-secondary-button" (click)="closeDialog()">
-                <p>Annuler</p>
-            </button>
-            <button class="at-p-button" (click)="submit()">
-                <p>Valider</p>
-            </button>
-        </div>
-    </div>
-</form>
+    </form>
 </div>
