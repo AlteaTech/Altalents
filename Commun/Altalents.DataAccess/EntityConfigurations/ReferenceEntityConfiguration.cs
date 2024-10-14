@@ -80,6 +80,11 @@ namespace Altalents.DataAccess.EntityConfigurations
  .HasForeignKey(e => e.MethodologieId)
  .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasMany(navigationExpression: e => e.LiaisonExperienceOutils)
+                   .WithOne(x => x.Outil)
+                   .HasForeignKey(e => e.OutilId)
+                   .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasIndex(e => new { e.Type, e.SousType });
 
             builder.HasData(new List<Reference> {
@@ -707,24 +712,11 @@ namespace Altalents.DataAccess.EntityConfigurations
  },
  #endregion
  #region OutilEtEnvironnement
-     new (){
-         Libelle = "Microsoft Office 365",
-         Id = Guid.Parse("d13fd336-150e-4cc0-bfc2-0bb974561de3"),
-         DateCrea = new DateTime(2024,6,18),
-         UtiCrea= "ALTEA",
-         IsValide=true,
-         Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,
-         OrdreTri = 1,
-         Code=Commun.Enums.CodeReferenceEnum.MicrosoftOffice365.ToString("g")
-     },
-     new (){Libelle = "Microsoft Office", Id = Guid.Parse("fc88220d-c3b5-45ac-9de8-fcd406f96b11"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.MicrosoftOffice.ToString("g")},
      new (){Libelle = "Linux", Id = Guid.Parse("a3853f2d-bb30-4f82-950d-77dda048c99d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Linux.ToString("g")},
      new (){Libelle = "Windows", Id = Guid.Parse("a6b3992a-dd4c-4f21-b74a-5e528d47ea71"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Windows.ToString("g")},
      new (){Libelle = "C#", Id = Guid.Parse("9bd90bab-2825-4f36-a49f-9227be2c1f72"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Csharp.ToString("g")},
      new (){Libelle = "Java", Id = Guid.Parse("36ec7894-609d-4238-bdcd-5a5962a56eb8"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Java.ToString("g")},
      new (){Libelle = "JEE", Id = Guid.Parse("a12fecbe-e5ec-40f8-86e5-9fc7ffcf1236"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Jee.ToString("g")},
-     new (){Libelle = "Notion.so", Id = Guid.Parse("ba160a68-8e50-4f8f-92d9-09663dc6684b"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Notion.ToString("g")},
-     new (){Libelle = "inVision", Id = Guid.Parse("c5e29778-d6ce-4d83-a663-83fa37bf861d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.InVision.ToString("g")},
  #endregion
  #region Méthodologies 
      new (){Libelle = "SCRUM", Id = Guid.Parse("6a575078-66ed-4151-b089-5dad1cdacc53"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.SCRUM.ToString("g")},
@@ -733,6 +725,12 @@ namespace Altalents.DataAccess.EntityConfigurations
      new (){Libelle = "PERT", Id = Guid.Parse("051cbeb3-a9fe-4fad-bc3c-1cc3577d3c5d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.PERT.ToString("g")},
      new (){Libelle = "Lean", Id = Guid.Parse("88308351-55b8-4ae6-8a9a-827863f380ff"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Lean.ToString("g")},
  #endregion
+            #region Outils 
+                new (){Libelle = "Microsoft Office 365",Id = Guid.Parse("d13fd336-150e-4cc0-bfc2-0bb974561de3"),DateCrea = new DateTime(2024,10,14),UtiCrea= "ALTEA",IsValide=true,Type = Commun.Enums.TypeReferenceEnum.Outil,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.MicrosoftOffice365.ToString("g")},
+                new (){Libelle = "Microsoft Office", Id = Guid.Parse("fc88220d-c3b5-45ac-9de8-fcd406f96b11"), DateCrea = new DateTime(2024,10,14), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Outil,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.MicrosoftOffice.ToString("g")},
+                new (){Libelle = "Notion.so", Id = Guid.Parse("ba160a68-8e50-4f8f-92d9-09663dc6684b"), DateCrea = new DateTime(2024,10,14), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Outil,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Notion.ToString("g")},
+                new (){Libelle = "inVision", Id = Guid.Parse("c5e29778-d6ce-4d83-a663-83fa37bf861d"), DateCrea = new DateTime(2024,10,14), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Outil,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.InVision.ToString("g")},
+            #endregion
             });
         }
     }

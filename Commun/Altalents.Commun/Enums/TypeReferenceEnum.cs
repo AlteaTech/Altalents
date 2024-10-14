@@ -11,6 +11,7 @@ namespace Altalents.Commun.Enums
         NiveauLangue = 7,
         Competence = 8,
         OutilEtEnvironnement = 9,
-        Methodologies = 10
+        Methodologies = 10,
+        Outil = 11
     }
 }
