@@ -9,7 +9,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.component.html',
-  styleUrls: ['./accueil.component.scss','../../app.component.css']
+  styleUrls: ['./accueil.component.scss']
 
 })
 export class AccueilComponent extends BaseComponent implements OnInit {

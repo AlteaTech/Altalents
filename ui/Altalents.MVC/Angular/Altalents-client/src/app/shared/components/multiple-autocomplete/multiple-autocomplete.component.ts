@@ -10,7 +10,7 @@ import { ConstantesRequest } from '../../constantes/constantes-request';
 @Component({
   selector: 'app-multiple-autocomplete',
   templateUrl: './multiple-autocomplete.component.html',
-  styleUrls: ['multiple-autocomplete.component.scss','../../../app.component.css']
+  styleUrls: ['multiple-autocomplete.component.scss']
 })
 export class MultipleAutocompleteComponent extends BaseComponent implements OnInit {
   @Input() public placeholder: string = "";

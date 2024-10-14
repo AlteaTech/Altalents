@@ -6,8 +6,7 @@ import { Question } from 'src/app/shared/models/question.model';
 
 @Component({
   selector: 'app-questionnaire-dialog',
-  templateUrl: './questionnaire-dialog.component.html',
-  styleUrls: ['../../../app.component.css']
+  templateUrl: './questionnaire-dialog.component.html'
 })
 export class QuestionnaireDialogComponent implements OnInit {
   public questions?: Question[];

@@ -13,7 +13,7 @@ import { Constantes } from 'src/app/shared/constantes/constantes';
 @Component({
   selector: 'app-experiences',
   templateUrl: './experiences.component.html',
-  styleUrls: ['./experiences.component.scss','../../app.component.css']
+  styleUrls: ['./experiences.component.scss']
 })
 export class ExperiencesComponent extends BaseComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";

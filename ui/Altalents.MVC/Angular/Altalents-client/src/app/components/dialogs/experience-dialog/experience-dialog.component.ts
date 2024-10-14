@@ -15,7 +15,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 @Component({
   selector: 'app-experience-dialog',
   templateUrl: './experience-dialog.component.html',
-  styleUrls: ['./experience-dialog.component.scss','../../../app.component.css']
+  styleUrls: ['./experience-dialog.component.scss']
 })
 export class ExperienceDialogComponent extends BaseComponent implements OnInit {
   public experience?: Experience;

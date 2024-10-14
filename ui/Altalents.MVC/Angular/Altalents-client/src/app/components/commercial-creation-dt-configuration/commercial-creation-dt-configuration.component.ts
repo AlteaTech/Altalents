@@ -21,7 +21,7 @@ import { Question } from 'src/app/shared/models/question.model';
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
   templateUrl: './commercial-creation-dt-configuration.component.html',
-  styleUrls: ['./commercial-creation-dt-configuration.component.scss','../../app.component.css']
+  styleUrls: ['./commercial-creation-dt-configuration.component.scss']
 })
 export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
   public formGroup: FormGroup<CreationDtCommercialForm>;

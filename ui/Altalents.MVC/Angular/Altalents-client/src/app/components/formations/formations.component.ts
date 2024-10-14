@@ -11,7 +11,7 @@ import { Langue } from 'src/app/shared/models/langue.model';
 @Component({
   selector: 'app-formations',
   templateUrl: './formations.component.html',
-  styleUrls: ['./formations.component.scss','../../app.component.css']
+  styleUrls: ['./formations.component.scss']
 })
 export class FormationsComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
