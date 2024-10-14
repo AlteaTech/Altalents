@@ -8,8 +8,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 
 @Component({
   selector: 'app-questions',
-  templateUrl: './questions.component.html',
-  styleUrls: ['../../app.component.css']
+  templateUrl: './questions.component.html'
 })
 export class QuestionsComponent extends BaseComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";

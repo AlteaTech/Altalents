@@ -6,8 +6,7 @@ import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
 
 @Component({
   selector: 'app-piece-jointe-dialog',
-  templateUrl: './piece-jointe-dialog.component.html',
-  styleUrls: ['../../../app.component.css']
+  templateUrl: './piece-jointe-dialog.component.html'
 })
 export class PieceJointeDialogComponent implements OnInit {
   public pieceJointe?: PieceJointe;

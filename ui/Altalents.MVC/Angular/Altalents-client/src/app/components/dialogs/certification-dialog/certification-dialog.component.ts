@@ -6,8 +6,7 @@ import { Certification } from 'src/app/shared/models/certification.model';
 
 @Component({
   selector: 'app-certification-dialog',
-  templateUrl: './certification-dialog.component.html',
-  styleUrls: ['../../../app.component.css']
+  templateUrl: './certification-dialog.component.html'
 })
 export class CertificationDialogComponent implements OnInit {
   public certification?: Certification;

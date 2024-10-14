@@ -6,8 +6,7 @@ import { Formation } from 'src/app/shared/models/formation.model';
 
 @Component({
   selector: 'app-formation-dialog',
-  templateUrl: './formation-dialog.component.html',
-  styleUrls: ['../../../app.component.css']
+  templateUrl: './formation-dialog.component.html'
 })
 export class FormationDialogComponent implements OnInit {
   public formation?: Formation;

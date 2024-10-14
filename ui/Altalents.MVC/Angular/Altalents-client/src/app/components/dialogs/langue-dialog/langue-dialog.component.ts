@@ -12,8 +12,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 
 @Component({
   selector: 'app-langue-dialog',
-  templateUrl: './langue-dialog.component.html',
-  styleUrls: ['../../../app.component.css']
+  templateUrl: './langue-dialog.component.html'
 })
 export class LangueDialogComponent extends BaseComponent implements OnInit {
   public formGroup: FormGroup<LangueForm>;

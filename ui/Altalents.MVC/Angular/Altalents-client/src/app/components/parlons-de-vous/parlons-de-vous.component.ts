@@ -13,7 +13,7 @@ import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/valid
 @Component({
   selector: 'app-parlons-de-vous',
   templateUrl: './parlons-de-vous.component.html',
-  styleUrls: ['./parlons-de-vous.component.scss', '../../app.component.css']
+  styleUrls: ['./parlons-de-vous.component.scss']
 })
 export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
