@@ -10,7 +10,7 @@ namespace Altalents.Commun.Enums
         StatutDt = 6,
         NiveauLangue = 7,
         Competence = 8,
-        OutilEtEnvironnement = 9,
+        Technologie = 9,
         Methodologies = 10,
         Outil = 11
     }

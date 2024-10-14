@@ -78,7 +78,11 @@ namespace Altalents.Business.Mappings
                     MethodologieId = x,
                 }).ToList()
                 ))
-                ;
+                .ForMember(dest => dest.LiaisonExperienceOutils, opt => opt.MapFrom(src => src.OutilIds.Select(x => new LiaisonExperienceOutil()
+                {
+                    OutilId = x,
+                }).ToList()
+                ));
 
             CreateMap<Experience, ExperienceDto>()
                 .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))

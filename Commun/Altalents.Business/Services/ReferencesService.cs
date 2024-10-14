@@ -47,7 +47,7 @@ namespace Altalents.Business.Services
 
         public IQueryable<ReferenceAValiderDto> GetReferencesAValider(bool showAll)
         {
-            List<TypeReferenceEnum> listType = [TypeReferenceEnum.Competence, TypeReferenceEnum.OutilEtEnvironnement, TypeReferenceEnum.Methodologies];
+            List<TypeReferenceEnum> listType = [TypeReferenceEnum.Competence, TypeReferenceEnum.Technologie, TypeReferenceEnum.Methodologies, TypeReferenceEnum.Outil];
             IQueryable<Reference> references = DbContext.References.Where(x => listType.Contains(x.Type)).AsQueryable();
             if (!showAll)
             {

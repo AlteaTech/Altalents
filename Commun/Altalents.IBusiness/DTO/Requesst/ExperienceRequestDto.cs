@@ -27,5 +27,6 @@ namespace Altalents.IBusiness.DTO.Requesst
         public List<Guid> TechnologieIds { get; set; }
         public List<Guid> MethodologieIds { get; set; }
         public List<Guid> CompetenceIds { get; set; }
+        public List<Guid> OutilIds { get; set; }
     }
 }

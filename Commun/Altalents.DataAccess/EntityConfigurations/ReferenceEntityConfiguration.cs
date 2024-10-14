@@ -712,11 +712,11 @@ namespace Altalents.DataAccess.EntityConfigurations
  },
  #endregion
  #region OutilEtEnvironnement
-     new (){Libelle = "Linux", Id = Guid.Parse("a3853f2d-bb30-4f82-950d-77dda048c99d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Linux.ToString("g")},
-     new (){Libelle = "Windows", Id = Guid.Parse("a6b3992a-dd4c-4f21-b74a-5e528d47ea71"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Windows.ToString("g")},
-     new (){Libelle = "C#", Id = Guid.Parse("9bd90bab-2825-4f36-a49f-9227be2c1f72"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Csharp.ToString("g")},
-     new (){Libelle = "Java", Id = Guid.Parse("36ec7894-609d-4238-bdcd-5a5962a56eb8"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Java.ToString("g")},
-     new (){Libelle = "JEE", Id = Guid.Parse("a12fecbe-e5ec-40f8-86e5-9fc7ffcf1236"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.OutilEtEnvironnement,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Jee.ToString("g")},
+     new (){Libelle = "Linux", Id = Guid.Parse("a3853f2d-bb30-4f82-950d-77dda048c99d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Technologie,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Linux.ToString("g")},
+     new (){Libelle = "Windows", Id = Guid.Parse("a6b3992a-dd4c-4f21-b74a-5e528d47ea71"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Technologie,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Windows.ToString("g")},
+     new (){Libelle = "C#", Id = Guid.Parse("9bd90bab-2825-4f36-a49f-9227be2c1f72"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Technologie,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Csharp.ToString("g")},
+     new (){Libelle = "Java", Id = Guid.Parse("36ec7894-609d-4238-bdcd-5a5962a56eb8"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Technologie,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Java.ToString("g")},
+     new (){Libelle = "JEE", Id = Guid.Parse("a12fecbe-e5ec-40f8-86e5-9fc7ffcf1236"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Technologie,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Jee.ToString("g")},
  #endregion
  #region Méthodologies 
      new (){Libelle = "SCRUM", Id = Guid.Parse("6a575078-66ed-4151-b089-5dad1cdacc53"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Methodologies,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.SCRUM.ToString("g")},
