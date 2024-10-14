@@ -23,11 +23,9 @@ import { Question } from 'src/app/shared/models/question.model';
   templateUrl: './commercial-creation-dt-configuration.component.html',
   styleUrls: ['./commercial-creation-dt-configuration.component.scss','../../app.component.css']
 })
-
 export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
   public formGroup: FormGroup<CreationDtCommercialForm>;
   public userIdLogged: string | undefined;
-  public isReady = false;
   public disponibilites: Reference[] = [];
   public questions: Question[] | undefined;
   public pieceJointe: PieceJointe | undefined;
@@ -60,8 +58,10 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
 
   public sendCandidat(): void {
     if(this.formGroup.valid){
+      this.isLoading = true;
       this.callRequest(ConstantesRequest.addDossierTechnique, this.service.addDossierTechnique(this.generateDossierTechniqueInsertRequestDto())
         .subscribe((response: string) => {
+          this.isLoading = false;
           window.location.href = "/Admin/TableauDeBord";
         }));
     }else{
@@ -76,10 +76,12 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     body.prenom = formValues.prenom ?? "";
 
     if(body.nom.length > 0 && body.prenom.length > 0){
+      this.isLoading = true;
       this.callRequest(ConstantesRequest.getTrigramme, this.service.getTrigramme(body)
-      .subscribe((response: TrigrammeDto) => {
-        this.formGroup.controls.trigram.setValue(response.valeur);
-    }));
+        .subscribe((response: TrigrammeDto) => {
+          this.formGroup.controls.trigram.setValue(response.valeur);
+          this.isLoading = false;
+      }));
     }
   }
 
@@ -143,16 +145,20 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
   }
 
   public override populateData(): void {
+    this.isLoading = true;
+    const nbAppelsAsync = 2;
+
     this.callRequest(ConstantesRequest.getUserLoggedDto, this.service.getUserLoggedDto()
         .subscribe((response: CustomUserLoggedDto) => {
           this.userIdLogged = response.userId;
+          this.checkLoadingTermine(nbAppelsAsync);
         },() => {
           window.location.href = "/Admin";
         }));
     this.callRequest(ConstantesRequest.getReferences, this.service.getReferences(ConstantesTypesReferences.disponibilite)
         .subscribe((response: ReferenceDto[]) => {
           this.disponibilites = Reference.fromListReferenceDto(response);
-          this.isReady = true;
+          this.checkLoadingTermine(nbAppelsAsync);
         }));
   }
 

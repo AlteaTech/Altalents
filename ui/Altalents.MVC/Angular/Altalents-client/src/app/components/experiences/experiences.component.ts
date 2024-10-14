@@ -32,10 +32,12 @@ export class ExperiencesComponent extends BaseComponent implements OnInit {
   }
 
   public override populateData(): void {
+    this.isLoading = true;
     this.callRequest(ConstantesRequest.getExperiences, this.service.getExperiences(this.tokenDossierTechnique)
         .subscribe((response: ExperienceDto[]) => {
           this.experiences = Experience.fromList(response);
           this.experiences.forEach(x => this.populateDureeExperience(x));
+          this.isLoading = false;
         }));
   }
 
@@ -90,8 +92,12 @@ export class ExperiencesComponent extends BaseComponent implements OnInit {
   }
 
   private async submit(): Promise<boolean> {
+    this.isLoading = true;
     // On n'utilise pas callRequest ici pour pouvoir await l'appel au back.
-    await firstValueFrom(this.service.putExperiences(this.tokenDossierTechnique, this.populateRequestDto())).then(() => {});     
+    await firstValueFrom(this.service.putExperiences(this.tokenDossierTechnique, this.populateRequestDto()))
+      .then(() => {
+        this.isLoading = false;
+      });     
     return new Promise<boolean>(resolve => resolve(true));
   }
 

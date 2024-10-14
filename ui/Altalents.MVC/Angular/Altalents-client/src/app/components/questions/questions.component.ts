@@ -28,9 +28,11 @@ export class QuestionsComponent extends BaseComponent implements OnInit {
   }
 
   public override populateData(): void {
+    this.isLoading = true;
     this.callRequest(ConstantesRequest.getQuestionnaires, this.service.getQuestionnaires(this.tokenDossierTechnique)
         .subscribe((response: QuestionnaireDto[]) => {
           this.questions = Question.fromList(response);
+          this.isLoading = false;
         }));
   }
 
@@ -44,9 +46,11 @@ export class QuestionsComponent extends BaseComponent implements OnInit {
     })
     
     if (isValid) {
+      this.isLoading = true;
       // On n'utilise pas callRequest ici pour pouvoir await l'appel au back.
       await firstValueFrom(this.service.putQuestionnaires(this.populateRequestDto())).then(() => {
         isValid = true;
+        this.isLoading = false;
       });
     } else {
       this.showErreurs = true;

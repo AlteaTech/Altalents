@@ -1,4 +1,5 @@
-<div *ngIf="userIdLogged && isReady">
+<app-custom-loader [isLoading]="isLoading" />
+<div *ngIf="userIdLogged">
     <header class="at-p-header">
         <div class="logo-altalents">
             <img src="Images/LOGO_ALTALENTS.png">
