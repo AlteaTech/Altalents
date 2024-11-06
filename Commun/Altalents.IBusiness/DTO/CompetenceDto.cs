@@ -8,6 +8,7 @@ namespace Altalents.IBusiness.DTO
 {
     public class CompetenceDto
     {
+        [Required]
         public Guid IdLiaison { get; set; }
 
         public string Libelle { get; set; }
