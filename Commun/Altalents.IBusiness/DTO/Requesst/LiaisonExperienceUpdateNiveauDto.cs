@@ -11,7 +11,6 @@ namespace Altalents.IBusiness.DTO.Requesst
         [Required]
         public Guid LiaisonId { get; set; }
 
-        [Required]
         public string TypeLiaisonCode { get; set; }
 
         [Required]

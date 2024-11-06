@@ -8,10 +8,9 @@ namespace Altalents.IBusiness.DTO
 {
     public class CompetenceDto
     {
+        public Guid IdLiaison { get; set; }
 
-        public Guid idLiaison { get; set; }
-
-        public string libelle { get; set; }
+        public string Libelle { get; set; }
 
         public int Niveau { get; set; }
 

@@ -18,18 +18,15 @@ namespace Altalents.Business.Services
     public class CompetencesService : BaseAppService<CustomDbContext>, ICompetencesService
     {
 
-  
-
         public CompetencesService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider) : base(logger, contexte, mapper, serviceProvider)
         {
-  
+
         }
 
         public async Task<List<CompetenceDto>> GetLiaisonCandidatByTypeAsync(Guid tokenRapide, string typeLiaisonCode, CancellationToken cancellationToken)
         {
 
             TypeLiaisonEnum typeLiaisonEnum = (TypeLiaisonEnum)Enum.Parse(typeof(TypeLiaisonEnum), typeLiaisonCode);
-
 
             switch (typeLiaisonEnum)
             {
@@ -80,7 +77,6 @@ namespace Altalents.Business.Services
                 default:
                     return new List<CompetenceDto>();
             }
-            
         }
 
         public async Task UpdateNiveauLiaisonAsync(LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken)
