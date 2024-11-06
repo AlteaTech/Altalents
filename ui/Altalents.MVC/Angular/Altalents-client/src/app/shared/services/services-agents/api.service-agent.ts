@@ -66,9 +66,9 @@ export class ApiServiceAgent {
   }
 
   generateDossierCompetenceFile(token: string): Observable<DocumentDto> {
-    return this.apiClient.generateDossierCometanceFile(token);
+    return this.apiClient.generateDossierCompetenceFile(token);
   }
-  
+
   getExperiences(token: string): Observable<ExperienceDto[]> {
     return this.apiClient.getExperiences(token);
   }
