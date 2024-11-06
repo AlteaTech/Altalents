@@ -80,12 +80,8 @@ namespace Altalents.Business.Services
                 default:
                     return new List<CompetenceDto>();
             }
-
             
         }
-
-
-
 
         public async Task UpdateNiveauLiaisonAsync(LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken)
         {
@@ -125,11 +121,6 @@ namespace Altalents.Business.Services
 
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
 
-
-
-
         }
-
-
     }
 }

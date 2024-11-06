@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Altalents.IBusiness.DTO
 {
-    public class LiaisonDto
+    public class LiaisonExperienceCompetencesDto
     {
 
         [Required]
@@ -14,7 +14,7 @@ namespace Altalents.IBusiness.DTO
 
         public string Libelle { get; set; }
 
-        public int note { get; set; }
+        public int Note { get; set; }
 
     }
 }
