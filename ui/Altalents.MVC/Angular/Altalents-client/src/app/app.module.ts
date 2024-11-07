@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {AlteaBaseModule} from '@altea-si-tech/altea-base';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccueilComponent } from './components/accueil/accueil.component';
@@ -27,6 +27,7 @@ import { QuestionnaireDialogComponent } from './components/dialogs/questionnaire
 import { PieceJointeDialogComponent } from './components/dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
 import { TelechargementDtComponent } from './components/telechargement-dt/telechargement-dt.component';
 import { CustomLoaderComponent } from './shared/components/custom-loader/custom-loader.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base/lib/base-component-call-http/base-component-call-http.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -51,14 +52,15 @@ registerLocaleData(localeFr);
     QuestionnaireDialogComponent,
     PieceJointeDialogComponent,
     TelechargementDtComponent,
-    CustomLoaderComponent
+    CustomLoaderComponent,
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AlteaBaseModule
   ],
   providers: [{provide: LOCALE_ID, useValue: "fr-FR" } ],
   bootstrap: [AppComponent],
