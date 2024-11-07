@@ -27,6 +27,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd ./ui/Altalents.MVC/Angular/Altalents-client
+        npm config set //npm.pkg.github.com/:_authToken "${{ secrets.GITHUBNUGET }}"
         npm install
 
     - name: Build Angular project
