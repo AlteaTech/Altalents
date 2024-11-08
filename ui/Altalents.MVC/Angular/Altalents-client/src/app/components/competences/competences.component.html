@@ -1,25 +1,109 @@
 <div class="at-p-formulaire-info-section">
     <h2>Barème</h2>
     <p>
-        Veuillez procéder à une autoévaluation en cliquant sur les étoiles représentant une note de 1 à 5. Retrouvez ci-dessous le détail de la signification de ces notes.
+      Veuillez procéder à une autoévaluation en cliquant sur les étoiles représentant une note de 1 à 5. Retrouvez ci-dessous le détail de la signification de ces notes.
     </p>
-</div>
-<fieldset>
+    <div class="barème-legende">
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
+          <span class="fa-regular fa-star"></span> <!-- 1 étoile vide -->
+          <span class="fa-regular fa-star"></span> <!-- 2 étoiles vides -->
+          <span class="fa-regular fa-star"></span> <!-- 3 étoiles vides -->
+          <span class="fa-regular fa-star"></span> <!-- 4 étoiles vides -->
+        </div>
+        <div>Pas ouf</div>
+      </div>
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
+          <span class="fa fa-star"></span> <!-- 2 étoiles pleines -->
+          <span class="fa-regular fa-star"></span> <!-- 1 étoile vide -->
+          <span class="fa-regular fa-star"></span> <!-- 2 étoiles vides -->
+          <span class="fa-regular fa-star"></span> <!-- 3 étoiles vides -->
+        </div>
+        <span>À peu près</span>
+      </div>
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
+          <span class="fa fa-star"></span> <!-- 2 étoiles pleines -->
+          <span class="fa fa-star"></span> <!-- 3 étoiles pleines -->
+          <span class="fa-regular fa-star"></span> <!-- 2 étoiles vides -->
+          <span class="fa-regular fa-star"></span> <!-- 3 étoiles vides -->
+        </div>
+        <span>Pas si mal</span>
+      </div>
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
+          <span class="fa fa-star"></span> <!-- 2 étoiles pleines -->
+          <span class="fa fa-star"></span> <!-- 3 étoiles pleines -->
+          <span class="fa fa-star"></span> <!-- 4 étoiles pleines -->
+          <span class="fa-regular fa-star"></span> <!-- 1 étoile vide -->
+        </div>
+        <span>Plutôt bon</span>
+      </div>
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
+          <span class="fa fa-star"></span> <!-- 2 étoiles pleines -->
+          <span class="fa fa-star"></span> <!-- 3 étoiles pleines -->
+          <span class="fa fa-star"></span> <!-- 4 étoiles pleines -->
+          <span class="fa fa-star"></span> <!-- 5 étoiles pleines -->
+        </div>
+        <span>Marions-nous</span>
+      </div>
+    </div>
+  </div>
+  
+<fieldset *ngIf="compCompetences.length > 0">
     <legend>Compétences</legend>
-    <!-- <div *ngFor="let competence of stepFormation.formations">
-        <p class="at-c-violet custom-margin">{{formation.libelle}}</p>
-        <p class="font-bold ">{{formation.domaine}} - {{formation.niveau}}</p>
-        <p class="font-normal">{{formation.organisme}}</p>
-        <p class="font-normal">Du {{formation.dateDebut}} au {{formation.dateFin}}</p>
-        <a (click)="onModifierFormationClick(formation)"> <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p></a>
-    </div> -->
+    <div *ngFor="let competence of compCompetences" class="competence-item">
+        <p class="competence-libelle">{{ competence.libelle }}</p>
+        <div class="competence-stars">
+          <span *ngFor="let star of arrayNbEtoiles" 
+                (click)="onEtoileCompetenceClick(competence, '1', star)">
+            <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+          </span>
+        </div>
+      </div>
 </fieldset>
-<fieldset>
+<fieldset *ngIf="compMethodologies.length > 0">
     <legend>Méthodologie</legend>
+    <div *ngFor="let competence of compMethodologies" class="competence-item">
+      <p class="competence-libelle">{{ competence.libelle }}</p>
+      <div class="competence-stars">
+        <span *ngFor="let star of arrayNbEtoiles" 
+              (click)="onEtoileCompetenceClick(competence, '2', star)">
+          <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+        </span>
+      </div>
+    </div>
 </fieldset>
-<fieldset>
+
+<fieldset *ngIf="compOutils.length > 0">
     <legend>Outils</legend>
+    <div *ngFor="let competence of compOutils" class="competence-item">
+        <p class="competence-libelle">{{ competence.libelle }}</p>
+        <div class="competence-stars">
+          <span *ngFor="let star of arrayNbEtoiles" 
+                (click)="onEtoileCompetenceClick(competence, '3', star)">
+            <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+          </span>
+        </div>
+      </div>
 </fieldset>
-<fieldset>
+LE BLOC TECHNOLOGIE NE S'AFFICHE PAS A CAUSE DU BUG BACKEND DONT LE BUGFIX DOIT ETRE POUSSER EN DEV, ET LE BLOC OUTILS NE S'AFFICHE PAS A CAUSE QU'ILS N'Y A PAS D'OUTIL ASSOCIÉ A CE DOSSIER TECHNIQUES
+<fieldset *ngIf="compTechnologie.length > 0">
     <legend>Technologies</legend>
+    <div *ngFor="let competence of compTechnologie" class="competence-item">
+        <p class="competence-libelle">{{ competence.libelle }}</p>
+        <div class="competence-stars">
+          <span *ngFor="let star of arrayNbEtoiles" 
+                (click)="onEtoileCompetenceClick(competence, '4', star)">
+            <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+          </span>
+        </div>
+      </div>
 </fieldset>

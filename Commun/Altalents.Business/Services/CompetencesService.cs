@@ -67,7 +67,7 @@ namespace Altalents.Business.Services
 
                     List<LiaisonExperienceTechnologie> technologies = await DbContext.LiaisonExperienceTechnologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                     .Include(x => x.Technologie)
-                                     .GroupBy(e => e.Technologie)
+                                     .GroupBy(e => e.TechnologieId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
                                      .ToListAsync(cancellationToken);
 

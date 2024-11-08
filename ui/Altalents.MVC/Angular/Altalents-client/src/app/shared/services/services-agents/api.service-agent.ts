@@ -89,8 +89,8 @@ export class ApiServiceAgent {
     return this.apiClient.setReponseQuestionnaires(body);
   }
 
-  getCompetences(token: string): Observable<CompetenceDto[]> {
-    return this.apiClient.getCompetences(token);
+  getCompetences(token: string, typeLiaisonCode : string): Observable<CompetenceDto[]> {
+    return this.apiClient.getCompetences(token, typeLiaisonCode);
   }
 
   putNote(token: string, body: LiaisonExperienceUpdateNiveauDto): Observable<void> {
