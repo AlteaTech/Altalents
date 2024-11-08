@@ -1,4 +1,4 @@
-name: .NET Build MVC angular
+name: .NET Build MVC angular using Shared Workflow
 
 on:
   push:
@@ -10,26 +10,16 @@ on:
 
 jobs:
   build:
+    uses: altea-si-tech/ci-commons/.github/workflows/shared-ci.yml@main
+    with:
+      node-version: '20' # Version spécifique pour ce projet
+      angular-cli-version: '16.2.16' # Optionnel, ou laisse 'latest'
+      secret-npm: ${{ secrets.GITNPMPAT }} 
+      path-cd: './ui/Altalents.MVC/Angular/Altalents-client'
+
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20' # Assurez-vous que la version de Node.js correspond à celle requise par votre projet Angular.
-
-    - name: Install Angular CLI
-      run: npm install -g @angular/cli
-      
-    - name: Configure .npmrc for GitHub Packages and install dependencies
-      run: |
-        cd ./ui/Altalents.MVC/Angular/Altalents-client        
-        echo "@altea-si-tech:registry=https://npm.pkg.github.com/" > ~/.npmrc
-        echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITNPMPAT }}" >> ~/.npmrc
-        npm install
 
     - name: Build Angular project
       run: |
