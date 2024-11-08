@@ -16,4 +16,6 @@ export class ConstantesRequest {
   public static createReferences = "createReferences";
   public static getQuestionnaires = "getQuestionnaires";
   public static setReponseQuestionnaires = "setReponseQuestionnaires";
+  public static getCompetences = "getCompetences";
+  public static putNote = "putNote";
 }
