@@ -1,4 +1,4 @@
-name: .NET Build MVC angular using Shared Workflow
+name: .NET Build and Angular Build using Shared Workflow
 
 on:
   push:
@@ -10,66 +10,77 @@ on:
 
 jobs:
   build:
+    # Utilise un workflow réutilisable pour la configuration Angular
     uses: altea-si-tech/ci-commons/.github/workflows/shared-ci.yml@main
     with:
-      node-version: '20' # Version spécifique pour ce projet
-      angular-cli-version: '16.2.16' # Optionnel, ou laisse 'latest'
-      secret-npm: ${{ secrets.GITNPMPAT }} 
+      node-version: '20'                        # Version de Node.js spécifique pour ce projet
+      angular-cli-version: '16.2.16'            # Version spécifique d'Angular CLI (ou 'latest')
+      secret-npm: ${{ secrets.GITNPMPAT }}      # Secret pour authentification npm
       path-cd: './ui/Altalents.MVC/Angular/Altalents-client'
 
     runs-on: windows-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Build Angular project
-      run: |
-        cd ./ui/Altalents.MVC/Angular/Altalents-client
-        ng build --configuration production;
+      # Build Angular project
+      - name: Build Angular project
+        run: |
+          cd ./ui/Altalents.MVC/Angular/Altalents-client
+          ng build --configuration production;
 
-    - name: Add NuGet source telerik
-      run: dotnet nuget add source https://nuget.telerik.com/v3/index.json --name telerik --username ${{ secrets.TelerikLoginNuget }} --password ${{ secrets.TelerikPasswordNuget }}
-    - name: Add NuGet source Github
-      run: dotnet nuget add source https://nuget.pkg.github.com/AlteaTech/index.json --name AlteaTech --username AlteaTech --password ${{ secrets.GITHUBNUGET }}
+      # Configuration des sources NuGet
+      - name: Add NuGet source Telerik
+        run: dotnet nuget add source https://nuget.telerik.com/v3/index.json --name telerik --username ${{ secrets.TelerikLoginNuget }} --password ${{ secrets.TelerikPasswordNuget }}
 
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+      - name: Add NuGet source GitHub
+        run: dotnet nuget add source https://nuget.pkg.github.com/AlteaTech/index.json --name AlteaTech --username AlteaTech --password ${{ secrets.GITHUBNUGET }}
 
-    - name: setup-msbuild
-      uses: microsoft/setup-msbuild@v1.0.0
-      env:
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-        
-    - name: Restore NuGet Packages
-      run: nuget restore Altalents.sln
+      # Installer .NET Core
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-    - name: Build
-      run: msbuild Altalents.sln /p:Configuration=Debug /p:Platform="Any CPU"
+      # Installer MSBuild
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.0
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+          
+      # Restaurer les packages NuGet
+      - name: Restore NuGet Packages
+        run: nuget restore Altalents.sln
 
-    - name: dotnet publish
-      if: github.event_name == 'push'
-      run: |
-        New-Item -Path ${{github.workspace}} -Name "altalentDeploy" -ItemType "directory"
-        dotnet publish -c Debug -o ${{github.workspace}}/altalentDeploy
+      # Build .NET
+      - name: Build .NET Solution
+        run: msbuild Altalents.sln /p:Configuration=Debug /p:Platform="Any CPU"
 
-    - name: Upload artifact for deployment job
-      if: github.event_name == 'push'
-      uses: actions/upload-artifact@v3
-      with:
-        name: .net-app
-        path: ${{github.workspace}}/altalentDeploy
+      # Publication de l'application .NET
+      - name: .NET Publish
+        if: github.event_name == 'push'
+        run: |
+          New-Item -Path ${{github.workspace}} -Name "altalentDeploy" -ItemType "directory"
+          dotnet publish -c Debug -o ${{github.workspace}}/altalentDeploy
+
+      # Téléverser l'artefact pour le job de déploiement
+      - name: Upload artifact for deployment job
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v3
+        with:
+          name: .net-app
+          path: ${{github.workspace}}/altalentDeploy
 
   deploy:
-    runs-on: windows-latest 
+    runs-on: windows-latest
     needs: build
     if: github.event_name == 'push'
     environment:
       name: 'Debug'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # Nécessaire pour le JWT d'authentification
 
     steps:
       - name: Download artifact from build job
@@ -77,6 +88,7 @@ jobs:
         with:
           name: .net-app
           
+      # Déploiement sur une application Web Azure
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
