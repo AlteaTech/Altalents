@@ -23,11 +23,15 @@ jobs:
 
     - name: Install Angular CLI
       run: npm install -g @angular/cli
+      
+    - name: Configure .npmrc for GitHub Packages
+      run: |
+        cd ./ui/Altalents.MVC/Angular/Altalents-client
+        echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITNPMPAT }}" > ~/.npmrc
 
     - name: Install dependencies
       run: |
         cd ./ui/Altalents.MVC/Angular/Altalents-client
-        npm config set //npm.pkg.github.com/:_authToken "${{ secrets.GITNPMPAT }}"
         npm install
 
     - name: Build Angular project
