@@ -2,6 +2,7 @@ using System.Collections;
 
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
+using Altalents.Entities;
 using Altalents.IBusiness.DTO.Requesst;
 using Altalents.Report.Library;
 using Altalents.Report.Library.DSO;
@@ -116,6 +117,13 @@ namespace Altalents.Business.Services
                 })
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new BusinessException("DossierTechnique inexistant.");
+        }
+
+        private async Task<Guid> GetDOssierTechniqueIdFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await DbContext.DossierTechniques
+                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
+                .Select(dt => dt.Id).FirstOrDefaultAsync(cancellationToken);
         }
 
         public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
@@ -374,7 +382,7 @@ namespace Altalents.Business.Services
                 question.Reponse = questionnaires.Single(x => x.Id == question.Id).Reponse;
             });
 
-            await contexte.SaveBaseEntityChangesAsync();
+            await contexte.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
         public async Task PutExperiencesAsync(Guid tokenAccesRapide, PutExperiencesRequestDto request, CancellationToken cancellationToken)
@@ -388,7 +396,7 @@ namespace Altalents.Business.Services
             context.Experiences.RemoveRange(dt.Experiences);
             dt.Experiences = Mapper.Map<List<Entities.Experience>>(request.Experiences);
 
-            await context.SaveBaseEntityChangesAsync();
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
         public async Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
@@ -468,5 +476,125 @@ namespace Altalents.Business.Services
                 throw new Exception(result.Errors.ToString());
             }
         }
+
+        public async Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            return new AllAboutFormationsDto
+            {
+
+                Formations = await context.Formations.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+            .ProjectTo<FormationCertificationDto>(Mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken),
+
+                Certifications = await context.Certifications.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+            .ProjectTo<FormationCertificationDto>(Mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken),
+
+                LanguesParlees = await context.DossierTechniqueLangues.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+            .Include(x => x.Langue)
+            .ProjectTo<LangueParleeDTO>(Mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken)
+
+            };
+        }
+
+        public async Task<Guid> AddOrUpdateFormationCertification(Guid tokenAccesRapide, PostFormationCertificationRequestDto request, CancellationToken cancellationToken)
+        {
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            FormationCertificationEnum formationCertificationEnum = (FormationCertificationEnum)Enum.Parse(typeof(TypeLiaisonEnum), request.FormationOrCertificationEnumCode);
+
+            switch (formationCertificationEnum)
+            {
+                case FormationCertificationEnum.Certification:
+
+                    Certification certifToAddOrUpdate;
+
+                    if (request.Id == null)
+                    {
+                        certifToAddOrUpdate = Mapper.Map<Certification>(request);
+                        certifToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                        await context.Certifications.AddAsync(certifToAddOrUpdate, cancellationToken);
+                    }
+                    else
+                    {
+                        certifToAddOrUpdate = context.Certifications.AsTracking().FirstOrDefault(x => x.Id == request.Id.Value);
+
+                        //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
+                        certifToAddOrUpdate.Libelle = request.Libelle;
+                        certifToAddOrUpdate.Niveau = request.Niveau;
+                        certifToAddOrUpdate.DateDebut = request.DateDebut;
+                        certifToAddOrUpdate.DateFin = request.DateFin;
+                        certifToAddOrUpdate.Domaine = request.Domaine;
+                        certifToAddOrUpdate.Organisme = request.Organisme;
+                    }
+
+                    await context.SaveBaseEntityChangesAsync();
+                    return certifToAddOrUpdate.Id;
+
+
+                case FormationCertificationEnum.Formation:
+
+                    Formation formationfToAddOrUpdate;
+
+                    if (request.Id == null)
+                    {
+                        formationfToAddOrUpdate = Mapper.Map<Formation>(request);
+                        formationfToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                        await context.Formations.AddAsync(formationfToAddOrUpdate, cancellationToken);
+                    }
+                    else
+                    {
+                        formationfToAddOrUpdate = context.Formations.AsTracking().FirstOrDefault(x => x.Id == request.Id.Value);
+
+                        //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
+                        formationfToAddOrUpdate.Libelle = request.Libelle;
+                        formationfToAddOrUpdate.Niveau = request.Niveau;
+                        formationfToAddOrUpdate.DateDebut = request.DateDebut;
+                        formationfToAddOrUpdate.DateFin = request.DateFin;
+                        formationfToAddOrUpdate.Domaine = request.Domaine;
+                        formationfToAddOrUpdate.Organisme = request.Organisme;
+
+                    }
+
+                    await context.SaveBaseEntityChangesAsync(cancellationToken);
+                    return formationfToAddOrUpdate.Id;
+
+                default:
+                    throw new Exception("FormationOrCertificationEnumCode ne correspond a aucun code valide : les valeur attendu sont : '1' (Formation) ou '2' (Certification ");
+            }
+        }
+
+        public async Task<Guid> AddOrUpdateLangueParlee(Guid tokenAccesRapide, PostLangueParleeRequestDto request, CancellationToken cancellationToken)
+        {
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            DossierTechniqueLangue dossierTechniqueLangueToAddOrUpdate;
+
+            if (request.DossierTechniqueLangueId == null)
+            {
+                dossierTechniqueLangueToAddOrUpdate = Mapper.Map<DossierTechniqueLangue>(request);
+                dossierTechniqueLangueToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                await context.DossierTechniqueLangues.AddAsync(dossierTechniqueLangueToAddOrUpdate, cancellationToken);
+            }
+            else
+            {
+                dossierTechniqueLangueToAddOrUpdate = context.DossierTechniqueLangues.AsTracking().FirstOrDefault(x => x.Id == request.DossierTechniqueLangueId.Value);
+
+                //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
+                dossierTechniqueLangueToAddOrUpdate.LangueId = request.LangueId;
+                dossierTechniqueLangueToAddOrUpdate.Niveau = request.Niveau;
+            }
+
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
+            return dossierTechniqueLangueToAddOrUpdate.Id;
+
+        }
+
     }
 }

@@ -10,7 +10,7 @@ export class Competence {
         var model = new Competence ();
         model.ldLiaison = dto.idLiaison;
         model.libelle = dto.libelle;
-        model.niveau = dto.niveau || 0; // Assurez-vous que 'niveau' est initialisé
+        model.niveau = dto.niveau || 0; 
 
         return model;
       }

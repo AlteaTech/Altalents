@@ -51,7 +51,6 @@ namespace Altalents.Business.Mappings
                     }
                 }));
 
-
             CreateMap<ExperienceRequestDto, Experience>()
                 .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
                 .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.Entreprise))
@@ -97,8 +96,55 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.ClientFinal, opt => opt.MapFrom(src => src.ClientFinal))
                 .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.LiaisonExperienceTechnologies.Select(x => x.Technologie)))
                 .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences.Select(x => x.Competance)))
-                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)))
-                ;
+                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)))   ;
+
+            CreateMap<Certification, FormationCertificationDto>()
+              .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+              .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+              .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
+              .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+              .ForMember(dest => dest.Domaine, opt => opt.MapFrom(src => src.Domaine))
+              .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
+              .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
+
+            CreateMap<Formation, FormationCertificationDto>()
+              .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+              .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+              .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
+              .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+              .ForMember(dest => dest.Domaine, opt => opt.MapFrom(src => src.Domaine))
+              .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
+              .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
+
+            CreateMap<DossierTechniqueLangue, LangueParleeDTO>()
+                .ForMember(dest => dest.DossierTechniqueLangueId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+                .ForMember(dest => dest.LibelleLangue, opt => opt.MapFrom(src => src.Langue.Libelle))
+                .ForMember(dest => dest.IdLangue, opt => opt.MapFrom(src => src.LangueId));
+
+            CreateMap<PostFormationCertificationRequestDto, Certification>()
+              .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+              .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
+              .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+              .ForMember(dest => dest.Domaine, opt => opt.MapFrom(src => src.Domaine))
+              .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
+              .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
+
+            CreateMap<PostFormationCertificationRequestDto, Formation>()
+              .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+              .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
+              .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+              .ForMember(dest => dest.Domaine, opt => opt.MapFrom(src => src.Domaine))
+              .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
+              .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
+
+            CreateMap<PostLangueParleeRequestDto, DossierTechniqueLangue>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.DossierTechniqueLangueId))
+                .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+                .ForMember(dest => dest.LangueId, opt => opt.MapFrom(src => src.LangueId));
+
+
+
         }
     }
 }

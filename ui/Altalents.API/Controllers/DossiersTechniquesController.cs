@@ -122,6 +122,22 @@ namespace Altalents.API.Controllers
             await _competencesService.UpdateNiveauLiaisonAsync(request, cancellationToken);
         }
 
+        [HttpGet("{tokenAccesRapide}/formations", Name = "GetAllAboutFormations")]
+        public async Task<AllAboutFormationsDto> GetAllAboutFormations([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetAllAboutFormationAsync(tokenAccesRapide, cancellationToken);
+        }
 
+        [HttpPost("{tokenAccesRapide}/formations/AddOrUpdateFormationCertification")]
+        public async Task<Guid> AddOrUpdateFormationCertification([FromRoute] Guid tokenAccesRapide, PostFormationCertificationRequestDto request, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.AddOrUpdateFormationCertification(tokenAccesRapide, request, cancellationToken);
+        }
+
+        [HttpPost("{tokenAccesRapide}/formations/AddOrUpdateLangueParlee")]
+        public async Task<Guid> AddOrUpdateLangueParlee([FromRoute] Guid tokenAccesRapide, PostLangueParleeRequestDto request, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.AddOrUpdateLangueParlee(tokenAccesRapide, request, cancellationToken);
+        }
     }
 }

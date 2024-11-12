@@ -24,5 +24,8 @@ namespace Altalents.IBusiness.IServices
         Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken);
+        Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
+        Task<Guid> AddOrUpdateFormationCertification(Guid tokenAccesRapide, PostFormationCertificationRequestDto request, CancellationToken cancellationToken);
+        Task<Guid> AddOrUpdateLangueParlee(Guid tokenAccesRapide, PostLangueParleeRequestDto request, CancellationToken cancellationToken);
     }
 }
