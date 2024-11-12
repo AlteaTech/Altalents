@@ -8,10 +8,6 @@ namespace Altalents.IBusiness.DTO.Requesst
 {
     public class PostLangueParleeRequestDto
     {
-
-
-
-  
         public Guid? DossierTechniqueLangueId { get; set; }
 
         [Required]

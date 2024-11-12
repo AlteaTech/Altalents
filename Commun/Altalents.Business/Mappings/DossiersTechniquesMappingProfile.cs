@@ -143,8 +143,6 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
                 .ForMember(dest => dest.LangueId, opt => opt.MapFrom(src => src.LangueId));
 
-
-
         }
     }
 }

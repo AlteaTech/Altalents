@@ -9,7 +9,6 @@ namespace Altalents.IBusiness.DTO
     public class LangueParleeDTO
     {
 
-
         [Required]
         public Guid DossierTechniqueLangueId { get; set; }
 

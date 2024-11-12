@@ -8,9 +8,7 @@ namespace Altalents.Commun.Enums
 {
     public enum FormationCertificationEnum
     {
-
         Formation = 1,
         Certification = 2
-
     }
 }
