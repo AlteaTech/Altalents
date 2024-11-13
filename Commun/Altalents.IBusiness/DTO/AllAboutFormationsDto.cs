@@ -10,6 +10,6 @@ namespace Altalents.IBusiness.DTO
     {
         public List<FormationCertificationDto> Formations { get; set; } = new List<FormationCertificationDto>();        // Liste de formations
         public List<FormationCertificationDto> Certifications { get; set; } = new List<FormationCertificationDto>();  // Liste de certifications
-        public List<LangueParleeDTO> LanguesParlees { get; set; } = new List<LangueParleeDTO>();    // Liste de langues parlées
+        public List<LangueParleeDto> LanguesParlees { get; set; } = new List<LangueParleeDto>();    // Liste de langues parlées
     }
 }

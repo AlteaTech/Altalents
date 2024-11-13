@@ -116,7 +116,7 @@ namespace Altalents.Business.Mappings
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
-            CreateMap<DossierTechniqueLangue, LangueParleeDTO>()
+            CreateMap<DossierTechniqueLangue, LangueParleeDto>()
                 .ForMember(dest => dest.DossierTechniqueLangueId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
                 .ForMember(dest => dest.LibelleLangue, opt => opt.MapFrom(src => src.Langue.Libelle))

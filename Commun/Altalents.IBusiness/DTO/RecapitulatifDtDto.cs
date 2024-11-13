@@ -9,24 +9,23 @@ namespace Altalents.IBusiness.DTO
 {
     public class RecapitulatifDtDto
     {
-        [Required]
-        public Guid Id { get; set; }
-        public string Nom { get; set; }
-        public string Prenom { get; set; }
-        public AdresseDto Adresse { get; set; }
-        public List<string> Telephones { get; set; }
-        public string Email { get; set; }
+        public List<FormationCertificationDto> Formations { get; set; }
+        public List<FormationCertificationDto> Certifications { get; set; }
         public List<ExperienceDto> Experiences { get; set; }
-
-        // CE DTO EST NON FINALISEE
-
-        //public List<FormationDto> Formations { get; set; }
-        //public List<CertificationDto> Certifications { get; set; }
-        //public List<LangueDto> Langues { get; set; }
-
-        public List<CompetenceDto> Competences { get; set; }  // Nouvelle section pour les compétences
-        public List<DocumentDto> Documents { get; set; }
+        public List<LangueParleeDto> Langues { get; set; }
         public List<QuestionnaireDto> Questionnaires { get; set; }
+        public CompetencesGroupByTypeDto Competences { get; set; }
 
     }
+
+
+    public class CompetencesGroupByTypeDto
+    {
+        public List<CompetenceDto> Competences { get; set; } = new List<CompetenceDto>();
+        public List<CompetenceDto> Methodologies { get; set; } = new List<CompetenceDto>();
+        public List<CompetenceDto> Outils { get; set; } = new List<CompetenceDto>();
+        public List<CompetenceDto> Technologie { get; set; } = new List<CompetenceDto>();
+
+    }
+
 }

@@ -139,5 +139,11 @@ namespace Altalents.API.Controllers
         {
             return await _dossierTechniqueService.AddOrUpdateLangueParlee(tokenAccesRapide, request, cancellationToken);
         }
+
+        [HttpGet("{tokenAccesRapide}/recapitulatif", Name = "GetRecapitulatif")]
+        public async Task<RecapitulatifDtDto> GetRecapitulatifAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetRecapitulatifDt(tokenAccesRapide, cancellationToken);
+        }
     }
 }

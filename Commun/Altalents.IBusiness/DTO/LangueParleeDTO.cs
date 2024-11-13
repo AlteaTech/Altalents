@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Altalents.IBusiness.DTO
 {
-    public class LangueParleeDTO
+    public class LangueParleeDto
     {
 
         [Required]

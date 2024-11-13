@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -90,28 +90,28 @@ namespace Altalents.DataAccess.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("ba160a68-8e50-4f8f-92d9-09663dc6684b"),
                 columns: new[] { "DateCrea", "Type" },
-                values: new object[] { new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "OutilEtEnvironnement" });
+                values: new object[] { new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Technologie" });
 
             migrationBuilder.UpdateData(
                 table: "References",
                 keyColumn: "Id",
                 keyValue: new Guid("c5e29778-d6ce-4d83-a663-83fa37bf861d"),
                 columns: new[] { "DateCrea", "Type" },
-                values: new object[] { new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "OutilEtEnvironnement" });
+                values: new object[] { new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Technologie" });
 
             migrationBuilder.UpdateData(
                 table: "References",
                 keyColumn: "Id",
                 keyValue: new Guid("d13fd336-150e-4cc0-bfc2-0bb974561de3"),
                 columns: new[] { "DateCrea", "Type" },
-                values: new object[] { new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "OutilEtEnvironnement" });
+                values: new object[] { new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Technologie" });
 
             migrationBuilder.UpdateData(
                 table: "References",
                 keyColumn: "Id",
                 keyValue: new Guid("fc88220d-c3b5-45ac-9de8-fcd406f96b11"),
                 columns: new[] { "DateCrea", "Type" },
-                values: new object[] { new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "OutilEtEnvironnement" });
+                values: new object[] { new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Technologie" });
         }
     }
 }
