@@ -482,25 +482,36 @@ namespace Altalents.Business.Services
 
         public async Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
+            //Ces 3 context son necessaire pour pouvoir paralleliser les appels
+            using CustomDbContext contextForFormation = GetScopedDbContexte();
+            using CustomDbContext contextForcertifion = GetScopedDbContexte();
+            using CustomDbContext contextForLangues= GetScopedDbContexte();
 
-            using CustomDbContext context = GetScopedDbContexte();
+            // Lancer les requêtes en parallèle
+            var formationsTask = contextForFormation.Formations
+                .Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+                .ProjectTo<FormationCertificationDto>(Mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+
+            var certificationsTask = contextForcertifion.Certifications
+                .Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+                .ProjectTo<FormationCertificationDto>(Mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+
+            var languesParleesTask = contextForLangues.DossierTechniqueLangues
+                .Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+                .Include(x => x.Langue)
+                .ProjectTo<LangueParleeDto>(Mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+
+            // Attendre que toutes les tâches soient terminées
+            await Task.WhenAll(formationsTask, certificationsTask, languesParleesTask);
 
             return new AllAboutFormationsDto
             {
-
-                Formations = await context.Formations.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
-            .ProjectTo<FormationCertificationDto>(Mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken),
-
-                Certifications = await context.Certifications.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
-            .ProjectTo<FormationCertificationDto>(Mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken),
-
-                LanguesParlees = await context.DossierTechniqueLangues.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
-            .Include(x => x.Langue)
-            .ProjectTo<LangueParleeDto>(Mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken)
-
+                Formations = await formationsTask,
+                Certifications = await certificationsTask,
+                LanguesParlees = await languesParleesTask
             };
         }
 

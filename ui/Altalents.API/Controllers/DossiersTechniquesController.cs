@@ -66,7 +66,6 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetQuestionnairesAsync(tokenRapide, cancellationToken);
         }
 
-
         [HttpPut("questionnaires-reponse", Name = "SetReponseQuestionnaires")]
         public async Task SetReponseQuestionnairesAsync([FromBody] List<QuestionnaireUpdateDto> questionnaires, CancellationToken cancellationToken)
         {
