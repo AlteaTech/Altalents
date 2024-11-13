@@ -572,7 +572,7 @@ namespace Altalents.Business.Services
             }
         }
 
-        public async Task<Guid> AddOrUpdateLangueParlee(Guid tokenAccesRapide, PostLangueParleeRequestDto request, CancellationToken cancellationToken)
+        public async Task<Guid> AddOrUpdateLangueParleeAsync(Guid tokenAccesRapide, PostLangueParleeRequestDto request, CancellationToken cancellationToken)
         {
 
             using CustomDbContext context = GetScopedDbContexte();
@@ -599,11 +599,13 @@ namespace Altalents.Business.Services
 
         }
 
-        public async Task<RecapitulatifDtDto> GetRecapitulatifDt(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        public async Task<RecapitulatifDtDto> GetRecapitulatifDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
 
+            using CustomDbContext context = GetScopedDbContexte();
+
             // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
-            var dossierTechniqueTask = GetScopedDbContexte().DossierTechniques
+            var dossierTechniqueTask = context.DossierTechniques
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
                 .Include(dt => dt.Experiences).ThenInclude(exp => exp.LiaisonExperienceCompetences).ThenInclude(ec => ec.Competance)
                 .Include(dt => dt.Formations)

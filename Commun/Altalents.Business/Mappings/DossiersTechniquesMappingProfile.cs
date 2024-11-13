@@ -96,7 +96,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.ClientFinal, opt => opt.MapFrom(src => src.ClientFinal))
                 .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.LiaisonExperienceTechnologies.Select(x => x.Technologie)))
                 .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences.Select(x => x.Competance)))
-                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)))   ;
+                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)));
 
             CreateMap<Certification, FormationCertificationDto>()
               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

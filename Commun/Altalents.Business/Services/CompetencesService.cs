@@ -28,11 +28,14 @@ namespace Altalents.Business.Services
 
             TypeLiaisonEnum typeLiaisonEnum = (TypeLiaisonEnum)Enum.Parse(typeof(TypeLiaisonEnum), typeLiaisonCode);
 
+            using CustomDbContext context = GetScopedDbContexte();
+
             switch (typeLiaisonEnum)
             {
                 case TypeLiaisonEnum.Competence:
 
-                    List<LiaisonExperienceCompetence> competences = await GetScopedDbContexte().LiaisonExperienceCompetences.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                    var dbContext = GetScopedDbContexte();
+                    List<LiaisonExperienceCompetence> competences = await context.LiaisonExperienceCompetences.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                      .Include(x => x.Competance)
                                      .GroupBy(e => e.CompetenceId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
@@ -43,7 +46,7 @@ namespace Altalents.Business.Services
 
                 case TypeLiaisonEnum.Methodologie:
 
-                    List<LiaisonExperienceMethodologie> methodologies = await GetScopedDbContexte().LiaisonExperienceMethodologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                    List<LiaisonExperienceMethodologie> methodologies = await context.LiaisonExperienceMethodologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                      .Include(x => x.Methodologie)
                                      .GroupBy(e => e.MethodologieId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
@@ -54,7 +57,7 @@ namespace Altalents.Business.Services
 
                 case TypeLiaisonEnum.Outil:
 
-                    List<LiaisonExperienceOutil> Outils = await GetScopedDbContexte().LiaisonExperienceOutils.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                    List<LiaisonExperienceOutil> Outils = await context.LiaisonExperienceOutils.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                      .Include(x => x.Outil)
                                      .GroupBy(e => e.OutilId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
@@ -65,7 +68,7 @@ namespace Altalents.Business.Services
 
                 case TypeLiaisonEnum.Technologie:
 
-                    List<LiaisonExperienceTechnologie> technologies = await GetScopedDbContexte().LiaisonExperienceTechnologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                    List<LiaisonExperienceTechnologie> technologies = await context.LiaisonExperienceTechnologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                     .Include(x => x.Technologie)
                                      .GroupBy(e => e.TechnologieId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
@@ -84,29 +87,31 @@ namespace Altalents.Business.Services
 
             TypeLiaisonEnum typeLiaisonEnum = (TypeLiaisonEnum)Enum.Parse(typeof(TypeLiaisonEnum), request.TypeLiaisonCode);
 
+            using CustomDbContext context = GetScopedDbContexte();
+
             switch (typeLiaisonEnum)
             {
                 case TypeLiaisonEnum.Competence:
 
-                    LiaisonExperienceCompetence liaisonCompetence = await GetScopedDbContexte().LiaisonExperienceCompetences.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    LiaisonExperienceCompetence liaisonCompetence = await context.LiaisonExperienceCompetences.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
                     liaisonCompetence.Niveau = request.Note;
                     break;
 
                 case TypeLiaisonEnum.Methodologie:
 
-                    LiaisonExperienceMethodologie liaisonMethodo = await GetScopedDbContexte().LiaisonExperienceMethodologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    LiaisonExperienceMethodologie liaisonMethodo = await context.LiaisonExperienceMethodologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
                     liaisonMethodo.Niveau = request.Note;
                     break;
 
                 case TypeLiaisonEnum.Outil:
 
-                    LiaisonExperienceOutil liaisonOutil = await GetScopedDbContexte().LiaisonExperienceOutils.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    LiaisonExperienceOutil liaisonOutil = await context.LiaisonExperienceOutils.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
                     liaisonOutil.Niveau = request.Note;
                     break;
 
                 case TypeLiaisonEnum.Technologie:
 
-                    LiaisonExperienceTechnologie liaisonTechno = await GetScopedDbContexte().LiaisonExperienceTechnologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    LiaisonExperienceTechnologie liaisonTechno = await context.LiaisonExperienceTechnologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
                     liaisonTechno.Niveau = request.Note;
                     break;
 
