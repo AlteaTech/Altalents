@@ -34,7 +34,6 @@ namespace Altalents.Business.Services
             {
                 case TypeLiaisonEnum.Competence:
 
-                    var dbContext = GetScopedDbContexte();
                     List<LiaisonExperienceCompetence> competences = await context.LiaisonExperienceCompetences.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                      .Include(x => x.Competance)
                                      .GroupBy(e => e.CompetenceId)

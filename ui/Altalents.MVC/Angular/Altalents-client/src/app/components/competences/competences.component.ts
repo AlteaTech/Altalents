@@ -3,9 +3,8 @@ import { Competence } from 'src/app/shared/models/competence.model';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { BaseComponent } from 'src/app/shared/components/base.component';
-import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { CompetenceDto, LiaisonExperienceUpdateNiveauDto } from 'src/app/shared/services/generated/api/api.client';
-import { firstValueFrom, merge, tap } from 'rxjs';
+import { merge, tap } from 'rxjs';
 
 @Component({
   selector: 'app-competences',

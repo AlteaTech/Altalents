@@ -23,7 +23,6 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.AddDossierTechniqueAsync(dossierTechnique, cancellationToken);
         }
 
-
         [HttpPost("/is-email-valid", Name = "IsEmailValid")]
         public async Task<bool> IsEmailValidAsync([FromBody] string email, [FromQuery] Guid? tokenRapide, CancellationToken cancellationToken)
         {
@@ -78,7 +77,6 @@ namespace Altalents.API.Controllers
             await _dossierTechniqueService.PutParlonsDeVousAsync(tokenRapide, request, cancellationToken);
         }
 
-        //WARNING FROM VROMAIN : Le formatage du nom de la route contient async alors que c'est pas le cas pour les auutres routes
         [HttpGet("{tokenAccesRapide}/nom-prenom", Name = "GetNomPrenomFromTokenAsync")]
         public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
@@ -127,16 +125,28 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetAllAboutFormationAsync(tokenAccesRapide, cancellationToken);
         }
 
-        [HttpPost("{tokenAccesRapide}/formations/AddOrUpdateFormationCertification")]
-        public async Task<Guid> AddOrUpdateFormationCertificationAsync([FromRoute] Guid tokenAccesRapide, PostFormationCertificationRequestDto request, CancellationToken cancellationToken)
+        [HttpPost("{tokenAccesRapide}/formations", Name = "AddFormationCertification")]
+        public async Task<Guid> AddFormationCertificationAsync([FromRoute] Guid tokenAccesRapide,FormationCertificationRequestDto request,CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.AddOrUpdateFormationCertification(tokenAccesRapide, request, cancellationToken);
         }
 
-        [HttpPost("{tokenAccesRapide}/formations/AddOrUpdateLangueParlee")]
-        public async Task<Guid> AddOrUpdateLangueParleeAsync([FromRoute] Guid tokenAccesRapide, PostLangueParleeRequestDto request, CancellationToken cancellationToken)
+        [HttpPut("{tokenAccesRapide}/formations/{id}", Name = "UpdateFormationCertification")]
+        public async Task UpdateFormationCertificationAsync([FromRoute] Guid tokenAccesRapide,[FromRoute] Guid id,FormationCertificationRequestDto request, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.AddOrUpdateFormationCertification(tokenAccesRapide, request, cancellationToken, id);
+        }
+
+        [HttpPost("{tokenAccesRapide}/langues", Name = "AddLangueParlee")]
+        public async Task<Guid> AddLangueParleeAsync([FromRoute] Guid tokenAccesRapide,LangueParleeRequestDto request,CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.AddOrUpdateLangueParleeAsync(tokenAccesRapide, request, cancellationToken);
+        }
+
+        [HttpPut("{tokenAccesRapide}/langues/{id}", Name = "UpdateLangueParlee")]
+        public async Task UpdateLangueParleeAsync([FromRoute] Guid tokenAccesRapide,[FromRoute] Guid id,LangueParleeRequestDto request,CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.AddOrUpdateLangueParleeAsync(tokenAccesRapide, request, cancellationToken, id);
         }
 
         [HttpGet("{tokenAccesRapide}/recapitulatif", Name = "GetRecapitulatif")]

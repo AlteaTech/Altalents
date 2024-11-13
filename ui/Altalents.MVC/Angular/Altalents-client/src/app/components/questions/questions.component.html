@@ -1,7 +1,13 @@
 <app-custom-loader [isLoading]="isLoading" />
+<div class="at-p-formulaire-info-section">
+    <img src="Images/HONNETETE.png">
+    <p>
+        Troisième étape! Tenez bon, il ne restera plus grand chose à faire ensuite. Buvez un verre d’eau, détendez-vous et tout va bien se passer : il est venu le temps de nous communiquer vos expériences professionnelles. Courage moussaillon.
+    </p>
+</div>
 <div *ngFor="let question of questions">
     <label class="col-form-label">{{ question.question }}<span class="champ-obligatoire" *ngIf="question.isObligatoire">*</span></label>
-    <input type="text" class="form-control" placeholder="Répondez ici" [(ngModel)]="question.reponse"/>
+    <textarea class="form-control" placeholder="Répondez ici" [(ngModel)]="question.reponse"></textarea>
     <div class="error-message" *ngIf="question.isObligatoire && !question.reponse && showErreurs">
         La réponse est requise.
     </div>

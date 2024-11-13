@@ -122,7 +122,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.LibelleLangue, opt => opt.MapFrom(src => src.Langue.Libelle))
                 .ForMember(dest => dest.IdLangue, opt => opt.MapFrom(src => src.LangueId));
 
-            CreateMap<PostFormationCertificationRequestDto, Certification>()
+            CreateMap<FormationCertificationRequestDto, Certification>()
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
               .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
               .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
@@ -130,7 +130,7 @@ namespace Altalents.Business.Mappings
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
-            CreateMap<PostFormationCertificationRequestDto, Formation>()
+            CreateMap<FormationCertificationRequestDto, Formation>()
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
               .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
               .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
@@ -138,8 +138,7 @@ namespace Altalents.Business.Mappings
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
-            CreateMap<PostLangueParleeRequestDto, DossierTechniqueLangue>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.DossierTechniqueLangueId))
+            CreateMap<LangueParleeRequestDto, DossierTechniqueLangue>()
                 .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
                 .ForMember(dest => dest.LangueId, opt => opt.MapFrom(src => src.LangueId));
 

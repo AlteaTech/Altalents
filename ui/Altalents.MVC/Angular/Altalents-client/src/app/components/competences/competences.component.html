@@ -6,41 +6,41 @@
     <div class="barème-legende">
       <div class="legende-item">
         <div class="etoiles">
-          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
-          <span class="fa-regular fa-star"></span> <!-- 1 étoile vide -->
-          <span class="fa-regular fa-star"></span> <!-- 2 étoiles vides -->
-          <span class="fa-regular fa-star"></span> <!-- 3 étoiles vides -->
-          <span class="fa-regular fa-star"></span> <!-- 4 étoiles vides -->
+          <span class="fa fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
         </div>
         <div>Pas ouf</div>
       </div>
       <div class="legende-item">
         <div class="etoiles">
-          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
-          <span class="fa fa-star"></span> <!-- 2 étoiles pleines -->
-          <span class="fa-regular fa-star"></span> <!-- 1 étoile vide -->
-          <span class="fa-regular fa-star"></span> <!-- 2 étoiles vides -->
-          <span class="fa-regular fa-star"></span> <!-- 3 étoiles vides -->
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
         </div>
         <span>À peu près</span>
       </div>
       <div class="legende-item">
         <div class="etoiles">
-          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
-          <span class="fa fa-star"></span> <!-- 2 étoiles pleines -->
-          <span class="fa fa-star"></span> <!-- 3 étoiles pleines -->
-          <span class="fa-regular fa-star"></span> <!-- 2 étoiles vides -->
-          <span class="fa-regular fa-star"></span> <!-- 3 étoiles vides -->
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
         </div>
         <span>Pas si mal</span>
       </div>
       <div class="legende-item">
         <div class="etoiles">
-          <span class="fa fa-star"></span> <!-- 1 étoile pleine -->
-          <span class="fa fa-star"></span> <!-- 2 étoiles pleines -->
-          <span class="fa fa-star"></span> <!-- 3 étoiles pleines -->
-          <span class="fa fa-star"></span> <!-- 4 étoiles pleines -->
-          <span class="fa-regular fa-star"></span> <!-- 1 étoile vide -->
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa-regular fa-star"></span>
         </div>
         <span>Plutôt bon</span>
       </div>
@@ -92,8 +92,6 @@
         </div>
       </div>
 </fieldset>
-TO DELETE : LE BLOC TECHNOLOGIE NE S'AFFICHE PAS À CAUSE D'UN BUG BACKEND DONT LE BUGFIX DOIT ÊTRE DÉPLOYÉ EN DEV<br/>
-TO DELETE : LE BLOC OUTILS NE S'AFFICHE PAS CAR IL N'Y A PAS D'OUTIL ASSOCIÉ À CE DOSSIER TECHNIQUE.
 <fieldset *ngIf="compTechnologie.length > 0">
     <legend>Technologies</legend>
     <div *ngFor="let competence of compTechnologie" class="competence-item">

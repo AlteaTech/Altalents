@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Altalents.IBusiness.DTO.Requesst
 {
-    public class PostFormationCertificationRequestDto
+    public class FormationCertificationRequestDto
     {
-        public Guid? Id { get; set; }                // Id de la formation / Certification
         public string FormationOrCertificationEnumCode { get; set; } //Permet de determinée si on parle de certification ou de formation (necessaire pour savoir sur quel table on fait le Add or Update)
         public string Libelle { get; set; }          // Nom de la formation / Certification
         public string Domaine { get; set; }           // Domaine de la formation / Certification (ex: Node JS)

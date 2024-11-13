@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Altalents.IBusiness.DTO.Requesst
 {
-    public class PostLangueParleeRequestDto
+    public class LangueParleeRequestDto
     {
-        public Guid? DossierTechniqueLangueId { get; set; }
 
         [Required]
         public Guid LangueId { get; set; }
