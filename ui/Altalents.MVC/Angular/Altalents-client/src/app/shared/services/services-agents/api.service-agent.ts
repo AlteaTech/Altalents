@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, PutExperiencesRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto } from '../generated/api/api.client';
+import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, PutExperiencesRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -95,6 +95,22 @@ export class ApiServiceAgent {
 
   putNote(body: LiaisonExperienceUpdateNiveauDto): Observable<void> {
     return this.apiClient.putNote(body);
+  }
+
+  addFormationCertification(token: string, body: FormationCertificationRequestDto): Observable<string> {
+    return this.apiClient.addFormationCertification(token, body);
+  }
+
+  updateFormationCertification(token: string, id: string, body: FormationCertificationRequestDto): Observable<void> {
+    return this.apiClient.updateFormationCertification(token, id, body);
+  }
+
+  addLangueParlee(token: string, body: LangueParleeRequestDto): Observable<string> {
+    return this.apiClient.addLangueParlee(token, body);
+  }
+
+  updateLangueParlee(token: string, id: string, body: LangueParleeRequestDto): Observable<void> {
+    return this.apiClient.updateLangueParlee(token, id, body);
   }
 
 }
