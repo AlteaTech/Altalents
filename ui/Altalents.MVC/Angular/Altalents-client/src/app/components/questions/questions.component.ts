@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { Question } from 'src/app/shared/models/question.model';
 import { QuestionnaireDto, QuestionnaireUpdateDto } from 'src/app/shared/services/generated/api/api.client';
@@ -10,7 +10,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
   selector: 'app-questions',
   templateUrl: './questions.component.html'
 })
-export class QuestionsComponent extends BaseComponent implements OnInit {
+export class QuestionsComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
@@ -26,7 +26,7 @@ export class QuestionsComponent extends BaseComponent implements OnInit {
     this.populateData();
   }
 
-  public override populateData(): void {
+  public populateData(): void {
     this.isLoading = true;
     this.callRequest(ConstantesRequest.getQuestionnaires, this.service.getQuestionnaires(this.tokenDossierTechnique)
         .subscribe((response: QuestionnaireDto[]) => {

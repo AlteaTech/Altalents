@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { tap } from 'rxjs';
@@ -9,7 +9,7 @@ import { tap } from 'rxjs';
   templateUrl: './recapitulatif.component.html',
 })
 
-export class RecapitulatifComponent extends BaseComponent implements OnInit {
+export class RecapitulatifComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   public recapitulatif: string = "";
   
@@ -23,7 +23,7 @@ export class RecapitulatifComponent extends BaseComponent implements OnInit {
     this.populateData();
   }
 
-  public override populateData(): void {
+  public populateData(): void {
     this.isLoading = true;
 
 

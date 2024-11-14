@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { DocumentDto } from 'src/app/shared/services/generated/api/api.client';
@@ -10,7 +10,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
   selector: 'app-telechargement-dt',
   templateUrl: './telechargement-dt.component.html'
 })
-export class TelechargementDtComponent extends BaseComponent implements OnInit {
+export class TelechargementDtComponent extends BaseComponentCallHttpComponent implements OnInit {
   public tokenDossierTechnique: string = "";
 
   constructor(private route: ActivatedRoute,
@@ -23,7 +23,7 @@ export class TelechargementDtComponent extends BaseComponent implements OnInit {
     this.populateData();
   }
 
-  public override populateData(): void {    
+  public populateData(): void {    
     this.isLoading = true;
     this.callRequest(ConstantesRequest.generateDossierCompetenceFile, this.service.generateDossierCompetenceFile(this.tokenDossierTechnique)
         .subscribe((response: DocumentDto) => {

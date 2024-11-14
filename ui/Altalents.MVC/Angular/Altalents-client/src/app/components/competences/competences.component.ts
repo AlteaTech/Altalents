@@ -90,7 +90,7 @@ export class CompetencesComponent extends BaseComponentCallHttpComponent impleme
 
     let dto = new LiaisonExperienceUpdateNiveauDto();
 
-        dto.liaisonId = competence.ldLiaison;
+        dto.liaisonId = competence.idLiaison;
         dto.typeLiaisonCode = codeTypeLiaison;
         dto.note = competence.niveau;
 
