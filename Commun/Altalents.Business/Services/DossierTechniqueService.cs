@@ -366,11 +366,11 @@ namespace Altalents.Business.Services
 
         }
 
-        public Task<List<QuestionnaireDto>> GetQuestionnairesAsync(Guid tokenRapide, CancellationToken cancellationToken)
+        public async Task<List<QuestionnaireDto>> GetQuestionnairesAsync(Guid tokenRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
 
-            return context.QuestionDossierTechniques
+            return await context.QuestionDossierTechniques
                 .Where(x => x.DossierTechnique.TokenAccesRapide == tokenRapide)
                 .OrderBy(x => x.Ordre)
                 .ProjectTo<QuestionnaireDto>(Mapper.ConfigurationProvider)
