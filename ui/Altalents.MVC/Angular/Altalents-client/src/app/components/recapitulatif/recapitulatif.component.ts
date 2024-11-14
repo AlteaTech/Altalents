@@ -26,24 +26,17 @@ export class RecapitulatifComponent extends BaseComponent implements OnInit {
   public override populateData(): void {
     this.isLoading = true;
 
-      //Remplacer par un appel au service GetRecapitulatif
+
       this.service.getCompetences(this.tokenDossierTechnique, '1').pipe(
-        // tap((response: CompetenceDto[]) => {
-        //   this.compCompetences = Competence.fromList(response);
-        // })
+
     ).subscribe({
       next: () => {
-        this.isLoading = false; // Dès qu'une requête répond, le loader s'arrête
+        this.isLoading = false; 
       },
       error: () => {
-        this.isLoading = false; // En cas d'erreur, arrêt du loader
-        // Vous pouvez également gérer les erreurs ici
+        this.isLoading = false; 
+       
       }
     });
-  }
-
-  private loadData(): void {
-    // TODO : appeler le back pour avoir les infos
-    this.recapitulatif = "";
   }
 }

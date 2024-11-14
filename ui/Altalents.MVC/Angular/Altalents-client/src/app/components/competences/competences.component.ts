@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Competence } from 'src/app/shared/models/competence.model';
-import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { CompetenceDto, LiaisonExperienceUpdateNiveauDto } from 'src/app/shared/services/generated/api/api.client';
 import { merge, tap } from 'rxjs';
+import { ConstantesTypesLiaisons } from 'src/app/shared/constantes/constantes-types-liaisons';
 
 @Component({
   selector: 'app-competences',
@@ -12,7 +13,7 @@ import { merge, tap } from 'rxjs';
   styleUrls: ['./competences.component.scss']
 })
 
-export class CompetencesComponent extends BaseComponent implements OnInit {
+export class CompetencesComponent extends BaseComponentCallHttpComponent implements OnInit {
 
   @Input() public tokenDossierTechnique: string = "";
 
@@ -32,26 +33,26 @@ export class CompetencesComponent extends BaseComponent implements OnInit {
     this.populateData();
   }
 
-  public override populateData(): void {
+  public populateData(): void {
     this.isLoading = true;
 
     merge(
-      this.service.getCompetences(this.tokenDossierTechnique, '1').pipe(
+      this.service.getCompetences(this.tokenDossierTechnique, ConstantesTypesLiaisons.competence).pipe(
         tap((response: CompetenceDto[]) => {
           this.compCompetences = Competence.fromList(response);
         })
       ),
-      this.service.getCompetences(this.tokenDossierTechnique, '2').pipe(
+      this.service.getCompetences(this.tokenDossierTechnique, ConstantesTypesLiaisons.methodologie).pipe(
         tap((response: CompetenceDto[]) => {
           this.compMethodologies = Competence.fromList(response);
         })
       ),
-      this.service.getCompetences(this.tokenDossierTechnique, '3').pipe(
+      this.service.getCompetences(this.tokenDossierTechnique, ConstantesTypesLiaisons.outil).pipe(
         tap((response: CompetenceDto[]) => {
           this.compOutils = Competence.fromList(response);
         })
       ),
-      this.service.getCompetences(this.tokenDossierTechnique, '4').pipe(
+      this.service.getCompetences(this.tokenDossierTechnique, ConstantesTypesLiaisons.technologie).pipe(
         tap((response: CompetenceDto[]) => {
           this.compTechnologie = Competence.fromList(response);
         })
