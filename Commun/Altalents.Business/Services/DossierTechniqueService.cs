@@ -526,7 +526,7 @@ namespace Altalents.Business.Services
             };
         }
 
-        public async Task<Guid> AddOrUpdateFormationCertification(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null)
+        public async Task<Guid> AddOrUpdateFormationCertificationAsync(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null)
         {
 
             using CustomDbContext context = GetScopedDbContexte();

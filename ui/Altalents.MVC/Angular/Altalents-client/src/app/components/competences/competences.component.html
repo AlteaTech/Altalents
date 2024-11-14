@@ -63,7 +63,7 @@
         <p class="competence-libelle">{{ competence.libelle }}</p>
         <div class="competence-stars">
           <span *ngFor="let star of arrayNbEtoiles" 
-                (click)="onEtoileCompetenceClick(competence, '1', star)">
+                (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.competence, star)">
             <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
           </span>
         </div>
@@ -75,7 +75,7 @@
       <p class="competence-libelle">{{ competence.libelle }}</p>
       <div class="competence-stars">
         <span *ngFor="let star of arrayNbEtoiles" 
-              (click)="onEtoileCompetenceClick(competence, '2', star)">
+              (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.methodologie, star)">
           <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
         </span>
       </div>
@@ -87,7 +87,7 @@
         <p class="competence-libelle">{{ competence.libelle }}</p>
         <div class="competence-stars">
           <span *ngFor="let star of arrayNbEtoiles" 
-                (click)="onEtoileCompetenceClick(competence, '3', star)">
+                (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.outil, star)">
             <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
           </span>
         </div>
@@ -99,7 +99,7 @@
         <p class="competence-libelle">{{ competence.libelle }}</p>
         <div class="competence-stars">
           <span *ngFor="let star of arrayNbEtoiles" 
-                (click)="onEtoileCompetenceClick(competence, '4', star)">
+                (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.technologie, star)">
             <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
           </span>
         </div>

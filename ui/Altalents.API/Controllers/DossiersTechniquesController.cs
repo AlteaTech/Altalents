@@ -128,13 +128,13 @@ namespace Altalents.API.Controllers
         [HttpPost("{tokenAccesRapide}/formations", Name = "AddFormationCertification")]
         public async Task<Guid> AddFormationCertificationAsync([FromRoute] Guid tokenAccesRapide,FormationCertificationRequestDto request,CancellationToken cancellationToken)
         {
-            return await _dossierTechniqueService.AddOrUpdateFormationCertification(tokenAccesRapide, request, cancellationToken);
+            return await _dossierTechniqueService.AddOrUpdateFormationCertificationAsync(tokenAccesRapide, request, cancellationToken);
         }
 
         [HttpPut("{tokenAccesRapide}/formations/{id}", Name = "UpdateFormationCertification")]
         public async Task UpdateFormationCertificationAsync([FromRoute] Guid tokenAccesRapide,[FromRoute] Guid id,FormationCertificationRequestDto request, CancellationToken cancellationToken)
         {
-            await _dossierTechniqueService.AddOrUpdateFormationCertification(tokenAccesRapide, request, cancellationToken, id);
+            await _dossierTechniqueService.AddOrUpdateFormationCertificationAsync(tokenAccesRapide, request, cancellationToken, id);
         }
 
         [HttpPost("{tokenAccesRapide}/langues", Name = "AddLangueParlee")]

@@ -13,6 +13,8 @@ namespace Altalents.IBusiness.DTO.Requesst
         public string Domaine { get; set; }           // Domaine de la formation / Certification (ex: Node JS)
         public string Niveau { get; set; }            // Niveau (ex: Bac)
         public string Organisme { get; set; }         // Organisme responsable de la formation / Certification
+
+        [Required]
         public DateTime DateDebut { get; set; }       // Date de début de la formation / Certification
         public DateTime? DateFin { get; set; }        // Date de fin de la formation / Certification (peut être null si en cours)
     }
