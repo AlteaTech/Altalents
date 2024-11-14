@@ -195,7 +195,7 @@ namespace Altalents.MVC
             GlobalSettings globalSettings = configurationHangfireSection.Get<GlobalSettings>();
             if (globalSettings.AutoMigrate)
             {
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                using (IServiceScope serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     MigrationContext context = new();
                     context.Database.GetDbConnection().ConnectionString = Configuration.GetConnectionString("Data");

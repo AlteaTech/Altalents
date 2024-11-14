@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Altalents.IBusiness.DTO.Requesst;
+using Altalents.IBusiness.DTO.Request;
 
 namespace Altalents.IBusiness.IServices
 {

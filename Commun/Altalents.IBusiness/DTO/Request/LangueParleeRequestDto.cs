@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Altalents.IBusiness.DTO.Requesst
+namespace Altalents.IBusiness.DTO.Request
 {
     public class LangueParleeRequestDto
     {

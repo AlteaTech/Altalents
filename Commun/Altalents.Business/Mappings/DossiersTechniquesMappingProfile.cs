@@ -1,4 +1,4 @@
-using Altalents.IBusiness.DTO.Requesst;
+using Altalents.IBusiness.DTO.Request;
 
 namespace Altalents.Business.Mappings
 {

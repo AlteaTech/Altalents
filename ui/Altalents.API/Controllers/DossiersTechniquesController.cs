@@ -1,6 +1,6 @@
 using Altalents.Business.Services;
 using Altalents.Commun.Enums;
-using Altalents.IBusiness.DTO.Requesst;
+using Altalents.IBusiness.DTO.Request;
 
 namespace Altalents.API.Controllers
 {

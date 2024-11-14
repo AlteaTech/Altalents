@@ -1,6 +1,8 @@
-namespace Altalents.IBusiness.DTO.Requesst
+using Altalents.Entities;
+
+namespace Altalents.IBusiness.DTO.Request
 {
-    public class ExperienceDto
+    public class ExperienceRequestDto
     {
         [Required]
         public string IntitulePoste { get; set; }
@@ -15,15 +17,16 @@ namespace Altalents.IBusiness.DTO.Requesst
         [Required]
         public DateTime DateDebut { get; set; }
         [Required]
-        public ReferenceDto TypeContrat { get; set; }
+        public Guid? TypeContratId { get; set; }
 
 
         public DateTime? DateFin { get; set; }
         public decimal? Budget { get; set; }
         public string ClientFinal { get; set; }
 
-        public List<ReferenceDto> Technologies{ get; set; }
-        public List<ReferenceDto> Methodologies { get; set; }
-        public List<ReferenceDto> Competences { get; set; }
+        public List<Guid> TechnologieIds { get; set; }
+        public List<Guid> MethodologieIds { get; set; }
+        public List<Guid> CompetenceIds { get; set; }
+        public List<Guid> OutilIds { get; set; }
     }
 }

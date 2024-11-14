@@ -1,10 +1,8 @@
 using System.Collections;
-
+using Altalents.Business.Extensions;
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
-using Altalents.Entities;
-using Altalents.IBusiness.DTO;
-using Altalents.IBusiness.DTO.Requesst;
+using Altalents.IBusiness.DTO.Request;
 using Altalents.Report.Library;
 using Altalents.Report.Library.DSO;
 
@@ -21,7 +19,6 @@ namespace Altalents.Business.Services
         private readonly GlobalSettings _globalSettings;
         private readonly IEmailService _emailService;
         private readonly CommercialSettings _commercialSettings;
-        private readonly ICompetencesService _competenceService;
 
         public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider,
             IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService, IOptions<CommercialSettings> commercialSettings, ICompetencesService competenceService) : base(logger, contexte, mapper, serviceProvider)
@@ -29,7 +26,6 @@ namespace Altalents.Business.Services
             _globalSettings = globalSettings.CurrentValue;
             _emailService = emailService;
             _commercialSettings = commercialSettings.Value;
-            _competenceService = competenceService;
         }
 
         public async Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
@@ -52,7 +48,7 @@ namespace Altalents.Business.Services
         public List<DocumentComplementaire> GetDocumentComplementaires(List<DocumentDto> documents)
         {
             List<DocumentComplementaire> retour = new();
-            foreach (var item in documents)
+            foreach (DocumentDto item in documents)
             {
                 retour.Add(new()
                 {
@@ -435,7 +431,7 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide,TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
+        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
             DossierCompetenceDso dt = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
@@ -496,27 +492,23 @@ namespace Altalents.Business.Services
             //Ces 3 context son necessaire pour pouvoir paralleliser les appels
             using CustomDbContext contextForFormation = GetScopedDbContexte();
             using CustomDbContext contextForcertifion = GetScopedDbContexte();
-            using CustomDbContext contextForLangues= GetScopedDbContexte();
+            using CustomDbContext contextForLangues = GetScopedDbContexte();
 
             // Lancer les requêtes en parallèle
-            var formationsTask = contextForFormation.Formations
+            Task<List<FormationCertificationDto>> formationsTask = contextForFormation.Formations
                 .Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
                 .ProjectTo<FormationCertificationDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            var certificationsTask = contextForcertifion.Certifications
+            Task<List<FormationCertificationDto>> certificationsTask = contextForcertifion.Certifications
                 .Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
                 .ProjectTo<FormationCertificationDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            var languesParleesTask = contextForLangues.DossierTechniqueLangues
+            Task<List<LangueParleeDto>> languesParleesTask = contextForLangues.DossierTechniqueLangues
                 .Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
-                .Include(x => x.Langue)
                 .ProjectTo<LangueParleeDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
-
-            // Attendre que toutes les tâches soient terminées
-            await Task.WhenAll(formationsTask, certificationsTask, languesParleesTask);
 
             return new AllAboutFormationsDto
             {
@@ -561,9 +553,7 @@ namespace Altalents.Business.Services
                     await context.SaveBaseEntityChangesAsync();
                     return certifToAddOrUpdate.Id;
 
-
                 case FormationCertificationEnum.Formation:
-
                     Formation formationfToAddOrUpdate;
 
                     if (id == null)
@@ -587,17 +577,14 @@ namespace Altalents.Business.Services
 
                     await context.SaveBaseEntityChangesAsync(cancellationToken);
                     return formationfToAddOrUpdate.Id;
-
                 default:
-                    throw new Exception("FormationOrCertificationEnumCode ne correspond a aucun code valide : les valeur attendu sont : '1' (Formation) ou '2' (Certification ");
+                    throw new BusinessException("FormationOrCertificationEnumCode ne correspond a aucun code valide : les valeur attendu sont : '1' (Formation) ou '2' (Certification ");
             }
         }
 
         public async Task<Guid> AddOrUpdateLangueParleeAsync(Guid tokenAccesRapide, LangueParleeRequestDto request, CancellationToken cancellationToken, Guid? id = null)
         {
-
             using CustomDbContext context = GetScopedDbContexte();
-
             DossierTechniqueLangue dossierTechniqueLangueToAddOrUpdate;
 
             if (id == null)
@@ -626,9 +613,11 @@ namespace Altalents.Business.Services
             using CustomDbContext context = GetScopedDbContexte();
 
             // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
-            var dossierTechniqueTask = context.DossierTechniques
+            Task<DossierTechnique> dossierTechniqueTask = context.DossierTechniques
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
-                .Include(dt => dt.Experiences).ThenInclude(exp => exp.LiaisonExperienceCompetences).ThenInclude(ec => ec.Competance)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceCompetences)
+                        .ThenInclude(ec => ec.Competance)
                 .Include(dt => dt.Formations)
                 .Include(dt => dt.Certifications)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Langue)
@@ -636,22 +625,24 @@ namespace Altalents.Business.Services
                 .Include(dt => dt.QuestionDossierTechniques)
                 .SingleOrDefaultAsync(cancellationToken);
 
-            var competencesTask = _competenceService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Competence.GetHashCode().ToString(), cancellationToken);
-            var methodologiesTask = _competenceService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Methodologie.GetHashCode().ToString(), cancellationToken);
-            var technologieTask = _competenceService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Technologie.GetHashCode().ToString(), cancellationToken);
-            var outilsTask = _competenceService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Outil.GetHashCode().ToString(), cancellationToken);
+            using CustomDbContext context1 = GetScopedDbContexte();
+            using CustomDbContext context2 = GetScopedDbContexte();
+            using CustomDbContext context3 = GetScopedDbContexte();
+            using CustomDbContext context4 = GetScopedDbContexte();
 
-            // Attendre que toutes les tâches soient complétées
-            await Task.WhenAll(dossierTechniqueTask, competencesTask, methodologiesTask, technologieTask, outilsTask);
+            Task<List<CompetenceDto>> competencesTask = context1.GetLiaisonCandidatByTypeAsync(Mapper, tokenAccesRapide, TypeLiaisonEnum.Competence.GetHashCode().ToString(), cancellationToken);
+            Task<List<CompetenceDto>> methodologiesTask = context2.GetLiaisonCandidatByTypeAsync(Mapper, tokenAccesRapide, TypeLiaisonEnum.Methodologie.GetHashCode().ToString(), cancellationToken);
+            Task<List<CompetenceDto>> technologieTask = context3.GetLiaisonCandidatByTypeAsync(Mapper, tokenAccesRapide, TypeLiaisonEnum.Technologie.GetHashCode().ToString(), cancellationToken);
+            Task<List<CompetenceDto>> outilsTask = context4.GetLiaisonCandidatByTypeAsync(Mapper, tokenAccesRapide, TypeLiaisonEnum.Outil.GetHashCode().ToString(), cancellationToken);
 
-            var dossierTechnique = await dossierTechniqueTask;
+            DossierTechnique dossierTechnique = await dossierTechniqueTask;
 
             if (dossierTechnique == null)
                 throw new BusinessException("Dossier technique inexistant");
 
-            var recapitulatif = new RecapitulatifDtDto
+            RecapitulatifDtDto recapitulatif = new ()
             {
-                Competences = new CompetencesGroupByTypeDto
+                Competences = new ()
                 {
                     Competences = await competencesTask,
                     Methodologies = await methodologiesTask,
