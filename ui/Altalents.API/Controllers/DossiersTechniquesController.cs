@@ -1,4 +1,3 @@
-using Altalents.Business.Services;
 using Altalents.Commun.Enums;
 using Altalents.IBusiness.DTO.Request;
 
@@ -82,7 +81,7 @@ namespace Altalents.API.Controllers
         {
             return await _dossierTechniqueService.GetNomPrenomFromTokenAsync(tokenAccesRapide, cancellationToken);
         }
-    
+
         [HttpPut("{tokenAccesRapide}/experiences", Name = "PutExperiences")]
         public async Task PutExperiencesAsync([FromRoute] Guid tokenAccesRapide, [FromBody] PutExperiencesRequestDto request, CancellationToken cancellationToken)
         {
@@ -92,7 +91,7 @@ namespace Altalents.API.Controllers
         [HttpGet("{tokenAccesRapide}/experiences", Name = "GetExperiences")]
         public async Task<List<ExperienceDto>> GetExperiencesAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
-           return await _dossierTechniqueService.GetExperiencesAsync(tokenAccesRapide, cancellationToken);
+            return await _dossierTechniqueService.GetExperiencesAsync(tokenAccesRapide, cancellationToken);
         }
 
         [HttpGet("{tokenAccesRapide}/documents", Name = "GetDocuments")]
@@ -102,7 +101,7 @@ namespace Altalents.API.Controllers
         }
 
         [HttpGet("{tokenAccesRapide}/generate-dt", Name = "GenerateDossierCompetenceFile")]
-        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery]TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
+        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken);
         }
@@ -113,8 +112,8 @@ namespace Altalents.API.Controllers
             return await _competencesService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, typeLiaisonCode, cancellationToken);
         }
 
-        [HttpPut("{tokenAccesRapide}/competences", Name = "PutNote")]
-        public async Task PutNoteAsync([FromRoute] Guid tokenAccesRapide, [FromBody] LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken)
+        [HttpPut("competences", Name = "PutNote")]
+        public async Task PutNoteAsync([FromBody] LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken)
         {
             await _competencesService.UpdateNiveauLiaisonAsync(request, cancellationToken);
         }
@@ -126,25 +125,25 @@ namespace Altalents.API.Controllers
         }
 
         [HttpPost("{tokenAccesRapide}/formations", Name = "AddFormationCertification")]
-        public async Task<Guid> AddFormationCertificationAsync([FromRoute] Guid tokenAccesRapide,FormationCertificationRequestDto request,CancellationToken cancellationToken)
+        public async Task<Guid> AddFormationCertificationAsync([FromRoute] Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.AddOrUpdateFormationCertificationAsync(tokenAccesRapide, request, cancellationToken);
         }
 
         [HttpPut("{tokenAccesRapide}/formations/{id}", Name = "UpdateFormationCertification")]
-        public async Task UpdateFormationCertificationAsync([FromRoute] Guid tokenAccesRapide,[FromRoute] Guid id,FormationCertificationRequestDto request, CancellationToken cancellationToken)
+        public async Task UpdateFormationCertificationAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, FormationCertificationRequestDto request, CancellationToken cancellationToken)
         {
             await _dossierTechniqueService.AddOrUpdateFormationCertificationAsync(tokenAccesRapide, request, cancellationToken, id);
         }
 
         [HttpPost("{tokenAccesRapide}/langues", Name = "AddLangueParlee")]
-        public async Task<Guid> AddLangueParleeAsync([FromRoute] Guid tokenAccesRapide,LangueParleeRequestDto request,CancellationToken cancellationToken)
+        public async Task<Guid> AddLangueParleeAsync([FromRoute] Guid tokenAccesRapide, LangueParleeRequestDto request, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.AddOrUpdateLangueParleeAsync(tokenAccesRapide, request, cancellationToken);
         }
 
         [HttpPut("{tokenAccesRapide}/langues/{id}", Name = "UpdateLangueParlee")]
-        public async Task UpdateLangueParleeAsync([FromRoute] Guid tokenAccesRapide,[FromRoute] Guid id,LangueParleeRequestDto request,CancellationToken cancellationToken)
+        public async Task UpdateLangueParleeAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, LangueParleeRequestDto request, CancellationToken cancellationToken)
         {
             await _dossierTechniqueService.AddOrUpdateLangueParleeAsync(tokenAccesRapide, request, cancellationToken, id);
         }

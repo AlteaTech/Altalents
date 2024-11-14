@@ -93,8 +93,8 @@ export class ApiServiceAgent {
     return this.apiClient.getCompetences(token, typeLiaisonCode);
   }
 
-  putNote(token: string, body: LiaisonExperienceUpdateNiveauDto): Observable<void> {
-    return this.apiClient.putNote(token, body);
+  putNote(body: LiaisonExperienceUpdateNiveauDto): Observable<void> {
+    return this.apiClient.putNote(body);
   }
 
 }

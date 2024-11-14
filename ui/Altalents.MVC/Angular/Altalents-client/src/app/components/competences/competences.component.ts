@@ -72,11 +72,10 @@ export class CompetencesComponent extends BaseComponentCallHttpComponent impleme
 
   public onEtoileCompetenceClick(competence: Competence, codeTypeLiaison : string, niveau: number): void {
     
-    competence.niveau = niveau; // Met à jour le niveau de la compétence
+    competence.niveau = niveau;
     this.isLoading = true;
     
-    // Appel API pour sauvegarder la note
-    this.service.putNote(this.tokenDossierTechnique, this.populateRequestDto(competence, codeTypeLiaison)).subscribe({
+    this.service.putNote(this.populateRequestDto(competence, codeTypeLiaison)).subscribe({
       next: () => {
         this.isLoading = false; 
       },

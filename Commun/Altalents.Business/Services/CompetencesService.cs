@@ -69,7 +69,7 @@ namespace Altalents.Business.Services
 
             }
 
-            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
 
         }
     }
