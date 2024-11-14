@@ -1,4 +1,4 @@
-namespace Altalents.IBusiness.DTO.Requesst
+namespace Altalents.IBusiness.DTO.Request
 {
     public class DocumentDto : DocumentInfoDto
     {

@@ -366,3 +366,4 @@ SQL/bundle.exe
 ui/Altalents.MVC/Angular/Altalents-client/package-lock.json
 
 ui/Altalents.MVC/Angular/Altalents-client/.npmrc
+/ui/Altalents.MVC/Angular/Altalents-client/npmrc

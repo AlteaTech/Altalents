@@ -1,5 +1,5 @@
 using Altalents.Commun.Enums;
-using Altalents.IBusiness.DTO.Requesst;
+using Altalents.IBusiness.DTO.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Altalents.IBusiness.IServices
@@ -12,7 +12,7 @@ namespace Altalents.IBusiness.IServices
         IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques();
         IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat);
         Task<TrigrammeDto> GetTrigrammeAsync(GetTrigrammeRequestDto request, CancellationToken cancellationToken);
-        Task<bool> IsEmailValidAsync(string email,Guid? tokenRapide, CancellationToken cancellationToken);
+        Task<bool> IsEmailValidAsync(string email, Guid? tokenRapide, CancellationToken cancellationToken);
         Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken);
         Task<bool> IsTrigrammeValidAsync(string trigram, CancellationToken cancellationToken);
         bool IsTelephoneValid(string telephone, bool isOptionnal = false);
@@ -24,5 +24,10 @@ namespace Altalents.IBusiness.IServices
         Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken);
+        Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
+        Task<Guid> AddOrUpdateFormationCertificationAsync(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null);
+        Task<Guid> AddOrUpdateLangueParleeAsync(Guid tokenAccesRapide, LangueParleeRequestDto request, CancellationToken cancellationToken, Guid? id = null);
+        Task<RecapitulatifDtDto> GetRecapitulatifDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
+
     }
 }

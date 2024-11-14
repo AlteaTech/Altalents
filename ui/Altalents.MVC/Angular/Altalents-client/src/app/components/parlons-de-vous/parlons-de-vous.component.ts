@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ParlonsDeVousForm } from 'src/app/shared/interfaces/parlons-de-vous-form';
 import { AdresseUpdateRequestDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto } from 'src/app/shared/services/generated/api/api.client';
@@ -15,7 +15,7 @@ import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/valid
   templateUrl: './parlons-de-vous.component.html',
   styleUrls: ['./parlons-de-vous.component.scss']
 })
-export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
+export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
@@ -42,7 +42,7 @@ export class ParlonsDeVousComponent extends BaseComponent implements OnInit {
     this.populateData();
   }
 
-  public override populateData(): void {
+  public populateData(): void {
     this.isLoading = true;
     this.callRequest(ConstantesRequest.getParlonsDeVous, this.service.getParlonsDeVous(this.tokenDossierTechnique)
         .subscribe((response: ParlonsDeVousDto) => {

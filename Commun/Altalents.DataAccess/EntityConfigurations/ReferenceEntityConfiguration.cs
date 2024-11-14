@@ -711,7 +711,7 @@ namespace Altalents.DataAccess.EntityConfigurations
  Code=Commun.Enums.CodeReferenceEnum.MarketingDigital.ToString("g"),
  },
  #endregion
- #region OutilEtEnvironnement
+ #region Technologie
      new (){Libelle = "Linux", Id = Guid.Parse("a3853f2d-bb30-4f82-950d-77dda048c99d"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Technologie,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Linux.ToString("g")},
      new (){Libelle = "Windows", Id = Guid.Parse("a6b3992a-dd4c-4f21-b74a-5e528d47ea71"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Technologie,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Windows.ToString("g")},
      new (){Libelle = "C#", Id = Guid.Parse("9bd90bab-2825-4f36-a49f-9227be2c1f72"), DateCrea = new DateTime(2024,6,18), UtiCrea= "ALTEA", IsValide=true, Type = Commun.Enums.TypeReferenceEnum.Technologie,OrdreTri = 1,Code=Commun.Enums.CodeReferenceEnum.Csharp.ToString("g")},

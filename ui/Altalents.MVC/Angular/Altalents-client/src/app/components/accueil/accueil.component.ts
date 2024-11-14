@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { NomPrenomPersonneDto } from 'src/app/shared/services/generated/api/api.client';
@@ -12,7 +12,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
   styleUrls: ['./accueil.component.scss']
 
 })
-export class AccueilComponent extends BaseComponent implements OnInit {
+export class AccueilComponent extends BaseComponentCallHttpComponent implements OnInit {
   public tokenDossierTechnique: string = "";
   public nomPrenomCandidat: string = "";
 
@@ -30,7 +30,7 @@ export class AccueilComponent extends BaseComponent implements OnInit {
     document.location.href = `${ConstantesRoutes.dossierTechniqueBaseUrl}${this.tokenDossierTechnique}`
   }
 
-  public override populateData(): void {    
+  public populateData(): void {    
     this.callRequest(ConstantesRequest.getNomPrenom, this.service.getNomPrenomFromToken(this.tokenDossierTechnique)
         .subscribe((response: NomPrenomPersonneDto) => {
           this.nomPrenomCandidat = response.prenom + " " + response.nom;

@@ -4,6 +4,7 @@ using Altalents.Entities;
 using AlteaTools.EntityFramework;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -34,7 +35,9 @@ namespace Altalents.DataAccess
         public virtual DbSet<LiaisonExperienceMethodologie> LiaisonExperienceMethodologies { get; set; }
         public virtual DbSet<LiaisonExperienceOutil> LiaisonExperienceOutils { get; set; }
         public virtual DbSet<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
-
+        public virtual DbSet<Formation> Formations { get; set; }
+        public virtual DbSet<Certification> Certifications { get; set; }
+        public virtual DbSet<DossierTechniqueLangue> DossierTechniqueLangues { get; set; }
 
     }
 }

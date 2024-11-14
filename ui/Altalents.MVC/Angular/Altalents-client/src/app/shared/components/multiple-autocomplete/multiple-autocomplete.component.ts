@@ -2,17 +2,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Reference } from 'src/app/shared/models/reference.model';
 import { AutocompleteForm } from '../../interfaces/autocomplete-form';
-import { BaseComponent } from '../base.component';
 import { ReferenceDto, ReferenceRequestDto } from '../../services/generated/api/api.client';
 import { ApiServiceAgent } from '../../services/services-agents/api.service-agent';
 import { ConstantesRequest } from '../../constantes/constantes-request';
-
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 @Component({
   selector: 'app-multiple-autocomplete',
   templateUrl: './multiple-autocomplete.component.html',
   styleUrls: ['multiple-autocomplete.component.scss']
 })
-export class MultipleAutocompleteComponent extends BaseComponent implements OnInit {
+export class MultipleAutocompleteComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public placeholder: string = "";
   @Input() public constanteRequest: string = "";
   @Input() public constanteTypeReference: string = "";
@@ -33,7 +32,7 @@ export class MultipleAutocompleteComponent extends BaseComponent implements OnIn
     this.populateData();
   }
 
-  public override populateData(): void {}
+  public populateData(): void {}
   
   public onInputReferences(): void {
     const input: string | undefined = this.formGroup.value.input;

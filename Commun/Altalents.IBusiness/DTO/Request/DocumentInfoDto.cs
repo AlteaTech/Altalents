@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Altalents.IBusiness.DTO.Requesst
+namespace Altalents.IBusiness.DTO.Request
 {
     public class DocumentInfoDto
     {

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
@@ -23,7 +23,7 @@ import { Question } from 'src/app/shared/models/question.model';
   templateUrl: './commercial-creation-dt-configuration.component.html',
   styleUrls: ['./commercial-creation-dt-configuration.component.scss']
 })
-export class CommercialCreationDtConfigurationComponent  extends BaseComponent  implements OnInit, OnDestroy   {
+export class CommercialCreationDtConfigurationComponent  extends BaseComponentCallHttpComponent  implements OnInit, OnDestroy   {
   public formGroup: FormGroup<CreationDtCommercialForm>;
   public userIdLogged: string | undefined;
   public disponibilites: Reference[] = [];
@@ -144,7 +144,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponent  
     }
   }
 
-  public override populateData(): void {
+  public populateData(): void {
     this.isLoading = true;
     const nbAppelsAsync = 2;
 

@@ -2,7 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
@@ -17,7 +17,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
   templateUrl: './experience-dialog.component.html',
   styleUrls: ['./experience-dialog.component.scss']
 })
-export class ExperienceDialogComponent extends BaseComponent implements OnInit {
+export class ExperienceDialogComponent extends BaseComponentCallHttpComponent implements OnInit {
   public experience?: Experience;
   public formGroup: FormGroup<ExperienceForm>;
   public typesContrats: Reference[] = [];
@@ -107,7 +107,7 @@ export class ExperienceDialogComponent extends BaseComponent implements OnInit {
     }
   }
 
-  public override populateData(): void {
+  public populateData(): void {
     this.isLoading = true;
     this.callRequest(ConstantesRequest.getReferencesTypesContrats, this.service.getReferences(ConstantesTypesReferences.typeContrat)
         .subscribe((response: ReferenceDto[]) => {

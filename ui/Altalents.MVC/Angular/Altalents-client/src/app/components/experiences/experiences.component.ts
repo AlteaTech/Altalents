@@ -5,7 +5,7 @@ import { ExperienceDialogComponent } from '../dialogs/experience-dialog/experien
 import { firstValueFrom } from 'rxjs';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ExperienceDto, ExperienceRequestDto, PutExperiencesRequestDto } from 'src/app/shared/services/generated/api/api.client';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { formatDate } from '@angular/common';
 import { Constantes } from 'src/app/shared/constantes/constantes';
@@ -15,7 +15,7 @@ import { Constantes } from 'src/app/shared/constantes/constantes';
   templateUrl: './experiences.component.html',
   styleUrls: ['./experiences.component.scss']
 })
-export class ExperiencesComponent extends BaseComponent implements OnInit {
+export class ExperiencesComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   public experiences: Experience[] = [];
@@ -31,7 +31,7 @@ export class ExperiencesComponent extends BaseComponent implements OnInit {
     this.populateData();
   }
 
-  public override populateData(): void {
+  public populateData(): void {
     this.isLoading = true;
     this.callRequest(ConstantesRequest.getExperiences, this.service.getExperiences(this.tokenDossierTechnique)
         .subscribe((response: ExperienceDto[]) => {

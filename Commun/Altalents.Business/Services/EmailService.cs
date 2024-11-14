@@ -57,12 +57,12 @@ namespace Altalents.Business.Services
 
             emailMessage.Body = bodyBuilder.ToMessageBody();
 
-            using (var client = new SmtpClient())
+            using (SmtpClient client = new())
             {
                 await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.SmtpPort, _emailSettings.SecureSocketOptions, token);
                 await client.AuthenticateAsync(_emailSettings.SmtpUsername, _emailSettings.SmtpPassword, token);
                 await client.SendAsync(emailMessage, token);
-                await client.DisconnectAsync(true);
+                await client.DisconnectAsync(true, token);
             }
         }
     }

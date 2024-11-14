@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { BaseComponent } from 'src/app/shared/components/base.component';
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-types-references';
 import { LangueForm } from 'src/app/shared/interfaces/langue-form';
@@ -14,7 +14,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
   selector: 'app-langue-dialog',
   templateUrl: './langue-dialog.component.html'
 })
-export class LangueDialogComponent extends BaseComponent implements OnInit {
+export class LangueDialogComponent extends BaseComponentCallHttpComponent implements OnInit {
   public formGroup: FormGroup<LangueForm>;
   public langues: Reference[] = [];
   public niveauxLangues: Reference[] = [];
