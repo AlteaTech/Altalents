@@ -38,16 +38,8 @@
             </div>
             <div>
                 <div class="at-p-button-container">
-                    <button class="at-p-secondary-button" (click)="onRetourClick()"
-                        *ngIf="currentStep != dossierTechniqueEnum.Recapitulatif">
-                        <img src="Images/ICONE_REPLAY.png">
-                        <p>Retour</p>
-                    </button>
-                    <button class="at-p-button" (click)="onSuivantClick()">
-                        <img src="Images/ICONE_PLAY.png">
-                        <p>{{currentStep != dossierTechniqueEnum.Recapitulatif ? "Suivant" :
-                            "Terminer"}}</p>
-                    </button>
+                    <altea-button-secondary label="Retour" imgSrc="Images/ICONE_REPLAY.png" (onClick)="onRetourClick()"></altea-button-secondary>
+                    <altea-button-prim [label]="currentStep != dossierTechniqueEnum.Recapitulatif ? 'Suivant' : 'Terminer'" imgSrc="Images/ICONE_PLAY.png" (onClick)="onSuivantClick()"></altea-button-prim>
                 </div>    
             </div>
         </div>
