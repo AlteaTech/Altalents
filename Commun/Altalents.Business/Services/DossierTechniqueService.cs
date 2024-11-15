@@ -523,7 +523,7 @@ namespace Altalents.Business.Services
 
             using CustomDbContext context = GetScopedDbContexte();
 
-            FormationCertificationEnum formationCertificationEnum = (FormationCertificationEnum)Enum.Parse(typeof(TypeLiaisonEnum), request.FormationOrCertificationEnumCode);
+            FormationCertificationEnum formationCertificationEnum = (FormationCertificationEnum)Enum.Parse(typeof(FormationCertificationEnum), request.FormationOrCertificationEnumCode);
 
             switch (formationCertificationEnum)
             {
