@@ -1,6 +1,8 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Constantes } from 'src/app/shared/constantes/constantes';
 import { CertificationForm } from 'src/app/shared/interfaces/certification-form';
 import { Certification } from 'src/app/shared/models/certification.model';
 
@@ -18,7 +20,7 @@ export class CertificationDialogComponent implements OnInit {
       domaine: new FormControl(),
       niveau: new FormControl(),
       organisme: new FormControl(),
-      dateDebut: new FormControl(),
+      dateDebut: new FormControl(null, Validators.required),
       dateFin: new FormControl(),
     });
   }
@@ -30,8 +32,8 @@ export class CertificationDialogComponent implements OnInit {
         domaine: this.certification.domaine,
         niveau: this.certification.niveau,
         organisme: this.certification.organisme,
-        dateDebut: this.certification.dateDebut,
-        dateFin: this.certification.dateFin 
+        dateDebut:  formatDate(this.certification.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale), 
+        dateFin: this.certification.dateFin ? formatDate(this.certification.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
       });
     }
   }
@@ -44,8 +46,8 @@ export class CertificationDialogComponent implements OnInit {
       certification.domaine = values.domaine;
       certification.niveau = values.niveau;
       certification.organisme = values.organisme;
-      certification.dateDebut = values.dateDebut;
-      certification.dateFin = values.dateFin;
+      certification.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
+      certification.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
       
       this.activeModal.close(certification);
     }

@@ -8,6 +8,7 @@ export class ConstantesRequest {
   public static getReferencesTechnologies = "getReferencesTechnologies";
   public static getReferencesCompetences = "getReferencesCompetences";
   public static getReferencesMethodologies = "getReferencesMethodologies";
+  public static GetAllAboutFormations = "GetAllAboutFormations";
   public static getTrigramme = "getTrigramme";
   public static getNomPrenom = "getNomPrenom";
   public static getParlonsDeVous = "getParlonsDeVous";
