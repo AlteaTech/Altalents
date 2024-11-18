@@ -5,6 +5,6 @@ export interface CertificationForm {
     domaine: FormControl<string | undefined>,
     niveau: FormControl<string | undefined>,
     organisme: FormControl<string | undefined>,
-    dateDebut: FormControl<string | undefined>,
-    dateFin: FormControl<string | undefined>
+    dateDebut: FormControl<string | null>,
+    dateFin: FormControl<string | null>,
 }

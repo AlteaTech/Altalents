@@ -97,4 +97,7 @@ export class CompetencesComponent extends BaseComponentCallHttpComponent impleme
     return dto;
     
   }
+
+
+  
 }

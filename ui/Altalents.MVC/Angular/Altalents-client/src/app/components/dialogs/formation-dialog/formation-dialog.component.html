@@ -36,10 +36,14 @@
             </div>
             <div class="row mb-2">
                 <div class="col-6 at-p-label-champ-input ">
-                    <label for="dateDebut" class="col-form-label">Date de début</label>
+                    <label for="dateDebut" class="col-form-label">Date de début<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                    *ngIf="formGroup.controls.dateDebut.invalid && formGroup.controls.dateDebut.touched">
+                    La date de début est requise.
+                </div>
                 </div>
                 <div class="col-6">
-                    <input type="text" class="form-control" formControlName="dateDebut" placeholder="JJ/MM/AAAA">
+                    <input type="date" class="form-control" formControlName="dateDebut" placeholder="JJ/MM/AAAA">
                 </div>
             </div>
             <div class="row mb-3">
@@ -47,7 +51,7 @@
                     <label for="dateFin" class="col-form-label">Date de fin</label>
                 </div>
                 <div class="col-6">
-                    <input type="text" class="form-control" formControlName="dateFin" placeholder="JJ/MM/AAAA">
+                    <input type="date" class="form-control" formControlName="dateFin" placeholder="JJ/MM/AAAA">
                 </div>
             </div>
         </fieldset>

@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { formatDate } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Constantes } from 'src/app/shared/constantes/constantes';
 import { FormationForm } from 'src/app/shared/interfaces/formation-form';
 import { Formation } from 'src/app/shared/models/formation.model';
 
@@ -18,7 +20,7 @@ export class FormationDialogComponent implements OnInit {
       domaine: new FormControl(),
       niveau: new FormControl(),
       organisme: new FormControl(),
-      dateDebut: new FormControl(),
+      dateDebut: new FormControl(null, Validators.required),
       dateFin: new FormControl(),
     });
   }
@@ -30,8 +32,8 @@ export class FormationDialogComponent implements OnInit {
         domaine: this.formation.domaine,
         niveau: this.formation.niveau,
         organisme: this.formation.organisme,
-        dateDebut: this.formation.dateDebut,
-        dateFin: this.formation.dateFin
+        dateDebut:  formatDate(this.formation.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale), 
+        dateFin: this.formation.dateFin ? formatDate(this.formation.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
       });
     }
   }
@@ -44,8 +46,8 @@ export class FormationDialogComponent implements OnInit {
       formation.domaine = values.domaine;
       formation.niveau = values.niveau;
       formation.organisme = values.organisme;
-      formation.dateDebut = values.dateDebut;
-      formation.dateFin = values.dateFin;
+      formation.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
+      formation.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
 
       this.activeModal.close(formation);
     }

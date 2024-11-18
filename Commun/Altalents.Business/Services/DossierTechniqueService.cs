@@ -523,7 +523,7 @@ namespace Altalents.Business.Services
 
             using CustomDbContext context = GetScopedDbContexte();
 
-            FormationCertificationEnum formationCertificationEnum = (FormationCertificationEnum)Enum.Parse(typeof(TypeLiaisonEnum), request.FormationOrCertificationEnumCode);
+            FormationCertificationEnum formationCertificationEnum = (FormationCertificationEnum)Enum.Parse(typeof(FormationCertificationEnum), request.FormationOrCertificationEnumCode);
 
             switch (formationCertificationEnum)
             {
@@ -599,7 +599,7 @@ namespace Altalents.Business.Services
 
                 //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
                 dossierTechniqueLangueToAddOrUpdate.LangueId = request.LangueId;
-                dossierTechniqueLangueToAddOrUpdate.Niveau = request.Niveau;
+                dossierTechniqueLangueToAddOrUpdate.NiveauId = request.NiveauId;
             }
 
             await context.SaveBaseEntityChangesAsync(cancellationToken);

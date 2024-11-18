@@ -59,7 +59,12 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.HasMany(navigationExpression: e => e.PersonneLangues)
  .WithOne(x => x.Langue)
  .HasForeignKey(e => e.LangueId)
- .OnDelete(DeleteBehavior.Cascade);
+ .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(navigationExpression: e => e.NiveauLangues)
+.WithOne(x => x.Niveau)
+.HasForeignKey(e => e.NiveauId)
+.OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(navigationExpression: e => e.Experiences)
  .WithOne(x => x.TypeContrat)
