@@ -1,4 +1,4 @@
-﻿using Altalents.Entities.BaseEntities;
+using Altalents.Entities.BaseEntities;
 
 using AlteaTools.EntityFramework.Helper;
 
@@ -19,16 +19,13 @@ namespace Altalents.Entities.Extensions
                 .IsRequired();
             builder.Property(e => e.Domaine)
                 .HasColumnType("nvarchar")
-                .HasMaxLength(250)
-                .IsRequired();
+                .HasMaxLength(250);
             builder.Property(e => e.Niveau)
                 .HasColumnType("varchar")
-                .HasMaxLength(100)
-                .IsRequired();
+                .HasMaxLength(100);
             builder.Property(e => e.DateDebut)
                 .HasColumnType("datetime")
                 .IsRequired();
-
             builder.Property(e => e.DateFin)
                 .HasColumnType("datetime");
             builder.Property(e => e.Organisme)
