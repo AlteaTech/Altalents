@@ -2634,7 +2634,8 @@ export class LangueParleeDto implements ILangueParleeDto {
     dossierTechniqueLangueId!: string;
     idLangue?: string;
     libelleLangue?: string | null;
-    niveau?: string | null;
+    idReferenceNiveau?: string;
+    libelleReferenceNiveau?: string | null;
 
     constructor(data?: ILangueParleeDto) {
         if (data) {
@@ -2650,7 +2651,8 @@ export class LangueParleeDto implements ILangueParleeDto {
             this.dossierTechniqueLangueId = _data["DossierTechniqueLangueId"] !== undefined ? _data["DossierTechniqueLangueId"] : <any>null;
             this.idLangue = _data["IdLangue"] !== undefined ? _data["IdLangue"] : <any>null;
             this.libelleLangue = _data["LibelleLangue"] !== undefined ? _data["LibelleLangue"] : <any>null;
-            this.niveau = _data["Niveau"] !== undefined ? _data["Niveau"] : <any>null;
+            this.idReferenceNiveau = _data["IdReferenceNiveau"] !== undefined ? _data["IdReferenceNiveau"] : <any>null;
+            this.libelleReferenceNiveau = _data["LibelleReferenceNiveau"] !== undefined ? _data["LibelleReferenceNiveau"] : <any>null;
         }
     }
 
@@ -2666,7 +2668,8 @@ export class LangueParleeDto implements ILangueParleeDto {
         data["DossierTechniqueLangueId"] = this.dossierTechniqueLangueId !== undefined ? this.dossierTechniqueLangueId : <any>null;
         data["IdLangue"] = this.idLangue !== undefined ? this.idLangue : <any>null;
         data["LibelleLangue"] = this.libelleLangue !== undefined ? this.libelleLangue : <any>null;
-        data["Niveau"] = this.niveau !== undefined ? this.niveau : <any>null;
+        data["IdReferenceNiveau"] = this.idReferenceNiveau !== undefined ? this.idReferenceNiveau : <any>null;
+        data["LibelleReferenceNiveau"] = this.libelleReferenceNiveau !== undefined ? this.libelleReferenceNiveau : <any>null;
         return data;
     }
 }
@@ -2675,7 +2678,8 @@ export interface ILangueParleeDto {
     dossierTechniqueLangueId: string;
     idLangue?: string;
     libelleLangue?: string | null;
-    niveau?: string | null;
+    idReferenceNiveau?: string;
+    libelleReferenceNiveau?: string | null;
 }
 
 export class LangueParleeRequestDto implements ILangueParleeRequestDto {

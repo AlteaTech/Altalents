@@ -9,6 +9,7 @@ import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { formatDate } from '@angular/common';
 import { Constantes } from 'src/app/shared/constantes/constantes';
+import { DureeExperienceService } from 'src/app/shared/services/services/calculators/duree-experience-calculator';
 
 @Component({
   selector: 'app-experiences',
@@ -36,7 +37,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
     this.callRequest(ConstantesRequest.getExperiences, this.service.getExperiences(this.tokenDossierTechnique)
         .subscribe((response: ExperienceDto[]) => {
           this.experiences = Experience.fromList(response);
-          this.experiences.forEach(x => this.populateDureeExperience(x));
+          this.experiences.forEach(x => x.dureeExperience = DureeExperienceService.CalculateDureeExperience(x.dateDebut, x.dateFin));
           this.isLoading = false;
         }));
   }
@@ -50,30 +51,10 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
     let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, ngbModalOptions);
     dialogRef.result.then((nouvelElement: Experience | undefined) => {
       if(nouvelElement) {
-        this.populateDureeExperience(nouvelElement);
+        nouvelElement.dureeExperience = DureeExperienceService.CalculateDureeExperience(nouvelElement.dateDebut, nouvelElement.dateFin);
         this.experiences.push(nouvelElement)
       }
     })
-  }
-
-  private populateDureeExperience(experience: Experience) {
-    if (experience.dateDebut) {
-      const dateFin = experience.dateFin ? new Date(experience.dateFin) : new Date();
-      const dateDebut = new Date(experience.dateDebut);
-      const jours: number = Math.round((Date.UTC(dateFin.getFullYear(), dateFin.getMonth(), dateFin.getDate())
-                                          - Date.UTC(dateDebut.getFullYear(), dateDebut.getMonth(), dateDebut.getDate()))
-                                        / (1000 * 60 * 60 * 24));
-
-      if(jours <= 30) {
-        experience.dureeExperience = jours + " jours";
-      }
-      else if(jours < 365) {
-        experience.dureeExperience = Math.round(jours/30) + " mois";
-      }
-      else {
-        experience.dureeExperience = Math.round(jours/365) + " ans";
-      }
-    }
   }
 
   public onModifierExperienceClick(experience: Experience): void {
@@ -86,7 +67,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
     dialogRef.componentInstance.experience = experience;
     dialogRef.result.then((nouvelElement: Experience | undefined) => {
       if(nouvelElement) {
-        this.populateDureeExperience(nouvelElement);
+        nouvelElement.dureeExperience = DureeExperienceService.CalculateDureeExperience(nouvelElement.dateDebut, nouvelElement.dateFin);
       }
     })
   }

@@ -4,7 +4,11 @@
             <legend>Formation</legend>
             <div class="row mb-2">
                 <div class="col-6 at-p-label-champ-input">
-                    <label for="libelle" class="col-form-label">Formation</label>
+                    <label for="libelle" class="col-form-label">Formation<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.libelle.invalid && formGroup.controls.libelle.touched">
+                        L'intitulé de la formation est requis.
+                    </div>
                 </div>
                 <div class="col-6">
                     <input type="text" class="form-control" formControlName="libelle" placeholder="Libellé de la formation">

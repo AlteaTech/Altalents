@@ -1,13 +1,17 @@
 import { FormationCertificationDto } from "../services/generated/api/api.client";
+import { DureeExperienceService } from "../services/services/calculators/duree-experience-calculator";
 
 export class Certification {
     id!: string;
-    libelle?: string;
+    libelle!: string;
     domaine?: string;
     niveau?: string;
     organisme?: string;
     dateDebut!: Date;
     dateFin?: Date;
+
+    // champs calculés 
+    dureeExperience?: string;
 
     public static from(dto : FormationCertificationDto):Certification{
         var model = new Certification ();
@@ -18,6 +22,8 @@ export class Certification {
         model.libelle = dto.libelle!;
         model.niveau = dto.niveau!;
         model.organisme = dto.organisme!;
+        model.dureeExperience = DureeExperienceService.CalculateDureeExperience(model.dateDebut, model.dateFin);
+
         return model;
       }
 
