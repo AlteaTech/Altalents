@@ -16,7 +16,7 @@ export class CertificationDialogComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal) {
     this.formGroup = new FormGroup<CertificationForm>({
-      libelle: new FormControl(),
+      libelle: new FormControl(null, Validators.required),
       domaine: new FormControl(),
       niveau: new FormControl(),
       organisme: new FormControl(),
@@ -42,7 +42,7 @@ export class CertificationDialogComponent implements OnInit {
     if (this.formGroup.valid) {
       const values = this.formGroup.value;
       let certification: Certification = this.certification ?? new Certification();
-      certification.libelle = values.libelle;
+      certification.libelle = values.libelle!;
       certification.domaine = values.domaine;
       certification.niveau = values.niveau;
       certification.organisme = values.organisme;
@@ -50,6 +50,8 @@ export class CertificationDialogComponent implements OnInit {
       certification.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
       
       this.activeModal.close(certification);
+    }else {
+      this.formGroup.markAllAsTouched();
     }
   }
 

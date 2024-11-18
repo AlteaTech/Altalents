@@ -1,4 +1,4 @@
 export class ConstantesFormationCertification {
-  public static formation = "Formation";
-  public static certification = "Certification";
+  public static formation: string = "Formation";
+  public static certification: string = "Certification";
 }

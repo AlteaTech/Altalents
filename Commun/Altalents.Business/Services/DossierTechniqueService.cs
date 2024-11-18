@@ -506,7 +506,7 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
 
             Task<List<LangueParleeDto>> languesParleesTask = contextForLangues.DossierTechniqueLangues
-                .Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+                .Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide).Include(x => x.Niveau)
                 .ProjectTo<LangueParleeDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

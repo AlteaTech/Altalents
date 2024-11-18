@@ -62,6 +62,7 @@ export class FormationsComponent  extends BaseComponentCallHttpComponent impleme
 
   public onModifierFormationClick(formation: Formation): void {
     let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent);
+    dialogRef.componentInstance.formation = formation;
     dialogRef.result.then((formationToUpdate: Formation | undefined) => {
       if(formationToUpdate) {
         this.service.updateFormationCertification (this.tokenDossierTechnique, formationToUpdate.id, this.populateFormationRequestDto(formationToUpdate)).pipe(
@@ -88,6 +89,7 @@ export class FormationsComponent  extends BaseComponentCallHttpComponent impleme
 
   public onModifierCertificationClick(certification: Certification): void {
     let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent);
+    dialogRef.componentInstance.certification = certification;
     dialogRef.result.then((CertificationToUpdate: Certification | undefined) => {
       if(CertificationToUpdate) {
         this.service.updateFormationCertification (this.tokenDossierTechnique, CertificationToUpdate.id, this.populateCertificationRequestDto(CertificationToUpdate)).pipe(
@@ -150,7 +152,6 @@ export class FormationsComponent  extends BaseComponentCallHttpComponent impleme
         dto.formationOrCertificationEnumCode = ConstantesFormationCertification.certification;
 
     return dto;
-    
   }
 
   private populateFormationRequestDto(formation: Formation): FormationCertificationRequestDto {

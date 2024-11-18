@@ -12,11 +12,13 @@ namespace Altalents.IBusiness.DTO
         [Required]
         public Guid DossierTechniqueLangueId { get; set; }
 
-        public Guid IdLangue { get; set; }          // Niveau de maîtrise (ex: Basique)
+        public Guid IdLangue { get; set; }
 
-        public string LibelleLangue { get; set; }          // Niveau de maîtrise (ex: Basique)
+        public string LibelleLangue { get; set; }
 
-        public string Niveau { get; set; }          // Niveau de maîtrise (ex: Basique)
+        public Guid IdRessourceNiveau { get; set; }
+
+        public string LibelleRessourceNiveau { get; set; }
 
     }
 }
