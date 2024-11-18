@@ -21,6 +21,7 @@ namespace Altalents.Entities
         public List<Contact> Contacts { get; set; }
         public List<Document> Documents { get; set; }
         public List<DossierTechniqueLangue> PersonneLangues { get; set; }
+        public List<DossierTechniqueLangue> NiveauLangues { get; set; }
         public List<Experience> Experiences { get; set; }
         public List<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
         public List<LiaisonExperienceCompetence> LiaisonExperienceCompetances { get; set; }

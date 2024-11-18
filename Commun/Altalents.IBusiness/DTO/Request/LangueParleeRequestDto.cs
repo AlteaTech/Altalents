@@ -11,6 +11,7 @@ namespace Altalents.IBusiness.DTO.Request
 
         [Required]
         public Guid LangueId { get; set; }
-        public string Niveau { get; set; }
+        [Required]
+        public Guid NiveauId { get; set; }
     }
 }

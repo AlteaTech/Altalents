@@ -139,7 +139,7 @@ namespace Altalents.Business.Mappings
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
             CreateMap<LangueParleeRequestDto, DossierTechniqueLangue>()
-                .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
+                .ForMember(dest => dest.NiveauId, opt => opt.MapFrom(src => src.NiveauId))
                 .ForMember(dest => dest.LangueId, opt => opt.MapFrom(src => src.LangueId));
 
         }

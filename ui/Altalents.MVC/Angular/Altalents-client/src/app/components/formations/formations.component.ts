@@ -173,7 +173,7 @@ export class FormationsComponent  extends BaseComponentCallHttpComponent impleme
     let dto = new LangueParleeRequestDto();
 
         dto.langueId = langue.langue?.id!;
-        dto.niveau = langue.niveau?.id;
+        dto.niveauId = langue.niveau?.id!;
 
     return dto;
   }
