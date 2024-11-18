@@ -118,8 +118,8 @@ namespace Altalents.Business.Mappings
 
             CreateMap<DossierTechniqueLangue, LangueParleeDto>()
                 .ForMember(dest => dest.DossierTechniqueLangueId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.IdRessourceNiveau, opt => opt.MapFrom(src => src.NiveauId))
-                .ForMember(dest => dest.LibelleRessourceNiveau, opt => opt.MapFrom(src => src.Niveau.Libelle))
+                .ForMember(dest => dest.IdReferenceNiveau, opt => opt.MapFrom(src => src.NiveauId))
+                .ForMember(dest => dest.LibelleReferenceNiveau, opt => opt.MapFrom(src => src.Niveau.Libelle))
                 .ForMember(dest => dest.LibelleLangue, opt => opt.MapFrom(src => src.Langue.Libelle))
                 .ForMember(dest => dest.IdLangue, opt => opt.MapFrom(src => src.LangueId));
 

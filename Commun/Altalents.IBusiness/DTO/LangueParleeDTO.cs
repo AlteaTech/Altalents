@@ -16,9 +16,9 @@ namespace Altalents.IBusiness.DTO
 
         public string LibelleLangue { get; set; }
 
-        public Guid IdRessourceNiveau { get; set; }
+        public Guid IdReferenceNiveau { get; set; }
 
-        public string LibelleRessourceNiveau { get; set; }
+        public string LibelleReferenceNiveau { get; set; }
 
     }
 }

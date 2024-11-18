@@ -1,7 +1,3 @@
-
-
-
-
 export class DureeExperienceService {
 
 public static CalculateDureeExperience(dateDebut: Date, dateFin?: Date) : string {
