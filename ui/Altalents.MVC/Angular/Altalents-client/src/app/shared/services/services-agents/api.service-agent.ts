@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, PutExperiencesRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto, AllAboutFormationsDto } from '../generated/api/api.client';
+import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, PutExperiencesRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto, AllAboutFormationsDto, RecapitulatifDtDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -115,6 +115,10 @@ export class ApiServiceAgent {
 
   updateLangueParlee(token: string, id: string, body: LangueParleeRequestDto): Observable<void> {
     return this.apiClient.updateLangueParlee(token, id, body);
+  }
+
+  getRecapitulatif(token:string): Observable<RecapitulatifDtDto> {
+    return this.apiClient.getRecapitulatif(token);
   }
 
 }

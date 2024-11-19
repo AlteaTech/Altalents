@@ -1,6 +1,162 @@
+
 <div class="at-p-formulaire-info-section">
     <img src="Images/HONNETETE.png">
     <p>
         Ouf, nous arrivons à la fin! Mais avant de terminer, une petite relecture s’impose. Voici toutes les informations que vous venez de fournir. Si une information est fausse, vous pouvez la corriger en cliquant sur Modifier.
     </p>
 </div>
+<fieldset>
+    <legend class="flex-row space-between">
+        <span>Formation</span>
+        <a (click)="goToStep(dossierTechniqueEnum.Formations)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+    </legend>
+    <div *ngFor="let formation of formations" class="margin-bottom">
+        <p class="at-c-violet">{{formation.libelle}}</p>
+        <p class="font-bold">{{formation.domaine}} ({{formation.niveau}})</p>
+        <p class="font-normal">{{formation.organisme}}</p>
+        <p class="font-normal" *ngIf="formation.dateFin">
+            De {{formation.dateDebut | date : "MMMM YYYY" }} à {{formation.dateFin | date : "MMMM YYYY" }} 
+            <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span>
+        </p>
+        <p class="font-normal" *ngIf="!formation.dateFin">
+            Depuis {{formation.dateDebut | date : "MMMM YYYY" }} 
+            <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span>
+        </p>
+    </div>
+</fieldset>
+<fieldset>
+    <legend class="flex-row space-between">
+        <span>Certification</span>
+        <a (click)="goToStep(dossierTechniqueEnum.Formations)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+    </legend>
+    <div *ngFor="let certification of certifications" class="margin-bottom">
+        <p class="at-c-violet">{{certification.libelle}}</p>
+        <p class="font-bold">{{certification.domaine}} ({{certification.niveau}})</p>
+        <p class="font-normal">{{certification.organisme}}</p>
+        <p class="font-normal" *ngIf="certification.dateFin">
+            De {{certification.dateDebut | date : "MMMM YYYY" }} à {{certification.dateFin | date : "MMMM YYYY" }} 
+            <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span>
+        </p>
+        <p class="font-normal" *ngIf="!certification.dateFin">
+            Depuis {{certification.dateDebut | date : "MMMM YYYY" }} 
+            <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span>
+        </p>
+    </div>
+</fieldset>
+<fieldset>
+    <legend class="flex-row space-between">
+        <span>Expérience professionnelle</span>
+        <a (click)="goToStep(dossierTechniqueEnum.Experiences)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+    </legend>
+    <div  *ngFor="let experience of experiences" class="margin-bottom">
+        <p class="at-c-violet">{{experience.intitulePoste}}</p>
+        <p class="font-bold">{{experience.entreprise}} - {{experience.typeContrat.libelle}}</p>
+        <p class="font-normal" *ngIf="experience.dateFin">De {{experience.dateDebut | date : "MMMM YYYY" }} à {{experience.dateFin | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
+        <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
+        <p>
+            <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
+                {{technologie.libelle}}
+            </span>
+        </p>
+        <p>
+            <span *ngFor="let competence of experience.competences" class="at-p-autocomplete-choix">
+                {{competence.libelle}}
+            </span>
+        </p>
+        <p>
+            <span *ngFor="let methodologie of experience.methodologies" class="at-p-autocomplete-choix">
+                {{methodologie.libelle}}
+            </span>
+        </p>
+        <p class="font-normal">{{experience.description}}</p>
+    </div>
+</fieldset>
+<fieldset>
+    <legend class="flex-row space-between">
+        <span>Compétences</span>
+        <a (click)="goToStep(dossierTechniqueEnum.Competences)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+    </legend>
+    <div class="margin-bottom" *ngIf="compCompetences.length > 0">
+        <div>Compétences</div>
+        <div class="flex-row-comp">
+            <span *ngFor="let competence of compCompetences" class="competence-item">
+                <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
+                <div class="competence-stars">
+                    <span *ngFor="let star of arrayNbEtoiles">
+                        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                    </span>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="margin-bottom" *ngIf="compMethodologies.length > 0">
+        <div>Méthodologies</div>
+        <div class="flex-row-comp">
+            <span *ngFor="let competence of compMethodologies" class="competence-item">
+                <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
+                <div class="competence-stars">
+                    <span *ngFor="let star of arrayNbEtoiles">
+                        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                    </span>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="margin-bottom" *ngIf="compOutils.length > 0">
+        <div>Outils</div>
+        <div class="flex-row-comp">
+            <span *ngFor="let competence of compOutils" class="competence-item">
+                <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
+                <div class="competence-stars">
+                    <span *ngFor="let star of arrayNbEtoiles">
+                        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                    </span>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="margin-bottom" *ngIf="compTechnologie.length > 0">
+        <div>Téchnologies</div>
+        <div class="flex-row-comp">
+            <span *ngFor="let competence of compTechnologie" class="competence-item">
+                <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
+                <div class="competence-stars">
+                    <span *ngFor="let star of arrayNbEtoiles">
+                        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                    </span>
+                </div>
+            </span>
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <legend class="flex-row space-between">
+        <span>Langues parlées</span>
+        <a (click)="goToStep(dossierTechniqueEnum.Formations)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+    </legend>
+    <div class="margin-bottom">
+        <span *ngFor="let langue of langues; last as isLast">
+            {{langue.libelleLangue}} ({{langue.libelleReferenceNiveau}}) <i *ngIf="!isLast"><i class="bi bi-dot"></i></i>
+        </span>
+    </div>
+</fieldset>
+<fieldset>
+    <legend class="flex-row space-between">
+        <span>Questions spécifiques & documentation</span>
+        <a (click)="goToStep(dossierTechniqueEnum.Questions)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+    </legend>
+    <div *ngFor="let question of questions" class="margin-bottom">
+        <label class="">{{ question.question }}<span class="champ-obligatoire" *ngIf="question.isObligatoire">*</span> : &nbsp;</label>
+        <span class="font-normal">{{question.reponse}}</span> 
+    </div>
+</fieldset>
+<div class="confirmation-section">
+    <label class="toggle-container">
+      <input type="checkbox" [(ngModel)]="confirmation" hidden />
+      <span class="toggle-slider"></span>
+      <span>Je certifie que les propos relatés dans mon dossier technique sont sincères et véritables</span>
+    </label>
+    <p *ngIf="!confirmation" class="error-message">
+        Vous devez certifier les informations avant de continuer.
+      </p>
+  </div>

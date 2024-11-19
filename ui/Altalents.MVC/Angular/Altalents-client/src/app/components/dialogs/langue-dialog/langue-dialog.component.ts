@@ -35,9 +35,13 @@ export class LangueDialogComponent extends BaseComponentCallHttpComponent implem
   public submit(): void {
     if (this.formGroup.valid) {
       const values = this.formGroup.value;
+
       let langue: Langue = new Langue();
-      langue.langue = values.langue;
-      langue.niveau = values.niveau;
+
+      langue.idLangue = values.langue?.id;
+      langue.libelleLangue = values.langue?.libelle;
+      langue.idReferenceNiveau = values.niveau?.id;
+      langue.libelleReferenceNiveau = values.niveau?.libelle;
       
       this.activeModal.close(langue);
     }
