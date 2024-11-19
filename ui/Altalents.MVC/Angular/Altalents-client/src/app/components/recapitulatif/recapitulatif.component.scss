@@ -3,9 +3,8 @@ p{
 }
 
 fieldset{
-
-    margin-bottom: 1em;
-}
+    margin-bottom: 2em;
+  }
 
 .margin-bottom{
 
@@ -42,8 +41,7 @@ fieldset{
     margin: 2px 0; 
   }
 
-
-  .flex-row {
+.flex-row {
     display: flex; 
     align-items: center; /* Aligne verticalement les éléments */
 }
@@ -55,22 +53,31 @@ fieldset{
     font-size: 15px;
 }
 
+.margin-bottom{
+    margin-bottom: 1em;
+}
+
+
 .space-between {
     justify-content: space-between; /* Espace maximal entre les éléments */
 }
 
 .confirmation-section {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Arrange les éléments verticalement */
+    align-items: center; /* Centre horizontalement tous les éléments */
+    justify-content: center; /* Centre verticalement tous les éléments dans la section */
+    text-align: center; /* Centre le texte à l'intérieur des éléments */
+    margin-top: 20px; /* Facultatif : ajoute de l'espace en haut */
   }
   
   .toggle-container {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    color: #3d3d3d;
+    align-items: center; /* Aligne verticalement le texte avec le toggle */
+    gap: 8px; /* Espace entre le toggle et le texte */
   }
   
+
   .toggle-slider {
     position: relative;
     width: 40px;
