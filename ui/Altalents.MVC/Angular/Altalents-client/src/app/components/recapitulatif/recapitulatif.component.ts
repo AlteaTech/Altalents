@@ -86,6 +86,7 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
       this.compOutils= Competence.fromList(response.competences?.outils!);
       this.compTechnologie= Competence.fromList(response.competences?.technologie!);
 
+      this.isLoading = false;
     }));
   }
 }
