@@ -3,17 +3,24 @@ import { Reference } from "./reference.model";
 
 export class Langue {
     id!: string;
-    langue?: Reference;
-    niveau?: Reference;
+    // langue?: Reference;
+    // niveau?: Reference;
+
+    idLangue?: string;
+    libelleLangue?: string | null;
+    idReferenceNiveau?: string;
+    libelleReferenceNiveau?: string | null;
 
     public static from(dto : LangueParleeDto):Langue{
-        var model = new Langue ();
-        model.id = dto.idLangue!;
 
-        //Code a ajuster une fois qu'on aura pris la decision concernant l'incoherance de model entre ce qui existe en back et front
-        // model.niveau = dto.niveau!;
-        // model.langue = dto.libelleLangue!;
-        
+        var model = new Langue ();
+
+        model.id = dto.dossierTechniqueLangueId;
+        model.idLangue = dto.idLangue;
+        model.libelleLangue = dto.libelleLangue;
+        model.idReferenceNiveau = dto.idReferenceNiveau;
+        model.libelleReferenceNiveau = dto.libelleReferenceNiveau;
+
         return model;
       }
 

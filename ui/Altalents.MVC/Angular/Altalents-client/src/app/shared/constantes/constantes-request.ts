@@ -7,6 +7,7 @@ export class ConstantesRequest {
   public static getReferencesTypesContrats = "getReferencesTypesContrats";
   public static getReferencesTechnologies = "getReferencesTechnologies";
   public static getReferencesCompetences = "getReferencesCompetences";
+  public static getRecapitulatif = "getRecapitulatif";
   public static getReferencesMethodologies = "getReferencesMethodologies";
   public static GetAllAboutFormations = "GetAllAboutFormations";
   public static getTrigramme = "getTrigramme";

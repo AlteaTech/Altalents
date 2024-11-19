@@ -23,8 +23,7 @@
                     [tokenDossierTechnique]="tokenDossierTechnique"
                     (validationCallback)="onValidationCallbackChange($event)"></app-parlons-de-vous>
                 <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations"
-                    [tokenDossierTechnique]="tokenDossierTechnique"
-                    (validationCallback)="onValidationCallbackChange($event)"></app-formations>
+                    [tokenDossierTechnique]="tokenDossierTechnique"></app-formations>
                 <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences"
                     [tokenDossierTechnique]="tokenDossierTechnique"
                     (validationCallback)="onValidationCallbackChange($event)"></app-experiences>
@@ -33,8 +32,9 @@
                 <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions"
                     [tokenDossierTechnique]="tokenDossierTechnique"
                     (validationCallback)="onValidationCallbackChange($event)"></app-questions>
-                <app-recapitulatif *ngSwitchCase="dossierTechniqueEnum.Recapitulatif"
-                    [tokenDossierTechnique]="tokenDossierTechnique"></app-recapitulatif>
+                <app-recapitulatif (stepChange)="onStepClick($event)" *ngSwitchCase="dossierTechniqueEnum.Recapitulatif"
+                    [tokenDossierTechnique]="tokenDossierTechnique"
+                    (validationCallback)="onValidationCallbackChange($event)"></app-recapitulatif>
             </div>
             <div>
                 <div class="at-p-button-container">

@@ -10,6 +10,9 @@ import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-ste
   styleUrls: ['form-container.component.scss']
 })
 export class FormContainerComponent implements OnInit {
+
+
+  public static instance: FormContainerComponent;
   public tokenDossierTechnique: string = "";
   public dossierTechniqueEnum = DossierTechniqueEnum;
   public currentStep: DossierTechniqueEnum = DossierTechniqueEnum.ParlonsDeVous;
@@ -18,7 +21,7 @@ export class FormContainerComponent implements OnInit {
   public validationCallBack: (() => Promise<boolean>) | undefined;
 
   constructor(private route: ActivatedRoute) {
-
+    FormContainerComponent.instance = this;
   }
 
   public ngOnInit(): void {

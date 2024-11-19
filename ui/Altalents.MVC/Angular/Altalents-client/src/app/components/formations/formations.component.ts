@@ -21,9 +21,8 @@ import { formatDate } from '@angular/common';
   templateUrl: './formations.component.html',
   styleUrls: ['./formations.component.scss']
 })
-export class FormationsComponent  extends BaseComponentCallHttpComponent implements OnInit {
+export class FormationsComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
-  @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   public stepFormation: StepFormation = new StepFormation();
   public customDialog: NgbModalOptions = {
     centered: true,
@@ -38,8 +37,6 @@ export class FormationsComponent  extends BaseComponentCallHttpComponent impleme
   }
 
   public ngOnInit(): void {
-    //On retire la validation et le submit sachant que dosromais on save a la validation des modals
-    // this.validationCallback.emit(() => this.submit());
     this.populateData();
   }
 
@@ -158,8 +155,8 @@ export class FormationsComponent  extends BaseComponentCallHttpComponent impleme
 
     let dto = new FormationCertificationRequestDto();
 
-    dto.dateDebut = formatDate(formation.dateDebut!, Constantes.formatDateBack, Constantes.formatDateLocale);
-    dto.dateFin = formation.dateFin ? formatDate(formation.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
+        dto.dateDebut = formatDate(formation.dateDebut!, Constantes.formatDateBack, Constantes.formatDateLocale);
+        dto.dateFin = formation.dateFin ? formatDate(formation.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
         dto.domaine = formation.domaine;
         dto.libelle = formation.libelle;
         dto.niveau = formation.niveau;
@@ -173,8 +170,8 @@ export class FormationsComponent  extends BaseComponentCallHttpComponent impleme
 
     let dto = new LangueParleeRequestDto();
 
-        dto.langueId = langue.langue?.id!;
-        dto.niveauId = langue.niveau?.id!;
+        dto.langueId = langue.idLangue!;
+        dto.niveauId = langue.idReferenceNiveau!;
 
     return dto;
   }
