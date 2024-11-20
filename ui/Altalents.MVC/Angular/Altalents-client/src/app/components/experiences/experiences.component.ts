@@ -43,7 +43,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
         }));
   }
 
-  public onAddExperienceClick(dossierTechniqueId:string): void {
+  public onAddExperienceClick(): void {
     const ngbModalOptions: NgbModalOptions = {
       backdrop : 'static',
       keyboard : false,
@@ -61,7 +61,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
     })
   }
 
-  public onModifierExperienceClick(dossierTechniqueId:string, experience: Experience): void {
+  public onModifierExperienceClick(experience: Experience): void {
     const ngbModalOptions: NgbModalOptions = {
       backdrop : 'static',
       keyboard : false,
