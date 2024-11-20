@@ -523,15 +523,18 @@ namespace Altalents.Business.Services
         public async Task<Guid> AddOrUpdateExperienceAsync(Guid tokenAccesRapide, ExperienceRequestDto experienceDto, CancellationToken cancellationToken, Guid? id = null)
         {
             using CustomDbContext context = GetScopedDbContexte();
+            Guid? idDossierTechnique = null;
 
+            //update
             if (id != null)
             {
-                Entities.Experience expToDelete = await context.Experiences.Include(x => x.DossierTechnique).AsTracking().FirstOrDefaultAsync(x => x.Id == id.Value);
-                if (expToDelete != null)
+                Entities.Experience expToUpdate = await context.Experiences.Include(x => x.DossierTechnique).AsTracking().FirstOrDefaultAsync(x => x.Id == id.Value);
+                if (expToUpdate != null)
                 {
-                    if (tokenAccesRapide == expToDelete.DossierTechnique.TokenAccesRapide)
+                    if (tokenAccesRapide == expToUpdate.DossierTechnique.TokenAccesRapide)
                     {
-                        context.Experiences.Remove(expToDelete);
+                        idDossierTechnique = expToUpdate.DossierTechnique.Id;
+                        context.Experiences.Remove(expToUpdate);
                     }
                     else
                     {
@@ -539,13 +542,24 @@ namespace Altalents.Business.Services
                     }
                 }
             }
+            //create
+            else
+            {
+                idDossierTechnique = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+            }
 
-            Entities.Experience expToAdd = Mapper.Map<Entities.Experience>(experienceDto);
-            await context.Experiences.AddAsync(expToAdd, cancellationToken);
-
-            await context.SaveBaseEntityChangesAsync(cancellationToken);
-
-            return expToAdd.Id;
+            if(idDossierTechnique == null)
+            {
+                throw new BusinessException("UNAUTHORIZED Action");
+            }
+            else
+            {
+                Entities.Experience expToAdd = Mapper.Map<Entities.Experience>(experienceDto);
+                expToAdd.DossierTechniqueId = idDossierTechnique.Value;
+                await context.Experiences.AddAsync(expToAdd, cancellationToken);
+                await context.SaveBaseEntityChangesAsync(cancellationToken);
+                return expToAdd.Id;
+            }
         }
 
         public async Task<Guid> AddOrUpdateFormationCertificationAsync(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null)

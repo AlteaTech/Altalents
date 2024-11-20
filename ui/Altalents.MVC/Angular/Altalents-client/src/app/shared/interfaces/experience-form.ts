@@ -2,6 +2,7 @@ import { FormControl } from "@angular/forms";
 import { Reference } from "../models/reference.model";
 
 export interface ExperienceForm {
+    
     typeContrat: FormControl<Reference | null>,
     intitulePoste: FormControl<string | null>,
     entreprise: FormControl<string | null>,

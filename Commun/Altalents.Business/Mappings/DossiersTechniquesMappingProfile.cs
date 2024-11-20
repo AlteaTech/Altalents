@@ -53,7 +53,6 @@ namespace Altalents.Business.Mappings
 
             CreateMap<ExperienceRequestDto, Experience>()
                 .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
-                .ForMember(dest => dest.DossierTechniqueId, opt => opt.MapFrom(src => src.DossierTechniqueId))
                 .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.Entreprise))
                 .ForMember(dest => dest.Lieu, opt => opt.MapFrom(src => src.Lieu))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
@@ -86,7 +85,6 @@ namespace Altalents.Business.Mappings
 
             CreateMap<Experience, ExperienceDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.DossierTechniqueId, opt => opt.MapFrom(src => src.DossierTechniqueId))
                 .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
                 .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.Entreprise))
                 .ForMember(dest => dest.Lieu, opt => opt.MapFrom(src => src.Lieu))
