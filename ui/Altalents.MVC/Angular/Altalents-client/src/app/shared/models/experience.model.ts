@@ -2,6 +2,7 @@ import { ExperienceDto } from "../services/generated/api/api.client";
 import { Reference } from "./reference.model";
 
 export class Experience {
+    id!:string;
     typeContrat!: Reference;
     intitulePoste!: string;
     entreprise!: string;
@@ -22,6 +23,7 @@ export class Experience {
 
     static from(dto : ExperienceDto):Experience{
       var model = new Experience ();
+      model.id = dto.id;
       model.typeContrat = Reference.fromReferenceDto(dto.typeContrat);
       model.intitulePoste = dto.intitulePoste;
       model.entreprise = dto.entreprise;

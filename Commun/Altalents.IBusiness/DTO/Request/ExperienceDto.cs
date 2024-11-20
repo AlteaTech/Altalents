@@ -3,6 +3,8 @@ namespace Altalents.IBusiness.DTO.Request
     public class ExperienceDto
     {
         [Required]
+        public string Id { get; set; }
+        [Required]
         public string IntitulePoste { get; set; }
         [Required]
         public string Entreprise { get; set; }

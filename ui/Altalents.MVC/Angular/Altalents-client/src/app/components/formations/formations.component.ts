@@ -9,12 +9,13 @@ import { LangueDialogComponent } from '../dialogs/langue-dialog/langue-dialog.co
 import { Langue } from 'src/app/shared/models/langue.model';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
-import { AllAboutFormationsDto, FormationCertificationRequestDto, LangueParleeRequestDto } from 'src/app/shared/services/generated/api/api.client';
+import { AllAboutFormationsDto, FormationCertificationEnum, FormationCertificationRequestDto, LangueParleeRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { ConstantesFormationCertification } from 'src/app/shared/constantes/constantes-formation-certification';
 import { catchError, tap } from 'rxjs';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { formatDate } from '@angular/common';
+import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-formations',
@@ -24,7 +25,7 @@ import { formatDate } from '@angular/common';
 export class FormationsComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   public stepFormation: StepFormation = new StepFormation();
-  public customDialog: NgbModalOptions = {
+  public ngbModalOptions: NgbModalOptions = {
     centered: true,
     backdrop : 'static',
     keyboard : false,
@@ -41,7 +42,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onAddFormationClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent, this.customDialog);
+    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent, this.ngbModalOptions);
     dialogRef.result.then((nouvelFormation: Formation | undefined) => {
       if(nouvelFormation) {
         this.service.addFormationCertification(this.tokenDossierTechnique, this.populateFormationRequestDto(nouvelFormation))
@@ -72,7 +73,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onAddCertificationClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent, this.customDialog);
+    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent, this.ngbModalOptions);
     dialogRef.result.then((nouvelCertification: Certification | undefined) => {
       if(nouvelCertification) {
         this.service.addFormationCertification (this.tokenDossierTechnique, this.populateCertificationRequestDto(nouvelCertification)).pipe(
@@ -99,7 +100,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onAddLangueClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, this.customDialog);
+    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, this.ngbModalOptions);
     dialogRef.result.then((selectedLangue: Langue | undefined) => {
       if(selectedLangue) {
         this.service.addLangueParlee(this.tokenDossierTechnique, this.populateLangueParleeRequestDto(selectedLangue)).pipe(
@@ -116,6 +117,47 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
     dialogRef.result.then((selectedLangue: Langue | undefined) => {
       if(selectedLangue) {
         this.service.updateLangueParlee(this.tokenDossierTechnique, selectedLangue.id, this.populateLangueParleeRequestDto(selectedLangue)).pipe(
+          tap((response: void) => {
+            this.ngOnInit();
+          })
+        ).subscribe();
+      }
+    })
+  }
+
+  public onDeleteLangueClick(langue : Langue): void {
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalOptions);
+    dialogRef.componentInstance.itemName = langue.libelleLangue;
+    dialogRef.result.then((validated: boolean | undefined) => {
+      if(validated) {
+        this.service.deleteLangueParlee(this.tokenDossierTechnique, langue.id).pipe(
+          tap((response: void) => {
+            this.ngOnInit();
+          })
+        ).subscribe();
+      }
+    })
+  }
+
+  public onDeleteCertificationClick(certification : Certification): void {
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalOptions);
+    dialogRef.componentInstance.itemName = certification.libelle;
+    dialogRef.result.then((validated: boolean | undefined) => {
+      if(validated) {
+        this.service.deleteFormationCertification(this.tokenDossierTechnique, certification.id, FormationCertificationEnum.Certification).pipe(
+          tap((response: void) => {
+            this.ngOnInit();
+          })
+        ).subscribe();
+      }
+    })
+  }
+  public onDeleteFormationClick(formation : Formation): void {
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalOptions);
+    dialogRef.componentInstance.itemName = formation.libelle;
+    dialogRef.result.then((validated: boolean | undefined) => {
+      if(validated) {
+        this.service.deleteFormationCertification(this.tokenDossierTechnique, formation.id, FormationCertificationEnum.Formation).pipe(
           tap((response: void) => {
             this.ngOnInit();
           })
