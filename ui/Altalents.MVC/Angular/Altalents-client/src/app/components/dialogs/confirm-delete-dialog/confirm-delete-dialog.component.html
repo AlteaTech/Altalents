@@ -1,0 +1,16 @@
+<app-custom-loader [isLoading]="isLoading" />
+<div class="fenetre-dialog">
+        <fieldset>
+            <legend>Êtes-vous sûr(e) de vouloir supprimer <strong>'{{ itemName }}'</strong> ?</legend>
+        </fieldset>
+        <div>
+            <div class="at-p-button-container">
+                <button class="at-p-secondary-button" (click)="onCancel()">
+                    <p>Annuler</p>
+                </button>
+                <button class="at-p-button" (click)="onConfirm()">
+                    <p>Valider</p>
+                </button>
+            </div>
+        </div>
+</div>

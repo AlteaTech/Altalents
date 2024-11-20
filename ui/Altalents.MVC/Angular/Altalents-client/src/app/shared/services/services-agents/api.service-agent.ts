@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto, AllAboutFormationsDto, RecapitulatifDtDto, ExperienceRequestDto } from '../generated/api/api.client';
+import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto, AllAboutFormationsDto, RecapitulatifDtDto, ExperienceRequestDto, FormationCertificationEnum } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -115,6 +115,18 @@ export class ApiServiceAgent {
 
   updateLangueParlee(token: string, id: string, body: LangueParleeRequestDto): Observable<void> {
     return this.apiClient.updateLangueParlee(token, id, body);
+  }
+
+  deleteLangueParlee(token: string, id: string): Observable<void> {
+    return this.apiClient.deleteLangueParlee(token, id);
+  }
+
+  deleteFormationCertification(token: string, id: string,  type : FormationCertificationEnum): Observable<void> {
+    return this.apiClient.deleteFormationCertification(token, id, type);
+  }
+
+  deleteExperience(token: string, id: string): Observable<void> {
+    return this.apiClient.deleteExperience(token, id);
   }
 
   getRecapitulatif(token:string): Observable<RecapitulatifDtDto> {

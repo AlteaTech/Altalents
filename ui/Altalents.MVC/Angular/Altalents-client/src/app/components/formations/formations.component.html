@@ -9,15 +9,20 @@
 </div>
 <fieldset>
     <legend><span>&nbsp;&nbsp;<i class="fa-solid fa-graduation-cap "></i>&nbsp;&nbsp;Formation</span></legend>
-    <div *ngFor="let formation of stepFormation.formations">
+    <div *ngFor="let formation of stepFormation.formations" class="margin-bottom">
         <div class="flex-row space-between align-center at-c-violet">
             <p class="custom-margin">
               {{formation.libelle}}
             </p>
-            <a (click)="onModifierFormationClick(formation)" class="edit-link">
-              <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
-            </a>
-          </div>
+            <div class="edit-links">
+                <a (click)="onModifierFormationClick(formation)" class="edit-link">
+                <p class="at-c-violet"><i class="fa-regular fa-pen-to-square"></i> Modifier</p>
+                </a>&nbsp;&nbsp;
+                <a (click)="onDeleteFormationClick(formation)" class="edit-link">
+                    <p class="at-c-violet"><i class="fa-solid fa-trash"></i> Supprimer</p>
+                </a>
+            </div>
+        </div>
         <p class="font-bold ">{{formation.domaine}} - {{formation.niveau}}</p>
         <p class="font-normal">{{formation.organisme}}</p>
         <p class="font-normal" *ngIf="formation.dateFin">De {{formation.dateDebut | date : "MMMM YYYY" }} à {{formation.dateFin | date : "MMMM YYYY" }} <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span></p>
@@ -26,22 +31,27 @@
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddFormationClick()">
-            <img src="Images/ICONE_PLUS.png">
-            <p>Ajouter une formation</p>
+            <p><i class="fa-regular fa-plus at-c-violet"></i> Ajouter une formation</p>
         </button>
+       
     </div>   
 </fieldset>
 <fieldset>
     <legend>&nbsp;&nbsp;<i class="fa-brands fa-google-scholar"></i>&nbsp;&nbsp;Certification</legend>
-    <div *ngFor="let certification of stepFormation.certifications">
+    <div *ngFor="let certification of stepFormation.certifications" class="margin-bottom">
         <div class="flex-row space-between align-center">
             <p class=" at-c-violet custom-margin">
               {{certification.libelle}}
             </p>
-            <a (click)="onModifierCertificationClick(certification)" class="edit-link">
-              <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
-            </a>
-          </div>
+            <div class="edit-links">
+                <a (click)="onModifierCertificationClick(certification)" class="edit-link">
+                <p class="at-c-violet"><i class="fa-regular fa-pen-to-square"></i> Modifier</p>
+                </a>&nbsp;&nbsp;
+                <a (click)="onDeleteCertificationClick(certification)" class="edit-link">
+                    <p class="at-c-violet"><i class="fa-solid fa-trash"></i> Supprimer</p>
+                </a>
+            </div>
+        </div>
         <p class="font-bold ">{{certification.domaine}} - {{certification.niveau}}</p>
         <p class="font-normal">{{certification.organisme}}</p>
         <p class="font-normal" *ngIf="certification.dateFin">De {{certification.dateDebut | date : "MMMM YYYY" }} à {{certification.dateFin | date : "MMMM YYYY" }} <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span></p>
@@ -49,22 +59,29 @@
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddCertificationClick()">
-            <img src="Images/ICONE_PLUS.png">
-            <p>Ajouter une certification</p>
+            <p><i class="fa-regular fa-plus at-c-violet"></i> Ajouter une certification</p>
         </button>
     </div>   
 </fieldset>
 <fieldset>
     <legend>&nbsp;&nbsp;<i class="fa-solid fa-language"></i>&nbsp;&nbsp;Langues parlées</legend>
-    <div>
-        <span *ngFor="let langue of stepFormation.langues; last as isLast">
-            {{langue.libelleLangue}}<span class="font-normal">&nbsp;({{langue.libelleReferenceNiveau}})&nbsp;&nbsp;&nbsp;</span>
-        </span>
+    <div class="margin-bottom">
+        <div *ngFor="let langue of stepFormation.langues">
+            <div class="flex-row space-between align-center">
+                <p class="custom-margin">
+                  {{langue.libelleLangue}}&nbsp;({{langue.libelleReferenceNiveau}})
+                </p>
+                <div class="edit-links">
+                    <a (click)="onDeleteLangueClick(langue)" class="edit-link">
+                        <p class="at-c-violet"><i class="fa-solid fa-trash"></i> Supprimer</p>
+                    </a>
+                </div>
+            </div>
+        </div >
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddLangueClick()">
-            <img src="Images/ICONE_PLUS.png">
-            <p>Ajouter une langue</p>
+            <p><i class="fa-regular fa-plus at-c-violet"></i> Ajouter une langue</p>
         </button>
     </div>  
 </fieldset>

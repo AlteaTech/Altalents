@@ -2411,6 +2411,7 @@ export interface IDossierTechniqueInsertRequestDto {
 }
 
 export class ExperienceDto implements IExperienceDto {
+    id!: string;
     intitulePoste!: string;
     entreprise!: string;
     lieu!: string;
@@ -2439,6 +2440,7 @@ export class ExperienceDto implements IExperienceDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
             this.intitulePoste = _data["IntitulePoste"] !== undefined ? _data["IntitulePoste"] : <any>null;
             this.entreprise = _data["Entreprise"] !== undefined ? _data["Entreprise"] : <any>null;
             this.lieu = _data["Lieu"] !== undefined ? _data["Lieu"] : <any>null;
@@ -2485,6 +2487,7 @@ export class ExperienceDto implements IExperienceDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id !== undefined ? this.id : <any>null;
         data["IntitulePoste"] = this.intitulePoste !== undefined ? this.intitulePoste : <any>null;
         data["Entreprise"] = this.entreprise !== undefined ? this.entreprise : <any>null;
         data["Lieu"] = this.lieu !== undefined ? this.lieu : <any>null;
@@ -2515,6 +2518,7 @@ export class ExperienceDto implements IExperienceDto {
 }
 
 export interface IExperienceDto {
+    id: string;
     intitulePoste: string;
     entreprise: string;
     lieu: string;
