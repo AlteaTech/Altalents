@@ -2542,7 +2542,7 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
     domaineMetier!: string;
     dateDebut!: string;
     typeContratId!: string;
-    dateFin!: string;
+    dateFin?: string | null;
     budget?: number | null;
     clientFinal?: string | null;
     technologieIds?: string[] | null;
@@ -2657,7 +2657,7 @@ export interface IExperienceRequestDto {
     domaineMetier: string;
     dateDebut: string;
     typeContratId: string;
-    dateFin: string;
+    dateFin?: string | null;
     budget?: number | null;
     clientFinal?: string | null;
     technologieIds?: string[] | null;

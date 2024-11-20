@@ -18,8 +18,6 @@ namespace Altalents.IBusiness.DTO.Request
         public DateTime DateDebut { get; set; }
         [Required]
         public Guid? TypeContratId { get; set; }
-        [Required]
-
         public DateTime? DateFin { get; set; }
         public decimal? Budget { get; set; }
         public string ClientFinal { get; set; }
