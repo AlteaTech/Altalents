@@ -117,7 +117,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experienceDto.entreprise = experience.entreprise;
       experienceDto.clientFinal = experience.clientFinal;
       experienceDto.dateDebut = formatDate(experience.dateDebut, Constantes.formatDateBack, Constantes.formatDateLocale);
-      experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
+      experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : '';
       experienceDto.lieu = experience.lieu;
       experienceDto.description = experience.description;
       experienceDto.domaineMetier = experience.domaineMetier;
