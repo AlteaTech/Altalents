@@ -4,7 +4,7 @@ import { Experience } from 'src/app/shared/models/experience.model';
 import { ExperienceDialogComponent } from '../dialogs/experience-dialog/experience-dialog.component';
 import { firstValueFrom } from 'rxjs';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
-import { ExperienceDto, ExperienceRequestDto, PutExperiencesRequestDto } from 'src/app/shared/services/generated/api/api.client';
+import { ExperienceDto, ExperienceRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { formatDate } from '@angular/common';
@@ -73,20 +73,17 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   private async submit(): Promise<boolean> {
-    this.isLoading = true;
+    // this.isLoading = true;
     // On n'utilise pas callRequest ici pour pouvoir await l'appel au back.
-    await firstValueFrom(this.service.putExperiences(this.tokenDossierTechnique, this.populateRequestDto()))
-      .then(() => {
-        this.isLoading = false;
-      });     
+    // await firstValueFrom(this.service.putExperiences(this.tokenDossierTechnique, this.populateRequestDto()))
+      // .then(() => {
+      //   this.isLoading = false;
+      // });     
     return new Promise<boolean>(resolve => resolve(true));
   }
 
-  private populateRequestDto(): PutExperiencesRequestDto {
-    let requestDto = new PutExperiencesRequestDto();
-    requestDto.experiences = [];
+  private populateRequestDto(experience : Experience): ExperienceRequestDto {
 
-    this.experiences.forEach(experience => {
       let experienceDto = new ExperienceRequestDto();
       experienceDto.typeContratId = experience.typeContrat.id;
       experienceDto.intitulePoste = experience.intitulePoste;
@@ -97,7 +94,6 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experienceDto.lieu = experience.lieu;
       experienceDto.description = experience.description;
       experienceDto.domaineMetier = experience.domaineMetier;
-      // experienceDto.compositionEquipe = experience.compositionEquipe;
       experienceDto.technologieIds = [];
       experience.technologies?.forEach(x => {
         experienceDto.technologieIds?.push(x.id);
@@ -111,9 +107,8 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
         experienceDto.methodologieIds?.push(x.id);
       })
       experienceDto.budget = experience.budgetGere;
-      requestDto.experiences?.push(experienceDto);
-    });
+    
+    return experienceDto;
 
-    return requestDto;
   }
 }
