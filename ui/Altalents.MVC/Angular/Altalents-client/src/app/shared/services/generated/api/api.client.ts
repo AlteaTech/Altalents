@@ -2419,6 +2419,7 @@ export class ExperienceDto implements IExperienceDto {
     domaineMetier!: string;
     dateDebut!: string;
     typeContrat!: ReferenceDto;
+    dossierTechniqueId!: string;
     dateFin?: string | null;
     budget?: number | null;
     clientFinal?: string | null;
@@ -2448,6 +2449,7 @@ export class ExperienceDto implements IExperienceDto {
             this.domaineMetier = _data["DomaineMetier"] !== undefined ? _data["DomaineMetier"] : <any>null;
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
             this.typeContrat = _data["TypeContrat"] ? ReferenceDto.fromJS(_data["TypeContrat"]) : new ReferenceDto();
+            this.dossierTechniqueId = _data["DossierTechniqueId"] !== undefined ? _data["DossierTechniqueId"] : <any>null;
             this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
             this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
             this.clientFinal = _data["ClientFinal"] !== undefined ? _data["ClientFinal"] : <any>null;
@@ -2495,6 +2497,7 @@ export class ExperienceDto implements IExperienceDto {
         data["DomaineMetier"] = this.domaineMetier !== undefined ? this.domaineMetier : <any>null;
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
         data["TypeContrat"] = this.typeContrat ? this.typeContrat.toJSON() : <any>null;
+        data["DossierTechniqueId"] = this.dossierTechniqueId !== undefined ? this.dossierTechniqueId : <any>null;
         data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
         data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
         data["ClientFinal"] = this.clientFinal !== undefined ? this.clientFinal : <any>null;
@@ -2526,6 +2529,7 @@ export interface IExperienceDto {
     domaineMetier: string;
     dateDebut: string;
     typeContrat: ReferenceDto;
+    dossierTechniqueId: string;
     dateFin?: string | null;
     budget?: number | null;
     clientFinal?: string | null;
@@ -2542,6 +2546,7 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
     domaineMetier!: string;
     dateDebut!: string;
     typeContratId!: string;
+    dossierTechniqueId!: string;
     dateFin?: string | null;
     budget?: number | null;
     clientFinal?: string | null;
@@ -2568,6 +2573,7 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
             this.domaineMetier = _data["DomaineMetier"] !== undefined ? _data["DomaineMetier"] : <any>null;
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
             this.typeContratId = _data["TypeContratId"] !== undefined ? _data["TypeContratId"] : <any>null;
+            this.dossierTechniqueId = _data["DossierTechniqueId"] !== undefined ? _data["DossierTechniqueId"] : <any>null;
             this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
             this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
             this.clientFinal = _data["ClientFinal"] !== undefined ? _data["ClientFinal"] : <any>null;
@@ -2622,6 +2628,7 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
         data["DomaineMetier"] = this.domaineMetier !== undefined ? this.domaineMetier : <any>null;
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
         data["TypeContratId"] = this.typeContratId !== undefined ? this.typeContratId : <any>null;
+        data["DossierTechniqueId"] = this.dossierTechniqueId !== undefined ? this.dossierTechniqueId : <any>null;
         data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
         data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
         data["ClientFinal"] = this.clientFinal !== undefined ? this.clientFinal : <any>null;
@@ -2657,6 +2664,7 @@ export interface IExperienceRequestDto {
     domaineMetier: string;
     dateDebut: string;
     typeContratId: string;
+    dossierTechniqueId: string;
     dateFin?: string | null;
     budget?: number | null;
     clientFinal?: string | null;

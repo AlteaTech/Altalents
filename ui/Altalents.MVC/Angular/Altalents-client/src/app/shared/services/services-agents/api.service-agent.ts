@@ -129,6 +129,14 @@ export class ApiServiceAgent {
     return this.apiClient.deleteExperience(token, id);
   }
 
+  updateExperiance(token: string, id: string, dto : ExperienceRequestDto): Observable<string> {
+    return this.apiClient.updateExperience(token, id, dto);
+  }
+
+ addExperiance(token: string, id: string, dto : ExperienceRequestDto): Observable<string> {
+    return this.apiClient.addExperience(token, dto);
+  }
+
   getRecapitulatif(token:string): Observable<RecapitulatifDtDto> {
     return this.apiClient.getRecapitulatif(token);
   }

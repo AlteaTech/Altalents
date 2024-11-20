@@ -18,6 +18,8 @@ namespace Altalents.IBusiness.DTO.Request
         public DateTime DateDebut { get; set; }
         [Required]
         public Guid? TypeContratId { get; set; }
+        [Required]
+        public Guid? DossierTechniqueId { get; set; }
 
 
         public DateTime? DateFin { get; set; }

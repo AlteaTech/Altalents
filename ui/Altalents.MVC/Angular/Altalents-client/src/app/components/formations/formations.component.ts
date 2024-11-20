@@ -152,6 +152,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
       }
     })
   }
+  
   public onDeleteFormationClick(formation : Formation): void {
     let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalOptions);
     dialogRef.componentInstance.itemName = formation.libelle;
