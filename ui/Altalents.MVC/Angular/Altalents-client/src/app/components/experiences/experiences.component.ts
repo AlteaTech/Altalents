@@ -19,7 +19,6 @@ import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/c
 })
 export class ExperiencesComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
-  @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   public experiences: Experience[] = [];
   
   constructor(private modalService: NgbModal,
@@ -29,7 +28,6 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
   
   public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
     this.populateData();
   }
 
@@ -99,16 +97,6 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
     })
   }
 
-  private async submit(): Promise<boolean> {
-    // this.isLoading = true;
-    // On n'utilise pas callRequest ici pour pouvoir await l'appel au back.
-    // await firstValueFrom(this.service.putExperiences(this.tokenDossierTechnique, this.populateRequestDto()))
-      // .then(() => {
-      //   this.isLoading = false;
-      // });     
-    return new Promise<boolean>(resolve => resolve(true));
-  }
-
   private populateRequestDto(experience : Experience): ExperienceRequestDto {
 
       let experienceDto = new ExperienceRequestDto();
@@ -117,11 +105,11 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experienceDto.entreprise = experience.entreprise;
       experienceDto.clientFinal = experience.clientFinal;
       experienceDto.dateDebut = formatDate(experience.dateDebut, Constantes.formatDateBack, Constantes.formatDateLocale);
-      experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : '';
+      experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
       experienceDto.lieu = experience.lieu;
       experienceDto.description = experience.description;
       experienceDto.domaineMetier = experience.domaineMetier;
-      experienceDto.technologieIds = [];
+      experienceDto.technologieIds = [];  
       experience.technologies?.forEach(x => {
         experienceDto.technologieIds?.push(x.id);
       })
