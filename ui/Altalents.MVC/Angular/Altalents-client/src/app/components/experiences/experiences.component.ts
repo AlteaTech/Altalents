@@ -43,7 +43,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
         }));
   }
 
-  public onAddExperienceClick(): void {
+  public onAddExperienceClick(dossierTechniqueId:string): void {
     const ngbModalOptions: NgbModalOptions = {
       backdrop : 'static',
       keyboard : false,
@@ -52,7 +52,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
     let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, ngbModalOptions);
     dialogRef.result.then((experience: Experience | undefined) => {
       if(experience) {
-        this.service.addExperiance(this.tokenDossierTechnique, experience.id, this.populateRequestDto(experience)).pipe(
+        this.service.addExperiance(this.tokenDossierTechnique, this.populateRequestDto(experience)).pipe(
           tap(() => {
             this.ngOnInit();
           })
@@ -61,7 +61,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
     })
   }
 
-  public onModifierExperienceClick(experience: Experience): void {
+  public onModifierExperienceClick(dossierTechniqueId:string, experience: Experience): void {
     const ngbModalOptions: NgbModalOptions = {
       backdrop : 'static',
       keyboard : false,

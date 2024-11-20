@@ -24,9 +24,7 @@ export class CompetencesComponent extends BaseComponentCallHttpComponent impleme
   public arrayNbEtoiles: number[] = [1,2,3,4,5];
   public constantesTypesLiaisons = ConstantesTypesLiaisons;
   
-  constructor(private modalService: NgbModal,
-    private service: ApiServiceAgent
-  ) {
+  constructor(private service: ApiServiceAgent) {
     super()
   }
   

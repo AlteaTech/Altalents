@@ -3,7 +3,6 @@ import { Reference } from "./reference.model";
 
 export class Experience {
     id!:string;
-    dossierTechniqueId!:string;
     typeContrat!: Reference;
     intitulePoste!: string;
     entreprise!: string;
