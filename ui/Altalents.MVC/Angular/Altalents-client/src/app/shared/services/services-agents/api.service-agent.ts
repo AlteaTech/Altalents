@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, PutExperiencesRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto, AllAboutFormationsDto, RecapitulatifDtDto } from '../generated/api/api.client';
+import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto, AllAboutFormationsDto, RecapitulatifDtDto, ExperienceRequestDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -73,8 +73,8 @@ export class ApiServiceAgent {
     return this.apiClient.getExperiences(token);
   }
 
-  putExperiences(token: string, body: PutExperiencesRequestDto): Observable<void> {
-    return this.apiClient.putExperiences(token, body);
+  putExperience(token: string, body: ExperienceRequestDto): Observable<string> {
+    return this.apiClient.addExperience(token, body);
   }
 
   createReferences(body: ReferenceRequestDto): Observable<string> {

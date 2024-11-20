@@ -133,6 +133,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
       this.stepFormation.certifications = Certification.fromList(response.certifications!);
       this.stepFormation.formations = Formation.fromList(response.formations!);
       this.stepFormation.langues = Langue.fromList(response.languesParlees!);
+      this.isLoading = false;
     }));
   }
 

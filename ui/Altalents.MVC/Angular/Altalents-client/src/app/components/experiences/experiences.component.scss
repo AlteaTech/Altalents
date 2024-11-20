@@ -21,3 +21,39 @@
 a{
   cursor:pointer;
 }
+
+fieldset{
+  margin-bottom: 2em;
+}
+
+.margin-bottom{
+  margin-bottom: 2em;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between; /* Assure un alignement horizontal entre les deux éléments */
+  align-items: center; /* Centre verticalement tout dans la ligne */
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.edit-link {
+  display: flex; /* Permet d'aligner l'icône et le texte "Modifier" */
+  align-items: center; /* Centre verticalement le contenu dans le lien */
+  text-decoration: none; /* Supprime le soulignement du lien */
+}
+
+.edit-link:hover {
+  text-decoration: underline; /* Facultatif : souligne uniquement au survol si souhaité */
+}
+
+.edit-link p {
+  margin: 0; /* Supprime les marges inutiles du paragraphe */
+}

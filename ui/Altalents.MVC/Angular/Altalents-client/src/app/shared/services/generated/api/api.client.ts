@@ -697,61 +697,6 @@ export class ApiClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return OK
-     */
-    putExperiences(tokenAccesRapide: string, body?: PutExperiencesRequestDto | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/experiences";
-        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
-            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
-        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPutExperiences(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processPutExperiences(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
-        }));
-    }
-
-    protected processPutExperiences(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
      * @return OK
      */
     getExperiences(tokenAccesRapide: string): Observable<ExperienceDto[]> {
@@ -803,6 +748,182 @@ export class ApiClient {
                 result200 = <any>null;
             }
             return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    addExperience(tokenAccesRapide: string, body?: ExperienceRequestDto | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/experiences";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAddExperience(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAddExperience(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processAddExperience(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    updateExperience(tokenAccesRapide: string, id: string, body?: ExperienceRequestDto | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/experiences/{id}";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateExperience(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateExperience(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processUpdateExperience(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    deleteExperience(tokenAccesRapide: string, id: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/experiences/{id}";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteExperience(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteExperience(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDeleteExperience(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1223,6 +1344,64 @@ export class ApiClient {
     }
 
     /**
+     * @param formationCertificationEnum (optional) 
+     * @return OK
+     */
+    deleteFormationCertification(tokenAccesRapide: string, id: string, formationCertificationEnum?: FormationCertificationEnum | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/formations/{id}?";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (formationCertificationEnum === null)
+            throw new Error("The parameter 'formationCertificationEnum' cannot be null.");
+        else if (formationCertificationEnum !== undefined)
+            url_ += "formationCertificationEnum=" + encodeURIComponent("" + formationCertificationEnum) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteFormationCertification(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteFormationCertification(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDeleteFormationCertification(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param body (optional) 
      * @return OK
      */
@@ -1322,6 +1501,59 @@ export class ApiClient {
     }
 
     protected processUpdateLangueParlee(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    deleteLangueParlee(tokenAccesRapide: string, id: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/langues/{id}";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteLangueParlee(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteLangueParlee(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDeleteLangueParlee(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2490,6 +2722,11 @@ export interface IFormationCertificationDto {
     dateFin?: string | null;
 }
 
+export enum FormationCertificationEnum {
+    Formation = "Formation",
+    Certification = "Certification",
+}
+
 export class FormationCertificationRequestDto implements IFormationCertificationRequestDto {
     formationOrCertificationEnumCode?: string | null;
     libelle?: string | null;
@@ -2919,53 +3156,6 @@ export interface IParlonsDeVousUpdateRequestDto {
     telephone2?: string | null;
     email: string;
     adresse: AdresseUpdateRequestDto;
-}
-
-export class PutExperiencesRequestDto implements IPutExperiencesRequestDto {
-    experiences?: ExperienceRequestDto[] | null;
-
-    constructor(data?: IPutExperiencesRequestDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["Experiences"])) {
-                this.experiences = [] as any;
-                for (let item of _data["Experiences"])
-                    this.experiences!.push(ExperienceRequestDto.fromJS(item));
-            }
-            else {
-                this.experiences = <any>null;
-            }
-        }
-    }
-
-    static fromJS(data: any): PutExperiencesRequestDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PutExperiencesRequestDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.experiences)) {
-            data["Experiences"] = [];
-            for (let item of this.experiences)
-                data["Experiences"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IPutExperiencesRequestDto {
-    experiences?: ExperienceRequestDto[] | null;
 }
 
 export class QuestionInsertDto implements IQuestionInsertDto {

@@ -1,3 +1,4 @@
+using System.Threading;
 using Altalents.Commun.Enums;
 using Altalents.IBusiness.DTO.Request;
 
@@ -82,16 +83,28 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetNomPrenomFromTokenAsync(tokenAccesRapide, cancellationToken);
         }
 
-        [HttpPut("{tokenAccesRapide}/experiences", Name = "PutExperiences")]
-        public async Task PutExperiencesAsync([FromRoute] Guid tokenAccesRapide, [FromBody] PutExperiencesRequestDto request, CancellationToken cancellationToken)
-        {
-            await _dossierTechniqueService.PutExperiencesAsync(tokenAccesRapide, request, cancellationToken);
-        }
-
         [HttpGet("{tokenAccesRapide}/experiences", Name = "GetExperiences")]
         public async Task<List<ExperienceDto>> GetExperiencesAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetExperiencesAsync(tokenAccesRapide, cancellationToken);
+        }
+
+        [HttpPost("{tokenAccesRapide}/experiences", Name = "AddExperience")]
+        public async Task<Guid> AddExperienceAsync([FromRoute] Guid tokenAccesRapide, ExperienceRequestDto request, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.AddOrUpdateExperienceAsync(tokenAccesRapide, request, cancellationToken);
+        }
+
+        [HttpPut("{tokenAccesRapide}/experiences/{id}", Name = "UpdateExperience")]
+        public async Task<Guid> UpdateExperienceAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, ExperienceRequestDto request, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.AddOrUpdateExperienceAsync(tokenAccesRapide, request, cancellationToken, id);
+        }
+
+        [HttpDelete("{tokenAccesRapide}/experiences/{id}", Name = "DeleteExperience")]
+        public async Task DeleteExperienceAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.DeleteExperienceAsync(tokenAccesRapide, id, cancellationToken);
         }
 
         [HttpGet("{tokenAccesRapide}/documents", Name = "GetDocuments")]
@@ -136,6 +149,12 @@ namespace Altalents.API.Controllers
             await _dossierTechniqueService.AddOrUpdateFormationCertificationAsync(tokenAccesRapide, request, cancellationToken, id);
         }
 
+        [HttpDelete("{tokenAccesRapide}/formations/{id}", Name = "DeleteFormationCertification")]
+        public async Task DeleteFormationCertificationAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, [FromQuery] FormationCertificationEnum formationCertificationEnum, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.DeleteFormationCertificationAsync(tokenAccesRapide, id, formationCertificationEnum, cancellationToken);
+        }
+
         [HttpPost("{tokenAccesRapide}/langues", Name = "AddLangueParlee")]
         public async Task<Guid> AddLangueParleeAsync([FromRoute] Guid tokenAccesRapide, LangueParleeRequestDto request, CancellationToken cancellationToken)
         {
@@ -148,10 +167,17 @@ namespace Altalents.API.Controllers
             await _dossierTechniqueService.AddOrUpdateLangueParleeAsync(tokenAccesRapide, request, cancellationToken, id);
         }
 
+        [HttpDelete("{tokenAccesRapide}/langues/{id}", Name = "DeleteLangueParlee")]
+        public async Task DeleteLangueParleeAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.DeleteLangueParleeAsync(tokenAccesRapide, id, cancellationToken);
+        }
+
         [HttpGet("{tokenAccesRapide}/recapitulatif", Name = "GetRecapitulatif")]
         public async Task<RecapitulatifDtDto> GetRecapitulatifAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetRecapitulatifDtAsync(tokenAccesRapide, cancellationToken);
         }
+
     }
 }

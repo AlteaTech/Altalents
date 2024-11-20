@@ -394,19 +394,19 @@ namespace Altalents.Business.Services
             await context.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
-        public async Task PutExperiencesAsync(Guid tokenAccesRapide, PutExperiencesRequestDto request, CancellationToken cancellationToken)
-        {
-            using CustomDbContext context = GetScopedDbContexte();
-            DossierTechnique dt = await context.DossierTechniques
-                .Include(x => x.Experiences)
-                .AsTracking()
-                .SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide, cancellationToken);
+        //public async Task PutExperiencesAsync(Guid tokenAccesRapide, PutExperiencesRequestDto request, CancellationToken cancellationToken)
+        //{
+        //    using CustomDbContext context = GetScopedDbContexte();
+        //    DossierTechnique dt = await context.DossierTechniques
+        //        .Include(x => x.Experiences)
+        //        .AsTracking()
+        //        .SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide, cancellationToken);
 
-            context.Experiences.RemoveRange(dt.Experiences);
-            dt.Experiences = Mapper.Map<List<Entities.Experience>>(request.Experiences);
+        //    context.Experiences.RemoveRange(dt.Experiences);
+        //    dt.Experiences = Mapper.Map<List<Entities.Experience>>(request.Experiences);
 
-            await context.SaveBaseEntityChangesAsync(cancellationToken);
-        }
+        //    await context.SaveBaseEntityChangesAsync(cancellationToken);
+        //}
 
         public async Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
@@ -415,6 +415,8 @@ namespace Altalents.Business.Services
                 .ProjectTo<ExperienceDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }
+
+
 
         [Obsolete("Methode de test")]
         public Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
@@ -518,6 +520,34 @@ namespace Altalents.Business.Services
             };
         }
 
+        public async Task<Guid> AddOrUpdateExperienceAsync(Guid tokenAccesRapide, ExperienceRequestDto experienceDto, CancellationToken cancellationToken, Guid? id = null)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            if (id != null)
+            {
+                Entities.Experience expToDelete = await context.Experiences.Include(x => x.DossierTechnique).AsTracking().FirstOrDefaultAsync(x => x.Id == id.Value);
+                if (expToDelete != null)
+                {
+                    if (tokenAccesRapide == expToDelete.DossierTechnique.TokenAccesRapide)
+                    {
+                        context.Experiences.Remove(expToDelete);
+                    }
+                    else
+                    {
+                        throw new BusinessException("UNAUTHORIZED Action");
+                    }
+                }
+            }
+
+            Entities.Experience expToAdd = Mapper.Map<Entities.Experience>(experienceDto);
+            await context.Experiences.AddAsync(expToAdd, cancellationToken);
+
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
+
+            return expToAdd.Id;
+        }
+
         public async Task<Guid> AddOrUpdateFormationCertificationAsync(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null)
         {
 
@@ -539,15 +569,22 @@ namespace Altalents.Business.Services
                     }
                     else
                     {
-                        certifToAddOrUpdate = context.Certifications.AsTracking().FirstOrDefault(x => x.Id == id.Value);
+                        certifToAddOrUpdate = context.Certifications.Include(x => x.DossierTechnique).AsTracking().FirstOrDefault(x => x.Id == id.Value);
 
-                        //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
-                        certifToAddOrUpdate.Libelle = request.Libelle;
-                        certifToAddOrUpdate.Niveau = request.Niveau;
-                        certifToAddOrUpdate.DateDebut = request.DateDebut;
-                        certifToAddOrUpdate.DateFin = request.DateFin;
-                        certifToAddOrUpdate.Domaine = request.Domaine;
-                        certifToAddOrUpdate.Organisme = request.Organisme;
+                        if (tokenAccesRapide == certifToAddOrUpdate.DossierTechnique.TokenAccesRapide)
+                        {
+                            //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
+                            certifToAddOrUpdate.Libelle = request.Libelle;
+                            certifToAddOrUpdate.Niveau = request.Niveau;
+                            certifToAddOrUpdate.DateDebut = request.DateDebut;
+                            certifToAddOrUpdate.DateFin = request.DateFin;
+                            certifToAddOrUpdate.Domaine = request.Domaine;
+                            certifToAddOrUpdate.Organisme = request.Organisme;
+                        }
+                        else
+                        {
+                            throw new BusinessException("UNAUTHORIZED Action");
+                        }
                     }
 
                     await context.SaveBaseEntityChangesAsync();
@@ -564,21 +601,28 @@ namespace Altalents.Business.Services
                     }
                     else
                     {
-                        formationfToAddOrUpdate = context.Formations.AsTracking().FirstOrDefault(x => x.Id == id.Value);
+                        formationfToAddOrUpdate = context.Formations.Include(x => x.DossierTechnique).AsTracking().FirstOrDefault(x => x.Id == id.Value);
 
-                        //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
-                        formationfToAddOrUpdate.Libelle = request.Libelle;
-                        formationfToAddOrUpdate.Niveau = request.Niveau;
-                        formationfToAddOrUpdate.DateDebut = request.DateDebut;
-                        formationfToAddOrUpdate.DateFin = request.DateFin;
-                        formationfToAddOrUpdate.Domaine = request.Domaine;
-                        formationfToAddOrUpdate.Organisme = request.Organisme;
+                        if (tokenAccesRapide == formationfToAddOrUpdate.DossierTechnique.TokenAccesRapide)
+                        {
+                            //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
+                            formationfToAddOrUpdate.Libelle = request.Libelle;
+                            formationfToAddOrUpdate.Niveau = request.Niveau;
+                            formationfToAddOrUpdate.DateDebut = request.DateDebut;
+                            formationfToAddOrUpdate.DateFin = request.DateFin;
+                            formationfToAddOrUpdate.Domaine = request.Domaine;
+                            formationfToAddOrUpdate.Organisme = request.Organisme;
+                        }
+                        else
+                        {
+                            throw new BusinessException("UNAUTHORIZED Action");
+                        }
                     }
 
                     await context.SaveBaseEntityChangesAsync(cancellationToken);
                     return formationfToAddOrUpdate.Id;
                 default:
-                    throw new BusinessException("FormationOrCertificationEnumCode ne correspond a aucun code valide : les valeur attendu sont : '1' (Formation) ou '2' (Certification ");
+                    throw new BusinessException("FormationOrCertificationEnumCode ne correspond a aucun code valide : les valeur attendues sont : '1' (Formation) ou '2' (Certification ");
             }
         }
 
@@ -595,11 +639,19 @@ namespace Altalents.Business.Services
             }
             else
             {
-                dossierTechniqueLangueToAddOrUpdate = context.DossierTechniqueLangues.AsTracking().FirstOrDefault(x => x.Id == id.Value);
+             
+                dossierTechniqueLangueToAddOrUpdate = context.DossierTechniqueLangues.Include(x => x.DossierTechnique).AsTracking().FirstOrDefault(x => x.Id == id.Value);
 
-                //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
-                dossierTechniqueLangueToAddOrUpdate.LangueId = request.LangueId;
-                dossierTechniqueLangueToAddOrUpdate.NiveauId = request.NiveauId;
+                if (tokenAccesRapide == dossierTechniqueLangueToAddOrUpdate.DossierTechnique.TokenAccesRapide)
+                {
+                    //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
+                    dossierTechniqueLangueToAddOrUpdate.LangueId = request.LangueId;
+                    dossierTechniqueLangueToAddOrUpdate.NiveauId = request.NiveauId;
+                }
+                else
+                {
+                    throw new BusinessException("UNAUTHORIZED Action");
+                }
             }
 
             await context.SaveBaseEntityChangesAsync(cancellationToken);
@@ -658,5 +710,106 @@ namespace Altalents.Business.Services
 
             return recapitulatif;
         }
+
+        public async Task DeleteLangueParleeAsync(Guid tokenAccesRapide, Guid id, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            DossierTechniqueLangue candidatLangueToDelete = await context.DossierTechniqueLangues.Include(x => x.DossierTechnique).SingleAsync(x => x.Id == id, cancellationToken);
+
+            if (candidatLangueToDelete != null)
+            {
+                if (tokenAccesRapide == candidatLangueToDelete.DossierTechnique.TokenAccesRapide)
+                {
+                    context.DossierTechniqueLangues.Remove(candidatLangueToDelete);
+                    await context.SaveBaseEntityChangesAsync(cancellationToken);
+                }
+                else
+                {
+                    throw new BusinessException("UNAUTHORIZED Action");
+                }
+            }
+            else
+            {
+                throw new BusinessException("Impossible de supprimer la langue du candidat correspondant a l'id : " + id.ToString());
+
+            }
+        }
+
+        public async Task DeleteExperienceAsync(Guid tokenAccesRapide, Guid id, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            Entities.Experience expToDelete = await context.Experiences.Include(x => x.DossierTechnique).AsTracking().SingleAsync(x => x.Id == id);
+            if (expToDelete != null)
+            {
+                if (tokenAccesRapide == expToDelete.DossierTechnique.TokenAccesRapide)
+                {
+                    context.Experiences.Remove(expToDelete);
+                    await context.SaveBaseEntityChangesAsync(cancellationToken);
+                }
+                else
+                {
+                    throw new BusinessException("UNAUTHORIZED Action");
+                }
+            }
+        }
+
+        public async Task DeleteFormationCertificationAsync(Guid tokenAccesRapide, Guid id, FormationCertificationEnum formationOrCertificationEnum, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            switch (formationOrCertificationEnum)
+            {
+                case FormationCertificationEnum.Certification:
+
+                    Certification certificationToDelete = await context.Certifications.Include(x=>x.DossierTechnique).SingleAsync(x => x.Id == id, cancellationToken);
+
+                    if (certificationToDelete != null)
+                    {
+                        if (tokenAccesRapide == certificationToDelete.DossierTechnique.TokenAccesRapide)
+                        {
+                            context.Certifications.Remove(certificationToDelete);
+                        }
+                        else
+                        {
+                            throw new BusinessException("UNAUTHORIZED Action");
+                        }
+                    }
+                    else
+                    {
+                        throw new BusinessException("Impossible de supprimer la certification correspondant a l'id : " + id.ToString());
+                    }
+                    break;
+
+                case FormationCertificationEnum.Formation:
+
+                    Formation formationToDelete = await context.Formations.Include(x => x.DossierTechnique).SingleAsync(x => x.Id == id, cancellationToken);
+
+                    if (formationToDelete != null)
+                    {
+                        if (tokenAccesRapide == formationToDelete.DossierTechnique.TokenAccesRapide)
+                        {
+                            context.Formations.Remove(formationToDelete);
+                        }
+                        else
+                        {
+                            throw new BusinessException("UNAUTHORIZED Action");
+                        }
+
+                    }
+                    else
+                    {
+                        throw new BusinessException("Impossible de supprimer la formation correspondant a l'id : " + id.ToString());
+                    }
+                    break;
+
+                default:
+                    throw new BusinessException("FormationOrCertificationEnum ne correspond a aucun cas valide : les cas attendus sont : '1' (Formation) ou '2' (Certification ");
+            }
+
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
+        }
+
     }
 }
