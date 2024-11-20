@@ -44,10 +44,13 @@ fieldset{
   align-items: center;
 }
 
-.edit-link {
+.edit-links {
   display: flex; /* Permet d'aligner l'icône et le texte "Modifier" */
-  align-items: center; /* Centre verticalement le contenu dans le lien */
+}
+
+.edit-link {
   text-decoration: none; /* Supprime le soulignement du lien */
+  align-items: center; /* Centre verticalement le contenu dans le lien */
 }
 
 .edit-link:hover {
