@@ -25,8 +25,7 @@
                 <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations"
                     [tokenDossierTechnique]="tokenDossierTechnique"></app-formations>
                 <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences"
-                    [tokenDossierTechnique]="tokenDossierTechnique"
-                    (validationCallback)="onValidationCallbackChange($event)"></app-experiences>
+                    [tokenDossierTechnique]="tokenDossierTechnique"></app-experiences>
                 <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences"
                     [tokenDossierTechnique]="tokenDossierTechnique"></app-competences>
                 <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions"

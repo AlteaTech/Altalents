@@ -2419,7 +2419,7 @@ export class ExperienceDto implements IExperienceDto {
     domaineMetier!: string;
     dateDebut!: string;
     typeContrat!: ReferenceDto;
-    dateFin!: string;
+    dateFin?: string | null;
     budget?: number | null;
     clientFinal?: string | null;
     technologies?: ReferenceDto[] | null;
@@ -2526,7 +2526,7 @@ export interface IExperienceDto {
     domaineMetier: string;
     dateDebut: string;
     typeContrat: ReferenceDto;
-    dateFin: string;
+    dateFin?: string | null;
     budget?: number | null;
     clientFinal?: string | null;
     technologies?: ReferenceDto[] | null;
