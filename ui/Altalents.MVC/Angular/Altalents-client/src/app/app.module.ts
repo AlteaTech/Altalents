@@ -27,7 +27,6 @@ import { QuestionnaireDialogComponent } from './components/dialogs/questionnaire
 import { PieceJointeDialogComponent } from './components/dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
 import { TelechargementDtComponent } from './components/telechargement-dt/telechargement-dt.component';
 import { CustomLoaderComponent } from './shared/components/custom-loader/custom-loader.component';
-import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base/lib/base-component-call-http/base-component-call-http.component';
 import { ConfirmDeleteDialogComponent } from './components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 
 registerLocaleData(localeFr);

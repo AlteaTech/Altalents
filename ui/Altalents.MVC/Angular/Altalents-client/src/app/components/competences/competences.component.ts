@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Competence } from 'src/app/shared/models/competence.model';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { CompetenceDto, LiaisonExperienceUpdateNiveauDto } from 'src/app/shared/services/generated/api/api.client';
@@ -16,7 +15,8 @@ import { ConstantesTypesLiaisons } from 'src/app/shared/constantes/constantes-ty
 export class CompetencesComponent extends BaseComponentCallHttpComponent implements OnInit {
 
   @Input() public tokenDossierTechnique: string = "";
-
+  @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
+  
   public compCompetences: Competence[] = [];
   public compMethodologies: Competence[] = [];
   public compOutils: Competence[] = [];
@@ -29,8 +29,13 @@ export class CompetencesComponent extends BaseComponentCallHttpComponent impleme
   }
   
   public ngOnInit(): void {
-    this.populateData();
-  }
+    this.validationCallback.emit(() => this.submit());
+   this.populateData();
+ }
+
+ private async submit(): Promise<boolean> {
+   return new Promise<boolean>(resolve => resolve(true))
+ }
 
   public populateData(): void {
     this.isLoading = true;
@@ -56,14 +61,12 @@ export class CompetencesComponent extends BaseComponentCallHttpComponent impleme
           this.compTechnologie = Competence.fromList(response);
         })
       )
-
     ).subscribe({
       next: () => {
-        this.isLoading = false; // Dès qu'une requête répond, le loader s'arrête
+        this.isLoading = false;
       },
       error: () => {
-        this.isLoading = false; // En cas d'erreur, arrêt du loader
-        // Vous pouvez également gérer les erreurs ici
+        this.isLoading = false; 
       }
     });
   }
@@ -88,14 +91,10 @@ export class CompetencesComponent extends BaseComponentCallHttpComponent impleme
 
     let dto = new LiaisonExperienceUpdateNiveauDto();
 
-        dto.liaisonId = competence.idLiaison;
-        dto.typeLiaisonCode = codeTypeLiaison;
-        dto.note = competence.niveau;
+    dto.liaisonId = competence.idLiaison;
+    dto.typeLiaisonCode = codeTypeLiaison;
+    dto.note = competence.niveau;
 
     return dto;
-    
   }
-
-
-  
 }

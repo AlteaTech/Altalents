@@ -14,7 +14,6 @@ export class ConfirmDeleteDialogComponent extends BaseComponentCallHttpComponent
 
     constructor(public activeModal: NgbActiveModal) {
         super();
-    
     }
 
     ngOnInit(): void {

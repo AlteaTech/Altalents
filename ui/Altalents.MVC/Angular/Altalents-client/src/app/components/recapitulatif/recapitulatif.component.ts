@@ -46,8 +46,6 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
     super()
   }
 
-  
-
   public ngOnInit(): void {
     this.validationCallback.emit(() => this.submit());
     this.populateData();

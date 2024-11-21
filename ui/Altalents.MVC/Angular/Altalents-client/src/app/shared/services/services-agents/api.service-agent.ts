@@ -32,6 +32,10 @@ export class ApiServiceAgent {
     return this.apiClient.getReferences(typeReferenceCode, startsWith);
   }
 
+  createReferences(body: ReferenceRequestDto): Observable<string> {
+    return this.apiClient.createReferences(body);
+  }
+
   getTrigramme(body: GetTrigrammeRequestDto): Observable<TrigrammeDto> {
     return this.apiClient.getTrigramme(body);
   }
@@ -43,9 +47,11 @@ export class ApiServiceAgent {
   isIdBoondValid(idboond: string): Observable<boolean> {
     return this.apiClient.isIdBoondValid(idboond);
   }
+
   isTrigramValid(trigram: string): Observable<boolean> {
     return this.apiClient.isTrigrammeValid(trigram);
   }
+  
   isTelephoneValid(telephone: string, isOptionnal: boolean): Observable<boolean> {
     let request = new IsTelephoneValidRequestDto();
     request.isOptionnal = isOptionnal;
@@ -73,12 +79,16 @@ export class ApiServiceAgent {
     return this.apiClient.getExperiences(token);
   }
 
-  putExperience(token: string, body: ExperienceRequestDto): Observable<string> {
-    return this.apiClient.addExperience(token, body);
+  updateExperiance(token: string, id: string, dto : ExperienceRequestDto): Observable<string> {
+    return this.apiClient.updateExperience(token, id, dto);
   }
 
-  createReferences(body: ReferenceRequestDto): Observable<string> {
-    return this.apiClient.createReferences(body);
+  addExperiance(token: string, dto : ExperienceRequestDto): Observable<string> {
+    return this.apiClient.addExperience(token, dto);
+  }
+
+  deleteExperience(token: string, id: string): Observable<void> {
+    return this.apiClient.deleteExperience(token, id);
   }
 
   getQuestionnaires(token: string): Observable<QuestionnaireDto[]> {
@@ -109,6 +119,10 @@ export class ApiServiceAgent {
     return this.apiClient.updateFormationCertification(token, id, body);
   }
 
+  deleteFormationCertification(token: string, id: string,  type : FormationCertificationEnum): Observable<void> {
+    return this.apiClient.deleteFormationCertification(token, id, type);
+  }
+
   addLangueParlee(token: string, body: LangueParleeRequestDto): Observable<string> {
     return this.apiClient.addLangueParlee(token, body);
   }
@@ -119,22 +133,6 @@ export class ApiServiceAgent {
 
   deleteLangueParlee(token: string, id: string): Observable<void> {
     return this.apiClient.deleteLangueParlee(token, id);
-  }
-
-  deleteFormationCertification(token: string, id: string,  type : FormationCertificationEnum): Observable<void> {
-    return this.apiClient.deleteFormationCertification(token, id, type);
-  }
-
-  deleteExperience(token: string, id: string): Observable<void> {
-    return this.apiClient.deleteExperience(token, id);
-  }
-
-  updateExperiance(token: string, id: string, dto : ExperienceRequestDto): Observable<string> {
-    return this.apiClient.updateExperience(token, id, dto);
-  }
-
- addExperiance(token: string, dto : ExperienceRequestDto): Observable<string> {
-    return this.apiClient.addExperience(token, dto);
   }
 
   getRecapitulatif(token:string): Observable<RecapitulatifDtDto> {

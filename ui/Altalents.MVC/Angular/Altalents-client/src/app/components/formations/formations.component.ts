@@ -11,7 +11,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { AllAboutFormationsDto, FormationCertificationEnum, FormationCertificationRequestDto, LangueParleeRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { ConstantesFormationCertification } from 'src/app/shared/constantes/constantes-formation-certification';
-import { catchError, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { formatDate } from '@angular/common';
@@ -24,6 +24,8 @@ import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/c
 })
 export class FormationsComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
+  @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
+
   public stepFormation: StepFormation = new StepFormation();
   public ngbModalOptions: NgbModalOptions = {
     centered: true,
@@ -38,7 +40,12 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public ngOnInit(): void {
+     this.validationCallback.emit(() => this.submit());
     this.populateData();
+  }
+
+  private async submit(): Promise<boolean> {
+    return new Promise<boolean>(resolve => resolve(true))
   }
 
   public onAddFormationClick(): void {
@@ -168,9 +175,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   private populateData(): void {
-
     this.isLoading = true;
-
     this.callRequest(ConstantesRequest.GetAllAboutFormations, this.service.getAllAboutFormations(this.tokenDossierTechnique)
     .subscribe((response: AllAboutFormationsDto) => {
       this.stepFormation.certifications = Certification.fromList(response.certifications!);
@@ -181,9 +186,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   private populateCertificationRequestDto(certification: Certification): FormationCertificationRequestDto {
-
     let dto = new FormationCertificationRequestDto();
-
         dto.dateDebut = formatDate(certification.dateDebut!, Constantes.formatDateBack, Constantes.formatDateLocale);
         dto.dateFin = certification.dateFin ? formatDate(certification.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
         dto.domaine = certification.domaine;
@@ -191,14 +194,11 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
         dto.niveau = certification.niveau;
         dto.organisme = certification.organisme;
         dto.formationOrCertificationEnumCode = ConstantesFormationCertification.certification;
-
     return dto;
   }
 
   private populateFormationRequestDto(formation: Formation): FormationCertificationRequestDto {
-
     let dto = new FormationCertificationRequestDto();
-
         dto.dateDebut = formatDate(formation.dateDebut!, Constantes.formatDateBack, Constantes.formatDateLocale);
         dto.dateFin = formation.dateFin ? formatDate(formation.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
         dto.domaine = formation.domaine;
@@ -206,17 +206,13 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
         dto.niveau = formation.niveau;
         dto.organisme = formation.organisme;
         dto.formationOrCertificationEnumCode = ConstantesFormationCertification.formation;
-
     return dto;
   }
 
   private populateLangueParleeRequestDto(langue: Langue): LangueParleeRequestDto {
-
     let dto = new LangueParleeRequestDto();
-
         dto.langueId = langue.idLangue!;
         dto.niveauId = langue.idReferenceNiveau!;
-
     return dto;
   }
 
