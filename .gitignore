@@ -365,3 +365,5 @@ SQL/bundle.exe
 
 ui/Altalents.MVC/Angular/Altalents-client/.npmrc
 /ui/Altalents.MVC/Angular/Altalents-client/npmrc
+_UpgradeWizard_Files
+UpgradeWizardLog.xml
