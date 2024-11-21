@@ -33,7 +33,6 @@ export class Experience {
       model.lieu = dto.lieu;
       model.description = dto.description;
       model.domaineMetier = dto.domaineMetier;
-      //model.compositionEquipe = dto.compositionEquipe;
       model.technologies = dto.technologies ? Reference.fromListReferenceDto(dto.technologies) : undefined;
       model.competences = dto.competences ? Reference.fromListReferenceDto(dto.competences) : undefined;
       model.methodologies = dto.methodologies ? Reference.fromListReferenceDto(dto.methodologies) : undefined;

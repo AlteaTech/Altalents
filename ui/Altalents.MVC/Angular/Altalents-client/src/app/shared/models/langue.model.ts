@@ -3,8 +3,6 @@ import { Reference } from "./reference.model";
 
 export class Langue {
     id!: string;
-    // langue?: Reference;
-    // niveau?: Reference;
 
     idLangue?: string;
     libelleLangue?: string | null;

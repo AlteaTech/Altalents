@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Experience } from 'src/app/shared/models/experience.model';
 import { ExperienceDialogComponent } from '../dialogs/experience-dialog/experience-dialog.component';
-import { firstValueFrom, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ExperienceDto, ExperienceRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
@@ -19,6 +19,8 @@ import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/c
 })
 export class ExperiencesComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
+  @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
+  
   public experiences: Experience[] = [];
   
   constructor(private modalService: NgbModal,
@@ -28,8 +30,13 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
   
   public ngOnInit(): void {
-    this.populateData();
-  }
+    this.validationCallback.emit(() => this.submit());
+   this.populateData();
+ }
+
+ private async submit(): Promise<boolean> {
+   return new Promise<boolean>(resolve => resolve(true))
+ }
 
   public populateData(): void {
     this.isLoading = true;

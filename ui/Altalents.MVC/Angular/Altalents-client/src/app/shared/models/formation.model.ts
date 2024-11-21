@@ -27,7 +27,6 @@ export class Formation {
         model.dureeExperience = DureeExperienceService.CalculateDureeExperience(model.dateDebut, model.dateFin);
 
         return model;
-        
       }
 
       public static fromList(dtos : FormationCertificationDto[]):Formation[]{

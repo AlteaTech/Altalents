@@ -11,7 +11,6 @@ import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-ste
 })
 export class FormContainerComponent implements OnInit {
 
-
   public static instance: FormContainerComponent;
   public tokenDossierTechnique: string = "";
   public dossierTechniqueEnum = DossierTechniqueEnum;

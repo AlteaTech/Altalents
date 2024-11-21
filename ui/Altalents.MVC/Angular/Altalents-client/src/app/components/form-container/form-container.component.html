@@ -23,11 +23,14 @@
                     [tokenDossierTechnique]="tokenDossierTechnique"
                     (validationCallback)="onValidationCallbackChange($event)"></app-parlons-de-vous>
                 <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations"
-                    [tokenDossierTechnique]="tokenDossierTechnique"></app-formations>
+                    [tokenDossierTechnique]="tokenDossierTechnique"
+                    (validationCallback)="onValidationCallbackChange($event)"></app-formations>
                 <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences"
-                    [tokenDossierTechnique]="tokenDossierTechnique"></app-experiences>
+                    [tokenDossierTechnique]="tokenDossierTechnique"
+                    (validationCallback)="onValidationCallbackChange($event)"></app-experiences>
                 <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences"
-                    [tokenDossierTechnique]="tokenDossierTechnique"></app-competences>
+                    [tokenDossierTechnique]="tokenDossierTechnique"
+                    (validationCallback)="onValidationCallbackChange($event)"></app-competences>
                 <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions"
                     [tokenDossierTechnique]="tokenDossierTechnique"
                     (validationCallback)="onValidationCallbackChange($event)"></app-questions>

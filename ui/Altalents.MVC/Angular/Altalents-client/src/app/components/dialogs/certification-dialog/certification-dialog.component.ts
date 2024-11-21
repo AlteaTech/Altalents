@@ -10,6 +10,7 @@ import { Certification } from 'src/app/shared/models/certification.model';
   selector: 'app-certification-dialog',
   templateUrl: './certification-dialog.component.html'
 })
+
 export class CertificationDialogComponent implements OnInit {
   public certification?: Certification;
   public formGroup: FormGroup<CertificationForm>;
