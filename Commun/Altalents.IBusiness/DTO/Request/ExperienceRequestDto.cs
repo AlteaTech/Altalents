@@ -21,10 +21,10 @@ namespace Altalents.IBusiness.DTO.Request
         public DateTime? DateFin { get; set; }
         public decimal? Budget { get; set; }
         public string ClientFinal { get; set; }
-
         public List<Guid> TechnologieIds { get; set; }
         public List<Guid> MethodologieIds { get; set; }
         public List<Guid> CompetenceIds { get; set; }
         public List<Guid> OutilIds { get; set; }
+        public List<ProjetRequestDto> Projets { get; set; }
     }
 }

@@ -4,9 +4,9 @@ namespace Altalents.Business.Mappings
 {
     internal class DossiersTechniquesMappingProfile : Profile
     {
-
         public DossiersTechniquesMappingProfile()
         {
+
             CreateMap<DossierTechniqueInsertRequestDto, DossierTechnique>()
                 .ForMember(dest => dest.Personne, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.TokenAccesRapide, opt => opt.MapFrom(src => Guid.NewGuid()))
@@ -33,6 +33,16 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.CommentaireFun, opt => opt.MapFrom(src => src.CommentaireFun))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle));
+
+             CreateMap<Projet, ProjetDto>()
+                .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Taches, opt => opt.MapFrom(src => src.Taches));
+
+             CreateMap<ProjetDto, Projet>()
+                .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Taches, opt => opt.MapFrom(src => src.Taches));
 
             CreateMap<DossierTechniqueInsertRequestDto, Personne>()
                 .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
@@ -81,7 +91,9 @@ namespace Altalents.Business.Mappings
                 {
                     OutilId = x,
                 }).ToList()
-                ));
+                  ))
+                .ForMember(dest => dest.Projets, opt => opt.MapFrom(src => src.Projets)
+                 );
 
             CreateMap<Experience, ExperienceDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -97,7 +109,9 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.ClientFinal, opt => opt.MapFrom(src => src.ClientFinal))
                 .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.LiaisonExperienceTechnologies.Select(x => x.Technologie)))
                 .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences.Select(x => x.Competance)))
-                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)));
+                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)))
+                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceOutils.Select(x => x.Outil)))
+                .ForMember(dest => dest.Projets, opt => opt.MapFrom(src => src.Projets));
 
             CreateMap<Certification, FormationCertificationDto>()
               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

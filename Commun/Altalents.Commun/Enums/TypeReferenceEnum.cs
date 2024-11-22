@@ -12,6 +12,7 @@ namespace Altalents.Commun.Enums
         Competence = 8,
         Technologie = 9,
         Methodologies = 10,
-        Outil = 11
+        Outil = 11,
+        Domaine = 12,
     }
 }

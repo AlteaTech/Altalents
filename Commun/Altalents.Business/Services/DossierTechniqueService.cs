@@ -258,6 +258,8 @@ namespace Altalents.Business.Services
             using CustomDbContext context = GetScopedDbContexte();
             DossierTechnique dt = await GetQueryParlonsDeVous(context, tokenRapide).SingleAsync(cancellationToken);
 
+
+
             AdresseDto adresseDto = dt.Personne.Adresses?.Select(x => new AdresseDto()
             {
                 Adresse1 = x.Adresse1,
@@ -277,7 +279,9 @@ namespace Altalents.Business.Services
                 Telephone2 = contactTelephones.Count <= 1 ? null : contactTelephones.LastOrDefault()?.Valeur,
                 Email = dt.Personne.Email,
                 Nom = dt.Personne.Nom,
-                Prenom = dt.Personne.Prenom
+                Prenom = dt.Personne.Prenom,
+                Synthese = dt.Synthese,
+                
             };
             return reponse;
         }
@@ -297,6 +301,8 @@ namespace Altalents.Business.Services
             DossierTechnique dt = await GetQueryParlonsDeVous(DbContext, tokenRapide)
                 .AsTracking()
                 .SingleAsync(cancellationToken);
+
+            dt.Synthese = request.Synthese;
 
             Adresse adresse = dt.Personne.Adresses?.FirstOrDefault();
             if (adresse != null)
@@ -394,20 +400,6 @@ namespace Altalents.Business.Services
             await context.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
-        //public async Task PutExperiencesAsync(Guid tokenAccesRapide, PutExperiencesRequestDto request, CancellationToken cancellationToken)
-        //{
-        //    using CustomDbContext context = GetScopedDbContexte();
-        //    DossierTechnique dt = await context.DossierTechniques
-        //        .Include(x => x.Experiences)
-        //        .AsTracking()
-        //        .SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide, cancellationToken);
-
-        //    context.Experiences.RemoveRange(dt.Experiences);
-        //    dt.Experiences = Mapper.Map<List<Entities.Experience>>(request.Experiences);
-
-        //    await context.SaveBaseEntityChangesAsync(cancellationToken);
-        //}
-
         public async Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
@@ -415,8 +407,6 @@ namespace Altalents.Business.Services
                 .ProjectTo<ExperienceDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }
-
-
 
         [Obsolete("Methode de test")]
         public Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
@@ -439,6 +429,8 @@ namespace Altalents.Business.Services
             DossierCompetenceDso dt = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
                 .ProjectTo<DossierCompetenceDso>(Mapper.ConfigurationProvider)
                 .FirstAsync(cancellationToken);
+
+            var a = context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide).FirstOrDefault();
 
             ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();
 

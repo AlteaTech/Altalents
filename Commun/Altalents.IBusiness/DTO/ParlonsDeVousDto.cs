@@ -8,5 +8,6 @@ namespace Altalents.IBusiness.DTO
         public string Telephone2 { get; set; }
         public string Email { get; set; }
         public AdresseDto Adresse { get; set; }
+        public string Synthese { get; set; }
     }
 }

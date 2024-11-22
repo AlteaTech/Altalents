@@ -25,5 +25,7 @@ namespace Altalents.Entities
         public List<LiaisonExperienceMethodologie> LiaisonExperienceMethodologies { get; set; }
         public List<LiaisonExperienceCompetence> LiaisonExperienceCompetences { get; set; }
         public List<LiaisonExperienceOutil> LiaisonExperienceOutils { get; set; }
+
+        public List<Projet> Projets { get; set; }
     }
 }
