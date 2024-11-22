@@ -2425,6 +2425,7 @@ export class ExperienceDto implements IExperienceDto {
     technologies?: ReferenceDto[] | null;
     methodologies?: ReferenceDto[] | null;
     competences?: ReferenceDto[] | null;
+    projets?: ProjetDto[] | null;
 
     constructor(data?: IExperienceDto) {
         if (data) {
@@ -2475,6 +2476,14 @@ export class ExperienceDto implements IExperienceDto {
             else {
                 this.competences = <any>null;
             }
+            if (Array.isArray(_data["Projets"])) {
+                this.projets = [] as any;
+                for (let item of _data["Projets"])
+                    this.projets!.push(ProjetDto.fromJS(item));
+            }
+            else {
+                this.projets = <any>null;
+            }
         }
     }
 
@@ -2513,6 +2522,11 @@ export class ExperienceDto implements IExperienceDto {
             for (let item of this.competences)
                 data["Competences"].push(item.toJSON());
         }
+        if (Array.isArray(this.projets)) {
+            data["Projets"] = [];
+            for (let item of this.projets)
+                data["Projets"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -2532,6 +2546,7 @@ export interface IExperienceDto {
     technologies?: ReferenceDto[] | null;
     methodologies?: ReferenceDto[] | null;
     competences?: ReferenceDto[] | null;
+    projets?: ProjetDto[] | null;
 }
 
 export class ExperienceRequestDto implements IExperienceRequestDto {
@@ -2549,6 +2564,7 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
     methodologieIds?: string[] | null;
     competenceIds?: string[] | null;
     outilIds?: string[] | null;
+    projets?: ProjetRequestDto[] | null;
 
     constructor(data?: IExperienceRequestDto) {
         if (data) {
@@ -2603,6 +2619,14 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
             else {
                 this.outilIds = <any>null;
             }
+            if (Array.isArray(_data["Projets"])) {
+                this.projets = [] as any;
+                for (let item of _data["Projets"])
+                    this.projets!.push(ProjetRequestDto.fromJS(item));
+            }
+            else {
+                this.projets = <any>null;
+            }
         }
     }
 
@@ -2645,6 +2669,11 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
             for (let item of this.outilIds)
                 data["OutilIds"].push(item);
         }
+        if (Array.isArray(this.projets)) {
+            data["Projets"] = [];
+            for (let item of this.projets)
+                data["Projets"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -2664,6 +2693,7 @@ export interface IExperienceRequestDto {
     methodologieIds?: string[] | null;
     competenceIds?: string[] | null;
     outilIds?: string[] | null;
+    projets?: ProjetRequestDto[] | null;
 }
 
 export class FormationCertificationDto implements IFormationCertificationDto {
@@ -3054,6 +3084,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
     telephone2?: string | null;
     email?: string | null;
     adresse?: AdresseDto;
+    synthese?: string | null;
 
     constructor(data?: IParlonsDeVousDto) {
         if (data) {
@@ -3072,6 +3103,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
             this.telephone2 = _data["Telephone2"] !== undefined ? _data["Telephone2"] : <any>null;
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseDto.fromJS(_data["Adresse"]) : <any>null;
+            this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
         }
     }
 
@@ -3090,6 +3122,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
         data["Telephone2"] = this.telephone2 !== undefined ? this.telephone2 : <any>null;
         data["Email"] = this.email !== undefined ? this.email : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
+        data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
         return data;
     }
 }
@@ -3101,6 +3134,7 @@ export interface IParlonsDeVousDto {
     telephone2?: string | null;
     email?: string | null;
     adresse?: AdresseDto;
+    synthese?: string | null;
 }
 
 export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateRequestDto {
@@ -3110,6 +3144,7 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
     telephone2?: string | null;
     email!: string;
     adresse!: AdresseUpdateRequestDto;
+    synthese?: string | null;
 
     constructor(data?: IParlonsDeVousUpdateRequestDto) {
         if (data) {
@@ -3131,6 +3166,7 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
             this.telephone2 = _data["Telephone2"] !== undefined ? _data["Telephone2"] : <any>null;
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseUpdateRequestDto.fromJS(_data["Adresse"]) : new AdresseUpdateRequestDto();
+            this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
         }
     }
 
@@ -3149,6 +3185,7 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
         data["Telephone2"] = this.telephone2 !== undefined ? this.telephone2 : <any>null;
         data["Email"] = this.email !== undefined ? this.email : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
+        data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
         return data;
     }
 }
@@ -3160,6 +3197,95 @@ export interface IParlonsDeVousUpdateRequestDto {
     telephone2?: string | null;
     email: string;
     adresse: AdresseUpdateRequestDto;
+    synthese?: string | null;
+}
+
+export class ProjetDto implements IProjetDto {
+    nom?: string | null;
+    description?: string | null;
+    taches?: string | null;
+
+    constructor(data?: IProjetDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
+            this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
+            this.taches = _data["Taches"] !== undefined ? _data["Taches"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ProjetDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjetDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
+        data["Description"] = this.description !== undefined ? this.description : <any>null;
+        data["Taches"] = this.taches !== undefined ? this.taches : <any>null;
+        return data;
+    }
+}
+
+export interface IProjetDto {
+    nom?: string | null;
+    description?: string | null;
+    taches?: string | null;
+}
+
+export class ProjetRequestDto implements IProjetRequestDto {
+    nom!: string;
+    description!: string;
+    taches!: string;
+
+    constructor(data?: IProjetRequestDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
+            this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
+            this.taches = _data["Taches"] !== undefined ? _data["Taches"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ProjetRequestDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjetRequestDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
+        data["Description"] = this.description !== undefined ? this.description : <any>null;
+        data["Taches"] = this.taches !== undefined ? this.taches : <any>null;
+        return data;
+    }
+}
+
+export interface IProjetRequestDto {
+    nom: string;
+    description: string;
+    taches: string;
 }
 
 export class QuestionInsertDto implements IQuestionInsertDto {
