@@ -6,4 +6,5 @@ export class ConstantesTypesReferences {
     public static competence: string = "Competence";
     public static technologie: string = "Technologie";
     public static methodologie: string = "Methodologies";
+    public static domaine: string = "Domaine";
 }

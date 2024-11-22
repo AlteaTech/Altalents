@@ -60,11 +60,13 @@ export class LangueDialogComponent extends BaseComponentCallHttpComponent implem
           this.langues = Reference.fromListReferenceDto(response);
           this.checkLoadingTermine(nbAppelsAsync);
         }));
+
     this.callRequest(ConstantesRequest.getReferencesNiveauxLangues, this.service.getReferences(ConstantesTypesReferences.niveauLangue)
         .subscribe((response: ReferenceDto[]) => {
           this.niveauxLangues = Reference.fromListReferenceDto(response);
           this.formGroup.controls.niveau.setValue(this.niveauxLangues[0]);
           this.checkLoadingTermine(nbAppelsAsync);
         }));
+        
   }
 }

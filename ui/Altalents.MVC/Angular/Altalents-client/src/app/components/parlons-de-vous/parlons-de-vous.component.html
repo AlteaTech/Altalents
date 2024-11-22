@@ -149,10 +149,23 @@
             </fieldset>
         </div>
         <div class="col-lg-6">
-            <div class="drop-zone mt-4">
-                <img src="Images/ICON_FEATHER_DOWNLOAD.png">
-                <p class="at-c-violet">Déposez votre CV</p>
-            </div>
+            <fieldset>
+                <legend class="legent-text">&nbsp;&nbsp;<i class="fa-solid fa-align-justify"></i>&nbsp;&nbsp;Synthèse</legend>
+                 <div class="row">
+                    <div class="col-6 at-p-label-champ-input ">
+                        <label for="pays" class="col-form-label">Synthèse en 100 mots<span class="champ-obligatoire">*</span></label>
+                        <p class="font-normal">Vous pouvez évoquer votre expérience, votre domaine d’activité ou vos compétences. Certains choisissent aussi de parler de leurs accomplissements ou de leurs postes précédents.</p>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('synthese')?.invalid && formGroup.get('synthese')?.touched">
+                            La synthèse est requise.
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <textarea rows="8" class="form-control" formControlName="synthese"
+                            placeholder="Je suis un pecheur d'huitres depuis l'enfance ... c'est comme ca que j'ai fini expert international de l'huitre"></textarea>
+                    </div>
+                </div>
+            </fieldset>
         </div>
     </div>
 </form>
