@@ -85,6 +85,38 @@ namespace Altalents.Commun.Enums
         KANBAN = 81,
         CycleV = 82,
         PERT = 83,
-        Lean = 84
+        Lean = 84,
+        ActivitesJuridiquesEtComptables = 85,
+        AgricultureEtElevage = 86,
+        ArchitectureEtudesEtNormes = 87,
+        ArtAudiovisuelEtSpectacle = 88,
+        Automobile = 89,
+        BatimentEtTravauxPublic = 90,
+        CommerceEtDistribution = 91,
+        CommunicationMarketing = 92,
+        CulturePatrimoine = 93,
+        Edition = 94,
+        Energie = 95,
+        EnseignementEtFormation = 96,
+        Environnement = 97,
+        FinanceBanqueEtAssurance = 98,
+        GestionAdministrativeEtRessourcesHumaine = 99,
+        HotellerieEtRestauration = 100,
+        Immobilier = 101,
+        Industrie = 102,
+        InformatiqueEtTelecommunication = 103,
+        LogistiqueEtTransport = 104,
+        MaintenanceEntretienEtNotoyage = 105,
+        Recherche = 106,
+        Santé = 107,
+        ServiceALaPersonne = 108,
+        ServicePublicDefenseSecurite = 109,
+        Social = 110,
+        SportAnimationLoisir = 111,
+        Tourismne = 112
+
+
+
+
     }
 }

@@ -12,6 +12,8 @@ namespace Altalents.Entities
         public Guid TokenAccesRapide { get; set; }
         public decimal? PrixJour { get; set; }
         public string Poste { get; set; }
+        public string Synthese { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Numero { get; set; }
 

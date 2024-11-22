@@ -1,13 +1,22 @@
-<div>
-    <h2>Bravo, quelle carrière !</h2>
-    <p>
-        Vous voilà enfin libéré.e de votre besogne.
-    </p>
-    <p>
-        Avec ce superbe dosser technique, nous allons tenter de vous trouver un job à la Nasa, chez Tesla, chez Apple, chez Waynes Enterprise, chez Hooli, ou chez Metacortex (si t'as la ref : +3 points sur ton CV). Dans tous les cas, nous nous engageons à vous dénicher le meilleur job de l'histoire des meilleurs jobs.
-    </p>
+<app-custom-loader [isLoading]="isLoading" />
+<header class="at-p-header">
+    <div class="logo-altalents">
+        <img src="Images/LOGO_ALTALENTS.png">
+    </div>
+</header>
+<div class="container">
+    <img src="Images/GROUPE_5.png" class="background-accueil">
+    <div class="text-accueil">
+        <h4>Bravo <span class="at-c-violet">{{nomPrenomCandidat}}</span>, quelle carrière !</h4>
+        <p>
+            <br>  Vous voilà enfin libéré.e de votre besogne. Avec ce superbe dosser technique, nous allons tenter de vous trouver un job à la Nasa, chez Tesla, chez Apple, chez Waynes Enterprise, chez Hooli, ou chez Metacortex (si t'as la ref : +3 points sur ton CV). Dans tous les cas, nous nous engageons à vous dénicher le meilleur job de l'histoire des meilleurs jobs.
+        </p>
+
+    </div>
 </div>
-<div>
-    <button>Télécharger mon oeuvre</button>
-    <button>Fuir</button>
+<div class="at-p-button-container">
+
+    <altea-button-prim label="Télécharger mon oeuvre" imgSrc="">
+    </altea-button-prim>
 </div>
+<img src="Images/ILLUSTRATION_STABILO.png" class="logo-altalent-stabilo">

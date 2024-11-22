@@ -6,7 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Angular\**" />
     <Compile Remove="wwwroot\Images\**" />
@@ -17,7 +16,6 @@
     <None Remove="Angular\**" />
     <None Remove="wwwroot\Images\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="wwwroot\Images\BULLE.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
