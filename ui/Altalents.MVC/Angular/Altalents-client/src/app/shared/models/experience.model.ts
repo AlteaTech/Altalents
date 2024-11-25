@@ -16,6 +16,7 @@ export class Experience {
     technologies?: Reference[];
     competences?: Reference[];
     methodologies?: Reference[];
+    outils?: Reference[];
     budgetGere?: number;
 
     // champs calculés 
@@ -36,6 +37,7 @@ export class Experience {
       model.technologies = dto.technologies ? Reference.fromListReferenceDto(dto.technologies) : undefined;
       model.competences = dto.competences ? Reference.fromListReferenceDto(dto.competences) : undefined;
       model.methodologies = dto.methodologies ? Reference.fromListReferenceDto(dto.methodologies) : undefined;
+      model.outils = dto.outils ? Reference.fromListReferenceDto(dto.outils) : undefined;
       model.budgetGere = dto.budget ?? undefined;
       return model;
     }
