@@ -13,7 +13,7 @@ export interface ExperienceForm {
     isPosteActuel: FormControl<boolean | null>,
     lieu: FormControl<string | null>,
     description: FormControl<string | null>,
-    domaineMetier: FormControl<string | null>,
+    domaineMetier: FormControl<Reference | null>,
     compositionEquipe: FormControl<string | null>,
     technologies: FormControl<Reference[] | null>,
     competences: FormControl<Reference[] | null>,

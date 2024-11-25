@@ -7,7 +7,6 @@ namespace Altalents.Entities
         public Reference()
         {
         }
-
         public string Libelle { get; set; }
         public string CommentaireFun { get; set; }
         public TypeReferenceEnum Type { get; set; }
@@ -22,10 +21,12 @@ namespace Altalents.Entities
         public List<Document> Documents { get; set; }
         public List<DossierTechniqueLangue> PersonneLangues { get; set; }
         public List<DossierTechniqueLangue> NiveauLangues { get; set; }
-        public List<Experience> Experiences { get; set; }
+        public List<Experience> TypeContratExperiences { get; set; }
+        public List<Experience> DomaineExperiences { get; set; }
         public List<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
         public List<LiaisonExperienceCompetence> LiaisonExperienceCompetances { get; set; }
         public List<LiaisonExperienceMethodologie> LiaisonExperienceMethodologies { get; set; }
         public List<LiaisonExperienceOutil> LiaisonExperienceOutils { get; set; }
+
     }
 }

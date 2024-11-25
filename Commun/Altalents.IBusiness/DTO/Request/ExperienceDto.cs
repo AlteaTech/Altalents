@@ -7,24 +7,27 @@ namespace Altalents.IBusiness.DTO.Request
         [Required]
         public string IntitulePoste { get; set; }
         [Required]
-        public string Entreprise { get; set; }
+        public string NomEntreprise { get; set; }
         [Required]
-        public string Lieu { get; set; }
+        public string LieuEntreprise { get; set; }
         [Required]
         public string Description { get; set; }
         [Required]
-        public string DomaineMetier { get; set; }
+        public ReferenceDto DomaineMetier { get; set; }
         [Required]
         public DateTime DateDebut { get; set; }
         [Required]
         public ReferenceDto TypeContrat { get; set; }
+        [Required]
+        public bool IsEntrepriseEsnOrInterim { get; set; }
         public DateTime? DateFin { get; set; }
         public decimal? Budget { get; set; }
-        public string ClientFinal { get; set; }
+
+        public string CompositionEquipe { get; set; }
         public List<ReferenceDto> Technologies{ get; set; }
         public List<ReferenceDto> Methodologies { get; set; }
         public List<ReferenceDto> Competences { get; set; }
         public List<ReferenceDto> Outils { get; set; }
-        public List<ProjetDto> Projets{ get; set; }
+        public List<ProjetOrMissionClientDto> ProjetsOrMissionsClient{ get; set; }
     }
 }

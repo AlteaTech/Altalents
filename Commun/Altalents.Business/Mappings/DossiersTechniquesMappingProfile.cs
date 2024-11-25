@@ -34,16 +34,28 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle));
 
-             CreateMap<Projet, ProjetDto>()
-                .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Taches, opt => opt.MapFrom(src => src.Taches));
+             CreateMap<ProjetOrMissionClient, ProjetOrMissionClientDto>()
+                .ForMember(dest => dest.NomClientOrProjet, opt => opt.MapFrom(src => src.NomClientOrProjet))
+                .ForMember(dest => dest.DescriptionProjetOrMission, opt => opt.MapFrom(src => src.DescriptionProjetOrMission))
+                .ForMember(dest => dest.Taches, opt => opt.MapFrom(src => src.Taches))
+                .ForMember(dest => dest.Lieu, opt => opt.MapFrom(src => src.Lieu))
+                .ForMember(dest => dest.DomaineMetier, opt => opt.MapFrom(src => src.DomaineMetier))
+                .ForMember(dest => dest.Budget, opt => opt.MapFrom(src => src.Budget))
+                .ForMember(dest => dest.CompositionEquipe, opt => opt.MapFrom(src => src.CompositionEquipe))
+                .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
+                .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin));
 
-             CreateMap<ProjetDto, Projet>()
-                .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Taches, opt => opt.MapFrom(src => src.Taches));
-
+            CreateMap<ProjetOrMissionClientRequestDto, ProjetOrMissionClient>()
+                .ForMember(dest => dest.NomClientOrProjet, opt => opt.MapFrom(src => src.NomClientOrProjet))
+                .ForMember(dest => dest.DescriptionProjetOrMission, opt => opt.MapFrom(src => src.DescriptionProjetOrMission))
+                .ForMember(dest => dest.Taches, opt => opt.MapFrom(src => src.Taches))
+                .ForMember(dest => dest.Lieu, opt => opt.MapFrom(src => src.Lieu))
+                .ForMember(dest => dest.DomaineMetierId, opt => opt.MapFrom(src => src.DomaineMetierId))
+                .ForMember(dest => dest.Budget, opt => opt.MapFrom(src => src.Budget))
+                .ForMember(dest => dest.CompositionEquipe, opt => opt.MapFrom(src => src.CompositionEquipe))
+                .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
+                .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin));
+            
             CreateMap<DossierTechniqueInsertRequestDto, Personne>()
                 .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => src.Nom))
                 .ForMember(dest => dest.Prenom, opt => opt.MapFrom(src => src.Prenom))
@@ -63,15 +75,16 @@ namespace Altalents.Business.Mappings
 
             CreateMap<ExperienceRequestDto, Experience>()
                 .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
-                .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.Entreprise))
-                .ForMember(dest => dest.Lieu, opt => opt.MapFrom(src => src.Lieu))
+                .ForMember(dest => dest.NomEntreprise, opt => opt.MapFrom(src => src.Entreprise))
+                .ForMember(dest => dest.LieuEntreprise, opt => opt.MapFrom(src => src.Lieu))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.DomaineMetier, opt => opt.MapFrom(src => src.DomaineMetier))
+                .ForMember(dest => dest.DomaineMetierId, opt => opt.MapFrom(src => src.DomaineMetierId))
                 .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
                 .ForMember(dest => dest.TypeContratId, opt => opt.MapFrom(src => src.TypeContratId))
                 .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
                 .ForMember(dest => dest.Budget, opt => opt.MapFrom(src => src.Budget))
-                .ForMember(dest => dest.ClientFinal, opt => opt.MapFrom(src => src.ClientFinal))
+                .ForMember(dest => dest.IsEntrepriseEsnOrInterim, opt => opt.MapFrom(src => src.IsEntrepriseEsnOrInterim))
+                .ForMember(dest => dest.CompositionEquipe, opt => opt.MapFrom(src => src.CompositionEquipe))
                 .ForMember(dest => dest.LiaisonExperienceTechnologies, opt => opt.MapFrom(src => src.TechnologieIds.Select(x => new LiaisonExperienceTechnologie()
                 {
                     TechnologieId = x,
@@ -92,26 +105,27 @@ namespace Altalents.Business.Mappings
                     OutilId = x,
                 }).ToList()
                   ))
-                .ForMember(dest => dest.Projets, opt => opt.MapFrom(src => src.Projets)
+                .ForMember(dest => dest.ProjetsOrMissionsClient, opt => opt.MapFrom(src => src.ProjetsOrMissionsClient)
                  );
 
             CreateMap<Experience, ExperienceDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
-                .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.Entreprise))
-                .ForMember(dest => dest.Lieu, opt => opt.MapFrom(src => src.Lieu))
+                .ForMember(dest => dest.NomEntreprise, opt => opt.MapFrom(src => src.NomEntreprise))
+                .ForMember(dest => dest.LieuEntreprise, opt => opt.MapFrom(src => src.LieuEntreprise))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.DomaineMetier, opt => opt.MapFrom(src => src.DomaineMetier))
                 .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
                 .ForMember(dest => dest.TypeContrat, opt => opt.MapFrom(src => src.TypeContrat))
                 .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
                 .ForMember(dest => dest.Budget, opt => opt.MapFrom(src => src.Budget))
-                .ForMember(dest => dest.ClientFinal, opt => opt.MapFrom(src => src.ClientFinal))
+                .ForMember(dest => dest.IsEntrepriseEsnOrInterim, opt => opt.MapFrom(src => src.IsEntrepriseEsnOrInterim))
+                .ForMember(dest => dest.CompositionEquipe, opt => opt.MapFrom(src => src.CompositionEquipe))
                 .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.LiaisonExperienceTechnologies.Select(x => x.Technologie)))
                 .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences.Select(x => x.Competance)))
                 .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)))
                 .ForMember(dest => dest.Outils, opt => opt.MapFrom(src => src.LiaisonExperienceOutils.Select(x => x.Outil)))
-                .ForMember(dest => dest.Projets, opt => opt.MapFrom(src => src.Projets));
+                .ForMember(dest => dest.ProjetsOrMissionsClient, opt => opt.MapFrom(src => src.ProjetsOrMissionsClient));
 
             CreateMap<Certification, FormationCertificationDto>()
               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
