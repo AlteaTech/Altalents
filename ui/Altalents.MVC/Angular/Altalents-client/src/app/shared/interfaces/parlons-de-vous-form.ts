@@ -11,4 +11,5 @@ export interface ParlonsDeVousForm {
     codePostal: FormControl<string | null>,
     ville: FormControl<string | null>,
     pays: FormControl<string | null>,
+    synthese: FormControl<string | null>
 }

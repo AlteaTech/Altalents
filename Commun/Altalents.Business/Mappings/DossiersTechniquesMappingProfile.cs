@@ -110,7 +110,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.LiaisonExperienceTechnologies.Select(x => x.Technologie)))
                 .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences.Select(x => x.Competance)))
                 .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceMethodologies.Select(x => x.Methodologie)))
-                .ForMember(dest => dest.Methodologies, opt => opt.MapFrom(src => src.LiaisonExperienceOutils.Select(x => x.Outil)))
+                .ForMember(dest => dest.Outils, opt => opt.MapFrom(src => src.LiaisonExperienceOutils.Select(x => x.Outil)))
                 .ForMember(dest => dest.Projets, opt => opt.MapFrom(src => src.Projets));
 
             CreateMap<Certification, FormationCertificationDto>()
@@ -157,7 +157,6 @@ namespace Altalents.Business.Mappings
             CreateMap<LangueParleeRequestDto, DossierTechniqueLangue>()
                 .ForMember(dest => dest.NiveauId, opt => opt.MapFrom(src => src.NiveauId))
                 .ForMember(dest => dest.LangueId, opt => opt.MapFrom(src => src.LangueId));
-
         }
     }
 }

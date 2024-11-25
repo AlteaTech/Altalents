@@ -37,7 +37,8 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       adresse2: new FormControl(null),
       codePostal: new FormControl('', Validators.required, ValidateIsNumber()),
       ville: new FormControl('', Validators.required),
-      pays: new FormControl('', Validators.required)
+      pays: new FormControl('', Validators.required),
+      synthese : new FormControl('', Validators.required),
     });
     this.populateData();
   }
@@ -56,7 +57,8 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
             adresse2: response.adresse?.adresse2,
             codePostal: response.adresse?.codePostal,
             ville: response.adresse?.ville,
-            pays: response.adresse?.pays
+            pays: response.adresse?.pays,
+            synthese : response.synthese,
           });
           this.isLoading = false;
         }));
@@ -94,6 +96,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
     requestDto.telephone2 = values.numeroTelephone2;
     requestDto.email = values.adresseMail ?? "";
     requestDto.adresse = adresseRequestDto;
+    requestDto.synthese = values.synthese;
     return requestDto;
   }
 }

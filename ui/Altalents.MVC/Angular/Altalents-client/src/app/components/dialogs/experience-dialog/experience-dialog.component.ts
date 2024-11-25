@@ -44,6 +44,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       technologies: new FormControl(),
       competences: new FormControl(),
       methodologies: new FormControl(),
+      outils : new FormControl(),
       isBudgetGere: new FormControl(),
       budgetGere: new FormControl()
     });
@@ -142,9 +143,11 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       experience.technologies = values.technologies ?? [];
       experience.competences = values.competences ?? [];
       experience.methodologies = values.methodologies ?? [];
+      experience.outils = values.outils ?? [];
       experience.budgetGere = values.budgetGere ?? undefined;
       
       this.activeModal.close(experience);
+
     } else {
       this.formGroup.markAllAsTouched();
     }
@@ -164,5 +167,9 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
   public onSelectedMethodologiesChange(methodologies: Reference[]): void {
     this.formGroup.controls.methodologies.setValue(methodologies);
+  }
+
+  public onSelectedOutilsChange(outils: Reference[]): void {
+    this.formGroup.controls.outils.setValue(outils);
   }
 }

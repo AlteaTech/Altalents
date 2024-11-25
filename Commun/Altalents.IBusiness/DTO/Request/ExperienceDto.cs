@@ -24,6 +24,7 @@ namespace Altalents.IBusiness.DTO.Request
         public List<ReferenceDto> Technologies{ get; set; }
         public List<ReferenceDto> Methodologies { get; set; }
         public List<ReferenceDto> Competences { get; set; }
+        public List<ReferenceDto> Outils { get; set; }
         public List<ProjetDto> Projets{ get; set; }
     }
 }
