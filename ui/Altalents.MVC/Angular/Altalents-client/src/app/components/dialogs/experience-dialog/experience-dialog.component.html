@@ -79,7 +79,7 @@
                         <input type="checkbox" formControlName="isClientFinal" (change)="updateInputClientFinal()">
                         <span class="slider"></span>
                     </label>
-                    <label for="clientFinal" class="ms-2">Client final</label>
+                    <label for="clientFinal" class="ms-2">l'entreprise est une ESN</label>
                 </div>
                 <div class="col-lg-3">
                     <input type="text" formControlName="clientFinal" placeholder="Nom du client final" class="form-control">
@@ -118,8 +118,11 @@
                     </div>
                 </div>
                 <div class=col-lg-3>
-                    <input type="text" formControlName="domaineMetier" class="form-control"
-                        placeholder="Services secrets">
+                    <select formControlName="domaineMetier" class="form-select">
+                        <option *ngFor="let domaine of domaines" [ngValue]="domaine">
+                            {{domaine.libelle}}
+                        </option>
+                    </select>
                 </div>
                 <div class="col-lg-3 label-champ-input">
                     <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
@@ -168,7 +171,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 label-champ-input">
-                    <label for="outils" class="col-form-label">Outils</label>
+                    <label for="outil" class="col-form-label">Outils</label>
                 </div>
                 <div class="col-lg-9">
                     <app-multiple-autocomplete placeholder="Visual studio, Ms project, etc"

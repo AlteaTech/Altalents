@@ -109,13 +109,13 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       let experienceDto = new ExperienceRequestDto();
       experienceDto.typeContratId = experience.typeContrat.id;
       experienceDto.intitulePoste = experience.intitulePoste;
-      experienceDto.entreprise = experience.entreprise;
-      experienceDto.clientFinal = experience.clientFinal;
+      experienceDto.entreprise = experience.nomEntreprise;
+      experienceDto.isEntrepriseEsnOrInterim = experience.IsEntrepriseEsnOrInterim;
       experienceDto.dateDebut = formatDate(experience.dateDebut, Constantes.formatDateBack, Constantes.formatDateLocale);
       experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
       experienceDto.lieu = experience.lieu;
       experienceDto.description = experience.description;
-      experienceDto.domaineMetier = experience.domaineMetier;
+      experienceDto.domaineMetierId = experience.domaineMetier.id;
       experienceDto.technologieIds = [];  
       experience.technologies?.forEach(x => {
         experienceDto.technologieIds?.push(x.id);
@@ -127,6 +127,10 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experienceDto.methodologieIds = [];
       experience.methodologies?.forEach(x => {
         experienceDto.methodologieIds?.push(x.id);
+      })
+      experienceDto.outilIds = [];
+      experience.outils?.forEach(x => {
+        experienceDto.outilIds?.push(x.id);
       })
       experienceDto.budget = experience.budgetGere;
     

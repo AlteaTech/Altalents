@@ -1,3 +1,5 @@
+using Altalents.Commun.Constants;
+
 namespace Altalents.DataAccess.EntityConfigurations
 {
     internal class ExperiencesEntityConfiguration : IEntityTypeConfiguration<Experience>
@@ -11,29 +13,23 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250)
                 .IsRequired();
-            builder.Property(e => e.Entreprise)
+            builder.Property(e => e.NomEntreprise)
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250);
-            builder.Property(e => e.Lieu)
+            builder.Property(e => e.LieuEntreprise)
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250)
                 .IsRequired();
             builder.Property(e => e.Description)
                 .HasColumnType("varchar(max)")
                 .IsRequired();
-            builder.Property(e => e.DomaineMetier)
-                .HasColumnType("varchar")
-                .HasMaxLength(250)
-                .IsRequired();
-            builder.Property(e => e.ClientFinal)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(250);
-
             builder.Property(e => e.DateDebut)
                 .HasColumnType("datetime")
                 .IsRequired();
             builder.Property(e => e.DateFin)
                 .HasColumnType("datetime");
+            builder.Property(e => e.DomaineMetierId)
+                .HasDefaultValue(new Guid(IdsConstantes.DomaineAutreId));
 
             builder.HasMany(navigationExpression: e => e.LiaisonExperienceTechnologies)
                 .WithOne(x => x.Experience)
@@ -46,6 +42,11 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.LiaisonExperienceMethodologies)
+                .WithOne(x => x.Experience)
+                .HasForeignKey(e => e.ExperienceId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(navigationExpression: e => e.LiaisonExperienceOutils)
                 .WithOne(x => x.Experience)
                 .HasForeignKey(e => e.ExperienceId)
                 .OnDelete(DeleteBehavior.Cascade);

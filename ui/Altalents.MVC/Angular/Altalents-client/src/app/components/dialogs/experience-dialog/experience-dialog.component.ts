@@ -22,6 +22,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public experience?: Experience;
   public formGroup: FormGroup<ExperienceForm>;
   public typesContrats: Reference[] = [];
+  public domaines: Reference[] = [];
   public constantesRequest = ConstantesRequest;
   public constantesTypesReferences = ConstantesTypesReferences;
 
@@ -55,10 +56,12 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     if (this.experience) {
       this.formGroup.patchValue({
+        typeContrat : this.experience.typeContrat,
         intitulePoste: this.experience.intitulePoste,
-        entreprise: this.experience.entreprise,
-        clientFinal: this.experience.clientFinal,
-        isClientFinal: this.experience.clientFinal ? true : false,
+        entreprise: this.experience.nomEntreprise,
+        
+        // clientFinal: this.experience.clientFinal,
+        // isClientFinal: this.experience.clientFinal ? true : false,
         dateDebut: formatDate(this.experience.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale),
         dateFin: this.experience.dateFin ? formatDate(this.experience.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
         isPosteActuel: !this.experience.dateFin,
@@ -110,7 +113,23 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   }
 
   public populateData(): void {
+
+
     this.isLoading = true;
+    const nbAppelsAsync = 2;
+
+    this.callRequest(ConstantesRequest.getReferencesDomaines, this.service.getReferences(ConstantesTypesReferences.domaine)
+        .subscribe((response: ReferenceDto[]) => {
+          this.domaines = Reference.fromListReferenceDto(response);
+          if(this.experience) {
+            const type: Reference = this.domaines.find(x => x.id == this.experience!.domaineMetier.id) ?? this.typesContrats[0];
+            this.formGroup.controls.typeContrat.setValue(type);
+          } else {
+            this.formGroup.controls.typeContrat.setValue(this.typesContrats[0]);
+          }
+          this.checkLoadingTermine(nbAppelsAsync);
+        }));
+
     this.callRequest(ConstantesRequest.getReferencesTypesContrats, this.service.getReferences(ConstantesTypesReferences.typeContrat)
         .subscribe((response: ReferenceDto[]) => {
           this.typesContrats = Reference.fromListReferenceDto(response);
@@ -121,8 +140,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
           } else {
             this.formGroup.controls.typeContrat.setValue(this.typesContrats[0]);
           }
-          
-          this.isLoading = false;
+          this.checkLoadingTermine(nbAppelsAsync);
         }));
   }
 
@@ -132,13 +150,14 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       let experience: Experience = this.experience ?? new Experience();
       experience.typeContrat = values.typeContrat ?? new Reference();
       experience.intitulePoste = values.intitulePoste ?? "";
-      experience.entreprise = values.entreprise ?? "";
-      experience.clientFinal = values.clientFinal ?? undefined;
+      experience.nomEntreprise = values.entreprise ?? "";
+      //TODO
+      // experience.IsEntrepriseEsnOrInterim = values.is;
       experience.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
       experience.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
       experience.lieu = values.lieu ?? "";
       experience.description = values.description ?? "";
-      experience.domaineMetier = values.domaineMetier ?? "";
+      experience.domaineMetier = values.domaineMetier ?? new Reference();
       experience.compositionEquipe = values.compositionEquipe ?? undefined;
       experience.technologies = values.technologies ?? [];
       experience.competences = values.competences ?? [];

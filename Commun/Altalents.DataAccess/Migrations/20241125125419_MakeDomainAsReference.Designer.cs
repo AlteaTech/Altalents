@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20241125125419_MakeDomainAsReference")]
+    partial class MakeDomainAsReference
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -390,8 +393,9 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<decimal?>("Budget")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("CompositionEquipe")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ClientFinal")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar");
 
                     b.Property<DateTime>("DateCrea")
                         .HasColumnType("datetime");
@@ -409,7 +413,7 @@ namespace Altalents.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(max)");
 
-                    b.Property<Guid>("DomaineMetierId")
+                    b.Property<Guid>("DomaineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValue(new Guid("3b2315eb-7b6d-40dd-b53c-bbd5eb85d3d4"));
@@ -417,20 +421,17 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<Guid>("DossierTechniqueId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Entreprise")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar");
+
                     b.Property<string>("IntitulePoste")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar");
 
-                    b.Property<bool>("IsEntrepriseEsnOrInterim")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LieuEntreprise")
+                    b.Property<string>("Lieu")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar");
-
-                    b.Property<string>("NomEntreprise")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar");
 
@@ -448,7 +449,7 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DomaineMetierId");
+                    b.HasIndex("DomaineId");
 
                     b.HasIndex("DossierTechniqueId");
 
@@ -732,43 +733,25 @@ namespace Altalents.DataAccess.Migrations
                     b.ToTable("Personnes", (string)null);
                 });
 
-            modelBuilder.Entity("Altalents.Entities.ProjetOrMissionClient", b =>
+            modelBuilder.Entity("Altalents.Entities.Projet", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal?>("Budget")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CompositionEquipe")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateCrea")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateDebut")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateFin")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateMaj")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DescriptionProjetOrMission")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("DomaineMetierId")
+                    b.Property<Guid?>("ExperienceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ExperienceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Lieu")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NomClientOrProjet")
+                    b.Property<string>("Nom")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Taches")
@@ -782,11 +765,9 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DomaineMetierId");
-
                     b.HasIndex("ExperienceId");
 
-                    b.ToTable("ProjetOrMissionClient");
+                    b.ToTable("Projet");
                 });
 
             modelBuilder.Entity("Altalents.Entities.QuestionDossierTechnique", b =>
@@ -1830,7 +1811,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("e37ab257-7c00-4a8a-b71f-681ad18d1de2"),
                             Code = "ActivitesJuridiquesEtComptables",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7579),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(7982),
                             IsValide = true,
                             Libelle = "Activités Juridiques Et Comptables",
                             OrdreTri = 1,
@@ -1841,7 +1822,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("21d2b28e-9d36-4d4d-8f01-f62d0ea149ef"),
                             Code = "AgricultureEtElevage",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7639),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8074),
                             IsValide = true,
                             Libelle = "Agriculture Et Élevage",
                             OrdreTri = 1,
@@ -1852,7 +1833,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("650e788b-86b9-4884-a4eb-3582eb4f1d0d"),
                             Code = "ArchitectureEtudesEtNormes",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7644),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8080),
                             IsValide = true,
                             Libelle = "Architecture Études Et Normes",
                             OrdreTri = 1,
@@ -1863,7 +1844,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("95b23bbb-a76b-4ed5-ba30-0ff4c1eb8870"),
                             Code = "ArtAudiovisuelEtSpectacle",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7648),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8086),
                             IsValide = true,
                             Libelle = "Art Audiovisuel Et Spectacle",
                             OrdreTri = 1,
@@ -1874,7 +1855,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("89810245-c71d-4772-b648-3fa7b626ea69"),
                             Code = "Automobile",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7658),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8091),
                             IsValide = true,
                             Libelle = "Automobile",
                             OrdreTri = 1,
@@ -1885,7 +1866,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("5557465c-07ad-4ffe-85e3-bf8c2c34a07f"),
                             Code = "BatimentEtTravauxPublic",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7661),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8096),
                             IsValide = true,
                             Libelle = "Bâtiment Et Travaux Publics",
                             OrdreTri = 1,
@@ -1896,7 +1877,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("4055b77d-03a0-44f8-84dd-926fdb07f568"),
                             Code = "CommerceEtDistribution",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7665),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8101),
                             IsValide = true,
                             Libelle = "Commerce Et Distribution",
                             OrdreTri = 1,
@@ -1907,7 +1888,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("babdff53-7380-48df-81ca-30e6da210010"),
                             Code = "CommunicationMarketing",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7668),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8106),
                             IsValide = true,
                             Libelle = "Communication Et Marketing",
                             OrdreTri = 1,
@@ -1918,7 +1899,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("f05c980c-fd2d-454c-81d9-9afaa2f4b822"),
                             Code = "CulturePatrimoine",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7672),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8111),
                             IsValide = true,
                             Libelle = "Culture Et Patrimoine",
                             OrdreTri = 1,
@@ -1929,7 +1910,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("c24eefc2-f4ba-463b-88fa-dca5f83e9d6f"),
                             Code = "Edition",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7676),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8117),
                             IsValide = true,
                             Libelle = "Édition",
                             OrdreTri = 1,
@@ -1940,7 +1921,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("68940f3a-8d1a-43fe-afe9-a088fbf840f2"),
                             Code = "Energie",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7679),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8122),
                             IsValide = true,
                             Libelle = "Énergie",
                             OrdreTri = 1,
@@ -1951,7 +1932,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("413c2810-d35c-4164-9021-73f5e50bad2b"),
                             Code = "EnseignementEtFormation",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7682),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8127),
                             IsValide = true,
                             Libelle = "Enseignement Et Formation",
                             OrdreTri = 1,
@@ -1962,7 +1943,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("f0d37651-b240-46d7-a6a1-e01aeb2b6b08"),
                             Code = "Environnement",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7686),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8132),
                             IsValide = true,
                             Libelle = "Environnement",
                             OrdreTri = 1,
@@ -1973,7 +1954,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("7b41cb52-4dbe-451e-bf7c-51d01a04e7e9"),
                             Code = "FinanceBanqueEtAssurance",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7689),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8137),
                             IsValide = true,
                             Libelle = "Finance Banque Et Assurance",
                             OrdreTri = 1,
@@ -1984,7 +1965,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("bc9e9fa2-b46a-4974-9961-8814be2aa9f5"),
                             Code = "GestionAdministrativeEtRessourcesHumaine",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7693),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8142),
                             IsValide = true,
                             Libelle = "Gestion Administrative Et Ressources Humaines",
                             OrdreTri = 1,
@@ -1995,7 +1976,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("8c479024-2491-4d30-99bf-c2d0948d36e6"),
                             Code = "HotellerieEtRestauration",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7696),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8148),
                             IsValide = true,
                             Libelle = "Hôtellerie Et Restauration",
                             OrdreTri = 1,
@@ -2006,7 +1987,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("4052f410-0ded-4078-b065-46139c5f7f42"),
                             Code = "Immobilier",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7700),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8153),
                             IsValide = true,
                             Libelle = "Immobilier",
                             OrdreTri = 1,
@@ -2017,7 +1998,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("f57fc24d-d771-4de2-8c56-180728b027ce"),
                             Code = "Industrie",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7704),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8158),
                             IsValide = true,
                             Libelle = "Industrie",
                             OrdreTri = 1,
@@ -2028,7 +2009,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("939d7426-2069-4100-a8db-5ec86082fd49"),
                             Code = "InformatiqueEtTelecommunication",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7707),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8163),
                             IsValide = true,
                             Libelle = "Informatique Et Télécommunication",
                             OrdreTri = 1,
@@ -2039,7 +2020,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("93123d1d-aa63-4e9a-b89c-72db6e616f76"),
                             Code = "LogistiqueEtTransport",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7711),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8168),
                             IsValide = true,
                             Libelle = "Logistique Et Transport",
                             OrdreTri = 1,
@@ -2050,7 +2031,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("74536288-8a56-4ab1-9410-e9203bbaa60d"),
                             Code = "MaintenanceEntretienEtNotoyage",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7714),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8174),
                             IsValide = true,
                             Libelle = "Maintenance Entretien Et Nettoyage",
                             OrdreTri = 1,
@@ -2061,7 +2042,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("7c1c4f41-e0e6-4b32-897c-db2799ea8b29"),
                             Code = "Recherche",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7718),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8179),
                             IsValide = true,
                             Libelle = "Recherche",
                             OrdreTri = 1,
@@ -2072,7 +2053,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("53f64464-3ac1-4440-9cbe-c629c0244ec7"),
                             Code = "Santé",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7721),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8191),
                             IsValide = true,
                             Libelle = "Santé",
                             OrdreTri = 1,
@@ -2083,7 +2064,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("804109be-d3de-4745-a8aa-e6535e1c3151"),
                             Code = "ServiceALaPersonne",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7725),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8196),
                             IsValide = true,
                             Libelle = "Service À La Personne",
                             OrdreTri = 1,
@@ -2094,7 +2075,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("85e06dc8-abe0-4eb7-85df-c8f67d2f2cca"),
                             Code = "ServicePublicDefenseSecurite",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7728),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8201),
                             IsValide = true,
                             Libelle = "Service Public Défense Et Sécurité",
                             OrdreTri = 1,
@@ -2105,7 +2086,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("a1cba742-7102-432e-b7a0-55eacf200761"),
                             Code = "Social",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7732),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8207),
                             IsValide = true,
                             Libelle = "Social",
                             OrdreTri = 1,
@@ -2116,7 +2097,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("f5f43903-c3f7-47fd-a207-98887dd59e87"),
                             Code = "SportAnimationLoisir",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7735),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8212),
                             IsValide = true,
                             Libelle = "Sport, Animation Et Loisir",
                             OrdreTri = 1,
@@ -2127,7 +2108,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("41a511c4-eac4-4411-9fcc-2dad63333206"),
                             Code = "Tourismne",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7739),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8217),
                             IsValide = true,
                             Libelle = "Tourisme",
                             OrdreTri = 1,
@@ -2138,7 +2119,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("3b2315eb-7b6d-40dd-b53c-bbd5eb85d3d4"),
                             Code = "Tourismne",
-                            DateCrea = new DateTime(2024, 11, 25, 16, 17, 30, 377, DateTimeKind.Local).AddTicks(7743),
+                            DateCrea = new DateTime(2024, 11, 25, 13, 54, 18, 309, DateTimeKind.Local).AddTicks(8224),
                             IsValide = true,
                             Libelle = "Autre",
                             OrdreTri = 1,
@@ -2386,9 +2367,9 @@ namespace Altalents.DataAccess.Migrations
 
             modelBuilder.Entity("Altalents.Entities.Experience", b =>
                 {
-                    b.HasOne("Altalents.Entities.Reference", "DomaineMetier")
+                    b.HasOne("Altalents.Entities.Reference", "Domaine")
                         .WithMany("DomaineExperiences")
-                        .HasForeignKey("DomaineMetierId")
+                        .HasForeignKey("DomaineId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -2404,7 +2385,7 @@ namespace Altalents.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("DomaineMetier");
+                    b.Navigation("Domaine");
 
                     b.Navigation("DossierTechnique");
 
@@ -2509,21 +2490,11 @@ namespace Altalents.DataAccess.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("Altalents.Entities.ProjetOrMissionClient", b =>
+            modelBuilder.Entity("Altalents.Entities.Projet", b =>
                 {
-                    b.HasOne("Altalents.Entities.Reference", "DomaineMetier")
-                        .WithMany()
-                        .HasForeignKey("DomaineMetierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Altalents.Entities.Experience", "Experience")
-                        .WithMany("ProjetsOrMissionsClient")
-                        .HasForeignKey("ExperienceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DomaineMetier");
+                        .WithMany("Projets")
+                        .HasForeignKey("ExperienceId");
 
                     b.Navigation("Experience");
                 });
@@ -2563,7 +2534,7 @@ namespace Altalents.DataAccess.Migrations
 
                     b.Navigation("LiaisonExperienceTechnologies");
 
-                    b.Navigation("ProjetsOrMissionsClient");
+                    b.Navigation("Projets");
                 });
 
             modelBuilder.Entity("Altalents.Entities.Personne", b =>

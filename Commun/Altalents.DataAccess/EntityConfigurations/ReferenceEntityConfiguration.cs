@@ -66,10 +66,15 @@ namespace Altalents.DataAccess.EntityConfigurations
 .HasForeignKey(e => e.NiveauId)
 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(navigationExpression: e => e.Experiences)
+            builder.HasMany(navigationExpression: e => e.TypeContratExperiences)
  .WithOne(x => x.TypeContrat)
  .HasForeignKey(e => e.TypeContratId)
- .OnDelete(DeleteBehavior.Cascade);
+ .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(navigationExpression: e => e.DomaineExperiences)
+.WithOne(x => x.DomaineMetier)
+.HasForeignKey(e => e.DomaineMetierId)
+.OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(navigationExpression: e => e.LiaisonExperienceTechnologies)
  .WithOne(x => x.Technologie)
@@ -765,7 +770,8 @@ new () { Libelle = "Service À La Personne", Id = Guid.Parse("804109be-d3de-4745
 new () { Libelle = "Service Public Défense Et Sécurité", Id = Guid.Parse("85e06dc8-abe0-4eb7-85df-c8f67d2f2cca"), DateCrea = DateTime.Now, UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.ServicePublicDefenseSecurite.ToString("g") },
 new () { Libelle = "Social", Id = Guid.Parse("a1cba742-7102-432e-b7a0-55eacf200761"), DateCrea = DateTime.Now, UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.Social.ToString("g") },
 new () { Libelle = "Sport, Animation Et Loisir", Id = Guid.Parse("f5f43903-c3f7-47fd-a207-98887dd59e87"), DateCrea = DateTime.Now, UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.SportAnimationLoisir.ToString("g") },
-new () { Libelle = "Tourisme", Id = Guid.Parse("41a511c4-eac4-4411-9fcc-2dad63333206"), DateCrea = DateTime.Now, UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.Tourismne.ToString("g") }
+new () { Libelle = "Tourisme", Id = Guid.Parse("41a511c4-eac4-4411-9fcc-2dad63333206"), DateCrea = DateTime.Now, UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.Tourismne.ToString("g") },
+new () { Libelle = "Autre", Id = Guid.Parse(IdsConstantes.DomaineAutreId), DateCrea = DateTime.Now, UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.Tourismne.ToString("g") }
 
              #endregion
             });

@@ -2413,20 +2413,21 @@ export interface IDossierTechniqueInsertRequestDto {
 export class ExperienceDto implements IExperienceDto {
     id!: string;
     intitulePoste!: string;
-    entreprise!: string;
-    lieu!: string;
+    nomEntreprise!: string;
+    lieuEntreprise!: string;
     description!: string;
-    domaineMetier!: string;
+    domaineMetier!: ReferenceDto;
     dateDebut!: string;
     typeContrat!: ReferenceDto;
+    isEntrepriseEsnOrInterim!: boolean;
     dateFin?: string | null;
     budget?: number | null;
-    clientFinal?: string | null;
+    compositionEquipe?: string | null;
     technologies?: ReferenceDto[] | null;
     methodologies?: ReferenceDto[] | null;
     competences?: ReferenceDto[] | null;
     outils?: ReferenceDto[] | null;
-    projets?: ProjetDto[] | null;
+    projetsOrMissionsClient?: ProjetOrMissionClientDto[] | null;
 
     constructor(data?: IExperienceDto) {
         if (data) {
@@ -2436,6 +2437,7 @@ export class ExperienceDto implements IExperienceDto {
             }
         }
         if (!data) {
+            this.domaineMetier = new ReferenceDto();
             this.typeContrat = new ReferenceDto();
         }
     }
@@ -2444,15 +2446,16 @@ export class ExperienceDto implements IExperienceDto {
         if (_data) {
             this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
             this.intitulePoste = _data["IntitulePoste"] !== undefined ? _data["IntitulePoste"] : <any>null;
-            this.entreprise = _data["Entreprise"] !== undefined ? _data["Entreprise"] : <any>null;
-            this.lieu = _data["Lieu"] !== undefined ? _data["Lieu"] : <any>null;
+            this.nomEntreprise = _data["NomEntreprise"] !== undefined ? _data["NomEntreprise"] : <any>null;
+            this.lieuEntreprise = _data["LieuEntreprise"] !== undefined ? _data["LieuEntreprise"] : <any>null;
             this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
-            this.domaineMetier = _data["DomaineMetier"] !== undefined ? _data["DomaineMetier"] : <any>null;
+            this.domaineMetier = _data["DomaineMetier"] ? ReferenceDto.fromJS(_data["DomaineMetier"]) : new ReferenceDto();
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
             this.typeContrat = _data["TypeContrat"] ? ReferenceDto.fromJS(_data["TypeContrat"]) : new ReferenceDto();
+            this.isEntrepriseEsnOrInterim = _data["IsEntrepriseEsnOrInterim"] !== undefined ? _data["IsEntrepriseEsnOrInterim"] : <any>null;
             this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
             this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
-            this.clientFinal = _data["ClientFinal"] !== undefined ? _data["ClientFinal"] : <any>null;
+            this.compositionEquipe = _data["CompositionEquipe"] !== undefined ? _data["CompositionEquipe"] : <any>null;
             if (Array.isArray(_data["Technologies"])) {
                 this.technologies = [] as any;
                 for (let item of _data["Technologies"])
@@ -2485,13 +2488,13 @@ export class ExperienceDto implements IExperienceDto {
             else {
                 this.outils = <any>null;
             }
-            if (Array.isArray(_data["Projets"])) {
-                this.projets = [] as any;
-                for (let item of _data["Projets"])
-                    this.projets!.push(ProjetDto.fromJS(item));
+            if (Array.isArray(_data["ProjetsOrMissionsClient"])) {
+                this.projetsOrMissionsClient = [] as any;
+                for (let item of _data["ProjetsOrMissionsClient"])
+                    this.projetsOrMissionsClient!.push(ProjetOrMissionClientDto.fromJS(item));
             }
             else {
-                this.projets = <any>null;
+                this.projetsOrMissionsClient = <any>null;
             }
         }
     }
@@ -2507,15 +2510,16 @@ export class ExperienceDto implements IExperienceDto {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id !== undefined ? this.id : <any>null;
         data["IntitulePoste"] = this.intitulePoste !== undefined ? this.intitulePoste : <any>null;
-        data["Entreprise"] = this.entreprise !== undefined ? this.entreprise : <any>null;
-        data["Lieu"] = this.lieu !== undefined ? this.lieu : <any>null;
+        data["NomEntreprise"] = this.nomEntreprise !== undefined ? this.nomEntreprise : <any>null;
+        data["LieuEntreprise"] = this.lieuEntreprise !== undefined ? this.lieuEntreprise : <any>null;
         data["Description"] = this.description !== undefined ? this.description : <any>null;
-        data["DomaineMetier"] = this.domaineMetier !== undefined ? this.domaineMetier : <any>null;
+        data["DomaineMetier"] = this.domaineMetier ? this.domaineMetier.toJSON() : <any>null;
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
         data["TypeContrat"] = this.typeContrat ? this.typeContrat.toJSON() : <any>null;
+        data["IsEntrepriseEsnOrInterim"] = this.isEntrepriseEsnOrInterim !== undefined ? this.isEntrepriseEsnOrInterim : <any>null;
         data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
         data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
-        data["ClientFinal"] = this.clientFinal !== undefined ? this.clientFinal : <any>null;
+        data["CompositionEquipe"] = this.compositionEquipe !== undefined ? this.compositionEquipe : <any>null;
         if (Array.isArray(this.technologies)) {
             data["Technologies"] = [];
             for (let item of this.technologies)
@@ -2536,10 +2540,10 @@ export class ExperienceDto implements IExperienceDto {
             for (let item of this.outils)
                 data["Outils"].push(item.toJSON());
         }
-        if (Array.isArray(this.projets)) {
-            data["Projets"] = [];
-            for (let item of this.projets)
-                data["Projets"].push(item.toJSON());
+        if (Array.isArray(this.projetsOrMissionsClient)) {
+            data["ProjetsOrMissionsClient"] = [];
+            for (let item of this.projetsOrMissionsClient)
+                data["ProjetsOrMissionsClient"].push(item.toJSON());
         }
         return data;
     }
@@ -2548,20 +2552,21 @@ export class ExperienceDto implements IExperienceDto {
 export interface IExperienceDto {
     id: string;
     intitulePoste: string;
-    entreprise: string;
-    lieu: string;
+    nomEntreprise: string;
+    lieuEntreprise: string;
     description: string;
-    domaineMetier: string;
+    domaineMetier: ReferenceDto;
     dateDebut: string;
     typeContrat: ReferenceDto;
+    isEntrepriseEsnOrInterim: boolean;
     dateFin?: string | null;
     budget?: number | null;
-    clientFinal?: string | null;
+    compositionEquipe?: string | null;
     technologies?: ReferenceDto[] | null;
     methodologies?: ReferenceDto[] | null;
     competences?: ReferenceDto[] | null;
     outils?: ReferenceDto[] | null;
-    projets?: ProjetDto[] | null;
+    projetsOrMissionsClient?: ProjetOrMissionClientDto[] | null;
 }
 
 export class ExperienceRequestDto implements IExperienceRequestDto {
@@ -2569,17 +2574,18 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
     entreprise!: string;
     lieu!: string;
     description!: string;
-    domaineMetier!: string;
+    domaineMetierId!: string;
     dateDebut!: string;
     typeContratId!: string;
     dateFin?: string | null;
     budget?: number | null;
-    clientFinal?: string | null;
+    isEntrepriseEsnOrInterim?: boolean;
+    compositionEquipe?: string | null;
     technologieIds?: string[] | null;
     methodologieIds?: string[] | null;
     competenceIds?: string[] | null;
     outilIds?: string[] | null;
-    projets?: ProjetRequestDto[] | null;
+    projetsOrMissionsClient?: ProjetOrMissionClientRequestDto[] | null;
 
     constructor(data?: IExperienceRequestDto) {
         if (data) {
@@ -2596,12 +2602,13 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
             this.entreprise = _data["Entreprise"] !== undefined ? _data["Entreprise"] : <any>null;
             this.lieu = _data["Lieu"] !== undefined ? _data["Lieu"] : <any>null;
             this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
-            this.domaineMetier = _data["DomaineMetier"] !== undefined ? _data["DomaineMetier"] : <any>null;
+            this.domaineMetierId = _data["DomaineMetierId"] !== undefined ? _data["DomaineMetierId"] : <any>null;
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
             this.typeContratId = _data["TypeContratId"] !== undefined ? _data["TypeContratId"] : <any>null;
             this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
             this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
-            this.clientFinal = _data["ClientFinal"] !== undefined ? _data["ClientFinal"] : <any>null;
+            this.isEntrepriseEsnOrInterim = _data["IsEntrepriseEsnOrInterim"] !== undefined ? _data["IsEntrepriseEsnOrInterim"] : <any>null;
+            this.compositionEquipe = _data["CompositionEquipe"] !== undefined ? _data["CompositionEquipe"] : <any>null;
             if (Array.isArray(_data["TechnologieIds"])) {
                 this.technologieIds = [] as any;
                 for (let item of _data["TechnologieIds"])
@@ -2634,13 +2641,13 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
             else {
                 this.outilIds = <any>null;
             }
-            if (Array.isArray(_data["Projets"])) {
-                this.projets = [] as any;
-                for (let item of _data["Projets"])
-                    this.projets!.push(ProjetRequestDto.fromJS(item));
+            if (Array.isArray(_data["ProjetsOrMissionsClient"])) {
+                this.projetsOrMissionsClient = [] as any;
+                for (let item of _data["ProjetsOrMissionsClient"])
+                    this.projetsOrMissionsClient!.push(ProjetOrMissionClientRequestDto.fromJS(item));
             }
             else {
-                this.projets = <any>null;
+                this.projetsOrMissionsClient = <any>null;
             }
         }
     }
@@ -2658,12 +2665,13 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
         data["Entreprise"] = this.entreprise !== undefined ? this.entreprise : <any>null;
         data["Lieu"] = this.lieu !== undefined ? this.lieu : <any>null;
         data["Description"] = this.description !== undefined ? this.description : <any>null;
-        data["DomaineMetier"] = this.domaineMetier !== undefined ? this.domaineMetier : <any>null;
+        data["DomaineMetierId"] = this.domaineMetierId !== undefined ? this.domaineMetierId : <any>null;
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
         data["TypeContratId"] = this.typeContratId !== undefined ? this.typeContratId : <any>null;
         data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
         data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
-        data["ClientFinal"] = this.clientFinal !== undefined ? this.clientFinal : <any>null;
+        data["IsEntrepriseEsnOrInterim"] = this.isEntrepriseEsnOrInterim !== undefined ? this.isEntrepriseEsnOrInterim : <any>null;
+        data["CompositionEquipe"] = this.compositionEquipe !== undefined ? this.compositionEquipe : <any>null;
         if (Array.isArray(this.technologieIds)) {
             data["TechnologieIds"] = [];
             for (let item of this.technologieIds)
@@ -2684,10 +2692,10 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
             for (let item of this.outilIds)
                 data["OutilIds"].push(item);
         }
-        if (Array.isArray(this.projets)) {
-            data["Projets"] = [];
-            for (let item of this.projets)
-                data["Projets"].push(item.toJSON());
+        if (Array.isArray(this.projetsOrMissionsClient)) {
+            data["ProjetsOrMissionsClient"] = [];
+            for (let item of this.projetsOrMissionsClient)
+                data["ProjetsOrMissionsClient"].push(item.toJSON());
         }
         return data;
     }
@@ -2698,17 +2706,18 @@ export interface IExperienceRequestDto {
     entreprise: string;
     lieu: string;
     description: string;
-    domaineMetier: string;
+    domaineMetierId: string;
     dateDebut: string;
     typeContratId: string;
     dateFin?: string | null;
     budget?: number | null;
-    clientFinal?: string | null;
+    isEntrepriseEsnOrInterim?: boolean;
+    compositionEquipe?: string | null;
     technologieIds?: string[] | null;
     methodologieIds?: string[] | null;
     competenceIds?: string[] | null;
     outilIds?: string[] | null;
-    projets?: ProjetRequestDto[] | null;
+    projetsOrMissionsClient?: ProjetOrMissionClientRequestDto[] | null;
 }
 
 export class FormationCertificationDto implements IFormationCertificationDto {
@@ -3215,12 +3224,18 @@ export interface IParlonsDeVousUpdateRequestDto {
     synthese?: string | null;
 }
 
-export class ProjetDto implements IProjetDto {
-    nom?: string | null;
-    description?: string | null;
+export class ProjetOrMissionClientDto implements IProjetOrMissionClientDto {
+    nomClientOrProjet?: string | null;
+    descriptionProjetOrMission?: string | null;
     taches?: string | null;
+    lieu?: string | null;
+    compositionEquipe?: string | null;
+    budget?: number | null;
+    dateDebut?: string | null;
+    dateFin?: string | null;
+    domaineMetier?: ReferenceDto;
 
-    constructor(data?: IProjetDto) {
+    constructor(data?: IProjetOrMissionClientDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -3231,40 +3246,64 @@ export class ProjetDto implements IProjetDto {
 
     init(_data?: any) {
         if (_data) {
-            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
-            this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
+            this.nomClientOrProjet = _data["NomClientOrProjet"] !== undefined ? _data["NomClientOrProjet"] : <any>null;
+            this.descriptionProjetOrMission = _data["DescriptionProjetOrMission"] !== undefined ? _data["DescriptionProjetOrMission"] : <any>null;
             this.taches = _data["Taches"] !== undefined ? _data["Taches"] : <any>null;
+            this.lieu = _data["Lieu"] !== undefined ? _data["Lieu"] : <any>null;
+            this.compositionEquipe = _data["CompositionEquipe"] !== undefined ? _data["CompositionEquipe"] : <any>null;
+            this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
+            this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
+            this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
+            this.domaineMetier = _data["DomaineMetier"] ? ReferenceDto.fromJS(_data["DomaineMetier"]) : <any>null;
         }
     }
 
-    static fromJS(data: any): ProjetDto {
+    static fromJS(data: any): ProjetOrMissionClientDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ProjetDto();
+        let result = new ProjetOrMissionClientDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
-        data["Description"] = this.description !== undefined ? this.description : <any>null;
+        data["NomClientOrProjet"] = this.nomClientOrProjet !== undefined ? this.nomClientOrProjet : <any>null;
+        data["DescriptionProjetOrMission"] = this.descriptionProjetOrMission !== undefined ? this.descriptionProjetOrMission : <any>null;
         data["Taches"] = this.taches !== undefined ? this.taches : <any>null;
+        data["Lieu"] = this.lieu !== undefined ? this.lieu : <any>null;
+        data["CompositionEquipe"] = this.compositionEquipe !== undefined ? this.compositionEquipe : <any>null;
+        data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
+        data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
+        data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
+        data["DomaineMetier"] = this.domaineMetier ? this.domaineMetier.toJSON() : <any>null;
         return data;
     }
 }
 
-export interface IProjetDto {
-    nom?: string | null;
-    description?: string | null;
+export interface IProjetOrMissionClientDto {
+    nomClientOrProjet?: string | null;
+    descriptionProjetOrMission?: string | null;
     taches?: string | null;
+    lieu?: string | null;
+    compositionEquipe?: string | null;
+    budget?: number | null;
+    dateDebut?: string | null;
+    dateFin?: string | null;
+    domaineMetier?: ReferenceDto;
 }
 
-export class ProjetRequestDto implements IProjetRequestDto {
-    nom!: string;
-    description!: string;
+export class ProjetOrMissionClientRequestDto implements IProjetOrMissionClientRequestDto {
+    nomClientOrProjet?: string | null;
+    descriptionProjetOrMission!: string;
     taches!: string;
+    lieu?: string | null;
+    compositionEquipe?: string | null;
+    budget?: number | null;
+    dateDebut?: string | null;
+    dateFin?: string | null;
+    domaineMetierId?: string;
 
-    constructor(data?: IProjetRequestDto) {
+    constructor(data?: IProjetOrMissionClientRequestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -3275,32 +3314,50 @@ export class ProjetRequestDto implements IProjetRequestDto {
 
     init(_data?: any) {
         if (_data) {
-            this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
-            this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
+            this.nomClientOrProjet = _data["NomClientOrProjet"] !== undefined ? _data["NomClientOrProjet"] : <any>null;
+            this.descriptionProjetOrMission = _data["DescriptionProjetOrMission"] !== undefined ? _data["DescriptionProjetOrMission"] : <any>null;
             this.taches = _data["Taches"] !== undefined ? _data["Taches"] : <any>null;
+            this.lieu = _data["Lieu"] !== undefined ? _data["Lieu"] : <any>null;
+            this.compositionEquipe = _data["CompositionEquipe"] !== undefined ? _data["CompositionEquipe"] : <any>null;
+            this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
+            this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
+            this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
+            this.domaineMetierId = _data["DomaineMetierId"] !== undefined ? _data["DomaineMetierId"] : <any>null;
         }
     }
 
-    static fromJS(data: any): ProjetRequestDto {
+    static fromJS(data: any): ProjetOrMissionClientRequestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ProjetRequestDto();
+        let result = new ProjetOrMissionClientRequestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
-        data["Description"] = this.description !== undefined ? this.description : <any>null;
+        data["NomClientOrProjet"] = this.nomClientOrProjet !== undefined ? this.nomClientOrProjet : <any>null;
+        data["DescriptionProjetOrMission"] = this.descriptionProjetOrMission !== undefined ? this.descriptionProjetOrMission : <any>null;
         data["Taches"] = this.taches !== undefined ? this.taches : <any>null;
+        data["Lieu"] = this.lieu !== undefined ? this.lieu : <any>null;
+        data["CompositionEquipe"] = this.compositionEquipe !== undefined ? this.compositionEquipe : <any>null;
+        data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
+        data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
+        data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
+        data["DomaineMetierId"] = this.domaineMetierId !== undefined ? this.domaineMetierId : <any>null;
         return data;
     }
 }
 
-export interface IProjetRequestDto {
-    nom: string;
-    description: string;
+export interface IProjetOrMissionClientRequestDto {
+    nomClientOrProjet?: string | null;
+    descriptionProjetOrMission: string;
     taches: string;
+    lieu?: string | null;
+    compositionEquipe?: string | null;
+    budget?: number | null;
+    dateDebut?: string | null;
+    dateFin?: string | null;
+    domaineMetierId?: string;
 }
 
 export class QuestionInsertDto implements IQuestionInsertDto {
