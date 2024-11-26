@@ -4,7 +4,7 @@ import { Experience } from 'src/app/shared/models/experience.model';
 import { ExperienceDialogComponent } from '../dialogs/experience-dialog/experience-dialog.component';
 import { tap } from 'rxjs';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
-import { ExperienceDto, ExperienceRequestDto } from 'src/app/shared/services/generated/api/api.client';
+import { ExperienceDto, ExperienceRequestDto, ProjetOrMissionClientRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { formatDate } from '@angular/common';
@@ -107,6 +107,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   private populateRequestDto(experience : Experience): ExperienceRequestDto {
 
       let experienceDto = new ExperienceRequestDto();
+
       experienceDto.typeContratId = experience.typeContrat.id;
       experienceDto.intitulePoste = experience.intitulePoste;
       experienceDto.entreprise = experience.nomEntreprise;
@@ -116,7 +117,8 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experienceDto.lieu = experience.lieu;
       experienceDto.description = experience.description;
       experienceDto.domaineMetierId = experience.domaineMetier.id;
-      experienceDto.technologieIds = [];  
+      experienceDto.budget = experience.budgetGere;
+
       experience.technologies?.forEach(x => {
         experienceDto.technologieIds?.push(x.id);
       })
@@ -132,9 +134,11 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experience.outils?.forEach(x => {
         experienceDto.outilIds?.push(x.id);
       })
-      experienceDto.budget = experience.budgetGere;
-    
-    return experienceDto;
+      experienceDto.projetsOrMissionsClient = [];
+      experience.projetOrMission?.forEach(x => {
+        experienceDto.projetsOrMissionsClient?.push(ProjetOrMissionClientRequestDto.fromJS(x));
+      })
 
+    return experienceDto;
   }
 }

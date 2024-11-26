@@ -1,4 +1,5 @@
 import { ExperienceDto } from "../services/generated/api/api.client";
+import { ProjectOrMissionClient } from "./project-mission.model";
 import { Reference } from "./reference.model";
 
 export class Experience {
@@ -17,6 +18,7 @@ export class Experience {
     competences?: Reference[];
     methodologies?: Reference[];
     outils?: Reference[];
+    projetOrMission?: ProjectOrMissionClient[];
     budgetGere?: number;
 
     // champs calculés 
