@@ -33,8 +33,9 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       typeContrat: new FormControl(null, Validators.required),
       intitulePoste: new FormControl(null, Validators.required),
       entreprise: new FormControl(null, Validators.required),
-      isClientFinal: new FormControl(),
-      clientFinal: new FormControl(),
+      // isClientFinal: new FormControl(),
+      // clientFinal: new FormControl(),
+      isEntrepriseEsnOrInterim: new FormControl(),
       dateDebut: new FormControl(null, Validators.required),
       dateFin: new FormControl(),
       isPosteActuel: new FormControl(),
@@ -62,6 +63,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         
         // clientFinal: this.experience.clientFinal,
         // isClientFinal: this.experience.clientFinal ? true : false,
+        isEntrepriseEsnOrInterim: this.experience.IsEntrepriseEsnOrInterim,
         dateDebut: formatDate(this.experience.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale),
         dateFin: this.experience.dateFin ? formatDate(this.experience.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
         isPosteActuel: !this.experience.dateFin,
@@ -72,6 +74,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         technologies: this.experience.technologies,
         competences: this.experience.competences,
         methodologies: this.experience.methodologies,
+        outils : this.experience.outils,
         budgetGere: this.experience.budgetGere,
         isBudgetGere: this.experience.budgetGere ? true : false
       });
@@ -79,41 +82,47 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     this.updateInputPosteActuel();
     this.updateInputClientFinal();
-    this.updateInputBudgetGere();
+    // this.updateInputBudgetGere();
+
   }
 
   public updateInputPosteActuel(): void {
-    let controls = this.formGroup.controls;
-    if(controls.isPosteActuel.value) {
+    const controls = this.formGroup.controls;
+
+    if (controls.isPosteActuel.value) {
       controls.dateFin.disable();
+      controls.dateFin.clearValidators(); 
       controls.dateFin.reset();
     } else {
       controls.dateFin.enable();
+      controls.dateFin.setValidators(Validators.required); 
     }
+  
+    controls.dateFin.updateValueAndValidity(); 
+  
   }
 
   public updateInputClientFinal(): void {
     let controls = this.formGroup.controls;
-    if(controls.isClientFinal.value) {
-      controls.clientFinal.enable();
+    if(controls.isEntrepriseEsnOrInterim.value) {
+      // controls.clientFinal.enable();
     } else {
-      controls.clientFinal.disable();
-      controls.clientFinal.reset();
+      // controls.clientFinal.disable();
+      // controls.clientFinal.reset();
     }
   }
 
-  public updateInputBudgetGere(): void {
-    let controls = this.formGroup.controls;
-    if(controls.isBudgetGere.value) {
-      controls.budgetGere.enable();
-    } else {
-      controls.budgetGere.disable();
-      controls.budgetGere.reset();
-    }
-  }
+  // public updateInputBudgetGere(): void {
+  //   let controls = this.formGroup.controls;
+  //   if(controls.isBudgetGere.value) {
+  //     controls.budgetGere.enable();
+  //   } else {
+  //     controls.budgetGere.disable();
+  //     controls.budgetGere.reset();
+  //   }
+  // }
 
   public populateData(): void {
-
 
     this.isLoading = true;
     const nbAppelsAsync = 2;
@@ -121,11 +130,20 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     this.callRequest(ConstantesRequest.getReferencesDomaines, this.service.getReferences(ConstantesTypesReferences.domaine)
         .subscribe((response: ReferenceDto[]) => {
           this.domaines = Reference.fromListReferenceDto(response);
+
+        // Déplacer l'élément avec l'ID spécifique en bas
+        const idToMove = '3b2315eb-7b6d-40dd-b53c-bbd5eb85d3d4';
+        const index = this.domaines.findIndex(x => x.id === idToMove);
+        if (index !== -1) {
+          const [item] = this.domaines.splice(index, 1);
+          this.domaines.push(item);
+        }
+
           if(this.experience) {
-            const type: Reference = this.domaines.find(x => x.id == this.experience!.domaineMetier.id) ?? this.typesContrats[0];
-            this.formGroup.controls.typeContrat.setValue(type);
+            let type: Reference  | null = this.domaines.find(x => x.id == this.experience!.domaineMetier.id) ?? null
+            this.formGroup.controls.domaineMetier.setValue(type);
           } else {
-            this.formGroup.controls.typeContrat.setValue(this.typesContrats[0]);
+            this.formGroup.controls.domaineMetier.setValue(null);
           }
           this.checkLoadingTermine(nbAppelsAsync);
         }));

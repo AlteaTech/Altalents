@@ -2,22 +2,8 @@
 <div class="fenetre-dialog">
     <form [formGroup]="formGroup">
         <fieldset>
-            <legend>Expérience professionelle</legend>
+            <legend><i class="fa-regular fa-building"></i>&nbsp;&nbsp;Expérience professionelle</legend>
             <div class="row mb-2">
-                <div class="col-lg-3 label-champ-input">
-                    <label for="typeContrat" class="col-form-label">Type de contrat<span class="champ-obligatoire">*</span></label>
-                    <div class="error-message"
-                        *ngIf="formGroup.controls.typeContrat.invalid && formGroup.controls.typeContrat.touched">
-                        Le type de contrat est requis.
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <select formControlName="typeContrat" class="form-select">
-                        <option *ngFor="let typeContrat of typesContrats" [ngValue]="typeContrat">
-                            {{typeContrat.libelle}}
-                        </option>
-                    </select>
-                </div>
                 <div class="col-lg-3 label-champ-input">
                     <label for="dateDebut" class="col-form-label">Date de début<span class="champ-obligatoire">*</span></label>
                     <div class="error-message"
@@ -28,6 +14,16 @@
                 <div class="col-lg-3">
                     <input type="date" formControlName="dateDebut" class="form-control"
                         placeholder="JJ/MM/AAAA">
+                </div>
+                <div class="col-lg-3 label-champ-input">
+                    <label for="dateFin" class="col-form-label">Date de fin<span *ngIf="!formGroup.controls.isPosteActuel.value" class="text-danger">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.dateFin.invalid && formGroup.controls.dateFin.touched">
+                        La date de début est requise.
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <input type="date" formControlName="dateFin" class="form-control" placeholder="JJ/MM/AAAA" >
                 </div>
             </div>
             <div class="row mb-2">
@@ -42,71 +38,35 @@
                     <input type="text" formControlName="intitulePoste" class="form-control"
                         placeholder="Professeur d'histoire">
                 </div>
-                <div class="col-lg-3 label-champ-input">
-                    <label for="dateFin" class="col-form-label">Date de fin</label>
-                </div>
-                <div class="col-lg-3">
-                    <input type="date" formControlName="dateFin" class="form-control" placeholder="JJ/MM/AAAA">
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-lg-3 label-champ-input">
-                    <label for="entreprise">Entreprise<span class="champ-obligatoire">*</span></label>
-                    <div class="error-message"
-                        *ngIf="formGroup.controls.intitulePoste.invalid && formGroup.controls.intitulePoste.touched">
-                        L'intitulé du poste est requis.
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <input type="text" formControlName="entreprise" class="form-control"
-                        placeholder="Nom de l'entreprise">
-                </div>
-                <div class="col-lg-6 d-flex align-items-center custom-justify-end">
-                    <div class=" text-end">
-                        <label class="switch">
-                            <input type="checkbox" formControlName="isPosteActuel" (change)="updateInputPosteActuel()">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
+                <div class="col-lg-3 label-champ-input">  </div>
+                <div class="col-lg-3 d-flex align-items-center margin-top">
+                    <label class="switch">
+                        <input type="checkbox" formControlName="isPosteActuel" (change)="updateInputPosteActuel()">
+                        <span class="slider"></span>
+                    </label>
                     <div>
                         <label for="isPosteActuel" class="ms-3">J'occupe actuellement ce poste</label>
                     </div>
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-lg-3 d-flex align-items-center custom-justify-end">
+                <div class="col-lg-3 label-champ-input margin-top">
+                    <label for="entreprise">Entreprise<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message" *ngIf="formGroup.controls.intitulePoste.invalid && formGroup.controls.intitulePoste.touched">
+                        Le nom de l'entreprise est requis.
+                    </div>
+                </div>
+                <div class="col-lg-3 d-flex align-items-center">
+                    <input type="text" formControlName="entreprise" class="form-control"
+                        placeholder="Nom de l'entreprise">
+                </div>
+                <div class="col-lg-3 label-champ-input">  </div>
+                <div class="col-lg-3 d-flex align-items-center  margin-top">
                     <label class="switch">
-                        <input type="checkbox" formControlName="isClientFinal" (change)="updateInputClientFinal()">
+                        <input type="checkbox" formControlName="esn" (change)="updateInputClientFinal()">
                         <span class="slider"></span>
                     </label>
-                    <label for="clientFinal" class="ms-2">l'entreprise est une ESN</label>
-                </div>
-                <div class="col-lg-3">
-                    <input type="text" formControlName="clientFinal" placeholder="Nom du client final" class="form-control">
-                </div>
-                <div class="col-lg-3 label-champ-input">
-                    <label for="lieu" class="col-form-label">Lieu<span class="champ-obligatoire">*</span></label>
-                    <div class="error-message"
-                        *ngIf="formGroup.controls.lieu.invalid && formGroup.controls.lieu.touched">
-                        Le lieu est requis.
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <input type="text" formControlName="lieu" class="form-control" placeholder="Jumanji">
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-lg-3">
-                    <label for="description">Description de l'expérience professionnelle<span class="champ-obligatoire">*</span></label>
-                    <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
-                    <div class="error-message"
-                        *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
-                        La description est requise.
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <textarea formControlName="description" placeholder="Il était une fois..."
-                        class="custom-text-area form-control"></textarea>
+                    <label for="clientFinal" class="ms-2">L'entreprise est une ESN</label>
                 </div>
             </div>
             <div class="row mb-2">
@@ -125,6 +85,32 @@
                     </select>
                 </div>
                 <div class="col-lg-3 label-champ-input">
+                    <label for="typeContrat" class="col-form-label">Type de contrat<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.typeContrat.invalid && formGroup.controls.typeContrat.touched">
+                        Le type de contrat est requis.
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <select formControlName="typeContrat" class="form-select">
+                        <option *ngFor="let typeContrat of typesContrats" [ngValue]="typeContrat">
+                            {{typeContrat.libelle}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-3 label-champ-input">
+                    <label for="lieu" class="col-form-label">Lieu<span class="champ-obligatoire">*</span></label>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.lieu.invalid && formGroup.controls.lieu.touched">
+                        Le lieu est requis.
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" formControlName="lieu" class="form-control" placeholder="Jumanji">
+                </div>
+                <div class="col-lg-3 label-champ-input">
                     <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
                 </div>
                 <div class="col-lg-3">
@@ -132,36 +118,43 @@
                         placeholder="Avec qui travailliez-vous?">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 label-champ-input">
-                    <label for="technologie" class="col-form-label">Technologies</label>
+            <div class="row mb-2">
+                <div class="col-lg-3 d-flex align-items-center custom-justify-end">
+                    <label for="budgetGere" class="ms-2">Budget géré</label>
+                </div>
+                <div class="col-lg-3">
+                    <input type="number" formControlName="budgetGere" placeholder="0€" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-3  label-champ-input">
+                    <label for="description">Description de l'expérience professionnelle<span class="champ-obligatoire">*</span></label>
+                    <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
+                    <div class="error-message"
+                        *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
+                        La description est requise.
+                    </div>
                 </div>
                 <div class="col-lg-9">
-                    <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées"
-                        [constanteRequest]="constantesRequest.getReferencesTechnologies"
-                        [constanteTypeReference]="constantesTypesReferences.technologie"
-                        [selectedReferences]="formGroup.value.technologies ?? []"
-                        (selectedReferencesCallback)="onSelectedTechnologiesChange($event)">
-                    </app-multiple-autocomplete>
+                    <textarea formControlName="description" placeholder="Il était une fois..."
+                        class="custom-text-area form-control"></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3 label-champ-input">
                     <label for="competences" >Compétences</label>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-3">
                     <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
                         [constanteRequest]="constantesRequest.getReferencesCompetences"
                         [constanteTypeReference]="constantesTypesReferences.competence"
                         [selectedReferences]="formGroup.value.competences ?? []"
                         (selectedReferencesCallback)="onSelectedCompetencesChange($event)"></app-multiple-autocomplete>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-lg-3 label-champ-input">
                     <label for="methodologies" class="col-form-label">Méthodologies</label>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-3">
                     <app-multiple-autocomplete placeholder="SCRUM, etc"
                         [constanteRequest]="constantesRequest.getReferencesMethodologies"
                         [constanteTypeReference]="constantesTypesReferences.methodologie"
@@ -171,9 +164,20 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 label-champ-input">
+                    <label for="technologie" class="col-form-label">Technologies</label>
+                </div>
+                <div class="col-lg-3">
+                    <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées"
+                        [constanteRequest]="constantesRequest.getReferencesTechnologies"
+                        [constanteTypeReference]="constantesTypesReferences.technologie"
+                        [selectedReferences]="formGroup.value.technologies ?? []"
+                        (selectedReferencesCallback)="onSelectedTechnologiesChange($event)">
+                    </app-multiple-autocomplete>
+                </div>
+                <div class="col-lg-3 label-champ-input">
                     <label for="outil" class="col-form-label">Outils</label>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-3">
                     <app-multiple-autocomplete placeholder="Visual studio, Ms project, etc"
                         [constanteRequest]="constantesRequest.getReferencesOutils"
                         [constanteTypeReference]="constantesTypesReferences.outil"
@@ -181,18 +185,7 @@
                         (selectedReferencesCallback)="onSelectedOutilsChange($event)"></app-multiple-autocomplete>
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-lg-3 d-flex align-items-center custom-justify-end">
-                    <label class="switch">
-                        <input type="checkbox" formControlName="isBudgetGere" (change)="updateInputBudgetGere()">
-                        <span class="slider"></span>
-                    </label>
-                    <label for="budgetGere" class="ms-2">Budget géré</label>
-                </div>
-                <div class="col-lg-3">
-                    <input type="number" formControlName="budgetGere" placeholder="0€" class="form-control">
-                </div>
-            </div>
+           
         </fieldset>
         <div>
             <div class="at-p-button-container">

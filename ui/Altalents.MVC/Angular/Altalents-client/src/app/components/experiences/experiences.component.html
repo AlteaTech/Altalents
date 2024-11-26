@@ -23,9 +23,10 @@
                 </a>
             </div>
         </div>
-        <p class="font-bold">{{experience.nomEntreprise}} - {{experience.typeContrat.libelle}}</p>
+        <p class="font-bold">{{experience.nomEntreprise}} - ({{experience.domaineMetier.libelle}}) - {{experience.typeContrat.libelle}}</p>
         <p class="font-normal" *ngIf="experience.dateFin">De {{experience.dateDebut | date : "MMMM YYYY" }} à {{experience.dateFin | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
         <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
+        <p class="font-normal">{{experience.description}}</p>
         <p>
             <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
                 {{technologie.libelle}}
@@ -41,7 +42,11 @@
                 {{methodologie.libelle}}
             </span>
         </p>
-        <p class="font-normal">{{experience.description}}</p>
+        <p>
+            <span *ngFor="let outil of experience.outils" class="at-p-autocomplete-choix">
+                {{outil.libelle}}
+            </span>
+        </p>
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddExperienceClick()">

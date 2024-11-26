@@ -45,7 +45,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
           this.experiences = Experience.fromList(response);
           this.experiences.forEach(x => x.dureeExperience = DureeExperienceService.CalculateDureeExperience(x.dateDebut, x.dateFin));
           this.isLoading = false;
-        }));
+    }));
   }
 
   public onAddExperienceClick(): void {
