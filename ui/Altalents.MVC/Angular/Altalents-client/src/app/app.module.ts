@@ -21,7 +21,7 @@ import { CertificationDialogComponent } from './components/dialogs/certification
 import { LangueDialogComponent } from './components/dialogs/langue-dialog/langue-dialog.component';
 import { ExperienceDialogComponent } from './components/dialogs/experience-dialog/experience-dialog.component';
 import { MultipleAutocompleteComponent } from './shared/components/multiple-autocomplete/multiple-autocomplete.component';
-import { registerLocaleData } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { QuestionnaireDialogComponent } from './components/dialogs/questionnaire-dialog/questionnaire-dialog.component';
 import { PieceJointeDialogComponent } from './components/dialogs/piece-jointe-dialog/piece-jointe-dialog.component';
@@ -57,6 +57,7 @@ registerLocaleData(localeFr);
     ConfirmDeleteDialogComponent
   ],
   imports: [
+    CommonModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,

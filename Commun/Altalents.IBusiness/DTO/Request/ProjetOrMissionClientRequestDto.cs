@@ -20,7 +20,7 @@ namespace Altalents.IBusiness.DTO.Request
         public decimal? Budget { get; set; }
         public DateTime? DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
-        public Guid DomaineMetierId { get; set; }
+        public Guid? DomaineMetierId { get; set; }
     }
 
 }

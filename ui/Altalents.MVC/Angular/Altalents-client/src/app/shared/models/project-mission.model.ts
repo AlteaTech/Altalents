@@ -1,16 +1,18 @@
+import { Constantes } from "../constantes/constantes";
 import { ProjetOrMissionClientDto } from "../services/generated/api/api.client";
+import { DureeExperienceService } from "../services/services/calculators/duree-experience-calculator";
 import { Reference } from "./reference.model";
 
 export class ProjectOrMissionClient {
 
-    NomClientOrProjet?: string;
+    NomClientOrProjet!: string;
     descriptionProjetOrMission!: string;
     taches!: string;
     lieu!: string;
     budget?: number;
-    compositionEquipe?: string;
-    dateDebut?: Date;
-    dateFin?: Date;
+    compositionEquipe!: string;
+    dateDebut!: string;
+    dateFin!: string;
     domaineMetier?: Reference;
 
     // champs calculés 
@@ -25,26 +27,11 @@ export class ProjectOrMissionClient {
         model.lieu = dto.lieu!;
         model.budget = dto.budget!;
         model.compositionEquipe = dto.descriptionProjetOrMission!;
-        model.dateDebut = dto.dateDebut ? new Date(dto.dateDebut) : undefined; 
-        model.dateFin = dto.dateFin ? new Date(dto.dateFin) : undefined; 
+        model.dateDebut = dto.dateDebut! ; 
+        model.dateFin = dto.dateFin! ; 
         model.domaineMetier = dto.domaineMetier ? Reference.fromReferenceDto(dto.domaineMetier) : undefined; 
-      
-    //   model.typeContrat = Reference.fromReferenceDto(dto.typeContrat);
-    //   model.intitulePoste = dto.intitulePoste;
-    //   model.nomEntreprise = dto.nomEntreprise;
-      
-    //   model.IsEntrepriseEsnOrInterim = dto.isEntrepriseEsnOrInterim;
-    //   model.dateDebut = new Date(dto.dateDebut);
-    //   model.dateFin = dto.dateFin ? new Date(dto.dateFin) : undefined;
-    //   model.lieu = dto.lieuEntreprise;
-    //   model.description = dto.description;
-    //   model.domaineMetier = Reference.fromReferenceDto(dto.domaineMetier);
-    //   model.technologies = dto.technologies ? Reference.fromListReferenceDto(dto.technologies) : undefined;
-    //   model.competences = dto.competences ? Reference.fromListReferenceDto(dto.competences) : undefined;
-    //   model.methodologies = dto.methodologies ? Reference.fromListReferenceDto(dto.methodologies) : undefined;
-    //   model.outils = dto.outils ? Reference.fromListReferenceDto(dto.outils) : undefined;
-    //   model.budgetGere = dto.budget ?? undefined;
-
+        model.dureeExperience = model.dateDebut ? DureeExperienceService.CalculateDureeExperience(new Date(model.dateDebut!), new Date(model.dateFin)) : undefined;
+        
       return model;
 
     }

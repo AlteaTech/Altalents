@@ -1,3 +1,4 @@
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -5,18 +6,21 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { CertificationForm } from 'src/app/shared/interfaces/certification-form';
 import { Certification } from 'src/app/shared/models/certification.model';
+import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 
 @Component({
   selector: 'app-certification-dialog',
   templateUrl: './certification-dialog.component.html'
 })
 
-export class CertificationDialogComponent implements OnInit {
+export class CertificationDialogComponent extends BaseComponentCallHttpComponent implements OnInit {
   public certification?: Certification;
   public formGroup: FormGroup<CertificationForm>;
 
-  constructor(public activeModal: NgbActiveModal) {
-    this.formGroup = new FormGroup<CertificationForm>({
+  constructor(public activeModal: NgbActiveModal,
+    private readonly service: ApiServiceAgent) {
+      super();
+      this.formGroup = new FormGroup<CertificationForm>({
       libelle: new FormControl(null, Validators.required),
       domaine: new FormControl(),
       niveau: new FormControl(),
@@ -41,6 +45,7 @@ export class CertificationDialogComponent implements OnInit {
 
   public submit(): void {
     if (this.formGroup.valid) {
+      this.isLoading = true;
       const values = this.formGroup.value;
       let certification: Certification = this.certification ?? new Certification();
       certification.libelle = values.libelle!;
@@ -49,7 +54,6 @@ export class CertificationDialogComponent implements OnInit {
       certification.organisme = values.organisme;
       certification.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
       certification.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
-      
       this.activeModal.close(certification);
     }else {
       this.formGroup.markAllAsTouched();
