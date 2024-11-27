@@ -3301,7 +3301,7 @@ export class ProjetOrMissionClientRequestDto implements IProjetOrMissionClientRe
     budget?: number | null;
     dateDebut?: string | null;
     dateFin?: string | null;
-    domaineMetierId?: string;
+    domaineMetierId?: string | null;
 
     constructor(data?: IProjetOrMissionClientRequestDto) {
         if (data) {
@@ -3357,7 +3357,7 @@ export interface IProjetOrMissionClientRequestDto {
     budget?: number | null;
     dateDebut?: string | null;
     dateFin?: string | null;
-    domaineMetierId?: string;
+    domaineMetierId?: string | null;
 }
 
 export class QuestionInsertDto implements IQuestionInsertDto {

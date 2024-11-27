@@ -187,51 +187,99 @@
             </div>
            
         </fieldset>
-        <fieldset>
+        <fieldset  formArrayName="projects">
             <legend><i class="fa-regular fa-folder"></i>&nbsp;&nbsp;Projets ou Missions</legend>
             <div *ngIf="!hasAtLeastOneProject()" class="text-danger">
                 Vous devez renseigner au moins un projet.
               </div>
-            <!-- Message d'invite si aucun projet n'est renseigné -->
-            <div *ngIf="getProjets().length === 0" class="alert alert-info">
-                Aucun projet renseigné. Veuillez ajouter au moins un projet.
-            </div>
+              <div *ngFor="let project of getProjets().controls; let i = index" [formGroupName]="i" class="mb-3">
 
-            <!-- Liste des projets -->
-            <div *ngFor="let projet of getProjets().controls; let i = index" [formGroupName]="i" class="mb-3">
-                <!-- Champs du projet ici -->
+              
+                <!-- Tâches -->
+                <div class="row mt-2">
+                  <div class="col-lg-6">
+                    <label for="taches" class="col-form-label">Tâches<span class="text-danger">*</span></label>
+                    <textarea formControlName="taches" class="form-control" placeholder="Tâches effectuées"></textarea>
+                    <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched" class="error-message">
+                      Les tâches sont requises.
+                    </div>
+                  </div>
+              
+                  <!-- Description du projet ou mission -->
+                  <div class="col-lg-6">
+                    <label for="descriptionProjetOrMission" class="col-form-label">Description<span class="text-danger">*</span></label>
+                    <textarea formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
+                    <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched" class="error-message">
+                      La description est requise.
+                    </div>
+                  </div>
+                </div>
+              
                 <div class="row">
                     <div class="col-lg-3">
-                        <label for="nomClientOrProjet" class="col-form-label">Nom Client ou Projet<span class="text-danger">*</span></label>
-                        <input type="text" formControlName="nomClientOrProjet" class="form-control" placeholder="Nom du client ou du projet">
+                      <label for="nomClientOrProjet" class="col-form-label">Nom Client ou Projet</label>
+                      <input type="text" formControlName="nomClientOrProjet" class="form-control" placeholder="Nom du client ou du projet">
                     </div>
+                
+                    <!-- Date de début -->
                     <div class="col-lg-3">
-                        <label for="dateDebut" class="col-form-label">Date de début<span class="text-danger">*</span></label>
-                        <input type="date" formControlName="dateDebut" class="form-control">
+                      <label for="dateDebut" class="col-form-label">Date de début</label>
+                      <input type="date" formControlName="dateDebut" class="form-control">
                     </div>
+                
+                    <!-- Date de fin -->
                     <div class="col-lg-3">
-                        <label for="dateFin" class="col-form-label">Date de fin<span class="text-danger">*</span></label>
-                        <input type="date" formControlName="dateFin" class="form-control">
+                      <label for="dateFin" class="col-form-label">Date de fin</label>
+                      <input type="date" formControlName="dateFin" class="form-control">
+                    </div>
+  
+                    <div class="col-lg-3">
+                      <label for="lieu" class="col-form-label">Lieu</label>
+                      <input type="text" formControlName="lieu" class="form-control" placeholder="Lieu">
                     </div>
                 </div>
-
-                <div class="row mt-2">
-                    <div class="col-lg-6">
-                        <label for="taches" class="col-form-label">Tâches<span class="text-danger">*</span></label>
-                        <textarea formControlName="taches" class="form-control" placeholder="Tâches effectuées"></textarea>
+                
+                <!-- Lieu -->
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="domaineMetier" class="col-form-label">Domaine métier</label>
+                        <select formControlName="domaineMetier" class="form-select">
+                          <option *ngFor="let domaine of domaines" [ngValue]="domaine">
+                            {{ domaine.libelle }}
+                          </option>
+                        </select>
                     </div>
-                    <div class="col-lg-6">
-                        <label for="descriptionProjetOrMission" class="col-form-label">Description<span class="text-danger">*</span></label>
-                        <textarea formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
+                    <!-- Composition de l'équipe -->
+                    <div class="col-lg-3">
+                        <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
+                        <input type="text" formControlName="compositionEquipe" class="form-control" placeholder="Composition de l'équipe">
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label for="budget" class="col-form-label">Budget</label>
+                        <input type="number" formControlName="budget" class="form-control" placeholder="Budget">
+                        <div *ngIf="project?.get('budget')?.invalid && project?.get('budget')?.touched" class="error-message">
+                        Le budget doit être un nombre positif.
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="" class="col-form-label">&nbsp;</label>
+                        <div class="delete-link-container">
+                            <a (click)="removeProjet(i)" class="delete-link">
+                                <p class="at-c-violet"><i class="fa-solid fa-trash"></i> Supprimer ce projet</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Autres champs du projet ici -->
-
-                <button class="at-p-secondary-button" (click)="removeProjet(i)" *ngIf="i > 1">Supprimer ce projet</button>
             </div>
-
-            <button class="at-p-button" (click)="addProject()">Ajouter un projet</button>
+              
+            <!-- Ajouter un projet -->
+            <div class="at-p-button-ajouter">
+                <label for="" class="col-form-label"></label>
+              <button (click)="addProject()">
+                <p><i class="fa-regular fa-plus at-c-violet"></i> Ajouter un projet</p>
+              </button>
+            </div>
         </fieldset>
         <div>
             <div class="at-p-button-container">

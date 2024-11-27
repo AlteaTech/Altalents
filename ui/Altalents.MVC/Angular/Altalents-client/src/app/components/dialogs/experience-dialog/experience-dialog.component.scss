@@ -18,3 +18,22 @@ p {
 
     margin-top: 0.5rem;
 }
+
+/* Conteneur pour le lien "Supprimer" */
+.delete-link-container {
+    display: flex;
+    align-items: center; /* Aligne le lien "Supprimer" au centre verticalement */
+    margin-left: auto; /* Si tu veux pousser le lien "Supprimer" à droite */
+}
+
+/* Lien "Supprimer" */
+.delete-link {
+    margin-top: 12px;
+    text-decoration: none; /* Supprime le soulignement du lien */
+    cursor: pointer; /* Modifie le curseur au survol */
+}
+
+/* Effet de survol pour le lien "Supprimer" */
+.delete-link:hover {
+    text-decoration: underline; /* Souligne le lien au survol */
+}

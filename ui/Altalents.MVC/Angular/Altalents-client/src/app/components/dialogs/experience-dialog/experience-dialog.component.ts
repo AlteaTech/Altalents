@@ -9,7 +9,7 @@ import { ConstantesTypesReferences } from 'src/app/shared/constantes/constantes-
 import { ExperienceForm } from 'src/app/shared/interfaces/experience-form';
 import { Experience } from 'src/app/shared/models/experience.model';
 import { Reference } from 'src/app/shared/models/reference.model';
-import { ProjetOrMissionClientDto, ReferenceDto } from 'src/app/shared/services/generated/api/api.client';
+import { ReferenceDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ProjectOrMissionClient } from 'src/app/shared/models/project-mission.model';
 import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
@@ -84,6 +84,11 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         });
       }
 
+      this.formGroup.valueChanges.subscribe(value => {
+        console.log("Form value changed:", value);
+        // Ajoutez ici des logiques supplémentaires si nécessaire
+      });
+
     }
 
     this.updateInputPosteActuel();
@@ -98,11 +103,11 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     const projectsArray = this.formGroup.get('projects') as FormArray;
 
     const projectGroup = new FormGroup({
-      nomClientOrProjet: new FormControl(project?.NomClientOrProjet ?? null, Validators.required),
+      nomClientOrProjet: new FormControl(project?.NomClientOrProjet ?? null),
       descriptionProjetOrMission: new FormControl(project?.descriptionProjetOrMission ?? null, Validators.required),
-      domaineMetierClient: new FormControl(project?.domaineMetier ?? null),
-      dateDebut: new FormControl(formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale)),
-      dateFin: new FormControl(formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale)),
+      domaineMetier: new FormControl(project?.domaineMetier ?? null),
+      dateDebut: new FormControl(project?.dateDebut ? formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale) : null),
+      dateFin: new FormControl(project?.dateDebut ? formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale): null),
       taches: new FormControl(project?.taches ?? null, Validators.required),
       compositionEquipe: new FormControl(project?.compositionEquipe ?? null),
       budget: new FormControl(project?.budget ?? null),
@@ -149,8 +154,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
           this.domaines = Reference.fromListReferenceDto(response);
 
         // Déplacer l'élément avec l'ID spécifique en bas
-        const idToMove = '3b2315eb-7b6d-40dd-b53c-bbd5eb85d3d4';
-        const index = this.domaines.findIndex(x => x.id === idToMove);
+  
+        const index = this.domaines.findIndex(x => x.id === Constantes.idDomaineMetierAutre);
         if (index !== -1) {
           const [item] = this.domaines.splice(index, 1);
           this.domaines.push(item);
@@ -180,11 +185,10 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   }
 
   public submit(): void {
+
+    const projectsArray = this.formGroup.get('projects') as FormArray<FormGroup<ProjectForm>>;
+
     if (this.formGroup.valid) {
-
-        const projectsArray = this.formGroup.get('projects') as FormArray<FormGroup<ProjectForm>>;
-
-        ProjectOrMissionClient.from()
 
         const projects: ProjectOrMissionClient[] = projectsArray.controls.map((group) => {
           const valuesProj = group.value;
@@ -195,14 +199,13 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
             lieu: valuesProj.lieu ?? "",
             budget: valuesProj.budget ? Number(valuesProj.budget) : undefined,
             compositionEquipe: valuesProj.compositionEquipe ?? "",
-            dateDebut: valuesProj.dateDebut! ? formatDate(valuesProj.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
-            dateFin: valuesProj.dateFin! ? formatDate(valuesProj.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale)  : undefined,
-            domaineMetier: valuesProj.domaineMetier ?? new Reference(),
+            dateDebut: valuesProj.dateDebut!,
+            dateFin: valuesProj.dateFin!,
+            domaineMetier: valuesProj.domaineMetier ?? undefined
           };
         });
         
         const values = this.formGroup.value;
-
         let experience: Experience = this.experience ?? new Experience();
   
         experience.typeContrat = values.typeContrat ?? new Reference();
@@ -225,7 +228,6 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
         this.activeModal.close(experience);
       
-
     } else {
       this.formGroup.markAllAsTouched();
     }
