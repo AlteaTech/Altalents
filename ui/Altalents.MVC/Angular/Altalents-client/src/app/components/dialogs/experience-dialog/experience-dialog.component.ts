@@ -28,6 +28,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public constantesRequest = ConstantesRequest;
   public constantesTypesReferences = ConstantesTypesReferences;
 
+  public IsEsn: boolean = false;
+
   constructor(public activeModal: NgbActiveModal,
     private readonly service: ApiServiceAgent) {
     super();
@@ -57,6 +59,9 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     this.populateData();
 
     if (this.experience) {
+
+      this.IsEsn = this.experience.IsEntrepriseEsnOrInterim;
+
       this.formGroup.patchValue({
         typeContrat : this.experience.typeContrat,
         intitulePoste: this.experience.intitulePoste,
@@ -116,6 +121,10 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     projectsArray.push(projectGroup);
 
+  }
+
+  public toggleIsEsn() {
+    this.IsEsn = !this.IsEsn;
   }
 
   public removeProjet(index: number): void {

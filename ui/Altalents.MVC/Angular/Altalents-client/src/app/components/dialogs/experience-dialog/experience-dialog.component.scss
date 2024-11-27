@@ -37,3 +37,22 @@ p {
 .delete-link:hover {
     text-decoration: underline; /* Souligne le lien au survol */
 }
+
+
+.projects-container {
+    background-color: #F5F5FF; /* Gris clair */
+    padding: 20px; /* Ajustez la valeur du padding selon vos besoins */
+    border-radius: 8px; /* Optionnel : pour des bords arrondis */
+}
+
+.project-even {
+    background-color: #F5F5FF; /* Gris clair */
+    padding: 20px; /* Ajustez la valeur du padding selon vos besoins */
+    border-radius: 8px; /* Optionnel : pour des bords arrondis */
+}
+
+.project-odd {
+    background-color: #ffffff; /* Gris légèrement plus foncé */
+    padding: 20px; /* Ajustez la valeur du padding selon vos besoins */
+    border-radius: 8px; /* Optionnel : pour des bords arrondis */
+}

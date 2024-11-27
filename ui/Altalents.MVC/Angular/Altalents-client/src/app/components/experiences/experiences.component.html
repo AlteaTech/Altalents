@@ -41,6 +41,14 @@
                 {{outil.libelle}}
             </span>
         </p>
+        <div *ngFor="let project of experience.projetOrMission">  
+            {{project.NomClientOrProjet}}
+            {{project.descriptionProjetOrMission}}
+            {{project.taches}}
+            {{project.lieu}}
+            <p class="font-normal" *ngIf="project.dateFin">De {{project.dateDebut | date : "MMMM YYYY" }} à {{project.dateFin | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></p>
+            <p class="font-normal" *ngIf="!project.dateFin">Depuis {{project.dateDebut | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></p>
+        </div>
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddExperienceClick()">

@@ -63,7 +63,7 @@
                 <div class="col-lg-3 label-champ-input">  </div>
                 <div class="col-lg-3 d-flex align-items-center  margin-top">
                     <label class="switch">
-                        <input type="checkbox" id="isEntrepriseEsnOrInterim" formControlName="isEntrepriseEsnOrInterim">
+                        <input type="checkbox" id="isEntrepriseEsnOrInterim" formControlName="isEntrepriseEsnOrInterim"  (change)="toggleIsEsn()">
                         <span class="slider"></span>
                     </label>
                     <label for="isEntrepriseEsnOrInterim" class="ms-2">L'entreprise est une ESN</label>
@@ -186,41 +186,29 @@
                 </div>
             </div>
            
-        </fieldset>
-        <fieldset  formArrayName="projects">
-            <legend><i class="fa-regular fa-folder"></i>&nbsp;&nbsp;Projets ou Missions</legend>
+        
+        <div formArrayName="projects" class="projects-container margin-top">
+            <i class="fa-regular fa-folder"></i>&nbsp;&nbsp;Projets ou Missions
             <div *ngIf="!hasAtLeastOneProject()" class="text-danger">
                 Vous devez renseigner au moins un projet.
               </div>
-              <div *ngFor="let project of getProjets().controls; let i = index" [formGroupName]="i" class="mb-3">
+              <div *ngFor="let project of getProjets().controls; let i = index" [formGroupName]="i" class="mb-3"  [ngClass]="{'project-even': i % 2 === 0, 'project-odd': i % 2 !== 0}">
 
-              
-                <!-- Tâches -->
-                <div class="row mt-2">
-                  <div class="col-lg-6">
-                    <label for="taches{{i}}" class="col-form-label">Tâches<span class="text-danger">*</span></label>
-                    <textarea id="taches{{i}}" formControlName="taches" class="form-control" placeholder="Tâches effectuées"></textarea>
-                    <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched" class="error-message">
-                      Les tâches sont requises.
-                    </div>
-                  </div>
-              
-                  <!-- Description du projet ou mission -->
-                  <div class="col-lg-6">
-                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description<span class="text-danger">*</span></label>
-                    <textarea id="descriptionProjetOrMission{{i}}" formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
-                    <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched" class="error-message">
-                      La description est requise.
-                    </div>
-                  </div>
-                </div>
-              
-                <div class="row">
+                <div class="row"  *ngIf="IsEsn">
                     <div class="col-lg-3">
-                      <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client ou Projet</label>
+                      <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client</label>
                       <input id="nomClientOrProjet{{i}}" type="text" formControlName="nomClientOrProjet" class="form-control" placeholder="Nom du client ou du projet">
                     </div>
                 
+                    <div class="col-lg-3">
+                        <label for="domaineMetier{{i}}" class="col-form-label">Domaine métier</label>
+                        <select id="domaineMetier{{i}}" formControlName="domaineMetier" class="form-select">
+                          <option *ngFor="let domaine of domaines" [ngValue]="domaine">
+                            {{ domaine.libelle }}
+                          </option>
+                        </select>
+                    </div>
+
                     <!-- Date de début -->
                     <div class="col-lg-3">
                       <label for="dateDebut{{i}}" class="col-form-label">Date de début</label>
@@ -233,28 +221,38 @@
                       <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control">
                     </div>
   
-                    <div class="col-lg-3">
-                      <label for="lieu{{i}}" class="col-form-label">Lieu</label>
-                      <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control" placeholder="Lieu">
+                 
+                </div>
+
+                <div class="row mt-2">
+                    <!-- Description du projet ou mission -->
+                    <div class="col-lg-6">
+                        <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description du projet<span class="text-danger">*</span></label>
+                        <textarea id="descriptionProjetOrMission{{i}}" formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
+                        <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched" class="error-message">
+                            La description est requise.
+                        </div>
+                    </div>
+                    <!-- Tâches -->
+                    <div class="col-lg-6">
+                        <label for="taches{{i}}" class="col-form-label">Description des tâches<span class="text-danger">*</span></label>
+                        <textarea id="taches{{i}}" formControlName="taches" class="form-control" placeholder="Tâches effectuées"></textarea>
+                        <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched" class="error-message">
+                            Les tâches sont requises.
+                        </div>
                     </div>
                 </div>
-                
                 <!-- Lieu -->
-                <div class="row">
+                <div class="row" *ngIf="IsEsn">
                     <div class="col-lg-3">
-                        <label for="domaineMetier{{i}}" class="col-form-label">Domaine métier</label>
-                        <select id="domaineMetier{{i}}" formControlName="domaineMetier" class="form-select">
-                          <option *ngFor="let domaine of domaines" [ngValue]="domaine">
-                            {{ domaine.libelle }}
-                          </option>
-                        </select>
-                    </div>
+                        <label for="lieu{{i}}" class="col-form-label">Lieu</label>
+                        <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control" placeholder="Lieu">
+                      </div>
                     <!-- Composition de l'équipe -->
                     <div class="col-lg-3">
                         <label for="compositionEquipe{{i}}" class="col-form-label">Composition d'équipe</label>
                         <input id="compositionEquipe{{i}}" type="text" formControlName="compositionEquipe" class="form-control" placeholder="Composition de l'équipe">
                     </div>
-
                     <div class="col-lg-3">
                         <label for="budget{{i}}" class="col-form-label">Budget</label>
                         <input id="budget{{i}}" type="number" formControlName="budget" class="form-control" placeholder="Budget">
@@ -271,6 +269,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="row" *ngIf="!IsEsn">
+                    <div class="col-lg-12">
+                        <div class="delete-link-container">
+                            <a (click)="removeProjet(i)" class="delete-link">
+                                <p class="at-c-violet"><i class="fa-solid fa-trash"></i> Supprimer ce projet</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
               
             <!-- Ajouter un projet -->
@@ -280,7 +287,8 @@
                 <p><i class="fa-regular fa-plus at-c-violet"></i> Ajouter un projet</p>
               </button>
             </div>
-        </fieldset>
+        </div>
+    </fieldset>
         <div>
             <div class="at-p-button-container">
                 <button class="at-p-secondary-button" (click)="closeDialog()">

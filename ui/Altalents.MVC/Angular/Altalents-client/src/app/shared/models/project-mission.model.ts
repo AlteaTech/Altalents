@@ -26,7 +26,7 @@ export class ProjectOrMissionClient {
         model.taches = dto.taches!;
         model.lieu = dto.lieu!;
         model.budget = dto.budget!;
-        model.compositionEquipe = dto.descriptionProjetOrMission!;
+        model.compositionEquipe = dto.compositionEquipe!;
         model.dateDebut = dto.dateDebut! ; 
         model.dateFin = dto.dateFin! ; 
         model.domaineMetier = dto.domaineMetier ? Reference.fromReferenceDto(dto.domaineMetier) : undefined; 
