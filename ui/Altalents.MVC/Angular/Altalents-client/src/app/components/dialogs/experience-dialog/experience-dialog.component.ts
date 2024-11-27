@@ -84,10 +84,10 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         });
       }
 
-      this.formGroup.valueChanges.subscribe(value => {
-        console.log("Form value changed:", value);
-        // Ajoutez ici des logiques supplémentaires si nécessaire
-      });
+      // this.formGroup.valueChanges.subscribe(value => {
+      //   console.log("Form value changed:", value);
+      //   // Ajoutez ici des logiques supplémentaires si nécessaire
+      // });
 
     }
 
@@ -99,7 +99,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   }
 
   public addProject(project?: ProjectOrMissionClient): void {
-    
+
     const projectsArray = this.formGroup.get('projects') as FormArray;
 
     const projectGroup = new FormGroup({
@@ -115,7 +115,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     });
 
     projectsArray.push(projectGroup);
-  
+
   }
 
   public removeProjet(index: number): void {
@@ -133,14 +133,14 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     if (controls.isPosteActuel.value) {
       controls.dateFin.disable();
-      controls.dateFin.clearValidators(); 
+      controls.dateFin.clearValidators();
       controls.dateFin.reset();
     } else {
       controls.dateFin.enable();
-      controls.dateFin.setValidators(Validators.required); 
+      controls.dateFin.setValidators(Validators.required);
     }
 
-    controls.dateFin.updateValueAndValidity(); 
+    controls.dateFin.updateValueAndValidity();
 
   }
 
@@ -154,7 +154,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
           this.domaines = Reference.fromListReferenceDto(response);
 
         // Déplacer l'élément avec l'ID spécifique en bas
-  
+
         const index = this.domaines.findIndex(x => x.id === Constantes.idDomaineMetierAutre);
         if (index !== -1) {
           const [item] = this.domaines.splice(index, 1);
@@ -204,10 +204,10 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
             domaineMetier: valuesProj.domaineMetier ?? undefined
           };
         });
-        
+
         const values = this.formGroup.value;
         let experience: Experience = this.experience ?? new Experience();
-  
+
         experience.typeContrat = values.typeContrat ?? new Reference();
         experience.intitulePoste = values.intitulePoste ?? "";
         experience.nomEntreprise = values.entreprise ?? "";
@@ -219,7 +219,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         experience.domaineMetier = values.domaineMetier ?? new Reference();
         experience.compositionEquipe = values.compositionEquipe ?? undefined;
         experience.budgetGere = values.budgetGere ?? undefined;
-  
+
         experience.technologies = values.technologies ?? [];
         experience.competences = values.competences ?? [];
         experience.methodologies = values.methodologies ?? [];
@@ -227,7 +227,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         experience.projetOrMission = projects ?? [];
 
         this.activeModal.close(experience);
-      
+
     } else {
       this.formGroup.markAllAsTouched();
     }

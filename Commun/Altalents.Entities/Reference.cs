@@ -23,6 +23,7 @@ namespace Altalents.Entities
         public List<DossierTechniqueLangue> NiveauLangues { get; set; }
         public List<Experience> TypeContratExperiences { get; set; }
         public List<Experience> DomaineExperiences { get; set; }
+        public List<ProjetOrMissionClient> ProjetsOrMissions { get; set; }
         public List<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
         public List<LiaisonExperienceCompetence> LiaisonExperienceCompetances { get; set; }
         public List<LiaisonExperienceMethodologie> LiaisonExperienceMethodologies { get; set; }

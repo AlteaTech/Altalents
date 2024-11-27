@@ -527,6 +527,7 @@ namespace Altalents.Business.Services
                     {
                         idDossierTechnique = expToUpdate.DossierTechnique.Id;
                         context.Experiences.Remove(expToUpdate);
+
                     }
                     else
                     {
