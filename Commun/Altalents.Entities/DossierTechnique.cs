@@ -26,7 +26,6 @@ namespace Altalents.Entities
         public Utilisateur Commercial { get; set; }
         public Guid PersonneId { get; set; }
         public Personne Personne { get; set; }
-
         //navigations
         public List<DocumentComplementaire> DocumentComplementaires { get; set; }
         public List<QuestionDossierTechnique> QuestionDossierTechniques { get; set; }

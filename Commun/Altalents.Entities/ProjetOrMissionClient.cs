@@ -17,7 +17,7 @@ namespace Altalents.Entities
         public string CompositionEquipe { get; set; }
         public DateTime? DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
-        public Guid DomaineMetierId { get; set; }
+        public Guid? DomaineMetierId { get; set; }
         public Reference DomaineMetier { get; set; }
         public Guid ExperienceId { get; set; }
         public Experience Experience { get; set; }

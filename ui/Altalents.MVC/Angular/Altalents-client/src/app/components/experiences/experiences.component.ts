@@ -135,8 +135,22 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
         experienceDto.outilIds?.push(x.id);
       })
       experienceDto.projetsOrMissionsClient = [];
-      experience.projetOrMission?.forEach(x => {
-        experienceDto.projetsOrMissionsClient?.push(ProjetOrMissionClientRequestDto.fromJS(x));
+      experience.projetOrMission?.forEach(p => {
+
+        let projectdto = new ProjetOrMissionClientRequestDto();
+
+        projectdto.taches = p.taches;
+        projectdto.descriptionProjetOrMission = p.descriptionProjetOrMission;
+        projectdto.nomClientOrProjet = p.NomClientOrProjet;
+        projectdto.dateDebut = p.dateDebut;
+        projectdto.dateFin = p.dateFin;
+        projectdto.lieu = p.lieu;
+        projectdto.domaineMetierId = p.domaineMetier?.id;
+        projectdto.compositionEquipe = p.compositionEquipe;
+        projectdto.budget = p.budget;
+
+        experienceDto.projetsOrMissionsClient?.push(projectdto);
+
       })
 
     return experienceDto;

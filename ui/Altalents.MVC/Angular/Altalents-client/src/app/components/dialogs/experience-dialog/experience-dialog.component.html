@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <input type="date" formControlName="dateDebut" class="form-control"
+                    <input id="dateDebut" type="date" formControlName="dateDebut" class="form-control"
                         placeholder="JJ/MM/AAAA">
                 </div>
                 <div class="col-lg-3 label-champ-input">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <input type="date" formControlName="dateFin" class="form-control" placeholder="JJ/MM/AAAA" >
+                    <input id="dateFin" type="date" formControlName="dateFin" class="form-control" placeholder="JJ/MM/AAAA" >
                 </div>
             </div>
             <div class="row mb-2">
@@ -35,13 +35,13 @@
                     </div>
                 </div>
                 <div class=col-lg-3>
-                    <input type="text" formControlName="intitulePoste" class="form-control"
+                    <input id="intitulePoste" type="text" formControlName="intitulePoste" class="form-control"
                         placeholder="Professeur d'histoire">
                 </div>
                 <div class="col-lg-3 label-champ-input">  </div>
                 <div class="col-lg-3 d-flex align-items-center margin-top">
                     <label class="switch">
-                        <input type="checkbox" formControlName="isPosteActuel" (change)="updateInputPosteActuel()">
+                        <input type="checkbox" formControlName="isPosteActuel" id="isPosteActuel" (change)="updateInputPosteActuel()">
                         <span class="slider"></span>
                     </label>
                     <div>
@@ -57,13 +57,13 @@
                     </div>
                 </div>
                 <div class="col-lg-3 d-flex align-items-center">
-                    <input type="text" formControlName="entreprise" class="form-control"
+                    <input id="entreprise" type="text" formControlName="entreprise" class="form-control"
                         placeholder="Nom de l'entreprise">
                 </div>
                 <div class="col-lg-3 label-champ-input">  </div>
                 <div class="col-lg-3 d-flex align-items-center  margin-top">
                     <label class="switch">
-                        <input type="checkbox" formControlName="isEntrepriseEsnOrInterim">
+                        <input type="checkbox" id="isEntrepriseEsnOrInterim" formControlName="isEntrepriseEsnOrInterim">
                         <span class="slider"></span>
                     </label>
                     <label for="isEntrepriseEsnOrInterim" class="ms-2">L'entreprise est une ESN</label>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class=col-lg-3>
-                    <select formControlName="domaineMetier" class="form-select">
+                    <select formControlName="domaineMetier" id="domaineMetier" class="form-select">
                         <option *ngFor="let domaine of domaines" [ngValue]="domaine">
                             {{domaine.libelle}}
                         </option>
@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <select formControlName="typeContrat" class="form-select">
+                    <select id="typeContrat" formControlName="typeContrat" class="form-select">
                         <option *ngFor="let typeContrat of typesContrats" [ngValue]="typeContrat">
                             {{typeContrat.libelle}}
                         </option>
@@ -108,13 +108,13 @@
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" formControlName="lieu" class="form-control" placeholder="Jumanji">
+                    <input type="text" id="lieu" formControlName="lieu" class="form-control" placeholder="Jumanji">
                 </div>
                 <div class="col-lg-3 label-champ-input">
                     <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" formControlName="compositionEquipe" class="form-control"
+                    <input type="text" id="compositionEquipe" formControlName="compositionEquipe" class="form-control"
                         placeholder="Avec qui travailliez-vous?">
                 </div>
             </div>
@@ -123,20 +123,20 @@
                     <label for="budgetGere" class="ms-2">Budget géré</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="number" formControlName="budgetGere" placeholder="0€" class="form-control">
+                    <input type="number" id="budgetGere" formControlName="budgetGere" placeholder="0€" class="form-control">
                 </div>
             </div>
             <div class="row mb-2">
                 <div class="col-lg-3  label-champ-input">
                     <label for="description">Description de l'expérience professionnelle<span class="champ-obligatoire">*</span></label>
                     <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
-                    <div class="error-message"
+                    <div class="error-message" 
                         *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
                         La description est requise.
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <textarea formControlName="description" placeholder="Il était une fois..."
+                    <textarea formControlName="description"  id="description" placeholder="Il était une fois..."
                         class="custom-text-area form-control"></textarea>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                     <label for="competences">Compétences</label>
                 </div>
                 <div class="col-lg-4">
-                    <app-multiple-autocomplete placeholder="Gestion de projet, Management, etc"
+                    <app-multiple-autocomplete id="competences" placeholder="Gestion de projet, Management, etc"
                         [constanteRequest]="constantesRequest.getReferencesCompetences"
                         [constanteTypeReference]="constantesTypesReferences.competence"
                         [selectedReferences]="formGroup.value.competences ?? []"
@@ -155,7 +155,7 @@
                     <label for="methodologies" class="col-form-label">Méthodologies</label>
                 </div>
                 <div class="col-lg-4">
-                    <app-multiple-autocomplete placeholder="SCRUM, etc"
+                    <app-multiple-autocomplete id="methodologies" placeholder="SCRUM, etc"
                         [constanteRequest]="constantesRequest.getReferencesMethodologies"
                         [constanteTypeReference]="constantesTypesReferences.methodologie"
                         [selectedReferences]="formGroup.value.methodologies ?? []"
@@ -164,10 +164,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-2 label-champ-input">
-                    <label for="technologie" class="col-form-label">Technologies</label>
+                    <label for="technologies" class="col-form-label">Technologies</label>
                 </div>
                 <div class="col-lg-4">
-                    <app-multiple-autocomplete placeholder="Décrivez les technologies utilisées"
+                    <app-multiple-autocomplete id="technologies" placeholder="Décrivez les technologies utilisées"
                         [constanteRequest]="constantesRequest.getReferencesTechnologies"
                         [constanteTypeReference]="constantesTypesReferences.technologie"
                         [selectedReferences]="formGroup.value.technologies ?? []"
@@ -175,10 +175,10 @@
                     </app-multiple-autocomplete>
                 </div>
                 <div class="col-lg-2 label-champ-input">
-                    <label for="outil" class="col-form-label">Outils</label>
+                    <label for="outils" class="col-form-label">Outils</label>
                 </div>
                 <div class="col-lg-4">
-                    <app-multiple-autocomplete placeholder="Visual studio, Ms project, etc"
+                    <app-multiple-autocomplete outils placeholder="Visual studio, Ms project, etc"
                         [constanteRequest]="constantesRequest.getReferencesOutils"
                         [constanteTypeReference]="constantesTypesReferences.outil"
                         [selectedReferences]="formGroup.value.outils ?? []"
@@ -198,8 +198,8 @@
                 <!-- Tâches -->
                 <div class="row mt-2">
                   <div class="col-lg-6">
-                    <label for="taches" class="col-form-label">Tâches<span class="text-danger">*</span></label>
-                    <textarea formControlName="taches" class="form-control" placeholder="Tâches effectuées"></textarea>
+                    <label for="taches{{i}}" class="col-form-label">Tâches<span class="text-danger">*</span></label>
+                    <textarea id="taches{{i}}" formControlName="taches" class="form-control" placeholder="Tâches effectuées"></textarea>
                     <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched" class="error-message">
                       Les tâches sont requises.
                     </div>
@@ -207,8 +207,8 @@
               
                   <!-- Description du projet ou mission -->
                   <div class="col-lg-6">
-                    <label for="descriptionProjetOrMission" class="col-form-label">Description<span class="text-danger">*</span></label>
-                    <textarea formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
+                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description<span class="text-danger">*</span></label>
+                    <textarea id="descriptionProjetOrMission{{i}}" formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
                     <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched" class="error-message">
                       La description est requise.
                     </div>
@@ -217,33 +217,33 @@
               
                 <div class="row">
                     <div class="col-lg-3">
-                      <label for="nomClientOrProjet" class="col-form-label">Nom Client ou Projet</label>
-                      <input type="text" formControlName="nomClientOrProjet" class="form-control" placeholder="Nom du client ou du projet">
+                      <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client ou Projet</label>
+                      <input id="nomClientOrProjet{{i}}" type="text" formControlName="nomClientOrProjet" class="form-control" placeholder="Nom du client ou du projet">
                     </div>
                 
                     <!-- Date de début -->
                     <div class="col-lg-3">
-                      <label for="dateDebut" class="col-form-label">Date de début</label>
-                      <input type="date" formControlName="dateDebut" class="form-control">
+                      <label for="dateDebut{{i}}" class="col-form-label">Date de début</label>
+                      <input id="dateDebut{{i}}" type="date" formControlName="dateDebut" class="form-control">
                     </div>
                 
                     <!-- Date de fin -->
                     <div class="col-lg-3">
-                      <label for="dateFin" class="col-form-label">Date de fin</label>
-                      <input type="date" formControlName="dateFin" class="form-control">
+                      <label for="dateFin{{i}}" class="col-form-label">Date de fin</label>
+                      <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control">
                     </div>
   
                     <div class="col-lg-3">
-                      <label for="lieu" class="col-form-label">Lieu</label>
-                      <input type="text" formControlName="lieu" class="form-control" placeholder="Lieu">
+                      <label for="lieu{{i}}" class="col-form-label">Lieu</label>
+                      <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control" placeholder="Lieu">
                     </div>
                 </div>
                 
                 <!-- Lieu -->
                 <div class="row">
                     <div class="col-lg-3">
-                        <label for="domaineMetier" class="col-form-label">Domaine métier</label>
-                        <select formControlName="domaineMetier" class="form-select">
+                        <label for="domaineMetier{{i}}" class="col-form-label">Domaine métier</label>
+                        <select id="domaineMetier{{i}}" formControlName="domaineMetier" class="form-select">
                           <option *ngFor="let domaine of domaines" [ngValue]="domaine">
                             {{ domaine.libelle }}
                           </option>
@@ -251,19 +251,19 @@
                     </div>
                     <!-- Composition de l'équipe -->
                     <div class="col-lg-3">
-                        <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
-                        <input type="text" formControlName="compositionEquipe" class="form-control" placeholder="Composition de l'équipe">
+                        <label for="compositionEquipe{{i}}" class="col-form-label">Composition d'équipe</label>
+                        <input id="compositionEquipe{{i}}" type="text" formControlName="compositionEquipe" class="form-control" placeholder="Composition de l'équipe">
                     </div>
 
                     <div class="col-lg-3">
-                        <label for="budget" class="col-form-label">Budget</label>
-                        <input type="number" formControlName="budget" class="form-control" placeholder="Budget">
+                        <label for="budget{{i}}" class="col-form-label">Budget</label>
+                        <input id="budget{{i}}" type="number" formControlName="budget" class="form-control" placeholder="Budget">
                         <div *ngIf="project?.get('budget')?.invalid && project?.get('budget')?.touched" class="error-message">
                         Le budget doit être un nombre positif.
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <label for="" class="col-form-label">&nbsp;</label>
+                        <label class="col-form-label">&nbsp;</label>
                         <div class="delete-link-container">
                             <a (click)="removeProjet(i)" class="delete-link">
                                 <p class="at-c-violet"><i class="fa-solid fa-trash"></i> Supprimer ce projet</p>
