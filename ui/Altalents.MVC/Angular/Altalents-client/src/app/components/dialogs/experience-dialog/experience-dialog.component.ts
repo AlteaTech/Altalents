@@ -127,6 +127,18 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     this.IsEsn = !this.IsEsn;
   }
 
+  openTab(event: any, tabName: string) {
+    const tabcontents = document.querySelectorAll('.tabcontent');
+    tabcontents.forEach((tab: any) => tab.classList.remove('active'));
+
+    const tablinks = document.querySelectorAll('.tablinks');
+    tablinks.forEach((tab: any) => tab.classList.remove('active'));
+
+    // Afficher l'onglet cliqué
+    document.getElementById(tabName)?.classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
   public removeProjet(index: number): void {
       const projectsArray = this.formGroup.get('projects') as FormArray;
       projectsArray.removeAt(index);
@@ -242,7 +254,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     }
   }
 
-  public closeDialog(): void {
+  public cancel(): void {
     this.activeModal.close();
   }
 
