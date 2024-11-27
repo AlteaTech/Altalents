@@ -28,6 +28,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public constantesRequest = ConstantesRequest;
   public constantesTypesReferences = ConstantesTypesReferences;
 
+  public IsEsn: boolean = false;
+
   constructor(public activeModal: NgbActiveModal,
     private readonly service: ApiServiceAgent) {
     super();
@@ -57,6 +59,9 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     this.populateData();
 
     if (this.experience) {
+
+      this.IsEsn = this.experience.IsEntrepriseEsnOrInterim;
+
       this.formGroup.patchValue({
         typeContrat : this.experience.typeContrat,
         intitulePoste: this.experience.intitulePoste,
@@ -117,6 +122,22 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     projectsArray.push(projectGroup);
 
   }
+
+  public toggleIsEsn() {
+    this.IsEsn = !this.IsEsn;
+  }
+
+  openTab(event: any, tabName: string) {
+    const tabcontents = document.querySelectorAll('.tabcontent');
+    tabcontents.forEach((tab: any) => tab.classList.remove('active'));
+
+    const tablinks = document.querySelectorAll('.tablinks');
+    tablinks.forEach((tab: any) => tab.classList.remove('active'));
+
+    // Afficher l'onglet cliqué
+    document.getElementById(tabName)?.classList.add('active');
+    event.currentTarget.classList.add('active');
+}
 
   public removeProjet(index: number): void {
       const projectsArray = this.formGroup.get('projects') as FormArray;
@@ -233,7 +254,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     }
   }
 
-  public closeDialog(): void {
+  public cancel(): void {
     this.activeModal.close();
   }
 

@@ -26,7 +26,9 @@ export class Experience {
 
     static from(dto : ExperienceDto):Experience{
       var model = new Experience ();
+
       model.id = dto.id;
+
       model.typeContrat = Reference.fromReferenceDto(dto.typeContrat);
       model.intitulePoste = dto.intitulePoste;
       model.nomEntreprise = dto.nomEntreprise;
@@ -42,6 +44,8 @@ export class Experience {
       model.methodologies = dto.methodologies ? Reference.fromListReferenceDto(dto.methodologies) : undefined;
       model.outils = dto.outils ? Reference.fromListReferenceDto(dto.outils) : undefined;
       model.budgetGere = dto.budget ?? undefined;
+      model.projetOrMission = dto.projetsOrMissionsClient ? ProjectOrMissionClient.fromList(dto.projetsOrMissionsClient) : undefined;
+
       return model;
     }
   

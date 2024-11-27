@@ -19,6 +19,16 @@ p {
     margin-top: 0.5rem;
 }
 
+.margin-bottom-big {
+
+    margin-bottom: 2rem;
+}
+
+.margin-top-big {
+
+    margin-top: 2rem;
+}
+
 /* Conteneur pour le lien "Supprimer" */
 .delete-link-container {
     display: flex;
@@ -37,3 +47,64 @@ p {
 .delete-link:hover {
     text-decoration: underline; /* Souligne le lien au survol */
 }
+
+
+
+
+.project-even {
+    background-color: #ffffff; /* Gris clair */
+    padding: 20px; /* Ajustez la valeur du padding selon vos besoins */
+    border-radius: 8px; /* Optionnel : pour des bords arrondis */
+}
+
+.project-odd {
+    background-color: #f1f1f1; /* Gris légèrement plus foncé */
+    padding: 20px; /* Ajustez la valeur du padding selon vos besoins */
+    border-radius: 8px; /* Optionnel : pour des bords arrondis */
+}
+
+
+
+/* Onglets */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .tablinks {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 14px 16px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .tablinks:hover {
+    background-color: #ddd;
+  }
+  
+  .tablinks.active {
+    background-color: #ddd;
+    font-weight: bold;
+  }
+  
+  .tabcontent {
+    display: none;
+    padding: 20px;
+    border-top: 2px solid #ddd;
+  }
+  
+  .tabcontent.active {
+    display: block;
+  }
+
+  .nav-link{
+
+    color: black;
+  }
+
+  .nav-link.active{
+
+    color: #7A4AFF;
+  }

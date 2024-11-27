@@ -119,6 +119,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experienceDto.domaineMetierId = experience.domaineMetier.id;
       experienceDto.budget = experience.budgetGere;
 
+      experienceDto.technologieIds = [];
       experience.technologies?.forEach(x => {
         experienceDto.technologieIds?.push(x.id);
       })
@@ -134,6 +135,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experience.outils?.forEach(x => {
         experienceDto.outilIds?.push(x.id);
       })
+    
       experienceDto.projetsOrMissionsClient = [];
       experience.projetOrMission?.forEach(p => {
 
