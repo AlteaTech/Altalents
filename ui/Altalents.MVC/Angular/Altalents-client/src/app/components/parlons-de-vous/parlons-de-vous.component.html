@@ -9,11 +9,11 @@
 </div>
 <form [formGroup]="formGroup">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-xl-6">
             <fieldset>
-                <legend class="legend-text">&nbsp;&nbsp;<i class="fa-solid fa-info"></i>&nbsp;&nbsp;Informations personnelles</legend>
+                <legend class="legend-text"><i class="fa-solid fa-info"></i>Informations personnelles</legend>
                 <div class="row mb-2">
-                    <div class="col-6 at-p-label-champ-input">
+                    <div class="col-xl-6 label-champ-input">
                         <label for="prenom" class="col-form-label">Prénom<span
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
@@ -21,29 +21,29 @@
                             Prénom est requis.
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <input type="text" class="form-control" formControlName="prenom" placeholder="Julien">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input ">
                         <label for="nom" class="col-form-label">Nom<span class="champ-obligatoire">*</span></label>
                         <div class="error-message"
                             *ngIf="formGroup.get('nom')?.invalid && formGroup.get('nom')?.touched">
                             Nom est requis.
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <input type="text" class="form-control" formControlName="nom" placeholder="Dupont">
                     </div>
                 </div>
             </fieldset>
         </div>
-        <div class="col-lg-6">
+        <div class="col-xl-6">
             <fieldset>
-                <legend class="legent-text">&nbsp;&nbsp;<i class="fa-regular fa-address-book"></i>&nbsp;&nbsp;Coordonnées de contact</legend>
+                <legend class="legent-text"><i class="fa-regular fa-address-book"></i>Coordonnées de contact</legend>
                 <div class="row mb-2">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input">
                         <label for="numeroTelephone1 align-items-center" class="col-form-label">N° de téléphone 1<span
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
@@ -51,13 +51,13 @@
                             N° de téléphone est invalide.
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <input type="text" class="form-control" formControlName="numeroTelephone1"
-                            placeholder="00 00 00 00 00">
+                            placeholder="XX XX XX XX XX">
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input ">
                         <label for="numeroTelephone2 align-items-center" class="col-form-label">N° de téléphone
                             2</label>
                         <div class="error-message"
@@ -65,13 +65,13 @@
                             N° de téléphone est invalide.
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <input type="text" class="form-control" formControlName="numeroTelephone2"
-                            placeholder="00 00 00 00 00">
+                            placeholder="XX XX XX XX XX">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input ">
                         <label for="adresseMail align-items-center" class="col-form-label">Adresse mail<span
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
@@ -79,7 +79,7 @@
                             Adresse mail est invalide.
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <input type="text" class="form-control" formControlName="adresseMail"
                             placeholder="adresse@mail.com">
                     </div>
@@ -88,11 +88,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-xl-6">
             <fieldset>
-                <legend class="legent-text">&nbsp;&nbsp;<i class="fa-regular fa-map"></i>&nbsp;&nbsp;Adresse</legend>
+                <legend class="legent-text"><i class="fa-regular fa-map"></i>Adresse</legend>
                 <div class="row mb-2">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input ">
                         <label for="adresse1 align-items-center" class="col-form-label">Adresse 1<span
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
@@ -100,22 +100,22 @@
                             Adresse est requis.
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <input type="text" class="form-control" formControlName="adresse1"
                             placeholder="12 rue des Fleurs">
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input">
                         <label for="adresse2 align-items-center" class="col-form-label">Adresse 2</label>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <input type="text" class="form-control" formControlName="adresse2"
                             placeholder="22 rue des Adresses">
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input ">
                         <label class="col-form-label">Code postal / Ville<span
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
@@ -127,42 +127,42 @@
                             Ville est requise.
                         </div>
                     </div>
-                    <div class="col-2">
-                        <input type="text" class="form-control" formControlName="codePostal" placeholder="08000">
+                    <div class="col-xl-2">
+                        <input type="text" class="form-control" formControlName="codePostal" placeholder="13820">
                     </div>
-                    <div class="col-4">
+                    <div class="col-xl-4">
                         <input type="text" class="form-control" formControlName="ville" placeholder="Charleville">
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input">
                         <label for="pays" class="col-form-label">Pays<span class="champ-obligatoire">*</span></label>
                         <div class="error-message"
                             *ngIf="formGroup.get('pays')?.invalid && formGroup.get('pays')?.touched">
                             Pays est requise.
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <input type="text" class="form-control" formControlName="pays" placeholder="France">
                     </div>
                 </div>
             </fieldset>
         </div>
-        <div class="col-lg-6">
+        <div class="col-xl-6">
             <fieldset>
-                <legend class="legent-text">&nbsp;&nbsp;<i class="fa-solid fa-align-justify"></i>&nbsp;&nbsp;Synthèse</legend>
+                <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse</legend>
                  <div class="row">
-                    <div class="col-6 at-p-label-champ-input ">
+                    <div class="col-xl-6 label-champ-input">
                         <label for="pays" class="col-form-label">Synthèse (Environs 100 mots)<span class="champ-obligatoire">*</span></label>
-                        <p class="font-normal">Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... En gros, pareil que dans ta synthèse LinkedIn si jamais t'en as une 😊</p>
+                        <p class="font-normal">Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une 😊</p>
                         <div class="error-message"
                             *ngIf="formGroup.get('synthese')?.invalid && formGroup.get('synthese')?.touched">
                             La synthèse est requise.
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-xl-6">
                         <textarea rows="8" class="form-control" formControlName="synthese"
-                            placeholder="Je suis un pecheur d'huitres depuis l'enfance ... c'est comme ca que j'ai fini expert international de l'huitre"></textarea>
+                            placeholder="Passionnée par le film Matrix depuis que je suis bébé, je me suis toujours intéressée aux technologies de l'information et, plus largement, à la matrice..."></textarea>
                     </div>
                 </div>
             </fieldset>

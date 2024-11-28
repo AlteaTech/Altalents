@@ -120,7 +120,7 @@ namespace Altalents.Business.Services
                 ?? throw new BusinessException("DossierTechnique inexistant.");
         }
 
-        private async Task<Guid> GetDOssierTechniqueIdFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        private async Task<Guid> GetDossierTechniqueIdFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await DbContext.DossierTechniques
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
@@ -527,7 +527,6 @@ namespace Altalents.Business.Services
                     {
                         idDossierTechnique = expToUpdate.DossierTechnique.Id;
                         context.Experiences.Remove(expToUpdate);
-
                     }
                     else
                     {
@@ -538,7 +537,7 @@ namespace Altalents.Business.Services
             //create
             else
             {
-                idDossierTechnique = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                idDossierTechnique = await GetDossierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
             }
 
             //mapiing & Save
@@ -572,7 +571,7 @@ namespace Altalents.Business.Services
                     if (id == null)
                     {
                         certifToAddOrUpdate = Mapper.Map<Certification>(request);
-                        certifToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                        certifToAddOrUpdate.DossierTechniqueId = await GetDossierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
                         await context.Certifications.AddAsync(certifToAddOrUpdate, cancellationToken);
                     }
                     else
@@ -604,7 +603,7 @@ namespace Altalents.Business.Services
                     if (id == null)
                     {
                         formationfToAddOrUpdate = Mapper.Map<Formation>(request);
-                        formationfToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                        formationfToAddOrUpdate.DossierTechniqueId = await GetDossierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
                         await context.Formations.AddAsync(formationfToAddOrUpdate, cancellationToken);
                     }
                     else
@@ -642,7 +641,7 @@ namespace Altalents.Business.Services
             if (id == null)
             {
                 dossierTechniqueLangueToAddOrUpdate = Mapper.Map<DossierTechniqueLangue>(request);
-                dossierTechniqueLangueToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                dossierTechniqueLangueToAddOrUpdate.DossierTechniqueId = await GetDossierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
                 await context.DossierTechniqueLangues.AddAsync(dossierTechniqueLangueToAddOrUpdate, cancellationToken);
             }
             else

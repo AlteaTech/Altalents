@@ -10,6 +10,7 @@
     padding-right: 5vw;
     padding-top: 20px;
     padding-bottom: 20px;
+    border-radius: 15px;
   }
 
   ol.stepper {
@@ -20,6 +21,7 @@
   .enum-dossier-technique {
     text-align: center;
   }
+  
 }
 body {
   margin-bottom: 50px;
@@ -32,6 +34,7 @@ body {
     background: #ffffff;
     padding-left: 5vw;
     padding-right: 5vw;
+    border-radius: 25px;
   }
 
   ol.stepper {
@@ -43,12 +46,6 @@ body {
     display: flex;
     align-items: center;
   }
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
 ol.stepper {

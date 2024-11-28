@@ -15,7 +15,7 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.ToTable("ProjetsOrMissionsClient");
 
             builder.HasOne(p => p.DomaineMetier)
-                .WithMany()
+                .WithMany(p => p.ProjetsOrMissions)
                 .HasForeignKey(p => p.DomaineMetierId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);

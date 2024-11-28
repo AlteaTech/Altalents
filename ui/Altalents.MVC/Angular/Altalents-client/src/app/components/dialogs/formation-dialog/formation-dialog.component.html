@@ -1,60 +1,60 @@
 <div class="at-p-fenetre-dialog">
     <form [formGroup]="formGroup">
         <fieldset>
-            <legend><i class="fa-solid fa-graduation-cap "></i>&nbsp;&nbsp;Formation</legend>
+            <legend><i class="fa-solid fa-graduation-cap "></i>Formation</legend>
             <div class="row mb-2">
-                <div class="col-6 at-p-label-champ-input">
+                <div class="col-xl-6 label-champ-input">
                     <label for="libelle" class="col-form-label">Formation<span class="champ-obligatoire">*</span></label>
                     <div class="error-message"
                         *ngIf="formGroup.controls.libelle.invalid && formGroup.controls.libelle.touched">
                         L'intitulé de la formation est requis.
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-xl-6">
                     <input type="text" class="form-control" formControlName="libelle" placeholder="Libellé de la formation">
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-6 at-p-label-champ-input ">
+                <div class="col-xl-6 label-champ-input ">
                     <label for="domaine" class="col-form-label">Domaine</label>
                 </div>
-                <div class="col-6">
+                <div class="col-xl-6">
                     <input type="text" class="form-control" formControlName="domaine" placeholder="Histoire">
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-6 at-p-label-champ-input ">
+                <div class="col-xl-6 label-champ-input ">
                     <label for="niveau" class="col-form-label">Niveau</label>
                 </div>
-                <div class="col-6">
+                <div class="col-xl-6">
                     <input type="text" class="form-control" formControlName="niveau" placeholder="Bac">
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-6 at-p-label-champ-input ">
+                <div class="col-xl-6 label-champ-input ">
                     <label for="organisme" class="col-form-label">Organisme</label>
                 </div>
-                <div class="col-6">
+                <div class="col-xl-6">
                     <input type="text" class="form-control" formControlName="organisme" placeholder="Nom de l'organisme">
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-6 at-p-label-champ-input ">
+                <div class="col-xl-6 label-champ-input ">
                     <label for="dateDebut" class="col-form-label">Date de début<span class="champ-obligatoire">*</span></label>
                     <div class="error-message"
                     *ngIf="formGroup.controls.dateDebut.invalid && formGroup.controls.dateDebut.touched">
                     La date de début est requise.
                 </div>
                 </div>
-                <div class="col-6">
+                <div class="col-xl-6">
                     <input type="date" class="form-control" formControlName="dateDebut" placeholder="JJ/MM/AAAA">
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-6 at-p-label-champ-input ">
+                <div class="col-xl-6 label-champ-input ">
                     <label for="dateFin" class="col-form-label">Date de fin</label>
                 </div>
-                <div class="col-6">
+                <div class="col-xl-6">
                     <input type="date" class="form-control" formControlName="dateFin" placeholder="JJ/MM/AAAA">
                 </div>
             </div>

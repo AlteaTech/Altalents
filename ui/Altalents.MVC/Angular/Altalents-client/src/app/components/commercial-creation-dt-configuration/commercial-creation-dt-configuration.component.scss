@@ -10,6 +10,7 @@
         padding-top: 20px;
         padding-bottom: 20px;
         overflow: auto;
+        border-radius: 15px;
     }
 
 }
@@ -26,6 +27,7 @@
         padding-top: 2vh;
         padding-bottom: 5vh;
         overflow: auto;
+        border-radius: 25px;
     }
 }
 
@@ -34,16 +36,6 @@
     {
         text-align: right;
     }
-}
-
-.content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-h1 {
-    font-weight: bold;
 }
 
 .button-envoyer {

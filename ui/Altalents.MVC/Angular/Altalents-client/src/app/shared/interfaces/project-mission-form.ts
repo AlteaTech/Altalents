@@ -3,7 +3,7 @@ import { Reference } from "../models/reference.model";
 
 export interface ProjectForm {
     
-    NomClientOrProjet: FormControl<string | null>,
+    nomClientOrProjet: FormControl<string | null>,
     descriptionProjetOrMission: FormControl<string | null>,
     taches: FormControl<string | null>,
     lieu: FormControl<string | null>,

@@ -175,7 +175,6 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
           this.domaines = Reference.fromListReferenceDto(response);
 
         // Déplacer l'élément avec l'ID spécifique en bas
-
         const index = this.domaines.findIndex(x => x.id === Constantes.idDomaineMetierAutre);
         if (index !== -1) {
           const [item] = this.domaines.splice(index, 1);
@@ -214,7 +213,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         const projects: ProjectOrMissionClient[] = projectsArray.controls.map((group) => {
           const valuesProj = group.value;
           return {
-            NomClientOrProjet: valuesProj.NomClientOrProjet ?? "",
+            NomClientOrProjet: valuesProj.nomClientOrProjet ?? "",
             descriptionProjetOrMission: valuesProj.descriptionProjetOrMission ?? "",
             taches: valuesProj.taches ?? "",
             lieu: valuesProj.lieu ?? "",

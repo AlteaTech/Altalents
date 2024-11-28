@@ -5,20 +5,14 @@
             <legend class="margin-bottom-big"><i class="fa-regular fa-building"></i>&nbsp;&nbsp;Expérience professionelle</legend>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active " id="experience-tab" data-bs-toggle="tab" href="#experience" role="tab" aria-controls="experience" aria-selected="true">Détails de l'expérience</a>
+                    <a class="nav-link active " id="experience-tab" data-bs-toggle="tab" href="#experience" role="tab" aria-controls="experience" aria-selected="true">Détails</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="projets-tab" data-bs-toggle="tab" href="#projets" role="tab" aria-controls="projets" aria-selected="false">{{ IsEsn ? ' Missions client' : 'Projets' }}</a>
+                    <a class="nav-link" id="projets-tab" data-bs-toggle="tab" href="#projets" role="tab" aria-controls="projets" aria-selected="false">{{ IsEsn ? ' Missions' : 'Projets' }}</a>
                 </li>
-          
             </ul>
-    
             <div class="tab-content margin-top-big margin-bottom-big" id="myTabContent">
-                <!-- Détails de l'expérience -->
                 <div class="tab-pane fade show active" id="experience" role="tabpanel" aria-labelledby="experience-tab">
-                    <!-- Formulaire Détails de l'expérience -->
-              
-                     
                     <div class="row mb-2">
                         <div class="col-lg-3 label-champ-input">
                             <label for="dateDebut" class="col-form-label">Date de début<span class="champ-obligatoire">*</span></label>
@@ -215,7 +209,7 @@
                                   <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client</label>
                                 </div>
                                   <div class="col-lg-3">
-                                  <input id="nomClientOrProjet{{i}}" type="text" formControlName="nomClientOrProjet" class="form-control" placeholder="Nom du client ou du projet">
+                                  <input id="nomClientOrProjet{{i}}" type="text" formControlName="nomClientOrProjet" class="form-control" placeholder="Edf, Areva, Michelin ...">
                                 </div>
                             
                                 <div class="col-lg-3 label-champ-input">
@@ -317,14 +311,14 @@
                                 <button (click)="addProject()">
                                     <p>
                                         <i class="fa-regular fa-plus at-c-violet"></i>
-                                        {{ IsEsn ? 'Ajouter une mission client' : 'Ajouter un projet' }}
+                                        {{ IsEsn ? 'Ajouter une mission' : 'Ajouter un projet' }}
                                     </p>
                                 </button>
                             </div>
                     </div>
                     <!-- Message d'erreur en fonction de IsEsn -->
                     <div *ngIf="!hasAtLeastOneProject()" class="text-danger margin-top-big">
-                        {{ IsEsn ? 'Vous devez renseigner au moins une mission client.' : 'Vous devez renseigner au moins un projet.' }}
+                        {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins un projet.' }}
                     </div>
 
                 </div>

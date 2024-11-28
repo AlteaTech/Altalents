@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-xl-6">
                             <fieldset>
-                                <legend>Informations personnelles</legend>
+                                <legend><i class="fa-solid fa-info"></i>Informations personnelles</legend>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
                                         <label for="prenom" class="col-form-label">Prénom<span class="champ-obligatoire ">*</span></label>
@@ -55,7 +55,7 @@
                                 </div>
                             </fieldset>
                             <fieldset>
-                                <legend>Conditions</legend>
+                                <legend><i class="fa-solid fa-check"></i>Conditions</legend>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
                                         <label for="poste" class="col-form-label">Poste</label>
@@ -100,7 +100,23 @@
                         </div>
                         <div class="col-xl-6">
                             <fieldset>
-                                <legend>Coordonnées de contact</legend>
+                                <legend><i class="fa-solid fa-b"></i>Identifiant de Boond Manager du candidat</legend>
+                                <div class="row mb-2">
+                                    <div class="col-xl-6 label-champ-input">
+                                        <label for="idBoond" class="col-form-label">ID de Boond Manager<span class="champ-obligatoire">*</span></label>
+                                        <div class="error-message"
+                                            *ngIf="formGroup.get('idBoond')?.invalid && formGroup.get('idBoond')?.touched">
+                                            L'identifiant de Boond Manager du candidat est invalide.
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <input type="text" class="form-control" formControlName="idBoond"
+                                            placeholder="15415s">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend><i class="fa-regular fa-address-book"></i>Coordonnées de contact</legend>
                                 <div class="row mb-2">
                                     <div class="col-xl-6 label-champ-input">
                                         <label for="numeroTelephone1" class="col-form-label">N° de téléphone</label>
@@ -111,7 +127,7 @@
                                     </div>
                                     <div class="col-xl-6">
                                         <input type="text" class="form-control" formControlName="numeroTelephone1"
-                                            placeholder="00 00 00 00 00">
+                                            placeholder="XX XX XX XX XX">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -130,46 +146,18 @@
                                 </div>
                             </fieldset>
                             <fieldset>
-                                <legend>Questionnaires & documents</legend>
-                                <div class="row mb-2">
-                                    <div class="col-xl-6"></div>
-                                    <div class="col-xl-6">
+                                <legend><i class="fa-solid fa-question"></i>Questionnaires & documents</legend>
                                         <div class="at-p-button-ajouter">
                                             <button (click)="onAjouterQuestionnaireClick()">
-                                                <img src="Images/ICONE_PLUS.png">
-                                                <p>{{questions ? 'Modifier le ' : 'Ajouter un '}} questionnaire</p>
+                                                <p><i class="fa-regular fa-plus at-c-violet"></i>{{questions ? 'Modifier le ' : 'Ajouter un '}} questionnaire</p>
                                             </button>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-xl-6"></div>
-                                    <div class="col-xl-6">
                                         <div class="at-p-button-ajouter">
                                             <button (click)="onAjouterDocumentClick()">
-                                                <img src="Images/ICONE_PLUS.png">
-                                                <p>{{pieceJointe ? 'Modifier la ' : 'Ajouter une '}} pièce jointe</p>
+                                                <p><i class="fa-regular fa-plus at-c-violet"></i>{{pieceJointe ? 'Modifier la ' : 'Ajouter une '}} pièce jointe</p>
                                             </button>
                                         </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Identifiant de Boond Manager du candidat</legend>
-                                <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
-                                        <label for="idBoond" class="col-form-label">ID de Boond Manager<span class="champ-obligatoire">*</span></label>
-                                        <div class="error-message"
-                                            *ngIf="formGroup.get('idBoond')?.invalid && formGroup.get('idBoond')?.touched">
-                                            L'identifiant de Boond Manager du candidat est invalide.
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <input type="text" class="form-control" formControlName="idBoond"
-                                            placeholder="15415s">
-                                    </div>
-                                </div>
-
+                                   
                             </fieldset>
                         </div>
                     </div>
@@ -177,15 +165,9 @@
             </div>
             <div>
                 <div class="at-p-button-container">
-                    <button class="at-p-secondary-button" (click)="return()">
-                        <img src="Images/ICONE_REPLAY.png">
-                        <p>Retour</p>
-                    </button>
-                    <button class="button-envoyer" (click)="sendCandidat()">
-                        <img src="Images/ICONE_PLAY.png">
-                        <p>Envoyer au candidat</p>
-                    </button>
-                </div>
+                    <altea-button-secondary label="Retour" imgSrc="Images/ICONE_REPLAY.png" (onClick)="return()"></altea-button-secondary>
+                    <altea-button-prim label="Envoyer" imgSrc="Images/ICONE_PLAY.png" (onClick)="sendCandidat()"></altea-button-prim>
+                </div> 
             </div>
         </div>
         <div class="col-2"></div>

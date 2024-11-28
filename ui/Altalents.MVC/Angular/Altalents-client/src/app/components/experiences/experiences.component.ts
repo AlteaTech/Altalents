@@ -11,6 +11,7 @@ import { formatDate } from '@angular/common';
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { DureeExperienceService } from 'src/app/shared/services/services/calculators/duree-experience-calculator';
 import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ValidateDate } from 'src/app/shared/services/services/validators/validate-date';
 
 @Component({
   selector: 'app-experiences',
@@ -144,8 +145,8 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
         projectdto.taches = p.taches;
         projectdto.descriptionProjetOrMission = p.descriptionProjetOrMission;
         projectdto.nomClientOrProjet = p.NomClientOrProjet;
-        projectdto.dateDebut = p.dateDebut;
-        projectdto.dateFin = p.dateFin;
+        projectdto.dateDebut = ValidateDate(p.dateDebut) ? p.dateDebut : null;
+        projectdto.dateFin = ValidateDate(p.dateFin) ? p.dateFin : null;
         projectdto.lieu = p.lieu;
         projectdto.domaineMetierId = p.domaineMetier?.id;
         projectdto.compositionEquipe = p.compositionEquipe;

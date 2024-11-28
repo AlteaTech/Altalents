@@ -1,6 +1,7 @@
 import { Constantes } from "../constantes/constantes";
 import { ProjetOrMissionClientDto } from "../services/generated/api/api.client";
 import { DureeExperienceService } from "../services/services/calculators/duree-experience-calculator";
+import { ValidateDate } from "../services/services/validators/validate-date";
 import { Reference } from "./reference.model";
 
 export class ProjectOrMissionClient {
@@ -30,7 +31,8 @@ export class ProjectOrMissionClient {
         model.dateDebut = dto.dateDebut! ; 
         model.dateFin = dto.dateFin! ; 
         model.domaineMetier = dto.domaineMetier ? Reference.fromReferenceDto(dto.domaineMetier) : undefined; 
-        model.dureeExperience = model.dateDebut ? DureeExperienceService.CalculateDureeExperience(new Date(model.dateDebut!), new Date(model.dateFin)) : undefined;
+        model.dureeExperience = model.dateDebut ? DureeExperienceService.CalculateDureeExperience(new Date(model.dateDebut!), ValidateDate(model.dateFin)?new Date(model.dateFin):undefined) : undefined;
+
         
       return model;
 
