@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
@@ -14,6 +14,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 import { ProjectOrMissionClient } from 'src/app/shared/models/project-mission.model';
 import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
 import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
+import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-experience-dialog',
@@ -31,8 +32,14 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
   public IsEsn: boolean = false;
   
+  public ngbModalDeleteOptions: NgbModalOptions = {
+    backdrop : 'static',
+    keyboard : false,
+    size: 'lg'
+  };
 
   constructor(public activeModal: NgbActiveModal,
+    private modalService: NgbModal,
     private readonly service: ApiServiceAgent) {
 
     super();
@@ -121,7 +128,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       descriptionProjetOrMission: new FormControl(project?.descriptionProjetOrMission ?? null, Validators.required),
       domaineMetier: new FormControl(project?.domaineMetier ?? null),
       dateDebut: new FormControl(project?.dateDebut ? formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale) : null, [maxDateTodayValidator()]),
-      dateFin: new FormControl(project?.dateDebut ? formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale): null, [maxDateTodayValidator()]),
+      dateFin: new FormControl(project?.dateFin ? formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale): null, [maxDateTodayValidator()]),
       taches: new FormControl(project?.taches ?? null, Validators.required),
       compositionEquipe: new FormControl(project?.compositionEquipe ?? null),
       budget: new FormControl(project?.budget ?? null),
@@ -151,8 +158,14 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 }
 
   public removeProjet(index: number): void {
-      const projectsArray = this.formGroup.get('projects') as FormArray;
-      projectsArray.removeAt(index);
+      let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
+      dialogRef.componentInstance.itemName = this.IsEsn  ? 'cette mission' : 'ce projet ';
+      dialogRef.result.then((validated: boolean | undefined) => {
+        if(validated) {
+          const projectsArray = this.formGroup.get('projects') as FormArray;
+          projectsArray.removeAt(index);
+        }
+      })
     }
 
     public hasAtLeastOneProject(): boolean {

@@ -310,7 +310,13 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
+
+                        <div *ngIf="!hasAtLeastOneProject()" class="text-danger margin-top-big">
+                            {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins un projet.' }}
+                        </div>
+
                             <div class="at-p-button-ajouter">
                                 <label for="" class="col-form-label"></label>
                                 <button (click)="addProject()">
@@ -321,13 +327,12 @@
                                 </button>
                             </div>
                     </div>
-                    <div *ngIf="!hasAtLeastOneProject()" class="text-danger margin-top-big">
-                        {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins un projet.' }}
-                    </div>
+                  
                 </div>
-                <div *ngIf="formGroup.invalid && formGroup.touched" class="text-danger margin-top-big">
-                    Le formulaire contient des erreurs. Veuillez corriger les champs en rouge dans tout dans tous les onglets.
-                </div>
+              
+            </div>
+            <div *ngIf="formGroup.invalid && formGroup.touched" class="text-danger margin-top-big">
+                Veuillez corriger les champs en erreur avant de pouvoir valider (dans tout dans tous les onglets).
             </div>
         </fieldset>
         <div>

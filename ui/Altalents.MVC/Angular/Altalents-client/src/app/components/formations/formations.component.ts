@@ -27,10 +27,11 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
   public stepFormation: StepFormation = new StepFormation();
+
   public ngbModalOptions: NgbModalOptions = {
-    centered: true,
     backdrop : 'static',
     keyboard : false,
+    size: 'lg'
   };
 
   constructor(private modalService: NgbModal,
