@@ -42,7 +42,7 @@
             </span>
         </p>
         <div class="row">
-            <div class="col-xl-4" *ngFor="let project of experience.projetOrMission"> 
+            <div class="col-lg-4" *ngFor="let project of experience.projetOrMission"> 
                 <div class="item-bloc" >
                     <p *ngIf="project.NomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">{{project.NomClientOrProjet}} <span *ngIf="project.NomClientOrProjet && project.domaineMetier"> - </span><span *ngIf="project.domaineMetier">{{project?.domaineMetier?.libelle}}</span></p>
                     <div *ngIf="project.dateDebut" class="font-italic font-small font-normal">

@@ -13,6 +13,7 @@ import { ReferenceDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ProjectOrMissionClient } from 'src/app/shared/models/project-mission.model';
 import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
+import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 
 @Component({
   selector: 'app-experience-dialog',
@@ -29,17 +30,21 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public constantesTypesReferences = ConstantesTypesReferences;
 
   public IsEsn: boolean = false;
+  
 
   constructor(public activeModal: NgbActiveModal,
     private readonly service: ApiServiceAgent) {
+
     super();
+    const today = new Date();
+
     this.formGroup = new FormGroup<ExperienceForm>({
       typeContrat: new FormControl(null, Validators.required),
       intitulePoste: new FormControl(null, Validators.required),
       entreprise: new FormControl(null, Validators.required),
       isEntrepriseEsnOrInterim: new FormControl(),
-      dateDebut: new FormControl(null, Validators.required),
-      dateFin: new FormControl(),
+      dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
+      dateFin: new FormControl(null, [maxDateTodayValidator()]),
       isPosteActuel: new FormControl(),
       lieu: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
@@ -53,6 +58,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       budgetGere: new FormControl(),
       projects: new FormArray<FormGroup<ProjectForm>>([], [Validators.required, Validators.minLength(1)]),
     });
+
+    this.formGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
   }
 
   public ngOnInit(): void {
@@ -107,17 +114,21 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     const projectsArray = this.formGroup.get('projects') as FormArray;
 
+
+
     const projectGroup = new FormGroup({
       nomClientOrProjet: new FormControl(project?.NomClientOrProjet ?? null),
       descriptionProjetOrMission: new FormControl(project?.descriptionProjetOrMission ?? null, Validators.required),
       domaineMetier: new FormControl(project?.domaineMetier ?? null),
-      dateDebut: new FormControl(project?.dateDebut ? formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale) : null),
-      dateFin: new FormControl(project?.dateDebut ? formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale): null),
+      dateDebut: new FormControl(project?.dateDebut ? formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale) : null, [maxDateTodayValidator()]),
+      dateFin: new FormControl(project?.dateDebut ? formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale): null, [maxDateTodayValidator()]),
       taches: new FormControl(project?.taches ?? null, Validators.required),
       compositionEquipe: new FormControl(project?.compositionEquipe ?? null),
       budget: new FormControl(project?.budget ?? null),
       lieu: new FormControl(project?.lieu ?? null),
     });
+
+    projectGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
 
     projectsArray.push(projectGroup);
 

@@ -7,10 +7,10 @@
     <div class="container">
         <div class="content">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-5 margin-top">
                     <h1 class="enum-dossier-technique">{{titreStep}}</h1>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                     <ol class="stepper">
                         <li *ngFor="let step of steps" [ngClass]="{'active' : currentStep == step}"
                             (click)="onStepClick(step)">

@@ -11,44 +11,44 @@
             <div class="row">
                 <form [formGroup]="formGroup" class="col-12">
                     <div class="row">
-                        <div class="col-xl-6">
+                        <div class="col-lg-6">
                             <fieldset>
                                 <legend><i class="fa-solid fa-info"></i>Informations personnelles</legend>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-lg-6 label-champ-input">
                                         <label for="prenom" class="col-form-label">Prénom<span class="champ-obligatoire ">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
                                             Prénom est requis.
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control " formControlName="prenom"
                                             placeholder="Julien" (change)="nomPrenomChange()">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-lg-6 label-champ-input">
                                         <label for="nom" class="col-form-label">Nom<span class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('nom')?.invalid && formGroup.get('nom')?.touched">
                                             Nom est requis.
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" formControlName="nom"
                                             placeholder="Dupont" (change)="nomPrenomChange()">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-lg-6 label-champ-input">
                                         <label for="trigram" class="col-form-label">Trigramme<span class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('trigram')?.invalid && formGroup.get('trigram')?.touched">
                                             Trigramme est invalide.
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" formControlName="trigram"
                                             placeholder="JUD">
                                     </div>
@@ -57,16 +57,16 @@
                             <fieldset>
                                 <legend><i class="fa-solid fa-check"></i>Conditions</legend>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-lg-6 label-champ-input">
                                         <label for="poste" class="col-form-label">Poste</label>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" formControlName="poste"
                                             placeholder="Titre">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 d-flex align-items-center custom-justify-end">
+                                    <div class="col-lg-6 d-flex align-items-center custom-justify-end">
                                         <div class=" text-end">
                                             <label class="switch">
                                                 <input type="checkbox" formControlName="isPrixJourEnable" (change)="updateInputPrixJour()">
@@ -77,16 +77,16 @@
                                             <label for="prixJour" class="ms-3">Tarif journalier</label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" formControlName="prixJour"
                                             placeholder="100 €">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-lg-6 label-champ-input">
                                         <label for="disponibilite" class="col-form-label">Disponibilité</label>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <select id="country" class="at-w-200" class="form-control"
                                             formControlName="disponibilite">
                                             <option *ngFor="let disponibilite of disponibilites"
@@ -98,18 +98,18 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="col-xl-6">
+                        <div class="col-lg-6">
                             <fieldset>
                                 <legend><i class="fa-solid fa-b"></i>Identifiant de Boond Manager du candidat</legend>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-lg-6 label-champ-input">
                                         <label for="idBoond" class="col-form-label">ID de Boond Manager<span class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('idBoond')?.invalid && formGroup.get('idBoond')?.touched">
                                             L'identifiant de Boond Manager du candidat est invalide.
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" formControlName="idBoond"
                                             placeholder="15415s">
                                     </div>
@@ -118,20 +118,20 @@
                             <fieldset>
                                 <legend><i class="fa-regular fa-address-book"></i>Coordonnées de contact</legend>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-lg-6 label-champ-input">
                                         <label for="numeroTelephone1" class="col-form-label">N° de téléphone</label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('numeroTelephone1')?.invalid && formGroup.get('numeroTelephone1')?.touched">
                                             N° de téléphone est invalide.
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" formControlName="numeroTelephone1"
                                             placeholder="XX XX XX XX XX">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-xl-6 label-champ-input">
+                                    <div class="col-lg-6 label-champ-input">
                                         <label for="adresseMail" class="col-form-label">Adresse e-mail<span
                                                 class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
@@ -139,7 +139,7 @@
                                             L'adresse e-mail est invalide.
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" formControlName="adresseMail"
                                             placeholder="adresse@mail.com">
                                     </div>
@@ -170,6 +170,5 @@
                 </div> 
             </div>
         </div>
-        <div class="col-2"></div>
     </div>
 </div>

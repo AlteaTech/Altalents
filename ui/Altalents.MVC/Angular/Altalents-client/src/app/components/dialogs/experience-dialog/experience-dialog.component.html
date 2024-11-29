@@ -16,10 +16,12 @@
                     <div class="row mb-2">
                         <div class="col-lg-3 label-champ-input">
                             <label for="dateDebut" class="col-form-label">Date de début<span class="champ-obligatoire">*</span></label>
-                            <div class="error-message"
-                                *ngIf="formGroup.controls.dateDebut.invalid && formGroup.controls.dateDebut.touched">
+                            <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['required'] && formGroup.get('dateDebut')?.touched">
                                 La date de début est requise.
                             </div>
+                            <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['maxDate'] && formGroup.get('dateDebut')?.touched">
+                                La date ne peut pas être supérieure à aujourd’hui.
+                              </div>
                         </div>
                         <div class="col-lg-3">
                             <input id="dateDebut" type="date" formControlName="dateDebut" class="form-control"
@@ -27,10 +29,15 @@
                         </div>
                         <div class="col-lg-3 label-champ-input">
                             <label for="dateFin" class="col-form-label">Date de fin<span *ngIf="!formGroup.controls.isPosteActuel.value" class="text-danger">*</span></label>
-                            <div class="error-message"
-                                *ngIf="formGroup.controls.dateFin.invalid && formGroup.controls.dateFin.touched">
-                                La date de début est requise.
+                            <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['required'] && formGroup.get('dateFin')?.touched">
+                                La date de fin est requise.
                             </div>
+                            <div class="error-message" *ngIf="formGroup.hasError('dateRangeInvalid')">
+                                La date de fin doit être postérieure à la date de début.
+                              </div>
+                              <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
+                                La date ne peut pas être supérieure à aujourd’hui.
+                              </div>
                         </div>
                         <div class="col-lg-3">
                             <input id="dateFin" type="date" formControlName="dateFin" class="form-control" placeholder="JJ/MM/AAAA" >
@@ -227,6 +234,9 @@
                                 <!-- Date de début -->
                                 <div class="col-lg-3 label-champ-input">
                                   <label for="dateDebut{{i}}" class="col-form-label">Date de début</label>
+                                  <div class="error-message" *ngIf="project?.get('dateDebut')?.errors?.['maxDate'] && project?.get('dateDebut')?.touched">
+                                    La date ne peut pas être supérieure à aujourd’hui.
+                                  </div>
                                 </div>
                                 <div class="col-lg-3">
                                   <input id="dateDebut{{i}}" type="date" formControlName="dateDebut" class="form-control">
@@ -235,22 +245,24 @@
                                 <!-- Date de fin -->
                                 <div class="col-lg-3 label-champ-input">
                                   <label for="dateFin{{i}}" class="col-form-label">Date de fin</label>
+                                  <div class="error-message" *ngIf="project?.hasError('dateRangeInvalid')">
+                                    La date de fin doit être postérieure à la date de début.
+                                  </div>
+                                  <div class="error-message" *ngIf="project?.get('dateFin')?.errors?.['maxDate'] && project?.get('dateFin')?.touched">
+                                    La date ne peut pas être supérieure à aujourd’hui.
+                                  </div>
                                 </div>
                                 <div class="col-lg-3">
                                   <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control">
                                 </div>
-
                                 <div class="col-lg-3 label-champ-input">
                                     <label for="lieu{{i}}" class="col-form-label">Lieu</label>
                                 </div>
                                 <div class="col-lg-3">
                                     <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control" placeholder="Lieu">
                                   </div>
-                             
                             </div>
-            
                             <div class="row mt-2">
-                                <!-- Description du projet ou mission -->
                                 <div class="col-lg-3 label-champ-input">
                                     <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description du projet<span class="text-danger">*</span></label>
                                     <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched" class="error-message">
@@ -260,7 +272,6 @@
                                 <div class="col-lg-9">
                                     <textarea id="descriptionProjetOrMission{{i}}" formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
                                 </div>
-                                <!-- Tâches -->
                                 <div class="col-lg-3 label-champ-input">
                                     <label for="taches{{i}}" class="col-form-label">Description des tâches<span class="text-danger">*</span></label>
                                     <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched" class="error-message">
@@ -271,10 +282,7 @@
                                     <textarea id="taches{{i}}" formControlName="taches" class="form-control" placeholder="Tâches effectuées"></textarea>
                                 </div>
                             </div>
-                            <!-- Lieu -->
                             <div class="row">
-                             
-                                <!-- Composition de l'équipe -->
                                 <div class="col-lg-3 label-champ-input" >
                                     <label for="compositionEquipe{{i}}" class="col-form-label">Composition d'équipe</label>
                                 </div>
@@ -302,10 +310,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            
                         </div>
-                           <!-- Ajouter un projet -->
                             <div class="at-p-button-ajouter">
                                 <label for="" class="col-form-label"></label>
                                 <button (click)="addProject()">
@@ -316,19 +321,14 @@
                                 </button>
                             </div>
                     </div>
-                    <!-- Message d'erreur en fonction de IsEsn -->
                     <div *ngIf="!hasAtLeastOneProject()" class="text-danger margin-top-big">
                         {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins un projet.' }}
                     </div>
-
                 </div>
-       
                 <div *ngIf="formGroup.invalid && formGroup.touched" class="text-danger margin-top-big">
                     Le formulaire contient des erreurs. Veuillez corriger les champs en rouge dans tout dans tous les onglets.
                 </div>
-
             </div>
-            
         </fieldset>
         <div>
             <div class="at-p-button-container">
