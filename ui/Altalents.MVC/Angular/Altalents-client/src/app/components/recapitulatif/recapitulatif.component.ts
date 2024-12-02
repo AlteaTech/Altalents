@@ -34,7 +34,7 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
   public experiences: Experience[] = [];
   public langues: Langue[] = [];
   public questions: Question[] = [];
-
+  
   public compCompetences: Competence[] = [];
   public compMethodologies: Competence[] = [];
   public compOutils: Competence[] = [];

@@ -712,6 +712,14 @@ namespace Altalents.Business.Services
 
             DossierTechnique dossierTechnique = await dossierTechniqueTask;
 
+            // Appliquer le tri sur les expériences après récupération
+            if (dossierTechnique != null && dossierTechnique.Experiences != null)
+            {
+                dossierTechnique.Experiences = dossierTechnique.Experiences
+                    .OrderByDescending(x => x.DateDebut)
+                    .ToList();
+            }
+
             if (dossierTechnique == null)
                 throw new BusinessException("Dossier technique inexistant");
 
