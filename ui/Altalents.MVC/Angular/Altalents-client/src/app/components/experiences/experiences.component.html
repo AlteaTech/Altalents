@@ -8,16 +8,16 @@
     </p>
 </div>
 <fieldset>
-    <legend>&nbsp;&nbsp;<i class="fa-regular fa-building"></i>&nbsp;&nbsp;Expérience professionnelle</legend>
+    <legend><i class="fa-regular fa-building"></i>Expérience professionnelle</legend>
     <div *ngFor="let experience of experiences" class="margin-bottom">
         <div class="flex-row space-between align-center">
-            <p class=" at-c-violet custom-margin">
+            <p class=" at-c-violet custom-margin-top-bottom">
               {{experience.intitulePoste}} ({{experience.typeContrat.libelle}})
             </p>
             <div class="edit-links">
                 <a (click)="onModifierExperienceClick(experience)" class="edit-link">
                 <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
-                </a>&nbsp;&nbsp;
+                </a>
                 <a (click)="onDeleteExperienceClick(experience)" class="edit-link">
                     <p class="at-c-violet"><i class="fa-solid fa-trash"></i> Supprimer</p>
                 </a>
@@ -41,13 +41,23 @@
                 {{outil.libelle}}
             </span>
         </p>
-        <div *ngFor="let project of experience.projetOrMission">  
-            {{project.NomClientOrProjet}}
-            {{project.descriptionProjetOrMission}}
-            {{project.taches}}
-            {{project.lieu}}
-            <p class="font-normal" *ngIf="project.dateFin">De {{project.dateDebut | date : "MMMM YYYY" }} à {{project.dateFin | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></p>
-            <p class="font-normal" *ngIf="!project.dateFin">Depuis {{project.dateDebut | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></p>
+        <div class="row">
+            <div class="col-lg-4" *ngFor="let project of experience.projetOrMission"> 
+                <div class="item-bloc" >
+                    <p *ngIf="project.NomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">{{project.NomClientOrProjet}} <span *ngIf="project.NomClientOrProjet && project.domaineMetier"> - </span><span *ngIf="project.domaineMetier">{{project?.domaineMetier?.libelle}}</span></p>
+                    <div *ngIf="project.dateDebut" class="font-italic font-small font-normal">
+                        <span class="" *ngIf="project.dateFin">De {{project.dateDebut | date : "MMMM YYYY" }} à {{project.dateFin | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
+                        <span class="" *ngIf="!project.dateFin">Depuis {{project.dateDebut | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
+                    </div>
+                    <div *ngIf="project.budget || project.compositionEquipe || project.lieu"  class="font-italic font-small font-normal margin-bottom">
+                        {{project.budget}}<span *ngIf="project.budget"> €</span><span *ngIf="project.compositionEquipe && project.budget"> - </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu"> - </span>{{project.lieu}}
+                    </div>
+                    <div *ngIf="project.descriptionProjetOrMission" class="font-normal margin-bottom text-ellipsis">{{project.descriptionProjetOrMission}}</div>
+                    <div *ngIf="project.taches" class="text-ellipsis">
+                        <span class="font-normal"><span class="font-underline">Taches</span> : {{project.taches}}</span>
+                    </div>
+                </div> 
+            </div>
         </div>
     </div>
     <div class="at-p-button-ajouter">

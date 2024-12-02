@@ -7,6 +7,7 @@ import { Constantes } from 'src/app/shared/constantes/constantes';
 import { FormationForm } from 'src/app/shared/interfaces/formation-form';
 import { Formation } from 'src/app/shared/models/formation.model';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
+import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 
 @Component({
   selector: 'app-formation-dialog',
@@ -24,9 +25,12 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
       domaine: new FormControl(),
       niveau: new FormControl(),
       organisme: new FormControl(),
-      dateDebut: new FormControl(null, Validators.required),
-      dateFin: new FormControl(),
+      dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
+      dateFin: new FormControl(null, [maxDateTodayValidator()]),
     });
+
+    this.formGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
+
   }
 
   public ngOnInit(): void {

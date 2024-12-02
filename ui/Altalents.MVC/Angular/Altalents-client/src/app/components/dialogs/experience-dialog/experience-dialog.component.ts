@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
@@ -13,6 +13,8 @@ import { ReferenceDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ProjectOrMissionClient } from 'src/app/shared/models/project-mission.model';
 import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
+import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
+import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
   selector: 'app-experience-dialog',
@@ -29,17 +31,27 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public constantesTypesReferences = ConstantesTypesReferences;
 
   public IsEsn: boolean = false;
+  
+  public ngbModalDeleteOptions: NgbModalOptions = {
+    backdrop : 'static',
+    keyboard : false,
+    size: 'lg'
+  };
 
   constructor(public activeModal: NgbActiveModal,
+    private modalService: NgbModal,
     private readonly service: ApiServiceAgent) {
+
     super();
+    const today = new Date();
+
     this.formGroup = new FormGroup<ExperienceForm>({
       typeContrat: new FormControl(null, Validators.required),
       intitulePoste: new FormControl(null, Validators.required),
       entreprise: new FormControl(null, Validators.required),
       isEntrepriseEsnOrInterim: new FormControl(),
-      dateDebut: new FormControl(null, Validators.required),
-      dateFin: new FormControl(),
+      dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
+      dateFin: new FormControl(null, [maxDateTodayValidator()]),
       isPosteActuel: new FormControl(),
       lieu: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
@@ -53,6 +65,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       budgetGere: new FormControl(),
       projects: new FormArray<FormGroup<ProjectForm>>([], [Validators.required, Validators.minLength(1)]),
     });
+
+    this.formGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
   }
 
   public ngOnInit(): void {
@@ -107,17 +121,21 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     const projectsArray = this.formGroup.get('projects') as FormArray;
 
+
+
     const projectGroup = new FormGroup({
       nomClientOrProjet: new FormControl(project?.NomClientOrProjet ?? null),
       descriptionProjetOrMission: new FormControl(project?.descriptionProjetOrMission ?? null, Validators.required),
       domaineMetier: new FormControl(project?.domaineMetier ?? null),
-      dateDebut: new FormControl(project?.dateDebut ? formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale) : null),
-      dateFin: new FormControl(project?.dateDebut ? formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale): null),
+      dateDebut: new FormControl(project?.dateDebut ? formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale) : null, [maxDateTodayValidator()]),
+      dateFin: new FormControl(project?.dateFin ? formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale): null, [maxDateTodayValidator()]),
       taches: new FormControl(project?.taches ?? null, Validators.required),
       compositionEquipe: new FormControl(project?.compositionEquipe ?? null),
       budget: new FormControl(project?.budget ?? null),
       lieu: new FormControl(project?.lieu ?? null),
     });
+
+    projectGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
 
     projectsArray.push(projectGroup);
 
@@ -140,8 +158,14 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 }
 
   public removeProjet(index: number): void {
-      const projectsArray = this.formGroup.get('projects') as FormArray;
-      projectsArray.removeAt(index);
+      let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
+      dialogRef.componentInstance.itemName = this.IsEsn  ? 'cette mission' : 'ce projet ';
+      dialogRef.result.then((validated: boolean | undefined) => {
+        if(validated) {
+          const projectsArray = this.formGroup.get('projects') as FormArray;
+          projectsArray.removeAt(index);
+        }
+      })
     }
 
     public hasAtLeastOneProject(): boolean {
@@ -175,7 +199,6 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
           this.domaines = Reference.fromListReferenceDto(response);
 
         // Déplacer l'élément avec l'ID spécifique en bas
-
         const index = this.domaines.findIndex(x => x.id === Constantes.idDomaineMetierAutre);
         if (index !== -1) {
           const [item] = this.domaines.splice(index, 1);
@@ -214,7 +237,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         const projects: ProjectOrMissionClient[] = projectsArray.controls.map((group) => {
           const valuesProj = group.value;
           return {
-            NomClientOrProjet: valuesProj.NomClientOrProjet ?? "",
+            NomClientOrProjet: valuesProj.nomClientOrProjet ?? "",
             descriptionProjetOrMission: valuesProj.descriptionProjetOrMission ?? "",
             taches: valuesProj.taches ?? "",
             lieu: valuesProj.lieu ?? "",

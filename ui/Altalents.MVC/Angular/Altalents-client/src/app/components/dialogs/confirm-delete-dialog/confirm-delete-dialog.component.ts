@@ -1,6 +1,6 @@
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-confirm-delete-dialog',
@@ -11,6 +11,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ConfirmDeleteDialogComponent extends BaseComponentCallHttpComponent implements OnInit {
 
     public itemName: string | undefined;
+
+
 
     constructor(public activeModal: NgbActiveModal) {
         super();

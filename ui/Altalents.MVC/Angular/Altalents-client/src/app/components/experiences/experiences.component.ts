@@ -11,6 +11,7 @@ import { formatDate } from '@angular/common';
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { DureeExperienceService } from 'src/app/shared/services/services/calculators/duree-experience-calculator';
 import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ValidateDate } from 'src/app/shared/services/services/validators/validate-date';
 
 @Component({
   selector: 'app-experiences',
@@ -22,6 +23,18 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   
   public experiences: Experience[] = [];
+
+  private ngbModalUpdateOptions: NgbModalOptions = {
+    backdrop : 'static',
+    keyboard : false,
+    size: 'xl'
+  };
+
+  public ngbModalDeleteOptions: NgbModalOptions = {
+    backdrop : 'static',
+    keyboard : false,
+    size: 'lg'
+  };
   
   constructor(private modalService: NgbModal,
     private service: ApiServiceAgent
@@ -49,12 +62,8 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onAddExperienceClick(): void {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop : 'static',
-      keyboard : false,
-      size: 'lg'
-    };
-    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, ngbModalOptions);
+
+    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, this.ngbModalUpdateOptions);
     dialogRef.result.then((experience: Experience | undefined) => {
       if(experience) {
         this.service.addExperiance(this.tokenDossierTechnique, this.populateRequestDto(experience)).pipe(
@@ -67,12 +76,8 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onModifierExperienceClick(experience: Experience): void {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop : 'static',
-      keyboard : false,
-      size: 'lg'
-    };
-    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, ngbModalOptions);
+
+    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, this.ngbModalUpdateOptions);
     dialogRef.componentInstance.experience = experience;
     dialogRef.result.then((experience: Experience | undefined) => {
       if(experience) {
@@ -86,12 +91,8 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onDeleteExperienceClick(experience : Experience): void {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop : 'static',
-      keyboard : false,
-      size: 'lg'
-    };
-    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, ngbModalOptions);
+
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
     dialogRef.componentInstance.itemName = experience.intitulePoste;
     dialogRef.result.then((validated: boolean | undefined) => {
       if(validated) {
@@ -144,8 +145,8 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
         projectdto.taches = p.taches;
         projectdto.descriptionProjetOrMission = p.descriptionProjetOrMission;
         projectdto.nomClientOrProjet = p.NomClientOrProjet;
-        projectdto.dateDebut = p.dateDebut;
-        projectdto.dateFin = p.dateFin;
+        projectdto.dateDebut = ValidateDate(p.dateDebut) ? p.dateDebut : null;
+        projectdto.dateFin = ValidateDate(p.dateFin) ? p.dateFin : null;
         projectdto.lieu = p.lieu;
         projectdto.domaineMetierId = p.domaineMetier?.id;
         projectdto.compositionEquipe = p.compositionEquipe;

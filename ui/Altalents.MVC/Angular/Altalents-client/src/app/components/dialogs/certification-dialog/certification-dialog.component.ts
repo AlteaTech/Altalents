@@ -7,6 +7,7 @@ import { Constantes } from 'src/app/shared/constantes/constantes';
 import { CertificationForm } from 'src/app/shared/interfaces/certification-form';
 import { Certification } from 'src/app/shared/models/certification.model';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
+import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 
 @Component({
   selector: 'app-certification-dialog',
@@ -25,9 +26,11 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
       domaine: new FormControl(),
       niveau: new FormControl(),
       organisme: new FormControl(),
-      dateDebut: new FormControl(null, Validators.required),
-      dateFin: new FormControl(),
+      dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
+      dateFin: new FormControl(null, [maxDateTodayValidator()]),
     });
+
+    this.formGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
   }
 
   public ngOnInit(): void {

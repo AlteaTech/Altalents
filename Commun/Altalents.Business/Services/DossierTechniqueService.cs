@@ -120,7 +120,7 @@ namespace Altalents.Business.Services
                 ?? throw new BusinessException("DossierTechnique inexistant.");
         }
 
-        private async Task<Guid> GetDOssierTechniqueIdFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        private async Task<Guid> GetDossierTechniqueIdFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await DbContext.DossierTechniques
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
@@ -404,6 +404,7 @@ namespace Altalents.Business.Services
         {
             using CustomDbContext context = GetScopedDbContexte();
             return await context.Experiences.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+                .OrderByDescending(x => x.DateDebut)
                 .ProjectTo<ExperienceDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }
@@ -527,7 +528,6 @@ namespace Altalents.Business.Services
                     {
                         idDossierTechnique = expToUpdate.DossierTechnique.Id;
                         context.Experiences.Remove(expToUpdate);
-
                     }
                     else
                     {
@@ -538,7 +538,7 @@ namespace Altalents.Business.Services
             //create
             else
             {
-                idDossierTechnique = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                idDossierTechnique = await GetDossierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
             }
 
             //mapiing & Save
@@ -572,7 +572,7 @@ namespace Altalents.Business.Services
                     if (id == null)
                     {
                         certifToAddOrUpdate = Mapper.Map<Certification>(request);
-                        certifToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                        certifToAddOrUpdate.DossierTechniqueId = await GetDossierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
                         await context.Certifications.AddAsync(certifToAddOrUpdate, cancellationToken);
                     }
                     else
@@ -604,7 +604,7 @@ namespace Altalents.Business.Services
                     if (id == null)
                     {
                         formationfToAddOrUpdate = Mapper.Map<Formation>(request);
-                        formationfToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                        formationfToAddOrUpdate.DossierTechniqueId = await GetDossierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
                         await context.Formations.AddAsync(formationfToAddOrUpdate, cancellationToken);
                     }
                     else
@@ -642,7 +642,7 @@ namespace Altalents.Business.Services
             if (id == null)
             {
                 dossierTechniqueLangueToAddOrUpdate = Mapper.Map<DossierTechniqueLangue>(request);
-                dossierTechniqueLangueToAddOrUpdate.DossierTechniqueId = await GetDOssierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
+                dossierTechniqueLangueToAddOrUpdate.DossierTechniqueId = await GetDossierTechniqueIdFromTokenAsync(tokenAccesRapide, cancellationToken);
                 await context.DossierTechniqueLangues.AddAsync(dossierTechniqueLangueToAddOrUpdate, cancellationToken);
             }
             else
@@ -674,15 +674,30 @@ namespace Altalents.Business.Services
 
             // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
             Task<DossierTechnique> dossierTechniqueTask = context.DossierTechniques
+
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
                 .Include(dt => dt.Experiences)
                     .ThenInclude(exp => exp.LiaisonExperienceCompetences)
                         .ThenInclude(ec => ec.Competance)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceOutils)
+                        .ThenInclude(lo => lo.Outil)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceMethodologies)
+                        .ThenInclude(lm => lm.Methodologie)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceTechnologies)
+                        .ThenInclude(lt => lt.Technologie)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
+                        .ThenInclude(lt => lt.DomaineMetier)
+
                 .Include(dt => dt.Formations)
                 .Include(dt => dt.Certifications)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Langue)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Niveau)
                 .Include(dt => dt.QuestionDossierTechniques)
+
                 .SingleOrDefaultAsync(cancellationToken);
 
             using CustomDbContext context1 = GetScopedDbContexte();
