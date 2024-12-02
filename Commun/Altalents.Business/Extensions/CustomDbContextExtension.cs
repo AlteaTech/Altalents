@@ -9,59 +9,59 @@ namespace Altalents.Business.Extensions
 {
     public static class CustomDbContextExtension
     {
-        public static async Task<List<CompetenceDto>> GetLiaisonCandidatByTypeAsync(this CustomDbContext context, IMapper mapper,Guid tokenRapide, string typeLiaisonCode, CancellationToken cancellationToken)
-        {
-            TypeLiaisonEnum typeLiaisonEnum = (TypeLiaisonEnum)Enum.Parse(typeof(TypeLiaisonEnum), typeLiaisonCode);
-            switch (typeLiaisonEnum)
-            {
-                case TypeLiaisonEnum.Competence:
+        //public static async Task<List<CompetenceDto>> GetLiaisonCandidatByTypeAsync(this CustomDbContext context, IMapper mapper,Guid tokenRapide, string typeLiaisonCode, CancellationToken cancellationToken)
+        //{
+        //    TypeLiaisonEnum typeLiaisonEnum = (TypeLiaisonEnum)Enum.Parse(typeof(TypeLiaisonEnum), typeLiaisonCode);
+        //    switch (typeLiaisonEnum)
+        //    {
+        //        case TypeLiaisonEnum.Competence:
 
-                    List<LiaisonExperienceCompetence> competences = await context.LiaisonExperienceCompetences.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
-                                     .Include(x => x.Competance)
-                                     .GroupBy(e => e.CompetenceId)
-                                     .Select(g => g.OrderByDescending(e => e.Niveau).First())
-                                     .ToListAsync(cancellationToken);
+        //            List<LiaisonExperienceCompetence> competences = await context.LiaisonExperienceCompetences.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+        //                             .Include(x => x.Competance)
+        //                             .GroupBy(e => e.CompetenceId)
+        //                             .Select(g => g.OrderByDescending(e => e.Niveau).First())
+        //                             .ToListAsync(cancellationToken);
 
-                    return mapper.Map<List<CompetenceDto>>(competences);
-
-
-                case TypeLiaisonEnum.Methodologie:
-
-                    List<LiaisonExperienceMethodologie> methodologies = await context.LiaisonExperienceMethodologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
-                                     .Include(x => x.Methodologie)
-                                     .GroupBy(e => e.MethodologieId)
-                                     .Select(g => g.OrderByDescending(e => e.Niveau).First())
-                                     .ToListAsync(cancellationToken);
-
-                    return mapper.Map<List<CompetenceDto>>(methodologies);
+        //            return mapper.Map<List<CompetenceDto>>(competences);
 
 
-                case TypeLiaisonEnum.Outil:
+        //        case TypeLiaisonEnum.Methodologie:
 
-                    List<LiaisonExperienceOutil> Outils = await context.LiaisonExperienceOutils.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
-                                     .Include(x => x.Outil)
-                                     .GroupBy(e => e.OutilId)
-                                     .Select(g => g.OrderByDescending(e => e.Niveau).First())
-                                     .ToListAsync(cancellationToken);
+        //            List<LiaisonExperienceMethodologie> methodologies = await context.LiaisonExperienceMethodologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+        //                             .Include(x => x.Methodologie)
+        //                             .GroupBy(e => e.MethodologieId)
+        //                             .Select(g => g.OrderByDescending(e => e.Niveau).First())
+        //                             .ToListAsync(cancellationToken);
 
-                    return mapper.Map<List<CompetenceDto>>(Outils);
-
-
-                case TypeLiaisonEnum.Technologie:
-
-                    List<LiaisonExperienceTechnologie> technologies = await context.LiaisonExperienceTechnologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
-                                    .Include(x => x.Technologie)
-                                     .GroupBy(e => e.TechnologieId)
-                                     .Select(g => g.OrderByDescending(e => e.Niveau).First())
-                                     .ToListAsync(cancellationToken);
-
-                    return mapper.Map<List<CompetenceDto>>(technologies);
+        //            return mapper.Map<List<CompetenceDto>>(methodologies);
 
 
-                default:
-                    return new List<CompetenceDto>();
-            }
-        }
+        //        case TypeLiaisonEnum.Outil:
+
+        //            List<LiaisonExperienceOutil> Outils = await context.LiaisonExperienceOutils.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+        //                             .Include(x => x.Outil)
+        //                             .GroupBy(e => e.OutilId)
+        //                             .Select(g => g.OrderByDescending(e => e.Niveau).First())
+        //                             .ToListAsync(cancellationToken);
+
+        //            return mapper.Map<List<CompetenceDto>>(Outils);
+
+
+        //        case TypeLiaisonEnum.Technologie:
+
+        //            List<LiaisonExperienceTechnologie> technologies = await context.LiaisonExperienceTechnologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+        //                            .Include(x => x.Technologie)
+        //                             .GroupBy(e => e.TechnologieId)
+        //                             .Select(g => g.OrderByDescending(e => e.Niveau).First())
+        //                             .ToListAsync(cancellationToken);
+
+        //            return mapper.Map<List<CompetenceDto>>(technologies);
+
+
+        //        default:
+        //            return new List<CompetenceDto>();
+        //    }
+        //}
 
     }
 }

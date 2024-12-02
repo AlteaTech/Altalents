@@ -6,15 +6,13 @@ namespace Altalents.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DossiersTechniquesController
+    public class DossiersTechniquesController : ControllerBase
     {
         private readonly IDossierTechniqueService _dossierTechniqueService;
-        private readonly ICompetencesService _competencesService;
 
-        public DossiersTechniquesController(IDossierTechniqueService dossierTechniqueService, ICompetencesService competencesService)
+        public DossiersTechniquesController(IDossierTechniqueService dossierTechniqueService)
         {
             _dossierTechniqueService = dossierTechniqueService;
-            _competencesService = competencesService;
         }
 
         [HttpPost("", Name = "AddDossierTechnique")]
@@ -119,16 +117,29 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken);
         }
 
+
+        [HttpGet("{tokenAccesRapide}/download-dt", Name = "DownloadDossierCompetenceFile")]
+        public IActionResult DownloadDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
+        {
+
+            typeExportEnum  = typeExportEnum.HasValue ? typeExportEnum.Value : TypeExportEnum.RTF;
+            DocumentDto dto =  _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken).Result;
+
+            return File(dto.Data, dto.MimeType, $"{DateTime.Now:yyyyMMdd}_{dto.NomFichier}");
+
+        }
+
+
         [HttpGet("{tokenAccesRapide}/competences", Name = "GetCompetences")]
         public async Task<List<CompetenceDto>> GetCompetencesAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] string typeLiaisonCode, CancellationToken cancellationToken)
         {
-            return await _competencesService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, typeLiaisonCode, cancellationToken);
+            return await _dossierTechniqueService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, typeLiaisonCode, cancellationToken);
         }
 
         [HttpPut("competences", Name = "PutNote")]
         public async Task PutNoteAsync([FromBody] LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken)
         {
-            await _competencesService.UpdateNiveauLiaisonAsync(request, cancellationToken);
+            await _dossierTechniqueService.UpdateNiveauLiaisonAsync(request, cancellationToken);
         }
 
         [HttpGet("{tokenAccesRapide}/formations", Name = "GetAllAboutFormations")]
