@@ -12,6 +12,7 @@ import { Question } from 'src/app/shared/models/question.model';
 import { Competence } from 'src/app/shared/models/competence.model';
 import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-step.enum';
 import { FormContainerComponent } from '../form-container/form-container.component';
+import { ProjectOrMissionClient } from 'src/app/shared/models/project-mission.model';
 
 @Component({
   selector: 'app-recapitulatif',
@@ -34,6 +35,7 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
   public experiences: Experience[] = [];
   public langues: Langue[] = [];
   public questions: Question[] = [];
+  
 
   public compCompetences: Competence[] = [];
   public compMethodologies: Competence[] = [];

@@ -9,7 +9,11 @@
 <fieldset>
     <legend class="flex-row space-between">
         <span><i class="fa-solid fa-graduation-cap"></i>Formation</span>
-        <a (click)="goToStep(dossierTechniqueEnum.Formations)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+        <div class="edit-links">
+            <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
+            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+            </a>
+        </div>
     </legend>
     <div *ngFor="let formation of formations" class="margin-bottom">
         <p class="at-c-violet">{{formation.libelle}}</p>
@@ -28,7 +32,11 @@
 <fieldset>
     <legend class="flex-row space-between">
         <span><i class="fa-solid fa-medal"></i>Certification</span>
-        <a (click)="goToStep(dossierTechniqueEnum.Formations)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+        <div class="edit-links">
+            <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
+            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+            </a>
+        </div>
     </legend>
     <div *ngFor="let certification of certifications" class="margin-bottom">
         <p class="at-c-violet">{{certification.libelle}}</p>
@@ -47,7 +55,11 @@
 <fieldset>
     <legend class="flex-row space-between">
         <span><i class="fa-regular fa-building"></i>Expérience professionnelle</span>
-        <a (click)="goToStep(dossierTechniqueEnum.Experiences)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+        <div class="edit-links">
+            <a (click)="goToStep(dossierTechniqueEnum.Experiences)" class="edit-link">
+            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+            </a>
+        </div>
     </legend>
     <div  *ngFor="let experience of experiences" class="margin-bottom">
         <p class="at-c-violet">{{experience.intitulePoste}}</p>
@@ -58,24 +70,47 @@
             <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
                 {{technologie.libelle}}
             </span>
-        </p>
-        <p>
             <span *ngFor="let competence of experience.competences" class="at-p-autocomplete-choix">
                 {{competence.libelle}}
             </span>
-        </p>
-        <p>
             <span *ngFor="let methodologie of experience.methodologies" class="at-p-autocomplete-choix">
                 {{methodologie.libelle}}
             </span>
+            <span *ngFor="let outil of experience.outils" class="at-p-autocomplete-choix">
+                {{outil.libelle}}
+            </span>
         </p>
         <p class="font-normal">{{experience.description}}</p>
+
+        <div class="row margin-top">
+            <div class="col-lg-4" *ngFor="let project of experience.projetOrMission"> 
+                <div class="item-bloc" >
+                    <p *ngIf="project.NomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">{{project.NomClientOrProjet}} <span *ngIf="project.NomClientOrProjet && project.domaineMetier"> - </span><span *ngIf="project.domaineMetier">{{project?.domaineMetier?.libelle}}</span></p>
+                    <div *ngIf="project.dateDebut" class="font-italic font-small font-normal">
+                        <span class="" *ngIf="project.dateFin">De {{project.dateDebut | date : "MMMM YYYY" }} à {{project.dateFin | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
+                        <span class="" *ngIf="!project.dateFin">Depuis {{project.dateDebut | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
+                    </div>
+                    <div *ngIf="project.budget || project.compositionEquipe || project.lieu"  class="font-italic font-small font-normal margin-bottom">
+                        {{project.budget}}<span *ngIf="project.budget"> €</span><span *ngIf="project.compositionEquipe && project.budget"> - </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu"> - </span>{{project.lieu}}
+                    </div>
+                    <div *ngIf="project.descriptionProjetOrMission" class="font-normal margin-bottom text-ellipsis">{{project.descriptionProjetOrMission}}</div>
+                    <div *ngIf="project.taches" class="text-ellipsis">
+                        <span class="font-normal"><span class="font-underline">Taches</span> : {{project.taches}}</span>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
     </div>
 </fieldset>
 <fieldset>
     <legend class="flex-row space-between">
         <span><i class="fa-solid fa-expand "></i>Compétences</span>
-        <a (click)="goToStep(dossierTechniqueEnum.Competences)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+        <div class="edit-links">
+            <a (click)="goToStep(dossierTechniqueEnum.Competences)" class="edit-link">
+            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+            </a>
+        </div>
     </legend>
     <div class="margin-bottom" *ngIf="compCompetences.length > 0">
         <div>Compétences</div>
@@ -133,7 +168,11 @@
 <fieldset>
     <legend class="flex-row space-between">
         <span><i class="fa-solid fa-language"></i>Langues parlées</span>
-        <a (click)="goToStep(dossierTechniqueEnum.Formations)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+        <div class="edit-links">
+            <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
+            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+            </a>
+        </div>
     </legend>
     <div class="margin-bottom">
         <span *ngFor="let langue of langues; last as isLast">&nbsp;
@@ -144,7 +183,11 @@
 <fieldset>
     <legend class="flex-row space-between">
         <span><i class="fa-solid fa-question "></i>Questions spécifiques & documentation</span>
-        <a (click)="goToStep(dossierTechniqueEnum.Questions)"><p class="at-c-violet edit-link"><i class="fas fa-edit"></i> Modifier</p></a>
+        <div class="edit-links">
+            <a (click)="goToStep(dossierTechniqueEnum.Questions)" class="edit-link">
+            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+            </a>
+        </div>
     </legend>
     <div *ngFor="let question of questions" class="margin-bottom">
         <label class="">{{ question.question }}<span class="champ-obligatoire" *ngIf="question.isObligatoire">*</span> : &nbsp;</label>
