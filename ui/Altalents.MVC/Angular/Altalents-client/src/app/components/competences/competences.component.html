@@ -58,7 +58,7 @@
     </div>
   </div>
 <fieldset *ngIf="compCompetences.length > 0">
-    <legend>Compétences</legend>
+    <legend><i class="fa-solid fa-expand"></i>Compétences</legend>
     <div *ngFor="let competence of compCompetences" class="competence-item">
         <p class="competence-libelle">{{ competence.libelle }}</p>
         <div class="competence-stars">
@@ -70,7 +70,7 @@
       </div>
 </fieldset>
 <fieldset *ngIf="compMethodologies.length > 0">
-    <legend>Méthodologie</legend>
+    <legend><i class="fa-solid fa-book"></i>Méthodologie</legend>
     <div *ngFor="let competence of compMethodologies" class="competence-item">
       <p class="competence-libelle">{{ competence.libelle }}</p>
       <div class="competence-stars">
@@ -82,7 +82,7 @@
     </div>
 </fieldset>
 <fieldset *ngIf="compOutils.length > 0">
-    <legend>Outils</legend>
+    <legend><i class="fa-solid fa-hammer"></i>Outils</legend>
     <div *ngFor="let competence of compOutils" class="competence-item">
         <p class="competence-libelle">{{ competence.libelle }}</p>
         <div class="competence-stars">
@@ -94,7 +94,7 @@
       </div>
 </fieldset>
 <fieldset *ngIf="compTechnologie.length > 0">
-    <legend>Technologies</legend>
+    <legend><i class="fa-solid fa-code"></i>Technologies</legend>
     <div *ngFor="let competence of compTechnologie" class="competence-item">
         <p class="competence-libelle">{{ competence.libelle }}</p>
         <div class="competence-stars">

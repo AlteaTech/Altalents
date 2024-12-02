@@ -12,11 +12,7 @@ export class ConfirmDeleteDialogComponent extends BaseComponentCallHttpComponent
 
     public itemName: string | undefined;
 
-    public ngbModalOptions: NgbModalOptions = {
-        backdrop : 'static',
-        keyboard : false,
-        size: 'lg'
-      };
+
 
     constructor(public activeModal: NgbActiveModal) {
         super();

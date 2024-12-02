@@ -404,6 +404,7 @@ namespace Altalents.Business.Services
         {
             using CustomDbContext context = GetScopedDbContexte();
             return await context.Experiences.Where(x => x.DossierTechnique.TokenAccesRapide == tokenAccesRapide)
+                .OrderByDescending(x => x.DateDebut)
                 .ProjectTo<ExperienceDto>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }
@@ -673,15 +674,30 @@ namespace Altalents.Business.Services
 
             // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
             Task<DossierTechnique> dossierTechniqueTask = context.DossierTechniques
+
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
                 .Include(dt => dt.Experiences)
                     .ThenInclude(exp => exp.LiaisonExperienceCompetences)
                         .ThenInclude(ec => ec.Competance)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceOutils)
+                        .ThenInclude(lo => lo.Outil)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceMethodologies)
+                        .ThenInclude(lm => lm.Methodologie)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceTechnologies)
+                        .ThenInclude(lt => lt.Technologie)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
+                        .ThenInclude(lt => lt.DomaineMetier)
+
                 .Include(dt => dt.Formations)
                 .Include(dt => dt.Certifications)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Langue)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Niveau)
                 .Include(dt => dt.QuestionDossierTechniques)
+
                 .SingleOrDefaultAsync(cancellationToken);
 
             using CustomDbContext context1 = GetScopedDbContexte();

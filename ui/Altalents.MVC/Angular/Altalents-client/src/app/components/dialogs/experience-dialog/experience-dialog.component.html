@@ -28,7 +28,7 @@
                                 placeholder="JJ/MM/AAAA">
                         </div>
                         <div class="col-lg-3 label-champ-input">
-                            <label for="dateFin" class="col-form-label">Date de fin<span *ngIf="!formGroup.controls.isPosteActuel.value" class="text-danger">*</span></label>
+                            <label for="dateFin" class="col-form-label">Date de fin<span *ngIf="!formGroup.controls.isPosteActuel.value" class="champ-obligatoire">*</span></label>
                             <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['required'] && formGroup.get('dateFin')?.touched">
                                 La date de fin est requise.
                             </div>
@@ -310,13 +310,10 @@
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div *ngIf="!hasAtLeastOneProject()" class="text-danger margin-top-big">
                             {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins un projet.' }}
                         </div>
-
                             <div class="at-p-button-ajouter">
                                 <label for="" class="col-form-label"></label>
                                 <button (click)="addProject()">
