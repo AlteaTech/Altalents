@@ -6,7 +6,7 @@ namespace Altalents.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DossiersTechniquesController
+    public class DossiersTechniquesController : ControllerBase
     {
         private readonly IDossierTechniqueService _dossierTechniqueService;
         private readonly ICompetencesService _competencesService;
@@ -118,6 +118,19 @@ namespace Altalents.API.Controllers
         {
             return await _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken);
         }
+
+
+        [HttpGet("{tokenAccesRapide}/download-dt", Name = "DownloadDossierCompetenceFile")]
+        public IActionResult DownloadDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
+        {
+
+            typeExportEnum  = typeExportEnum.HasValue ? typeExportEnum.Value : TypeExportEnum.RTF;
+            DocumentDto dto =  _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken).Result;
+
+            return File(dto.Data, dto.MimeType, $"{DateTime.Now:yyyyMMdd}_{dto.NomFichier}");
+
+        }
+
 
         [HttpGet("{tokenAccesRapide}/competences", Name = "GetCompetences")]
         public async Task<List<CompetenceDto>> GetCompetencesAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] string typeLiaisonCode, CancellationToken cancellationToken)

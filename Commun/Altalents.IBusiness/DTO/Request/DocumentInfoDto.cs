@@ -9,6 +9,9 @@ namespace Altalents.IBusiness.DTO.Request
 
         [Required]
         public string NomFichier { get; set; }
+        public string Extension { get; set; }
         public string Commentaire { get; set; }
+
+
     }
 }

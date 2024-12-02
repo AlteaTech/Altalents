@@ -6,18 +6,16 @@ namespace Altalents.Business.Mappings
     {
         public ReportingMappingProfile()
         {
-            CreateMap<DossierTechnique, DossierCompetenceDso>()
-                .ForMember(dest => dest.NumeroDt, opt => opt.MapFrom(src => src.Numero))
-                .ForMember(dest => dest.Poste, opt => opt.MapFrom(src => src.Poste))
-                .ForMember(dest => dest.Experiences, opt => opt.MapFrom(src => src.Experiences))
-                .ForMember(dest => dest.Trigrame, opt => opt.MapFrom(src => src.Personne.Trigramme));
 
             CreateMap<DossierTechnique, DossierCompetenceDso>()
                 .ForMember(dest => dest.NumeroDt, opt => opt.MapFrom(src => src.Numero))
                 .ForMember(dest => dest.Commercial, opt => opt.Ignore())
                 .ForMember(dest => dest.Poste, opt => opt.MapFrom(src => src.Poste))
                 .ForMember(dest => dest.Experiences, opt => opt.MapFrom(src => src.Experiences))
-                .ForMember(dest => dest.Trigrame, opt => opt.MapFrom(src => src.Personne.Trigramme));
+                .ForMember(dest => dest.Trigrame, opt => opt.MapFrom(src => src.Personne.Trigramme.ToUpper()))
+                .ForMember(dest => dest.FormatedSynthese, opt => opt.MapFrom(src => src.Synthese))
+
+                ;
 
             CreateMap<Experience, ExperienceDso>()
                 .ForMember(dest => dest.Technologies, opt => opt.MapFrom(src => src.LiaisonExperienceTechnologies))
@@ -25,6 +23,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.Competences, opt => opt.MapFrom(src => src.LiaisonExperienceCompetences))
                 .ForMember(dest => dest.IntitulePoste, opt => opt.MapFrom(src => src.IntitulePoste))
                 .ForMember(dest => dest.Entreprise, opt => opt.MapFrom(src => src.NomEntreprise));
+
 
             CreateMap<LiaisonExperienceTechnologie, ConnaissanceDso>()
                 .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))

@@ -65,6 +65,7 @@ namespace Altalents.MVC
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
+
             services.AddKendo();
 
             services.AddHttpContextAccessor();

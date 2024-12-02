@@ -427,32 +427,27 @@ namespace Altalents.Business.Services
         public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
-            DossierCompetenceDso dt = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
+
+            DossierCompetenceDso dossierCompetenceDso = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
                 .ProjectTo<DossierCompetenceDso>(Mapper.ConfigurationProvider)
                 .FirstAsync(cancellationToken);
 
-            var a = context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide).FirstOrDefault();
-
-            ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();
-
-            // set any deviceInfo settings if necessary
-            Hashtable deviceInfo = new System.Collections.Hashtable();
-
-            DossierCompetance rpt = new DossierCompetance();
-
-            dt.Commercial = new()
+            dossierCompetenceDso.Commercial = new()
             {
                 Mail = _commercialSettings.Mail,
                 Telephone = _commercialSettings.Telephone,
                 Name = _commercialSettings.Nom,
                 WebSite = _commercialSettings.SiteWeb
             };
-            rpt.dossierCompetanceDataSource.DataSource = dt;
-            rpt.experienceDataSource.DataSource = dt.Experiences;
 
+            DossierCompetance dtTelerikRepportsrc = new DossierCompetance();
+
+            dtTelerikRepportsrc.dossierCompetanceDataSource.DataSource = dossierCompetenceDso;
+            dtTelerikRepportsrc.experienceDataSource.DataSource = dossierCompetenceDso.Experiences;
+            
             InstanceReportSource reportSource = new InstanceReportSource
             {
-                ReportDocument = rpt
+                ReportDocument = dtTelerikRepportsrc
             };
 
             string formatDocument = "PDF";
@@ -463,6 +458,10 @@ namespace Altalents.Business.Services
                 mimeType = "application/rtf";
             }
 
+            // set any deviceInfo settings if necessary
+            Hashtable deviceInfo = new System.Collections.Hashtable();
+
+            ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();
             RenderingResult result = reportProcessor.RenderReport(formatDocument, reportSource, deviceInfo);
 
             if (!result.HasErrors)
@@ -471,6 +470,7 @@ namespace Altalents.Business.Services
 
                 return new DocumentDto()
                 {
+                    Extension = formatDocument,
                     MimeType = mimeType,
                     NomFichier = fileName,
                     Data = result.DocumentBytes
