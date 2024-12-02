@@ -1054,6 +1054,61 @@ export class ApiClient {
     }
 
     /**
+     * @param typeExportEnum (optional) 
+     * @return OK
+     */
+    downloadDossierCompetenceFile(tokenAccesRapide: string, typeExportEnum?: TypeExportEnum | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/download-dt?";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        if (typeExportEnum === null)
+            throw new Error("The parameter 'typeExportEnum' cannot be null.");
+        else if (typeExportEnum !== undefined)
+            url_ += "typeExportEnum=" + encodeURIComponent("" + typeExportEnum) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDownloadDossierCompetenceFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadDossierCompetenceFile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDownloadDossierCompetenceFile(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param typeLiaisonCode (optional) 
      * @return OK
      */
@@ -2263,6 +2318,7 @@ export interface ICustomUserLoggedDto {
 export class DocumentDto implements IDocumentDto {
     mimeType!: string;
     nomFichier!: string;
+    extension?: string | null;
     commentaire?: string | null;
     data!: string;
 
@@ -2279,6 +2335,7 @@ export class DocumentDto implements IDocumentDto {
         if (_data) {
             this.mimeType = _data["MimeType"] !== undefined ? _data["MimeType"] : <any>null;
             this.nomFichier = _data["NomFichier"] !== undefined ? _data["NomFichier"] : <any>null;
+            this.extension = _data["Extension"] !== undefined ? _data["Extension"] : <any>null;
             this.commentaire = _data["Commentaire"] !== undefined ? _data["Commentaire"] : <any>null;
             this.data = _data["Data"] !== undefined ? _data["Data"] : <any>null;
         }
@@ -2295,6 +2352,7 @@ export class DocumentDto implements IDocumentDto {
         data = typeof data === 'object' ? data : {};
         data["MimeType"] = this.mimeType !== undefined ? this.mimeType : <any>null;
         data["NomFichier"] = this.nomFichier !== undefined ? this.nomFichier : <any>null;
+        data["Extension"] = this.extension !== undefined ? this.extension : <any>null;
         data["Commentaire"] = this.commentaire !== undefined ? this.commentaire : <any>null;
         data["Data"] = this.data !== undefined ? this.data : <any>null;
         return data;
@@ -2304,6 +2362,7 @@ export class DocumentDto implements IDocumentDto {
 export interface IDocumentDto {
     mimeType: string;
     nomFichier: string;
+    extension?: string | null;
     commentaire?: string | null;
     data: string;
 }
@@ -3497,6 +3556,7 @@ export interface IQuestionnaireUpdateDto {
 }
 
 export class RecapitulatifDtDto implements IRecapitulatifDtDto {
+    parlonsDeVous?: ParlonsDeVousDto;
     formations?: FormationCertificationDto[] | null;
     certifications?: FormationCertificationDto[] | null;
     experiences?: ExperienceDto[] | null;
@@ -3515,6 +3575,7 @@ export class RecapitulatifDtDto implements IRecapitulatifDtDto {
 
     init(_data?: any) {
         if (_data) {
+            this.parlonsDeVous = _data["ParlonsDeVous"] ? ParlonsDeVousDto.fromJS(_data["ParlonsDeVous"]) : <any>null;
             if (Array.isArray(_data["Formations"])) {
                 this.formations = [] as any;
                 for (let item of _data["Formations"])
@@ -3568,6 +3629,7 @@ export class RecapitulatifDtDto implements IRecapitulatifDtDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["ParlonsDeVous"] = this.parlonsDeVous ? this.parlonsDeVous.toJSON() : <any>null;
         if (Array.isArray(this.formations)) {
             data["Formations"] = [];
             for (let item of this.formations)
@@ -3599,6 +3661,7 @@ export class RecapitulatifDtDto implements IRecapitulatifDtDto {
 }
 
 export interface IRecapitulatifDtDto {
+    parlonsDeVous?: ParlonsDeVousDto;
     formations?: FormationCertificationDto[] | null;
     certifications?: FormationCertificationDto[] | null;
     experiences?: ExperienceDto[] | null;

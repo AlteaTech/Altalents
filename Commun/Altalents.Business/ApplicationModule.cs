@@ -14,7 +14,6 @@ namespace Altalents.Business
             services.AddAutoMapper(typeof(ApplicationModule));
             services.AddScoped<IUtilisateurService, UtilisateurService>();
             services.AddScoped<IDossierTechniqueService, DossierTechniqueService>();
-            services.AddScoped<ICompetencesService, CompetencesService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IReferencesService, ReferencesService>();
             services.AddScoped<IJobService, JobService>();

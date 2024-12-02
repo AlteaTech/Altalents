@@ -9,12 +9,10 @@ namespace Altalents.API.Controllers
     public class DossiersTechniquesController : ControllerBase
     {
         private readonly IDossierTechniqueService _dossierTechniqueService;
-        private readonly ICompetencesService _competencesService;
 
-        public DossiersTechniquesController(IDossierTechniqueService dossierTechniqueService, ICompetencesService competencesService)
+        public DossiersTechniquesController(IDossierTechniqueService dossierTechniqueService)
         {
             _dossierTechniqueService = dossierTechniqueService;
-            _competencesService = competencesService;
         }
 
         [HttpPost("", Name = "AddDossierTechnique")]
@@ -135,13 +133,13 @@ namespace Altalents.API.Controllers
         [HttpGet("{tokenAccesRapide}/competences", Name = "GetCompetences")]
         public async Task<List<CompetenceDto>> GetCompetencesAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] string typeLiaisonCode, CancellationToken cancellationToken)
         {
-            return await _competencesService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, typeLiaisonCode, cancellationToken);
+            return await _dossierTechniqueService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, typeLiaisonCode, cancellationToken);
         }
 
         [HttpPut("competences", Name = "PutNote")]
         public async Task PutNoteAsync([FromBody] LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken)
         {
-            await _competencesService.UpdateNiveauLiaisonAsync(request, cancellationToken);
+            await _dossierTechniqueService.UpdateNiveauLiaisonAsync(request, cancellationToken);
         }
 
         [HttpGet("{tokenAccesRapide}/formations", Name = "GetAllAboutFormations")]

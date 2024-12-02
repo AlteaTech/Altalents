@@ -9,6 +9,7 @@ namespace Altalents.IBusiness.DTO
 {
     public class RecapitulatifDtDto
     {
+        public ParlonsDeVousDto ParlonsDeVous { get; set; }
         public List<FormationCertificationDto> Formations { get; set; }
         public List<FormationCertificationDto> Certifications { get; set; }
         public List<ExperienceDto> Experiences { get; set; }

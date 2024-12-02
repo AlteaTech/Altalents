@@ -21,7 +21,7 @@ namespace Altalents.Business.Services
         private readonly CommercialSettings _commercialSettings;
 
         public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider,
-            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService, IOptions<CommercialSettings> commercialSettings, ICompetencesService competenceService) : base(logger, contexte, mapper, serviceProvider)
+            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService, IOptions<CommercialSettings> commercialSettings) : base(logger, contexte, mapper, serviceProvider)
         {
             _globalSettings = globalSettings.CurrentValue;
             _emailService = emailService;
@@ -634,6 +634,100 @@ namespace Altalents.Business.Services
             }
         }
 
+        public async Task<List<CompetenceDto>> GetLiaisonCandidatByTypeAsync(Guid tokenRapide, string typeLiaisonCode, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            TypeLiaisonEnum typeLiaisonEnum = (TypeLiaisonEnum)Enum.Parse(typeof(TypeLiaisonEnum), typeLiaisonCode);
+            switch (typeLiaisonEnum)
+            {
+                case TypeLiaisonEnum.Competence:
+
+                    List<LiaisonExperienceCompetence> competences = await context.LiaisonExperienceCompetences.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                                     .Include(x => x.Competance)
+                                     .GroupBy(e => e.CompetenceId)
+                                     .Select(g => g.OrderByDescending(e => e.Niveau).First())
+                                     .ToListAsync(cancellationToken);
+                    return Mapper.Map<List<CompetenceDto>>(competences);
+
+
+                case TypeLiaisonEnum.Methodologie:
+
+                    List<LiaisonExperienceMethodologie> methodologies = await context.LiaisonExperienceMethodologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                                     .Include(x => x.Methodologie)
+                                     .GroupBy(e => e.MethodologieId)
+                                     .Select(g => g.OrderByDescending(e => e.Niveau).First())
+                                     .ToListAsync(cancellationToken);
+                    return Mapper.Map<List<CompetenceDto>>(methodologies);
+
+
+                case TypeLiaisonEnum.Outil:
+
+                    List<LiaisonExperienceOutil> Outils = await context.LiaisonExperienceOutils.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                                     .Include(x => x.Outil)
+                                     .GroupBy(e => e.OutilId)
+                                     .Select(g => g.OrderByDescending(e => e.Niveau).First())
+                                     .ToListAsync(cancellationToken);
+                    return Mapper.Map<List<CompetenceDto>>(Outils);
+
+
+                case TypeLiaisonEnum.Technologie:
+
+                    List<LiaisonExperienceTechnologie> technologies = await context.LiaisonExperienceTechnologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                                    .Include(x => x.Technologie)
+                                     .GroupBy(e => e.TechnologieId)
+                                     .Select(g => g.OrderByDescending(e => e.Niveau).First())
+                                     .ToListAsync(cancellationToken);
+                    return Mapper.Map<List<CompetenceDto>>(technologies);
+
+
+                default:
+                    return new List<CompetenceDto>();
+            }
+        }
+
+
+        public async Task UpdateNiveauLiaisonAsync(LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken)
+        {
+
+            TypeLiaisonEnum typeLiaisonEnum = (TypeLiaisonEnum)Enum.Parse(typeof(TypeLiaisonEnum), request.TypeLiaisonCode);
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            switch (typeLiaisonEnum)
+            {
+                case TypeLiaisonEnum.Competence:
+
+                    LiaisonExperienceCompetence liaisonCompetence = await context.LiaisonExperienceCompetences.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    liaisonCompetence.Niveau = request.Note;
+                    break;
+
+                case TypeLiaisonEnum.Methodologie:
+
+                    LiaisonExperienceMethodologie liaisonMethodo = await context.LiaisonExperienceMethodologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    liaisonMethodo.Niveau = request.Note;
+                    break;
+
+                case TypeLiaisonEnum.Outil:
+
+                    LiaisonExperienceOutil liaisonOutil = await context.LiaisonExperienceOutils.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    liaisonOutil.Niveau = request.Note;
+                    break;
+
+                case TypeLiaisonEnum.Technologie:
+
+                    LiaisonExperienceTechnologie liaisonTechno = await context.LiaisonExperienceTechnologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    liaisonTechno.Niveau = request.Note;
+                    break;
+
+                default:
+                    break;
+
+            }
+
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
+
+        }
+
         public async Task<Guid> AddOrUpdateLangueParleeAsync(Guid tokenAccesRapide, LangueParleeRequestDto request, CancellationToken cancellationToken, Guid? id = null)
         {
             using CustomDbContext context = GetScopedDbContexte();
@@ -700,17 +794,14 @@ namespace Altalents.Business.Services
 
                 .SingleOrDefaultAsync(cancellationToken);
 
-            using CustomDbContext context1 = GetScopedDbContexte();
-            using CustomDbContext context2 = GetScopedDbContexte();
-            using CustomDbContext context3 = GetScopedDbContexte();
-            using CustomDbContext context4 = GetScopedDbContexte();
+            Task<List<CompetenceDto>> competencesTask = GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Competence.GetHashCode().ToString(), cancellationToken);
+            Task<List<CompetenceDto>> methodologiesTask = GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Methodologie.GetHashCode().ToString(), cancellationToken);
+            Task<List<CompetenceDto>> technologieTask = GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Technologie.GetHashCode().ToString(), cancellationToken);
+            Task<List<CompetenceDto>> outilsTask = GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Outil.GetHashCode().ToString(), cancellationToken);
 
-            Task<List<CompetenceDto>> competencesTask = context1.GetLiaisonCandidatByTypeAsync(Mapper, tokenAccesRapide, TypeLiaisonEnum.Competence.GetHashCode().ToString(), cancellationToken);
-            Task<List<CompetenceDto>> methodologiesTask = context2.GetLiaisonCandidatByTypeAsync(Mapper, tokenAccesRapide, TypeLiaisonEnum.Methodologie.GetHashCode().ToString(), cancellationToken);
-            Task<List<CompetenceDto>> technologieTask = context3.GetLiaisonCandidatByTypeAsync(Mapper, tokenAccesRapide, TypeLiaisonEnum.Technologie.GetHashCode().ToString(), cancellationToken);
-            Task<List<CompetenceDto>> outilsTask = context4.GetLiaisonCandidatByTypeAsync(Mapper, tokenAccesRapide, TypeLiaisonEnum.Outil.GetHashCode().ToString(), cancellationToken);
+            Task<ParlonsDeVousDto> InfoBasicTask = GetParlonsDeVousAsync(tokenAccesRapide, cancellationToken);
 
-            DossierTechnique dossierTechnique = await dossierTechniqueTask;
+           DossierTechnique dossierTechnique = await dossierTechniqueTask;
 
             // Appliquer le tri sur les expériences après récupération
             if (dossierTechnique != null && dossierTechnique.Experiences != null)
@@ -732,11 +823,15 @@ namespace Altalents.Business.Services
                     Technologie = await technologieTask,
                     Outils = await outilsTask
                 },
+
+                ParlonsDeVous = await InfoBasicTask,
+
                 Formations = Mapper.Map<List<FormationCertificationDto>>(dossierTechnique.Formations),
                 Certifications = Mapper.Map<List<FormationCertificationDto>>(dossierTechnique.Certifications),
                 Langues = Mapper.Map<List<LangueParleeDto>>(dossierTechnique.DossierTechniqueLangues),
                 Questionnaires = Mapper.Map<List<QuestionnaireDto>>(dossierTechnique.QuestionDossierTechniques),
                 Experiences = Mapper.Map<List<ExperienceDto>>(dossierTechnique.Experiences)
+
             };
 
             return recapitulatif;
