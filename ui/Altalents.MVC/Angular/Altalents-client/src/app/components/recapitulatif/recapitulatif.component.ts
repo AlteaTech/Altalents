@@ -12,6 +12,7 @@ import { Question } from 'src/app/shared/models/question.model';
 import { Competence } from 'src/app/shared/models/competence.model';
 import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-step.enum';
 import { FormContainerComponent } from '../form-container/form-container.component';
+import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
 
 @Component({
   selector: 'app-recapitulatif',
@@ -27,6 +28,8 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
   public dossierTechniqueEnum = DossierTechniqueEnum; 
   public formContainer = FormContainerComponent;
   public confirmation: boolean = false;
+
+  public parlonsDeVous: ParlonsDeVous = new ParlonsDeVous();
   public arrayNbEtoiles: number[] = [1,2,3,4,5];
 
   public formations: Formation[] = [];
@@ -68,10 +71,13 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
   }
 
   public populateData(): void {
+
     this.isLoading = true;
 
     this.callRequest(ConstantesRequest.getRecapitulatif, this.service.getRecapitulatif(this.tokenDossierTechnique)
     .subscribe((response: RecapitulatifDtDto) => {
+
+      this.parlonsDeVous =  ParlonsDeVous.from(response.parlonsDeVous!);
 
       this.formations = Formation.fromList(response.formations!);
       this.certifications = Certification.fromList(response.certifications!);
@@ -85,6 +91,7 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
       this.compTechnologie= Competence.fromList(response.competences?.technologie!);
 
       this.isLoading = false;
+
     }));
   }
 }

@@ -9,6 +9,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 import { ValidateEmailWithApi } from 'src/app/shared/services/services/validators/validate-email-with-api';
 import { ValidateIsNumber } from 'src/app/shared/services/services/validators/validate-is-number';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
+import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
 
 @Component({
   selector: 'app-parlons-de-vous',
@@ -20,15 +21,13 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
   public formGroup!: FormGroup<ParlonsDeVousForm>;
+  public parlonsDeVous: ParlonsDeVous = new ParlonsDeVous();
 
   constructor(private readonly service: ApiServiceAgent) {
     super();
-  }
 
-  public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
     this.formGroup = new FormGroup<ParlonsDeVousForm>({
-      prenom: new FormControl('', Validators.required),
+      prenom: new FormControl(this.parlonsDeVous.prenom!, Validators.required),
       nom: new FormControl('', Validators.required),
       numeroTelephone1: new FormControl('', Validators.required, ValidateTelephoneWithApi(this.service, true)),
       numeroTelephone2: new FormControl(null, undefined, ValidateTelephoneWithApi(this.service, true)),
@@ -40,26 +39,40 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       pays: new FormControl('', Validators.required),
       synthese : new FormControl('', Validators.required),
     });
+
+  }
+
+  public ngOnInit(): void {
+
+    this.validationCallback.emit(() => this.submit());
     this.populateData();
+
   }
 
   public populateData(): void {
     this.isLoading = true;
     this.callRequest(ConstantesRequest.getParlonsDeVous, this.service.getParlonsDeVous(this.tokenDossierTechnique)
         .subscribe((response: ParlonsDeVousDto) => {
-          this.formGroup.patchValue({
-            prenom: response.prenom,
-            nom: response.nom,
-            numeroTelephone1: response.telephone1,
-            numeroTelephone2: response.telephone2,
-            adresseMail: response.email,
-            adresse1: response.adresse?.adresse1,
-            adresse2: response.adresse?.adresse2,
-            codePostal: response.adresse?.codePostal,
-            ville: response.adresse?.ville,
-            pays: response.adresse?.pays,
-            synthese : response.synthese,
-          });
+          this.parlonsDeVous = ParlonsDeVous.from(response);
+
+          if (this.parlonsDeVous) {
+
+            this.formGroup.patchValue({
+              prenom : this.parlonsDeVous.prenom,
+              nom: this.parlonsDeVous.nom,
+              numeroTelephone1: this.parlonsDeVous.telephone1,
+              numeroTelephone2: this.parlonsDeVous.telephone2,
+              adresseMail:  this.parlonsDeVous.email,
+              adresse1:  this.parlonsDeVous.adresse?.adresse1,
+              adresse2: this.parlonsDeVous.adresse?.adresse2,
+              ville: this.parlonsDeVous.adresse?.ville,
+              codePostal: this.parlonsDeVous.adresse?.codePostal,
+              pays: this.parlonsDeVous.adresse?.pays,
+              synthese: this.parlonsDeVous.synthese,
+      
+            });
+          }
+
           this.isLoading = false;
         }));
   }

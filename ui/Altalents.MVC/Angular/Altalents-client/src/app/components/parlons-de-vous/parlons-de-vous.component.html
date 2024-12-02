@@ -93,7 +93,7 @@
                 <legend class="legent-text"><i class="fa-regular fa-map"></i>Adresse</legend>
                 <div class="row mb-2">
                     <div class="col-lg-6 label-champ-input ">
-                        <label for="adresse1 align-items-center" class="col-form-label">Adresse 1<span
+                        <label for="adresse1 align-items-center" class="col-form-label">Adresse (ligne 1)<span
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
                             *ngIf="formGroup.get('adresse1')?.invalid && formGroup.get('adresse1')?.touched">
@@ -107,7 +107,7 @@
                 </div>
                 <div class="row mb-2">
                     <div class="col-lg-6 label-champ-input">
-                        <label for="adresse2 align-items-center" class="col-form-label">Adresse 2</label>
+                        <label for="adresse2 align-items-center" class="col-form-label">Adresse (Ligne 2)</label>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" formControlName="adresse2"
@@ -157,7 +157,7 @@
                         <p class="font-normal">Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une 😊</p>
                         <div class="error-message"
                             *ngIf="formGroup.get('synthese')?.invalid && formGroup.get('synthese')?.touched">
-                            La synthèse est requise.
+                                La synthèse est requise.
                         </div>
                     </div>
                     <div class="col-lg-6">
