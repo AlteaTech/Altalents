@@ -156,9 +156,10 @@
                                             <button (click)="onAjouterDocumentClick()">
                                                 <p><i class="fa-regular fa-plus at-c-violet"></i>{{pieceJointe ? 'Modifier la ' : 'Ajouter une '}} pièce jointe</p>
                                             </button>
-                                            <a (click)="downloadPj()" *ngIf="pieceJointe">{{pieceJointe.nomFichier}}</a>
                                         </div>
-                                   
+                                        <i class="fa-solid fa-download at-c-violet " *ngIf="pieceJointe">&nbsp;</i>
+                                        <a class="link" (click)="downloadPj()">{{pieceJointe?.nomFichier}}</a>
+                                        <span class="font-normal" *ngIf="pieceJointe?.commentaire" >&nbsp;({{pieceJointe?.commentaire}}) </span>
                             </fieldset>
                         </div>
                     </div>

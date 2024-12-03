@@ -283,8 +283,6 @@ namespace Altalents.Business.Services
                 }
             }
 
-
-
             ParlonsDeVousDto reponse = new ParlonsDeVousDto()
             {
                 Adresse = adresseDto,
@@ -304,11 +302,11 @@ namespace Altalents.Business.Services
         {
             return context.DossierTechniques
                             .Where(x => x.TokenAccesRapide == tokenRapide)
+                            .Include(x => x.DocumentComplementaires)
                             .Include(x => x.Personne)
                                 .ThenInclude(x => x.Adresses)
                             .Include(x => x.Personne)
                                 .ThenInclude(x => x.Contacts);
-                            
         }
 
         public async Task PutParlonsDeVousAsync(Guid tokenRapide, ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
