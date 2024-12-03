@@ -69,6 +69,15 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
     }
   }
 
+  public downloadPj()
+  {
+
+    var a = document.createElement("a"); //Create <a>
+    a.href = "data:" + this.pieceJointe?.mimeType + ";base64," + this.pieceJointe?.data; //Image Base64 Goes here
+    a.download = this.pieceJointe?.nomFichier!; //File name Here
+    a.click(); //Downloaded file
+  }
+
   public nomPrenomChange(): void {
     const formValues = this.formGroup.value;
     let body = new GetTrigrammeRequestDto();

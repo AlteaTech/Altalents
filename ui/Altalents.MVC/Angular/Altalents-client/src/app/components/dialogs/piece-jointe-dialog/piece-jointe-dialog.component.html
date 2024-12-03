@@ -3,13 +3,13 @@
         <fieldset>
             <legend>Documents</legend>
             <div class="row mb-2">
-                <div *ngIf="pieceJointe?.nomFichier">
-                    Document : {{ pieceJointe?.nomFichier }}
-                </div>
-                <div class="col-lg-12 drop-zone" dropzone="move">
-                    <input type="file" (change)="onFileUploadChange($event)">
+                <div class="col-lg-12 drop-zone" dropzone="move" (click)="triggerFileInput()">
+                    <input type="file" (change)="onFileUploadChange($event)" style="display: none;" id="fileInput">
                     <img src="Images/ICON_FEATHER_DOWNLOAD.png">
                     <p class="at-c-violet">{{ pieceJointe?.data ? 'Modifier le' : 'Déposez votre' }} document</p>
+                    <div class="nom-fichier-uploaded" *ngIf="pieceJointe?.nomFichier">
+                        <p>Fichier sélectionné : {{ pieceJointe?.nomFichier }}</p>
+                    </div>
                 </div>
                 <div class="error-message" *ngIf="!pieceJointe?.data && formGroup.touched">
                     Le document est obligatoire.

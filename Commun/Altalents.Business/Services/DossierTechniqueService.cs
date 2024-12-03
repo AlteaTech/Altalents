@@ -274,10 +274,15 @@ namespace Altalents.Business.Services
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
 
             List<DocumentDto> listDocDtos  = new List<DocumentDto>();
-            foreach (DocumentComplementaire docu in dt.DocumentComplementaires)
+
+            if (dt.DocumentComplementaires != null)
             {
-                listDocDtos.Add(new DocumentDto() { Data = docu.Data, MimeType = docu.MimeType, NomFichier = docu.Nom, Commentaire = docu.Commentaire });
+                foreach (DocumentComplementaire docu in dt.DocumentComplementaires)
+                {
+                    listDocDtos.Add(new DocumentDto() { Data = docu.Data, MimeType = docu.MimeType, NomFichier = docu.Nom, Commentaire = docu.Commentaire });
+                }
             }
+
 
 
             ParlonsDeVousDto reponse = new ParlonsDeVousDto()
