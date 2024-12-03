@@ -11,7 +11,7 @@ export class ParlonsDeVous {
     email?: string | null;
     adresse?: Adress;
     synthese?: string | null;
-    public pieceJointe?: PieceJointe;
+    pieceJointe?: PieceJointe;
 
     public static from(dto : ParlonsDeVousDto):ParlonsDeVous{
 
@@ -24,6 +24,11 @@ export class ParlonsDeVous {
         model.email = dto.email;
         model.adresse = dto.adresse;
         model.synthese = dto.synthese;
+        
+        if(dto.documents && dto.documents[0])
+        {
+          model.pieceJointe = PieceJointe.from(dto.documents[0]);
+        }
 
         return model;
       }

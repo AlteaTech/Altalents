@@ -17,9 +17,15 @@ export class PieceJointe {
         model.commentaire = dto.commentaire!;
 
         return model;
-
       }
 
+      public static fromList(dtos : DocumentDto[]):PieceJointe[]{
+        var model: PieceJointe[] = [];
+        dtos.forEach(dto => {
+          model.push(PieceJointe.populate(dto));
+        });
+        return model;
+      }
 
       public static fromListToDtos(pjs : PieceJointe[]):DocumentDto[]{
         var model: DocumentDto[] = [];
@@ -29,7 +35,7 @@ export class PieceJointe {
         return model;
       }
 
-      public static populateDocumentDto( pj : PieceJointe) : DocumentDto {
+    public static populateDocumentDto( pj : PieceJointe) : DocumentDto {
 
         let documentDto: DocumentDto = new DocumentDto();
         documentDto.mimeType = pj.mimeType;
@@ -40,6 +46,18 @@ export class PieceJointe {
         return documentDto;
         
     }
+
+    public static populate( dto : DocumentDto) : PieceJointe {
+
+      let pj: PieceJointe = new PieceJointe();
+      pj.mimeType = dto.mimeType;
+      pj.nomFichier = dto.nomFichier;
+      pj.commentaire = dto.commentaire!;
+      pj.data = dto.data;
+  
+      return pj;
+      
+  }
     
 
 
