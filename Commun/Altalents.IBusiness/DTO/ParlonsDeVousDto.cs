@@ -1,3 +1,5 @@
+using Altalents.IBusiness.DTO.Request;
+
 namespace Altalents.IBusiness.DTO
 {
     public class ParlonsDeVousDto
@@ -9,5 +11,6 @@ namespace Altalents.IBusiness.DTO
         public string Email { get; set; }
         public AdresseDto Adresse { get; set; }
         public string Synthese { get; set; }
+        public List<DocumentDto> Documents { get; set; }
     }
 }

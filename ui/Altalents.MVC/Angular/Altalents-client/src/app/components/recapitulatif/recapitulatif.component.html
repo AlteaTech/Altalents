@@ -3,11 +3,23 @@
 <div class="at-p-formulaire-info-section">
     <img src="Images/HONNETETE.png">
     <p>
-        Ouf, nous arrivons à la fin! Mais avant de terminer, une petite relecture s’impose. Voici toutes les informations que vous venez de fournir. Si une information est fausse, vous pouvez la corriger en cliquant sur Modifier.
+        Ouf, nous arrivons à la fin! <span class="font-normal">Mais avant de terminer, une petite relecture s’impose. Voici toutes les informations que vous venez de fournir. Si une information est fausse, vous pouvez la corriger en cliquant sur Modifier.</span>
     </p>
 </div>
 <fieldset>
-    <legend class="legend-text"><i class="fa-solid fa-info"></i>Informations personnelles</legend>
+    <legend class="flex-row space-between">
+        <span><i class="fa-solid fa-info"></i>Informations personnelles</span>
+        <div class="edit-links">
+            <a (click)="goToStep(dossierTechniqueEnum.ParlonsDeVous)" class="edit-link">
+                <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+            </a>
+        </div>
+    </legend>
+    <p class="at-c-violet">{{parlonsDeVous.nom}} {{parlonsDeVous.prenom}}</p>
+    <p class="font-bold">{{parlonsDeVous.email}}</p>
+    <p class="font-normal">{{parlonsDeVous.telephone1}}<span *ngIf="parlonsDeVous.telephone2"> - {{parlonsDeVous.telephone2}}</span></p>
+    <p class="font-normal">{{parlonsDeVous.adresse?.adresse1}} {{parlonsDeVous.adresse?.adresse2}} {{parlonsDeVous.adresse?.codePostal}} {{parlonsDeVous.adresse?.ville}} {{parlonsDeVous.adresse?.pays}}</p>
+    <p class="font-bold margin-top">{{parlonsDeVous.synthese}}</p>
 </fieldset>
 <fieldset>
     <legend class="flex-row space-between">
@@ -205,7 +217,7 @@
       <span>Je certifie que les propos relatés dans mon dossier technique sont sincères et véritables</span>
     </label>
     <p *ngIf="!confirmation" class="error-message">
-      Vous devez certifier les informations avant de continuer.
+      Vous devez certifier les informations avant de pouvoir terminer.
     </p>
   </div>
 </fieldset>

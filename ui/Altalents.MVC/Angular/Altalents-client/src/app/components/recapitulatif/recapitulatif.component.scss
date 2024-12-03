@@ -81,3 +81,15 @@ p{
   input[type="checkbox"]:checked + .toggle-slider:before {
     transform: translateX(20px);
   }
+
+  @media (max-width: 992px) {
+    .toggle-container {
+      flex-direction: column; /* Passe le toggle au-dessus du texte */
+      gap: 4px; /* Réduit l'espace entre le toggle et le texte */
+      text-align: center; /* Centre le texte et le toggle */
+    }
+  
+    .toggle-slider {
+      margin-bottom: 8px; /* Ajoute un espace sous le toggle */
+    }
+  }

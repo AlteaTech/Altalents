@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
@@ -9,6 +9,8 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 import { ValidateEmailWithApi } from 'src/app/shared/services/services/validators/validate-email-with-api';
 import { ValidateIsNumber } from 'src/app/shared/services/services/validators/validate-is-number';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
+import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
+import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
 
 @Component({
   selector: 'app-parlons-de-vous',
@@ -18,17 +20,17 @@ import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/valid
 export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
-
+  // @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; // Référence à l'élément input type="file"
+  
   public formGroup!: FormGroup<ParlonsDeVousForm>;
-
+  public parlonsDeVous: ParlonsDeVous = new ParlonsDeVous();
+  // public pieceJointe?: PieceJointe;
+  
   constructor(private readonly service: ApiServiceAgent) {
     super();
-  }
 
-  public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
     this.formGroup = new FormGroup<ParlonsDeVousForm>({
-      prenom: new FormControl('', Validators.required),
+      prenom: new FormControl(this.parlonsDeVous.prenom!, Validators.required),
       nom: new FormControl('', Validators.required),
       numeroTelephone1: new FormControl('', Validators.required, ValidateTelephoneWithApi(this.service, true)),
       numeroTelephone2: new FormControl(null, undefined, ValidateTelephoneWithApi(this.service, true)),
@@ -39,7 +41,12 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       ville: new FormControl('', Validators.required),
       pays: new FormControl('', Validators.required),
       synthese : new FormControl('', Validators.required),
+      fileInput : new FormControl('', Validators.required),
     });
+  }
+
+  public ngOnInit(): void {
+    this.validationCallback.emit(() => this.submit());
     this.populateData();
   }
 
@@ -47,21 +54,59 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
     this.isLoading = true;
     this.callRequest(ConstantesRequest.getParlonsDeVous, this.service.getParlonsDeVous(this.tokenDossierTechnique)
         .subscribe((response: ParlonsDeVousDto) => {
-          this.formGroup.patchValue({
-            prenom: response.prenom,
-            nom: response.nom,
-            numeroTelephone1: response.telephone1,
-            numeroTelephone2: response.telephone2,
-            adresseMail: response.email,
-            adresse1: response.adresse?.adresse1,
-            adresse2: response.adresse?.adresse2,
-            codePostal: response.adresse?.codePostal,
-            ville: response.adresse?.ville,
-            pays: response.adresse?.pays,
-            synthese : response.synthese,
-          });
+          this.parlonsDeVous = ParlonsDeVous.from(response);
+
+          if (this.parlonsDeVous) {
+
+            this.formGroup.patchValue({
+              prenom : this.parlonsDeVous.prenom,
+              nom: this.parlonsDeVous.nom,
+              numeroTelephone1: this.parlonsDeVous.telephone1,
+              numeroTelephone2: this.parlonsDeVous.telephone2,
+              adresseMail:  this.parlonsDeVous.email,
+              adresse1:  this.parlonsDeVous.adresse?.adresse1,
+              adresse2: this.parlonsDeVous.adresse?.adresse2,
+              ville: this.parlonsDeVous.adresse?.ville,
+              codePostal: this.parlonsDeVous.adresse?.codePostal,
+              pays: this.parlonsDeVous.adresse?.pays,
+              synthese: this.parlonsDeVous.synthese,
+              fileInput: this.parlonsDeVous.pieceJointe?.data
+            });
+
+              // this.pieceJointe = this.parlonsDeVous.pieceJointe;
+
+          }
+
           this.isLoading = false;
         }));
+  }
+
+
+
+  triggerFileInput(): void {
+    // this.fileInput.nativeElement.click();
+    document.querySelector<HTMLInputElement>('#fileInput')?.click();
+  }
+
+  public async onFileUploadChange(event: Event): Promise<void> {
+    const fichiers: FileList | null = (event.target as HTMLInputElement).files;
+
+    if (fichiers) {
+      this.isLoading = true;
+      const file: File = fichiers[0];
+  
+      this.parlonsDeVous.pieceJointe = this.parlonsDeVous.pieceJointe ?? new PieceJointe();
+      this.parlonsDeVous.pieceJointe.mimeType = file.type;
+      this.parlonsDeVous.pieceJointe.nomFichier = file.name;
+      this.parlonsDeVous.pieceJointe.data = await PieceJointe.toBase64(file)
+      
+        .then((data: string) => {
+
+          this.formGroup.get('fileInput')?.setValue(data);
+          return data;
+        });
+      this.isLoading = false;
+    }
   }
 
   private async submit(): Promise<boolean> {
@@ -97,6 +142,10 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
     requestDto.email = values.adresseMail ?? "";
     requestDto.adresse = adresseRequestDto;
     requestDto.synthese = values.synthese;
+
+    var tabPj: PieceJointe[] = [this.parlonsDeVous.pieceJointe!];
+    requestDto.documents =  PieceJointe.fromListToDtos(tabPj)
+
     return requestDto;
   }
 }
