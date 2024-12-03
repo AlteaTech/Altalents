@@ -29,6 +29,11 @@ export class PieceJointeDialogComponent implements OnInit {
     this.isLoading = false;
   }
 
+  triggerFileInput(): void {
+    // this.fileInput.nativeElement.click();
+    document.querySelector<HTMLInputElement>('#fileInput')?.click();
+  }
+
   public submit(): void {
     if (this.formGroup.valid && this.pieceJointe) {
       const values = this.formGroup.value;
