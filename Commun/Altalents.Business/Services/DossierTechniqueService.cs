@@ -36,8 +36,9 @@ namespace Altalents.Business.Services
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
             if (dossierTechnique.Documents != null && dossierTechnique.Documents.Any())
             {
-                dt.DocumentComplementaires = GetDocumentComplementaires(dossierTechnique.Documents);
+                dt.DocumentComplementaires = GetDocumentComplementairesFromDtos(dossierTechnique.Documents);
             }
+
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
             await _emailService.SendEmailWithRetryAsync(dossierTechnique.AdresseMail, "Demande de creation de dossier technique", $"Merci de remplir le dossier suivant : <a href=\"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}\"> ce dossier là </a>");
@@ -45,7 +46,7 @@ namespace Altalents.Business.Services
 
         }
 
-        public List<DocumentComplementaire> GetDocumentComplementaires(List<DocumentDto> documents)
+        public List<DocumentComplementaire> GetDocumentComplementairesFromDtos(List<DocumentDto> documents)
         {
             List<DocumentComplementaire> retour = new();
             foreach (DocumentDto item in documents)
@@ -272,6 +273,13 @@ namespace Altalents.Business.Services
 
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
 
+            List<DocumentDto> listDocDtos  = new List<DocumentDto>();
+            foreach (DocumentComplementaire docu in dt.DocumentComplementaires)
+            {
+                listDocDtos.Add(new DocumentDto() { Data = docu.Data, MimeType = docu.MimeType, NomFichier = docu.Nom, Commentaire = docu.Commentaire });
+            }
+
+
             ParlonsDeVousDto reponse = new ParlonsDeVousDto()
             {
                 Adresse = adresseDto,
@@ -281,7 +289,8 @@ namespace Altalents.Business.Services
                 Nom = dt.Personne.Nom,
                 Prenom = dt.Personne.Prenom,
                 Synthese = dt.Synthese,
-                
+                Documents = listDocDtos
+
             };
             return reponse;
         }
@@ -294,6 +303,7 @@ namespace Altalents.Business.Services
                                 .ThenInclude(x => x.Adresses)
                             .Include(x => x.Personne)
                                 .ThenInclude(x => x.Contacts);
+                            
         }
 
         public async Task PutParlonsDeVousAsync(Guid tokenRapide, ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
@@ -330,6 +340,7 @@ namespace Altalents.Business.Services
             dt.Personne.Nom = request.Nom;
             dt.Personne.Prenom = request.Prenom;
             dt.Personne.Email = request.Email;
+            dt.DocumentComplementaires = GetDocumentComplementairesFromDtos(request.Documents);
 
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
             Contact tel1 = contactTelephones.FirstOrDefault();
@@ -470,7 +481,6 @@ namespace Altalents.Business.Services
 
                 return new DocumentDto()
                 {
-                    Extension = formatDocument,
                     MimeType = mimeType,
                     NomFichier = fileName,
                     Data = result.DocumentBytes

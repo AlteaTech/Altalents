@@ -264,7 +264,7 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-lg-3 label-champ-input">
-                                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description du projet<span class="text-danger">*</span></label>
+                                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description du projet<span class="error-message">*</span></label>
                                     <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched" class="error-message">
                                         La description est requise.
                                     </div>
@@ -273,7 +273,7 @@
                                     <textarea id="descriptionProjetOrMission{{i}}" formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
                                 </div>
                                 <div class="col-lg-3 label-champ-input">
-                                    <label for="taches{{i}}" class="col-form-label">Description des tâches<span class="text-danger">*</span></label>
+                                    <label for="taches{{i}}" class="col-form-label">Description des tâches<span class="error-message">*</span></label>
                                     <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched" class="error-message">
                                         La description est requises.
                                     </div>
@@ -311,7 +311,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="!hasAtLeastOneProject()" class="text-danger margin-top-big">
+                        <div *ngIf="!hasAtLeastOneProject()" class="error-message margin-top-big">
                             {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins un projet.' }}
                         </div>
                             <div class="at-p-button-ajouter">
@@ -328,8 +328,8 @@
                 </div>
               
             </div>
-            <div *ngIf="formGroup.invalid && formGroup.touched" class="text-danger margin-top-big">
-                Veuillez corriger les champs en erreur avant de pouvoir valider (dans tout dans tous les onglets).
+            <div *ngIf="formGroup.invalid && formGroup.touched" class="error-message margin-top-big">
+                Veuillez corriger les champs en erreur avant de pouvoir valider (verifier tous les onglets!).
             </div>
         </fieldset>
         <div>

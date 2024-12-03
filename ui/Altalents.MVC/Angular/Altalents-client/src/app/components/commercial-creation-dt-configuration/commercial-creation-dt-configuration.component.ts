@@ -116,6 +116,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
   }
 
   private generateDossierTechniqueInsertRequestDto(): DossierTechniqueInsertRequestDto {
+    
     const formValues = this.formGroup.value;
     const retour = new DossierTechniqueInsertRequestDto();
     retour.adresseMail = formValues.adresseMail ?? "";
@@ -129,20 +130,12 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
     retour.trigramme = formValues.trigram ?? "";
     retour.utilisateurId = this.userIdLogged;
     retour.questionnaires = this.questions ? Question.toList(this.questions) : undefined;
-    this.populateDocumentDto(retour);
+    var tabPj: PieceJointe[] = [this.pieceJointe!];
+    retour.documents =  PieceJointe.fromListToDtos(tabPj)
+
     return retour;
   }
 
-  private populateDocumentDto(retour: DossierTechniqueInsertRequestDto) {
-    if (this.pieceJointe) {
-      let documentDto: DocumentDto = new DocumentDto();
-      documentDto.mimeType = this.pieceJointe.mimeType;
-      documentDto.nomFichier = this.pieceJointe.nomFichier;
-      documentDto.commentaire = this.pieceJointe.commentaire;
-      documentDto.data = this.pieceJointe.data;
-      retour.documents = [documentDto];
-    }
-  }
 
   public populateData(): void {
     this.isLoading = true;

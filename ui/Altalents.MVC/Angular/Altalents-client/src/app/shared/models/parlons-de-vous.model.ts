@@ -1,5 +1,6 @@
 import { ParlonsDeVousDto } from "../services/generated/api/api.client";
 import { Adress } from "./adress.model";
+import { PieceJointe } from "./piece-jointe.model";
 
 export class ParlonsDeVous {
 
@@ -10,6 +11,7 @@ export class ParlonsDeVous {
     email?: string | null;
     adresse?: Adress;
     synthese?: string | null;
+    public pieceJointe?: PieceJointe;
 
     public static from(dto : ParlonsDeVousDto):ParlonsDeVous{
 

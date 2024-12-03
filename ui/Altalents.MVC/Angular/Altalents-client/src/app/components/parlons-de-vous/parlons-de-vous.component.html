@@ -2,9 +2,9 @@
 <div class="at-p-formulaire-info-section">
     <img src="Images/HONNETETE.png">
     <p>
-        C’est parti, pour la première étape nous allons avoir besoin de recueillir vos infos personnelles histoire de
+        C’est parti! <span class="font-normal">Pour la première étape nous allons avoir besoin de recueillir vos infos personnelles histoire de
         tout revendre à Zukerberg. Je plaisante, ces informations ne seront évidemment partagées à personne, comme nos
-        meilleures vannes d’ailleurs.
+        meilleures vannes d’ailleurs.</span>
     </p>
 </div>
 <form [formGroup]="formGroup">
@@ -76,7 +76,7 @@
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
                             *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
-                            Adresse mail est invalide.
+                            Adresse mail est invalide (verifier qu'il sagit bien du mail email que vous nous avez founi precedement). 
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -154,7 +154,7 @@
                  <div class="row">
                     <div class="col-lg-6 label-champ-input">
                         <label for="pays" class="col-form-label">Synthèse (Environs 100 mots)<span class="champ-obligatoire">*</span></label>
-                        <p class="font-normal">Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une 😊</p>
+                        <p class="font-normal font-italic font-small">Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une 😊</p>
                         <div class="error-message"
                             *ngIf="formGroup.get('synthese')?.invalid && formGroup.get('synthese')?.touched">
                                 La synthèse est requise.
@@ -164,8 +164,39 @@
                         <textarea rows="8" class="form-control" formControlName="synthese"
                             placeholder="Passionnée par le film Matrix depuis que je suis bébé, je me suis toujours intéressée aux technologies de l'information et, plus largement, à la matrice..."></textarea>
                     </div>
+                  
                 </div>
             </fieldset>
         </div>
+        <div class="col-lg-12">
+            <fieldset>
+             
+                 <div class="row">
+               
+                    <div class="drop-zone col-lg-12" (click)="triggerFileInput()">
+                        <input id="fileInput"
+                          type="file" 
+                          (change)="onFileUploadChange($event)" 
+                          style="display: none;" 
+                        />
+                        <img src="Images/ICON_FEATHER_DOWNLOAD.png" alt="Upload Icon">
+                        <p class="at-c-violet">{{ this.parlonsDeVous.pieceJointe?.data ? 'Modifier votre' : 'Déposez votre' }} CV</p>
+                          <!-- Zone d'affichage du nom du fichier -->
+                        <div class="nom-fichier-uploaded" *ngIf="this.parlonsDeVous.pieceJointe?.nomFichier">
+                            <p>Fichier sélectionné : {{ this.parlonsDeVous.pieceJointe?.nomFichier }}</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 label-champ-input">
+                        <p class="font-normal font-italic font-small"> </p>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('fileInput')?.invalid && formGroup.get('fileInput')?.touched">
+                                Votre CV est requis.
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+       
     </div>
 </form>

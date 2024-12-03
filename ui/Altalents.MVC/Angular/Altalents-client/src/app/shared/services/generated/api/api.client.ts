@@ -2318,7 +2318,6 @@ export interface ICustomUserLoggedDto {
 export class DocumentDto implements IDocumentDto {
     mimeType!: string;
     nomFichier!: string;
-    extension?: string | null;
     commentaire?: string | null;
     data!: string;
 
@@ -2335,7 +2334,6 @@ export class DocumentDto implements IDocumentDto {
         if (_data) {
             this.mimeType = _data["MimeType"] !== undefined ? _data["MimeType"] : <any>null;
             this.nomFichier = _data["NomFichier"] !== undefined ? _data["NomFichier"] : <any>null;
-            this.extension = _data["Extension"] !== undefined ? _data["Extension"] : <any>null;
             this.commentaire = _data["Commentaire"] !== undefined ? _data["Commentaire"] : <any>null;
             this.data = _data["Data"] !== undefined ? _data["Data"] : <any>null;
         }
@@ -2352,7 +2350,6 @@ export class DocumentDto implements IDocumentDto {
         data = typeof data === 'object' ? data : {};
         data["MimeType"] = this.mimeType !== undefined ? this.mimeType : <any>null;
         data["NomFichier"] = this.nomFichier !== undefined ? this.nomFichier : <any>null;
-        data["Extension"] = this.extension !== undefined ? this.extension : <any>null;
         data["Commentaire"] = this.commentaire !== undefined ? this.commentaire : <any>null;
         data["Data"] = this.data !== undefined ? this.data : <any>null;
         return data;
@@ -2362,7 +2359,6 @@ export class DocumentDto implements IDocumentDto {
 export interface IDocumentDto {
     mimeType: string;
     nomFichier: string;
-    extension?: string | null;
     commentaire?: string | null;
     data: string;
 }
@@ -3168,6 +3164,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
     email?: string | null;
     adresse?: AdresseDto;
     synthese?: string | null;
+    documents?: DocumentDto[] | null;
 
     constructor(data?: IParlonsDeVousDto) {
         if (data) {
@@ -3187,6 +3184,14 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseDto.fromJS(_data["Adresse"]) : <any>null;
             this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
+            if (Array.isArray(_data["Documents"])) {
+                this.documents = [] as any;
+                for (let item of _data["Documents"])
+                    this.documents!.push(DocumentDto.fromJS(item));
+            }
+            else {
+                this.documents = <any>null;
+            }
         }
     }
 
@@ -3206,6 +3211,11 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
         data["Email"] = this.email !== undefined ? this.email : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
         data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
+        if (Array.isArray(this.documents)) {
+            data["Documents"] = [];
+            for (let item of this.documents)
+                data["Documents"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -3218,6 +3228,7 @@ export interface IParlonsDeVousDto {
     email?: string | null;
     adresse?: AdresseDto;
     synthese?: string | null;
+    documents?: DocumentDto[] | null;
 }
 
 export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateRequestDto {
@@ -3228,6 +3239,7 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
     email!: string;
     adresse!: AdresseUpdateRequestDto;
     synthese?: string | null;
+    documents?: DocumentDto[] | null;
 
     constructor(data?: IParlonsDeVousUpdateRequestDto) {
         if (data) {
@@ -3250,6 +3262,14 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseUpdateRequestDto.fromJS(_data["Adresse"]) : new AdresseUpdateRequestDto();
             this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
+            if (Array.isArray(_data["Documents"])) {
+                this.documents = [] as any;
+                for (let item of _data["Documents"])
+                    this.documents!.push(DocumentDto.fromJS(item));
+            }
+            else {
+                this.documents = <any>null;
+            }
         }
     }
 
@@ -3269,6 +3289,11 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
         data["Email"] = this.email !== undefined ? this.email : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
         data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
+        if (Array.isArray(this.documents)) {
+            data["Documents"] = [];
+            for (let item of this.documents)
+                data["Documents"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -3281,6 +3306,7 @@ export interface IParlonsDeVousUpdateRequestDto {
     email: string;
     adresse: AdresseUpdateRequestDto;
     synthese?: string | null;
+    documents?: DocumentDto[] | null;
 }
 
 export class ProjetOrMissionClientDto implements IProjetOrMissionClientDto {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
@@ -10,6 +10,7 @@ import { ValidateEmailWithApi } from 'src/app/shared/services/services/validator
 import { ValidateIsNumber } from 'src/app/shared/services/services/validators/validate-is-number';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
+import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
 
 @Component({
   selector: 'app-parlons-de-vous',
@@ -19,10 +20,12 @@ import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
 export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
-
+  // @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; // Référence à l'élément input type="file"
+  
   public formGroup!: FormGroup<ParlonsDeVousForm>;
   public parlonsDeVous: ParlonsDeVous = new ParlonsDeVous();
-
+  // public pieceJointe?: PieceJointe;
+  
   constructor(private readonly service: ApiServiceAgent) {
     super();
 
@@ -38,15 +41,13 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       ville: new FormControl('', Validators.required),
       pays: new FormControl('', Validators.required),
       synthese : new FormControl('', Validators.required),
+      fileInput : new FormControl('', Validators.required),
     });
-
   }
 
   public ngOnInit(): void {
-
     this.validationCallback.emit(() => this.submit());
     this.populateData();
-
   }
 
   public populateData(): void {
@@ -69,12 +70,43 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
               codePostal: this.parlonsDeVous.adresse?.codePostal,
               pays: this.parlonsDeVous.adresse?.pays,
               synthese: this.parlonsDeVous.synthese,
-      
+              fileInput: this.parlonsDeVous.pieceJointe?.data
             });
+
+              // this.pieceJointe = this.parlonsDeVous.pieceJointe;
+
           }
 
           this.isLoading = false;
         }));
+  }
+
+
+
+  triggerFileInput(): void {
+    // this.fileInput.nativeElement.click();
+    document.querySelector<HTMLInputElement>('#fileInput')?.click();
+  }
+
+  public async onFileUploadChange(event: Event): Promise<void> {
+    const fichiers: FileList | null = (event.target as HTMLInputElement).files;
+
+    if (fichiers) {
+      this.isLoading = true;
+      const file: File = fichiers[0];
+  
+      this.parlonsDeVous.pieceJointe = this.parlonsDeVous.pieceJointe ?? new PieceJointe();
+      this.parlonsDeVous.pieceJointe.mimeType = file.type;
+      this.parlonsDeVous.pieceJointe.nomFichier = file.name;
+      this.parlonsDeVous.pieceJointe.data = await PieceJointe.toBase64(file)
+      
+        .then((data: string) => {
+
+          this.formGroup.get('fileInput')?.setValue(data);
+          return data;
+        });
+      this.isLoading = false;
+    }
   }
 
   private async submit(): Promise<boolean> {
@@ -110,6 +142,10 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
     requestDto.email = values.adresseMail ?? "";
     requestDto.adresse = adresseRequestDto;
     requestDto.synthese = values.synthese;
+
+    var tabPj: PieceJointe[] = [this.parlonsDeVous.pieceJointe!];
+    requestDto.documents =  PieceJointe.fromListToDtos(tabPj)
+
     return requestDto;
   }
 }

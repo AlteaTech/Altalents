@@ -4,13 +4,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px; /* espace entre les items */
 }
 
 .competence-libelle {
   flex: 1; /* Libellé occupe l'espace disponible à gauche */
   text-align: left;
   margin-right: 10px; /* espacement entre libellé et étoiles */
+  
 }
 
 .competence-stars {
@@ -23,12 +23,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px; /* Espacement entre le titre, le texte et la légende */
-  text-align: left;
+  text-align: center;
 }
 
 .at-p-formulaire-info-section h2 {
   margin: 0;
-  text-align: left;
+  text-align: center;
   align-self: flex-start;
   width: 100%;
 }

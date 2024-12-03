@@ -20,5 +20,7 @@ namespace Altalents.IBusiness.DTO.Request
         public AdresseUpdateRequestDto Adresse { get; set; }
 
         public string Synthese { get; set; }
+
+        public List<DocumentDto> Documents { get; set; }
     }
 }

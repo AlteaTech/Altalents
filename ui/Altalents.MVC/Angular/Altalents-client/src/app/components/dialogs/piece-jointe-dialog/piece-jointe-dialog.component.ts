@@ -52,7 +52,7 @@ export class PieceJointeDialogComponent implements OnInit {
       this.pieceJointe = this.pieceJointe ?? new PieceJointe();
       this.pieceJointe.mimeType = file.type;
       this.pieceJointe.nomFichier = file.name;
-      this.pieceJointe.data = await this.toBase64(file)
+      this.pieceJointe.data = await PieceJointe.toBase64(file)
       .then((data: string) => {
         return data;
       });
@@ -60,13 +60,5 @@ export class PieceJointeDialogComponent implements OnInit {
     }
   }
 
-  private toBase64(file: File): Promise<string> {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        resolve(reader.result?.toString().split(',')[1] ?? "");
-      };
-    })
-  }
+  
 }
