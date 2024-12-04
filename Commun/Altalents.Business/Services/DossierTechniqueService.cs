@@ -5,7 +5,7 @@ using Altalents.Commun.Settings;
 using Altalents.IBusiness.DTO.Request;
 using Altalents.Report.Library;
 using Altalents.Report.Library.DSO;
-
+using Altalents.Report.Library.Services;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 
@@ -436,6 +436,66 @@ namespace Altalents.Business.Services
                     NomFichier = d.Nom
                 }))
                 .ToListAsync(cancellationToken);
+        }
+
+
+        public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            WordTemplateService wordTemplateService = new WordTemplateService();
+
+            // Nom du fichier template (par exemple, "MonTemplate.docx")
+            string templateFileName = "Template_DT_Altea_2024.docx";
+
+            // Construire le chemin relatif en fonction du répertoire de travail actuel
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Ajouter les sous-dossiers correspondants pour atteindre le dossier Templates
+            string templateRelativePath = Path.Combine(baseDirectory, @"..\..\..\..\..\Commun\Altalents.Report.Library\Templates", templateFileName);
+
+            // Normaliser le chemin pour résoudre les parties ".."
+            string normalizedPath = Path.GetFullPath(templateRelativePath);
+
+            // Vérifier si le fichier existe
+            if (!File.Exists(normalizedPath))
+            {
+                throw new FileNotFoundException("Le fichier template est introuvable.", normalizedPath);
+            }
+
+
+            var recap = await GetRecapitulatifDtAsync(tokenAccesRapide, cancellationToken);
+
+
+            // Appel de la méthode GenerateDocument
+            Dictionary<string, string> data = new Dictionary<string, string>
+            {
+                { DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, "Ingénieur Informatique" },
+                { DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "Développeur Full-Stack" },
+
+                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, "contact@entreprise.com" },
+                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, "+33 6 12 34 56 78" },
+
+                { DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5" },
+                { DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, "C#, .NET Core, Angular, SQL" },
+                { DtTemplatesReplacementKeys.FOCUS_KEY_SYNTHESE, "Passionné par le développement de solutions innovantes, avec une solide expérience dans le développement d'applications complexes." },
+
+                { DtTemplatesReplacementKeys.COMPETENCES_SOFT_SKILLS, "Travail en équipe, Communication, Résolution de problèmes" },
+                { DtTemplatesReplacementKeys.COMPETENCES_SOFT_DOMAINES, "Finance, Santé, E-commerce" },
+                { DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES, "C#, Python, JavaScript" },
+                { DtTemplatesReplacementKeys.COMPETENCES_BDD, "SQL Server, PostgreSQL, MySQL" },
+                { DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, "Agile (Scrum), DevOps" }
+            };
+
+
+            byte[] generatedFile = wordTemplateService.GenerateDocument(normalizedPath, data);
+
+            return new DocumentDto()
+            {
+                MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                NomFichier = "test.docx",
+                Data = generatedFile
+            };
+
+
         }
 
         public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken)

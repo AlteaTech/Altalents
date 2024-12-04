@@ -114,7 +114,8 @@ namespace Altalents.API.Controllers
         [HttpGet("{tokenAccesRapide}/generate-dt", Name = "GenerateDossierCompetenceFile")]
         public async Task<DocumentDto> GenerateDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
         {
-            return await _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken);
+            //return await _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken);
+            return await _dossierTechniqueService.GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken);
         }
 
 
@@ -122,8 +123,10 @@ namespace Altalents.API.Controllers
         public IActionResult DownloadDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
         {
 
-            typeExportEnum  = typeExportEnum.HasValue ? typeExportEnum.Value : TypeExportEnum.RTF;
-            DocumentDto dto =  _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken).Result;
+            //typeExportEnum  = typeExportEnum.HasValue ? typeExportEnum.Value : TypeExportEnum.RTF;
+            //DocumentDto dto =  _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken).Result;
+
+            var dto = _dossierTechniqueService.GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken).Result;
 
             return File(dto.Data, dto.MimeType, $"{DateTime.Now:yyyyMMdd}_{dto.NomFichier}");
 
