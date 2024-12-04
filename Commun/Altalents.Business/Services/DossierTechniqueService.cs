@@ -6,6 +6,8 @@ using Altalents.IBusiness.DTO.Request;
 using Altalents.Report.Library;
 using Altalents.Report.Library.DSO;
 using Altalents.Report.Library.Services;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 
@@ -441,7 +443,7 @@ namespace Altalents.Business.Services
 
         public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
-            WordTemplateService wordTemplateService = new WordTemplateService();
+            
 
             // Nom du fichier template (par exemple, "MonTemplate.docx")
             string templateFileName = "Template_DT_Altea_2024.docx";
@@ -462,17 +464,46 @@ namespace Altalents.Business.Services
             }
 
 
-            var recap = await GetRecapitulatifDtAsync(tokenAccesRapide, cancellationToken);
+      
 
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
+            DossierTechnique dt = await context.DossierTechniques
+
+                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceCompetences)
+                        .ThenInclude(ec => ec.Competance)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceOutils)
+                        .ThenInclude(lo => lo.Outil)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceMethodologies)
+                        .ThenInclude(lm => lm.Methodologie)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.LiaisonExperienceTechnologies)
+                        .ThenInclude(lt => lt.Technologie)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
+                        .ThenInclude(lt => lt.DomaineMetier)
+                .Include(dt => dt.Formations)
+                .Include(dt => dt.Personne)
+                .Include(dt => dt.Certifications)
+                .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Langue)
+                .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Niveau)
+                .Include(dt => dt.QuestionDossierTechniques)
+                .SingleOrDefaultAsync(cancellationToken);
 
             // Appel de la méthode GenerateDocument
             Dictionary<string, string> data = new Dictionary<string, string>
             {
-                { DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, "Ingénieur Informatique" },
-                { DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "Développeur Full-Stack" },
+                { DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Personne.Trigramme },
+                { DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "A DETERMINER" },
 
-                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, "contact@entreprise.com" },
-                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, "+33 6 12 34 56 78" },
+                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, _commercialSettings.Mail },
+                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, _commercialSettings.Telephone },
 
                 { DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5" },
                 { DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, "C#, .NET Core, Angular, SQL" },
@@ -485,7 +516,7 @@ namespace Altalents.Business.Services
                 { DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, "Agile (Scrum), DevOps" }
             };
 
-
+            WordTemplateService wordTemplateService = new WordTemplateService();
             byte[] generatedFile = wordTemplateService.GenerateDocument(normalizedPath, data);
 
             return new DocumentDto()
@@ -834,7 +865,7 @@ namespace Altalents.Business.Services
             return dossierTechniqueLangueToAddOrUpdate.Id;
         }
 
-        public async Task<RecapitulatifDtDto> GetRecapitulatifDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        public async Task<RecapitulatifDtDto> GetRecapitulatifDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken, bool ExportRecap = false)
         {
 
             using CustomDbContext context = GetScopedDbContexte();
@@ -860,10 +891,12 @@ namespace Altalents.Business.Services
                         .ThenInclude(lt => lt.DomaineMetier)
 
                 .Include(dt => dt.Formations)
+                .Include(dt => dt.Personne)
                 .Include(dt => dt.Certifications)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Langue)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Niveau)
                 .Include(dt => dt.QuestionDossierTechniques)
+
 
                 .SingleOrDefaultAsync(cancellationToken);
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
@@ -71,23 +72,25 @@ namespace Altalents.Report.Library.Services
             }
         }
 
+        private string reformatKeys(string input)
+        {
+            return Regex.Replace(input, @"{{\s*(.*?)\s*}}", match =>
+            {
+                // Supprime les espaces à l'intérieur des accolades
+                return "{{" + match.Groups[1].Value.Replace(" ", string.Empty) + "}}";
+            });
+        }
+
         /// <summary>
         /// Remplace les balises dans le document par leurs valeurs.
         /// </summary>
         private void ReplacePlaceholders(Body body, Dictionary<string, string> placeholders)
         {
-
-
-            string fullBodyText = string.Join(" ", body.Descendants<Text>().Select(t => t.Text));
-            if (fullBodyText.Contains("{{HEADER_COMMERCIAL_EMAIL}}"))
-            {
-                var yoooo = "Yes";
-
-            }
-
+            //string fullBodyText1 = string.Join(" ", body.Descendants<Text>().Select(t => t.Text));
 
             foreach (var text in body.Descendants<Text>())
             {
+                // Remplacer les placeholders dans le texte
                 foreach (var placeholder in placeholders)
                 {
                     if (text.Text.Contains(placeholder.Key))

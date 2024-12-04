@@ -12,9 +12,9 @@ namespace Altalents.Commun.Constants
         public const string HEADER_CANDIDAT_TRI = "{{HEADER_CANDIDAT_TRI}}";
         public const string HEADER_CANDIDAT_POSTE = "{{HEADER_CANDIDAT_POSTE}}";
 
-        public const string HEADER_COMMERCIAL_EMAIL = "{{HEADER_COMMERCIAL_EMAIL}}";
-        public const string HEADER_COMMERCIAL_PHONE = "{{HEADER_COMMERCIAL_PHONE}}";
-        public const string HEADER_COMMERCIAL_NOM_COMPLET = "{{HEADER_COMMERCIAL_NOM_COMPLET}}";
+        public const string HEADER_COMMERCIAL_EMAIL = "{{PHONE_CO}}";
+        public const string HEADER_COMMERCIAL_PHONE = "{{EMAIL_COM}}";
+        public const string HEADER_COMMERCIAL_NOM_COMPLET = "{{COMMERCIAL_NOM_COMPLET}}";
 
         public const string FOCUS_NB_YEAR_EXP = "{{FOCUS_NB_YEAR_EXP}}";
         public const string FOCUS_KEY_COMPETENCES = "{{FOCUS_KEY_COMPETENCES}}";
