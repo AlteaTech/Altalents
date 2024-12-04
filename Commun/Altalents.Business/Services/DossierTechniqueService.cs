@@ -504,6 +504,7 @@ namespace Altalents.Business.Services
 
                 { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, _commercialSettings.Mail },
                 { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, _commercialSettings.Telephone },
+                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, _commercialSettings.Nom },
 
                 { DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5" },
                 { DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, "C#, .NET Core, Angular, SQL" },
@@ -865,7 +866,7 @@ namespace Altalents.Business.Services
             return dossierTechniqueLangueToAddOrUpdate.Id;
         }
 
-        public async Task<RecapitulatifDtDto> GetRecapitulatifDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken, bool ExportRecap = false)
+        public async Task<RecapitulatifDtDto> GetRecapitulatifDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
 
             using CustomDbContext context = GetScopedDbContexte();
