@@ -443,7 +443,6 @@ namespace Altalents.Business.Services
 
         public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
-            
 
             // Nom du fichier template (par exemple, "MonTemplate.docx")
             string templateFileName = "Template_DT_Altea_2024.docx";
@@ -462,10 +461,6 @@ namespace Altalents.Business.Services
             {
                 throw new FileNotFoundException("Le fichier template est introuvable.", normalizedPath);
             }
-
-
-      
-
 
             using CustomDbContext context = GetScopedDbContexte();
 
@@ -497,25 +492,21 @@ namespace Altalents.Business.Services
                 .SingleOrDefaultAsync(cancellationToken);
 
             // Appel de la méthode GenerateDocument
-            Dictionary<string, string> data = new Dictionary<string, string>
-            {
-                { DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Personne.Trigramme },
-                { DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "A DETERMINER" },
+            Dictionary<string, string> data = new Dictionary<string, string>();
 
-                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, _commercialSettings.Mail },
-                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, _commercialSettings.Telephone },
-                { DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, _commercialSettings.Nom },
-
-                { DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5" },
-                { DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, "C#, .NET Core, Angular, SQL" },
-                { DtTemplatesReplacementKeys.FOCUS_KEY_SYNTHESE, "Passionné par le développement de solutions innovantes, avec une solide expérience dans le développement d'applications complexes." },
-
-                { DtTemplatesReplacementKeys.COMPETENCES_SOFT_SKILLS, "Travail en équipe, Communication, Résolution de problèmes" },
-                { DtTemplatesReplacementKeys.COMPETENCES_SOFT_DOMAINES, "Finance, Santé, E-commerce" },
-                { DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES, "C#, Python, JavaScript" },
-                { DtTemplatesReplacementKeys.COMPETENCES_BDD, "SQL Server, PostgreSQL, MySQL" },
-                { DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, "Agile (Scrum), DevOps" }
-            };
+            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Personne.Trigramme);
+            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "A DETERMINER");
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, _commercialSettings.Mail);
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, _commercialSettings.Telephone);
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, _commercialSettings.Nom);
+            data.Add(DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5");
+            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, "C#, .NET Core, Angular, SQL");
+            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_SYNTHESE, "Passionné par le développement de solutions innovantes, avec une solide expérience dans le développement d'applications complexes.");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_SKILLS, "Travail en équipe, Communication, Résolution de problèmes");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_DOMAINES, "Finance, Santé, E-commerce");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES, "C#, Python, JavaScript");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, "SQL Server, PostgreSQL, MySQL");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, "Agile (Scrum), DevOps");
 
             WordTemplateService wordTemplateService = new WordTemplateService();
             byte[] generatedFile = wordTemplateService.GenerateDocument(normalizedPath, data);
@@ -526,8 +517,6 @@ namespace Altalents.Business.Services
                 NomFichier = "test.docx",
                 Data = generatedFile
             };
-
-
         }
 
         public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
@@ -615,7 +604,7 @@ namespace Altalents.Business.Services
                 Formations = await formationsTask,
                 Certifications = await certificationsTask,
                 LanguesParlees = await languesParleesTask
-            };
+            }; 
         }
 
         public async Task<Guid> AddOrUpdateExperienceAsync(Guid tokenAccesRapide, ExperienceRequestDto experienceDto, CancellationToken cancellationToken, Guid? id = null)
@@ -663,7 +652,6 @@ namespace Altalents.Business.Services
 
         public async Task<Guid> AddOrUpdateFormationCertificationAsync(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null)
         {
-
             using CustomDbContext context = GetScopedDbContexte();
 
             FormationCertificationEnum formationCertificationEnum = (FormationCertificationEnum)Enum.Parse(typeof(FormationCertificationEnum), request.FormationOrCertificationEnumCode);
