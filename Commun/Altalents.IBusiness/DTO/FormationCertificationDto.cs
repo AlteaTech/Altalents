@@ -9,6 +9,7 @@ namespace Altalents.IBusiness.DTO
 {
     public class FormationCertificationDto
     {
+
         [Required]
         public Guid Id { get; set; }                // Id de la formation / Certification
         public string Libelle { get; set; }          // Nom de la formation / Certification

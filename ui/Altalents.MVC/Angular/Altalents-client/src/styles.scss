@@ -93,7 +93,28 @@ h4,
     margin: 0;
     font-size: 1.2em;
   }
+
+  img {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+
+
 }
+
+
+
+.drop-zone.dragging {
+  border-color: #000000;
+  background-color: #7a4aff31;
+}
+
+
+
+
+
+
+
 
 .font-bold {
   font-weight: bold;
@@ -115,6 +136,11 @@ h4,
 
 .font-small {
   font-size: small;
+}
+
+.margin-all
+{
+  margin: 2px;
 }
 
 .margin-top {

@@ -20,11 +20,11 @@ import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
 export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
-  // @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>; // Référence à l'élément input type="file"
   
   public formGroup!: FormGroup<ParlonsDeVousForm>;
   public parlonsDeVous: ParlonsDeVous = new ParlonsDeVous();
-  // public pieceJointe?: PieceJointe;
+  public errorMessageFile: string | null = null;
+  public isDragging: boolean = false;
   
   constructor(private readonly service: ApiServiceAgent) {
     super();
@@ -72,9 +72,6 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
               synthese: this.parlonsDeVous.synthese,
               fileInput: this.parlonsDeVous.pieceJointe?.data
             });
-
-              // this.pieceJointe = this.parlonsDeVous.pieceJointe;
-
           }
 
           this.isLoading = false;
@@ -84,29 +81,76 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
 
 
   triggerFileInput(): void {
-    // this.fileInput.nativeElement.click();
     document.querySelector<HTMLInputElement>('#fileInput')?.click();
   }
 
+// Gérer le survol de la zone
+public onDragOver(event: DragEvent): void {
+  event.preventDefault();
+  this.isDragging = true;
+}
+
+// Gérer la sortie de la zone
+public onDragLeave(event: DragEvent): void {
+  event.preventDefault();
+  this.isDragging = false;
+}
+
+// Gérer le dépôt d'un fichier
+public async onDrop(event: DragEvent): Promise<void> {
+  event.preventDefault();
+  this.isDragging = false;
+  const fichiers = event.dataTransfer?.files;
+  await this.ProcessFileList(fichiers!);
+}
+
+
   public async onFileUploadChange(event: Event): Promise<void> {
     const fichiers: FileList | null = (event.target as HTMLInputElement).files;
+    await this.ProcessFileList(fichiers!);
+  }
 
-    if (fichiers) {
-      this.isLoading = true;
-      const file: File = fichiers[0];
-  
-      this.parlonsDeVous.pieceJointe = this.parlonsDeVous.pieceJointe ?? new PieceJointe();
-      this.parlonsDeVous.pieceJointe.mimeType = file.type;
-      this.parlonsDeVous.pieceJointe.nomFichier = file.name;
-      this.parlonsDeVous.pieceJointe.data = await PieceJointe.toBase64(file)
+
+  private async ProcessFileList(fichiers:FileList) {
+    if (fichiers && fichiers.length > 0) {
+
+        const file: File = fichiers[0];
+
+        // Vérification de la taille : 5 Mo = 5 * 1024 * 1024 octets
+        const MAX_SIZE_MB = 5 * 1024 * 1024; 
+        if (file.size > MAX_SIZE_MB) {
+          this.errorMessageFile = "Le fichier sélectionné dépasse la taille maximale de 5 Mo.";
+          return;
+        }
+        else
+        {
+          this.errorMessageFile = null;
+        }
+    
+        this.parlonsDeVous.pieceJointe = this.parlonsDeVous.pieceJointe ?? new PieceJointe();
+        this.parlonsDeVous.pieceJointe.mimeType = file.type;
+        this.parlonsDeVous.pieceJointe.nomFichier = file.name;
+
+        this.isLoading = true;
+
+        this.parlonsDeVous.pieceJointe.data = await PieceJointe.toBase64(file)
       
         .then((data: string) => {
 
           this.formGroup.get('fileInput')?.setValue(data);
           return data;
         });
+
       this.isLoading = false;
     }
+  }
+
+  public downloadPj()
+  {
+    var link = document.createElement("a"); //Create <a>
+    link.href = "data:" + this.parlonsDeVous.pieceJointe?.mimeType + ";base64," + this.parlonsDeVous.pieceJointe?.data; //Image Base64 Goes here
+    link.download = this.parlonsDeVous.pieceJointe?.nomFichier!; //File name Here
+    link.click(); //Downloaded file
   }
 
   private async submit(): Promise<boolean> {

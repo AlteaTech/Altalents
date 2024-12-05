@@ -76,7 +76,7 @@
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
                             *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
-                            Adresse mail est invalide (verifier qu'il sagit bien du mail email que vous nous avez founi precedement). 
+                            Adresse mail est invalide. 
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -153,8 +153,8 @@
                 <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse</legend>
                  <div class="row">
                     <div class="col-lg-6 label-champ-input">
-                        <label for="pays" class="col-form-label">Synthèse (Environs 100 mots)<span class="champ-obligatoire">*</span></label>
-                        <p class="font-normal font-italic font-small">Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une 😊</p>
+                        <label for="pays" class="col-form-label">Synthèse<span class="champ-obligatoire">*</span></label>
+                        <p class="font-normal font-italic font-small">Environs 100 mots. Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une 😊</p>
                         <div class="error-message"
                             *ngIf="formGroup.get('synthese')?.invalid && formGroup.get('synthese')?.touched">
                                 La synthèse est requise.
@@ -171,32 +171,36 @@
         <div class="col-lg-12">
             <fieldset>
              
-                 <div class="row">
-               
-                    <div class="drop-zone col-lg-12" dropzone="move" (click)="triggerFileInput()">
+                 <div class="row margin-all">
+                   
+                        <div class="drop-zone col-lg-12"  [class.dragging]="isDragging" (click)="triggerFileInput()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
                         <input id="fileInput"
-                          type="file" 
-                          (change)="onFileUploadChange($event)" 
-                          style="display: none;" 
+                            type="file" 
+                            (change)="onFileUploadChange($event)" 
+                            style="display: none;" 
                         />
                         <img src="Images/ICON_FEATHER_DOWNLOAD.png" alt="Upload Icon">
-                        <p class="at-c-violet">{{ this.parlonsDeVous.pieceJointe?.data ? 'Modifier votre' : 'Déposez votre' }} CV</p>
-                          <!-- Zone d'affichage du nom du fichier -->
+                        <p class="at-c-violet">{{ this.parlonsDeVous.pieceJointe?.data ? 'Modifier votre' : 'Déposez votre' }} CV </p><span class="font-normal">(5Mo max)</span>
+                    </div>
+                    <div class="error-message"
+                        *ngIf="formGroup.get('fileInput')?.invalid && formGroup.get('fileInput')?.touched">
+                            Votre CV est requis.
+                    </div>
+                     <!-- Afficher un message d'erreur pour la taille -->
+                    <div class="error-message" *ngIf="errorMessageFile">
+                        <p>{{ errorMessageFile }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                      <div class="col-lg-12 margin-top text-center">
                         <div class="nom-fichier-uploaded" *ngIf="this.parlonsDeVous.pieceJointe?.nomFichier">
-                            <p>Fichier sélectionné : {{ this.parlonsDeVous.pieceJointe?.nomFichier }}</p>
-                        </div>
-                      </div>
-                      <div class="col-lg-12 label-champ-input">
-                        <p class="font-normal font-italic font-small"> </p>
-                        <div class="error-message"
-                            *ngIf="formGroup.get('fileInput')?.invalid && formGroup.get('fileInput')?.touched">
-                                Votre CV est requis.
+                            <p>Votre CV : <a class="link" (click)="downloadPj()"> {{this.parlonsDeVous.pieceJointe?.nomFichier }}</a>
+                                <span class="font-normal" *ngIf="this.parlonsDeVous.pieceJointe?.commentaire" >&nbsp;({{this.parlonsDeVous.pieceJointe?.commentaire}}) </span>
+                            </p>
                         </div>
                     </div>
                 </div>
             </fieldset>
         </div>
-
-       
     </div>
 </form>
