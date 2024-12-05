@@ -440,7 +440,6 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-
         public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
 
