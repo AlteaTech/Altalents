@@ -1,3 +1,4 @@
+using Altalents.Commun.Enums;
 using Altalents.Entities.BaseEntities;
 
 namespace Altalents.Entities
@@ -7,6 +8,8 @@ namespace Altalents.Entities
         public Document()
         {
         }
+
+        public TypeDocumentEnum TypeDocument { get; set; }
 
         public Guid PersonneId { get; set; }
         public Personne Personne { get; set; }

@@ -6,6 +6,7 @@ namespace Altalents.Entities
     {
         public DocumentComplementaire()
         {
+
         }
 
         public string Commentaire { get; set; }

@@ -3,6 +3,7 @@ using Altalents.Business.Extensions;
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
 using Altalents.IBusiness.DTO.Request;
+using Altalents.Infrastructure;
 using Altalents.Report.Library;
 using Altalents.Report.Library.DSO;
 using Altalents.Report.Library.Services;
@@ -21,48 +22,60 @@ namespace Altalents.Business.Services
         private readonly GlobalSettings _globalSettings;
         private readonly IEmailService _emailService;
         private readonly CommercialSettings _commercialSettings;
+        private readonly FileService _fileService;
 
         public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider,
-            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService, IOptions<CommercialSettings> commercialSettings) : base(logger, contexte, mapper, serviceProvider)
+            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService, FileService fileService, IOptions<CommercialSettings> commercialSettings) : base(logger, contexte, mapper, serviceProvider)
         {
             _globalSettings = globalSettings.CurrentValue;
             _emailService = emailService;
             _commercialSettings = commercialSettings.Value;
+            _fileService = fileService;
         }
 
         public async Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
+
             await CheckNouveauCandidat(dossierTechnique, cancellationToken);
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
-            if (dossierTechnique.Documents != null && dossierTechnique.Documents.Any())
-            {
-                dt.DocumentComplementaires = GetDocumentComplementairesFromDtos(dossierTechnique.Documents);
-            }
 
+            //On commence le save du Dt avant j'ajouter les fichier afin d'avoir son token d acces rapide pour creer le Folder sur le disque avant d'y copier les fichier dedans
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+
+            string FolderPath = "DT/" + dt.TokenAccesRapide + "/PJ";
+            _fileService.UpdateUploadFolder(FolderPath);
+
+            if (dossierTechnique.Documents != null && dossierTechnique.Documents.Any())
+            {
+
+                foreach (DocumentDto item in dossierTechnique.Documents)
+                {
+                    DocumentComplementaire docuToAdd = new DocumentComplementaire();
+
+                    docuToAdd.Commentaire = item.Commentaire;
+                    docuToAdd.MimeType = item.MimeType;
+                    docuToAdd.Nom = await _fileService.AddFileAsync(item.Data, item.NomFichier);
+                    docuToAdd.NomOriginal = item.NomFichier;
+                    docuToAdd.FolderPath = FolderPath;
+                    docuToAdd.DossierTechniqueId = dt.Id;
+
+                    await DbContext.DocumentComplementairesTD.AddAsync(docuToAdd);
+                }
+            }
+
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+
             await _emailService.SendEmailWithRetryAsync(dossierTechnique.AdresseMail, "Demande de creation de dossier technique", $"Merci de remplir le dossier suivant : <a href=\"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}\"> ce dossier là </a>");
+
+
+
             return dt.Id;
 
         }
 
-        public List<DocumentComplementaire> GetDocumentComplementairesFromDtos(List<DocumentDto> documents)
-        {
-            List<DocumentComplementaire> retour = new();
-            foreach (DocumentDto item in documents)
-            {
-                retour.Add(new()
-                {
-                    Commentaire = item.Commentaire,
-                    MimeType = item.MimeType,
-                    Nom = item.NomFichier,
-                    Data = item.Data
-                });
-            }
-            return retour;
-        }
 
         private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
@@ -345,7 +358,9 @@ namespace Altalents.Business.Services
             dt.Personne.Nom = request.Nom;
             dt.Personne.Prenom = request.Prenom;
             dt.Personne.Email = request.Email;
-            dt.DocumentComplementaires = GetDocumentComplementairesFromDtos(request.Documents);
+
+            //A remplacer pour recup juste le CV
+            //dt.DocumentComplementaires = GetDocumentComplementairesFromDtos(request.Documents);
 
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
             Contact tel1 = contactTelephones.FirstOrDefault();
@@ -443,24 +458,6 @@ namespace Altalents.Business.Services
         public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
 
-            // Nom du fichier template (par exemple, "MonTemplate.docx")
-            string templateFileName = "Template_DT_Altea_2024.docx";
-
-            // Construire le chemin relatif en fonction du répertoire de travail actuel
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-            // Ajouter les sous-dossiers correspondants pour atteindre le dossier Templates
-            string templateRelativePath = Path.Combine(baseDirectory, @"..\..\..\..\..\Commun\Altalents.Report.Library\Templates", templateFileName);
-
-            // Normaliser le chemin pour résoudre les parties ".."
-            string normalizedPath = Path.GetFullPath(templateRelativePath);
-
-            // Vérifier si le fichier existe
-            if (!File.Exists(normalizedPath))
-            {
-                throw new FileNotFoundException("Le fichier template est introuvable.", normalizedPath);
-            }
-
             using CustomDbContext context = GetScopedDbContexte();
 
             // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
@@ -490,25 +487,57 @@ namespace Altalents.Business.Services
                 .Include(dt => dt.QuestionDossierTechniques)
                 .SingleOrDefaultAsync(cancellationToken);
 
-            // Appel de la méthode GenerateDocument
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            if (dt == null)
+            {
+                throw new BusinessException("UNAUTHORIZED Action");
+            }
 
-            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Personne.Trigramme);
-            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "A DETERMINER");
-            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, _commercialSettings.Mail);
-            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, _commercialSettings.Telephone);
-            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, _commercialSettings.Nom);
-            data.Add(DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5");
-            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, "C#, .NET Core, Angular, SQL");
-            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_SYNTHESE, "Passionné par le développement de solutions innovantes, avec une solide expérience dans le développement d'applications complexes.");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_SKILLS, "Travail en équipe, Communication, Résolution de problèmes");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_DOMAINES, "Finance, Santé, E-commerce");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES, "C#, Python, JavaScript");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, "SQL Server, PostgreSQL, MySQL");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, "Agile (Scrum), DevOps");
+            // Fusionner toutes les liaisons d'expérience en une seule liste
+            string Top5BestCmmpetences = "";
+            var allCompetences = dt.Experiences
+                .SelectMany(exp => exp.LiaisonExperienceCompetences
+                    .Where(lec => lec.Competance != null)
+                    .Select(lec => new
+                    {
+                        lec.Competance.Libelle,
+                        lec.Niveau
+                    }))
+                .Concat(dt.Experiences
+                    .SelectMany(exp => exp.LiaisonExperienceTechnologies
+                        .Where(lt => lt.Technologie != null)
+                        .Select(lt => new
+                        {
+                            lt.Technologie.Libelle,
+                            lt.Niveau
+                        })))
+                .Concat(dt.Experiences
+                    .SelectMany(exp => exp.LiaisonExperienceMethodologies
+                        .Where(lm => lm.Methodologie != null)
+                        .Select(lm => new
+                        {
+                            lm.Methodologie.Libelle,
+                            lm.Niveau
+                        })))
+                .Concat(dt.Experiences
+                    .SelectMany(exp => exp.LiaisonExperienceOutils
+                        .Where(lo => lo.Outil != null)
+                        .Select(lo => new
+                        {
+                            lo.Outil.Libelle,
+                            lo.Niveau
+                        })))
+                .OrderByDescending(x => x.Niveau) // Trier par niveau décroissant
+                .Take(5) // Limiter aux 5 meilleures compétences
+                .ToList();
+
+            // Affichage des résultats
+            foreach (var competence in allCompetences)
+            {
+                Top5BestCmmpetences += competence.Libelle + " ";
+            }
 
             WordTemplateService wordTemplateService = new WordTemplateService();
-            byte[] generatedFile = wordTemplateService.GenerateDocument(normalizedPath, data);
+            byte[] generatedFile = wordTemplateService.GenerateDocument();
 
             return new DocumentDto()
             {
