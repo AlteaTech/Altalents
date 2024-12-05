@@ -90,7 +90,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Templates\Template_DT_Altea_2024.docx" />
+    <None Include="Templates\Template_DT_Altea_2024.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DossierCompetance.resx">
