@@ -1967,11 +1967,11 @@ export interface IAdresseDto {
 }
 
 export class AdresseUpdateRequestDto implements IAdresseUpdateRequestDto {
-    adresse1!: string;
+    adresse1?: string | null;
     adresse2?: string | null;
-    codePostal!: string;
-    ville!: string;
-    pays!: string;
+    codePostal?: string | null;
+    ville?: string | null;
+    pays?: string | null;
 
     constructor(data?: IAdresseUpdateRequestDto) {
         if (data) {
@@ -2011,11 +2011,11 @@ export class AdresseUpdateRequestDto implements IAdresseUpdateRequestDto {
 }
 
 export interface IAdresseUpdateRequestDto {
-    adresse1: string;
+    adresse1?: string | null;
     adresse2?: string | null;
-    codePostal: string;
-    ville: string;
-    pays: string;
+    codePostal?: string | null;
+    ville?: string | null;
+    pays?: string | null;
 }
 
 export class AllAboutFormationsDto implements IAllAboutFormationsDto {
