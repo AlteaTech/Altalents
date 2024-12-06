@@ -8,17 +8,27 @@
 </div>
 <fieldset>
 <legend><i class="fa-solid fa-question"></i>Questions</legend>
-<div *ngFor="let question of questions">
-    <label class="col-form-label">{{ question.question }}<span class="champ-obligatoire" *ngIf="question.isObligatoire">*</span></label>
-    <textarea class="form-control" placeholder="Répondez ici" [(ngModel)]="question.reponse"></textarea>
-    <div class="error-message" *ngIf="question.isObligatoire && !question.reponse && showErreurs">
-        La réponse est requise.
+<div *ngIf="questions.length > 0">
+    <div *ngFor="let question of questions">
+        <label class="col-form-label">{{ question.question }}<span class="champ-obligatoire" *ngIf="question.isObligatoire">*</span></label>
+        <textarea class="form-control" placeholder="Répondez ici" [(ngModel)]="question.reponse"></textarea>
+        <div class="error-message" *ngIf="question.isObligatoire && !question.reponse && showErreurs">
+            La réponse est requise.
+        </div>
     </div>
+</div>
+<div *ngIf="questions.length == 0">
+    <p class="font-normal">Il n'y a aucune questions spécifique pour vous cette fois ci.</p>
 </div>
 </fieldset>
 <fieldset>
     <legend><i class="fa-regular fa-file"></i>Documents</legend>
+    <div *ngIf="documents.length > 0">
     <div *ngFor="let doc of documents; let i = index" >
         <p><a (click)="downloadPj(i)">{{doc.nomFichier}} </a></p>
+    </div>
+</div>
+    <div *ngIf="documents.length == 0">
+          <p class="font-normal">Il n'y a aucun document à visualiser pour cette fois.</p>
     </div>
 </fieldset> 
