@@ -1,33 +1,36 @@
-
-
 <app-custom-loader [isLoading]="isLoading" />
 <header class="at-p-header">
     <div class="logo-altalents">
         <img src="Images/LOGO_ALTALENTS.png">
     </div>
 </header>
-<div class="Row margin-top margin-bottom">
-    <div class="body-bulle">
-        <div class="bubble-container margin-top margin-bottom">
-            <div class="text">
-                <h1 class="margin-top margin-bottom">Bienvenue sur le dossier de compétences de <span class="at-c-violet">{{nomPrenomCandidat}}</span> !</h1>
-                <p>
-                    Cette page vous permet de générer et mettre à jour votre dossier de compétences en quelques clics.
-                    Et c'est très simple : il vous suffit de suivre les étapes une par une comme indiqué, et de remplir
-                    les données nécessaires. N'oubliez pas de prendre bien soin d'être clair et concis.
-                </p>
-                <p>
-                    Cliquez sur démarrer pour commencer à remplir le formulaire !
-                </p>
+<div class="main-content">
+    <div class="row">
+        <div class="body-bulle">
+            <div class="bubble-container">
+                <div class="text">
+                    <h1 class="">Bienvenue sur le dossier de compétences de <span
+                            class="at-c-violet">{{nomPrenomCandidat}}</span> !</h1>
+                    <p class="font-normal">
+                        Cette page vous permet de générer et mettre à jour votre dossier de compétences en quelques
+                        clics.
+                        Et c'est très simple : il vous suffit de suivre les étapes une par une comme indiqué, et de
+                        remplir
+                        les données nécessaires. N'oubliez pas de prendre bien soin d'être clair et concis.
+                    </p>
+                    <p class="font-normal">
+                        Cliquez sur démarrer pour commencer à remplir le formulaire !
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-    <div class="Row margin-top">
+    <div class="row">
         <div class="at-p-button-container">
             <button class="at-p-button" (click)="onDemarrerClick()">
-                <p><i class="fa-solid fa-play"></i>&nbsp;Démarrer</p>
+                <p><i class="fa-solid fa-play"></i>Démarrer</p>
             </button>
-        </div>   
+        </div>
     </div>
+</div>
 <img src="Images/ILLUSTRATION_STABILO.png" class="logo-altalent-stabilo">

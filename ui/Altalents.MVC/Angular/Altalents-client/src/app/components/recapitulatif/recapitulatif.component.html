@@ -1,7 +1,19 @@
 
 <app-custom-loader [isLoading]="isLoading" />
 <div class="at-p-formulaire-info-section">
-    <img src="Images/HONNETETE.png">
+    <div class="speaker-container" style="margin: 20px; text-align: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
+          <!-- Cercle de fond -->
+          <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
+          
+          <!-- Icône de vérification (coche) -->
+          <path d="M60 100 L85 120 L145 60" fill="none" stroke="#cc3300" stroke-width="6" stroke-linecap="round" />
+          
+          <!-- Ligne de finalisation (clôture) -->
+          <line x1="50" y1="140" x2="150" y2="140" stroke="#cc3300" stroke-width="4" />
+        </svg>
+      </div>
+      
     <p>
         Ouf, nous arrivons à la fin! <span class="font-normal">Mais avant de terminer, une petite relecture s’impose. Voici toutes les informations que vous venez de fournir. Si une information est fausse, vous pouvez la corriger en cliquant sur Modifier.</span>
     </p>

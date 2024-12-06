@@ -3,19 +3,27 @@
     <img src="Images/LOGO_ALTALENTS.png">
   </div>
 </header>
-<div class="container-text-only">
-  <img src="Images/GROUPE_5.png" class="background-accueil">
-  <div class="text">
-      <h1>Salut à toi, jeune <span class="at-c-violet">recruteur</span> !</h1>
-      <p>
-        Ici, tu vas pouvoir configurer le futur dossier technique pour ton candidat préféré.
-      </p>
+<div class="main-content">
+  <div class="row">
+    <div class="body-bulle">
+      <div class="bubble-container">
+        <div class="text">
+          <h1>Salut à toi, jeune <span class="at-c-violet">recruteur</span> !</h1>
+          <p class="font-normal">
+            Ici, tu vas pouvoir configurer le futur dossier technique pour ton candidat préféré.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="at-p-button-container">
+      <button class="at-p-button" (click)="vamos()">
+        <p><i class="fa-solid fa-download"></i>Télécharger</p>
+      </button>
+    </div>
   </div>
 </div>
-<div>
-  <div class="at-p-button-container">
-      <altea-button-prim label="Envoyer" imgSrc="Images/ICONE_PLAY.png" (onClick)="vamos()"></altea-button-prim>
-  </div> 
-</div>
+
 
 <img src="Images/ILLUSTRATION_STABILO.png" class="logo-altalent-stabilo">
