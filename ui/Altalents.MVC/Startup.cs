@@ -8,7 +8,7 @@ using Altalents.DataAccess;
 using Altalents.DataAccess.Hangfire;
 using Altalents.DataAccess.Supervision;
 using Altalents.Entities;
-
+using Altalents.Infrastructure;
 using AlteaTools.Api.Core.Exceptions;
 using AlteaTools.Api.Core.Extensions;
 using AlteaTools.Api.Core.Handler;
@@ -88,6 +88,8 @@ namespace Altalents.MVC
             };
 
             services.AddApplication(Configuration.GetConnectionString("Data"), apiExternesRoutes);
+            services.AddScoped<FileService>();
+
             services.AddAuthenticationCore();
             services.AddScoped<ProtectedSessionStorage>();
             services.AddAutoMapper(typeof(Startup));

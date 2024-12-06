@@ -13,4 +13,5 @@ export interface ParlonsDeVousForm {
     pays: FormControl<string | null>,
     synthese: FormControl<string | null>,
     fileInput: FormControl<string | null>,
+    zoneGeo: FormControl<string | null>,
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Altalents.Commun.Constants
+namespace Altalents.Report.Library
 {
     public static class DtTemplatesReplacementKeys
     {

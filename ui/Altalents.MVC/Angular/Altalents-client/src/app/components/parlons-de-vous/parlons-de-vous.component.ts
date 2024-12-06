@@ -34,20 +34,22 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       nom: new FormControl('', Validators.required),
       numeroTelephone1: new FormControl('', Validators.required, ValidateTelephoneWithApi(this.service, true)),
       numeroTelephone2: new FormControl(null, undefined, ValidateTelephoneWithApi(this.service, true)),
-      adresseMail: new FormControl('', Validators.required, ValidateEmailWithApi(this.service, this.tokenDossierTechnique)),
-      adresse1: new FormControl('', Validators.required),
+      adresseMail: new FormControl('', Validators.required),
+      zoneGeo: new FormControl('', Validators.required),
+      adresse1: new FormControl(null),
       adresse2: new FormControl(null),
-      codePostal: new FormControl('', Validators.required, ValidateIsNumber()),
-      ville: new FormControl('', Validators.required),
-      pays: new FormControl('', Validators.required),
-      synthese : new FormControl('', Validators.required),
-      fileInput : new FormControl('', Validators.required),
+      codePostal: new FormControl(null),
+      ville: new FormControl(null),
+      pays: new FormControl(null),
+      synthese : new FormControl(null),
+      fileInput : new FormControl(null),
     });
   }
 
   public ngOnInit(): void {
     this.validationCallback.emit(() => this.submit());
     this.populateData();
+    this.formGroup.get('adresseMail')?.disable();
   }
 
   public populateData(): void {
@@ -70,7 +72,8 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
               codePostal: this.parlonsDeVous.adresse?.codePostal,
               pays: this.parlonsDeVous.adresse?.pays,
               synthese: this.parlonsDeVous.synthese,
-              fileInput: this.parlonsDeVous.pieceJointe?.data
+              fileInput: this.parlonsDeVous.pieceJointe?.data,
+              zoneGeo: this.parlonsDeVous.zoneGeo
             });
           }
 
@@ -122,9 +125,12 @@ public async onDrop(event: DragEvent): Promise<void> {
           this.errorMessageFile = "Le fichier sélectionné dépasse la taille maximale de 5 Mo.";
           return;
         }
-        else
-        {
-          this.errorMessageFile = null;
+
+          // Validation du type de fichier : PDF ou Word (DOCX)
+        const validMimeTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        if (!validMimeTypes.includes(file.type)) {
+          this.errorMessageFile = "Le fichier doit être un PDF ou un document Word (.docx).";
+          return;
         }
     
         this.parlonsDeVous.pieceJointe = this.parlonsDeVous.pieceJointe ?? new PieceJointe();
@@ -157,6 +163,7 @@ public async onDrop(event: DragEvent): Promise<void> {
     let isValid: boolean = false;
     if (this.formGroup.valid) {
       this.isLoading = true;
+      this.formGroup.get('adresseMail')?.enable();
       // On n'utilise pas callRequest ici pour pouvoir await l'appel au back.
       await firstValueFrom(this.service.putParlonsDeVous(this.tokenDossierTechnique, this.populateRequestDto())).then(() => {
         isValid = true;
@@ -188,7 +195,7 @@ public async onDrop(event: DragEvent): Promise<void> {
     requestDto.synthese = values.synthese;
 
     var tabPj: PieceJointe[] = [this.parlonsDeVous.pieceJointe!];
-    requestDto.documents =  PieceJointe.fromListToDtos(tabPj)
+    requestDto.cv =  PieceJointe.populateDocumentDto(this.parlonsDeVous.pieceJointe!)
 
     return requestDto;
   }

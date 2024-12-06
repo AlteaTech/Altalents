@@ -53,15 +53,21 @@ namespace Altalents.Business.Services
             List<DocumentComplementaire> retour = new();
             foreach (DocumentDto item in documents)
             {
-                retour.Add(new()
-                {
-                    Commentaire = item.Commentaire,
-                    MimeType = item.MimeType,
-                    Nom = item.NomFichier,
-                    Data = item.Data
-                });
+                retour.Add(GetDocumentDto(item));
             }
             return retour;
+        }
+
+        private DocumentComplementaire GetDocumentDto(DocumentDto item)
+        {
+            return new()
+            {
+                Commentaire = item.Commentaire,
+                MimeType = item.MimeType,
+                Nom = item.NomFichier,
+                Data = item.Data,
+                TypeDocument = TypeDocumentEnum.PieceJointeDt
+            };
         }
 
         private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
@@ -277,14 +283,13 @@ namespace Altalents.Business.Services
 
             List<DocumentDto> listDocDtos  = new List<DocumentDto>();
 
-            if (dt.DocumentComplementaires != null)
-            {
-                foreach (DocumentComplementaire docu in dt.DocumentComplementaires)
-                {
-                    listDocDtos.Add(new DocumentDto() { Data = docu.Data, MimeType = docu.MimeType, NomFichier = docu.Nom, Commentaire = docu.Commentaire });
-                }
-            }
 
+            Entities.Document CV = dt.Personne.Documents.FirstOrDefault(e=>e.TypeDocument == TypeDocumentEnum.CV);
+            if (CV != null)
+            {
+                listDocDtos.Add(new DocumentDto() { Data = CV.Data, MimeType = CV.MimeType, NomFichier = CV.Nom });
+            }
+            
             ParlonsDeVousDto reponse = new ParlonsDeVousDto()
             {
                 Adresse = adresseDto,
@@ -294,9 +299,10 @@ namespace Altalents.Business.Services
                 Nom = dt.Personne.Nom,
                 Prenom = dt.Personne.Prenom,
                 Synthese = dt.Synthese,
+                ZoneGeo = dt.ZoneGeo,
                 Documents = listDocDtos
-
             };
+
             return reponse;
         }
 
@@ -304,11 +310,13 @@ namespace Altalents.Business.Services
         {
             return context.DossierTechniques
                             .Where(x => x.TokenAccesRapide == tokenRapide)
-                            .Include(x => x.DocumentComplementaires)
+                            .Include(x => x.Personne)
+                                .ThenInclude(x => x.Documents)
                             .Include(x => x.Personne)
                                 .ThenInclude(x => x.Adresses)
                             .Include(x => x.Personne)
-                                .ThenInclude(x => x.Contacts);
+                                .ThenInclude(x => x.Contacts)
+                      ;
         }
 
         public async Task PutParlonsDeVousAsync(Guid tokenRapide, ParlonsDeVousUpdateRequestDto request, CancellationToken cancellationToken)
@@ -318,6 +326,7 @@ namespace Altalents.Business.Services
                 .SingleAsync(cancellationToken);
 
             dt.Synthese = request.Synthese;
+            dt.ZoneGeo = request.zoneGeo;
 
             Adresse adresse = dt.Personne.Adresses?.FirstOrDefault();
             if (adresse != null)
@@ -345,7 +354,29 @@ namespace Altalents.Business.Services
             dt.Personne.Nom = request.Nom;
             dt.Personne.Prenom = request.Prenom;
             dt.Personne.Email = request.Email;
-            dt.DocumentComplementaires = GetDocumentComplementairesFromDtos(request.Documents);
+
+            Entities.Document cv = dt.Personne.Documents.FirstOrDefault(e=>e.TypeDocument == TypeDocumentEnum.CV);
+            if (cv != null)
+            {
+                cv.Nom = request.Cv.NomFichier;
+                cv.TypeDocument = TypeDocumentEnum.CV;
+                cv.MimeType = request.Cv.MimeType;
+                cv.Data = request.Cv.Data;
+            }
+            else
+            {
+                dt.Personne.Documents = new()
+                {
+                    new()
+                    {
+                       Nom = request.Cv.NomFichier,
+                       TypeDocument = TypeDocumentEnum.CV,
+                       MimeType = request.Cv.MimeType,
+                       Data = request.Cv.Data,
+                       
+                    }
+                };
+            }
 
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
             Contact tel1 = contactTelephones.FirstOrDefault();
@@ -369,6 +400,7 @@ namespace Altalents.Business.Services
                     });
                 }
             }
+
             if (contactTelephones.Count <= 1 && !string.IsNullOrEmpty(request.Telephone2))
             {
                 dt.Personne.Contacts.Add(new Contact()
@@ -443,24 +475,6 @@ namespace Altalents.Business.Services
         public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
 
-            // Nom du fichier template (par exemple, "MonTemplate.docx")
-            string templateFileName = "Template_DT_Altea_2024.docx";
-
-            // Construire le chemin relatif en fonction du répertoire de travail actuel
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-            // Ajouter les sous-dossiers correspondants pour atteindre le dossier Templates
-            string templateRelativePath = Path.Combine(baseDirectory, @"..\..\..\..\..\Commun\Altalents.Report.Library\Templates", templateFileName);
-
-            // Normaliser le chemin pour résoudre les parties ".."
-            string normalizedPath = Path.GetFullPath(templateRelativePath);
-
-            // Vérifier si le fichier existe
-            if (!File.Exists(normalizedPath))
-            {
-                throw new FileNotFoundException("Le fichier template est introuvable.", normalizedPath);
-            }
-
             using CustomDbContext context = GetScopedDbContexte();
 
             // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
@@ -490,25 +504,57 @@ namespace Altalents.Business.Services
                 .Include(dt => dt.QuestionDossierTechniques)
                 .SingleOrDefaultAsync(cancellationToken);
 
-            // Appel de la méthode GenerateDocument
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            if (dt == null)
+            {
+                throw new BusinessException("UNAUTHORIZED Action");
+            }
 
-            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Personne.Trigramme);
-            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "A DETERMINER");
-            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, _commercialSettings.Mail);
-            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, _commercialSettings.Telephone);
-            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, _commercialSettings.Nom);
-            data.Add(DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5");
-            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, "C#, .NET Core, Angular, SQL");
-            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_SYNTHESE, "Passionné par le développement de solutions innovantes, avec une solide expérience dans le développement d'applications complexes.");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_SKILLS, "Travail en équipe, Communication, Résolution de problèmes");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_DOMAINES, "Finance, Santé, E-commerce");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES, "C#, Python, JavaScript");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, "SQL Server, PostgreSQL, MySQL");
-            data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, "Agile (Scrum), DevOps");
+            // Fusionner toutes les liaisons d'expérience en une seule liste
+            string Top5BestCmmpetences = "";
+            var allCompetences = dt.Experiences
+                .SelectMany(exp => exp.LiaisonExperienceCompetences
+                    .Where(lec => lec.Competance != null)
+                    .Select(lec => new
+                    {
+                        lec.Competance.Libelle,
+                        lec.Niveau
+                    }))
+                .Concat(dt.Experiences
+                    .SelectMany(exp => exp.LiaisonExperienceTechnologies
+                        .Where(lt => lt.Technologie != null)
+                        .Select(lt => new
+                        {
+                            lt.Technologie.Libelle,
+                            lt.Niveau
+                        })))
+                .Concat(dt.Experiences
+                    .SelectMany(exp => exp.LiaisonExperienceMethodologies
+                        .Where(lm => lm.Methodologie != null)
+                        .Select(lm => new
+                        {
+                            lm.Methodologie.Libelle,
+                            lm.Niveau
+                        })))
+                .Concat(dt.Experiences
+                    .SelectMany(exp => exp.LiaisonExperienceOutils
+                        .Where(lo => lo.Outil != null)
+                        .Select(lo => new
+                        {
+                            lo.Outil.Libelle,
+                            lo.Niveau
+                        })))
+                .OrderByDescending(x => x.Niveau) // Trier par niveau décroissant
+                .Take(5) // Limiter aux 5 meilleures compétences
+                .ToList();
+
+            // Affichage des résultats
+            foreach (var competence in allCompetences)
+            {
+                Top5BestCmmpetences += competence.Libelle + " ";
+            }
 
             WordTemplateService wordTemplateService = new WordTemplateService();
-            byte[] generatedFile = wordTemplateService.GenerateDocument(normalizedPath, data);
+            byte[] generatedFile = wordTemplateService.GenerateDocument();
 
             return new DocumentDto()
             {

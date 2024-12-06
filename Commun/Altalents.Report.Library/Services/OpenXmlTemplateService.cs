@@ -15,11 +15,57 @@ namespace Altalents.Report.Library.Services
     {
 
 
-        public byte[] GenerateDocument(string templatePath, Dictionary<string, string> data)
+        public byte[] GenerateDocument()
         {
+
+
+
+            // Nom du fichier template (par exemple, "MonTemplate.docx")
+            string templateFileName = "Template_DT_Altea_2024.docx";
+
+            // Construire le chemin relatif en fonction du répertoire de travail actuel
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Ajouter les sous-dossiers correspondants pour atteindre le dossier Templates
+            string templateRelativePath = Path.Combine(baseDirectory, @"..\..\Commun\Altalents.Report.Library\Templates", templateFileName);
+
+            // Normaliser le chemin pour résoudre les parties ".."
+            string normalizedPath = Path.GetFullPath(templateRelativePath);
+
+            // Vérifier si le fichier existe
+            if (!File.Exists(normalizedPath))
+            {
+                throw new FileNotFoundException("Le fichier template est introuvable.", normalizedPath);
+            }
+
+            // Appel de la méthode GenerateDocument
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            //data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Personne.Trigramme);
+            //data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "A DETERMINER");
+            //data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, _commercialSettings.Mail);
+            //data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, _commercialSettings.Telephone);
+            //data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, _commercialSettings.Nom);
+
+            data.Add(DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5");
+
+
+
+
+            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, "C#, .NET Core, Angular, SQL");
+
+
+            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_SYNTHESE, "Passionné par le développement de solutions innovantes, avec une solide expérience dans le développement d'applications complexes.");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_SKILLS, "Travail en équipe, Communication, Résolution de problèmes");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_DOMAINES, "Finance, Santé, E-commerce");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES, "C#, Python, JavaScript");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, "SQL Server, PostgreSQL, MySQL");
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, "Agile (Scrum), DevOps");
+
+
             // Valider les paramètres d'entrée
-            if (string.IsNullOrEmpty(templatePath) || !File.Exists(templatePath))
-                throw new FileNotFoundException("Le fichier de template est introuvable.", templatePath);
+            if (string.IsNullOrEmpty(normalizedPath) || !File.Exists(normalizedPath))
+                throw new FileNotFoundException("Le fichier de template est introuvable.", normalizedPath);
 
             if (data == null || data.Count == 0)
                 throw new ArgumentException("Aucune donnée n'a été fournie pour remplir le document.", nameof(data));
@@ -30,7 +76,7 @@ namespace Altalents.Report.Library.Services
             try
             {
                 // Copier le template dans un fichier temporaire
-                File.Copy(templatePath, outputTempPath, true);
+                File.Copy(normalizedPath, outputTempPath, true);
 
                 // Ouvrir et modifier le document
                 using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputTempPath, true))

@@ -67,6 +67,7 @@
     <Compile Include="Comparer\ConnaissanceDsoComparer.cs" />
     <Compile Include="DSO\DossierCompetenceDso.cs" />
     <Compile Include="DSO\ExperienceDso.cs" />
+    <Compile Include="DtTemplatesReplacementKeys.cs" />
     <Compile Include="Experience.partial.report.cs">
       <SubType>Component</SubType>
     </Compile>
