@@ -457,19 +457,23 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-        [Obsolete("Methode de test")]
-        public Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+
+        public async Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
-            return context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
-                .SelectMany(x => x.DocumentComplementaires.Select(d => new DocumentDto()
-                {
-                    Commentaire = d.Commentaire,
-                    Data = d.Data,
-                    MimeType = d.MimeType,
-                    NomFichier = d.Nom
-                }))
+            var result = await context.DossierTechniques
+                .Where(x => x.TokenAccesRapide == tokenAccesRapide)
+                .SelectMany(x => x.DocumentComplementaires
+                    .Where(w => w.TypeDocument == TypeDocumentEnum.PieceJointeDt)
+                    .Select(d => new DocumentDto
+                    {
+                        Commentaire = d.Commentaire,
+                        Data = d.Data,
+                        MimeType = d.MimeType,
+                        NomFichier = d.Nom
+                    }))
                 .ToListAsync(cancellationToken);
+            return result;
         }
 
         public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)

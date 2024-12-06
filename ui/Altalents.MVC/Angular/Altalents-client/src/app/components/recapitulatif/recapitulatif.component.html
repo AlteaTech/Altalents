@@ -21,6 +21,7 @@
     <p class="font-normal">{{parlonsDeVous.adresse?.adresse1}} {{parlonsDeVous.adresse?.adresse2}} {{parlonsDeVous.adresse?.codePostal}} {{parlonsDeVous.adresse?.ville}} {{parlonsDeVous.adresse?.pays}}</p>
     <p class="font-bold">{{parlonsDeVous.zoneGeo}}</p>
     <p class="font-bold margin-top">{{parlonsDeVous.synthese}}</p>
+    <p class="font-normal" *ngIf="parlonsDeVous.pieceJointe" >Mon CV : <a class="link" (click)="downloadPj()"> {{this.parlonsDeVous.pieceJointe.nomFichier }}</a></p>
 </fieldset>
 <fieldset>
     <legend class="flex-row space-between">

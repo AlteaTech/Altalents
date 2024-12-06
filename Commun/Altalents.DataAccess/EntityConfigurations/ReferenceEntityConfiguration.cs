@@ -20,6 +20,7 @@ namespace Altalents.DataAccess.EntityConfigurations
  .HasColumnType("varchar")
  .HasMaxLength(250)
  .IsRequired();
+
             builder.Property(e => e.Code)
              .HasColumnType("varchar")
              .HasMaxLength(250)
