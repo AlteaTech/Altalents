@@ -7,7 +7,7 @@
                     <input type="file" (change)="onFileUploadChange($event)" style="display: none;" id="fileInput">
                     
                     <img src="Images/ICON_FEATHER_DOWNLOAD.png">
-                    <p class="at-c-violet">{{ pieceJointe?.data ? 'Modifier le' : 'Déposez un' }} CV</p>
+                    <p class="at-c-violet">{{ pieceJointe?.data ? 'Modifier le' : 'Déposez un' }} Document</p>
                     <div class="nom-fichier-uploaded" *ngIf="pieceJointe?.nomFichier">
                         <p>CV sélectionné : {{ pieceJointe?.nomFichier }}</p>
                     </div>

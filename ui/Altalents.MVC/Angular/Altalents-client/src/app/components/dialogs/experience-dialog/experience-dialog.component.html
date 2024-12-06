@@ -5,47 +5,58 @@
             <legend class="margin-bottom-big"><i class="fa-regular fa-building"></i>Expérience professionelle</legend>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active " id="experience-tab" data-bs-toggle="tab" href="#experience" role="tab" aria-controls="experience" aria-selected="true">Détails</a>
+                    <a class="nav-link active " id="experience-tab" data-bs-toggle="tab" href="#experience" role="tab"
+                        aria-controls="experience" aria-selected="true">Détails</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="projets-tab" data-bs-toggle="tab" href="#projets" role="tab" aria-controls="projets" aria-selected="false">{{ IsEsn ? ' Missions' : 'Projets' }}</a>
+                    <a class="nav-link" id="projets-tab" data-bs-toggle="tab" href="#projets" role="tab"
+                        aria-controls="projets" aria-selected="false">{{ IsEsn ? ' Missions' : 'Projets' }}</a>
                 </li>
             </ul>
             <div class="tab-content margin-top-big margin-bottom-big" id="myTabContent">
                 <div class="tab-pane fade show active" id="experience" role="tabpanel" aria-labelledby="experience-tab">
                     <div class="row mb-2">
                         <div class="col-lg-3 label-champ-input">
-                            <label for="dateDebut" class="col-form-label">Date de début<span class="champ-obligatoire">*</span></label>
-                            <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['required'] && formGroup.get('dateDebut')?.touched">
+                            <label for="dateDebut" class="col-form-label">Date de début<span
+                                    class="champ-obligatoire">*</span></label>
+                            <div class="error-message"
+                                *ngIf="formGroup.get('dateDebut')?.errors?.['required'] && formGroup.get('dateDebut')?.touched">
                                 La date de début est requise.
                             </div>
-                            <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['maxDate'] && formGroup.get('dateDebut')?.touched">
+                            <div class="error-message"
+                                *ngIf="formGroup.get('dateDebut')?.errors?.['maxDate'] && formGroup.get('dateDebut')?.touched">
                                 La date ne peut pas être supérieure à aujourd’hui.
-                              </div>
+                            </div>
                         </div>
                         <div class="col-lg-3">
                             <input id="dateDebut" type="date" formControlName="dateDebut" class="form-control"
                                 placeholder="JJ/MM/AAAA">
                         </div>
                         <div class="col-lg-3 label-champ-input">
-                            <label for="dateFin" class="col-form-label">Date de fin<span *ngIf="!formGroup.controls.isPosteActuel.value" class="champ-obligatoire">*</span></label>
-                            <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['required'] && formGroup.get('dateFin')?.touched">
+                            <label for="dateFin" class="col-form-label">Date de fin<span
+                                    *ngIf="!formGroup.controls.isPosteActuel.value"
+                                    class="champ-obligatoire">*</span></label>
+                            <div class="error-message"
+                                *ngIf="formGroup.get('dateFin')?.errors?.['required'] && formGroup.get('dateFin')?.touched">
                                 La date de fin est requise.
                             </div>
                             <div class="error-message" *ngIf="formGroup.hasError('dateRangeInvalid')">
                                 La date de fin doit être postérieure à la date de début.
-                              </div>
-                              <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
+                            </div>
+                            <div class="error-message"
+                                *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
                                 La date ne peut pas être supérieure à aujourd’hui.
-                              </div>
+                            </div>
                         </div>
                         <div class="col-lg-3">
-                            <input id="dateFin" type="date" formControlName="dateFin" class="form-control" placeholder="JJ/MM/AAAA" >
+                            <input id="dateFin" type="date" formControlName="dateFin" class="form-control"
+                                placeholder="JJ/MM/AAAA">
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-lg-3 label-champ-input">
-                            <label for="intitulePoste" class="col-form-label">Intitulé du poste<span class="champ-obligatoire">*</span></label>
+                            <label for="intitulePoste" class="col-form-label">Intitulé du poste<span
+                                    class="champ-obligatoire">*</span></label>
                             <div class="error-message"
                                 *ngIf="formGroup.controls.intitulePoste.invalid && formGroup.controls.intitulePoste.touched">
                                 L'intitulé du poste est requis.
@@ -55,10 +66,11 @@
                             <input id="intitulePoste" type="text" formControlName="intitulePoste" class="form-control"
                                 placeholder="Professeur d'histoire">
                         </div>
-                        <div class="col-lg-3 label-champ-input">  </div>
+                        <div class="col-lg-3 label-champ-input"> </div>
                         <div class="col-lg-3 d-flex align-items-center margin-top">
                             <label class="switch">
-                                <input type="checkbox" formControlName="isPosteActuel" id="isPosteActuel" (change)="updateInputPosteActuel()">
+                                <input type="checkbox" formControlName="isPosteActuel" id="isPosteActuel"
+                                    (change)="updateInputPosteActuel()">
                                 <span class="slider"></span>
                             </label>
                             <div>
@@ -69,7 +81,8 @@
                     <div class="row mb-2">
                         <div class="col-lg-3 label-champ-input margin-top">
                             <label for="entreprise">Entreprise<span class="champ-obligatoire">*</span></label>
-                            <div class="error-message" *ngIf="formGroup.controls.entreprise.invalid && formGroup.controls.entreprise.touched">
+                            <div class="error-message"
+                                *ngIf="formGroup.controls.entreprise.invalid && formGroup.controls.entreprise.touched">
                                 Le nom de l'entreprise est requis.
                             </div>
                         </div>
@@ -77,10 +90,11 @@
                             <input id="entreprise" type="text" formControlName="entreprise" class="form-control"
                                 placeholder="Nom de l'entreprise">
                         </div>
-                        <div class="col-lg-3 label-champ-input">  </div>
+                        <div class="col-lg-3 label-champ-input"> </div>
                         <div class="col-lg-3 d-flex align-items-center  margin-top">
                             <label class="switch">
-                                <input type="checkbox" id="isEntrepriseEsnOrInterim" formControlName="isEntrepriseEsnOrInterim"  (change)="toggleIsEsn()">
+                                <input type="checkbox" id="isEntrepriseEsnOrInterim"
+                                    formControlName="isEntrepriseEsnOrInterim" (change)="toggleIsEsn()">
                                 <span class="slider"></span>
                             </label>
                             <label for="isEntrepriseEsnOrInterim" class="ms-2">L'entreprise est une ESN</label>
@@ -88,7 +102,8 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-lg-3 label-champ-input">
-                            <label for="domaineMetier" class="col-form-label">Domaine métier<span class="champ-obligatoire">*</span></label>
+                            <label for="domaineMetier" class="col-form-label">Domaine métier<span
+                                    class="champ-obligatoire">*</span></label>
                             <div class="error-message"
                                 *ngIf="formGroup.controls.domaineMetier.invalid && formGroup.controls.domaineMetier.touched">
                                 Le domaine métier est requis.
@@ -102,7 +117,8 @@
                             </select>
                         </div>
                         <div class="col-lg-3 label-champ-input">
-                            <label for="typeContrat" class="col-form-label">Type de contrat<span class="champ-obligatoire">*</span></label>
+                            <label for="typeContrat" class="col-form-label">Type de contrat<span
+                                    class="champ-obligatoire">*</span></label>
                             <div class="error-message"
                                 *ngIf="formGroup.controls.typeContrat.invalid && formGroup.controls.typeContrat.touched">
                                 Le type de contrat est requis.
@@ -118,21 +134,23 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-lg-3 label-champ-input">
-                            <label for="lieu" class="col-form-label">Lieu<span class="champ-obligatoire">*</span></label>
+                            <label for="lieu" class="col-form-label">Lieu<span
+                                    class="champ-obligatoire">*</span></label>
                             <div class="error-message"
                                 *ngIf="formGroup.controls.lieu.invalid && formGroup.controls.lieu.touched">
                                 Le lieu est requis.
                             </div>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" id="lieu" formControlName="lieu" class="form-control" placeholder="Jumanji">
+                            <input type="text" id="lieu" formControlName="lieu" class="form-control"
+                                placeholder="Jumanji">
                         </div>
                         <div class="col-lg-3 label-champ-input">
                             <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" id="compositionEquipe" formControlName="compositionEquipe" class="form-control"
-                                placeholder="Avec qui travailliez-vous?">
+                            <input type="text" id="compositionEquipe" formControlName="compositionEquipe"
+                                class="form-control" placeholder="Avec qui travailliez-vous?">
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -140,20 +158,22 @@
                             <label for="budgetGere" class="ms-2">Budget géré</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="number" id="budgetGere" formControlName="budgetGere" placeholder="0€" class="form-control">
+                            <input type="number" id="budgetGere" formControlName="budgetGere" placeholder="0€"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-lg-3  label-champ-input">
-                            <label for="description">Description de l'expérience professionnelle<span class="champ-obligatoire">*</span></label>
+                            <label for="description">Description de l'expérience professionnelle<span
+                                    class="champ-obligatoire">*</span></label>
                             <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
-                            <div class="error-message" 
+                            <div class="error-message"
                                 *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
                                 La description est requise.
                             </div>
                         </div>
                         <div class="col-lg-9">
-                            <textarea formControlName="description"  id="description" placeholder="Il était une fois..."
+                            <textarea formControlName="description" id="description" placeholder="Il était une fois..."
                                 class="custom-text-area form-control"></textarea>
                         </div>
                     </div>
@@ -184,7 +204,8 @@
                             <label for="technologies" class="col-form-label">Technologies</label>
                         </div>
                         <div class="col-lg-4">
-                            <app-multiple-autocomplete id="technologies" placeholder="Décrivez les technologies utilisées"
+                            <app-multiple-autocomplete id="technologies"
+                                placeholder="Décrivez les technologies utilisées"
                                 [constanteRequest]="constantesRequest.getReferencesTechnologies"
                                 [constanteTypeReference]="constantesTypesReferences.technologie"
                                 [selectedReferences]="formGroup.value.technologies ?? []"
@@ -202,131 +223,152 @@
                                 (selectedReferencesCallback)="onSelectedOutilsChange($event)"></app-multiple-autocomplete>
                         </div>
                     </div>
-                  
+
                 </div>
-    
+
                 <!-- Projets -->
-                <div class="tab-pane fade margin-bottom-big margin-top-big" id="projets" role="tabpanel" aria-labelledby="projets-tab">
+                <div class="tab-pane fade margin-bottom-big margin-top-big" id="projets" role="tabpanel"
+                    aria-labelledby="projets-tab">
                     <!-- Formulaire Projets -->
                     <div formArrayName="projects" class="">
-                        <div *ngFor="let project of getProjets().controls; let i = index" [formGroupName]="i" class=""  [ngClass]="{'project-even': i % 2 === 0, 'project-odd': i % 2 !== 0}">
+                        <div *ngFor="let project of getProjets().controls; let i = index" [formGroupName]="i" class=""
+                            [ngClass]="{'project-even': i % 2 === 0, 'project-odd': i % 2 !== 0}">
 
                             <div class="row mb-2" *ngIf="IsEsn">
                                 <div class="col-lg-3 label-champ-input">
-                                  <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client</label>
+                                    <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client</label>
                                 </div>
-                                  <div class="col-lg-3">
-                                  <input id="nomClientOrProjet{{i}}" type="text" formControlName="nomClientOrProjet" class="form-control" placeholder="Edf, Areva, Michelin ...">
+                                <div class="col-lg-3">
+                                    <input id="nomClientOrProjet{{i}}" type="text" formControlName="nomClientOrProjet"
+                                        class="form-control" placeholder="Edf, Areva, Michelin ...">
                                 </div>
-                            
+
                                 <div class="col-lg-3 label-champ-input">
-                                    
+
                                     <label for="domaineMetier{{i}}" class="col-form-label">Domaine métier</label>
                                 </div>
                                 <div class="col-lg-3">
                                     <select id="domaineMetier{{i}}" formControlName="domaineMetier" class="form-select">
-                                      <option *ngFor="let domaine of domaines" [ngValue]="domaine">
-                                        {{ domaine.libelle }}
-                                      </option>
+                                        <option *ngFor="let domaine of domaines" [ngValue]="domaine">
+                                            {{ domaine.libelle }}
+                                        </option>
                                     </select>
                                 </div>
-            
+
                                 <!-- Date de début -->
                                 <div class="col-lg-3 label-champ-input">
-                                  <label for="dateDebut{{i}}" class="col-form-label">Date de début</label>
-                                  <div class="error-message" *ngIf="project?.get('dateDebut')?.errors?.['maxDate'] && project?.get('dateDebut')?.touched">
-                                    La date ne peut pas être supérieure à aujourd’hui.
-                                  </div>
+                                    <label for="dateDebut{{i}}" class="col-form-label">Date de début</label>
+                                    <div class="error-message"
+                                        *ngIf="project?.get('dateDebut')?.errors?.['maxDate'] && project?.get('dateDebut')?.touched">
+                                        La date ne peut pas être supérieure à aujourd’hui.
+                                    </div>
                                 </div>
                                 <div class="col-lg-3">
-                                  <input id="dateDebut{{i}}" type="date" formControlName="dateDebut" class="form-control">
+                                    <input id="dateDebut{{i}}" type="date" formControlName="dateDebut"
+                                        class="form-control">
                                 </div>
-                            
+
                                 <!-- Date de fin -->
                                 <div class="col-lg-3 label-champ-input">
-                                  <label for="dateFin{{i}}" class="col-form-label">Date de fin</label>
-                                  <div class="error-message" *ngIf="project?.hasError('dateRangeInvalid')">
-                                    La date de fin doit être postérieure à la date de début.
-                                  </div>
-                                  <div class="error-message" *ngIf="project?.get('dateFin')?.errors?.['maxDate'] && project?.get('dateFin')?.touched">
-                                    La date ne peut pas être supérieure à aujourd’hui.
-                                  </div>
+                                    <label for="dateFin{{i}}" class="col-form-label">Date de fin</label>
+                                    <div class="error-message" *ngIf="project?.hasError('dateRangeInvalid')">
+                                        La date de fin doit être postérieure à la date de début.
+                                    </div>
+                                    <div class="error-message"
+                                        *ngIf="project?.get('dateFin')?.errors?.['maxDate'] && project?.get('dateFin')?.touched">
+                                        La date ne peut pas être supérieure à aujourd’hui.
+                                    </div>
                                 </div>
                                 <div class="col-lg-3">
-                                  <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control">
+                                    <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control">
                                 </div>
                                 <div class="col-lg-3 label-champ-input">
                                     <label for="lieu{{i}}" class="col-form-label">Lieu</label>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control" placeholder="Lieu">
-                                  </div>
+                                    <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control"
+                                        placeholder="Lieu">
+                                </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-lg-3 label-champ-input">
-                                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description du projet<span class="error-message">*</span></label>
-                                    <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched" class="error-message">
+                                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description du
+                                        projet<span class="error-message">*</span></label>
+                                    <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched"
+                                        class="error-message">
                                         La description est requise.
                                     </div>
                                 </div>
                                 <div class="col-lg-9">
-                                    <textarea id="descriptionProjetOrMission{{i}}" formControlName="descriptionProjetOrMission" class="form-control" placeholder="Description détaillée"></textarea>
+                                    <textarea id="descriptionProjetOrMission{{i}}"
+                                        formControlName="descriptionProjetOrMission" class="form-control"
+                                        placeholder="Description détaillée"></textarea>
                                 </div>
                                 <div class="col-lg-3 label-champ-input">
-                                    <label for="taches{{i}}" class="col-form-label">Description des tâches<span class="error-message">*</span></label>
-                                    <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched" class="error-message">
+                                    <label for="taches{{i}}" class="col-form-label">Description des tâches<span
+                                            class="error-message">*</span></label>
+                                    <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched"
+                                        class="error-message">
                                         La description est requises.
                                     </div>
                                 </div>
                                 <div class="col-lg-9">
-                                    <textarea id="taches{{i}}" formControlName="taches" class="form-control" placeholder="Tâches effectuées"></textarea>
+                                    <textarea id="taches{{i}}" formControlName="taches" class="form-control"
+                                        placeholder="Tâches effectuées"></textarea>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-3 label-champ-input" >
-                                    <label for="compositionEquipe{{i}}" class="col-form-label">Composition d'équipe</label>
+                                <div class="col-lg-3 label-champ-input">
+                                    <label for="compositionEquipe{{i}}" class="col-form-label">Composition
+                                        d'équipe</label>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input id="compositionEquipe{{i}}" type="text" formControlName="compositionEquipe" class="form-control" placeholder="X personnes">
+                                    <input id="compositionEquipe{{i}}" type="text" formControlName="compositionEquipe"
+                                        class="form-control" placeholder="X personnes">
                                 </div>
-                                <div class="col-lg-3 label-champ-input" >
+                                <div class="col-lg-3 label-champ-input">
                                     <label for="budget{{i}}" class="col-form-label">Budget</label>
-                                    <div *ngIf="project?.get('budget')?.invalid && project?.get('budget')?.touched" class="error-message">
+                                    <div *ngIf="project?.get('budget')?.invalid && project?.get('budget')?.touched"
+                                        class="error-message">
                                         Le budget doit être un nombre positif.
-                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input id="budget{{i}}" type="number" formControlName="budget" class="form-control" placeholder="Budget en euros">
-                                    
+                                    <input id="budget{{i}}" type="number" formControlName="budget" class="form-control"
+                                        placeholder="Budget en euros">
+
                                 </div>
                                 <div class="col-lg-9">
                                     <label class="col-form-label">&nbsp;</label>
                                 </div>
                                 <div class="col-lg-3">
-                                    <div class="delete-link-container d-flex justify-content-between align-items-center">
+                                    <div
+                                        class="delete-link-container d-flex justify-content-between align-items-center">
                                         <a (click)="removeProjet(i)" class="delete-link ms-auto">
-                                            <p class="at-c-violet text-end mb-0"><i class="fa-solid fa-trash"></i>&nbsp;Supprimer</p>
+                                            <p class="at-c-violet text-end mb-0"><i
+                                                    class="fa-solid fa-trash"></i>&nbsp;Supprimer</p>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div *ngIf="!hasAtLeastOneProject()" class="error-message margin-top-big">
-                            {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins un projet.' }}
+                            {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins
+                            un projet.' }}
                         </div>
-                            <div class="at-p-button-ajouter">
-                                <label for="" class="col-form-label"></label>
-                                <button (click)="addProject()">
-                                    <p>
-                                        <i class="fa-regular fa-plus at-c-violet"></i>
-                                        {{ IsEsn ? 'Ajouter une mission' : 'Ajouter un projet' }}
-                                    </p>
-                                </button>
-                            </div>
+                        <div class="at-p-button-ajouter">
+                            <label for="" class="col-form-label"></label>
+                            <button (click)="addProject()">
+                                <p>
+                                    <i class="fa-regular fa-plus at-c-violet"></i>
+                                    {{ IsEsn ? 'Ajouter une mission' : 'Ajouter un projet' }}
+                                </p>
+                            </button>
+                        </div>
                     </div>
-                  
+
                 </div>
-              
+
             </div>
             <div *ngIf="formGroup.invalid && formGroup.touched" class="error-message margin-top-big">
                 Veuillez corriger les champs en erreur avant de pouvoir valider (verifier tous les onglets).

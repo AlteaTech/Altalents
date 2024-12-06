@@ -1,6 +1,24 @@
-<app-custom-loader [isLoading]="isLoading" />
+<app-custom-loader [isLoading]="isLoading" /> 
 <div class="at-p-formulaire-info-section">
-    <img src="Images/HONNETETE.png">
+    <div class="speaker-container" style="margin: 20px; text-align: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
+          <!-- Cercle de fond -->
+          <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
+          
+          <!-- Icône de mallette professionnelle -->
+          <rect x="55" y="60" width="90" height="50" fill="#ff6633" stroke="#cc3300" stroke-width="5" />
+          <rect x="65" y="65" width="30" height="10" fill="#cc3300" />
+          <rect x="100" y="65" width="30" height="10" fill="#cc3300" />
+          
+          <!-- Lignes représentant les outils ou compétences -->
+          <line x1="50" y1="120" x2="150" y2="120" stroke="#ffffff" stroke-width="4" />
+          <line x1="50" y1="135" x2="150" y2="135" stroke="#ffffff" stroke-width="4" />
+          
+          <!-- Flèche de progression -->
+          <path d="M100 145 L110 130 L90 130 Z" fill="#cc3300" />
+        </svg>
+      </div>
+      
     <p>
         Troisième étape : <span class="font-normal">Tenez bon, il ne restera plus grand chose à faire ensuite. 
         Buvez un verre d'eau, détendez-vous et tout va bien se passer : 
