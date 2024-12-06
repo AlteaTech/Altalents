@@ -42,7 +42,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       ville: new FormControl(null),
       pays: new FormControl(null),
       synthese : new FormControl(null),
-      fileInput : new FormControl(null),
+      fileInput : new FormControl('', Validators.required),
     });
   }
 
@@ -115,6 +115,7 @@ public async onDrop(event: DragEvent): Promise<void> {
 
 
   private async ProcessFileList(fichiers:FileList) {
+    this.errorMessageFile = null;
     if (fichiers && fichiers.length > 0) {
 
         const file: File = fichiers[0];
@@ -186,6 +187,7 @@ public async onDrop(event: DragEvent): Promise<void> {
     adresseRequestDto.pays = values.pays ?? "";
 
     let requestDto: ParlonsDeVousUpdateRequestDto = new ParlonsDeVousUpdateRequestDto();
+
     requestDto.nom = values.nom ?? "";
     requestDto.prenom = values.prenom ?? "";
     requestDto.telephone1 = values.numeroTelephone1 ?? "";
@@ -193,9 +195,9 @@ public async onDrop(event: DragEvent): Promise<void> {
     requestDto.email = values.adresseMail ?? "";
     requestDto.adresse = adresseRequestDto;
     requestDto.synthese = values.synthese;
+    requestDto.zoneGeo = values.zoneGeo ?? "";
 
-    var tabPj: PieceJointe[] = [this.parlonsDeVous.pieceJointe!];
-    requestDto.cv =  PieceJointe.populateDocumentDto(this.parlonsDeVous.pieceJointe!)
+    requestDto.cv = this.parlonsDeVous.pieceJointe ? PieceJointe.populateDocumentDto(this.parlonsDeVous.pieceJointe) : undefined;
 
     return requestDto;
   }
