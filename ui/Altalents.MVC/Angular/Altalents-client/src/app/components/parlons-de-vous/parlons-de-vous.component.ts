@@ -41,7 +41,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       codePostal: new FormControl(null),
       ville: new FormControl(null),
       pays: new FormControl(null),
-      synthese : new FormControl(null),
+      synthese : new FormControl('', Validators.required),
       fileInput : new FormControl('', Validators.required),
     });
   }
