@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Altalents.Infrastructure\Altalents.Infrastructure.csproj" />
     <ProjectReference Include="..\Altalents.Commun\Altalents.Commun.csproj" />
     <ProjectReference Include="..\Altalents.IBusiness\Altalents.IBusiness.csproj" />
     <ProjectReference Include="..\Altalents.DataAccess\Altalents.DataAccess.csproj" />

@@ -56,10 +56,10 @@ namespace Altalents.DataAccess.EntityConfigurations
  .HasForeignKey(e => e.TypeId)
  .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(navigationExpression: e => e.Documents)
- .WithOne(x => x.Type)
- .HasForeignKey(e => e.TypeId)
- .OnDelete(DeleteBehavior.Cascade);
+ //           builder.HasMany(navigationExpression: e => e.Documents)
+ //.WithOne(x => x.Type)
+ //.HasForeignKey(e => e.TypeId)
+ //.OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(navigationExpression: e => e.PersonneLangues)
  .WithOne(x => x.Langue)
@@ -490,26 +490,30 @@ namespace Altalents.DataAccess.EntityConfigurations
  OrdreTri = 1
             },
             #endregion
-            #region Document
-            new (){
- Libelle = "Cv",
- Code= Commun.Enums.CodeReferenceEnum.Cv.ToString("g"),
- Id = Guid.Parse("{B3E98178-68DD-4DE3-9E36-A2ED571F21C5}"),
- DateCrea = new DateTime(2024,6,18),
- UtiCrea= "ALTEA",IsValide=true,
- Type = Commun.Enums.TypeReferenceEnum.Document,
- OrdreTri = 1
-            },
-            new (){
- Libelle = "Dt",
- Code= Commun.Enums.CodeReferenceEnum.Dt.ToString("g"),
- Id = Guid.Parse("{3A325813-E79D-445A-8953-B665C7581901}"),
- DateCrea = new DateTime(2024,6,18),
- UtiCrea= "ALTEA",IsValide=true,
- Type = Commun.Enums.TypeReferenceEnum.Document,
- OrdreTri = 1
-            },
-            #endregion
+
+
+ //           #region Document
+ //           new (){
+ //Libelle = "Cv",
+ //Code= Commun.Enums.CodeReferenceEnum.Cv.ToString("g"),
+ //Id = Guid.Parse("{B3E98178-68DD-4DE3-9E36-A2ED571F21C5}"),
+ //DateCrea = new DateTime(2024,6,18),
+ //UtiCrea= "ALTEA",IsValide=true,
+ //Type = Commun.Enums.TypeReferenceEnum.Document,
+ //OrdreTri = 1
+ //           },
+ //           new (){
+ //Libelle = "Dt",
+ //Code= Commun.Enums.CodeReferenceEnum.Dt.ToString("g"),
+ //Id = Guid.Parse("{3A325813-E79D-445A-8953-B665C7581901}"),
+ //DateCrea = new DateTime(2024,6,18),
+ //UtiCrea= "ALTEA",IsValide=true,
+ //Type = Commun.Enums.TypeReferenceEnum.Document,
+ //OrdreTri = 1
+ //           },
+            //#endregion
+
+
             #region Contrat
             new (){
  Libelle = "CDI",

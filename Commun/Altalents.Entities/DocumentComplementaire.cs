@@ -1,3 +1,4 @@
+using Altalents.Commun.Enums;
 using Altalents.Entities.BaseEntities;
 
 namespace Altalents.Entities
@@ -8,6 +9,8 @@ namespace Altalents.Entities
         {
 
         }
+
+        public TypeDocumentEnum TypeDocument { get; set; }
 
         public string Commentaire { get; set; }
         // Reference de Type disponibilite

@@ -9,7 +9,7 @@ namespace Altalents.Commun.Enums
     public enum TypeDocumentEnum
     {
 
-        PieceJointe = 1,
+        PieceJointeDt = 1,
         CV = 2,
         BadgeCertif = 3,
 

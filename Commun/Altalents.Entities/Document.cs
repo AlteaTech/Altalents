@@ -13,7 +13,7 @@ namespace Altalents.Entities
 
         public Guid PersonneId { get; set; }
         public Personne Personne { get; set; }
-        public Guid TypeId { get; set; }
-        public Reference Type { get; set; }
+        //public Guid TypeId { get; set; }
+        //public Reference Type { get; set; }
     }
 }

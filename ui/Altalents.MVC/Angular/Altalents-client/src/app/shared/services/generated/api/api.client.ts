@@ -3164,6 +3164,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
     email?: string | null;
     adresse?: AdresseDto;
     synthese?: string | null;
+    zoneGeo?: string | null;
     documents?: DocumentDto[] | null;
 
     constructor(data?: IParlonsDeVousDto) {
@@ -3184,6 +3185,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseDto.fromJS(_data["Adresse"]) : <any>null;
             this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
+            this.zoneGeo = _data["ZoneGeo"] !== undefined ? _data["ZoneGeo"] : <any>null;
             if (Array.isArray(_data["Documents"])) {
                 this.documents = [] as any;
                 for (let item of _data["Documents"])
@@ -3211,6 +3213,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
         data["Email"] = this.email !== undefined ? this.email : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
         data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
+        data["ZoneGeo"] = this.zoneGeo !== undefined ? this.zoneGeo : <any>null;
         if (Array.isArray(this.documents)) {
             data["Documents"] = [];
             for (let item of this.documents)
@@ -3228,6 +3231,7 @@ export interface IParlonsDeVousDto {
     email?: string | null;
     adresse?: AdresseDto;
     synthese?: string | null;
+    zoneGeo?: string | null;
     documents?: DocumentDto[] | null;
 }
 
@@ -3237,9 +3241,10 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
     telephone1!: string;
     telephone2?: string | null;
     email!: string;
+    zoneGeo!: string;
     adresse!: AdresseUpdateRequestDto;
     synthese?: string | null;
-    documents?: DocumentDto[] | null;
+    cv?: DocumentDto;
 
     constructor(data?: IParlonsDeVousUpdateRequestDto) {
         if (data) {
@@ -3260,16 +3265,10 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
             this.telephone1 = _data["Telephone1"] !== undefined ? _data["Telephone1"] : <any>null;
             this.telephone2 = _data["Telephone2"] !== undefined ? _data["Telephone2"] : <any>null;
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
+            this.zoneGeo = _data["zoneGeo"] !== undefined ? _data["zoneGeo"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseUpdateRequestDto.fromJS(_data["Adresse"]) : new AdresseUpdateRequestDto();
             this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
-            if (Array.isArray(_data["Documents"])) {
-                this.documents = [] as any;
-                for (let item of _data["Documents"])
-                    this.documents!.push(DocumentDto.fromJS(item));
-            }
-            else {
-                this.documents = <any>null;
-            }
+            this.cv = _data["Cv"] ? DocumentDto.fromJS(_data["Cv"]) : <any>null;
         }
     }
 
@@ -3287,13 +3286,10 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
         data["Telephone1"] = this.telephone1 !== undefined ? this.telephone1 : <any>null;
         data["Telephone2"] = this.telephone2 !== undefined ? this.telephone2 : <any>null;
         data["Email"] = this.email !== undefined ? this.email : <any>null;
+        data["zoneGeo"] = this.zoneGeo !== undefined ? this.zoneGeo : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
         data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
-        if (Array.isArray(this.documents)) {
-            data["Documents"] = [];
-            for (let item of this.documents)
-                data["Documents"].push(item.toJSON());
-        }
+        data["Cv"] = this.cv ? this.cv.toJSON() : <any>null;
         return data;
     }
 }
@@ -3304,9 +3300,10 @@ export interface IParlonsDeVousUpdateRequestDto {
     telephone1: string;
     telephone2?: string | null;
     email: string;
+    zoneGeo: string;
     adresse: AdresseUpdateRequestDto;
     synthese?: string | null;
-    documents?: DocumentDto[] | null;
+    cv?: DocumentDto;
 }
 
 export class ProjetOrMissionClientDto implements IProjetOrMissionClientDto {

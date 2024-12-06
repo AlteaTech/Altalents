@@ -93,8 +93,7 @@
                 <legend class="legent-text"><i class="fa-regular fa-map"></i>Adresse</legend>
                 <div class="row mb-2">
                     <div class="col-lg-6 label-champ-input ">
-                        <label for="adresse1 align-items-center" class="col-form-label">Adresse (ligne 1)<span
-                                class="champ-obligatoire">*</span></label>
+                        <label for="adresse1 align-items-center" class="col-form-label">Adresse (ligne 1)</label>
                         <div class="error-message"
                             *ngIf="formGroup.get('adresse1')?.invalid && formGroup.get('adresse1')?.touched">
                             Adresse est requis.
@@ -116,8 +115,7 @@
                 </div>
                 <div class="row mb-2">
                     <div class="col-lg-6 label-champ-input ">
-                        <label class="col-form-label">Code postal / Ville<span
-                                class="champ-obligatoire">*</span></label>
+                        <label class="col-form-label">Code postal / Ville</label>
                         <div class="error-message"
                             *ngIf="formGroup.get('codePostal')?.invalid && formGroup.get('codePostal')?.touched">
                             Code Postal est invalide.
@@ -136,7 +134,7 @@
                 </div>
                 <div class="row mb-2">
                     <div class="col-lg-6 label-champ-input">
-                        <label for="pays" class="col-form-label">Pays<span class="champ-obligatoire">*</span></label>
+                        <label for="pays" class="col-form-label">Pays</label>
                         <div class="error-message"
                             *ngIf="formGroup.get('pays')?.invalid && formGroup.get('pays')?.touched">
                             Pays est requise.
@@ -150,7 +148,7 @@
         </div>
         <div class="col-lg-6">
             <fieldset>
-                <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse</legend>
+                <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse & Géographie</legend>
                  <div class="row">
                     <div class="col-lg-6 label-champ-input">
                         <label for="pays" class="col-form-label">Synthèse<span class="champ-obligatoire">*</span></label>
@@ -161,18 +159,32 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <textarea rows="8" class="form-control" formControlName="synthese"
+                        <textarea rows="4" class="form-control" formControlName="synthese"
                             placeholder="Passionnée par le film Matrix depuis que je suis bébé, je me suis toujours intéressée aux technologies de l'information et, plus largement, à la matrice..."></textarea>
+                    </div>
+                  
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 label-champ-input">
+                        <label for="zoneGeo" class="col-form-label">Zone geographique<span class="champ-obligatoire">*</span></label>
+                        <p class="font-normal font-italic font-small">Dites nous dans quel zone geographique vous accepteriez de travailler (Departement, régions, ville ...)</p>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('zoneGeo')?.invalid && formGroup.get('zoneGeo')?.touched">
+                                La zone geographique est requise.
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <textarea rows="4" class="form-control" formControlName="zoneGeo"
+                            placeholder="Aucun problème pour moi, je peux déménager n'importe où en France."></textarea>
                     </div>
                   
                 </div>
             </fieldset>
         </div>
+        
         <div class="col-lg-12">
             <fieldset>
-             
                  <div class="row margin-all">
-                   
                         <div class="drop-zone col-lg-12"  [class.dragging]="isDragging" (click)="triggerFileInput()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
                         <input id="fileInput"
                             type="file" 
@@ -180,7 +192,7 @@
                             style="display: none;" 
                         />
                         <img src="Images/ICON_FEATHER_DOWNLOAD.png" alt="Upload Icon">
-                        <p class="at-c-violet">{{ this.parlonsDeVous.pieceJointe?.data ? 'Modifier votre' : 'Déposez votre' }} CV </p><span class="font-normal">(5Mo max)</span>
+                        <p class="at-c-violet">{{ this.parlonsDeVous.pieceJointe?.data ? 'Modifier votre' : 'Déposez votre' }} CV </p><span class="font-normal">Format Word de préférence / 5Mo max</span>
                     </div>
                     <div class="error-message"
                         *ngIf="formGroup.get('fileInput')?.invalid && formGroup.get('fileInput')?.touched">

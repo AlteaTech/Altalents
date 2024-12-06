@@ -11,6 +11,7 @@ export class ParlonsDeVous {
     email?: string | null;
     adresse?: Adress;
     synthese?: string | null;
+    zoneGeo?: string | null;
     pieceJointe?: PieceJointe;
 
     public static from(dto : ParlonsDeVousDto):ParlonsDeVous{
