@@ -125,7 +125,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
       size: 'lg',
     };
     let dialogRef: NgbModalRef = this.modalService.open(PieceJointeDialogComponent, ngbModalOptions);
-    dialogRef.componentInstance.modalTitle = "Document téléchargable par le candidat";
+    dialogRef.componentInstance.modalTitle = "Document pour le candidat";
     dialogRef.result.then((nouvelElement: PieceJointe | undefined) => {
       if (nouvelElement) {
         this.piecesJointes.push(nouvelElement); // Ajout à la liste des pièces jointes
@@ -143,7 +143,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
     };
   
     let dialogRef: NgbModalRef = this.modalService.open(PieceJointeDialogComponent, ngbModalOptions);
-    dialogRef.componentInstance.modalTitle = "Document téléchargable par le candidat";
+    dialogRef.componentInstance.modalTitle = "Document pour le candidat";
     dialogRef.componentInstance.pieceJointe = this.piecesJointes[i];  // Passage du document à modifier
     dialogRef.result.then((nouvelElement: PieceJointe | undefined) => {
       if (nouvelElement) {

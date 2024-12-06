@@ -358,11 +358,13 @@ padding-bottom: 50px;
   background-color: #7A4AFF;
   padding: 15px;
   margin-bottom: 20px;
-  width: 17vh;
   border-radius: 5px;
   border-color: #7A4AFF;
 
   p {
+
+    i{margin-right: 10px;}
+
     font-size: 1em;
     line-height: 1.5;
     color: white;
