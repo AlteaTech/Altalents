@@ -44,3 +44,23 @@
   font-size: 14px; /* Taille de la police pour la légende */
   margin-top: 5px; /* Un peu d'espace entre les étoiles et le texte */
 }
+
+
+.competence-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.competence-libelle {
+  flex: 1; /* Libellé occupe l'espace disponible à gauche */
+  text-align: left;
+  margin-right: 10px; /* espacement entre libellé et étoiles */
+  
+}
+
+.competence-stars {
+  flex-shrink: 0; /* Empêche la réduction des étoiles */
+  text-align: right;
+  font-size: 25px;
+}
