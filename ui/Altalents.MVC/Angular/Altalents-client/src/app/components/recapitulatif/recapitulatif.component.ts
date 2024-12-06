@@ -58,6 +58,14 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
     this.stepChange.emit(step);
   }
 
+  public downloadPj()
+  {
+    var link = document.createElement("a"); //Create <a>
+    link.href = "data:" + this.parlonsDeVous.pieceJointe?.mimeType + ";base64," + this.parlonsDeVous.pieceJointe?.data; //Image Base64 Goes here
+    link.download = this.parlonsDeVous.pieceJointe?.nomFichier!; //File name Here
+    link.click(); //Downloaded file
+  }
+
   private async submit(): Promise<boolean> {
     let isValid: boolean = false;
     if (this.confirmation) {

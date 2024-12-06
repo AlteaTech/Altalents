@@ -37,6 +37,21 @@
                         <input type="text" class="form-control" formControlName="nom" placeholder="Dupont">
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-6 label-champ-input">
+                        <label for="zoneGeo" class="col-form-label">Zone geographique<span class="champ-obligatoire">*</span></label>
+                        <p class="font-normal font-italic font-small">Dites nous dans quel zone geographique vous accepteriez de travailler (Departement, régions, ville ...)</p>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('zoneGeo')?.invalid && formGroup.get('zoneGeo')?.touched">
+                                La zone geographique est requise.
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <textarea rows="3" class="form-control" formControlName="zoneGeo"
+                            placeholder="Aucun problème pour moi, je peux déménager n'importe où en France."></textarea>
+                    </div>
+                  
+                </div>
             </fieldset>
         </div>
         <div class="col-lg-6">
@@ -148,7 +163,7 @@
         </div>
         <div class="col-lg-6">
             <fieldset>
-                <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse & Géographie</legend>
+                <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse</legend>
                  <div class="row">
                     <div class="col-lg-6 label-champ-input">
                         <label for="pays" class="col-form-label">Synthèse<span class="champ-obligatoire">*</span></label>
@@ -159,26 +174,12 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <textarea rows="4" class="form-control" formControlName="synthese"
+                        <textarea rows="8" class="form-control" formControlName="synthese"
                             placeholder="Passionnée par le film Matrix depuis que je suis bébé, je me suis toujours intéressée aux technologies de l'information et, plus largement, à la matrice..."></textarea>
                     </div>
                   
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 label-champ-input">
-                        <label for="zoneGeo" class="col-form-label">Zone geographique<span class="champ-obligatoire">*</span></label>
-                        <p class="font-normal font-italic font-small">Dites nous dans quel zone geographique vous accepteriez de travailler (Departement, régions, ville ...)</p>
-                        <div class="error-message"
-                            *ngIf="formGroup.get('zoneGeo')?.invalid && formGroup.get('zoneGeo')?.touched">
-                                La zone geographique est requise.
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <textarea rows="4" class="form-control" formControlName="zoneGeo"
-                            placeholder="Aucun problème pour moi, je peux déménager n'importe où en France."></textarea>
-                    </div>
-                  
-                </div>
+               
             </fieldset>
         </div>
         

@@ -95,6 +95,10 @@ export class ApiServiceAgent {
     return this.apiClient.getQuestionnaires(token);
   }
 
+  getDocuments(token: string): Observable<DocumentDto[]> {
+    return this.apiClient.getDocuments(token);
+  }
+
   putQuestionnaires(body: QuestionnaireUpdateDto[]): Observable<void> {
     return this.apiClient.setReponseQuestionnaires(body);
   }

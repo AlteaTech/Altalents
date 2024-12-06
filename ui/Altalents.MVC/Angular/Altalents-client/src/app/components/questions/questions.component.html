@@ -16,4 +16,9 @@
     </div>
 </div>
 </fieldset>
-
+<fieldset>
+    <legend><i class="fa-regular fa-file"></i>Documents</legend>
+    <div *ngFor="let doc of documents; let i = index" >
+        <p><a (click)="downloadPj(i)">{{doc.nomFichier}} </a></p>
+    </div>
+</fieldset> 

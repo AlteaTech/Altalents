@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, merge, tap } from 'rxjs';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { Question } from 'src/app/shared/models/question.model';
-import { QuestionnaireDto, QuestionnaireUpdateDto } from 'src/app/shared/services/generated/api/api.client';
+import { DocumentDto, QuestionnaireDto, QuestionnaireUpdateDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
+import { DocumentDt } from 'src/app/shared/models/document.model';
 
 @Component({
   selector: 'app-questions',
@@ -16,6 +17,7 @@ export class QuestionsComponent extends BaseComponentCallHttpComponent implement
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
   public questions: Question[] = [];
+  public documents: DocumentDt[] = [];
   public showErreurs: boolean = false;
 
   constructor(private readonly service: ApiServiceAgent) {
@@ -26,14 +28,45 @@ export class QuestionsComponent extends BaseComponentCallHttpComponent implement
     this.validationCallback.emit(() => this.submit());
     this.populateData();
   }
+  
+  public downloadPj(i: number): void {
+    const pieceJointe = this.documents[i];
+    if (pieceJointe) {
+      const a = document.createElement("a");
+      a.href = "data:" + pieceJointe.mimeType + ";base64," + pieceJointe.data; 
+      a.download = pieceJointe.nomFichier; 
+      a.click(); 
+    } else {
+      alert("Erreur : la pièce jointe est introuvable.");
+    }
+  }
+
 
   public populateData(): void {
     this.isLoading = true;
-    this.callRequest(ConstantesRequest.getQuestionnaires, this.service.getQuestionnaires(this.tokenDossierTechnique)
-        .subscribe((response: QuestionnaireDto[]) => {
+
+
+    merge(
+      this.service.getQuestionnaires(this.tokenDossierTechnique).pipe(
+        tap((response: QuestionnaireDto[]) => {
           this.questions = Question.fromList(response);
-          this.isLoading = false;
-        }));
+        })
+      ),
+      this.service.getDocuments(this.tokenDossierTechnique).pipe(
+        tap((response: DocumentDto[]) => {
+          this.documents = DocumentDt.fromList(response);
+        })
+      ),
+    ).subscribe({
+      next: () => {
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false; 
+      }
+    });
+
+
   }
 
   private async submit(): Promise<boolean> {

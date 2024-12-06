@@ -7,6 +7,11 @@ namespace Altalents.DataAccess.EntityConfigurations
             EntityTypeBuilderFileHelper<DocumentComplementaire>.ConfigureBase(builder);
             builder.ToTable("DocumentComplementaires");
 
+            builder.Property(e => e.TypeDocument)
+            .HasColumnType("varchar")
+            .HasMaxLength(250)
+            .IsRequired();
+
             builder.Property(e => e.Commentaire)
                 .HasColumnType("varchar(max)");
 
