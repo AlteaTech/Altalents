@@ -67,6 +67,14 @@
     <Compile Include="Comparer\ConnaissanceDsoComparer.cs" />
     <Compile Include="DSO\DossierCompetenceDso.cs" />
     <Compile Include="DSO\ExperienceDso.cs" />
+    <Compile Include="DSO\OpenXml\DtCertificationExportDso.cs" />
+    <Compile Include="DSO\OpenXml\DtCompetenceMetierExportDso.cs" />
+    <Compile Include="DSO\OpenXml\DtExperienceProExportDso.cs" />
+    <Compile Include="DSO\OpenXml\DtExpProMission.cs" />
+    <Compile Include="DSO\OpenXml\DtExpProProjetOrMission.cs" />
+    <Compile Include="DSO\OpenXml\DtFormationExportDso.cs" />
+    <Compile Include="DSO\OpenXml\DtLangueExportDso.cs" />
+    <Compile Include="DSO\OpenXml\DtMainPageExportDso.cs" />
     <Compile Include="DtTemplatesReplacementKeys.cs" />
     <Compile Include="Experience.partial.report.cs">
       <SubType>Component</SubType>
@@ -91,9 +99,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Templates\Template_DT_Altea_2024.docx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DossierCompetance.resx">

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Altalents.Report.Library.DSO.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
@@ -15,7 +16,7 @@ namespace Altalents.Report.Library.Services
     {
 
 
-        public byte[] GenerateDocument()
+        public byte[] GenerateDocument(DtMainPageExportDso dtMainPage)
         {
 
 
@@ -27,7 +28,7 @@ namespace Altalents.Report.Library.Services
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             // Ajouter les sous-dossiers correspondants pour atteindre le dossier Templates
-            string templateRelativePath = Path.Combine(baseDirectory, @"..\..\Commun\Altalents.Report.Library\Templates", templateFileName);
+            string templateRelativePath = Path.Combine(baseDirectory, @"..\..\..\Templates", templateFileName);
 
             // Normaliser le chemin pour résoudre les parties ".."
             string normalizedPath = Path.GetFullPath(templateRelativePath);
@@ -41,11 +42,15 @@ namespace Altalents.Report.Library.Services
             // Appel de la méthode GenerateDocument
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-            //data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Personne.Trigramme);
-            //data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "A DETERMINER");
-            //data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, _commercialSettings.Mail);
-            //data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, _commercialSettings.Telephone);
-            //data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, _commercialSettings.Nom);
+            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dtMainPage.Candidat_Trigramme);
+            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, "A DETERMINER");
+
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, dtMainPage.Commercial_Email);
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, dtMainPage.Commercial_Phone);
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, dtMainPage.Commercial_NomComplet);
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_WEBSITE, dtMainPage.Commercial_NomComplet);
+
+
 
             data.Add(DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, "5");
 
