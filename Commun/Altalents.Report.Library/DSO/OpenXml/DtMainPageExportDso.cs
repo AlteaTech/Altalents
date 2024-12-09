@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Altalents.Report.Library.Comparer;
+using DocumentFormat.OpenXml.Office2010.PowerPoint;
+
+namespace Altalents.Report.Library.DSO.OpenXml
+{
+    public class DtMainPageExportDso
+    {
+
+        //Header
+        public string Dt_Numero { get; set; }
+        public string Dt_TokenAccesRapide { get; set; }
+        public string Dt_Poste { get; set; }
+        public string Candidat_Trigramme { get; set; }
+
+        //Section Focus
+        public string Candidat_NbAnneesExperiences { get; set; }
+        public string Candidat_CompetencesClefs { get; set; }
+        public string Candidat_Synthese { get; set; }
+
+        //Section commercial
+        public string Commercial_NomComplet { get; set; }
+        public string Commercial_Email { get; set; }
+        public string Commercial_Phone { get; set; }
+        public string Commercial_SiteWeb { get; set; }
+
+        //Section Ccompetences techniques
+        public string Candidat_SoftSkill { get; set; }
+        public string Candidat_Domaines { get; set; }
+        public string Candidat_Languages { get; set; }
+        public string Candidat_Bdd { get; set; }
+        public string Candidat_Methodologie { get; set; }
+
+        public List<DtCompetenceMetierExportDso> Candidat_CompetencesMetiers { get; set; }
+        public List<DtFormationExportDso> Candidat_Formations { get; set; }
+        public List<DtCertificationExportDso> Candidat_Certifications{ get; set; }
+        public List<DtLangueExportDso> Candidat_Langues { get; set; }
+        public  List<DtExperienceProExportDso> Candidat_ExperiencesPro { get; set; }
+
+
+    }
+}

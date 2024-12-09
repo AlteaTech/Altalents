@@ -5,6 +5,7 @@ using Altalents.Commun.Settings;
 using Altalents.IBusiness.DTO.Request;
 using Altalents.Report.Library;
 using Altalents.Report.Library.DSO;
+using Altalents.Report.Library.DSO.OpenXml;
 using Altalents.Report.Library.Services;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -457,7 +458,6 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-
         public async Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
@@ -478,7 +478,6 @@ namespace Altalents.Business.Services
 
         public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
-
             using CustomDbContext context = GetScopedDbContexte();
 
             // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
@@ -513,8 +512,81 @@ namespace Altalents.Business.Services
                 throw new BusinessException("UNAUTHORIZED Action");
             }
 
-            // Fusionner toutes les liaisons d'expérience en une seule liste
-            string Top5BestCmmpetences = "";
+            DtMainPageExportDso modelExport = new DtMainPageExportDso();
+
+            modelExport.Candidat_Trigramme = dt.Personne.Trigramme;
+            modelExport.Dt_Poste = "A DEFINIR";
+
+            modelExport.Commercial_SiteWeb = "www.altea-si.com";
+            modelExport.Commercial_NomComplet = _commercialSettings.Nom;
+            modelExport.Commercial_Email = _commercialSettings.Mail;
+            modelExport.Commercial_Phone = _commercialSettings.Telephone;
+
+            int nbExp = CalculerTotalAnneesExperienceAvecChevauchements(dt);
+            modelExport.Candidat_NbAnneesExperiences = nbExp == 0 ? "Novice" : nbExp.ToString() + " ans";
+            modelExport.Candidat_CompetencesClefs = GetTop5Competences(dt);
+            modelExport.Candidat_Synthese = dt.Synthese;
+           
+            WordTemplateService wordTemplateService = new WordTemplateService();
+            byte[] generatedFile = wordTemplateService.GenerateDocument(modelExport);
+
+            return new DocumentDto()
+            {
+                MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                NomFichier = "test.docx",
+                Data = generatedFile
+            };
+        }
+
+        private static int CalculerTotalAnneesExperienceAvecChevauchements(DossierTechnique dt)
+        {
+            if (dt?.Experiences == null || !dt.Experiences.Any())
+            {
+                return 0; // Aucun calcul si aucune expérience n'est associée
+            }
+
+            // Récupère et normalise les plages de dates
+            var plages = dt.Experiences
+                .Select(exp => new
+                {
+                    StartDate = exp.DateDebut,
+                    EndDate = exp.DateFin ?? DateTime.UtcNow // Utilise la date actuelle si DateFin est null
+                })
+                .OrderBy(exp => exp.StartDate)
+                .ToList();
+
+            // Consolidation des plages pour gérer les chevauchements
+            var plagesConsolidees = new List<(DateTime Start, DateTime End)>();
+            foreach (var plage in plages)
+            {
+                if (plagesConsolidees.Count == 0 || plagesConsolidees.Last().End < plage.StartDate)
+                {
+                    // Pas de chevauchement, ajouter directement
+                    plagesConsolidees.Add((plage.StartDate, plage.EndDate));
+                }
+                else
+                {
+                    // Fusionner avec la dernière plage
+                    var dernierePlage = plagesConsolidees.Last();
+                    plagesConsolidees[plagesConsolidees.Count - 1] = (
+                        dernierePlage.Start,
+                        new DateTime(Math.Max(dernierePlage.End.Ticks, plage.EndDate.Ticks))
+                    );
+                }
+            }
+
+            // Calcul de la durée totale en jours
+            var totalDays = plagesConsolidees
+                .Sum(plage => (plage.End - plage.Start).TotalDays);
+
+            // Conversion en années arrondies vers le bas
+            return (int)(totalDays / 365.0); // Tronque la valeur
+        }
+
+
+        private static string GetTop5Competences(DossierTechnique dt)
+        {
+
             var allCompetences = dt.Experiences
                 .SelectMany(exp => exp.LiaisonExperienceCompetences
                     .Where(lec => lec.Competance != null)
@@ -551,21 +623,15 @@ namespace Altalents.Business.Services
                 .Take(5) // Limiter aux 5 meilleures compétences
                 .ToList();
 
+            string Top5BestCmmpetences = "";
             // Affichage des résultats
             foreach (var competence in allCompetences)
             {
                 Top5BestCmmpetences += competence.Libelle + " ";
             }
 
-            WordTemplateService wordTemplateService = new WordTemplateService();
-            byte[] generatedFile = wordTemplateService.GenerateDocument();
+            return Top5BestCmmpetences;
 
-            return new DocumentDto()
-            {
-                MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                NomFichier = "test.docx",
-                Data = generatedFile
-            };
         }
 
         public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
