@@ -1,7 +1,7 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "app/shared/styles/switch.scss";
 
-body{
+body {
   width: auto;
 }
 
@@ -52,7 +52,6 @@ h4,
   letter-spacing: 1px;
 }
 
-
 .content {
   display: flex;
   flex-direction: column;
@@ -71,12 +70,12 @@ h4,
   font-weight: bold;
 }
 
-.item-bloc{
+.item-bloc {
   border-radius: 10px;
   background-color: #F5F5FF;
   padding: 10px;
-  margin-bottom: 20px;;
-
+  margin-bottom: 20px;
+  ;
 }
 
 .drop-zone {
@@ -103,53 +102,49 @@ h4,
 
 }
 
-
-
 .drop-zone.dragging {
   border-color: #000000;
   background-color: #7a4aff31;
 }
 
-
-
 .body-bulle {
-  display: flex
-  ;
-      gap: 10px;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   padding-bottom: 50px;
-  padding-top: 50px;;
+  padding-top: 50px;
+  ;
 }
 
 .bubble-container {
   max-width: 1000px;
   min-width: 70%;
   padding: 20px;
-  margin:20px;
+  margin: 20px;
   margin-top: 10px;
   background: #fff;
   border-radius: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   text-align: center;
-padding: 30px;
+  padding: 30px;
 
- .text {
- 
-   h1{
+  .text {
+
+    h1 {
       text-align: left;
       margin-left: 10px;
       margin-bottom: 20px;
-   }
-  
-    p{
+    }
+
+    p {
       margin: 10px;
       text-align: justify;
     }
 
-}
+  }
 
 }
 
@@ -189,8 +184,7 @@ padding: 30px;
   font-size: small;
 }
 
-.margin-all
-{
+.margin-all {
   margin: 2px;
 }
 
@@ -208,10 +202,12 @@ padding: 30px;
 
 .text-ellipsis {
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limiter à 3 lignes */
+  -webkit-line-clamp: 3;
+  /* Limiter à 3 lignes */
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis; /* Ajouter "..." si le texte dépasse */
+  text-overflow: ellipsis;
+  /* Ajouter "..." si le texte dépasse */
 }
 
 .flex-row {
@@ -365,8 +361,9 @@ padding: 30px;
   min-width: 17vh;
 
   p {
-
-    i{margin-right: 10px;}
+    i {
+      margin-right: 10px;
+    }
 
     font-size: 1em;
     line-height: 1.5;
@@ -409,7 +406,6 @@ padding: 30px;
 }
 
 .at-p-formulaire-info-section {
-
   display: flex;
   align-items: center;
   background-color: #F5F5FF;
@@ -437,10 +433,14 @@ padding: 30px;
   }
 
   h2 {
-    flex: 1; /* Permet au titre de prendre tout l'espace disponible */
-    text-align: center; /* Centre le texte du titre */
-    font-size: 24px; /* Taille ajustée pour plus de lisibilité */
-    margin: 0; /* Supprime les marges par défaut */
+    flex: 1;
+    /* Permet au titre de prendre tout l'espace disponible */
+    text-align: center;
+    /* Centre le texte du titre */
+    font-size: 24px;
+    /* Taille ajustée pour plus de lisibilité */
+    margin: 0;
+    /* Supprime les marges par défaut */
     color: #333333;
   }
 
@@ -473,26 +473,23 @@ padding: 30px;
   box-sizing: border-box;
 }
 
-.container-text-only
-{
+.container-text-only {
   height: 55vh;
   position: relative;
-  
-  img{
-      width: 100%;
-      height: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
   }
 
-   .text{
+  .text {
 
-    h1{
+    h1 {
 
-    margin-bottom: 20px;
+      margin-bottom: 20px;
     }
 
-   }
-
-
+  }
 }
 
 
@@ -547,9 +544,10 @@ padding: 30px;
 /* Pour les écrans plus petits que 992px */
 @media (max-width: 992px) {
 
-  .container{
-padding-top: 20px;;
-    
+  .container {
+    padding-top: 20px;
+    ;
+
   }
 
 
@@ -581,13 +579,17 @@ padding-top: 20px;;
   }
 
   .at-p-formulaire-info-section {
-      flex-direction: column; /* Passe en colonne */
-      align-items: center;    /* Centre les éléments */
+    flex-direction: column;
+    /* Passe en colonne */
+    align-items: center;
+    /* Centre les éléments */
 
-      img {
-        margin-right: 0;  /* Supprime la marge droite */
-        margin-bottom: 10px; /* Ajoute une marge sous l'image */
-      }
+    img {
+      margin-right: 0;
+      /* Supprime la marge droite */
+      margin-bottom: 10px;
+      /* Ajoute une marge sous l'image */
+    }
   }
 
   .at-p-button-ajouter button {

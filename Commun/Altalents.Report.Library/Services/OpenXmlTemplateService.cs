@@ -13,12 +13,11 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Altalents.Report.Library.Services
 {
-
-
     public class WordTemplateService
     {
         public byte[] GenerateDocument(DtMainPageExportDso dt)
         {
+
             string outputTempPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.docx");
 
             try
@@ -43,7 +42,7 @@ namespace Altalents.Report.Library.Services
 
                     if (!File.Exists(templateCompetenceTechNormalizedPath))
                     {
-                        throw new FileNotFoundException("Le fichier template "+ CompTechniqueTemplateName + " est introuvable.", templateCompetenceTechNormalizedPath);
+                        throw new FileNotFoundException("Le fichier template " + CompTechniqueTemplateName + " est introuvable.", templateCompetenceTechNormalizedPath);
                     }
 
                     var mainBody = wordDoc.MainDocumentPart.Document.Body;
@@ -53,27 +52,8 @@ namespace Altalents.Report.Library.Services
                         mainBody.Append(bodyCompTech.First().CloneNode(true));
                     }
 
-                    Dictionary<string, string> data = new Dictionary<string, string>();
-
-                    data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Candidat_Trigramme);
-                    data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, dt.Dt_Poste);
-
-                    data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, dt.Commercial_Email);
-                    data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, dt.Commercial_Phone);
-                    data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, dt.Commercial_NomComplet);
-                    data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_WEBSITE, dt.Commercial_SiteWeb);
-
-                    data.Add(DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, dt.Candidat_NbAnneesExperiences);
-                    data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, dt.Candidat_CompetencesClefs);
-                    data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_SYNTHESE, dt.Candidat_Synthese);
-
-                    data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_SKILLS, dt.Candidat_SoftSkill);
-                    data.Add(DtTemplatesReplacementKeys.COMPETENCES_DOMAINES, dt.Candidat_Domaines);
-                    data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES_PROG, dt.Candidat_Languages_Prog);
-                    data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, dt.Candidat_Bdd);
-                    data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, dt.Candidat_Methodologie);
-
-                    ReplacePlaceholders(mainBody, data);
+                    Dictionary<string, string> data = GetDataExportDictionary(dt);
+                    ReplacePlaceholdersInBody(mainBody, data);
                     ReplacePlaceholdersInFooters(wordDoc.MainDocumentPart, data);
 
                     wordDoc.MainDocumentPart.Document.Save();
@@ -81,7 +61,6 @@ namespace Altalents.Report.Library.Services
 
                 return File.ReadAllBytes(outputTempPath);
 
-                    
             }
             catch (Exception ex)
             {
@@ -103,7 +82,31 @@ namespace Altalents.Report.Library.Services
             }
         }
 
-        private void ReplacePlaceholders(OpenXmlElement elem, Dictionary<string, string> placeholders)
+        private static Dictionary<string, string> GetDataExportDictionary(DtMainPageExportDso dt)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_TRI, dt.Candidat_Trigramme);
+            data.Add(DtTemplatesReplacementKeys.HEADER_CANDIDAT_POSTE, dt.Dt_Poste);
+
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_EMAIL, dt.Commercial_Email);
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_PHONE, dt.Commercial_Phone);
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_NOM_COMPLET, dt.Commercial_NomComplet);
+            data.Add(DtTemplatesReplacementKeys.HEADER_COMMERCIAL_WEBSITE, dt.Commercial_SiteWeb);
+
+            data.Add(DtTemplatesReplacementKeys.FOCUS_NB_YEAR_EXP, dt.Candidat_NbAnneesExperiences);
+            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_COMPETENCES, dt.Candidat_CompetencesClefs);
+            data.Add(DtTemplatesReplacementKeys.FOCUS_KEY_SYNTHESE, dt.Candidat_Synthese);
+
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_SOFT_SKILLS, dt.Candidat_SoftSkill);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_DOMAINES, dt.Candidat_Domaines);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES_PROG, dt.Candidat_Languages_Prog);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, dt.Candidat_Bdd);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, dt.Candidat_Methodologie);
+            return data;
+        }
+
+        private void ReplacePlaceholdersInBody(OpenXmlElement elem, Dictionary<string, string> placeholders)
         {
             foreach (var paragraph in elem.Descendants<OpenXmlElement>())
             {
@@ -144,7 +147,6 @@ namespace Altalents.Report.Library.Services
                     }
                 }
 
-                // Sauvegarder les modifications dans le pied de page
                 footer.Save();
             }
         }
