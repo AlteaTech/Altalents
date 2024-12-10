@@ -31,7 +31,7 @@ namespace Altalents.Report.Library.DSO.OpenXml
         //Section Ccompetences techniques
         public string Candidat_SoftSkill { get; set; }
         public string Candidat_Domaines { get; set; }
-        public string Candidat_Languages { get; set; }
+        public string Candidat_Languages_Prog { get; set; }
         public string Candidat_Bdd { get; set; }
         public string Candidat_Methodologie { get; set; }
 

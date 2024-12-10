@@ -480,7 +480,6 @@ namespace Altalents.Business.Services
         {
             using CustomDbContext context = GetScopedDbContexte();
 
-            // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
             DossierTechnique dt = await context.DossierTechniques
 
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
@@ -515,7 +514,7 @@ namespace Altalents.Business.Services
             DtMainPageExportDso modelExport = new DtMainPageExportDso();
 
             modelExport.Candidat_Trigramme = dt.Personne.Trigramme;
-            modelExport.Dt_Poste = "A DEFINIR";
+            modelExport.Dt_Poste = "XXXXXXXXXXXXXXXXXX";
 
             modelExport.Commercial_SiteWeb = "www.altea-si.com";
             modelExport.Commercial_NomComplet = _commercialSettings.Nom;
@@ -526,7 +525,13 @@ namespace Altalents.Business.Services
             modelExport.Candidat_NbAnneesExperiences = nbExp == 0 ? "Novice" : nbExp.ToString() + " ans";
             modelExport.Candidat_CompetencesClefs = GetTop5Competences(dt);
             modelExport.Candidat_Synthese = dt.Synthese;
-           
+
+            modelExport.Candidat_SoftSkill = "";
+            modelExport.Candidat_Domaines = GetDomainesMetiersFromExperiences(dt);
+            modelExport.Candidat_Languages_Prog = GetTechnologiesFromExperiences(dt);
+            modelExport.Candidat_Bdd = "";
+            modelExport.Candidat_Methodologie = GetMethodologiesFromExperiences(dt);
+
             WordTemplateService wordTemplateService = new WordTemplateService();
             byte[] generatedFile = wordTemplateService.GenerateDocument(modelExport);
 
@@ -537,6 +542,48 @@ namespace Altalents.Business.Services
                 Data = generatedFile
             };
         }
+
+
+        public string GetTechnologiesFromExperiences(DossierTechnique dt)
+        {
+
+            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
+                return string.Empty;
+
+            // Extraire les libellés des technologies uniques
+            var technologies = dt.Experiences
+                .Where(exp => exp.LiaisonExperienceTechnologies != null) // Vérifier qu'il y a des technologies
+                .SelectMany(exp => exp.LiaisonExperienceTechnologies) // Rassembler toutes les technologies
+                .Where(lt => lt.Technologie != null) // S'assurer que chaque technologie est non null
+                .Select(lt => lt.Technologie.Libelle) // Récupérer les libellés
+                .Distinct() // Éliminer les doublons
+                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+                .ToList();
+
+            // Combiner les libellés en une seule chaîne séparée par des virgules
+            return string.Join(", ", technologies);
+
+        }
+
+        public string GetMethodologiesFromExperiences(DossierTechnique dt)
+        {
+            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
+                return string.Empty;
+
+            // Extraire les libellés des méthodologies uniques
+            var methodologies = dt.Experiences
+                .Where(exp => exp.LiaisonExperienceMethodologies != null) // Vérifier qu'il y a des méthodologies
+                .SelectMany(exp => exp.LiaisonExperienceMethodologies) // Rassembler toutes les méthodologies
+                .Where(lm => lm.Methodologie != null) // S'assurer que chaque méthodologie est non null
+                .Select(lm => lm.Methodologie.Libelle) // Récupérer les libellés
+                .Distinct() // Éliminer les doublons
+                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+                .ToList();
+
+            // Combiner les libellés en une seule chaîne séparée par des virgules
+            return string.Join(", ", methodologies);
+        }
+
 
         private static int CalculerTotalAnneesExperienceAvecChevauchements(DossierTechnique dt)
         {
@@ -579,10 +626,26 @@ namespace Altalents.Business.Services
             var totalDays = plagesConsolidees
                 .Sum(plage => (plage.End - plage.Start).TotalDays);
 
-            // Conversion en années arrondies vers le bas
-            return (int)(totalDays / 365.0); // Tronque la valeur
+            // Conversion en années avec arrondi standard (0,5 ou plus monte à l'année supérieure)
+            return (int)Math.Round(totalDays / 365.2425, MidpointRounding.AwayFromZero);
         }
 
+        public string GetDomainesMetiersFromExperiences(DossierTechnique dt)
+        {
+            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
+                return string.Empty;
+
+            // Extraire les domaines métiers uniques des expériences
+            var domainesMetiers = dt.Experiences
+                .Where(exp => exp.DomaineMetier != null) // Vérifier que le domaine métier est non null
+                .Select(exp => exp.DomaineMetier.Libelle) // Récupérer le libellé
+                .Distinct() // Éviter les doublons
+                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+                .ToList();
+
+            // Combiner les domaines métiers en une seule chaîne séparée par des virgules
+            return string.Join(", ", domainesMetiers);
+        }
 
         private static string GetTop5Competences(DossierTechnique dt)
         {
@@ -627,8 +690,9 @@ namespace Altalents.Business.Services
             // Affichage des résultats
             foreach (var competence in allCompetences)
             {
-                Top5BestCmmpetences += competence.Libelle + " ";
+                Top5BestCmmpetences += competence.Libelle + ", ";
             }
+            Top5BestCmmpetences = Top5BestCmmpetences.Remove(Top5BestCmmpetences.Length - 2);
 
             return Top5BestCmmpetences;
 
