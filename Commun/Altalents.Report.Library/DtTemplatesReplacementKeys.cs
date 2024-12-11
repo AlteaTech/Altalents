@@ -9,6 +9,7 @@ namespace Altalents.Report.Library
     public static class DtTemplatesReplacementKeys
     {
 
+        
         public const string HEADER_CANDIDAT_TRI = "{{HEADER_CANDIDAT_TRI}}";
         public const string HEADER_CANDIDAT_POSTE = "{{HEADER_CANDIDAT_POSTE}}";
 
@@ -27,8 +28,12 @@ namespace Altalents.Report.Library
         public const string COMPETENCES_BDD = "{{COMPETENCES_BDD}}";
         public const string COMPETENCES_METHODOLOGIE = "{{COMPETENCES_METHODOLOGIE}}";
 
-        public const string COMPETENCES_METIER_LIBELLE = "{{MET_LIB}}";
-        public const string COMPETENCES_METIER_VALEUR = "{{MET_VAL}}";
+
+
+        public const string SECTION_TABLEAU_RECURSIF_COMPETENCES_METIER = "{{TABLEAU_RECURSIF_COMPETENCES_METIER}}";
+
+        public const string TABLEAU_RECURSIF_COMPETENCES_METIER_LIBELLE = "{{MET_LIB}}";
+        public const string TABLEAU_RECURSIF_COMPETENCES_METIER_VALEUR = "{{MET_VAL}}";
 
 
     }

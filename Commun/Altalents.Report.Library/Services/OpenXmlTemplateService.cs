@@ -39,141 +39,154 @@ namespace Altalents.Report.Library.Services
                 {
 
                     //Section competences technique
-                    string CompTechniqueTemplateName = "Template_DT_Altea_2024_CompTech.docx";
-                    string templateCompetenceTechRelativePath = Path.Combine(baseDirectory, @"..\..\..\Templates", CompTechniqueTemplateName);
-                    string templateCompetenceTechNormalizedPath = Path.GetFullPath(templateCompetenceTechRelativePath);
+                    //string CompTechniqueTemplateName = "Template_DT_Altea_2024_CompTech.docx";
+                    //string templateCompetenceTechRelativePath = Path.Combine(baseDirectory, @"..\..\..\Templates", CompTechniqueTemplateName);
+                    //string templateCompetenceTechNormalizedPath = Path.GetFullPath(templateCompetenceTechRelativePath);
 
-                    if (!File.Exists(templateCompetenceTechNormalizedPath))
-                    {
-                        throw new FileNotFoundException("Le fichier template " + CompTechniqueTemplateName + " est introuvable.", templateCompetenceTechNormalizedPath);
-                    }
+                    //if (!File.Exists(templateCompetenceTechNormalizedPath))
+                    //{
+                    //    throw new FileNotFoundException("Le fichier template " + CompTechniqueTemplateName + " est introuvable.", templateCompetenceTechNormalizedPath);
+                    //}
 
                     var mainBody = wordDoc.MainDocumentPart.Document.Body;
-                    using (WordprocessingDocument docCompTech = WordprocessingDocument.Open(templateCompetenceTechNormalizedPath, false))
+                    //using (WordprocessingDocument docCompTech = WordprocessingDocument.Open(templateCompetenceTechNormalizedPath, false))
+                    //{
+                    //    var bodyCompTech = docCompTech.MainDocumentPart.Document.Body;
+                    //    mainBody.Append(bodyCompTech.First().CloneNode(true));
+                    //}
+
+                    //mainBody.Append(new Paragraph());
+
+
+                    var paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_COMPETENCES_METIER));
+
+                    if (paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS != null)
                     {
-                        var bodyCompTech = docCompTech.MainDocumentPart.Document.Body;
-                        mainBody.Append(bodyCompTech.First().CloneNode(true));
-                    }
+                        paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS.Remove();
 
-                    //Section competences metiers
-                    string CompMetierTemplateName = "Template_DT_Altea_2024_CompMetier.docx";
-                    string templateCompMetierRelativePath = Path.Combine(baseDirectory, @"..\..\..\Templates", CompMetierTemplateName);
-                    string templateCompMetierNormalizedPath = Path.GetFullPath(templateCompMetierRelativePath);
+                        string ItemTabHorizontal = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
+                        string ItemTabHorizontalRelativePath = Path.Combine(baseDirectory, @"..\..\..\Templates", ItemTabHorizontal);
+                        string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
 
-                    if (!File.Exists(templateCompetenceTechNormalizedPath))
-                    {
-                        throw new FileNotFoundException("Le fichier template " + CompMetierTemplateName + " est introuvable.", templateCompMetierNormalizedPath);
-                    }
-
-                    using (WordprocessingDocument docCompMetier = WordprocessingDocument.Open(templateCompMetierNormalizedPath, false))
-                    {
-                        var bodyCompMetier = docCompMetier.MainDocumentPart.Document.Body;
-                        var tableauAvecEntete = bodyCompMetier.Descendants<Table>().FirstOrDefault();
-
-
-                        var newTable = (Table)tableauAvecEntete.CloneNode(true);
-
-                        // Récupérer la première ligne comme entête
-                        var TitreSectionRow = tableauAvecEntete.Elements<TableRow>().FirstOrDefault();
-
-
-
-                        newTable.Append(TitreSectionRow.CloneNode(true)); // Ajouter la ligne d'entête au nouveau tableau
-
-                        // Récupérer la deuxième et la troisième ligne comme modèles
-                        var modelRowLibelle = tableauAvecEntete.Elements<TableRow>().Skip(1).FirstOrDefault();
-                        var modelRowValeur = tableauAvecEntete.Elements<TableRow>().Skip(2).FirstOrDefault();
-
-                        // Préparer les nouvelles lignes pour les libellés et valeurs
-                        var newRowLibelle = (TableRow)modelRowLibelle.CloneNode(false); // Ligne pour les libellés (sans contenu initial)
-                        var newRowValeur = (TableRow)modelRowValeur.CloneNode(false);  // Ligne pour les valeurs (sans contenu initial)
-
-                        foreach (var compMetierDso in dt.Candidat_CompetencesMetiers)
+                        using (WordprocessingDocument docuTemplateItemTabHorizontal = WordprocessingDocument.Open(ItemTabHorizontalNormalizedPath, false))
                         {
-                            // Cloner une cellule pour le libellé et conserver son style
-                            var modelCellLibelle = modelRowLibelle.Elements<TableCell>().FirstOrDefault();
-                            var newCellLibelle = (TableCell)modelCellLibelle.CloneNode(true);
-                            foreach (var text in newCellLibelle.Descendants<Text>())
+                            var bodyTemplateItemTabHorizontal = docuTemplateItemTabHorizontal.MainDocumentPart.Document.Body;
+                            var tableauFromTemplate = bodyTemplateItemTabHorizontal.Descendants<Table>().FirstOrDefault();
+
+                            var newTableau = (Table)tableauFromTemplate.CloneNode(true);
+
+                            // Supprimer les lignes du modèle
+                            var rowsToRemove = newTableau.Elements<TableRow>().Take(2).ToList(); // Les lignes à supprimer
+                            foreach (var row in rowsToRemove)
                             {
-                                if (text.Text.Contains(DtTemplatesReplacementKeys.COMPETENCES_METIER_LIBELLE))
-                                {
-                                    text.Text = text.Text.Replace(DtTemplatesReplacementKeys.COMPETENCES_METIER_LIBELLE, compMetierDso.Nom);
-                                }
+                                row.Remove();
                             }
-                            newRowLibelle.Append(newCellLibelle);
 
-                            // Cloner une cellule pour la valeur et conserver son style
-                            var modelCellValeur = modelRowValeur.Elements<TableCell>().FirstOrDefault();
-                            var newCellValeur = (TableCell)modelCellValeur.CloneNode(true);
-                            foreach (var text in newCellValeur.Descendants<Text>())
+                            // Récupérer les 2 lignes du tableau
+                            var modelRowLibelle = tableauFromTemplate.Elements<TableRow>().FirstOrDefault();
+                            var modelRowValeur = tableauFromTemplate.Elements<TableRow>().Skip(1).FirstOrDefault();
+
+                            // Préparer les nouvelles lignes pour les libellés et valeurs
+                            var newRowLibelle = (TableRow)modelRowLibelle.CloneNode(false); // Ligne pour les libellés (sans contenu initial)
+                            var newRowValeur = (TableRow)modelRowValeur.CloneNode(false);  // Ligne pour les valeurs (sans contenu initial)
+
+                            foreach (var compMetierDso in dt.Candidat_CompetencesMetiers)
                             {
-                                if (text.Text.Contains(DtTemplatesReplacementKeys.COMPETENCES_METIER_VALEUR))
+                                // Cloner une cellule pour le libellé et conserver son style
+                                var modelCellLibelle = modelRowLibelle.Elements<TableCell>().FirstOrDefault();
+                                var newCellLibelle = (TableCell)modelCellLibelle.CloneNode(true);
+                                foreach (var text in newCellLibelle.Descendants<Text>())
                                 {
-                                    text.Text = text.Text.Replace(DtTemplatesReplacementKeys.COMPETENCES_METIER_VALEUR, compMetierDso.DureeExperience);
-                                }
-                            }
-                            newRowValeur.Append(newCellValeur);
-                        }
-
-                        // Ajouter les lignes complétées au tableau
-                        newTable.Append(newRowLibelle);
-                        newTable.Append(newRowValeur);
-
-
-                        // Supprimer les lignes du modèle
-                        var rowsToRemove = newTable.Elements<TableRow>().Take(3).ToList(); // Les lignes à supprimer
-                        foreach (var row in rowsToRemove)
-                        {
-                            row.Remove();
-                        }
-
-                        // Calculer le nombre de colonnes à partir de la première ligne
-                        int columnCount = newTable.Elements<TableRow>().FirstOrDefault()?.Elements<TableCell>().Count() ?? 0;
-                        if (columnCount > 0)
-                        {
-                            int tableWidth = 5000; // Largeur totale du tableau en dixièmes de point
-                            int columnWidth = tableWidth / columnCount; // Largeur uniforme pour chaque colonne
-
-                            // Parcourir les lignes à partir de la deuxième
-                            foreach (var row in newTable.Elements<TableRow>().Skip(1)) // Ignorer la première ligne
-                            {
-                                foreach (var cell in row.Elements<TableCell>())
-                                {
-                                    // Vérifier ou ajouter les propriétés de la cellule
-                                    var cellProperties = cell.GetFirstChild<TableCellProperties>();
-                                    if (cellProperties == null)
+                                    if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_COMPETENCES_METIER_LIBELLE))
                                     {
-                                        cellProperties = new TableCellProperties();
-                                        cell.PrependChild(cellProperties);
-                                    }
-
-                                    // Ajouter ou mettre à jour la largeur de la cellule
-                                    var cellWidth = cellProperties.GetFirstChild<TableCellWidth>();
-                                    if (cellWidth == null)
-                                    {
-                                        cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Dxa, Width = columnWidth.ToString() };
-                                        cellProperties.Append(cellWidth);
-                                    }
-                                    else
-                                    {
-                                        cellWidth.Width = columnWidth.ToString();
+                                        text.Text = text.Text.Replace(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_COMPETENCES_METIER_LIBELLE, compMetierDso.Nom);
                                     }
                                 }
+                                newRowLibelle.Append(newCellLibelle);
+
+                                // Cloner une cellule pour la valeur et conserver son style
+                                var modelCellValeur = modelRowValeur.Elements<TableCell>().FirstOrDefault();
+                                var newCellValeur = (TableCell)modelCellValeur.CloneNode(true);
+                                foreach (var text in newCellValeur.Descendants<Text>())
+                                {
+                                    if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_COMPETENCES_METIER_VALEUR))
+                                    {
+                                        text.Text = text.Text.Replace(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_COMPETENCES_METIER_VALEUR, compMetierDso.DureeExperience);
+                                    }
+                                }
+                                newRowValeur.Append(newCellValeur);
                             }
+
+                            // Ajouter les lignes complétées au tableau
+                            newTableau.Append(newRowLibelle);
+                            newTableau.Append(newRowValeur);
+
+
+
+                            //// Calculer le nombre de colonnes à partir de la première ligne
+                            //int columnCount = newTableau.Elements<TableRow>().FirstOrDefault()?.Elements<TableCell>().Count() ?? 0;
+                            //if (columnCount > 0)
+                            //{
+                            //    // Définir la largeur du tableau pour qu'il prenne toute la largeur de la page
+                            //    var tableProperties = newTableau.GetFirstChild<TableProperties>();
+                            //    if (tableProperties == null)
+                            //    {
+                            //        tableProperties = new TableProperties();
+                            //        newTableau.PrependChild(tableProperties);
+                            //    }
+
+                            //    // Définir la largeur du tableau à 100% de la page
+                            //    var tableWidth = tableProperties.GetFirstChild<TableWidth>();
+                            //    if (tableWidth == null)
+                            //    {
+                            //        tableWidth = new TableWidth() { Type = TableWidthUnitValues.Pct, Width = "100" }; // 100% de la largeur de la page
+                            //        tableProperties.Append(tableWidth);
+                            //    }
+
+                            //    // Calculer la largeur de chaque cellule en fonction du nombre de colonnes
+                            //    int columnWidthPct = 100 / columnCount; // Chaque colonne aura la même largeur (en pourcentage)
+
+                            //    // Parcourir toutes les lignes du tableau pour ajuster les cellules
+                            //    foreach (var row in newTableau.Elements<TableRow>())
+                            //    {
+                            //        foreach (var cell in row.Elements<TableCell>())
+                            //        {
+                            //            // Vérifier ou ajouter les propriétés de la cellule
+                            //            var cellProperties = cell.GetFirstChild<TableCellProperties>();
+                            //            if (cellProperties == null)
+                            //            {
+                            //                cellProperties = new TableCellProperties();
+                            //                cell.PrependChild(cellProperties);
+                            //            }
+
+                            //            // Ajouter ou mettre à jour la largeur de la cellule
+                            //            var cellWidth = cellProperties.GetFirstChild<TableCellWidth>();
+                            //            if (cellWidth == null)
+                            //            {
+                            //                cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Pct, Width = columnWidthPct.ToString() }; // Largeur en pourcentage
+                            //                cellProperties.Append(cellWidth);
+                            //            }
+                            //            else
+                            //            {
+                            //                cellWidth.Width = columnWidthPct.ToString(); // Ajuster la largeur
+                            //            }
+                            //        }
+                            //    }
+                            //}
+
+                            // Ajouter un saut de page avant d'insérer le tableau
+                            var pageBreakParagraph = new Paragraph(new Run(new Break() { Type = BreakValues.Page }));
+
+                            //Paragraph emptyPara = new Paragraph(new Run(new Text("")));
+                            //mainBody.Append(emptyPara);
+
+                            // Ajouter le nouveau tableau au document principal
+                            mainBody.Append(newTableau);
+
                         }
 
-                        // Ajouter un saut de page avant d'insérer le tableau
-                        var pageBreakParagraph = new Paragraph(new Run(new Break() { Type = BreakValues.Page }));
-                        mainBody.Append(pageBreakParagraph);
-
-
-                        // Ajouter le nouveau tableau au document principal
-                        mainBody.Append(newTable);
 
                     }
-
-
-
 
 
 
