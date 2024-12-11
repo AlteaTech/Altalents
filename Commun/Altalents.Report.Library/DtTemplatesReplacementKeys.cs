@@ -27,6 +27,9 @@ namespace Altalents.Report.Library
         public const string COMPETENCES_BDD = "{{COMPETENCES_BDD}}";
         public const string COMPETENCES_METHODOLOGIE = "{{COMPETENCES_METHODOLOGIE}}";
 
+        public const string COMPETENCES_METIER_LIBELLE = "{{MET_LIB}}";
+        public const string COMPETENCES_METIER_VALEUR = "{{MET_VAL}}";
+
 
     }
 }
