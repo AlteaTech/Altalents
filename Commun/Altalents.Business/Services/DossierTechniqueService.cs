@@ -535,6 +535,9 @@ namespace Altalents.Business.Services
             modelExport.Candidat_Bdd = "";
             modelExport.Candidat_Methodologie = GetFormatedMethodologiesFromExperiences(dt);
             modelExport.Candidat_CompetencesMetiers = getDomainesMetierWithNbAnneeExp(dt);
+            modelExport.Candidat_Formations = getFormationsOrderedByDate(dt);
+            modelExport.Candidat_Certifications = getCertificationOrderedByDate(dt);
+            modelExport.Candidat_Langues = getLanguesParle(dt);
 
             WordTemplateService wordTemplateService = new WordTemplateService();
             byte[] generatedFile = wordTemplateService.GenerateDocument(modelExport);
@@ -547,7 +550,61 @@ namespace Altalents.Business.Services
             };
         }
 
-        private static List<DtCompetenceMetierExportDso> getDomainesMetierWithNbAnneeExp(DossierTechnique dt)
+        private static List<DtCertificationExportDso> getCertificationOrderedByDate(DossierTechnique dt)
+        {
+            return dt.Certifications
+              .OrderBy(certif => certif.DateFin ?? certif.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
+              .Select(certif =>
+              {
+                  // Construire le libellé complet
+                  string niveauPart = !string.IsNullOrEmpty(certif.Niveau) ? $" ({certif.Niveau})" : string.Empty;
+                  string domainePart = !string.IsNullOrEmpty(certif.Domaine) ? $" - {certif.Domaine}" : string.Empty;
+
+                  return new DtCertificationExportDso
+                  {
+                      Annee = (certif.DateFin ?? certif.DateDebut).ToString("yyyy"), // Convertir DateTime en string
+                      LibelleComplet = certif.Libelle + niveauPart + domainePart
+                  };
+              })
+              .ToList();
+        }
+
+
+        private static List<DtLangueExportDso> getLanguesParle(DossierTechnique dt)
+        {
+            return dt.DossierTechniqueLangues
+              .OrderByDescending(lang => lang.Niveau.OrdreTri)
+              .Select(lang =>
+              {
+                  return new DtLangueExportDso
+                  {
+                      Libelle = lang.Langue.Libelle,
+                      Niveau = lang.Niveau.Libelle
+                  };
+              })
+              .ToList();
+        }
+
+        private static List<DtFormationExportDso> getFormationsOrderedByDate(DossierTechnique dt)
+        {
+            return dt.Formations
+              .OrderBy(forma => forma.DateFin ?? forma.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
+              .Select(forma =>
+              {
+                  // Construire le libellé complet
+                  string niveauPart = !string.IsNullOrEmpty(forma.Niveau) ? $" ({forma.Niveau})" : string.Empty;
+                  string domainePart = !string.IsNullOrEmpty(forma.Domaine) ? $" - {forma.Domaine}" : string.Empty;
+
+                  return new DtFormationExportDso
+                  {
+                      Annee = (forma.DateFin ?? forma.DateDebut).ToString("yyyy"), // Convertir DateTime en string
+                      LibelleComplet = forma.Libelle + niveauPart + domainePart
+                  };
+              })
+              .ToList();
+        }
+
+            private static List<DtCompetenceMetierExportDso> getDomainesMetierWithNbAnneeExp(DossierTechnique dt)
         {
             // Étape 1: Récupérer les domaines métier à partir des expériences
             var domainesMetierExperiences = getDomainesMetierFromExperiences(dt);

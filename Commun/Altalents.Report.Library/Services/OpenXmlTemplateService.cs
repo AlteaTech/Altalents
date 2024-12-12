@@ -24,8 +24,7 @@ namespace Altalents.Report.Library.Services
             {
                 //Main page (qui contient aussi le template de la premiere page)
                 string mainTemplateName = "Template_DT_Altea_2024_FirstPage.docx";
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string templateRelativePath = Path.Combine(baseDirectory, @"..\..\..\Templates", mainTemplateName);
+                string templateRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", mainTemplateName);
                 string normalizedPath = Path.GetFullPath(templateRelativePath);
 
                 if (!File.Exists(normalizedPath))
@@ -58,139 +57,11 @@ namespace Altalents.Report.Library.Services
                     //mainBody.Append(new Paragraph());
 
 
-                    var paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_COMPETENCES_METIER));
-
-                    if (paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS != null)
-                    {
-                        paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS.Remove();
-
-                        string ItemTabHorizontal = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
-                        string ItemTabHorizontalRelativePath = Path.Combine(baseDirectory, @"..\..\..\Templates", ItemTabHorizontal);
-                        string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
-
-                        using (WordprocessingDocument docuTemplateItemTabHorizontal = WordprocessingDocument.Open(ItemTabHorizontalNormalizedPath, false))
-                        {
-                            var bodyTemplateItemTabHorizontal = docuTemplateItemTabHorizontal.MainDocumentPart.Document.Body;
-                            var tableauFromTemplate = bodyTemplateItemTabHorizontal.Descendants<Table>().FirstOrDefault();
-
-                            var newTableau = (Table)tableauFromTemplate.CloneNode(true);
-
-                            // Supprimer les lignes du modèle
-                            var rowsToRemove = newTableau.Elements<TableRow>().Take(2).ToList(); // Les lignes à supprimer
-                            foreach (var row in rowsToRemove)
-                            {
-                                row.Remove();
-                            }
-
-                            // Récupérer les 2 lignes du tableau
-                            var modelRowLibelle = tableauFromTemplate.Elements<TableRow>().FirstOrDefault();
-                            var modelRowValeur = tableauFromTemplate.Elements<TableRow>().Skip(1).FirstOrDefault();
-
-                            // Préparer les nouvelles lignes pour les libellés et valeurs
-                            var newRowLibelle = (TableRow)modelRowLibelle.CloneNode(false); // Ligne pour les libellés (sans contenu initial)
-                            var newRowValeur = (TableRow)modelRowValeur.CloneNode(false);  // Ligne pour les valeurs (sans contenu initial)
-
-                            foreach (var compMetierDso in dt.Candidat_CompetencesMetiers)
-                            {
-                                // Cloner une cellule pour le libellé et conserver son style
-                                var modelCellLibelle = modelRowLibelle.Elements<TableCell>().FirstOrDefault();
-                                var newCellLibelle = (TableCell)modelCellLibelle.CloneNode(true);
-                                foreach (var text in newCellLibelle.Descendants<Text>())
-                                {
-                                    if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_COMPETENCES_METIER_LIBELLE))
-                                    {
-                                        text.Text = text.Text.Replace(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_COMPETENCES_METIER_LIBELLE, compMetierDso.Nom);
-                                    }
-                                }
-                                newRowLibelle.Append(newCellLibelle);
-
-                                // Cloner une cellule pour la valeur et conserver son style
-                                var modelCellValeur = modelRowValeur.Elements<TableCell>().FirstOrDefault();
-                                var newCellValeur = (TableCell)modelCellValeur.CloneNode(true);
-                                foreach (var text in newCellValeur.Descendants<Text>())
-                                {
-                                    if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_COMPETENCES_METIER_VALEUR))
-                                    {
-                                        text.Text = text.Text.Replace(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_COMPETENCES_METIER_VALEUR, compMetierDso.DureeExperience);
-                                    }
-                                }
-                                newRowValeur.Append(newCellValeur);
-                            }
-
-                            // Ajouter les lignes complétées au tableau
-                            newTableau.Append(newRowLibelle);
-                            newTableau.Append(newRowValeur);
+                    FeedCompMetierSection(dt, mainBody);
 
 
 
-                            //// Calculer le nombre de colonnes à partir de la première ligne
-                            //int columnCount = newTableau.Elements<TableRow>().FirstOrDefault()?.Elements<TableCell>().Count() ?? 0;
-                            //if (columnCount > 0)
-                            //{
-                            //    // Définir la largeur du tableau pour qu'il prenne toute la largeur de la page
-                            //    var tableProperties = newTableau.GetFirstChild<TableProperties>();
-                            //    if (tableProperties == null)
-                            //    {
-                            //        tableProperties = new TableProperties();
-                            //        newTableau.PrependChild(tableProperties);
-                            //    }
-
-                            //    // Définir la largeur du tableau à 100% de la page
-                            //    var tableWidth = tableProperties.GetFirstChild<TableWidth>();
-                            //    if (tableWidth == null)
-                            //    {
-                            //        tableWidth = new TableWidth() { Type = TableWidthUnitValues.Pct, Width = "100" }; // 100% de la largeur de la page
-                            //        tableProperties.Append(tableWidth);
-                            //    }
-
-                            //    // Calculer la largeur de chaque cellule en fonction du nombre de colonnes
-                            //    int columnWidthPct = 100 / columnCount; // Chaque colonne aura la même largeur (en pourcentage)
-
-                            //    // Parcourir toutes les lignes du tableau pour ajuster les cellules
-                            //    foreach (var row in newTableau.Elements<TableRow>())
-                            //    {
-                            //        foreach (var cell in row.Elements<TableCell>())
-                            //        {
-                            //            // Vérifier ou ajouter les propriétés de la cellule
-                            //            var cellProperties = cell.GetFirstChild<TableCellProperties>();
-                            //            if (cellProperties == null)
-                            //            {
-                            //                cellProperties = new TableCellProperties();
-                            //                cell.PrependChild(cellProperties);
-                            //            }
-
-                            //            // Ajouter ou mettre à jour la largeur de la cellule
-                            //            var cellWidth = cellProperties.GetFirstChild<TableCellWidth>();
-                            //            if (cellWidth == null)
-                            //            {
-                            //                cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Pct, Width = columnWidthPct.ToString() }; // Largeur en pourcentage
-                            //                cellProperties.Append(cellWidth);
-                            //            }
-                            //            else
-                            //            {
-                            //                cellWidth.Width = columnWidthPct.ToString(); // Ajuster la largeur
-                            //            }
-                            //        }
-                            //    }
-                            //}
-
-                            // Ajouter un saut de page avant d'insérer le tableau
-                            var pageBreakParagraph = new Paragraph(new Run(new Break() { Type = BreakValues.Page }));
-
-                            //Paragraph emptyPara = new Paragraph(new Run(new Text("")));
-                            //mainBody.Append(emptyPara);
-
-                            // Ajouter le nouveau tableau au document principal
-                            mainBody.Append(newTableau);
-
-                        }
-
-
-                    }
-
-
-
-                        //remplacement des clés par des valeur du model dt Dans tout le document
+                    //remplacement des clés par des valeur du model dt Dans tout le document
                     Dictionary<string, string> data = GetDataExportDictionary(dt);
                     ReplacePlaceholdersInBody(mainBody, data);
                     ReplacePlaceholdersInFooters(wordDoc.MainDocumentPart, data);
@@ -219,6 +90,95 @@ namespace Altalents.Report.Library.Services
                     }
                 }
             }
+        }
+
+        private static void FeedCompMetierSection(DtMainPageExportDso dt, Body mainBody)
+        {
+            var paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_COMPETENCES_METIER));
+
+            if (paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS != null)
+            {
+                // Localiser le parent du paragraphe
+                var parent = paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS.Parent;
+
+                using (WordprocessingDocument docuTemplateItemTabHorizontal = WordprocessingDocument.Open(GetTemplateItemTabHorizontalPath(), false))
+                {
+                    var bodyTemplateItemTabHorizontal = docuTemplateItemTabHorizontal.MainDocumentPart.Document.Body;
+                    var tableauFromTemplate = bodyTemplateItemTabHorizontal.Descendants<Table>().FirstOrDefault();
+
+                    var newTableau = (Table)tableauFromTemplate.CloneNode(true);
+
+                    // Supprimer les lignes du modèle
+                    var rowsToRemove = newTableau.Elements<TableRow>().Take(2).ToList(); // Les lignes à supprimer
+                    foreach (var row in rowsToRemove)
+                    {
+                        row.Remove();
+                    }
+
+                    // Récupérer les 2 lignes du tableau
+                    var modelRowLibelle = tableauFromTemplate.Elements<TableRow>().FirstOrDefault();
+                    var modelRowValeur = tableauFromTemplate.Elements<TableRow>().Skip(1).FirstOrDefault();
+
+                    // Préparer les nouvelles lignes pour les libellés et valeurs
+                    var newRowLibelle = (TableRow)modelRowLibelle.CloneNode(false); // Ligne pour les libellés (sans contenu initial)
+                    var newRowValeur = (TableRow)modelRowValeur.CloneNode(false);  // Ligne pour les valeurs (sans contenu initial)
+
+                    foreach (var compMetierDso in dt.Candidat_CompetencesMetiers)
+                    {
+                        // Cloner une cellule pour le libellé et conserver son style
+                        var modelCellLibelle = modelRowLibelle.Elements<TableCell>().FirstOrDefault();
+                        var newCellLibelle = (TableCell)modelCellLibelle.CloneNode(true);
+                        foreach (var text in newCellLibelle.Descendants<Text>())
+                        {
+                            if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_LIBELLE))
+                            {
+                                text.Text = text.Text.Replace(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_LIBELLE, compMetierDso.Nom);
+                            }
+                        }
+                        newRowLibelle.Append(newCellLibelle);
+
+                        // Cloner une cellule pour la valeur et conserver son style
+                        var modelCellValeur = modelRowValeur.Elements<TableCell>().FirstOrDefault();
+                        var newCellValeur = (TableCell)modelCellValeur.CloneNode(true);
+                        foreach (var text in newCellValeur.Descendants<Text>())
+                        {
+                            if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_VALEUR))
+                            {
+                                text.Text = text.Text.Replace(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_VALEUR, compMetierDso.DureeExperience);
+                            }
+                        }
+                        newRowValeur.Append(newCellValeur);
+                    }
+
+                    // Ajouter les lignes complétées au tableau
+                    newTableau.Append(newRowLibelle);
+                    newTableau.Append(newRowValeur);
+
+                    // Ajouter un saut de page avant d'insérer le tableau
+                    //var pageBreakParagraph = new Paragraph(new Run(new Break() { Type = BreakValues.Page }));
+
+                    //Paragraph emptyPara = new Paragraph(new Run(new Text("")));
+                    //mainBody.Append(emptyPara);
+                    parent.InsertBefore(new Paragraph(new Run(new Text(""))), paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS);
+
+                    // Insérer le nouveau tableau juste avant le paragraphe à remplacer
+                    parent.InsertAfter(newTableau, paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS);
+
+                    // Supprimer l'ancien paragraphe après avoir inséré le tableau
+                    paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS.Remove();
+
+                }
+
+
+            }
+        }
+
+        private static string GetTemplateItemTabHorizontalPath()
+        {
+            string ItemTabHorizontal = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
+            string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", ItemTabHorizontal);
+            string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
+            return ItemTabHorizontalNormalizedPath;
         }
 
         private static Dictionary<string, string> GetDataExportDictionary(DtMainPageExportDso dt)

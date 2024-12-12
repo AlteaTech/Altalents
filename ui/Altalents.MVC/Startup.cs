@@ -87,6 +87,17 @@ namespace Altalents.MVC
 
             };
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200") // Adresse de votre application Angular
+                           .AllowAnyHeader() // Autoriser tous les en-têtes (comme Authorization, Content-Type, etc.)
+                           .AllowAnyMethod() // Autoriser toutes les méthodes HTTP (GET, POST, PUT, DELETE)
+                           .AllowCredentials(); // Autoriser l'envoi de cookies ou jetons si nécessaire
+                });
+            });
+
             services.AddApplication(Configuration.GetConnectionString("Data"), apiExternesRoutes);
             services.AddScoped<FileService>();
 
@@ -166,6 +177,9 @@ namespace Altalents.MVC
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // Ajouter le middleware CORS ici
+            app.UseCors("AllowLocalhost");
 
             app.UseAuthentication();
             app.UseAuthorization();

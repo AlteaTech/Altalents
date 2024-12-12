@@ -28,12 +28,13 @@ namespace Altalents.Report.Library
         public const string COMPETENCES_BDD = "{{COMPETENCES_BDD}}";
         public const string COMPETENCES_METHODOLOGIE = "{{COMPETENCES_METHODOLOGIE}}";
 
-
-
         public const string SECTION_TABLEAU_RECURSIF_COMPETENCES_METIER = "{{TABLEAU_RECURSIF_COMPETENCES_METIER}}";
+        public const string SECTION_TABLEAU_RECURSIF_FORMATIONS = "{{TABLEAU_RECURSIF_FORMATIONS}}";
+        public const string SECTION_TABLEAU_RECURSIF_CERTIFICATIONS = "{{TABLEAU_RECURSIF_CERTIFICATIONS}}";
+        public const string SECTION_TABLEAU_RECURSIF_LANGUES = "{{TABLEAU_RECURSIF_LANGUES}}";
 
-        public const string TABLEAU_RECURSIF_COMPETENCES_METIER_LIBELLE = "{{MET_LIB}}";
-        public const string TABLEAU_RECURSIF_COMPETENCES_METIER_VALEUR = "{{MET_VAL}}";
+        public const string TABLEAU_RECURSIF_ITEM_LIBELLE = "{{ITEM_LIB}}";
+        public const string TABLEAU_RECURSIF_ITEM_VALEUR = "{{ITEM_VAL}}";
 
 
     }
