@@ -2,6 +2,7 @@ using System.Collections;
 using Altalents.Business.Extensions;
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
+using Altalents.Entities;
 using Altalents.IBusiness.DTO.Request;
 using Altalents.Report.Library;
 using Altalents.Report.Library.DSO;
@@ -282,15 +283,15 @@ namespace Altalents.Business.Services
 
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();
 
-            List<DocumentDto> listDocDtos  = new List<DocumentDto>();
+            List<DocumentDto> listDocDtos = new List<DocumentDto>();
 
 
-            Entities.Document CV = dt.Personne.Documents.FirstOrDefault(e=>e.TypeDocument == TypeDocumentEnum.CV);
+            Entities.Document CV = dt.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV);
             if (CV != null)
             {
                 listDocDtos.Add(new DocumentDto() { Data = CV.Data, MimeType = CV.MimeType, NomFichier = CV.Nom });
             }
-            
+
             ParlonsDeVousDto reponse = new ParlonsDeVousDto()
             {
                 Adresse = adresseDto,
@@ -356,7 +357,7 @@ namespace Altalents.Business.Services
             dt.Personne.Prenom = request.Prenom;
             dt.Personne.Email = request.Email;
 
-            Entities.Document cv = dt.Personne.Documents.FirstOrDefault(e=>e.TypeDocument == TypeDocumentEnum.CV);
+            Entities.Document cv = dt.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV);
             if (cv != null)
             {
                 cv.Nom = request.Cv.NomFichier;
@@ -374,7 +375,7 @@ namespace Altalents.Business.Services
                        TypeDocument = TypeDocumentEnum.CV,
                        MimeType = request.Cv.MimeType,
                        Data = request.Cv.Data,
-                       
+
                     }
                 };
             }
@@ -480,10 +481,11 @@ namespace Altalents.Business.Services
         {
             using CustomDbContext context = GetScopedDbContexte();
 
-            // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
             DossierTechnique dt = await context.DossierTechniques
 
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
+                    .Include(dt => dt.Experiences)
+                        .ThenInclude(ec => ec.DomaineMetier)
                 .Include(dt => dt.Experiences)
                     .ThenInclude(exp => exp.LiaisonExperienceCompetences)
                         .ThenInclude(ec => ec.Competance)
@@ -515,7 +517,7 @@ namespace Altalents.Business.Services
             DtMainPageExportDso modelExport = new DtMainPageExportDso();
 
             modelExport.Candidat_Trigramme = dt.Personne.Trigramme;
-            modelExport.Dt_Poste = "A DEFINIR";
+            modelExport.Dt_Poste = "XXXXXXXXXXXXXXXXXX";
 
             modelExport.Commercial_SiteWeb = "www.altea-si.com";
             modelExport.Commercial_NomComplet = _commercialSettings.Nom;
@@ -526,7 +528,17 @@ namespace Altalents.Business.Services
             modelExport.Candidat_NbAnneesExperiences = nbExp == 0 ? "Novice" : nbExp.ToString() + " ans";
             modelExport.Candidat_CompetencesClefs = GetTop5Competences(dt);
             modelExport.Candidat_Synthese = dt.Synthese;
-           
+
+            modelExport.Candidat_SoftSkill = "";
+            modelExport.Candidat_Domaines = GetFormatedCompetencesFromExperiences(dt);
+            modelExport.Candidat_Languages_Prog = GetFormatedTechnologiesFromExperiences(dt);
+            modelExport.Candidat_Bdd = "";
+            modelExport.Candidat_Methodologie = GetFormatedMethodologiesFromExperiences(dt);
+            modelExport.Candidat_CompetencesMetiers = getDomainesMetierWithNbAnneeExp(dt);
+            modelExport.Candidat_Formations = getFormationsOrderedByDate(dt);
+            modelExport.Candidat_Certifications = getCertificationOrderedByDate(dt);
+            modelExport.Candidat_Langues = getLanguesParle(dt);
+
             WordTemplateService wordTemplateService = new WordTemplateService();
             byte[] generatedFile = wordTemplateService.GenerateDocument(modelExport);
 
@@ -537,6 +549,261 @@ namespace Altalents.Business.Services
                 Data = generatedFile
             };
         }
+
+        private static List<DtCertificationExportDso> getCertificationOrderedByDate(DossierTechnique dt)
+        {
+            return dt.Certifications
+              .OrderBy(certif => certif.DateFin ?? certif.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
+              .Select(certif =>
+              {
+                  // Construire le libellé complet
+                  string niveauPart = !string.IsNullOrEmpty(certif.Niveau) ? $" ({certif.Niveau})" : string.Empty;
+                  string domainePart = !string.IsNullOrEmpty(certif.Domaine) ? $" - {certif.Domaine}" : string.Empty;
+
+                  return new DtCertificationExportDso
+                  {
+                      Annee = (certif.DateFin ?? certif.DateDebut).ToString("yyyy"), // Convertir DateTime en string
+                      LibelleComplet = certif.Libelle + niveauPart + domainePart
+                  };
+              })
+              .ToList();
+        }
+
+
+        private static List<DtLangueExportDso> getLanguesParle(DossierTechnique dt)
+        {
+            return dt.DossierTechniqueLangues
+              .OrderByDescending(lang => lang.Niveau.OrdreTri)
+              .Select(lang =>
+              {
+                  return new DtLangueExportDso
+                  {
+                      Libelle = lang.Langue.Libelle,
+                      Niveau = lang.Niveau.Libelle
+                  };
+              })
+              .ToList();
+        }
+
+        private static List<DtFormationExportDso> getFormationsOrderedByDate(DossierTechnique dt)
+        {
+            return dt.Formations
+              .OrderBy(forma => forma.DateFin ?? forma.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
+              .Select(forma =>
+              {
+                  // Construire le libellé complet
+                  string niveauPart = !string.IsNullOrEmpty(forma.Niveau) ? $" ({forma.Niveau})" : string.Empty;
+                  string domainePart = !string.IsNullOrEmpty(forma.Domaine) ? $" - {forma.Domaine}" : string.Empty;
+
+                  return new DtFormationExportDso
+                  {
+                      Annee = (forma.DateFin ?? forma.DateDebut).ToString("yyyy"), // Convertir DateTime en string
+                      LibelleComplet = forma.Libelle + niveauPart + domainePart
+                  };
+              })
+              .ToList();
+        }
+
+            private static List<DtCompetenceMetierExportDso> getDomainesMetierWithNbAnneeExp(DossierTechnique dt)
+        {
+            // Étape 1: Récupérer les domaines métier à partir des expériences
+            var domainesMetierExperiences = getDomainesMetierFromExperiences(dt);
+
+            // Étape 2: Récupérer les domaines métier à partir des missions
+            var domainesMetierMissions = getDomainesMetierFromMissions(dt);
+
+            // Combiner les résultats et faire un Distinct pour éviter les doublons
+            var result = domainesMetierExperiences
+                .Union(domainesMetierMissions) // Union des résultats
+                .GroupBy(d => d.Nom) // Grouper par nom pour appliquer Distinct
+                .Select(g => g.OrderByDescending(d =>
+                {
+                    // Convertir "DureeExperience" en nombre d'années pour comparer les durées
+                    var years = int.TryParse(d.DureeExperience.Split(' ')[0], out var y) ? y : 0;
+                    return years;
+                }).First()) // Sélectionner l'élément avec la plus grande durée d'expérience
+                .ToList();
+
+            return result;
+        }
+
+        private static List<DtCompetenceMetierExportDso> getDomainesMetierFromExperiences(DossierTechnique dt)
+        {
+            return dt.Experiences
+                .Where(exp => exp.DomaineMetier != null) // Filtrer les expériences avec un domaine métier valide
+                .GroupBy(exp => exp.DomaineMetier.Libelle) // Regrouper par domaine métier
+                .Select(group =>
+                {
+                    // Récupérer les plages de dates pour ce domaine
+                    var plages = group
+                        .Select(exp => new
+                        {
+                            StartDate = exp.DateDebut,
+                            EndDate = exp.DateFin ?? DateTime.UtcNow
+                        })
+                        .OrderBy(plage => plage.StartDate)
+                        .ToList();
+
+                    // Consolidation des plages pour gérer les chevauchements
+                    var plagesConsolidees = new List<(DateTime Start, DateTime End)>();
+                    foreach (var plage in plages)
+                    {
+                        if (plagesConsolidees.Count == 0 || plagesConsolidees.Last().End < plage.StartDate)
+                        {
+                            // Pas de chevauchement, ajouter directement
+                            plagesConsolidees.Add((plage.StartDate, plage.EndDate));
+                        }
+                        else
+                        {
+                            // Fusionner avec la dernière plage
+                            var dernierePlage = plagesConsolidees.Last();
+                            plagesConsolidees[plagesConsolidees.Count - 1] = (
+                                dernierePlage.Start,
+                                new DateTime(Math.Max(dernierePlage.End.Ticks, plage.EndDate.Ticks))
+                            );
+                        }
+                    }
+
+                    // Calculer la durée totale consolidée en années
+                    var totalDays = plagesConsolidees
+                        .Sum(plage => (plage.End - plage.Start).TotalDays);
+                    var totalYears = totalDays / 365.2425;
+
+                    // Appliquer l'arrondi selon les règles
+                    var roundedYears = totalYears < 1
+                        ? 1
+                        : (int)Math.Round(totalYears, MidpointRounding.AwayFromZero);
+
+                    return new DtCompetenceMetierExportDso
+                    {
+                        Nom = group.Key,
+                        DureeExperience = $"{roundedYears} année{(roundedYears > 1 ? "s" : "")}"
+                    };
+                })
+                .ToList();
+        }
+
+        private static List<DtCompetenceMetierExportDso> getDomainesMetierFromMissions(DossierTechnique dt)
+        {
+            return dt.Experiences
+                .SelectMany(exp => exp.ProjetsOrMissionsClient) // Récupérer les missions associées
+                .Where(pmc => pmc.DomaineMetier != null) // Filtrer les missions avec un domaine métier valide
+                .GroupBy(pmc => pmc.DomaineMetier.Libelle) // Regrouper par domaine métier
+                .Select(group =>
+                {
+                    // Récupérer les plages de dates pour ce domaine (missions)
+                    var plages = group
+                        .Select(pmc => new
+                        {
+                            StartDate = pmc.DateDebut ?? DateTime.UtcNow, // Utiliser DateTime.UtcNow si la date de début est null
+                            EndDate = pmc.DateFin ?? DateTime.UtcNow // Idem pour la date de fin
+                        })
+                        .OrderBy(plage => plage.StartDate)
+                        .ToList();
+
+                    // Consolidation des plages pour gérer les chevauchements
+                    var plagesConsolidees = new List<(DateTime Start, DateTime End)>();
+                    foreach (var plage in plages)
+                    {
+                        if (plagesConsolidees.Count == 0 || plagesConsolidees.Last().End < plage.StartDate)
+                        {
+                            // Pas de chevauchement, ajouter directement
+                            plagesConsolidees.Add((plage.StartDate, plage.EndDate));
+                        }
+                        else
+                        {
+                            // Fusionner avec la dernière plage
+                            var dernierePlage = plagesConsolidees.Last();
+                            plagesConsolidees[plagesConsolidees.Count - 1] = (
+                                dernierePlage.Start,
+                                new DateTime(Math.Max(dernierePlage.End.Ticks, plage.EndDate.Ticks))
+                            );
+                        }
+                    }
+
+                    // Calculer la durée totale consolidée des missions en années
+                    var totalDays = plagesConsolidees
+                        .Sum(plage => (plage.End - plage.Start).TotalDays);
+                    var totalYears = totalDays / 365.2425;
+
+                    // Appliquer l'arrondi selon les règles
+                    var roundedYears = totalYears < 1
+                        ? 1
+                        : (int)Math.Round(totalYears, MidpointRounding.AwayFromZero);
+
+                    return new DtCompetenceMetierExportDso
+                    {
+                        Nom = group.Key,
+                        DureeExperience = $"{roundedYears} année{(roundedYears > 1 ? "s" : "")}" // Affichage avec le bon pluriel
+                    };
+                })
+                .ToList();
+        }
+
+
+        public string GetFormatedCompetencesFromExperiences(DossierTechnique dt)
+        {
+
+            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
+                return string.Empty;
+
+            // Extraire les libellés des technologies uniques
+            var technologies = dt.Experiences
+                .Where(exp => exp.LiaisonExperienceCompetences != null) // Vérifier qu'il y a des technologies
+                .SelectMany(exp => exp.LiaisonExperienceCompetences) // Rassembler toutes les technologies
+                .Where(lt => lt.Competance != null) // S'assurer que chaque technologie est non null
+                .Select(lt => lt.Competance.Libelle) // Récupérer les libellés
+                .Distinct() // Éliminer les doublons
+                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+                .ToList();
+
+            // Combiner les libellés en une seule chaîne séparée par des virgules
+            return string.Join(", ", technologies);
+
+        }
+
+
+
+        public string GetFormatedTechnologiesFromExperiences(DossierTechnique dt)
+        {
+
+            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
+                return string.Empty;
+
+            // Extraire les libellés des technologies uniques
+            var technologies = dt.Experiences
+                .Where(exp => exp.LiaisonExperienceTechnologies != null) // Vérifier qu'il y a des technologies
+                .SelectMany(exp => exp.LiaisonExperienceTechnologies) // Rassembler toutes les technologies
+                .Where(lt => lt.Technologie != null) // S'assurer que chaque technologie est non null
+                .Select(lt => lt.Technologie.Libelle) // Récupérer les libellés
+                .Distinct() // Éliminer les doublons
+                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+                .ToList();
+
+            // Combiner les libellés en une seule chaîne séparée par des virgules
+            return string.Join(", ", technologies);
+
+        }
+
+        public string GetFormatedMethodologiesFromExperiences(DossierTechnique dt)
+        {
+            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
+                return string.Empty;
+
+            // Extraire les libellés des méthodologies uniques
+            var methodologies = dt.Experiences
+                .Where(exp => exp.LiaisonExperienceMethodologies != null) // Vérifier qu'il y a des méthodologies
+                .SelectMany(exp => exp.LiaisonExperienceMethodologies) // Rassembler toutes les méthodologies
+                .Where(lm => lm.Methodologie != null) // S'assurer que chaque méthodologie est non null
+                .Select(lm => lm.Methodologie.Libelle) // Récupérer les libellés
+                .Distinct() // Éliminer les doublons
+                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+                .ToList();
+
+            // Combiner les libellés en une seule chaîne séparée par des virgules
+            return string.Join(", ", methodologies);
+        }
+
 
         private static int CalculerTotalAnneesExperienceAvecChevauchements(DossierTechnique dt)
         {
@@ -579,10 +846,26 @@ namespace Altalents.Business.Services
             var totalDays = plagesConsolidees
                 .Sum(plage => (plage.End - plage.Start).TotalDays);
 
-            // Conversion en années arrondies vers le bas
-            return (int)(totalDays / 365.0); // Tronque la valeur
+            // Conversion en années avec arrondi standard (0,5 ou plus monte à l'année supérieure)
+            return (int)Math.Round(totalDays / 365.2425, MidpointRounding.AwayFromZero);
         }
 
+        //public string GetDomainesMetiersFromExperiences(DossierTechnique dt)
+        //{
+        //    if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
+        //        return string.Empty;
+
+        //    // Extraire les domaines métiers uniques des expériences
+        //    var domainesMetiers = dt.Experiences
+        //        .Where(exp => exp.DomaineMetier != null) // Vérifier que le domaine métier est non null
+        //        .Select(exp => exp.DomaineMetier.Libelle) // Récupérer le libellé
+        //        .Distinct() // Éviter les doublons
+        //        .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+        //        .ToList();
+
+        //    // Combiner les domaines métiers en une seule chaîne séparée par des virgules
+        //    return string.Join(", ", domainesMetiers);
+        //}
 
         private static string GetTop5Competences(DossierTechnique dt)
         {
@@ -627,8 +910,9 @@ namespace Altalents.Business.Services
             // Affichage des résultats
             foreach (var competence in allCompetences)
             {
-                Top5BestCmmpetences += competence.Libelle + " ";
+                Top5BestCmmpetences += competence.Libelle + ", ";
             }
+            Top5BestCmmpetences = Top5BestCmmpetences.Remove(Top5BestCmmpetences.Length - 2);
 
             return Top5BestCmmpetences;
 
@@ -654,7 +938,7 @@ namespace Altalents.Business.Services
 
             dtTelerikRepportsrc.dossierCompetanceDataSource.DataSource = dossierCompetenceDso;
             dtTelerikRepportsrc.experienceDataSource.DataSource = dossierCompetenceDso.Experiences;
-            
+
             InstanceReportSource reportSource = new InstanceReportSource
             {
                 ReportDocument = dtTelerikRepportsrc
@@ -719,7 +1003,7 @@ namespace Altalents.Business.Services
                 Formations = await formationsTask,
                 Certifications = await certificationsTask,
                 LanguesParlees = await languesParleesTask
-            }; 
+            };
         }
 
         public async Task<Guid> AddOrUpdateExperienceAsync(Guid tokenAccesRapide, ExperienceRequestDto experienceDto, CancellationToken cancellationToken, Guid? id = null)
@@ -751,7 +1035,7 @@ namespace Altalents.Business.Services
             }
 
             //mapiing & Save
-            if(idDossierTechnique == null)
+            if (idDossierTechnique == null)
             {
                 throw new BusinessException("UNAUTHORIZED Action");
             }
@@ -949,7 +1233,7 @@ namespace Altalents.Business.Services
             }
             else
             {
-             
+
                 dossierTechniqueLangueToAddOrUpdate = context.DossierTechniqueLangues.Include(x => x.DossierTechnique).AsTracking().FirstOrDefault(x => x.Id == id.Value);
 
                 if (tokenAccesRapide == dossierTechniqueLangueToAddOrUpdate.DossierTechnique.TokenAccesRapide)
@@ -1011,7 +1295,7 @@ namespace Altalents.Business.Services
 
             Task<ParlonsDeVousDto> InfoBasicTask = GetParlonsDeVousAsync(tokenAccesRapide, cancellationToken);
 
-           DossierTechnique dossierTechnique = await dossierTechniqueTask;
+            DossierTechnique dossierTechnique = await dossierTechniqueTask;
 
             // Appliquer le tri sur les expériences après récupération
             if (dossierTechnique != null && dossierTechnique.Experiences != null)
@@ -1024,9 +1308,9 @@ namespace Altalents.Business.Services
             if (dossierTechnique == null)
                 throw new BusinessException("Dossier technique inexistant");
 
-            RecapitulatifDtDto recapitulatif = new ()
+            RecapitulatifDtDto recapitulatif = new()
             {
-                Competences = new ()
+                Competences = new()
                 {
                     Competences = await competencesTask,
                     Methodologies = await methodologiesTask,
@@ -1099,7 +1383,7 @@ namespace Altalents.Business.Services
             {
                 case FormationCertificationEnum.Certification:
 
-                    Certification certificationToDelete = await context.Certifications.Include(x=>x.DossierTechnique).SingleAsync(x => x.Id == id, cancellationToken);
+                    Certification certificationToDelete = await context.Certifications.Include(x => x.DossierTechnique).SingleAsync(x => x.Id == id, cancellationToken);
 
                     if (certificationToDelete != null)
                     {
