@@ -208,6 +208,17 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
           if(this.experience) {
             let type: Reference  | null = this.domaines.find(x => x.id == this.experience!.domaineMetier.id) ?? null
             this.formGroup.controls.domaineMetier.setValue(type);
+
+              // Pré-sélectionner les missions
+              if (this.experience.projetOrMission) {
+                this.experience.projetOrMission.forEach((project, index) => {
+                  const selectedDomaineMetier = this.domaines.find(d => d.id === project.domaineMetier?.id) ?? null;
+                  // Assigner le domaineMetier de la mission dans le formulaire
+                  const projectGroup = (this.formGroup.get('projects') as FormArray).at(index) as FormGroup;
+                  projectGroup.controls['domaineMetier'].setValue(selectedDomaineMetier);
+                });
+              }
+
           } else {
             this.formGroup.controls.domaineMetier.setValue(null);
           }
