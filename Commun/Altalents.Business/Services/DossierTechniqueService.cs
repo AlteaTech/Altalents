@@ -538,7 +538,8 @@ namespace Altalents.Business.Services
             modelExport.Candidat_Formations = getFormationsOrderedByDate(dt);
             modelExport.Candidat_Certifications = getCertificationOrderedByDate(dt);
             modelExport.Candidat_Langues = getLanguesParle(dt);
-
+            modelExport.Candidat_ExperiencesPro = GetExperiencesOrderedByDate(dt);
+            
             WordTemplateService wordTemplateService = new WordTemplateService();
             byte[] generatedFile = wordTemplateService.GenerateDocument(modelExport);
 
@@ -549,6 +550,45 @@ namespace Altalents.Business.Services
                 Data = generatedFile
             };
         }
+
+        public List<DtExperienceProExportDso> GetExperiencesOrderedByDate(DossierTechnique dt)
+        {
+            if (dt == null || dt.Experiences == null)
+                return new List<DtExperienceProExportDso>();
+
+            return dt.Experiences
+                .OrderByDescending(exp => exp.DateDebut) 
+                .Select(exp => new DtExperienceProExportDso
+                {
+                    IsEsn = exp.IsEntrepriseEsnOrInterim,
+                    NomClientIfEsn = exp.IsEntrepriseEsnOrInterim && exp.ProjetsOrMissionsClient != null
+                        ? string.Join(", ", exp.ProjetsOrMissionsClient.Select(p => p.NomClientOrProjet))
+                        : null,
+                    NomEntreprise = exp.NomEntreprise,
+                    IntitulePoste = exp.IntitulePoste,
+                    Lieu = exp.LieuEntreprise,
+                    TypeContrat = exp.TypeContrat?.Libelle,
+                    DateDebutEtDateFin = $"{exp.DateDebut:MM/yyyy} - {(exp.DateFin.HasValue ? exp.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
+                    Context = exp.Description,
+                    EnvironnementsTechnique = string.Join(", ",
+                        (exp.LiaisonExperienceTechnologies?.Select(lt => lt.Technologie?.Libelle) ?? Enumerable.Empty<string>())
+                        .Concat(exp.LiaisonExperienceOutils?.Select(lo => lo.Outil?.Libelle) ?? Enumerable.Empty<string>())),
+                    MissionsOrProjects = exp.ProjetsOrMissionsClient?
+                        .OrderByDescending(p => p.DateDebut)
+                        .Select(p => new DtExpProMission
+                        {
+                            NomClient = p.NomClientOrProjet,
+                            DateDebutDateFin = $"{p.DateDebut:MM/yyyy} - {(p.DateFin.HasValue ? p.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
+                            DomaineMetier = p.DomaineMetier?.Libelle,
+                            Lieu = p.Lieu,
+                            DescriptionProjet = p.DescriptionProjetOrMission,
+                            Taches = p.Taches,
+                            CompoEquipe = p.CompositionEquipe,
+                            Budget = p.Budget.HasValue ? p.Budget.Value.ToString("C") : null
+                        }).ToList()
+                }).ToList();
+        }
+
 
         private static List<DtCertificationExportDso> getCertificationOrderedByDate(DossierTechnique dt)
         {
