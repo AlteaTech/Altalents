@@ -179,6 +179,13 @@ namespace Altalents.Report.Library.Services
             }
         }
 
+
+        private static void FeedExperiencesSection(DtMainPageExportDso dt, Body mainBody)
+        {
+
+        }
+
+
         private static void FeedLanguageSection(DtMainPageExportDso dt, Body mainBody)
         {
             var paraWithKeyTABLEAU_RECURSIF_LANGUES = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_LANGUES));
