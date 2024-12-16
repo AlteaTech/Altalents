@@ -36,6 +36,19 @@ namespace Altalents.Report.Library
         public const string TABLEAU_RECURSIF_ITEM_LIBELLE = "{{ITEM_LIB}}";
         public const string TABLEAU_RECURSIF_ITEM_VALEUR = "{{ITEM_VAL}}";
 
+        public const string SECTION_EXPERIENCES_PRO_RECURSIF = "{{LIST_EXPERIENCES_PRO}}";
+
+        public const string EXP_ENTREPRISE = "{{EXP_ENTREPRISE}}";
+        public const string EXP_POSTE = "{{EXP_POSTE}}";
+        public const string EXP_DATES = "{{EXP_DATES}}";
+        public const string EXP_CONTEXT = "{{EXP_CONTEXT}}";
+        public const string EXP_EQUIPE = "{{EXP_EQUIPE}}";
+        public const string EXP_TACHES = "{{EXP_TACHES}}";
+        public const string EXP_ENV_TECH = "{{EXP_ENV_TECH}}";
+
+        public const string EXP_PROJ_OR_MISSION_LIBELLE = "{{EXP_PROJ_OR_MISSION_LIBELLE}}";
+        public const string EXP_PROJ_OR_MISSION_VALUES = "{{EXP_PROJ_OR_MISSION_VALUES}}";
+
 
     }
 }

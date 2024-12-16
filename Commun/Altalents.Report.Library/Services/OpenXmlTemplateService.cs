@@ -6,6 +6,7 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Altalents.Report.Library.DSO;
 using Altalents.Report.Library.DSO.OpenXml;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.ExtendedProperties;
@@ -34,16 +35,17 @@ namespace Altalents.Report.Library.Services
                 {
                     var mainBody = wordDoc.MainDocumentPart.Document.Body;
 
+                    //remplacement des clés par des valeur du model dt Dans tout le document
+                    Dictionary<string, string> data = GetDataExportDictionaryForMainPage(dt);
+                    ReplacePlaceholders(mainBody, data);
+                    ReplacePlaceholdersInFooters(wordDoc.MainDocumentPart, data);
+
                     FeedCompMetierSection(dt, mainBody);
                     FeedFormationsSection(dt, mainBody);
                     FeedCertificationSection(dt, mainBody);
                     FeedLanguageSection(dt, mainBody);
-
-                    //remplacement des clés par des valeur du model dt Dans tout le document
-                    Dictionary<string, string> data = GetDataExportDictionary(dt);
-                    ReplacePlaceholdersInBody(mainBody, data);
-                    ReplacePlaceholdersInFooters(wordDoc.MainDocumentPart, data);
-
+                    FeedExperiencesSection(dt, mainBody);
+           
                     wordDoc.MainDocumentPart.Document.Save();
                 }
 
@@ -180,9 +182,37 @@ namespace Altalents.Report.Library.Services
         }
 
 
-        private static void FeedExperiencesSection(DtMainPageExportDso dt, Body mainBody)
+        private void FeedExperiencesSection(DtMainPageExportDso dt, Body mainBody)
         {
+            var paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
 
+            if (paraWithKeyEXPERIENCES_RECURSIF != null)
+            {
+                OpenXmlElement parent = paraWithKeyEXPERIENCES_RECURSIF.Parent;
+
+                if (dt.Candidat_ExperiencesPro == null || dt.Candidat_ExperiencesPro.Count == 0)
+                {
+                    RemoveSection(paraWithKeyEXPERIENCES_RECURSIF);
+                }
+                else
+                {
+                    using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(GetTemplateExperiencelPath(), false))
+                    {
+                        Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
+                        Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
+
+                        Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
+
+                        foreach (DtExperienceProExportDso expDso in dt.Candidat_ExperiencesPro)
+                        {
+                            Dictionary<string, string> data = GetDataExportDictionaryForOneExperience(expDso);
+                            ReplacePlaceholders(newTableau, data);
+
+                        }
+
+                    }
+                }
+            }
         }
 
 
@@ -343,21 +373,59 @@ namespace Altalents.Report.Library.Services
 
         private static string GetTemplateItemTabHorizontalPath()
         {
-            string ItemTabHorizontal = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
-            string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", ItemTabHorizontal);
-            string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
-            return ItemTabHorizontalNormalizedPath;
+            string templateDocName = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
+            return GetNormalisedFullPath(templateDocName);
+        }
+
+        private static string GetTemplateExperiencelPath()
+        {
+            string templateDocName = "Template_DT_Altea_2024_ItemExperience.docx";
+            return GetNormalisedFullPath(templateDocName);
         }
 
         private static string GetTemplateItemTabVerticalPath()
         {
-            string ItemTabHorizontal = "Template_DT_Altea_2024_ItemTabVertical.docx";
+            string templateDocName = "Template_DT_Altea_2024_ItemTabVertical.docx";
+            return GetNormalisedFullPath(templateDocName);
+        }
+
+        private static string GetNormalisedFullPath(string ItemTabHorizontal)
+        {
             string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", ItemTabHorizontal);
             string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
             return ItemTabHorizontalNormalizedPath;
         }
 
-        private static Dictionary<string, string> GetDataExportDictionary(DtMainPageExportDso dt)
+
+
+        private static Dictionary<string, string> GetDataExportDictionaryForOneExperience(DtExperienceProExportDso exp)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            data.Add(DtTemplatesReplacementKeys.EXP_ENTREPRISE, exp.NomEntreprise);
+            data.Add(DtTemplatesReplacementKeys.EXP_POSTE, exp.IntitulePoste);
+            data.Add(DtTemplatesReplacementKeys.EXP_CONTEXT, exp.Context);
+            data.Add(DtTemplatesReplacementKeys.EXP_DATES, exp.DateDebutEtDateFin);
+            data.Add(DtTemplatesReplacementKeys.EXP_EQUIPE, exp.Equipe);
+            data.Add(DtTemplatesReplacementKeys.EXP_ENV_TECH, exp.EnvironnementsTechnique);
+
+            string textToAddInTachesPLaceholder = "";
+            string textToAddInProjectsPLaceholder = "";
+            foreach (var missionOrProject in exp.MissionsOrProjects)
+            {
+
+            }
+
+            data.Add(DtTemplatesReplacementKeys.EXP_TACHES, textToAddInTachesPLaceholder);
+            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_VALUES, textToAddInProjectsPLaceholder);
+
+            return data;
+        }
+
+
+
+
+        private static Dictionary<string, string> GetDataExportDictionaryForMainPage(DtMainPageExportDso dt)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -381,7 +449,9 @@ namespace Altalents.Report.Library.Services
             return data;
         }
 
-        private void ReplacePlaceholdersInBody(OpenXmlElement elem, Dictionary<string, string> placeholders)
+
+
+        private void ReplacePlaceholders(OpenXmlElement elem, Dictionary<string, string> placeholders)
         {
             foreach (var paragraph in elem.Descendants<OpenXmlElement>())
             {
