@@ -569,7 +569,7 @@ namespace Altalents.Business.Services
                     Lieu = exp.LieuEntreprise,
                     TypeContrat = exp.TypeContrat?.Libelle,
                     Equipe = exp.CompositionEquipe,
-                    DateDebutEtDateFin = $"{exp.DateDebut:MM/yyyy} - {(exp.DateFin.HasValue ? exp.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
+                    DateDebutEtDateFin = $"{exp.DateDebut:MM/yyyy} --> {(exp.DateFin.HasValue ? exp.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
                     Context = exp.Description,
                     EnvironnementsTechnique = string.Join(", ",
                         (exp.LiaisonExperienceTechnologies?.Select(lt => lt.Technologie?.Libelle) ?? Enumerable.Empty<string>())
@@ -579,13 +579,13 @@ namespace Altalents.Business.Services
                         .Select(p => new DtExpProMission
                         {
                             NomClient = p.NomClientOrProjet,
-                            DateDebutDateFin = $"{p.DateDebut:MM/yyyy} - {(p.DateFin.HasValue ? p.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
+                            DateDebutDateFin = $"{p.DateDebut:MM/yyyy} --> {(p.DateFin.HasValue ? p.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
                             DomaineMetier = p.DomaineMetier?.Libelle,
                             Lieu = p.Lieu,
                             DescriptionProjet = p.DescriptionProjetOrMission,
                             Taches = p.Taches,
                             CompoEquipe = p.CompositionEquipe,
-                            Budget = p.Budget.HasValue ? p.Budget.Value.ToString("C") : null
+                            Budget = p.Budget.HasValue ? p.Budget.Value + " €" : null
                         }).ToList()
                 }).ToList();
         }

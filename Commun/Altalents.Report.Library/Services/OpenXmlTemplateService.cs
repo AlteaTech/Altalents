@@ -193,25 +193,34 @@ namespace Altalents.Report.Library.Services
                 if (dt.Candidat_ExperiencesPro == null || dt.Candidat_ExperiencesPro.Count == 0)
                 {
                     RemoveSection(paraWithKeyEXPERIENCES_RECURSIF);
+                    return;
                 }
-                else
-                {
-                    using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(GetTemplateExperiencelPath(), false))
-                    {
-                        Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
-                        Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
 
+                string templatePath = GetTemplateExperiencelPath();
+                using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(templatePath, false))
+                {
+                    Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
+                    Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
+
+                    foreach (DtExperienceProExportDso expDso in dt.Candidat_ExperiencesPro)
+                    {
                         Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
 
-                        foreach (DtExperienceProExportDso expDso in dt.Candidat_ExperiencesPro)
-                        {
-                            Dictionary<string, string> data = GetDataExportDictionaryForOneExperience(expDso);
-                            ReplacePlaceholders(newTableau, data);
+                        Dictionary<string, string> data = GetDataExportDictionaryForOneExperience(expDso);
+                        ReplacePlaceholders(newTableau, data);
 
-                        }
+                        // Insérer le nouveau tableau juste avant le paragraphe à remplacer
+                        parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
+
+                        Paragraph emptyParagraph = new Paragraph(new Run(new Break())); // Ajoute un saut de ligne
+                        parent.InsertAfter(emptyParagraph, newTableau);
 
                     }
                 }
+
+                // Supprimer le paragraphe de la clé après insertion
+                paraWithKeyEXPERIENCES_RECURSIF.Remove();
+
             }
         }
 
@@ -401,23 +410,82 @@ namespace Altalents.Report.Library.Services
         private static Dictionary<string, string> GetDataExportDictionaryForOneExperience(DtExperienceProExportDso exp)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-
-            data.Add(DtTemplatesReplacementKeys.EXP_ENTREPRISE, exp.NomEntreprise);
+            string ESN = "";
+            if (exp.IsEsn)
+            {
+                ESN = " (ESN)";
+            }
+            data.Add(DtTemplatesReplacementKeys.EXP_ENTREPRISE, exp.NomEntreprise + ESN);
             data.Add(DtTemplatesReplacementKeys.EXP_POSTE, exp.IntitulePoste);
             data.Add(DtTemplatesReplacementKeys.EXP_CONTEXT, exp.Context);
             data.Add(DtTemplatesReplacementKeys.EXP_DATES, exp.DateDebutEtDateFin);
             data.Add(DtTemplatesReplacementKeys.EXP_EQUIPE, exp.Equipe);
             data.Add(DtTemplatesReplacementKeys.EXP_ENV_TECH, exp.EnvironnementsTechnique);
 
-            string textToAddInTachesPLaceholder = "";
-            string textToAddInProjectsPLaceholder = "";
-            foreach (var missionOrProject in exp.MissionsOrProjects)
+            string textToAddInTachesPLaceholder = "Projets";
+            if (exp.IsEsn)
             {
-
+                textToAddInTachesPLaceholder = "Missions";
             }
 
-            data.Add(DtTemplatesReplacementKeys.EXP_TACHES, textToAddInTachesPLaceholder);
-            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_VALUES, textToAddInProjectsPLaceholder);
+            string textToAddInProjectsPlaceholder = "";
+            string textToAddInTachesPlaceholder = "";
+
+            foreach (var missionOrProject in exp.MissionsOrProjects)
+            {
+                string projet = "";
+
+                if (exp.IsEsn)
+                {
+                    projet += "<b>" + missionOrProject.NomClient  ;
+
+                    if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetier) || !string.IsNullOrWhiteSpace(missionOrProject.Lieu) || !string.IsNullOrWhiteSpace(missionOrProject.DateDebutDateFin))
+                    {
+                        if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetier))
+                            projet += " [" + missionOrProject.DomaineMetier + "] ";
+
+                        if (!string.IsNullOrWhiteSpace(missionOrProject.Lieu))
+                            projet += "| " + missionOrProject.Lieu + " ";
+
+                        if (!string.IsNullOrWhiteSpace(missionOrProject.DateDebutDateFin))
+                            projet += "| " + missionOrProject.DateDebutDateFin + " ";
+                    }
+
+                    projet += "</b>";
+
+                    projet += "\n\n";
+                }
+
+                projet += missionOrProject.DescriptionProjet += "\n\n";
+
+                if (!string.IsNullOrWhiteSpace(missionOrProject.Budget))
+                {
+                    projet += "Budget : " + missionOrProject.Budget;
+
+                    if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
+                    {
+                        projet +=  " | ";
+                    }
+                       
+                }
+
+
+
+                   
+                if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
+                    projet += "Equipe : " + missionOrProject.CompoEquipe;
+
+                textToAddInProjectsPlaceholder += projet+ "\n\n\n";
+                textToAddInTachesPlaceholder += missionOrProject.Taches+ "\n\n\n";
+            }
+
+            textToAddInProjectsPlaceholder = textToAddInProjectsPlaceholder.Remove(textToAddInProjectsPlaceholder.Count() - 4, 4);
+            textToAddInTachesPlaceholder = textToAddInTachesPlaceholder.Remove(textToAddInTachesPlaceholder.Count() - 4, 4);
+
+
+            data.Add(DtTemplatesReplacementKeys.EXP_TACHES, textToAddInTachesPlaceholder);
+            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_LIBELLE, textToAddInTachesPLaceholder);
+            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_VALUES, textToAddInProjectsPlaceholder);
 
             return data;
         }
@@ -461,12 +529,115 @@ namespace Altalents.Report.Library.Services
                     {
                         if (run.InnerText.Contains(placeholder.Key))
                         {
-                            run.GetFirstChild<Text>().Text = run.InnerText.Replace(placeholder.Key, placeholder.Value);
+                            // Récupérer et vérifier la valeur du placeholder
+                            string replacement = placeholder.Value ?? string.Empty;
+
+                            // Diviser en lignes à partir de "\n"
+                            string[] lines = replacement.Split(new[] { '\n' }, StringSplitOptions.None);
+
+                            // Récupérer le parent pour insérer de nouveaux éléments
+                            OpenXmlElement parent = run.Parent;
+
+                            // Déterminer si le placeholder correspond aux tâches
+                            bool isTaskPlaceholder = placeholder.Key == DtTemplatesReplacementKeys.EXP_TACHES;
+
+                            for (int i = 0; i < lines.Length; i++)
+                            {
+                                string line = lines[i];
+
+                                if (isTaskPlaceholder)
+                                {
+                                    // Ignorer les lignes vides
+                                    if (string.IsNullOrWhiteSpace(line.Trim()))
+                                        continue;
+
+                                    // Cloner le Run d'origine pour conserver le style
+                                    Run clonedRun = (Run)run.CloneNode(true);
+
+                                    // Modifier uniquement le texte du clone
+                                    var textElement = clonedRun.GetFirstChild<Text>();
+                                    if (textElement != null)
+                                    {
+                                        textElement.Text = "• "+line;
+                                    }
+
+                                    // Ajouter le Run cloné après la puce
+                                    parent.InsertBefore(clonedRun, run);
+                                }
+                                else
+                                {
+                                    // Vérifier s'il y a du texte en gras entouré par <b></b>
+                                    int startIndex = 0;
+                                    while ((startIndex = line.IndexOf("<b>", startIndex)) != -1)
+                                    {
+                                        int endIndex = line.IndexOf("</b>", startIndex);
+                                        if (endIndex == -1)
+                                            break; // Si on ne trouve pas la fin de la balise, sortir
+
+                                        // Extraire le texte à mettre en gras sans perdre les espaces
+                                        string boldText = line.Substring(startIndex + 3, endIndex - (startIndex + 3));
+
+                                        // Cloner le Run d'origine pour conserver le style
+                                        Run clonedRun = (Run)run.CloneNode(true);
+
+                                        // Ajouter la balise en gras à ce texte
+                                        var textElement = clonedRun.GetFirstChild<Text>();
+                                        if (textElement != null)
+                                        {
+                                            textElement.Text = boldText; // Garder les espaces intacts
+                                        }
+
+                                        // Ajouter la propriété Bold
+                                        RunProperties runProperties = clonedRun.GetFirstChild<RunProperties>();
+                                        if (runProperties == null)
+                                        {
+                                            runProperties = new RunProperties();
+                                            clonedRun.PrependChild(runProperties);
+                                        }
+
+                                        Bold bold = new Bold();
+                                        runProperties.AppendChild(bold);
+
+                                        // Insérer le texte en gras dans le document
+                                        parent.InsertBefore(clonedRun, run);
+
+                                        // Supprimer la balise <b> et </b> du texte original
+                                        line = line.Remove(startIndex, endIndex - startIndex + 4); // Supprimer "<b>text</b>"
+
+                                        startIndex = 0; // Rechercher à nouveau si une autre balise <b> existe
+                                    }
+
+                                    // Ajouter le reste du texte qui n'était pas en gras
+                                    if (!string.IsNullOrWhiteSpace(line))
+                                    {
+                                        Run clonedRun = (Run)run.CloneNode(true);
+                                        var textElement = clonedRun.GetFirstChild<Text>();
+                                        if (textElement != null)
+                                        {
+                                            textElement.Text = line;
+                                        }
+
+                                        parent.InsertBefore(clonedRun, run);
+                                    }
+                                }
+
+                                // Ajouter un saut de ligne après chaque ligne, sauf la dernière
+                                if (i < lines.Length - 1)
+                                {
+                                    parent.InsertBefore(new Run(new Break()), run);
+                                }
+                            }
+
+                            // Supprimer le Run d'origine après le traitement
+                            run.Remove();
                         }
                     }
                 }
             }
         }
+
+
+
 
         private void ReplacePlaceholdersInFooters(MainDocumentPart mainDocumentPart, Dictionary<string, string> placeholders)
         {
