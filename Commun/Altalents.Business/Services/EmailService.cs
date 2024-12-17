@@ -65,5 +65,44 @@ namespace Altalents.Business.Services
                 await client.DisconnectAsync(true, token);
             }
         }
+
+        public string LoadEmailTemplateWithCss(string templateName, string cssFileName, Dictionary<string, string> placeholders)
+        {
+            // Charger le fichier HTML
+            string templatePath = Path.Combine(AppContext.BaseDirectory, "Templates", "Emails", templateName);
+            string templateContent = File.ReadAllText(templatePath, Encoding.UTF8);
+
+            // Charger le fichier CSS
+            string cssPath = Path.Combine(AppContext.BaseDirectory, "Templates", "Emails", "Styles", cssFileName);
+            string cssContent = File.ReadAllText(cssPath, Encoding.UTF8);
+
+            // Injecter les styles CSS dans le HTML (via une balise <style>)
+            string styledHtml = $@"
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset='UTF-8'>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                    <style>
+                        {cssContent}
+                    </style>
+                </head>
+                <body>
+                    {templateContent}
+                </body>
+                </html>";
+
+            // Injecter les placeholders
+            foreach (var placeholder in placeholders)
+            {
+                styledHtml = styledHtml.Replace($"{{{{{placeholder.Key}}}}}", placeholder.Value);
+            }
+
+            // Inline le CSS via PreMailer
+            var result = PreMailer.Net.PreMailer.MoveCssInline(styledHtml);
+
+            return result.Html;
+        }
+
     }
 }

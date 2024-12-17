@@ -19,14 +19,12 @@ namespace Altalents.Report.Library.Services
     {
         public byte[] GenerateDocument(DtMainPageExportDso dt)
         {
-
             string outputTempPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.docx");
 
             try
             {
-
                 string mainTemplateName = "Template_DT_Altea_2024_FirstPage.docx";
-                string templateRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", mainTemplateName);
+                string templateRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates\Word", mainTemplateName);
                 string normalizedPath = Path.GetFullPath(templateRelativePath);
 
                 File.Copy(normalizedPath, outputTempPath, true);
@@ -35,7 +33,6 @@ namespace Altalents.Report.Library.Services
                 {
                     var mainBody = wordDoc.MainDocumentPart.Document.Body;
 
-                    //remplacement des clés par des valeur du model dt Dans tout le document
                     Dictionary<string, string> data = GetDataExportDictionaryForMainPage(dt);
                     ReplacePlaceholders(mainBody, data);
                     ReplacePlaceholdersInFooters(wordDoc.MainDocumentPart, data);
@@ -78,7 +75,6 @@ namespace Altalents.Report.Library.Services
 
             if (paraWithKeyTABLEAU_RECURSIF_CERTIFICATION != null)
             {
-
                 OpenXmlElement parent = paraWithKeyTABLEAU_RECURSIF_CERTIFICATION.Parent;
 
                 if (dt.Candidat_Certifications == null || dt.Candidat_Certifications.Count == 0)
@@ -181,7 +177,6 @@ namespace Altalents.Report.Library.Services
             }
         }
 
-
         private void FeedExperiencesSection(DtMainPageExportDso dt, Body mainBody)
         {
             var paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
@@ -205,25 +200,18 @@ namespace Altalents.Report.Library.Services
                     foreach (DtExperienceProExportDso expDso in dt.Candidat_ExperiencesPro)
                     {
                         Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
-
                         Dictionary<string, string> data = GetDataExportDictionaryForOneExperience(expDso);
-                        ReplacePlaceholders(newTableau, data);
 
-                        // Insérer le nouveau tableau juste avant le paragraphe à remplacer
+                        ReplacePlaceholders(newTableau, data);
                         parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
 
-                        Paragraph emptyParagraph = new Paragraph(new Run(new Break())); // Ajoute un saut de ligne
+                        Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
                         parent.InsertAfter(emptyParagraph, newTableau);
-
                     }
                 }
-
-                // Supprimer le paragraphe de la clé après insertion
                 paraWithKeyEXPERIENCES_RECURSIF.Remove();
-
             }
         }
-
 
         private static void FeedLanguageSection(DtMainPageExportDso dt, Body mainBody)
         {
@@ -267,7 +255,6 @@ namespace Altalents.Report.Library.Services
             }
         }
 
-
         private static void RemoveSection(Paragraph paraWithKeyTABLEAU_RECURSIF_CERTIFICATION)
         {
             var previousElement = paraWithKeyTABLEAU_RECURSIF_CERTIFICATION.PreviousSibling();
@@ -299,7 +286,6 @@ namespace Altalents.Report.Library.Services
 
         private static void FormatResultTableaHorizontal(Paragraph paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS, OpenXmlElement parent, Table newTableau)
         {
-
             // Insérer le nouveau tableau juste avant le paragraphe à remplacer
             parent.InsertAfter(newTableau, paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS);
 
@@ -313,7 +299,6 @@ namespace Altalents.Report.Library.Services
             // Supprimer l'ancien paragraphe après avoir inséré le tableau
             paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS.Remove();
         }
-
 
         private static void FormatResultTableuVertical(Paragraph paraWithKeyTABLEAU_RECURSIF, OpenXmlElement parent, Table newTableau)
         {
@@ -350,14 +335,15 @@ namespace Altalents.Report.Library.Services
                     }
                 }
             }
-
             return newRow;
         }
 
         private static TableCell GetNewRowTableauHorizontal(TableRow modelRowLibelle, TableRow modelRowValeur, TableRow newRowLibelle, string libelle, string value)
         {
+
             var modelCellLibelle = modelRowLibelle.Elements<TableCell>().FirstOrDefault();
             var newCellLibelle = (TableCell)modelCellLibelle.CloneNode(true);
+
             foreach (var text in newCellLibelle.Descendants<Text>())
             {
                 if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_LIBELLE))
@@ -369,6 +355,7 @@ namespace Altalents.Report.Library.Services
 
             var modelCellValeur = modelRowValeur.Elements<TableCell>().FirstOrDefault();
             var newCellValeur = (TableCell)modelCellValeur.CloneNode(true);
+
             foreach (var text in newCellValeur.Descendants<Text>())
             {
                 if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_VALEUR))
@@ -376,7 +363,6 @@ namespace Altalents.Report.Library.Services
                     text.Text = text.Text.Replace(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_VALEUR, value);
                 }
             }
-
             return newCellValeur;
         }
 
@@ -400,21 +386,21 @@ namespace Altalents.Report.Library.Services
 
         private static string GetNormalisedFullPath(string ItemTabHorizontal)
         {
-            string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", ItemTabHorizontal);
+            string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates\Word", ItemTabHorizontal);
             string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
             return ItemTabHorizontalNormalizedPath;
         }
 
-
-
         private static Dictionary<string, string> GetDataExportDictionaryForOneExperience(DtExperienceProExportDso exp)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
+
             string ESN = "";
             if (exp.IsEsn)
             {
                 ESN = " (ESN)";
             }
+
             data.Add(DtTemplatesReplacementKeys.EXP_ENTREPRISE, exp.NomEntreprise + ESN);
             data.Add(DtTemplatesReplacementKeys.EXP_POSTE, exp.IntitulePoste);
             data.Add(DtTemplatesReplacementKeys.EXP_CONTEXT, exp.Context);
@@ -452,7 +438,6 @@ namespace Altalents.Report.Library.Services
                     }
 
                     projet += "</b>";
-
                     projet += "\n\n";
                 }
 
@@ -465,13 +450,9 @@ namespace Altalents.Report.Library.Services
                     if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
                     {
                         projet +=  " | ";
-                    }
-                       
+                    } 
                 }
 
-
-
-                   
                 if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
                     projet += "Equipe : " + missionOrProject.CompoEquipe;
 
@@ -482,15 +463,12 @@ namespace Altalents.Report.Library.Services
             textToAddInProjectsPlaceholder = textToAddInProjectsPlaceholder.Remove(textToAddInProjectsPlaceholder.Count() - 4, 4);
             textToAddInTachesPlaceholder = textToAddInTachesPlaceholder.Remove(textToAddInTachesPlaceholder.Count() - 4, 4);
 
-
             data.Add(DtTemplatesReplacementKeys.EXP_TACHES, textToAddInTachesPlaceholder);
             data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_LIBELLE, textToAddInTachesPLaceholder);
             data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_VALUES, textToAddInProjectsPlaceholder);
 
             return data;
         }
-
-
 
 
         private static Dictionary<string, string> GetDataExportDictionaryForMainPage(DtMainPageExportDso dt)
@@ -514,10 +492,9 @@ namespace Altalents.Report.Library.Services
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES_PROG, dt.Candidat_Languages_Prog);
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, dt.Candidat_Bdd);
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, dt.Candidat_Methodologie);
+
             return data;
         }
-
-
 
         private void ReplacePlaceholders(OpenXmlElement elem, Dictionary<string, string> placeholders)
         {
@@ -584,7 +561,7 @@ namespace Altalents.Report.Library.Services
                                         var textElement = clonedRun.GetFirstChild<Text>();
                                         if (textElement != null)
                                         {
-                                            textElement.Text = boldText; // Garder les espaces intacts
+                                            textElement.Text = boldText;
                                         }
 
                                         // Ajouter la propriété Bold
@@ -602,7 +579,7 @@ namespace Altalents.Report.Library.Services
                                         parent.InsertBefore(clonedRun, run);
 
                                         // Supprimer la balise <b> et </b> du texte original
-                                        line = line.Remove(startIndex, endIndex - startIndex + 4); // Supprimer "<b>text</b>"
+                                        line = line.Remove(startIndex, endIndex - startIndex + 4);
 
                                         startIndex = 0; // Rechercher à nouveau si une autre balise <b> existe
                                     }
@@ -627,8 +604,7 @@ namespace Altalents.Report.Library.Services
                                     parent.InsertBefore(new Run(new Break()), run);
                                 }
                             }
-
-                            // Supprimer le Run d'origine après le traitement
+                            
                             run.Remove();
                         }
                     }

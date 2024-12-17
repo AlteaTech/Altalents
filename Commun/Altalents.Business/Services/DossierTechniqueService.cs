@@ -45,7 +45,24 @@ namespace Altalents.Business.Services
 
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
-            await _emailService.SendEmailWithRetryAsync(dossierTechnique.AdresseMail, "Demande de creation de dossier technique", $"Merci de remplir le dossier suivant : <a href=\"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}\"> ce dossier là </a>");
+
+            string htmlContent = _emailService.LoadEmailTemplateWithCss(
+                "EmailConfirmationCreationDtForCandidat",
+                "email-styles.css",
+                new Dictionary<string, string>
+                {
+                    { "link", $"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}" }
+                }
+            );
+
+            await _emailService.SendEmailWithRetryAsync(
+                dossierTechnique.AdresseMail,
+                "Demande de création de dossier technique",
+                htmlContent
+            );
+
+            //await _emailService.SendEmailWithRetryAsync(dossierTechnique.AdresseMail, "Demande de creation de dossier technique", $"Merci de remplir le dossier suivant : <a href=\"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}\"> ce dossier là </a>");
+
             return dt.Id;
 
         }
@@ -546,7 +563,7 @@ namespace Altalents.Business.Services
             return new DocumentDto()
             {
                 MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                NomFichier = "test.docx",
+                NomFichier = dt.Personne.Trigramme+"-XXXXXXXXXXXX-"+DateTime.Now.Year.ToString()+DateTime.Now.Month.ToString()+".docx",
                 Data = generatedFile
             };
         }
