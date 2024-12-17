@@ -6,6 +6,7 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Altalents.Report.Library.DSO;
 using Altalents.Report.Library.DSO.OpenXml;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.ExtendedProperties;
@@ -18,14 +19,12 @@ namespace Altalents.Report.Library.Services
     {
         public byte[] GenerateDocument(DtMainPageExportDso dt)
         {
-
             string outputTempPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.docx");
 
             try
             {
-
                 string mainTemplateName = "Template_DT_Altea_2024_FirstPage.docx";
-                string templateRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", mainTemplateName);
+                string templateRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates\Word", mainTemplateName);
                 string normalizedPath = Path.GetFullPath(templateRelativePath);
 
                 File.Copy(normalizedPath, outputTempPath, true);
@@ -34,16 +33,16 @@ namespace Altalents.Report.Library.Services
                 {
                     var mainBody = wordDoc.MainDocumentPart.Document.Body;
 
+                    Dictionary<string, string> data = GetDataExportDictionaryForMainPage(dt);
+                    ReplacePlaceholders(mainBody, data);
+                    ReplacePlaceholdersInFooters(wordDoc.MainDocumentPart, data);
+
                     FeedCompMetierSection(dt, mainBody);
                     FeedFormationsSection(dt, mainBody);
                     FeedCertificationSection(dt, mainBody);
                     FeedLanguageSection(dt, mainBody);
-
-                    //remplacement des clés par des valeur du model dt Dans tout le document
-                    Dictionary<string, string> data = GetDataExportDictionary(dt);
-                    ReplacePlaceholdersInBody(mainBody, data);
-                    ReplacePlaceholdersInFooters(wordDoc.MainDocumentPart, data);
-
+                    FeedExperiencesSection(dt, mainBody);
+           
                     wordDoc.MainDocumentPart.Document.Save();
                 }
 
@@ -76,7 +75,6 @@ namespace Altalents.Report.Library.Services
 
             if (paraWithKeyTABLEAU_RECURSIF_CERTIFICATION != null)
             {
-
                 OpenXmlElement parent = paraWithKeyTABLEAU_RECURSIF_CERTIFICATION.Parent;
 
                 if (dt.Candidat_Certifications == null || dt.Candidat_Certifications.Count == 0)
@@ -179,6 +177,42 @@ namespace Altalents.Report.Library.Services
             }
         }
 
+        private void FeedExperiencesSection(DtMainPageExportDso dt, Body mainBody)
+        {
+            var paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
+
+            if (paraWithKeyEXPERIENCES_RECURSIF != null)
+            {
+                OpenXmlElement parent = paraWithKeyEXPERIENCES_RECURSIF.Parent;
+
+                if (dt.Candidat_ExperiencesPro == null || dt.Candidat_ExperiencesPro.Count == 0)
+                {
+                    RemoveSection(paraWithKeyEXPERIENCES_RECURSIF);
+                    return;
+                }
+
+                string templatePath = GetTemplateExperiencelPath();
+                using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(templatePath, false))
+                {
+                    Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
+                    Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
+
+                    foreach (DtExperienceProExportDso expDso in dt.Candidat_ExperiencesPro)
+                    {
+                        Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
+                        Dictionary<string, string> data = GetDataExportDictionaryForOneExperience(expDso);
+
+                        ReplacePlaceholders(newTableau, data);
+                        parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
+
+                        Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
+                        parent.InsertAfter(emptyParagraph, newTableau);
+                    }
+                }
+                paraWithKeyEXPERIENCES_RECURSIF.Remove();
+            }
+        }
+
         private static void FeedLanguageSection(DtMainPageExportDso dt, Body mainBody)
         {
             var paraWithKeyTABLEAU_RECURSIF_LANGUES = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_LANGUES));
@@ -221,7 +255,6 @@ namespace Altalents.Report.Library.Services
             }
         }
 
-
         private static void RemoveSection(Paragraph paraWithKeyTABLEAU_RECURSIF_CERTIFICATION)
         {
             var previousElement = paraWithKeyTABLEAU_RECURSIF_CERTIFICATION.PreviousSibling();
@@ -253,7 +286,6 @@ namespace Altalents.Report.Library.Services
 
         private static void FormatResultTableaHorizontal(Paragraph paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS, OpenXmlElement parent, Table newTableau)
         {
-
             // Insérer le nouveau tableau juste avant le paragraphe à remplacer
             parent.InsertAfter(newTableau, paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS);
 
@@ -267,7 +299,6 @@ namespace Altalents.Report.Library.Services
             // Supprimer l'ancien paragraphe après avoir inséré le tableau
             paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS.Remove();
         }
-
 
         private static void FormatResultTableuVertical(Paragraph paraWithKeyTABLEAU_RECURSIF, OpenXmlElement parent, Table newTableau)
         {
@@ -304,14 +335,15 @@ namespace Altalents.Report.Library.Services
                     }
                 }
             }
-
             return newRow;
         }
 
         private static TableCell GetNewRowTableauHorizontal(TableRow modelRowLibelle, TableRow modelRowValeur, TableRow newRowLibelle, string libelle, string value)
         {
+
             var modelCellLibelle = modelRowLibelle.Elements<TableCell>().FirstOrDefault();
             var newCellLibelle = (TableCell)modelCellLibelle.CloneNode(true);
+
             foreach (var text in newCellLibelle.Descendants<Text>())
             {
                 if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_LIBELLE))
@@ -323,6 +355,7 @@ namespace Altalents.Report.Library.Services
 
             var modelCellValeur = modelRowValeur.Elements<TableCell>().FirstOrDefault();
             var newCellValeur = (TableCell)modelCellValeur.CloneNode(true);
+
             foreach (var text in newCellValeur.Descendants<Text>())
             {
                 if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_VALEUR))
@@ -330,27 +363,115 @@ namespace Altalents.Report.Library.Services
                     text.Text = text.Text.Replace(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_VALEUR, value);
                 }
             }
-
             return newCellValeur;
         }
 
         private static string GetTemplateItemTabHorizontalPath()
         {
-            string ItemTabHorizontal = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
-            string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", ItemTabHorizontal);
-            string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
-            return ItemTabHorizontalNormalizedPath;
+            string templateDocName = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
+            return GetNormalisedFullPath(templateDocName);
+        }
+
+        private static string GetTemplateExperiencelPath()
+        {
+            string templateDocName = "Template_DT_Altea_2024_ItemExperience.docx";
+            return GetNormalisedFullPath(templateDocName);
         }
 
         private static string GetTemplateItemTabVerticalPath()
         {
-            string ItemTabHorizontal = "Template_DT_Altea_2024_ItemTabVertical.docx";
-            string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates", ItemTabHorizontal);
+            string templateDocName = "Template_DT_Altea_2024_ItemTabVertical.docx";
+            return GetNormalisedFullPath(templateDocName);
+        }
+
+        private static string GetNormalisedFullPath(string ItemTabHorizontal)
+        {
+            string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates\Word", ItemTabHorizontal);
             string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
             return ItemTabHorizontalNormalizedPath;
         }
 
-        private static Dictionary<string, string> GetDataExportDictionary(DtMainPageExportDso dt)
+        private static Dictionary<string, string> GetDataExportDictionaryForOneExperience(DtExperienceProExportDso exp)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            string ESN = "";
+            if (exp.IsEsn)
+            {
+                ESN = " (ESN)";
+            }
+
+            data.Add(DtTemplatesReplacementKeys.EXP_ENTREPRISE, exp.NomEntreprise + ESN);
+            data.Add(DtTemplatesReplacementKeys.EXP_POSTE, exp.IntitulePoste);
+            data.Add(DtTemplatesReplacementKeys.EXP_CONTEXT, exp.Context);
+            data.Add(DtTemplatesReplacementKeys.EXP_DATES, exp.DateDebutEtDateFin);
+            data.Add(DtTemplatesReplacementKeys.EXP_EQUIPE, exp.Equipe);
+            data.Add(DtTemplatesReplacementKeys.EXP_ENV_TECH, exp.EnvironnementsTechnique);
+
+            string textToAddInTachesPLaceholder = "Projets";
+            if (exp.IsEsn)
+            {
+                textToAddInTachesPLaceholder = "Missions";
+            }
+
+            string textToAddInProjectsPlaceholder = "";
+            string textToAddInTachesPlaceholder = "";
+
+            foreach (var missionOrProject in exp.MissionsOrProjects)
+            {
+                string projet = "";
+
+                if (exp.IsEsn)
+                {
+                    projet += "<b>" + missionOrProject.NomClient  ;
+
+                    if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetier) || !string.IsNullOrWhiteSpace(missionOrProject.Lieu) || !string.IsNullOrWhiteSpace(missionOrProject.DateDebutDateFin))
+                    {
+                        if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetier))
+                            projet += " [" + missionOrProject.DomaineMetier + "] ";
+
+                        if (!string.IsNullOrWhiteSpace(missionOrProject.Lieu))
+                            projet += "| " + missionOrProject.Lieu + " ";
+
+                        if (!string.IsNullOrWhiteSpace(missionOrProject.DateDebutDateFin))
+                            projet += "| " + missionOrProject.DateDebutDateFin + " ";
+                    }
+
+                    projet += "</b>";
+                    projet += "\n\n";
+                }
+
+                projet += missionOrProject.DescriptionProjet += "\n\n";
+
+                if (!string.IsNullOrWhiteSpace(missionOrProject.Budget))
+                {
+                    projet += "Budget : " + missionOrProject.Budget;
+
+                    if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
+                    {
+                        projet +=  " | ";
+                    } 
+                }
+
+                if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
+                    projet += "Equipe : " + missionOrProject.CompoEquipe;
+
+                textToAddInProjectsPlaceholder += projet+ "\n\n\n";
+                textToAddInTachesPlaceholder += missionOrProject.Taches+ "\n\n\n";
+            }
+
+            textToAddInProjectsPlaceholder = textToAddInProjectsPlaceholder.Remove(textToAddInProjectsPlaceholder.Count() - 4, 4);
+            textToAddInTachesPlaceholder = textToAddInTachesPlaceholder.Remove(textToAddInTachesPlaceholder.Count() - 4, 4);
+
+            data.Add(DtTemplatesReplacementKeys.EXP_TACHES, textToAddInTachesPlaceholder);
+            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_LIBELLE, textToAddInTachesPLaceholder);
+            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_VALUES, textToAddInProjectsPlaceholder);
+
+            return data;
+        }
+
+
+        private static Dictionary<string, string> GetDataExportDictionaryForMainPage(DtMainPageExportDso dt)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -371,10 +492,11 @@ namespace Altalents.Report.Library.Services
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES_PROG, dt.Candidat_Languages_Prog);
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, dt.Candidat_Bdd);
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, dt.Candidat_Methodologie);
+
             return data;
         }
 
-        private void ReplacePlaceholdersInBody(OpenXmlElement elem, Dictionary<string, string> placeholders)
+        private void ReplacePlaceholders(OpenXmlElement elem, Dictionary<string, string> placeholders)
         {
             foreach (var paragraph in elem.Descendants<OpenXmlElement>())
             {
@@ -384,12 +506,114 @@ namespace Altalents.Report.Library.Services
                     {
                         if (run.InnerText.Contains(placeholder.Key))
                         {
-                            run.GetFirstChild<Text>().Text = run.InnerText.Replace(placeholder.Key, placeholder.Value);
+                            // Récupérer et vérifier la valeur du placeholder
+                            string replacement = placeholder.Value ?? string.Empty;
+
+                            // Diviser en lignes à partir de "\n"
+                            string[] lines = replacement.Split(new[] { '\n' }, StringSplitOptions.None);
+
+                            // Récupérer le parent pour insérer de nouveaux éléments
+                            OpenXmlElement parent = run.Parent;
+
+                            // Déterminer si le placeholder correspond aux tâches
+                            bool isTaskPlaceholder = placeholder.Key == DtTemplatesReplacementKeys.EXP_TACHES;
+
+                            for (int i = 0; i < lines.Length; i++)
+                            {
+                                string line = lines[i];
+
+                                if (isTaskPlaceholder)
+                                {
+                                    // Ignorer les lignes vides
+                                    if (string.IsNullOrWhiteSpace(line.Trim()))
+                                        continue;
+
+                                    // Cloner le Run d'origine pour conserver le style
+                                    Run clonedRun = (Run)run.CloneNode(true);
+
+                                    // Modifier uniquement le texte du clone
+                                    var textElement = clonedRun.GetFirstChild<Text>();
+                                    if (textElement != null)
+                                    {
+                                        textElement.Text = "• "+line;
+                                    }
+
+                                    // Ajouter le Run cloné après la puce
+                                    parent.InsertBefore(clonedRun, run);
+                                }
+                                else
+                                {
+                                    // Vérifier s'il y a du texte en gras entouré par <b></b>
+                                    int startIndex = 0;
+                                    while ((startIndex = line.IndexOf("<b>", startIndex)) != -1)
+                                    {
+                                        int endIndex = line.IndexOf("</b>", startIndex);
+                                        if (endIndex == -1)
+                                            break; // Si on ne trouve pas la fin de la balise, sortir
+
+                                        // Extraire le texte à mettre en gras sans perdre les espaces
+                                        string boldText = line.Substring(startIndex + 3, endIndex - (startIndex + 3));
+
+                                        // Cloner le Run d'origine pour conserver le style
+                                        Run clonedRun = (Run)run.CloneNode(true);
+
+                                        // Ajouter la balise en gras à ce texte
+                                        var textElement = clonedRun.GetFirstChild<Text>();
+                                        if (textElement != null)
+                                        {
+                                            textElement.Text = boldText;
+                                        }
+
+                                        // Ajouter la propriété Bold
+                                        RunProperties runProperties = clonedRun.GetFirstChild<RunProperties>();
+                                        if (runProperties == null)
+                                        {
+                                            runProperties = new RunProperties();
+                                            clonedRun.PrependChild(runProperties);
+                                        }
+
+                                        Bold bold = new Bold();
+                                        runProperties.AppendChild(bold);
+
+                                        // Insérer le texte en gras dans le document
+                                        parent.InsertBefore(clonedRun, run);
+
+                                        // Supprimer la balise <b> et </b> du texte original
+                                        line = line.Remove(startIndex, endIndex - startIndex + 4);
+
+                                        startIndex = 0; // Rechercher à nouveau si une autre balise <b> existe
+                                    }
+
+                                    // Ajouter le reste du texte qui n'était pas en gras
+                                    if (!string.IsNullOrWhiteSpace(line))
+                                    {
+                                        Run clonedRun = (Run)run.CloneNode(true);
+                                        var textElement = clonedRun.GetFirstChild<Text>();
+                                        if (textElement != null)
+                                        {
+                                            textElement.Text = line;
+                                        }
+
+                                        parent.InsertBefore(clonedRun, run);
+                                    }
+                                }
+
+                                // Ajouter un saut de ligne après chaque ligne, sauf la dernière
+                                if (i < lines.Length - 1)
+                                {
+                                    parent.InsertBefore(new Run(new Break()), run);
+                                }
+                            }
+                            
+                            run.Remove();
                         }
                     }
                 }
             }
         }
+
+
+
 
         private void ReplacePlaceholdersInFooters(MainDocumentPart mainDocumentPart, Dictionary<string, string> placeholders)
         {

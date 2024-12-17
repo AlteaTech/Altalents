@@ -69,7 +69,14 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
   private async submit(): Promise<boolean> {
     let isValid: boolean = false;
     if (this.confirmation) {
-        isValid = true;
+
+      this.isLoading = true;
+      // TODO APPEL DE LA METHODE QUI VALIDE LE Dt 
+      // this.service.putQuestionnaires().then(() => {
+      //   isValid = true;
+      //   this.isLoading = false;
+      // });
+
     }
     else
     {

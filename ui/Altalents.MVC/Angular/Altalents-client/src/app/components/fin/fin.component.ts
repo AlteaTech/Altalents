@@ -33,18 +33,16 @@ export class FinComponent extends BaseComponentCallHttpComponent implements OnIn
         }));
   }
 
-  public DownloadDt(): void {    
-    this.isLoading = true;
-    this.callRequest(ConstantesRequest.generateDossierCompetenceFile, this.service.generateDossierCompetenceFile(this.tokenDossierTechnique)
-        .subscribe((response: DocumentDto) => {
-          var a = document.createElement("a"); 
-          a.href = "data:" + response.mimeType + ";base64," + response.data; 
-          a.download = response.nomFichier; 
-          a.click(); 
-          this.isLoading = false;
-        }));
-  }
-
-
-
+  // public DownloadDt(): void {    
+  //   this.isLoading = true;
+  //   this.callRequest(ConstantesRequest.generateDossierCompetenceFile, this.service.generateDossierCompetenceFile(this.tokenDossierTechnique)
+  //       .subscribe((response: DocumentDto) => {
+  //         var a = document.createElement("a"); 
+  //         a.href = "data:" + response.mimeType + ";base64," + response.data; 
+  //         a.download = response.nomFichier; 
+  //         a.click(); 
+  //         this.isLoading = false;
+  //       }));
+  // }
+  
 }

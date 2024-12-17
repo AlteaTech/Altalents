@@ -25,11 +25,12 @@ namespace Altalents.Report.Library.DSO.OpenXml
 
         public string Context { get; set; }
 
+        public string Equipe { get; set; }
+
         public string EnvironnementsTechnique { get; set; }
 
-        public List<DtExpProMission> MissionsExterne { get; set; }
+        public List<DtExpProMission> MissionsOrProjects { get; set; }
 
-        public List<DtExpProProjet> ProjetsInterne { get; set; }
 
     }
 }

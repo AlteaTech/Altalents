@@ -51,10 +51,28 @@ namespace Altalents.API.Controllers
             await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, cancellationToken);
         }
 
+        [HttpGet("{tokenRapide}/validate-by-candidat", Name = "ValidationDtCompletByCandidat")]
+        public async Task ValidationDtCompletByCandidatAsync([FromRoute] Guid tokenRapide, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.ValidationDtCompletByCandidatAsync(tokenRapide, cancellationToken);
+        }
+
         [HttpGet("{tokenRapide}/parlons-de-vous", Name = "GetParlonsDeVous")]
         public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync([FromRoute] Guid tokenRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetParlonsDeVousAsync(tokenRapide, cancellationToken);
+        }
+
+        [HttpGet("{tokenRapide}/test-email-creation-dt/{emailTo}/{CandidatFullName}", Name = "TestEnvoiEmailCreationDtAsync")]
+        public async void TestEnvoiEmailCreationDtAsync([FromRoute] Guid tokenRapide, [FromRoute] string emailTo, [FromRoute] string CandidatFullName, CancellationToken cancellationToken)
+        {
+           await  _dossierTechniqueService.TestEnvoiEmailCreationDtAuCandidatAsync(tokenRapide, emailTo, CandidatFullName, cancellationToken);
+        }
+
+        [HttpGet("{tokenRapide}/test-email-validation-dt/{CandidatFullName}", Name = "TestEnvoiEmailValidationDtAsync")]
+        public async void TestEnvoiEmailValidationDtAsync([FromRoute] Guid tokenRapide, [FromRoute] string CandidatFullName, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.TestEnvoiEmailValidationDtByCandidatAsync(tokenRapide, CandidatFullName, cancellationToken);
         }
 
         [HttpGet("{tokenRapide}/questionnaires", Name = "GetQuestionnaires")]
@@ -114,7 +132,6 @@ namespace Altalents.API.Controllers
         [HttpGet("{tokenAccesRapide}/generate-dt", Name = "GenerateDossierCompetenceFile")]
         public async Task<DocumentDto> GenerateDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
         {
-            //return await _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken);
             return await _dossierTechniqueService.GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken);
         }
 
@@ -122,16 +139,9 @@ namespace Altalents.API.Controllers
         [HttpGet("{tokenAccesRapide}/download-dt", Name = "DownloadDossierCompetenceFile")]
         public IActionResult DownloadDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
         {
-
-            //typeExportEnum  = typeExportEnum.HasValue ? typeExportEnum.Value : TypeExportEnum.RTF;
-            //DocumentDto dto =  _dossierTechniqueService.GenerateDossierCompetenceFileAsync(tokenAccesRapide, typeExportEnum ?? TypeExportEnum.PDF, cancellationToken).Result;
-
-            var dto = _dossierTechniqueService.GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken).Result;
-
+            DocumentDto dto = _dossierTechniqueService.GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken).Result;
             return File(dto.Data, dto.MimeType, $"{DateTime.Now:yyyyMMdd}_{dto.NomFichier}");
-
         }
-
 
         [HttpGet("{tokenAccesRapide}/competences", Name = "GetCompetences")]
         public async Task<List<CompetenceDto>> GetCompetencesAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] string typeLiaisonCode, CancellationToken cancellationToken)

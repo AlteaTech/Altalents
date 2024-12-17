@@ -423,6 +423,56 @@ export class ApiClient {
     /**
      * @return OK
      */
+    validationDtCompletByCandidat(tokenRapide: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/validate-by-candidat";
+        if (tokenRapide === undefined || tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' must be defined.");
+        url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processValidationDtCompletByCandidat(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processValidationDtCompletByCandidat(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processValidationDtCompletByCandidat(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getParlonsDeVous(tokenRapide: string): Observable<ParlonsDeVousDto> {
         let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/parlons-de-vous";
         if (tokenRapide === undefined || tokenRapide === null)
@@ -511,6 +561,115 @@ export class ApiClient {
     }
 
     protected processPutParlonsDeVous(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    testEnvoiEmailCreationDt(tokenRapide: string, emailTo: string, candidatFullName: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/test-email-creation-dt/{emailTo}/{CandidatFullName}";
+        if (tokenRapide === undefined || tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' must be defined.");
+        url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
+        if (emailTo === undefined || emailTo === null)
+            throw new Error("The parameter 'emailTo' must be defined.");
+        url_ = url_.replace("{emailTo}", encodeURIComponent("" + emailTo));
+        if (candidatFullName === undefined || candidatFullName === null)
+            throw new Error("The parameter 'candidatFullName' must be defined.");
+        url_ = url_.replace("{CandidatFullName}", encodeURIComponent("" + candidatFullName));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTestEnvoiEmailCreationDt(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTestEnvoiEmailCreationDt(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processTestEnvoiEmailCreationDt(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    testEnvoiEmailValidationDt(tokenRapide: string, candidatFullName: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/test-email-validation-dt/{CandidatFullName}";
+        if (tokenRapide === undefined || tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' must be defined.");
+        url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
+        if (candidatFullName === undefined || candidatFullName === null)
+            throw new Error("The parameter 'candidatFullName' must be defined.");
+        url_ = url_.replace("{CandidatFullName}", encodeURIComponent("" + candidatFullName));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTestEnvoiEmailValidationDt(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTestEnvoiEmailValidationDt(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processTestEnvoiEmailValidationDt(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
