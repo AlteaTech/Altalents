@@ -38,7 +38,7 @@ namespace Altalents.Business.Services
         }
         public async Task SendEmailAsync(string toEmail, string subject, string message, CancellationToken token = default)
         {
-            subject = $"{_emailSettings.PrefixMail}{subject}";
+            subject = $"{_emailSettings.PrefixMail} - {subject}";
             MimeMessage emailMessage = new();
             emailMessage.From.Add(new MailboxAddress(_emailSettings.SenderName, _emailSettings.SmtpUsername));
             foreach (string to in toEmail.Split(';'))
@@ -68,12 +68,15 @@ namespace Altalents.Business.Services
 
         public string LoadEmailTemplateWithCss(string templateName, string cssFileName, Dictionary<string, string> placeholders)
         {
+
+            string projectRoot = Directory.GetParent(AppContext.BaseDirectory)?.Parent?.Parent?.Parent?.FullName;
+
             // Charger le fichier HTML
-            string templatePath = Path.Combine(AppContext.BaseDirectory, "Templates", "Emails", templateName);
+            string templatePath = Path.Combine(projectRoot, "Templates", "Emails", templateName);
             string templateContent = File.ReadAllText(templatePath, Encoding.UTF8);
 
             // Charger le fichier CSS
-            string cssPath = Path.Combine(AppContext.BaseDirectory, "Templates", "Emails", "Styles", cssFileName);
+            string cssPath = Path.Combine(projectRoot, "Templates", "Emails", "Styles", cssFileName);
             string cssContent = File.ReadAllText(cssPath, Encoding.UTF8);
 
             // Injecter les styles CSS dans le HTML (via une balise <style>)
@@ -103,6 +106,9 @@ namespace Altalents.Business.Services
 
             return result.Html;
         }
+
+
+
 
     }
 }

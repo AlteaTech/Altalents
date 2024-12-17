@@ -1,26 +1,28 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+  background-color: #7A4AFF;
   margin: 0;
   padding: 0;
   color: #333;
+  padding: 20px;
 }
 
 .container {
   max-width: 600px;
   margin: 20px auto;
+  padding : 20px;
   background: #fff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header {
   text-align: center;
-  background-color: #0056b3;
+  background-color: #f4f4f9;
   color: white;
   padding: 10px 0;
-  border-radius: 8px 8px 0 0;
+  border-radius: 15px 15px 0 0;
 }
 
   .header h1 {
@@ -28,21 +30,21 @@ body {
     font-size: 24px;
   }
 
-.content {
-  padding: 20px;
-  font-size: 16px;
-  line-height: 1.5;
-}
+  .content {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
 
   .content a {
-    color: #0056b3;
+    color: #7A4AFF;
     text-decoration: none;
     font-weight: bold;
   }
 
-    .content a:hover {
-      text-decoration: underline;
-    }
+  .content a:hover {
+    text-decoration: underline;
+  }
 
 .footer {
   margin-top: 20px;

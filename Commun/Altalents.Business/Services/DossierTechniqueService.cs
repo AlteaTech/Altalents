@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net.Mail;
 using Altalents.Business.Extensions;
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
@@ -23,21 +24,25 @@ namespace Altalents.Business.Services
         private readonly GlobalSettings _globalSettings;
         private readonly IEmailService _emailService;
         private readonly CommercialSettings _commercialSettings;
+        private readonly EmailSettings _emailSettings;
 
         public DossierTechniqueService(ILogger<DossierTechniqueService> logger, CustomDbContext contexte, IMapper mapper, IServiceProvider serviceProvider,
-            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService, IOptions<CommercialSettings> commercialSettings) : base(logger, contexte, mapper, serviceProvider)
+            IOptionsMonitor<GlobalSettings> globalSettings, IEmailService emailService, IOptions<CommercialSettings> commercialSettings, IOptions<EmailSettings> emailSettings) : base(logger, contexte, mapper, serviceProvider)
         {
             _globalSettings = globalSettings.CurrentValue;
             _emailService = emailService;
             _commercialSettings = commercialSettings.Value;
+            _emailSettings = emailSettings.Value;
         }
 
         public async Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
             await CheckNouveauCandidat(dossierTechnique, cancellationToken);
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
+
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
+
             if (dossierTechnique.Documents != null && dossierTechnique.Documents.Any())
             {
                 dt.DocumentComplementaires = GetDocumentComplementairesFromDtos(dossierTechnique.Documents);
@@ -46,25 +51,76 @@ namespace Altalents.Business.Services
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
 
+            await EnvoiEmailCreationDtCandidatAsync(dossierTechnique.AdresseMail, dt.TokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
+
+            return dt.Id;
+        }
+
+        public async Task ValidationDtCompletByCandidatAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            DossierTechnique dt = await context.DossierTechniques.Include(x => x.Personne).AsTracking().SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide);
+
+            if (!dt.RempliParCandidat)
+            {
+                await EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
+                dt.RempliParCandidat = true;
+            }
+
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
+        }
+
+        public async Task TestEnvoiEmailValidationDtByCandidatAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken)
+        {
+            await EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, fullNameCandidat);
+        }
+
+        public async Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, string emailTo, string fullNameCandidat, CancellationToken cancellationToken)
+        {
+            await EnvoiEmailCreationDtCandidatAsync(emailTo, tokenAccesRapide, fullNameCandidat);
+        }
+
+        private async Task EnvoiEmailCreationDtCandidatAsync(string emailTo, Guid tokenAccesRapide, string fullNameCandidat)
+        {
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
-                "EmailConfirmationCreationDtForCandidat",
+                "EmailConfirmationCreationDtForCandidat.html",
                 "email-styles.css",
                 new Dictionary<string, string>
                 {
-                    { "link", $"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}" }
+                    { "baseUrl", _globalSettings.BaseUrl },
+                    { "link", $"{_globalSettings.BaseUrl}/accueil/{tokenAccesRapide}" },
+                    { "candidatFullName", fullNameCandidat }
                 }
             );
 
             await _emailService.SendEmailWithRetryAsync(
-                dossierTechnique.AdresseMail,
+                emailTo,
                 "Demande de création de dossier technique",
                 htmlContent
             );
+        }
 
-            //await _emailService.SendEmailWithRetryAsync(dossierTechnique.AdresseMail, "Demande de creation de dossier technique", $"Merci de remplir le dossier suivant : <a href=\"{_globalSettings.BaseUrl}/accueil/{dt.TokenAccesRapide}\"> ce dossier là </a>");
 
-            return dt.Id;
+        private async Task EnvoiEmailDtCandidatCompletAsync(Guid tokenAccesRapide, string fullNameCandidat)
+        {
+            string htmlContent = _emailService.LoadEmailTemplateWithCss(
+                "EmailConfirmationValidationDtByCandidat.html",
+                "email-styles.css",
+                new Dictionary<string, string>
+                {
+                    { "baseUrl", _globalSettings.BaseUrl },
+                    { "candidatFullName", fullNameCandidat },
+                    { "downloadLink",$"{_globalSettings.BaseUrl}/DossiersTechniques/{tokenAccesRapide}/download-dt" },
+                    { "editLink", $"{_globalSettings.BaseUrl}/DossiersTechniques/{tokenAccesRapide}" }
+                }
+            );
 
+            await _emailService.SendEmailWithRetryAsync(
+                _emailSettings.CciMails,
+                $"Alerte : Un candidat ({fullNameCandidat}) a complété son dossier technique",
+                htmlContent
+            );
         }
 
         public List<DocumentComplementaire> GetDocumentComplementairesFromDtos(List<DocumentDto> documents)
@@ -285,8 +341,6 @@ namespace Altalents.Business.Services
 
             using CustomDbContext context = GetScopedDbContexte();
             DossierTechnique dt = await GetQueryParlonsDeVous(context, tokenRapide).SingleAsync(cancellationToken);
-
-
 
             AdresseDto adresseDto = dt.Personne.Adresses?.Select(x => new AdresseDto()
             {
