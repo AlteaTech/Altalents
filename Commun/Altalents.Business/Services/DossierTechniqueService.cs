@@ -64,11 +64,11 @@ namespace Altalents.Business.Services
 
             if (!dt.RempliParCandidat)
             {
-                await EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
+                EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
                 dt.RempliParCandidat = true;
+                await context.SaveBaseEntityChangesAsync(cancellationToken);
             }
 
-            await context.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
         public async Task TestEnvoiEmailValidationDtByCandidatAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken)
@@ -356,7 +356,6 @@ namespace Altalents.Business.Services
 
             List<DocumentDto> listDocDtos = new List<DocumentDto>();
 
-
             Entities.Document CV = dt.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV);
             if (CV != null)
             {
@@ -372,6 +371,7 @@ namespace Altalents.Business.Services
                 Nom = dt.Personne.Nom,
                 Prenom = dt.Personne.Prenom,
                 Synthese = dt.Synthese,
+                SoftSkills = dt.SoftSkills,
                 ZoneGeo = dt.ZoneGeo,
                 Documents = listDocDtos
             };
@@ -399,6 +399,8 @@ namespace Altalents.Business.Services
                 .SingleAsync(cancellationToken);
 
             dt.Synthese = request.Synthese;
+            dt.SoftSkills = request.SoftSKills;
+
             dt.ZoneGeo = request.zoneGeo;
 
             Adresse adresse = dt.Personne.Adresses?.FirstOrDefault();

@@ -12,6 +12,7 @@ export interface ParlonsDeVousForm {
     ville: FormControl<string | null>,
     pays: FormControl<string | null>,
     synthese: FormControl<string | null>,
+    softSkills: FormControl<string | null>,
     fileInput: FormControl<string | null>,
     zoneGeo: FormControl<string | null>,
 }

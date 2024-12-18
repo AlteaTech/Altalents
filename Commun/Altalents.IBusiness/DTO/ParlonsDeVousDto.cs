@@ -11,6 +11,7 @@ namespace Altalents.IBusiness.DTO
         public string Email { get; set; }
         public AdresseDto Adresse { get; set; }
         public string Synthese { get; set; }
+        public string SoftSkills { get; set; }
         public string ZoneGeo { get; set; }
         public List<DocumentDto> Documents { get; set; }
     }

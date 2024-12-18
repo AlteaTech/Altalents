@@ -11,6 +11,7 @@ export class ParlonsDeVous {
     email?: string | null;
     adresse?: Adress;
     synthese?: string | null;
+    softSKills?: string | null;
     zoneGeo?: string | null;
     pieceJointe?: PieceJointe;
 
@@ -25,7 +26,9 @@ export class ParlonsDeVous {
         model.email = dto.email;
         model.adresse = dto.adresse;
         model.synthese = dto.synthese;
-        
+        model.zoneGeo = dto.zoneGeo;
+        model.softSKills = dto.softSkills;
+
         if(dto.documents && dto.documents[0])
         {
           model.pieceJointe = PieceJointe.from(dto.documents[0]);

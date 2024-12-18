@@ -13,6 +13,7 @@ namespace Altalents.Entities
         public decimal? PrixJour { get; set; }
         public string Poste { get; set; }
         public string Synthese { get; set; }
+        public string SoftSkills { get; set; }
         public string ZoneGeo { get; set; }
         public bool RempliParCandidat { get; set; }
 

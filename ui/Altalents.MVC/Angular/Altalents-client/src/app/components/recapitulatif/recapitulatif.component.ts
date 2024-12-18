@@ -13,6 +13,7 @@ import { Competence } from 'src/app/shared/models/competence.model';
 import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-step.enum';
 import { FormContainerComponent } from '../form-container/form-container.component';
 import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-recapitulatif',
@@ -72,10 +73,11 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
 
       this.isLoading = true;
       // TODO APPEL DE LA METHODE QUI VALIDE LE Dt 
-      // this.service.putQuestionnaires().then(() => {
-      //   isValid = true;
-      //   this.isLoading = false;
-      // });
+
+      await firstValueFrom(this.service.validationDtCompletByCandidat(this.tokenDossierTechnique)).then(() => {
+        isValid = true;
+        this.isLoading = false;
+      });
 
     }
     else

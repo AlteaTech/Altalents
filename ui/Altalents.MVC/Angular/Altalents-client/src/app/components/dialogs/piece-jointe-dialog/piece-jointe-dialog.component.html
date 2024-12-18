@@ -9,7 +9,7 @@
                     <img src="Images/ICON_FEATHER_DOWNLOAD.png">
                     <p class="at-c-violet">{{ pieceJointe?.data ? 'Modifier le' : 'Déposez un' }} Document</p>
                     <div class="nom-fichier-uploaded" *ngIf="pieceJointe?.nomFichier">
-                        <p>CV sélectionné : {{ pieceJointe?.nomFichier }}</p>
+                        <p>Document sélectionné : {{ pieceJointe?.nomFichier }}</p>
                     </div>
                 </div>
                 <div class="error-message" *ngIf="!pieceJointe?.data && formGroup.touched">

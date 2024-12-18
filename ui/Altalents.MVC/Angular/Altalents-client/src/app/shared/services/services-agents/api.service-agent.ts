@@ -143,4 +143,9 @@ export class ApiServiceAgent {
     return this.apiClient.getRecapitulatif(token);
   }
 
+  validationDtCompletByCandidat(token:string): Observable<void> {
+    return this.apiClient.validationDtCompletByCandidat(token);
+  }
+
+
 }

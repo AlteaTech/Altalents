@@ -1,21 +1,22 @@
-
 <app-custom-loader [isLoading]="isLoading" />
 <div class="at-p-formulaire-info-section">
     <div class="speaker-container" style="margin: 20px; text-align: center;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
-          <!-- Cercle de fond -->
-          <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
-          
-          <!-- Icône de vérification (coche) -->
-          <path d="M60 100 L85 120 L145 60" fill="none" stroke="#cc3300" stroke-width="6" stroke-linecap="round" />
-          
-          <!-- Ligne de finalisation (clôture) -->
-          <line x1="50" y1="140" x2="150" y2="140" stroke="#cc3300" stroke-width="4" />
+            <!-- Cercle de fond -->
+            <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
+
+            <!-- Icône de vérification (coche) -->
+            <path d="M60 100 L85 120 L145 60" fill="none" stroke="#cc3300" stroke-width="6" stroke-linecap="round" />
+
+            <!-- Ligne de finalisation (clôture) -->
+            <line x1="50" y1="140" x2="150" y2="140" stroke="#cc3300" stroke-width="4" />
         </svg>
-      </div>
-      
+    </div>
+
     <p>
-        Ouf, nous arrivons à la fin! <span class="font-normal">Mais avant de terminer, une petite relecture s’impose. Voici toutes les informations que vous venez de fournir. Si une information est fausse, vous pouvez la corriger en cliquant sur Modifier.</span>
+        Ouf, nous arrivons à la fin! <span class="font-normal">Mais avant de terminer, une petite relecture s’impose.
+            Voici toutes les informations que vous venez de fournir. Si une information est fausse, vous pouvez la
+            corriger en cliquant sur Modifier.</span>
     </p>
 </div>
 <fieldset>
@@ -29,33 +30,42 @@
     </legend>
     <p class="at-c-violet">{{parlonsDeVous.nom}} {{parlonsDeVous.prenom}}</p>
     <p class="font-bold">{{parlonsDeVous.email}}</p>
-    <p class="font-normal">{{parlonsDeVous.telephone1}}<span *ngIf="parlonsDeVous.telephone2"> - {{parlonsDeVous.telephone2}}</span></p>
-    <p class="font-normal">{{parlonsDeVous.adresse?.adresse1}} {{parlonsDeVous.adresse?.adresse2}} {{parlonsDeVous.adresse?.codePostal}} {{parlonsDeVous.adresse?.ville}} {{parlonsDeVous.adresse?.pays}}</p>
+    <p class="font-normal">{{parlonsDeVous.telephone1}}<span *ngIf="parlonsDeVous.telephone2"> -
+            {{parlonsDeVous.telephone2}}</span></p>
+    <p class="font-normal">{{parlonsDeVous.adresse?.adresse1}} {{parlonsDeVous.adresse?.adresse2}}
+        {{parlonsDeVous.adresse?.codePostal}} {{parlonsDeVous.adresse?.ville}} {{parlonsDeVous.adresse?.pays}}</p>
     <p class="font-bold">{{parlonsDeVous.zoneGeo}}</p>
-    <p class="font-bold margin-top">{{parlonsDeVous.synthese}}</p>
-    <p class="font-normal" *ngIf="parlonsDeVous.pieceJointe" >Mon CV : <a class="link" (click)="downloadPj()"> {{this.parlonsDeVous.pieceJointe.nomFichier }}</a></p>
+    <p class="font-bold margin-top">Synthèse : <span class="font-normal">{{parlonsDeVous.synthese}}</span></p>
+    <p class="font-bold ">Soft skills : <span class="font-normal">{{parlonsDeVous.softSKills}}</span></p>
+    <p class="font-bold" *ngIf="parlonsDeVous.pieceJointe">Mon CV : <a class="link" (click)="downloadPj()">
+            {{this.parlonsDeVous.pieceJointe.nomFichier }}</a></p>
 </fieldset>
 <fieldset>
     <legend class="flex-row space-between">
         <span><i class="fa-solid fa-graduation-cap"></i>Formation</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
-            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+                <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
             </a>
         </div>
     </legend>
-    <div *ngFor="let formation of formations" class="margin-bottom">
-        <p class="at-c-violet">{{formation.libelle}}</p>
-        <p class="font-bold">{{formation.domaine}} <span *ngIf="formation.niveau">({{formation.niveau}})</span></p>
-        <p class="font-normal">{{formation.organisme}}</p>
-        <p class="font-normal" *ngIf="formation.dateFin">
-            De {{formation.dateDebut | date : "MMMM YYYY" }} à {{formation.dateFin | date : "MMMM YYYY" }} 
-            <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span>
-        </p>
-        <p class="font-normal" *ngIf="!formation.dateFin">
-            Depuis {{formation.dateDebut | date : "MMMM YYYY" }} 
-            <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span>
-        </p>
+    <div *ngIf="formations.length > 0">
+        <div *ngFor="let formation of formations" class="margin-bottom">
+            <p class="at-c-violet">{{formation.libelle}}</p>
+            <p class="font-bold">{{formation.domaine}} <span *ngIf="formation.niveau">({{formation.niveau}})</span></p>
+            <p class="font-normal">{{formation.organisme}}</p>
+            <p class="font-normal" *ngIf="formation.dateFin">
+                De {{formation.dateDebut | date : "MMMM YYYY" }} à {{formation.dateFin | date : "MMMM YYYY" }}
+                <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span>
+            </p>
+            <p class="font-normal" *ngIf="!formation.dateFin">
+                Depuis {{formation.dateDebut | date : "MMMM YYYY" }}
+                <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span>
+            </p>
+        </div>
+    </div>
+    <div class="margin-bottom" *ngIf="formations.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucune formation... C'est balo!</p>
     </div>
 </fieldset>
 <fieldset>
@@ -63,22 +73,28 @@
         <span><i class="fa-solid fa-medal"></i>Certification</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
-            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+                <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
             </a>
         </div>
     </legend>
-    <div *ngFor="let certification of certifications" class="margin-bottom">
-        <p class="at-c-violet">{{certification.libelle}}</p>
-        <p class="font-bold">{{certification.domaine}} <span *ngIf="certification.niveau">({{certification.niveau}})</span></p>
-        <p class="font-normal">{{certification.organisme}}</p>
-        <p class="font-normal" *ngIf="certification.dateFin">
-            De {{certification.dateDebut | date : "MMMM YYYY" }} à {{certification.dateFin | date : "MMMM YYYY" }} 
-            <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span>
-        </p>
-        <p class="font-normal" *ngIf="!certification.dateFin">
-            Depuis {{certification.dateDebut | date : "MMMM YYYY" }} 
-            <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span>
-        </p>
+    <div *ngIf="certifications.length > 0">
+        <div *ngFor="let certification of certifications" class="margin-bottom">
+            <p class="at-c-violet">{{certification.libelle}}</p>
+            <p class="font-bold">{{certification.domaine}} <span
+                    *ngIf="certification.niveau">({{certification.niveau}})</span></p>
+            <p class="font-normal">{{certification.organisme}}</p>
+            <p class="font-normal" *ngIf="certification.dateFin">
+                De {{certification.dateDebut | date : "MMMM YYYY" }} à {{certification.dateFin | date : "MMMM YYYY" }}
+                <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span>
+            </p>
+            <p class="font-normal" *ngIf="!certification.dateFin">
+                Depuis {{certification.dateDebut | date : "MMMM YYYY" }}
+                <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span>
+            </p>
+        </div>
+    </div>
+    <div class="margin-bottom" *ngIf="certifications.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucune certification.</p>
     </div>
 </fieldset>
 <fieldset>
@@ -86,50 +102,71 @@
         <span><i class="fa-regular fa-building"></i>Expérience professionnelle</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Experiences)" class="edit-link">
-            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+                <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
             </a>
         </div>
     </legend>
-    <div  *ngFor="let experience of experiences" class="margin-bottom">
-        <p class="at-c-violet">{{experience.intitulePoste}}</p>
-        <p class="font-bold">{{experience.nomEntreprise}} <span *ngIf="experience.nomEntreprise && experience.typeContrat.libelle"> - </span>{{experience.typeContrat.libelle}}</p>
-        <p class="font-normal" *ngIf="experience.dateFin">De {{experience.dateDebut | date : "MMMM YYYY" }} à {{experience.dateFin | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
-        <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
-        <p>
-            <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
-                {{technologie.libelle}}
-            </span>
-            <span *ngFor="let competence of experience.competences" class="at-p-autocomplete-choix">
-                {{competence.libelle}}
-            </span>
-            <span *ngFor="let methodologie of experience.methodologies" class="at-p-autocomplete-choix">
-                {{methodologie.libelle}}
-            </span>
-            <span *ngFor="let outil of experience.outils" class="at-p-autocomplete-choix">
-                {{outil.libelle}}
-            </span>
-        </p>
-        <p class="font-normal">{{experience.description}}</p>
-
-        <div class="row margin-top">
-            <div class="col-lg-4" *ngFor="let project of experience.projetOrMission"> 
-                <div class="item-bloc" >
-                    <p *ngIf="project.NomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">{{project.NomClientOrProjet}} <span *ngIf="project.NomClientOrProjet && project.domaineMetier"> - </span><span *ngIf="project.domaineMetier">{{project?.domaineMetier?.libelle}}</span></p>
-                    <div *ngIf="project.dateDebut" class="font-italic font-small font-normal">
-                        <span class="" *ngIf="project.dateFin">De {{project.dateDebut | date : "MMMM YYYY" }} à {{project.dateFin | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
-                        <span class="" *ngIf="!project.dateFin">Depuis {{project.dateDebut | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
+    <div *ngIf="experiences.length > 0">
+        <div *ngFor="let experience of experiences" class="margin-bottom">
+            <p class="at-c-violet">{{experience.intitulePoste}}</p>
+            <p class="font-bold">{{experience.nomEntreprise}} <span
+                    *ngIf="experience.nomEntreprise && experience.typeContrat.libelle"> -
+                </span>{{experience.typeContrat.libelle}}</p>
+            <p class="font-normal" *ngIf="experience.dateFin">De {{experience.dateDebut | date : "MMMM YYYY" }} à
+                {{experience.dateFin | date : "MMMM YYYY" }} <span
+                    *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
+            <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }}
+                <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span>
+            </p>
+            <p>
+                <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
+                    {{technologie.libelle}}
+                </span>
+                <span *ngFor="let competence of experience.competences" class="at-p-autocomplete-choix">
+                    {{competence.libelle}}
+                </span>
+                <span *ngFor="let methodologie of experience.methodologies" class="at-p-autocomplete-choix">
+                    {{methodologie.libelle}}
+                </span>
+                <span *ngFor="let outil of experience.outils" class="at-p-autocomplete-choix">
+                    {{outil.libelle}}
+                </span>
+            </p>
+            <p class="font-normal">{{experience.description}}</p>
+            <div class="row margin-top">
+                <div class="col-lg-4" *ngFor="let project of experience.projetOrMission">
+                    <div class="item-bloc">
+                        <p *ngIf="project.NomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">
+                            {{project.NomClientOrProjet}} <span
+                                *ngIf="project.NomClientOrProjet && project.domaineMetier"> - </span><span
+                                *ngIf="project.domaineMetier">{{project?.domaineMetier?.libelle}}</span></p>
+                        <div *ngIf="project.dateDebut" class="font-italic font-small font-normal">
+                            <span class="" *ngIf="project.dateFin">De {{project.dateDebut | date : "MMMM YYYY" }} à
+                                {{project.dateFin | date : "MMMM YYYY" }} <span
+                                    *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
+                            <span class="" *ngIf="!project.dateFin">Depuis {{project.dateDebut | date : "MMMM YYYY" }}
+                                <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
+                        </div>
+                        <div *ngIf="project.budget || project.compositionEquipe || project.lieu"
+                            class="font-italic font-small font-normal margin-bottom">
+                            {{project.budget}}<span *ngIf="project.budget"> €</span><span
+                                *ngIf="project.compositionEquipe && project.budget"> -
+                            </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu">
+                                - </span>{{project.lieu}}
+                        </div>
+                        <div *ngIf="project.descriptionProjetOrMission" class="font-normal margin-bottom text-ellipsis">
+                            {{project.descriptionProjetOrMission}}</div>
+                        <div *ngIf="project.taches" class="text-ellipsis">
+                            <span class="font-normal"><span class="font-underline">Taches</span> :
+                                {{project.taches}}</span>
+                        </div>
                     </div>
-                    <div *ngIf="project.budget || project.compositionEquipe || project.lieu"  class="font-italic font-small font-normal margin-bottom">
-                        {{project.budget}}<span *ngIf="project.budget"> €</span><span *ngIf="project.compositionEquipe && project.budget"> - </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu"> - </span>{{project.lieu}}
-                    </div>
-                    <div *ngIf="project.descriptionProjetOrMission" class="font-normal margin-bottom text-ellipsis">{{project.descriptionProjetOrMission}}</div>
-                    <div *ngIf="project.taches" class="text-ellipsis">
-                        <span class="font-normal"><span class="font-underline">Taches</span> : {{project.taches}}</span>
-                    </div>
-                </div> 
+                </div>
             </div>
         </div>
-
+    </div>
+    <div class="margin-bottom" *ngIf="experiences.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucune expérience professionnelle... C'est balo!</p>
     </div>
 </fieldset>
 <fieldset>
@@ -137,7 +174,7 @@
         <span><i class="fa-solid fa-expand "></i>Compétences</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Competences)" class="edit-link">
-            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+                <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
             </a>
         </div>
     </legend>
@@ -148,7 +185,8 @@
                 <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
                 <div class="competence-stars">
                     <span *ngFor="let star of arrayNbEtoiles">
-                        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                        <i class="at-c-violet fa"
+                            [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
                     </span>
                 </div>
             </span>
@@ -161,7 +199,8 @@
                 <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
                 <div class="competence-stars">
                     <span *ngFor="let star of arrayNbEtoiles">
-                        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                        <i class="at-c-violet fa"
+                            [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
                     </span>
                 </div>
             </span>
@@ -174,12 +213,14 @@
                 <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
                 <div class="competence-stars">
                     <span *ngFor="let star of arrayNbEtoiles">
-                        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                        <i class="at-c-violet fa"
+                            [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
                     </span>
                 </div>
             </span>
         </div>
     </div>
+
     <div class="margin-bottom" *ngIf="compTechnologie.length > 0">
         <div>Téchnologies</div>
         <div class="flex-row-comp">
@@ -187,11 +228,25 @@
                 <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
                 <div class="competence-stars">
                     <span *ngFor="let star of arrayNbEtoiles">
-                        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                        <i class="at-c-violet fa"
+                            [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
                     </span>
                 </div>
             </span>
         </div>
+    </div>
+    <div class="margin-bottom" *ngIf="compTechnologie.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucune technologie associée à vos expériences professionnelles.</p>
+    </div>
+    <div class="margin-bottom" *ngIf="compOutils.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucun outil associée à vos expériences professionnelles.</p>
+    </div>
+    <div class="margin-bottom" *ngIf="compMethodologies.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucune méthodologie associée à vos expériences professionnelles.
+        </p>
+    </div>
+    <div class="margin-bottom" *ngIf="compCompetences.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucune compétence associée à vos expériences professionnelles.</p>
     </div>
 </fieldset>
 <fieldset>
@@ -199,14 +254,20 @@
         <span><i class="fa-solid fa-language"></i>Langues parlées</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
-            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+                <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
             </a>
         </div>
     </legend>
     <div class="margin-bottom">
-        <span *ngFor="let langue of langues; last as isLast">&nbsp;
-            <span class="">{{langue.libelleLangue}}</span><span class="font-normal">&nbsp;&nbsp;({{langue.libelleReferenceNiveau}})&nbsp;&nbsp;</span>
-        </span>
+        <div *ngIf="langues.length > 0">
+            <span *ngFor="let langue of langues; last as isLast">&nbsp;
+                <span class="">{{langue.libelleLangue}}</span><span
+                    class="font-normal">&nbsp;&nbsp;({{langue.libelleReferenceNiveau}})&nbsp;&nbsp;</span>
+            </span>
+        </div>
+        <div *ngIf="langues.length == 0">
+            <p class="font-normal">Vous ne parlez aucune langue... C'est balo !</p>
+        </div>
     </div>
 </fieldset>
 <fieldset>
@@ -214,24 +275,31 @@
         <span><i class="fa-solid fa-question "></i>Questions spécifiques & documentation</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Questions)" class="edit-link">
-            <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+                <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
             </a>
         </div>
     </legend>
-    <div *ngFor="let question of questions" class="margin-bottom">
-        <label class="">{{ question.question }}<span class="champ-obligatoire" *ngIf="question.isObligatoire">*</span> : &nbsp;</label>
-        <span class="font-normal">{{question.reponse}}</span> 
+    <div *ngIf="questions.length > 0">
+        <div *ngFor="let question of questions" class="margin-bottom">
+            <label class="">{{ question.question }}<span class="champ-obligatoire"
+                    *ngIf="question.isObligatoire">*</span> : &nbsp;</label>
+            <span *ngIf="question.reponse" class="font-normal">{{question.reponse}}</span>
+            <span *ngIf="!question.reponse" class="font-normal">(Vous n'avez pas répondu à cette question))</span>
+        </div>
+    </div>
+    <div *ngIf="questions.length == 0">
+        <p class="font-normal">Il n'y a aucune questions spécifique pour vous cette fois ci.</p>
     </div>
 </fieldset>
 <fieldset>
     <div class="confirmation-section">
-    <label class="toggle-container">
-      <input type="checkbox" [(ngModel)]="confirmation" hidden />
-      <span class="toggle-slider"></span>
-      <span>Je certifie que les propos relatés dans mon dossier technique sont sincères et véritables</span>
-    </label>
-    <p *ngIf="!confirmation" class="error-message">
-      Vous devez certifier les informations avant de pouvoir terminer.
-    </p>
-  </div>
+        <label class="toggle-container">
+            <input type="checkbox" [(ngModel)]="confirmation" hidden />
+            <span class="toggle-slider"></span>
+            <span>Je certifie que les propos relatés dans mon dossier technique sont sincères et véritables</span>
+        </label>
+        <p *ngIf="!confirmation" class="error-message">
+            Vous devez certifier les informations avant de pouvoir terminer.
+        </p>
+    </div>
 </fieldset>

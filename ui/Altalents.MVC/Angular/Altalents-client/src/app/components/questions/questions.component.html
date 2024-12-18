@@ -42,7 +42,7 @@
     <legend><i class="fa-regular fa-file"></i>Documents</legend>
     <div *ngIf="documents.length > 0">
     <div *ngFor="let doc of documents; let i = index" >
-        <p><a (click)="downloadPj(i)">{{doc.nomFichier}} </a></p>
+        <p><a class="link" (click)="downloadPj(i)">{{doc.nomFichier}} </a></p>
     </div>
 </div>
     <div *ngIf="documents.length == 0">

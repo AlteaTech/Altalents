@@ -43,6 +43,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       pays: new FormControl(null),
       synthese : new FormControl('', Validators.required),
       fileInput : new FormControl('', Validators.required),
+      softSkills : new FormControl(null),
     });
   }
 
@@ -73,7 +74,8 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
               pays: this.parlonsDeVous.adresse?.pays,
               synthese: this.parlonsDeVous.synthese,
               fileInput: this.parlonsDeVous.pieceJointe?.data,
-              zoneGeo: this.parlonsDeVous.zoneGeo
+              zoneGeo: this.parlonsDeVous.zoneGeo,
+              softSkills : this.parlonsDeVous.softSKills
             });
           }
 
@@ -196,7 +198,7 @@ public async onDrop(event: DragEvent): Promise<void> {
     requestDto.adresse = adresseRequestDto;
     requestDto.synthese = values.synthese;
     requestDto.zoneGeo = values.zoneGeo ?? "";
-
+    requestDto.softSKills = values.softSkills;
     requestDto.cv = this.parlonsDeVous.pieceJointe ? PieceJointe.populateDocumentDto(this.parlonsDeVous.pieceJointe) : undefined;
 
     return requestDto;
