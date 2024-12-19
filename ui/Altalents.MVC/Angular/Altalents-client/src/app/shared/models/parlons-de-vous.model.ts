@@ -15,6 +15,16 @@ export class ParlonsDeVous {
     zoneGeo?: string | null;
     pieceJointe?: PieceJointe;
 
+    // Propriété calculée pour le nom formaté
+    get formattedName(): string {
+      const formattedPrenom = this.prenom 
+          ? this.prenom.charAt(0).toUpperCase() + this.prenom.slice(1).toLowerCase() 
+          : '';
+      const upperNom = this.nom ? this.nom.toUpperCase() : '';
+      return `${formattedPrenom} ${upperNom}`.trim();
+  }
+
+
     public static from(dto : ParlonsDeVousDto):ParlonsDeVous{
 
         var model = new ParlonsDeVous ();
@@ -24,10 +34,19 @@ export class ParlonsDeVous {
         model.telephone1 = dto.telephone1;
         model.telephone2 = dto.telephone2;
         model.email = dto.email;
-        model.adresse = dto.adresse;
         model.synthese = dto.synthese;
         model.zoneGeo = dto.zoneGeo;
         model.softSKills = dto.softSkills;
+
+            // Transformation de AdresseDto en Adress
+          if (dto.adresse) {
+            model.adresse = new Adress();
+            model.adresse.adresse1 = dto.adresse.adresse1;
+            model.adresse.adresse2 = dto.adresse.adresse2;
+            model.adresse.codePostal = dto.adresse.codePostal;
+            model.adresse.ville = dto.adresse.ville;
+            model.adresse.pays = dto.adresse.pays;
+          }
 
         if(dto.documents && dto.documents[0])
         {

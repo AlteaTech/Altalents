@@ -425,7 +425,7 @@ namespace Altalents.Report.Library.Services
                 {
                     projet += "<b>" + missionOrProject.NomClient  ;
 
-                    if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetier) || !string.IsNullOrWhiteSpace(missionOrProject.Lieu) || !string.IsNullOrWhiteSpace(missionOrProject.DateDebutDateFin))
+                    if (!string.IsNullOrEmpty(missionOrProject.DomaineMetier) || !string.IsNullOrEmpty(missionOrProject.Lieu) || !string.IsNullOrEmpty(missionOrProject.DateDebutDateFin))
                     {
                         if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetier))
                             projet += " [" + missionOrProject.DomaineMetier + "] ";
@@ -438,7 +438,11 @@ namespace Altalents.Report.Library.Services
                     }
 
                     projet += "</b>";
-                    projet += "\n\n";
+
+                    if (!string.IsNullOrEmpty(missionOrProject.DomaineMetier) || !string.IsNullOrEmpty(missionOrProject.Lieu) || !string.IsNullOrEmpty(missionOrProject.DateDebutDateFin))
+                    {
+                        projet += "\n\n";
+                    }
                 }
 
                 projet += missionOrProject.DescriptionProjet += "\n\n";
@@ -460,8 +464,8 @@ namespace Altalents.Report.Library.Services
                 textToAddInTachesPlaceholder += missionOrProject.Taches+ "\n\n\n";
             }
 
-            textToAddInProjectsPlaceholder = textToAddInProjectsPlaceholder.Remove(textToAddInProjectsPlaceholder.Count() - 4, 4);
-            textToAddInTachesPlaceholder = textToAddInTachesPlaceholder.Remove(textToAddInTachesPlaceholder.Count() - 4, 4);
+            textToAddInProjectsPlaceholder = textToAddInProjectsPlaceholder.Remove(textToAddInProjectsPlaceholder.Count() - 6, 6);
+            textToAddInTachesPlaceholder = textToAddInTachesPlaceholder.Remove(textToAddInTachesPlaceholder.Count() - 6, 6);
 
             data.Add(DtTemplatesReplacementKeys.EXP_TACHES, textToAddInTachesPlaceholder);
             data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_LIBELLE, textToAddInTachesPLaceholder);
@@ -492,6 +496,11 @@ namespace Altalents.Report.Library.Services
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_LANGUAGES_PROG, dt.Candidat_Languages_Prog);
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_BDD, dt.Candidat_Bdd);
             data.Add(DtTemplatesReplacementKeys.COMPETENCES_METHODOLOGIE, dt.Candidat_Methodologie);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_OUTILS, dt.Candidat_Outils);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_IDE, dt.Candidat_IDE);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_FRAMEWORK, dt.Candidat_Framework);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_VIRTUALISATION, dt.Candidat_Virtualisation);
+            data.Add(DtTemplatesReplacementKeys.COMPETENCES_VERSIONNING, dt.Candidat_Versionning);
 
             return data;
         }

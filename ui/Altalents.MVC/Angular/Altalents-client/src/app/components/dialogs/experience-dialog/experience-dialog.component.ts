@@ -29,7 +29,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public domaines: Reference[] = [];
   public constantesRequest = ConstantesRequest;
   public constantesTypesReferences = ConstantesTypesReferences;
-
+  
+  public budgetGere: string = '';
   public IsEsn: boolean = false;
   
   public ngbModalDeleteOptions: NgbModalOptions = {
@@ -112,6 +113,28 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     this.updateInputPosteActuel();
   }
+
+
+  public formatCurrency(event: any): void {
+    let value = event.target.value;
+
+    // Retirer tous les caractères non numériques sauf les virgules et les points
+    value = value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
+
+    // Ajouter un symbole euro en début de la valeur si elle est définie
+    if (value) {
+      // Formatage de la valeur en fonction de l'entrée de l'utilisateur
+      value = parseFloat(value).toLocaleString('fr-FR');
+      value = '€ ' + value;
+    }
+
+    // Mettre à jour la valeur du champ de saisie
+    this.budgetGere = value;
+    event.target.value = value;
+  }
+
+
+  
 
   public getProjets(): FormArray {
     return this.formGroup.get('projects') as FormArray;

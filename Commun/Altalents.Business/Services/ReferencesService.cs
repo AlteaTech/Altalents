@@ -51,11 +51,9 @@ namespace Altalents.Business.Services
             IQueryable<Reference> references = DbContext.References.Where(x => listType.Contains(x.Type)).AsQueryable();
             if (!showAll)
             {
-                references = references
-                                         .Where(x => !x.IsValide);
+                references = references.Where(x => !x.IsValide);
             }
-            return references
-                             .ProjectTo<ReferenceAValiderDto>(Mapper.ConfigurationProvider);
+            return references.ProjectTo<ReferenceAValiderDto>(Mapper.ConfigurationProvider);
         }
 
         public Task UpdateReferenceAsync(ReferenceAValiderDto reference)

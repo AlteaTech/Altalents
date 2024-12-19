@@ -8,6 +8,18 @@ export class Adress {
     ville?: string | null;
     pays?: string | null;
 
+    public get getFormatedAdress():string{
+      const addressParts = [
+        this.adresse1,
+        this.adresse2,
+        this.codePostal,
+        this.ville,
+        this.pays
+      ];
+      return addressParts.filter(part => part).join(', ');
+
+    }
+
     public static from(dto : AdresseDto):Adress{
 
         var model = new Adress ();

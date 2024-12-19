@@ -21,7 +21,7 @@
   </div>
   <h2 class="">Barème</h2>
   <p>
-    <span class="font-normal"> Veuillez procéder à une autoévaluation en cliquant sur les étoiles représentant une note
+    <span class="font-normal">Veuillez procéder à une autoévaluation en cliquant sur les étoiles représentant une note
       de 1 à 5. Retrouvez ci-dessous le détail de la signification de ces notes.
     </span>
   </p>
@@ -78,14 +78,15 @@
         <span>Marions-nous</span>
       </div>
     </div>
-
   </div>
-
 </div>
 
+<!-- Vérification de l'absence de compétences -->
+<div *ngIf="compCompetences.length === 0 && compMethodologies.length === 0 && compOutils.length === 0 && compTechnologie.length === 0" class="alert">
+  <p>Vous n'avez défini aucune compétence dans vos expériences professionnelles, il n'y a donc aucune compétence spécifique à évaluer. C'est balo dis voir !</p>
+</div>
 
-
-
+<!-- Compétences -->
 <fieldset *ngIf="compCompetences.length > 0">
   <legend><i class="fa-solid fa-expand"></i>Compétences</legend>
   <div *ngFor="let competence of compCompetences" class="competence-item">
@@ -98,6 +99,8 @@
     </div>
   </div>
 </fieldset>
+
+<!-- Méthodologie -->
 <fieldset *ngIf="compMethodologies.length > 0">
   <legend><i class="fa-solid fa-book"></i>Méthodologie</legend>
   <div *ngFor="let competence of compMethodologies" class="competence-item">
@@ -110,6 +113,8 @@
     </div>
   </div>
 </fieldset>
+
+<!-- Outils -->
 <fieldset *ngIf="compOutils.length > 0">
   <legend><i class="fa-solid fa-hammer"></i>Outils</legend>
   <div *ngFor="let competence of compOutils" class="competence-item">
@@ -122,6 +127,8 @@
     </div>
   </div>
 </fieldset>
+
+<!-- Technologies -->
 <fieldset *ngIf="compTechnologie.length > 0">
   <legend><i class="fa-solid fa-code"></i>Technologies</legend>
   <div *ngFor="let competence of compTechnologie" class="competence-item">

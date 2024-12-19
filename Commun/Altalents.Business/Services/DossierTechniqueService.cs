@@ -327,10 +327,11 @@ namespace Altalents.Business.Services
             if (telephone.Length > 50)
                 return false;
             telephone = telephone.Replace(" ", "");
-            string motif1 = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
-            string motif2 = @"^([\+]?33[-]?|[0])?[1-9][0-9]{8}$";
 
-            if (telephone != null && (Regex.IsMatch(telephone, motif1) || Regex.IsMatch(telephone, motif2)))
+            string frenchNumber = @"^((\+33[-]?|0)[1-9])([-. ]?[0-9]{2}){4}$";
+            string internationalNumber = @"^\(?\+?([0-9]{1,3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+
+            if (telephone != null && (Regex.IsMatch(telephone, frenchNumber) || Regex.IsMatch(telephone, internationalNumber)))
                 return true;
             else
                 return false;
@@ -589,24 +590,35 @@ namespace Altalents.Business.Services
 
             DtMainPageExportDso modelExport = new DtMainPageExportDso();
 
+            //Remplissage data de l'entete
             modelExport.Candidat_Trigramme = dt.Personne.Trigramme;
             modelExport.Dt_Poste = "XXXXXXXXXXXXXXXXXX";
 
+            //remplissage data du bloc Contact Commercial
             modelExport.Commercial_SiteWeb = "www.altea-si.com";
             modelExport.Commercial_NomComplet = _commercialSettings.Nom;
             modelExport.Commercial_Email = _commercialSettings.Mail;
             modelExport.Commercial_Phone = _commercialSettings.Telephone;
 
+            //remplissage data du bloc Contact Focus
             int nbExp = CalculerTotalAnneesExperienceAvecChevauchements(dt);
-            modelExport.Candidat_NbAnneesExperiences = nbExp == 0 ? "Novice" : nbExp.ToString() + " ans";
+            modelExport.Candidat_NbAnneesExperiences = nbExp == 0 ? "Novice" : nbExp == 1 ? "1 an": nbExp.ToString() + " ans";
             modelExport.Candidat_CompetencesClefs = GetTop5Competences(dt);
             modelExport.Candidat_Synthese = dt.Synthese;
 
+            //remplissage data du tableau compétences technique
             modelExport.Candidat_SoftSkill = "";
+            modelExport.Candidat_Bdd = "";
+            modelExport.Candidat_Versionning = "";
+            modelExport.Candidat_IDE = "";
+            modelExport.Candidat_Framework = "";
+
             modelExport.Candidat_Domaines = GetFormatedCompetencesFromExperiences(dt);
             modelExport.Candidat_Languages_Prog = GetFormatedTechnologiesFromExperiences(dt);
-            modelExport.Candidat_Bdd = "";
+            modelExport.Candidat_Outils = GetFormatedOutilsFromExperiences(dt);
             modelExport.Candidat_Methodologie = GetFormatedMethodologiesFromExperiences(dt);
+
+            //Remplissage data des templates enfants
             modelExport.Candidat_CompetencesMetiers = getDomainesMetierWithNbAnneeExp(dt);
             modelExport.Candidat_Formations = getFormationsOrderedByDate(dt);
             modelExport.Candidat_Certifications = getCertificationOrderedByDate(dt);
@@ -652,7 +664,13 @@ namespace Altalents.Business.Services
                         .Select(p => new DtExpProMission
                         {
                             NomClient = p.NomClientOrProjet,
-                            DateDebutDateFin = $"{p.DateDebut:MM/yyyy} --> {(p.DateFin.HasValue ? p.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
+                            DateDebutDateFin = p.DateDebut.HasValue && p.DateFin.HasValue
+                                ? $"Début : {p.DateDebut:MM/yyyy} --> Fin : {p.DateFin:MM/yyyy}"
+                                : p.DateDebut.HasValue
+                                    ? $"Début : {p.DateDebut:MM/yyyy}"
+                                    : p.DateFin.HasValue
+                                        ? $"Fin : {p.DateFin:MM/yyyy}"
+                                        : string.Empty,
                             DomaineMetier = p.DomaineMetier?.Libelle,
                             Lieu = p.Lieu,
                             DescriptionProjet = p.DescriptionProjetOrMission,
@@ -673,6 +691,7 @@ namespace Altalents.Business.Services
                   // Construire le libellé complet
                   string niveauPart = !string.IsNullOrEmpty(certif.Niveau) ? $" ({certif.Niveau})" : string.Empty;
                   string domainePart = !string.IsNullOrEmpty(certif.Domaine) ? $" - {certif.Domaine}" : string.Empty;
+                  string organiusmePart = !string.IsNullOrEmpty(certif.Organisme) ? $" - {certif.Organisme}" : string.Empty;
 
                   return new DtCertificationExportDso
                   {
@@ -682,6 +701,28 @@ namespace Altalents.Business.Services
               })
               .ToList();
         }
+
+
+        private static List<DtFormationExportDso> getFormationsOrderedByDate(DossierTechnique dt)
+        {
+            return dt.Formations
+              .OrderBy(forma => forma.DateFin ?? forma.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
+              .Select(forma =>
+              {
+                  // Construire le libellé complet
+                  string niveauPart = !string.IsNullOrEmpty(forma.Niveau) ? $" ({forma.Niveau})" : string.Empty;
+                  string domainePart = !string.IsNullOrEmpty(forma.Domaine) ? $" - {forma.Domaine}" : string.Empty;
+                  string organiusmePart = !string.IsNullOrEmpty(forma.Organisme) ? $" - {forma.Organisme}" : string.Empty;
+
+                  return new DtFormationExportDso
+                  {
+                      Annee = (forma.DateFin ?? forma.DateDebut).ToString("yyyy"), // Convertir DateTime en string
+                      LibelleComplet = forma.Libelle + niveauPart + organiusmePart + domainePart
+                  };
+              })
+              .ToList();
+        }
+
 
 
         private static List<DtLangueExportDso> getLanguesParle(DossierTechnique dt)
@@ -699,26 +740,7 @@ namespace Altalents.Business.Services
               .ToList();
         }
 
-        private static List<DtFormationExportDso> getFormationsOrderedByDate(DossierTechnique dt)
-        {
-            return dt.Formations
-              .OrderBy(forma => forma.DateFin ?? forma.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
-              .Select(forma =>
-              {
-                  // Construire le libellé complet
-                  string niveauPart = !string.IsNullOrEmpty(forma.Niveau) ? $" ({forma.Niveau})" : string.Empty;
-                  string domainePart = !string.IsNullOrEmpty(forma.Domaine) ? $" - {forma.Domaine}" : string.Empty;
-
-                  return new DtFormationExportDso
-                  {
-                      Annee = (forma.DateFin ?? forma.DateDebut).ToString("yyyy"), // Convertir DateTime en string
-                      LibelleComplet = forma.Libelle + niveauPart + domainePart
-                  };
-              })
-              .ToList();
-        }
-
-            private static List<DtCompetenceMetierExportDso> getDomainesMetierWithNbAnneeExp(DossierTechnique dt)
+        private static List<DtCompetenceMetierExportDso> getDomainesMetierWithNbAnneeExp(DossierTechnique dt)
         {
             // Étape 1: Récupérer les domaines métier à partir des expériences
             var domainesMetierExperiences = getDomainesMetierFromExperiences(dt);
@@ -857,26 +879,38 @@ namespace Altalents.Business.Services
 
         public string GetFormatedCompetencesFromExperiences(DossierTechnique dt)
         {
-
             if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
                 return string.Empty;
 
-            // Extraire les libellés des technologies uniques
             var technologies = dt.Experiences
-                .Where(exp => exp.LiaisonExperienceCompetences != null) // Vérifier qu'il y a des technologies
-                .SelectMany(exp => exp.LiaisonExperienceCompetences) // Rassembler toutes les technologies
-                .Where(lt => lt.Competance != null) // S'assurer que chaque technologie est non null
-                .Select(lt => lt.Competance.Libelle) // Récupérer les libellés
-                .Distinct() // Éliminer les doublons
-                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+                .Where(exp => exp.LiaisonExperienceCompetences != null)
+                .SelectMany(exp => exp.LiaisonExperienceCompetences)
+                .Where(lt => lt.Competance != null)
+                .Select(lt => lt.Competance.Libelle)
+                .Distinct()
+                .OrderBy(libelle => libelle)
                 .ToList();
 
-            // Combiner les libellés en une seule chaîne séparée par des virgules
             return string.Join(", ", technologies);
 
         }
 
+        public string GetFormatedOutilsFromExperiences(DossierTechnique dt)
+        {
+            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
+                return string.Empty;
 
+            var outils = dt.Experiences
+                .Where(exp => exp.LiaisonExperienceOutils != null)
+                .SelectMany(exp => exp.LiaisonExperienceOutils)
+                .Where(lt => lt.Outil != null)
+                .Select(lt => lt.Outil.Libelle)
+                .Distinct()
+                .OrderBy(libelle => libelle)
+                .ToList();
+
+            return string.Join(", ", outils);
+        }
 
         public string GetFormatedTechnologiesFromExperiences(DossierTechnique dt)
         {
@@ -884,17 +918,15 @@ namespace Altalents.Business.Services
             if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
                 return string.Empty;
 
-            // Extraire les libellés des technologies uniques
             var technologies = dt.Experiences
-                .Where(exp => exp.LiaisonExperienceTechnologies != null) // Vérifier qu'il y a des technologies
-                .SelectMany(exp => exp.LiaisonExperienceTechnologies) // Rassembler toutes les technologies
-                .Where(lt => lt.Technologie != null) // S'assurer que chaque technologie est non null
-                .Select(lt => lt.Technologie.Libelle) // Récupérer les libellés
-                .Distinct() // Éliminer les doublons
-                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
+                .Where(exp => exp.LiaisonExperienceTechnologies != null)
+                .SelectMany(exp => exp.LiaisonExperienceTechnologies)
+                .Where(lt => lt.Technologie != null)
+                .Select(lt => lt.Technologie.Libelle)
+                .Distinct()
+                .OrderBy(libelle => libelle)
                 .ToList();
 
-            // Combiner les libellés en une seule chaîne séparée par des virgules
             return string.Join(", ", technologies);
 
         }
@@ -964,23 +996,6 @@ namespace Altalents.Business.Services
             return (int)Math.Round(totalDays / 365.2425, MidpointRounding.AwayFromZero);
         }
 
-        //public string GetDomainesMetiersFromExperiences(DossierTechnique dt)
-        //{
-        //    if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
-        //        return string.Empty;
-
-        //    // Extraire les domaines métiers uniques des expériences
-        //    var domainesMetiers = dt.Experiences
-        //        .Where(exp => exp.DomaineMetier != null) // Vérifier que le domaine métier est non null
-        //        .Select(exp => exp.DomaineMetier.Libelle) // Récupérer le libellé
-        //        .Distinct() // Éviter les doublons
-        //        .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
-        //        .ToList();
-
-        //    // Combiner les domaines métiers en une seule chaîne séparée par des virgules
-        //    return string.Join(", ", domainesMetiers);
-        //}
-
         private static string GetTop5Competences(DossierTechnique dt)
         {
 
@@ -1016,22 +1031,26 @@ namespace Altalents.Business.Services
                             lo.Outil.Libelle,
                             lo.Niveau
                         })))
-                .OrderByDescending(x => x.Niveau) // Trier par niveau décroissant
-                .Take(5) // Limiter aux 5 meilleures compétences
+                .OrderByDescending(x => x.Niveau)
+                .Take(5)
                 .ToList();
 
-            string Top5BestCmmpetences = "";
-            // Affichage des résultats
+            string Top5BestCompetences = "";
             foreach (var competence in allCompetences)
             {
-                Top5BestCmmpetences += competence.Libelle + ", ";
+                Top5BestCompetences += competence.Libelle + ", ";
             }
-            Top5BestCmmpetences = Top5BestCmmpetences.Remove(Top5BestCmmpetences.Length - 2);
 
-            return Top5BestCmmpetences;
+            if (Top5BestCompetences.Length >= 2)
+            {
+                Top5BestCompetences = Top5BestCompetences.Remove(Top5BestCompetences.Length - 2);
+            }
+
+            return Top5BestCompetences;
 
         }
 
+        //Relicat de la version d'avant qui utilisait telerick qui marchait bien mais qui permettait pas de garder le design du word
         public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
@@ -1066,7 +1085,7 @@ namespace Altalents.Business.Services
                 mimeType = "application/rtf";
             }
 
-            // set any deviceInfo settings if necessary
+
             Hashtable deviceInfo = new System.Collections.Hashtable();
 
             ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();

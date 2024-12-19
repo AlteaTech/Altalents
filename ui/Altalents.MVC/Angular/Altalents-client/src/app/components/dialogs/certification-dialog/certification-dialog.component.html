@@ -1,80 +1,127 @@
-<div class="fenetre-dialog"><form [formGroup]="formGroup">
-    <fieldset>
-        <legend><i class="fa-solid fa-medal"></i>Certification</legend>
+<div class="fenetre-dialog">
+    <form [formGroup]="formGroup">
+      <fieldset>
+        <legend><i class="fa-solid fa-medal"></i> Certification</legend>
+  
+        <!-- Certification -->
         <div class="row mb-2">
-            <div class="col-lg-6 label-champ-input">
-                <label for="libelle" class=" label-champ-input">Certification<span class="champ-obligatoire">*</span></label>
-                       <div class="error-message"
-                        *ngIf="formGroup.controls.libelle.invalid && formGroup.controls.libelle.touched">
-                        L'intitulé du poste est requis.
-                    </div>
+          <div class="col-lg-6 label-champ-input">
+            <label for="libelle" class="col-form-label">Intitulé de la certification<span class="champ-obligatoire">*</span></label>
+            <div class="error-message" *ngIf="formGroup.controls.libelle.invalid && formGroup.controls.libelle.touched">
+              L'intitulé de la certification est requis.
             </div>
-            <div class="col-lg-6 ">
-                <input type="text" class="form-control" formControlName="libelle" placeholder="Libellé de la certification">
-            </div>               
+          </div>
+          <div class="col-lg-6">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="libelle"
+              placeholder="PMP (Project Management Professional), TOEFL"
+            />
+          </div>
         </div>
+  
+        <!-- Domaine -->
         <div class="row mb-2">
-            <div class="col-lg-6 label-champ-input">
-                <label for="domaine" class="col-form-label">Domaine</label>
-            </div>
-            <div class="col-lg-6 ">
-                <input type="text" class="form-control" formControlName="domaine" placeholder="Histoire">
-            </div>               
+          <div class="col-lg-6 label-champ-input">
+            <label for="domaine" class="col-form-label">Domaine</label>
+          </div>
+          <div class="col-lg-6">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="domaine"
+              placeholder="Gestion de projet, Langues, Informatique"
+            />
+          </div>
         </div>
+  
+        <!-- Niveau -->
         <div class="row mb-2">
-            <div class="col-lg-6 label-champ-input">
-                <label for="niveau" class="col-form-label">Niveau</label>
-            </div>
-            <div class="col-lg-6 ">
-                <input type="text" class="form-control" formControlName="niveau" placeholder="Bac">
-            </div>               
+          <div class="col-lg-6 label-champ-input">
+            <label for="niveau" class="col-form-label">Niveau</label>
+          </div>
+          <div class="col-lg-6">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="niveau"
+              placeholder="Avancé, Expert, Intermédiaire"
+            />
+          </div>
         </div>
+  
+        <!-- Organisme -->
         <div class="row mb-2">
-            <div class="col-lg-6 label-champ-input">
-                <label for="organisme" class="col-form-label">Organisme</label>
-            </div>
-            <div class="col-lg-6 ">
-                <input type="text" class="form-control" formControlName="organisme" placeholder="Nom de l'organisme">
-            </div>               
+          <div class="col-lg-6 label-champ-input">
+            <label for="organisme" class="col-form-label">Organisme de certification</label>
+          </div>
+          <div class="col-lg-6">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="organisme"
+              placeholder="PMI (Project Management Institute), ETS Global"
+            />
+          </div>
         </div>
+  
+        <!-- Date de début -->
         <div class="row mb-2">
-            <div class="col-lg-6 label-champ-input">
-                <label for="dateDebut" class="col-form-label">Date de début<span class="champ-obligatoire">*</span></label>
-                <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['required'] && formGroup.get('dateDebut')?.touched">
-                La date de début est requise.
+          <div class="col-lg-6 label-champ-input">
+            <label for="dateDebut" class="col-form-label">
+              Date de début <span class="champ-obligatoire">*</span>
+            </label>
+            <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['required'] && formGroup.get('dateDebut')?.touched">
+              La date de début est requise.
             </div>
             <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['maxDate'] && formGroup.get('dateDebut')?.touched">
-                La date ne peut pas être supérieure à aujourd’hui.
-              </div>
+              La date ne peut pas être supérieure à aujourd'hui.
             </div>
-            <div class="col-lg-6 ">
-                <input type="date" class="form-control" formControlName="dateDebut" placeholder="JJ/MM/AAAA">
-            </div>               
+          </div>
+          <div class="col-lg-6">
+            <input
+              type="date"
+              class="form-control"
+              formControlName="dateDebut"
+              placeholder="01/01/2020"
+            />
+          </div>
         </div>
+  
+        <!-- Date de fin -->
         <div class="row mb-3">
-            <div class="col-lg-6 label-champ-input">
-                <label for="dateFin" class="col-form-label">Date de fin</label>
-                    <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
-                    La date ne peut pas être supérieure à aujourd’hui.
-                  </div>
-                  <div class="error-message" *ngIf="formGroup.hasError('dateRangeInvalid')">
-                    La date de fin doit être postérieure à la date de début.
-                  </div>
+          <div class="col-lg-6 label-champ-input">
+            <label for="dateFin" class="col-form-label">Date de fin</label>
+            <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
+              La date ne peut pas être supérieure à aujourd'hui.
             </div>
-            <div class="col-lg-6 ">
-                <input type="date" class="form-control" formControlName="dateFin" placeholder="JJ/MM/AAAA">
-            </div>               
+            <div class="error-message" *ngIf="formGroup.hasError('dateRangeInvalid')">
+              La date de fin doit être postérieure à la date de début.
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <input
+              type="date"
+              class="form-control"
+              formControlName="dateFin"
+              placeholder="31/12/2022"
+            />
+          </div>
         </div>
-    </fieldset>
-    <div>
+      </fieldset>
+  
+      <!-- Boutons -->
+      <div>
         <div class="at-p-button-container">
-            <button class="at-p-secondary-button" (click)="closeDialog()">
-                <p>Annuler</p>
-            </button>
-            <button class="at-p-button" (click)="submit()">
-                <p>Valider</p>
-            </button>
+          <button class="at-p-secondary-button" (click)="closeDialog()">
+            <p>Annuler</p>
+          </button>
+          <button class="at-p-button" (click)="submit()">
+            <p>Valider</p>
+          </button>
         </div>
-    </div>
-</form>
-</div>
+      </div>
+    </form>
+  </div>
+  

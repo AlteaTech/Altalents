@@ -26,6 +26,11 @@ namespace Altalents.Report.Library
         public const string COMPETENCES_DOMAINES = "{{COMPETENCES_DOMAINES}}";
         public const string COMPETENCES_LANGUAGES_PROG = "{{COMPETENCES_LANGUAGES_PROG}}";
         public const string COMPETENCES_BDD = "{{COMPETENCES_BDD}}";
+        public const string COMPETENCES_OUTILS = "{{COMPETENCES_OUTILS}}";
+        public const string COMPETENCES_FRAMEWORK = "{{COMPETENCES_FRAMEWORK}}";
+        public const string COMPETENCES_IDE = "{{COMPETENCES_IDE}}";
+        public const string COMPETENCES_VERSIONNING = "{{COMPETENCES_VERSIONNING}}";
+        public const string COMPETENCES_VIRTUALISATION = "{{COMPETENCES_VIRTUALISATION}}";
         public const string COMPETENCES_METHODOLOGIE = "{{COMPETENCES_METHODOLOGIE}}";
 
         public const string SECTION_TABLEAU_RECURSIF_COMPETENCES_METIER = "{{TABLEAU_RECURSIF_COMPETENCES_METIER}}";

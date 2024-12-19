@@ -34,6 +34,11 @@ namespace Altalents.Report.Library.DSO.OpenXml
         public string Candidat_Languages_Prog { get; set; }
         public string Candidat_Bdd { get; set; }
         public string Candidat_Methodologie { get; set; }
+        public string Candidat_Outils { get; set; }
+        public string Candidat_IDE { get; set; }
+        public string Candidat_Framework { get; set; }
+        public string Candidat_Virtualisation { get; set; }
+        public string Candidat_Versionning { get; set; }
 
         public List<DtCompetenceMetierExportDso> Candidat_CompetencesMetiers { get; set; }
         public List<DtFormationExportDso> Candidat_Formations { get; set; }

@@ -20,7 +20,7 @@
     </p>
 </div>
 <fieldset>
-    <legend class="flex-row space-between">
+    <legend class="flex-row space-between margin-bottom">
         <span><i class="fa-solid fa-info"></i>Informations personnelles</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.ParlonsDeVous)" class="edit-link">
@@ -28,16 +28,15 @@
             </a>
         </div>
     </legend>
-    <p class="at-c-violet">{{parlonsDeVous.nom}} {{parlonsDeVous.prenom}}</p>
-    <p class="font-bold">{{parlonsDeVous.email}}</p>
+    <p class="at-c-violet margin-top">{{parlonsDeVous.formattedName}}</p>
+    <p class="font-bold ">{{parlonsDeVous.email}}</p>
     <p class="font-normal">{{parlonsDeVous.telephone1}}<span *ngIf="parlonsDeVous.telephone2"> -
             {{parlonsDeVous.telephone2}}</span></p>
-    <p class="font-normal">{{parlonsDeVous.adresse?.adresse1}} {{parlonsDeVous.adresse?.adresse2}}
-        {{parlonsDeVous.adresse?.codePostal}} {{parlonsDeVous.adresse?.ville}} {{parlonsDeVous.adresse?.pays}}</p>
-    <p class="font-bold">{{parlonsDeVous.zoneGeo}}</p>
-    <p class="font-bold margin-top">Synthèse : <span class="font-normal">{{parlonsDeVous.synthese}}</span></p>
+    <p class="font-normal">{{parlonsDeVous.adresse?.getFormatedAdress}}</p>
+    <p class="font-bold margin-top">Zone géographique : <span class="font-normal">{{parlonsDeVous.zoneGeo}}</span></p>
+    <p class="font-bold">Synthèse : <span class="font-normal">{{parlonsDeVous.synthese}}</span></p>
     <p class="font-bold ">Soft skills : <span class="font-normal">{{parlonsDeVous.softSKills}}</span></p>
-    <p class="font-bold" *ngIf="parlonsDeVous.pieceJointe">Mon CV : <a class="link" (click)="downloadPj()">
+    <p class="font-bold margin-top" *ngIf="parlonsDeVous.pieceJointe">Mon CV : <a class="link" (click)="downloadPj()">
             {{this.parlonsDeVous.pieceJointe.nomFichier }}</a></p>
 </fieldset>
 <fieldset>
