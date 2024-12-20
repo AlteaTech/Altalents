@@ -15,13 +15,13 @@ import { ProjectOrMissionClient } from 'src/app/shared/models/project-mission.mo
 import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
 import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
+import { DataFormatService } from 'src/app/shared/services/services/formators/currency-formator';
 
 @Component({
   selector: 'app-experience-dialog',
   templateUrl: './experience-dialog.component.html',
   styleUrls: ['./experience-dialog.component.scss']
 })
-
 export class ExperienceDialogComponent extends BaseComponentCallHttpComponent implements OnInit {
   public experience?: Experience;
   public formGroup: FormGroup<ExperienceForm>;
@@ -29,24 +29,24 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public domaines: Reference[] = [];
   public constantesRequest = ConstantesRequest;
   public constantesTypesReferences = ConstantesTypesReferences;
-  
-  public budgetGere: string = '';
+  // public budgetGere: string = '';
   public IsEsn: boolean = false;
-  
+
   public ngbModalDeleteOptions: NgbModalOptions = {
-    backdrop : 'static',
-    keyboard : false,
+    backdrop: 'static',
+    keyboard: false,
     size: 'lg'
   };
 
   constructor(public activeModal: NgbActiveModal,
     private modalService: NgbModal,
+
     private readonly service: ApiServiceAgent) {
 
     super();
     const today = new Date();
 
-    this.formGroup = new FormGroup<ExperienceForm>({
+    this.formGroup = new FormGroup<ExperienceForm>( {
       typeContrat: new FormControl(null, Validators.required),
       intitulePoste: new FormControl(null, Validators.required),
       entreprise: new FormControl(null, Validators.required),
@@ -72,13 +72,12 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
   public ngOnInit(): void {
     this.populateData();
-
+  
     if (this.experience) {
-
       this.IsEsn = this.experience.IsEntrepriseEsnOrInterim;
 
       this.formGroup.patchValue({
-        typeContrat : this.experience.typeContrat,
+        typeContrat: this.experience.typeContrat,
         intitulePoste: this.experience.intitulePoste,
         entreprise: this.experience.nomEntreprise,
         isEntrepriseEsnOrInterim: this.experience.IsEntrepriseEsnOrInterim,
@@ -92,49 +91,51 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         technologies: this.experience.technologies,
         competences: this.experience.competences,
         methodologies: this.experience.methodologies,
-        outils : this.experience.outils,
+        outils: this.experience.outils,
         budgetGere: this.experience.budgetGere,
         isBudgetGere: this.experience.budgetGere ? true : false,
         projects: this.experience.projetOrMission,
       });
 
+
       if (this.experience.projetOrMission) {
-        this.experience.projetOrMission.forEach((project) => {
-          this.addProject(project);  // Populate the form with the projects if any exist
+        this.experience.projetOrMission.forEach((project, i) => {
+          this.addProject(project);
         });
       }
-
-      // this.formGroup.valueChanges.subscribe(value => {
-      //   console.log("Form value changed:", value);
-      //   // Ajoutez ici des logiques supplémentaires si nécessaire
-      // });
-
     }
-
     this.updateInputPosteActuel();
   }
 
-
-  public formatCurrency(event: any): void {
-    let value = event.target.value;
-
-    // Retirer tous les caractères non numériques sauf les virgules et les points
-    value = value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
-
-    // Ajouter un symbole euro en début de la valeur si elle est définie
-    if (value) {
-      // Formatage de la valeur en fonction de l'entrée de l'utilisateur
-      value = parseFloat(value).toLocaleString('fr-FR');
-      value = '€ ' + value;
-    }
-
-    // Mettre à jour la valeur du champ de saisie
-    this.budgetGere = value;
-    event.target.value = value;
+  ngAfterViewChecked(): void {
+    this.formatBudgetFields();
   }
-
-
   
+// Applique le formatage des champs budget
+public formatBudgetFields(): void {
+  const activeTab = document.querySelector('.tab-pane.active');
+
+  if (activeTab) {
+    // Recherche tous les éléments avec la classe 'budget-field' dans l'onglet actif
+    const budgetFields = activeTab.querySelectorAll('.budget-field');
+    budgetFields.forEach((field: Element) => {
+
+      // Caste 'field' en HTMLInputElement ou HTMLTextAreaElement
+      const inputField = field as HTMLInputElement | HTMLTextAreaElement;
+      
+      // Vérifie que l'élément a une propriété 'value'
+      const value = inputField.value || inputField.textContent || inputField.innerText;
+      
+      // Applique le formatage
+      inputField.value = DataFormatService.FormatCurrencyEuro(value);
+    });
+  }
+}
+
+ // Exemple d'usage d'un événement de clic pour changer d'onglet
+ public onTabChange(event: any): void {
+  this.formatBudgetFields();
+}
 
   public getProjets(): FormArray {
     return this.formGroup.get('projects') as FormArray;
@@ -143,8 +144,6 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public addProject(project?: ProjectOrMissionClient): void {
 
     const projectsArray = this.formGroup.get('projects') as FormArray;
-
-
 
     const projectGroup = new FormGroup({
       nomClientOrProjet: new FormControl(project?.NomClientOrProjet ?? null),
@@ -159,26 +158,12 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     });
 
     projectGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
-
     projectsArray.push(projectGroup);
-
   }
 
   public toggleIsEsn() {
     this.IsEsn = !this.IsEsn;
   }
-
-  openTab(event: any, tabName: string) {
-    const tabcontents = document.querySelectorAll('.tabcontent');
-    tabcontents.forEach((tab: any) => tab.classList.remove('active'));
-
-    const tablinks = document.querySelectorAll('.tablinks');
-    tablinks.forEach((tab: any) => tab.classList.remove('active'));
-
-    // Afficher l'onglet cliqué
-    document.getElementById(tabName)?.classList.add('active');
-    event.currentTarget.classList.add('active');
-}
 
   public removeProjet(index: number): void {
       let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
@@ -207,7 +192,6 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       controls.dateFin.enable();
       controls.dateFin.setValidators(Validators.required);
     }
-
     controls.dateFin.updateValueAndValidity();
 
   }
@@ -275,7 +259,9 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
             descriptionProjetOrMission: valuesProj.descriptionProjetOrMission ?? "",
             taches: valuesProj.taches ?? "",
             lieu: valuesProj.lieu ?? "",
-            budget: valuesProj.budget ? Number(valuesProj.budget) : undefined,
+            budget: valuesProj.budget
+              ? parseFloat(valuesProj.budget.toString().replace(/[€,\s]/g, '').trim())
+              : undefined,
             compositionEquipe: valuesProj.compositionEquipe ?? "",
             dateDebut: valuesProj.dateDebut!,
             dateFin: valuesProj.dateFin!,
@@ -296,8 +282,9 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         experience.description = values.description ?? "";
         experience.domaineMetier = values.domaineMetier ?? new Reference();
         experience.compositionEquipe = values.compositionEquipe ?? undefined;
-        experience.budgetGere = values.budgetGere ?? undefined;
-
+        experience.budgetGere = values.budgetGere
+          ? parseFloat(values.budgetGere.toString().replace(/[€,\s]/g, '').trim())
+          : undefined;
         experience.technologies = values.technologies ?? [];
         experience.competences = values.competences ?? [];
         experience.methodologies = values.methodologies ?? [];

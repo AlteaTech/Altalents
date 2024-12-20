@@ -6,11 +6,11 @@
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active " id="experience-tab" data-bs-toggle="tab" href="#experience" role="tab"
-                        aria-controls="experience" aria-selected="true">Détails</a>
+                        aria-controls="experience" aria-selected="true" (click)="onTabChange($event)">Détails</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="projets-tab" data-bs-toggle="tab" href="#projets" role="tab"
-                        aria-controls="projets" aria-selected="false">{{ IsEsn ? ' Missions' : 'Projets' }}</a>
+                        aria-controls="projets" aria-selected="false" (click)="onTabChange($event)">{{ IsEsn ? ' Missions' : 'Projets' }}</a>
                 </li>
             </ul>
             <div class="tab-content margin-top-big margin-bottom-big" id="myTabContent">
@@ -150,7 +150,7 @@
                         </div>
                         <div class="col-lg-3">
                             <input type="text" id="budgetGere" formControlName="budgetGere" placeholder="0 €"
-                                   class="form-control" [(ngModel)]="budgetGere" (input)="formatCurrency($event)">
+                                   class="form-control budget-field" >
                         </div>                     
                     </div>
                     <div class="row mb-2">
@@ -335,7 +335,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <input type="text" id="budget{{i}}" formControlName="budget" placeholder="0 €"
-                                   class="form-control" [(ngModel)]="budgetGere" (input)="formatCurrency($event)">
+                                    class="form-control budget-field"  >                          
                                 </div>
                                 <div class="col-lg-9">
                                     <label class="col-form-label">&nbsp;</label>

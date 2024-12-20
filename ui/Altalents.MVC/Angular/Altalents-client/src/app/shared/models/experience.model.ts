@@ -20,8 +20,6 @@ export class Experience {
     outils?: Reference[];
     projetOrMission?: ProjectOrMissionClient[];
     budgetGere?: number;
-
-    // champs calculés 
     dureeExperience?: string;
 
     static from(dto : ExperienceDto):Experience{
