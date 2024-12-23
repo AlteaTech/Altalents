@@ -23,9 +23,7 @@ namespace Altalents.Report.Library.Services
 
             try
             {
-                string mainTemplateName = "Template_DT_Altea_2024_FirstPage.docx";
-                string templateRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates\Word", mainTemplateName);
-                string normalizedPath = Path.GetFullPath(templateRelativePath);
+                string normalizedPath = GetNormalisedFullPathWordTemplate("Template_DT_Altea_2024_FirstPage.docx");
 
                 File.Copy(normalizedPath, outputTempPath, true);
 
@@ -453,32 +451,32 @@ namespace Altalents.Report.Library.Services
         private static string GetTemplateItemTabHorizontalPath()
         {
             string templateDocName = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
-            return GetNormalisedFullPath(templateDocName);
+            return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
         private static string GetTemplateExperiencelPath()
         {
             string templateDocName = "Template_DT_Altea_2024_ItemExperience.docx";
-            return GetNormalisedFullPath(templateDocName);
+            return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
         private static string GetTemplateItemTabVerticalPath()
         {
             string templateDocName = "Template_DT_Altea_2024_ItemTabVertical.docx";
-            return GetNormalisedFullPath(templateDocName);
+            return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
         private static string GetTemplateItemQuestionPersonaliseePath()
         {
             string templateDocName = "Template_DT_Altea_2024_ItemQuestion.docx";
-            return GetNormalisedFullPath(templateDocName);
+            return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
-        private static string GetNormalisedFullPath(string ItemTabHorizontal)
+        private static string GetNormalisedFullPathWordTemplate(string fileName)
         {
-            string ItemTabHorizontalRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Templates\Word", ItemTabHorizontal);
-            string ItemTabHorizontalNormalizedPath = Path.GetFullPath(ItemTabHorizontalRelativePath);
-            return ItemTabHorizontalNormalizedPath;
+            string FileRelativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Templates", "Word", fileName);
+            string FileNormalizedPath = Path.GetFullPath(FileRelativePath);
+            return FileNormalizedPath;
         }
 
         private static Dictionary<string, string> GetDataExportDictionaryForOneExperience(DtExperienceProExportDso exp)
