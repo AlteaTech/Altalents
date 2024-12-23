@@ -33,6 +33,10 @@ export class FinComponent extends BaseComponentCallHttpComponent implements OnIn
         }));
   }
 
+public GoTo(): void {
+  window.open('https://www.nasa.gov', '_blank');
+}
+
   // public DownloadDt(): void {    
   //   this.isLoading = true;
   //   this.callRequest(ConstantesRequest.generateDossierCompetenceFile, this.service.generateDossierCompetenceFile(this.tokenDossierTechnique)

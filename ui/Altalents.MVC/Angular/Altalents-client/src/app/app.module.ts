@@ -29,6 +29,7 @@ import { TelechargementDtComponent } from './components/telechargement-dt/telech
 import { CustomLoaderComponent } from './shared/components/custom-loader/custom-loader.component';
 import { ConfirmDeleteDialogComponent } from './components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 
+
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -54,7 +55,7 @@ registerLocaleData(localeFr);
     PieceJointeDialogComponent,
     TelechargementDtComponent,
     CustomLoaderComponent,
-    ConfirmDeleteDialogComponent
+    ConfirmDeleteDialogComponent,
   ],
   imports: [
     CommonModule,

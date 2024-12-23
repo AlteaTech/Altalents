@@ -73,12 +73,12 @@
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
                             *ngIf="formGroup.get('numeroTelephone1')?.invalid && formGroup.get('numeroTelephone1')?.touched">
-                            N° de téléphone est invalide.
+                            Le numéro de téléphone doit être un numéro français ou international valide.
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" formControlName="numeroTelephone1"
-                            placeholder="XX XX XX XX XX">
+                            placeholder="+33 123456789 ou 0123456789">
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -87,12 +87,12 @@
                             2</label>
                         <div class="error-message"
                             *ngIf="formGroup.get('numeroTelephone2')?.invalid && formGroup.get('numeroTelephone2')?.touched">
-                            N° de téléphone est invalide.
+                            Le numéro de téléphone doit être un numéro français ou international valide.
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" formControlName="numeroTelephone2"
-                            placeholder="XX XX XX XX XX">
+                            placeholder="+33 123456789 ou 0123456789">
                     </div>
                 </div>
                 <div class="row">
@@ -173,19 +173,29 @@
         </div>
         <div class="col-lg-6">
             <fieldset>
-                <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse</legend>
+                <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse / soft skills</legend>
                  <div class="row">
                     <div class="col-lg-6 label-champ-input">
                         <label for="pays" class="col-form-label">Synthèse<span class="champ-obligatoire">*</span></label>
-                        <p class="font-normal font-italic font-small">Environs 100 mots. Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une 😊</p>
+                        <p class="font-normal font-italic font-small">Environs 100 mots. Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une</p>
                         <div class="error-message"
                             *ngIf="formGroup.get('synthese')?.invalid && formGroup.get('synthese')?.touched">
                                 La synthèse est requise.
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <textarea rows="8" class="form-control" formControlName="synthese"
+                        <textarea rows="4" class="form-control" formControlName="synthese"
                             placeholder="Passionnée par le film Matrix depuis que je suis bébé, je me suis toujours intéressée aux technologies de l'information et, plus largement, à la matrice..."></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 label-champ-input">
+                        <label for="pays" class="col-form-label">Soft Skills</label>
+                        <p class="font-normal font-italic font-small">Les soft skills sont des compétences relationnelles et comportementales</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <textarea rows="4" class="form-control" formControlName="softSkills"
+                            placeholder="Communication, esprit d'équipe, gestion du stress..."></textarea>
                     </div>
                 </div>
             </fieldset>

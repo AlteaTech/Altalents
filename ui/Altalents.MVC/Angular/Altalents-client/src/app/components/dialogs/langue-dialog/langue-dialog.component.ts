@@ -58,6 +58,21 @@ export class LangueDialogComponent extends BaseComponentCallHttpComponent implem
     this.callRequest(ConstantesRequest.getReferencesLangues, this.service.getReferences(ConstantesTypesReferences.langue)
         .subscribe((response: ReferenceDto[]) => {
           this.langues = Reference.fromListReferenceDto(response);
+
+          // Trier la liste pour mettre "Français" et "Anglais" en haut
+          this.langues = this.langues.sort((a, b) => {
+            if (a.libelle === "Français" || a.libelle === "Anglais") {
+              return -1; // Priorise "Français" et "Anglais"
+            }
+            if (b.libelle === "Français" || b.libelle === "Anglais") {
+              return 1;
+            }
+            return 0; // Maintient l'ordre pour les autres
+          });
+          
+          // Définir la première valeur comme sélectionnée par défaut
+          this.formGroup.controls.langue.setValue(this.langues[0]);
+          
           this.checkLoadingTermine(nbAppelsAsync);
         }));
 

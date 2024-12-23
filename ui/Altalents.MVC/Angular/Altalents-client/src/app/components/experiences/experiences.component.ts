@@ -62,7 +62,6 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onAddExperienceClick(): void {
-
     let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, this.ngbModalUpdateOptions);
     dialogRef.result.then((experience: Experience | undefined) => {
       if(experience) {
@@ -76,7 +75,6 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onModifierExperienceClick(experience: Experience): void {
-
     let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, this.ngbModalUpdateOptions);
     dialogRef.componentInstance.experience = experience;
     dialogRef.result.then((experience: Experience | undefined) => {
@@ -91,7 +89,6 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onDeleteExperienceClick(experience : Experience): void {
-
     let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
     dialogRef.componentInstance.itemName = experience.intitulePoste;
     dialogRef.result.then((validated: boolean | undefined) => {

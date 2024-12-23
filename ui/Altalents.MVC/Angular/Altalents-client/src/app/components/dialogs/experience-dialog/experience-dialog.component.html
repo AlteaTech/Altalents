@@ -6,11 +6,11 @@
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active " id="experience-tab" data-bs-toggle="tab" href="#experience" role="tab"
-                        aria-controls="experience" aria-selected="true">Détails</a>
+                        aria-controls="experience" aria-selected="true" (click)="onTabChange($event)">Détails</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="projets-tab" data-bs-toggle="tab" href="#projets" role="tab"
-                        aria-controls="projets" aria-selected="false">{{ IsEsn ? ' Missions' : 'Projets' }}</a>
+                        aria-controls="projets" aria-selected="false" (click)="onTabChange($event)">{{ IsEsn ? ' Missions' : 'Projets' }}</a>
                 </li>
             </ul>
             <div class="tab-content margin-top-big margin-bottom-big" id="myTabContent">
@@ -74,7 +74,7 @@
                                 <span class="slider"></span>
                             </label>
                             <div>
-                                <label for="isPosteActuel" class="ms-3">J'occupe actuellement ce poste</label>
+                                <label for="isPosteActuel" class="ms-3">J'occupe ce poste</label>
                             </div>
                         </div>
                     </div>
@@ -146,35 +146,33 @@
                                 placeholder="Jumanji">
                         </div>
                         <div class="col-lg-3 label-champ-input">
+                            <label for="budgetGere" class="col-form-label">Budget géré</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" id="budgetGere" formControlName="budgetGere" placeholder="0 €"
+                                   class="form-control budget-field" >
+                        </div>                     
+                    </div>
+                    <div class="row mb-2">
+                 
+                        <div class="col-lg-3  label-champ-input">
+                            <label for="description">Contexte<span
+                                    class="champ-obligatoire">*</span></label>
+                            <div class="error-message"
+                                *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
+                                Le contexte est requise.
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <textarea formControlName="description" id="description" rows="4"  placeholder="J'était rataché au pole cyber sécurité de l'entreprise"
+                                class="form-control"></textarea>
+                        </div>
+                        <div class="col-lg-3 label-champ-input">
                             <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" id="compositionEquipe" formControlName="compositionEquipe"
-                                class="form-control" placeholder="Avec qui travailliez-vous?">
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-lg-3 d-flex align-items-center custom-justify-end">
-                            <label for="budgetGere" class="ms-2">Budget géré</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="number" id="budgetGere" formControlName="budgetGere" placeholder="0€"
-                                class="form-control">
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-lg-3  label-champ-input">
-                            <label for="description">Description de l'expérience professionnelle<span
-                                    class="champ-obligatoire">*</span></label>
-                            <p>(N'hésitez pas à mettre le plus de détails possible, on adore lire)</p>
-                            <div class="error-message"
-                                *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
-                                La description est requise.
-                            </div>
-                        </div>
-                        <div class="col-lg-9">
-                            <textarea formControlName="description" id="description" placeholder="Il était une fois..."
-                                class="custom-text-area form-control"></textarea>
+                                <textarea id="compositionEquipe" rows="4"  formControlName="compositionEquipe" class="form-control"
+                                placeholder="Le pole comprenait 2 directeurs d'agence, 3 commerciaux, 10 dev, 1 DA, 2 Graphiste..."></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -292,17 +290,16 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-lg-3 label-champ-input">
-                                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Description du
-                                        projet<span class="error-message">*</span></label>
+                                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Contexte<span class="error-message">*</span></label>
                                     <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched"
                                         class="error-message">
-                                        La description est requise.
+                                        Le contexte est requise.
                                     </div>
                                 </div>
                                 <div class="col-lg-9">
                                     <textarea id="descriptionProjetOrMission{{i}}"
                                         formControlName="descriptionProjetOrMission" class="form-control"
-                                        placeholder="Description détaillée"></textarea>
+                                        placeholder="En charge du développement d'une application de gestion des patients pour les médecins hospitaliers."></textarea>
                                 </div>
                                 <div class="col-lg-3 label-champ-input">
                                     <label for="taches{{i}}" class="col-form-label">Description des tâches<span
@@ -313,7 +310,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-9">
-                                    <textarea id="taches{{i}}" formControlName="taches" class="form-control"
+                                    <textarea id="taches{{i}}" rows="5"  formControlName="taches" class="form-control"
                                         placeholder="Tâches effectuées"></textarea>
                                 </div>
                             </div>
@@ -323,8 +320,9 @@
                                         d'équipe</label>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input id="compositionEquipe{{i}}" type="text" formControlName="compositionEquipe"
-                                        class="form-control" placeholder="X personnes">
+                                        <textarea id="compositionEquipe{{i}}" rows="3"  formControlName="compositionEquipe" class="form-control"
+                                        placeholder="1 Lead, 3 dev, 1 PO, 4 QA"></textarea>
+
                                 </div>
                                 <div class="col-lg-3 label-champ-input">
                                     <label for="budget{{i}}" class="col-form-label">Budget</label>
@@ -332,11 +330,12 @@
                                         class="error-message">
                                         Le budget doit être un nombre positif.
                                     </div>
+
+                                    
                                 </div>
                                 <div class="col-lg-3">
-                                    <input id="budget{{i}}" type="number" formControlName="budget" class="form-control"
-                                        placeholder="Budget en euros">
-
+                                    <input type="text" id="budget{{i}}" formControlName="budget" placeholder="0 €"
+                                    class="form-control budget-field"  >                          
                                 </div>
                                 <div class="col-lg-9">
                                     <label class="col-form-label">&nbsp;</label>
@@ -344,7 +343,7 @@
                                 <div class="col-lg-3">
                                     <div
                                         class="delete-link-container d-flex justify-content-between align-items-center">
-                                        <a (click)="removeProjet(i)" class="delete-link ms-auto">
+                                        <a (click)="removeProjet(i)" class="link ms-auto">
                                             <p class="at-c-violet text-end mb-0"><i
                                                     class="fa-solid fa-trash"></i>&nbsp;Supprimer</p>
                                         </a>

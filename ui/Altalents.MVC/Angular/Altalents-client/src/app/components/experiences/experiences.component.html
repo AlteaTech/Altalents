@@ -30,7 +30,7 @@
     <div *ngFor="let experience of experiences" class="margin-bottom">
         <div class="flex-row space-between align-center">
             <p class=" at-c-violet custom-margin-top-bottom">
-              {{experience.intitulePoste}} ({{experience.typeContrat.libelle}})
+              {{experience.intitulePoste}} ({{experience.typeContrat.libelle}}) - {{experience.lieu}}
             </p>
             <div class="edit-links">
                 <a (click)="onModifierExperienceClick(experience)" class="edit-link">
@@ -45,6 +45,7 @@
         <p class="font-normal" *ngIf="experience.dateFin">De {{experience.dateDebut | date : "MMMM YYYY" }} à {{experience.dateFin | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
         <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
         <p class="font-normal">{{experience.description}}</p>
+        <p class="font-normal" *ngIf="experience.budgetGere">Budget : {{experience.budgetGere}}<span *ngIf="experience.budgetGere"> €</span></p>
         <p>
             <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
                 {{technologie.libelle}}

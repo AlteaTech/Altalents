@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
@@ -6,8 +6,6 @@ import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request'
 import { ParlonsDeVousForm } from 'src/app/shared/interfaces/parlons-de-vous-form';
 import { AdresseUpdateRequestDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
-import { ValidateEmailWithApi } from 'src/app/shared/services/services/validators/validate-email-with-api';
-import { ValidateIsNumber } from 'src/app/shared/services/services/validators/validate-is-number';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
 import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
@@ -43,6 +41,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       pays: new FormControl(null),
       synthese : new FormControl('', Validators.required),
       fileInput : new FormControl('', Validators.required),
+      softSkills : new FormControl(null),
     });
   }
 
@@ -73,7 +72,8 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
               pays: this.parlonsDeVous.adresse?.pays,
               synthese: this.parlonsDeVous.synthese,
               fileInput: this.parlonsDeVous.pieceJointe?.data,
-              zoneGeo: this.parlonsDeVous.zoneGeo
+              zoneGeo: this.parlonsDeVous.zoneGeo,
+              softSkills : this.parlonsDeVous.softSKills
             });
           }
 
@@ -196,7 +196,7 @@ public async onDrop(event: DragEvent): Promise<void> {
     requestDto.adresse = adresseRequestDto;
     requestDto.synthese = values.synthese;
     requestDto.zoneGeo = values.zoneGeo ?? "";
-
+    requestDto.softSKills = values.softSkills;
     requestDto.cv = this.parlonsDeVous.pieceJointe ? PieceJointe.populateDocumentDto(this.parlonsDeVous.pieceJointe) : undefined;
 
     return requestDto;

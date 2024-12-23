@@ -3323,6 +3323,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
     email?: string | null;
     adresse?: AdresseDto;
     synthese?: string | null;
+    softSkills?: string | null;
     zoneGeo?: string | null;
     documents?: DocumentDto[] | null;
 
@@ -3344,6 +3345,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseDto.fromJS(_data["Adresse"]) : <any>null;
             this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
+            this.softSkills = _data["SoftSkills"] !== undefined ? _data["SoftSkills"] : <any>null;
             this.zoneGeo = _data["ZoneGeo"] !== undefined ? _data["ZoneGeo"] : <any>null;
             if (Array.isArray(_data["Documents"])) {
                 this.documents = [] as any;
@@ -3372,6 +3374,7 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
         data["Email"] = this.email !== undefined ? this.email : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
         data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
+        data["SoftSkills"] = this.softSkills !== undefined ? this.softSkills : <any>null;
         data["ZoneGeo"] = this.zoneGeo !== undefined ? this.zoneGeo : <any>null;
         if (Array.isArray(this.documents)) {
             data["Documents"] = [];
@@ -3390,6 +3393,7 @@ export interface IParlonsDeVousDto {
     email?: string | null;
     adresse?: AdresseDto;
     synthese?: string | null;
+    softSkills?: string | null;
     zoneGeo?: string | null;
     documents?: DocumentDto[] | null;
 }
@@ -3403,6 +3407,7 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
     zoneGeo!: string;
     adresse!: AdresseUpdateRequestDto;
     synthese?: string | null;
+    softSKills?: string | null;
     cv?: DocumentDto;
 
     constructor(data?: IParlonsDeVousUpdateRequestDto) {
@@ -3427,6 +3432,7 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
             this.zoneGeo = _data["zoneGeo"] !== undefined ? _data["zoneGeo"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseUpdateRequestDto.fromJS(_data["Adresse"]) : new AdresseUpdateRequestDto();
             this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
+            this.softSKills = _data["SoftSKills"] !== undefined ? _data["SoftSKills"] : <any>null;
             this.cv = _data["Cv"] ? DocumentDto.fromJS(_data["Cv"]) : <any>null;
         }
     }
@@ -3448,6 +3454,7 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
         data["zoneGeo"] = this.zoneGeo !== undefined ? this.zoneGeo : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
         data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
+        data["SoftSKills"] = this.softSKills !== undefined ? this.softSKills : <any>null;
         data["Cv"] = this.cv ? this.cv.toJSON() : <any>null;
         return data;
     }
@@ -3462,6 +3469,7 @@ export interface IParlonsDeVousUpdateRequestDto {
     zoneGeo: string;
     adresse: AdresseUpdateRequestDto;
     synthese?: string | null;
+    softSKills?: string | null;
     cv?: DocumentDto;
 }
 

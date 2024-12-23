@@ -24,6 +24,8 @@ namespace Altalents.IBusiness.DTO.Request
 
         public string Synthese { get; set; }
 
+        public string SoftSKills { get; set; }
+
         public DocumentDto Cv { get; set; }
     }
 }

@@ -67,7 +67,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onModifierFormationClick(formation: Formation): void {
-    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent);
+    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent, this.ngbModalOptions);
     dialogRef.componentInstance.formation = formation;
     dialogRef.result.then((formationToUpdate: Formation | undefined) => {
       if(formationToUpdate) {
@@ -94,7 +94,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onModifierCertificationClick(certification: Certification): void {
-    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent);
+    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent, this.ngbModalOptions);
     dialogRef.componentInstance.certification = certification;
     dialogRef.result.then((CertificationToUpdate: Certification | undefined) => {
       if(CertificationToUpdate) {
@@ -121,7 +121,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onUpdateLangueClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent);
+    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, this.ngbModalOptions);
     dialogRef.result.then((selectedLangue: Langue | undefined) => {
       if(selectedLangue) {
         this.service.updateLangueParlee(this.tokenDossierTechnique, selectedLangue.id, this.populateLangueParleeRequestDto(selectedLangue)).pipe(
