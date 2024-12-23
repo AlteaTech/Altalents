@@ -45,7 +45,7 @@
         <p class="font-normal" *ngIf="experience.dateFin">De {{experience.dateDebut | date : "MMMM YYYY" }} à {{experience.dateFin | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
         <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
         <p class="font-normal">{{experience.description}}</p>
-        <p class="font-normal" *ngIf="experience.budgetGere">Budget : {{experience.budgetGere}}<span *ngIf="experience.budgetGere"> €</span></p>
+        <p class="font-normal" *ngIf="experience.budgetGere"><span class=""> Budget : </span>{{experience.budgetGere | number: '1.0-0'}}<span *ngIf="experience.budgetGere"> €</span></p>
         <p>
             <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
                 {{technologie.libelle}}
@@ -69,7 +69,7 @@
                         <span class="" *ngIf="!project.dateFin">Depuis {{project.dateDebut | date : "MMMM YYYY" }} <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
                     </div>
                     <div *ngIf="project.budget || project.compositionEquipe || project.lieu"  class="font-italic font-small font-normal margin-bottom">
-                        {{project.budget}}<span *ngIf="project.budget"> €</span><span *ngIf="project.compositionEquipe && project.budget"> - </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu"> - </span>{{project.lieu}}
+                        {{project.budget | number: '1.0-0'}}<span *ngIf="project.budget"> €</span><span *ngIf="project.compositionEquipe && project.budget"> - </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu"> - </span>{{project.lieu}}
                     </div>
                     <div *ngIf="project.descriptionProjetOrMission" class="font-normal margin-bottom text-ellipsis">{{project.descriptionProjetOrMission}}</div>
                     <div *ngIf="project.taches" class="text-ellipsis">

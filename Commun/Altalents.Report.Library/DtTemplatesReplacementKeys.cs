@@ -37,9 +37,13 @@ namespace Altalents.Report.Library
         public const string SECTION_TABLEAU_RECURSIF_FORMATIONS = "{{TABLEAU_RECURSIF_FORMATIONS}}";
         public const string SECTION_TABLEAU_RECURSIF_CERTIFICATIONS = "{{TABLEAU_RECURSIF_CERTIFICATIONS}}";
         public const string SECTION_TABLEAU_RECURSIF_LANGUES = "{{TABLEAU_RECURSIF_LANGUES}}";
+        public const string SECTION_TABLEAU_QUESTIONS_PERSONNALISEES = "{{TABLEAU_QUESTIONS_PERSONNALISEES}}";
 
         public const string TABLEAU_RECURSIF_ITEM_LIBELLE = "{{ITEM_LIB}}";
         public const string TABLEAU_RECURSIF_ITEM_VALEUR = "{{ITEM_VAL}}";
+
+        public const string QUESTION_PERSONNALISEE_ITEM_QUESTION = "{{ITEM_QUESTION}}";
+        public const string QUESTION_PERSONNALISEE_ITEM_RESPONSE = "{{ITEM_REPONSE}}";
 
         public const string SECTION_EXPERIENCES_PRO_RECURSIF = "{{LIST_EXPERIENCES_PRO}}";
 

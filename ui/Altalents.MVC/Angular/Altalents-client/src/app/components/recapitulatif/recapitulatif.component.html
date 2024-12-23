@@ -117,6 +117,8 @@
             <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }}
                 <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span>
             </p>
+            <p class="font-normal" *ngIf="experience.budgetGere"><span class=""> Budget : </span>{{experience.budgetGere | number: '1.0-0'}}<span *ngIf="experience.budgetGere"> €</span></p>
+      
             <p>
                 <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
                     {{technologie.libelle}}
@@ -148,7 +150,7 @@
                         </div>
                         <div *ngIf="project.budget || project.compositionEquipe || project.lieu"
                             class="font-italic font-small font-normal margin-bottom">
-                            {{project.budget}}<span *ngIf="project.budget"> €</span><span
+                            {{project.budget | number: '1.0-0'}}<span *ngIf="project.budget"> €</span><span
                                 *ngIf="project.compositionEquipe && project.budget"> -
                             </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu">
                                 - </span>{{project.lieu}}

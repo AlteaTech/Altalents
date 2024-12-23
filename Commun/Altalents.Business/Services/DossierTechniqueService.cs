@@ -602,7 +602,7 @@ namespace Altalents.Business.Services
 
             //remplissage data du bloc Contact Focus
             int nbExp = CalculerTotalAnneesExperienceAvecChevauchements(dt);
-            modelExport.Candidat_NbAnneesExperiences = nbExp == 0 ? "Novice" : nbExp == 1 ? "1 an": nbExp.ToString() + " ans";
+            modelExport.Candidat_NbAnneesExperiences = nbExp == 0 ? "Novice" : nbExp == 1 ? "1 an" : nbExp.ToString() + " ans";
             modelExport.Candidat_CompetencesClefs = GetTop5Competences(dt);
             modelExport.Candidat_Synthese = dt.Synthese;
 
@@ -624,16 +624,31 @@ namespace Altalents.Business.Services
             modelExport.Candidat_Certifications = getCertificationOrderedByDate(dt);
             modelExport.Candidat_Langues = getLanguesParle(dt);
             modelExport.Candidat_ExperiencesPro = GetExperiencesOrderedByDate(dt);
-            
+
+            modelExport.Candidat_Questions = GetQuestionToShowInDt(dt);
+
+
+            GetQuestionToShowInDt(dt);
+
             WordTemplateService wordTemplateService = new WordTemplateService();
             byte[] generatedFile = wordTemplateService.GenerateDocument(modelExport);
 
             return new DocumentDto()
             {
                 MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                NomFichier = dt.Personne.Trigramme+"-XXXXXXXXXXXX-"+DateTime.Now.Year.ToString()+DateTime.Now.Month.ToString()+".docx",
+                NomFichier = dt.Personne.Trigramme + "-XXXXXXXXXXXX-" + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + ".docx",
                 Data = generatedFile
             };
+        }
+
+        private List<DtQuestionDso> GetQuestionToShowInDt(DossierTechnique dt)
+        {
+           return dt.QuestionDossierTechniques.Where(x => x.IsShowDt)
+                            .Select(x => new DtQuestionDso()
+                            {
+                                Question = x.Question,
+                                Reponse = x.Reponse,
+                            }).ToList();
         }
 
         public List<DtExperienceProExportDso> GetExperiencesOrderedByDate(DossierTechnique dt)

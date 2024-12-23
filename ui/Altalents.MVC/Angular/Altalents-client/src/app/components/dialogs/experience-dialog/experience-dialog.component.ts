@@ -31,6 +31,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public constantesTypesReferences = ConstantesTypesReferences;
   // public budgetGere: string = '';
   public IsEsn: boolean = false;
+  public submitted = false;
 
   public ngbModalDeleteOptions: NgbModalOptions = {
     backdrop: 'static',
@@ -142,7 +143,7 @@ public formatBudgetFields(): void {
   }
 
   public addProject(project?: ProjectOrMissionClient): void {
-
+    this.submitted = false;
     const projectsArray = this.formGroup.get('projects') as FormArray;
 
     const projectGroup = new FormGroup({
@@ -162,10 +163,12 @@ public formatBudgetFields(): void {
   }
 
   public toggleIsEsn() {
+    this.submitted = false;
     this.IsEsn = !this.IsEsn;
   }
 
   public removeProjet(index: number): void {
+    this.submitted = false;
       let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
       dialogRef.componentInstance.itemName = this.IsEsn  ? 'cette mission' : 'ce projet ';
       dialogRef.result.then((validated: boolean | undefined) => {
@@ -183,6 +186,8 @@ public formatBudgetFields(): void {
 
   public updateInputPosteActuel(): void {
     const controls = this.formGroup.controls;
+
+    this.submitted = false;
 
     if (controls.isPosteActuel.value) {
       controls.dateFin.disable();
@@ -249,6 +254,8 @@ public formatBudgetFields(): void {
   public submit(): void {
 
     const projectsArray = this.formGroup.get('projects') as FormArray<FormGroup<ProjectForm>>;
+
+    this.submitted = true;
 
     if (this.formGroup.valid) {
 
