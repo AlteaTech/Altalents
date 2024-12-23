@@ -369,7 +369,7 @@
                 </div>
 
             </div>
-            <div *ngIf="formGroup.invalid && formGroup.touched" class="error-message margin-top-big">
+            <div *ngIf="formGroup.invalid && formGroup.touched && submitted" class="error-message margin-top-big">
                 Veuillez corriger les champs en erreur avant de pouvoir valider (verifier tous les onglets).
             </div>
         </fieldset>

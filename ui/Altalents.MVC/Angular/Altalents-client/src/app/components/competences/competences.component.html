@@ -94,7 +94,7 @@
     <div class="competence-stars">
       <span *ngFor="let star of arrayNbEtoiles"
         (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.competence, star)">
-        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+        <i class="at-c-violet fa pointer" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
       </span>
     </div>
   </div>
@@ -108,7 +108,7 @@
     <div class="competence-stars">
       <span *ngFor="let star of arrayNbEtoiles"
         (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.methodologie, star)">
-        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+        <i class="at-c-violet fa pointer" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
       </span>
     </div>
   </div>
@@ -122,7 +122,7 @@
     <div class="competence-stars">
       <span *ngFor="let star of arrayNbEtoiles"
         (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.outil, star)">
-        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+        <i class="at-c-violet fa pointer" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
       </span>
     </div>
   </div>
@@ -136,7 +136,7 @@
     <div class="competence-stars">
       <span *ngFor="let star of arrayNbEtoiles"
         (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.technologie, star)">
-        <i class="at-c-violet fa" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+        <i class="at-c-violet fa pointer" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
       </span>
     </div>
   </div>

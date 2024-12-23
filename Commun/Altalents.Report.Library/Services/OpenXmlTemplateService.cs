@@ -42,7 +42,8 @@ namespace Altalents.Report.Library.Services
                     FeedCertificationSection(dt, mainBody);
                     FeedLanguageSection(dt, mainBody);
                     FeedExperiencesSection(dt, mainBody);
-           
+                    FeedQuestionSection(dt, mainBody);
+
                     wordDoc.MainDocumentPart.Document.Save();
                 }
 
@@ -130,6 +131,39 @@ namespace Altalents.Report.Library.Services
                         }
 
                         FormatResultTableuVertical(paraWithKeyTABLEAU_RECURSIF_FORMATION, parent, newTableau);
+                    }
+                }
+            }
+        }
+
+        private static void FeedQuestionSection(DtMainPageExportDso dt, Body mainBody)
+        {
+            var paraWithKeyTABLEAU_QUESTION_PERSONNALISEE = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_QUESTIONS_PERSONNALISEES));
+
+            if (paraWithKeyTABLEAU_QUESTION_PERSONNALISEE != null)
+            {
+                OpenXmlElement parent = paraWithKeyTABLEAU_QUESTION_PERSONNALISEE.Parent;
+
+                if (dt.Candidat_Questions == null || dt.Candidat_Questions.Count == 0)
+                {
+                    RemoveSection(paraWithKeyTABLEAU_QUESTION_PERSONNALISEE);
+                }
+                else
+                {
+                    using (WordprocessingDocument docuTemplateItemQuestion = WordprocessingDocument.Open(GetTemplateItemQuestionPersonaliseePath(), false))
+                    {
+                        Body bodyTemplateItemQuestion = docuTemplateItemQuestion.MainDocumentPart.Document.Body;
+                        Table tableauFromTemplate = bodyTemplateItemQuestion.Descendants<Table>().FirstOrDefault();
+                        Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
+                        TableRow modelRow = newTableau.Elements<TableRow>().FirstOrDefault();
+
+                        foreach (DtQuestionDso questionDso in dt.Candidat_Questions)
+                        {
+                            TableRow newRow = GetNewRowQuestionPersonnalisee(modelRow, questionDso.Question, questionDso.Reponse);
+                            newTableau.Append(newRow);
+                        }
+
+                        FormatResultQuestionPersonalisee(paraWithKeyTABLEAU_QUESTION_PERSONNALISEE, parent, newTableau);
                     }
                 }
             }
@@ -338,6 +372,54 @@ namespace Altalents.Report.Library.Services
             return newRow;
         }
 
+
+
+
+
+
+        private static void FormatResultQuestionPersonalisee(Paragraph paraWithKeyQUESTION_PERSONNALISEE, OpenXmlElement parent, Table newTableau)
+        {
+
+            // Insérer le nouveau tableau juste avant le paragraphe à remplacer
+            parent.InsertAfter(newTableau, paraWithKeyQUESTION_PERSONNALISEE);
+
+            var rowsToRemove = newTableau.Elements<TableRow>().Take(1).ToList();
+            foreach (var row in rowsToRemove)
+            {
+                row.Remove();
+            }
+
+            // Supprimer l'ancien paragraphe après avoir inséré le tableau
+            paraWithKeyQUESTION_PERSONNALISEE.Remove();
+        }
+
+        private static TableRow GetNewRowQuestionPersonnalisee(TableRow modelRow, string libelle, string value)
+        {
+            // Cloner la ligne modèle pour créer une nouvelle ligne
+            TableRow newRow = (TableRow)modelRow.CloneNode(true);
+
+            if (newRow != null)
+            {
+                foreach (Text text in newRow.Descendants<Text>())
+                {
+                    if (text.Text.Contains(DtTemplatesReplacementKeys.QUESTION_PERSONNALISEE_ITEM_QUESTION))
+                    {
+                        text.Text = text.Text.Replace(DtTemplatesReplacementKeys.QUESTION_PERSONNALISEE_ITEM_QUESTION, libelle);
+                    }
+                    if (text.Text.Contains(DtTemplatesReplacementKeys.QUESTION_PERSONNALISEE_ITEM_RESPONSE))
+                    {
+                        text.Text = text.Text.Replace(DtTemplatesReplacementKeys.QUESTION_PERSONNALISEE_ITEM_RESPONSE, value);
+                    }
+                }
+            }
+            return newRow;
+        }
+
+
+
+
+
+
         private static TableCell GetNewRowTableauHorizontal(TableRow modelRowLibelle, TableRow modelRowValeur, TableRow newRowLibelle, string libelle, string value)
         {
 
@@ -366,6 +448,8 @@ namespace Altalents.Report.Library.Services
             return newCellValeur;
         }
 
+
+
         private static string GetTemplateItemTabHorizontalPath()
         {
             string templateDocName = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
@@ -381,6 +465,12 @@ namespace Altalents.Report.Library.Services
         private static string GetTemplateItemTabVerticalPath()
         {
             string templateDocName = "Template_DT_Altea_2024_ItemTabVertical.docx";
+            return GetNormalisedFullPath(templateDocName);
+        }
+
+        private static string GetTemplateItemQuestionPersonaliseePath()
+        {
+            string templateDocName = "Template_DT_Altea_2024_ItemQuestion.docx";
             return GetNormalisedFullPath(templateDocName);
         }
 

@@ -75,6 +75,7 @@
     <Compile Include="DSO\OpenXml\DtFormationExportDso.cs" />
     <Compile Include="DSO\OpenXml\DtLangueExportDso.cs" />
     <Compile Include="DSO\OpenXml\DtMainPageExportDso.cs" />
+    <Compile Include="DSO\OpenXml\DtQuestionDso.cs" />
     <Compile Include="DtTemplatesReplacementKeys.cs" />
     <Compile Include="Experience.partial.report.cs">
       <SubType>Component</SubType>
