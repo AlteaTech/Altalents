@@ -592,7 +592,7 @@ namespace Altalents.Business.Services
 
             //Remplissage data de l'entete
             modelExport.Candidat_Trigramme = dt.Personne.Trigramme;
-            modelExport.Dt_Poste = "XXXXXXXXXXXXXXXXXX";
+            modelExport.Dt_Poste = dt.Poste;
 
             //remplissage data du bloc Contact Commercial
             modelExport.Commercial_SiteWeb = "www.altea-si.com";
@@ -636,7 +636,7 @@ namespace Altalents.Business.Services
             return new DocumentDto()
             {
                 MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                NomFichier = dt.Personne.Trigramme + "-XXXXXXXXXXXX-" + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + ".docx",
+                NomFichier = dt.Personne.Trigramme + " - "+  dt.Poste + " - " + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + ".docx",
                 Data = generatedFile
             };
         }
