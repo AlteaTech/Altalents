@@ -32,10 +32,10 @@
     <p class="font-bold ">{{parlonsDeVous.email}}</p>
     <p class="font-normal">{{parlonsDeVous.telephone1}}<span *ngIf="parlonsDeVous.telephone2"> -
             {{parlonsDeVous.telephone2}}</span></p>
-    <p class="font-normal">{{parlonsDeVous.adresse?.getFormatedAdress}}</p>
-    <p class="font-bold margin-top">Zone géographique : <span class="font-normal">{{parlonsDeVous.zoneGeo}}</span></p>
-    <p class="font-bold">Synthèse : <span class="font-normal">{{parlonsDeVous.synthese}}</span></p>
-    <p class="font-bold ">Soft skills : <span class="font-normal">{{parlonsDeVous.softSKills}}</span></p>
+    <p class="font-normal" *ngIf="parlonsDeVous.adresse">{{parlonsDeVous.adresse.getFormatedAdress}}</p>
+    <p class="font-bold margin-top" *ngIf="parlonsDeVous.zoneGeo">Zone géographique : <span class="font-normal">{{parlonsDeVous.zoneGeo}}</span></p>
+    <p class="font-bold" *ngIf="parlonsDeVous.synthese">Synthèse : <span class="font-normal">{{parlonsDeVous.synthese}}</span></p>
+    <p class="font-bold" *ngIf="parlonsDeVous.softSKills">Soft skills : <span class="font-normal">{{parlonsDeVous.softSKills}}</span></p>
     <p class="font-bold margin-top" *ngIf="parlonsDeVous.pieceJointe">Mon CV : <a class="link" (click)="downloadPj()">
             {{this.parlonsDeVous.pieceJointe.nomFichier }}</a></p>
 </fieldset>
@@ -261,7 +261,7 @@
     </legend>
     <div class="margin-bottom">
         <div *ngIf="langues.length > 0">
-            <span *ngFor="let langue of langues; last as isLast">&nbsp;
+            <span *ngFor="let langue of langues; last as isLast">
                 <span class="">{{langue.libelleLangue}}</span><span
                     class="font-normal">&nbsp;&nbsp;({{langue.libelleReferenceNiveau}})&nbsp;&nbsp;</span>
             </span>

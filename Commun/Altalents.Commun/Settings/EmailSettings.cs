@@ -15,6 +15,8 @@ namespace Altalents.Commun.Settings
         public bool UseHangfireToSendMail { get; set; }
         public SecureSocketOptions SecureSocketOptions { get; set; }
         public string CciMails { get; set; }
+        public string MailsServiceCommercial { get; set; }
+
     }
 
 }
