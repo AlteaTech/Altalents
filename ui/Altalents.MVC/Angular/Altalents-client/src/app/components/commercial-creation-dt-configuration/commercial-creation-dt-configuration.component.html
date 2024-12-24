@@ -45,7 +45,7 @@
                                         <label for="trigram" class="col-form-label">Trigramme<span class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('trigram')?.invalid && formGroup.get('trigram')?.touched">
-                                            Trigramme est invalide.
+                                            Ce trigramme existe déja.
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -106,7 +106,7 @@
                                         <label for="idBoond" class="col-form-label">ID de Boond Manager<span class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('idBoond')?.invalid && formGroup.get('idBoond')?.touched">
-                                            L'identifiant de Boond Manager du candidat est invalide.
+                                            L'identifiant de Boond Manager existe déja.
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -127,7 +127,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" formControlName="numeroTelephone1"
-                                            placeholder="XX XX XX XX XX">
+                                            placeholder="+33XXXXXXXX">
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -136,7 +136,7 @@
                                                 class="champ-obligatoire">*</span></label>
                                         <div class="error-message"
                                             *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
-                                            L'adresse e-mail est invalide.
+                                            L'adresse e-mail est invalide ou existe déja.
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
