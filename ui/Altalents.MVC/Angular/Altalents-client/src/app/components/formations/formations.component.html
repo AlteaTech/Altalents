@@ -83,20 +83,18 @@
 </fieldset>
 <fieldset>
     <legend><i class="fa-solid fa-language"></i>Langues parlées</legend>
-    <div class="margin-bottom">
-        <div *ngFor="let langue of stepFormation.langues">
-            <div class="flex-row space-between align-center">
-                <p class="custom-margin-top-bottom">
-                  {{langue.libelleLangue}} ({{langue.libelleReferenceNiveau}})
-                </p>
-                <div class="edit-links">
-                    <a (click)="onDeleteLangueClick(langue)" class="edit-link">
-                        <p class="at-c-violet"><i class="fa-solid fa-trash"></i>Supprimer</p>
-                    </a>
-                </div>
+    <div *ngFor="let langue of stepFormation.langues" class="margin-bottom">
+        <div class="flex-row space-between align-center">
+            <p class="custom-margin-top-bottom">
+                {{langue.libelleLangue}} ({{langue.libelleReferenceNiveau}})
+            </p>
+            <div class="edit-links">
+                <a (click)="onDeleteLangueClick(langue)" class="edit-link">
+                    <p class="at-c-violet"><i class="fa-solid fa-trash"></i>Supprimer</p>
+                </a>
             </div>
-        </div >
-    </div>
+        </div>
+    </div >
     <div class="at-p-button-ajouter">
         <button (click)="onAddLangueClick()">
             <p><i class="fa-regular fa-plus at-c-violet"></i>Ajouter une langue</p>

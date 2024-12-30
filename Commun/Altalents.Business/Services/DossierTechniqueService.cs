@@ -117,7 +117,7 @@ namespace Altalents.Business.Services
             );
 
             await _emailService.SendEmailWithRetryAsync(
-                _emailSettings.CciMails,
+                _emailSettings.MailsServiceCommercial,
                 $"Alerte : Un candidat ({fullNameCandidat}) a complété son dossier technique",
                 htmlContent
             );
