@@ -224,7 +224,7 @@
                 <div class="row">
                       <div class="col-lg-12 margin-top text-center">
                         <div class="nom-fichier-uploaded" *ngIf="this.parlonsDeVous.pieceJointe?.nomFichier">
-                            <p>Votre CV : <a class="link" (click)="downloadPj()"> {{this.parlonsDeVous.pieceJointe?.nomFichier }}</a>
+                            <p>Votre CV : <a class="link" (click)="downloadPj()"> {{ this.parlonsDeVous.pieceJointe?.nomFichier }}</a>
                                 <span class="font-normal" *ngIf="this.parlonsDeVous.pieceJointe?.commentaire" >&nbsp;({{this.parlonsDeVous.pieceJointe?.commentaire}}) </span>
                             </p>
                         </div>

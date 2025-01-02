@@ -1154,6 +1154,60 @@ export class ApiClient {
     }
 
     /**
+     * @return OK
+     */
+    getCvFile(tokenAccesRapide: string): Observable<DocumentDto> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/cv";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCvFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCvFile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DocumentDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DocumentDto>;
+        }));
+    }
+
+    protected processGetCvFile(response: HttpResponseBase): Observable<DocumentDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DocumentDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param typeExportEnum (optional) 
      * @return OK
      */
@@ -2476,6 +2530,7 @@ export interface ICustomUserLoggedDto {
 
 export class DocumentDto implements IDocumentDto {
     mimeType!: string;
+    id?: string | null;
     nomFichier!: string;
     commentaire?: string | null;
     data!: string;
@@ -2492,6 +2547,7 @@ export class DocumentDto implements IDocumentDto {
     init(_data?: any) {
         if (_data) {
             this.mimeType = _data["MimeType"] !== undefined ? _data["MimeType"] : <any>null;
+            this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
             this.nomFichier = _data["NomFichier"] !== undefined ? _data["NomFichier"] : <any>null;
             this.commentaire = _data["Commentaire"] !== undefined ? _data["Commentaire"] : <any>null;
             this.data = _data["Data"] !== undefined ? _data["Data"] : <any>null;
@@ -2508,6 +2564,7 @@ export class DocumentDto implements IDocumentDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["MimeType"] = this.mimeType !== undefined ? this.mimeType : <any>null;
+        data["Id"] = this.id !== undefined ? this.id : <any>null;
         data["NomFichier"] = this.nomFichier !== undefined ? this.nomFichier : <any>null;
         data["Commentaire"] = this.commentaire !== undefined ? this.commentaire : <any>null;
         data["Data"] = this.data !== undefined ? this.data : <any>null;
@@ -2517,6 +2574,7 @@ export class DocumentDto implements IDocumentDto {
 
 export interface IDocumentDto {
     mimeType: string;
+    id?: string | null;
     nomFichier: string;
     commentaire?: string | null;
     data: string;

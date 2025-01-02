@@ -370,11 +370,6 @@ namespace Altalents.Export.Services
             return newRow;
         }
 
-
-
-
-
-
         private static void FormatResultQuestionPersonalisee(Paragraph paraWithKeyQUESTION_PERSONNALISEE, OpenXmlElement parent, Table newTableau)
         {
 

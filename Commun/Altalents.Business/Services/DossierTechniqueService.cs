@@ -8,6 +8,7 @@ using Altalents.Export.DSO.OpenXml;
 using Altalents.Export.OpenXml;
 using Altalents.Export.Services;
 using Altalents.IBusiness.DTO.Request;
+using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore.Query;
@@ -336,6 +337,23 @@ namespace Altalents.Business.Services
                 return false;
         }
 
+        public async Task<DocumentDto> GetCvDtAsync(Guid tokenRapide, CancellationToken cancellationToken)
+        {
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            Entities.Document cv =  await context.DossierTechniques
+                            .Where(x => x.TokenAccesRapide == tokenRapide)
+                            .Include(x => x.Personne)
+                                .ThenInclude(x => x.Documents).Select(e => e.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV)).SingleAsync(cancellationToken);
+
+            if (cv == null)
+                return null;
+
+            return new DocumentDto() { Id = cv.Id, MimeType = cv.MimeType, NomFichier = cv.Nom, Data = cv.Data };
+
+        }
+
         public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync(Guid tokenRapide, CancellationToken cancellationToken)
         {
 
@@ -359,7 +377,7 @@ namespace Altalents.Business.Services
             Entities.Document CV = dt.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV);
             if (CV != null)
             {
-                listDocDtos.Add(new DocumentDto() { Data = CV.Data, MimeType = CV.MimeType, NomFichier = CV.Nom });
+                listDocDtos.Add(new DocumentDto() { Id = CV.Id, MimeType = CV.MimeType, NomFichier = CV.Nom });
             }
 
             ParlonsDeVousDto reponse = new ParlonsDeVousDto()
@@ -532,7 +550,7 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        public async Task<List<DocumentDto>> GetPiecesJointesDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
             List<DocumentDto> result = await context.DossierTechniques
@@ -587,17 +605,18 @@ namespace Altalents.Business.Services
                 throw new BusinessException("UNAUTHORIZED Action");
             }
 
-            DtMainPageExportDso modelExport = new DtMainPageExportDso();
+            DtMainPageExportDso modelExport = new DtMainPageExportDso
+            {
+                //Remplissage data de l'entete
+                Candidat_Trigramme = dt.Personne.Trigramme,
+                Dt_Poste = dt.Poste,
 
-            //Remplissage data de l'entete
-            modelExport.Candidat_Trigramme = dt.Personne.Trigramme;
-            modelExport.Dt_Poste = dt.Poste;
-
-            //remplissage data du bloc Contact Commercial
-            modelExport.Commercial_SiteWeb = "www.altea-si.com";
-            modelExport.Commercial_NomComplet = _commercialSettings.Nom;
-            modelExport.Commercial_Email = _commercialSettings.Mail;
-            modelExport.Commercial_Phone = _commercialSettings.Telephone;
+                //remplissage data du bloc Contact Commercial
+                Commercial_SiteWeb = "www.altea-si.com",
+                Commercial_NomComplet = _commercialSettings.Nom,
+                Commercial_Email = _commercialSettings.Mail,
+                Commercial_Phone = _commercialSettings.Telephone
+            };
 
             //remplissage data du bloc Contact Focus
             int nbExp = CalculerTotalAnneesExperienceAvecChevauchements(dt);
@@ -629,8 +648,8 @@ namespace Altalents.Business.Services
 
             GetQuestionToShowInDt(dt);
 
-            WordTemplateService wordTemplateService = new WordTemplateService();
-            byte[] generatedFile = wordTemplateService.GenerateDocument(modelExport);
+            WordTemplateService WordTemplateService = new WordTemplateService();
+            byte[] generatedFile = WordTemplateService.GenerateDocument(modelExport);
 
             return new DocumentDto()
             {

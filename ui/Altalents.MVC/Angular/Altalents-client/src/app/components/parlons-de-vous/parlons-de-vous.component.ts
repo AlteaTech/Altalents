@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ParlonsDeVousForm } from 'src/app/shared/interfaces/parlons-de-vous-form';
-import { AdresseUpdateRequestDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto } from 'src/app/shared/services/generated/api/api.client';
+import { AdresseUpdateRequestDto, DocumentDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
@@ -71,7 +71,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
               codePostal: this.parlonsDeVous.adresse?.codePostal,
               pays: this.parlonsDeVous.adresse?.pays,
               synthese: this.parlonsDeVous.synthese,
-              fileInput: this.parlonsDeVous.pieceJointe?.data,
+              // fileInput: this.parlonsDeVous.pieceJointe?.data,
               zoneGeo: this.parlonsDeVous.zoneGeo,
               softSkills : this.parlonsDeVous.softSKills
             });
@@ -134,8 +134,13 @@ public async onDrop(event: DragEvent): Promise<void> {
           return;
         }
     
+
+
         this.parlonsDeVous.pieceJointe = this.parlonsDeVous.pieceJointe ?? new PieceJointe();
+
+        this.parlonsDeVous.pieceJointe.id = undefined;
         this.parlonsDeVous.pieceJointe.mimeType = file.type;
+
         this.parlonsDeVous.pieceJointe.nomFichier = file.name;
 
         this.isLoading = true;
@@ -154,10 +159,25 @@ public async onDrop(event: DragEvent): Promise<void> {
 
   public downloadPj()
   {
-    var link = document.createElement("a"); //Create <a>
-    link.href = "data:" + this.parlonsDeVous.pieceJointe?.mimeType + ";base64," + this.parlonsDeVous.pieceJointe?.data; //Image Base64 Goes here
-    link.download = this.parlonsDeVous.pieceJointe?.nomFichier!; //File name Here
-    link.click(); //Downloaded file
+    
+    if (!this.parlonsDeVous.pieceJointe || !this.parlonsDeVous.pieceJointe.id) {
+      // Cas où pieceJointe ou Id est null : téléchargement à partir de la donnée base64
+      const link = document.createElement("a");
+      link.href = "data:" + this.parlonsDeVous.pieceJointe?.mimeType + ";base64," + this.parlonsDeVous.pieceJointe?.data;
+      link.download = this.parlonsDeVous.pieceJointe?.nomFichier!;
+      link.click();
+     
+    } else {
+        this.isLoading = true;
+        this.callRequest(ConstantesRequest.getCvFile, this.service.getCvFile(this.tokenDossierTechnique)
+        .subscribe((response: DocumentDto) => {
+          var a = document.createElement("a"); 
+          a.href = "data:" + response.mimeType + ";base64," + response.data;
+          a.download = response.nomFichier; 
+          a.click(); 
+          this.isLoading = false;
+        }));
+    }
   }
 
   private async submit(): Promise<boolean> {

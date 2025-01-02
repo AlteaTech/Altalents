@@ -39,8 +39,7 @@ namespace Altalents.DataAccess
         public virtual DbSet<Certification> Certifications { get; set; }
         public virtual DbSet<DossierTechniqueLangue> DossierTechniqueLangues { get; set; }
         public virtual DbSet<DocumentComplementaire> DocumentComplementairesTD { get; set; }
-
-        
+        public virtual DbSet<Document> Document { get; set; }
 
     }
 }

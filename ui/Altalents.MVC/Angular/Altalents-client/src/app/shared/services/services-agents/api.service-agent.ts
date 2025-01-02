@@ -147,5 +147,8 @@ export class ApiServiceAgent {
     return this.apiClient.validationDtCompletByCandidat(token);
   }
 
+  getCvFile(token:string): Observable<DocumentDto> {
+    return this.apiClient.getCvFile(token);
+  }
 
 }
