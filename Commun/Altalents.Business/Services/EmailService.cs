@@ -7,6 +7,7 @@ using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 
 using MimeKit;
+using PreMailer.Net;
 
 namespace Altalents.Business.Services
 {
@@ -102,7 +103,7 @@ namespace Altalents.Business.Services
             }
 
             // Inline le CSS via PreMailer
-            var result = PreMailer.Net.PreMailer.MoveCssInline(styledHtml);
+            InlineResult result = PreMailer.Net.PreMailer.MoveCssInline(styledHtml);
 
             return result.Html;
         }

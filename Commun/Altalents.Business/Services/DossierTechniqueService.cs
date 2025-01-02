@@ -536,7 +536,7 @@ namespace Altalents.Business.Services
         public async Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
-            var result = await context.DossierTechniques
+            List<DocumentDto> result = await context.DossierTechniques
                 .Where(x => x.TokenAccesRapide == tokenAccesRapide)
                 .SelectMany(x => x.DocumentComplementaires
                     .Where(w => w.TypeDocument == TypeDocumentEnum.PieceJointeDt)
@@ -758,10 +758,10 @@ namespace Altalents.Business.Services
         private static List<DtCompetenceMetierExportDso> getDomainesMetierWithNbAnneeExp(DossierTechnique dt)
         {
             // Étape 1: Récupérer les domaines métier à partir des expériences
-            var domainesMetierExperiences = getDomainesMetierFromExperiences(dt);
+            List<DtCompetenceMetierExportDso> domainesMetierExperiences = getDomainesMetierFromExperiences(dt);
 
             // Étape 2: Récupérer les domaines métier à partir des missions
-            var domainesMetierMissions = getDomainesMetierFromMissions(dt);
+            List<DtCompetenceMetierExportDso> domainesMetierMissions = getDomainesMetierFromMissions(dt);
 
             // Combiner les résultats et faire un Distinct pour éviter les doublons
             var result = domainesMetierExperiences
@@ -770,7 +770,7 @@ namespace Altalents.Business.Services
                 .Select(g => g.OrderByDescending(d =>
                 {
                     // Convertir "DureeExperience" en nombre d'années pour comparer les durées
-                    var years = int.TryParse(d.DureeExperience.Split(' ')[0], out var y) ? y : 0;
+                    int years = int.TryParse(d.DureeExperience.Split(' ')[0], out var y) ? y : 0;
                     return years;
                 }).First()) // Sélectionner l'élément avec la plus grande durée d'expérience
                 .ToList();
@@ -816,12 +816,12 @@ namespace Altalents.Business.Services
                     }
 
                     // Calculer la durée totale consolidée en années
-                    var totalDays = plagesConsolidees
+                    double totalDays = plagesConsolidees
                         .Sum(plage => (plage.End - plage.Start).TotalDays);
-                    var totalYears = totalDays / 365.2425;
+                    double totalYears = totalDays / 365.2425;
 
                     // Appliquer l'arrondi selon les règles
-                    var roundedYears = totalYears < 1
+                    int roundedYears = totalYears < 1
                         ? 1
                         : (int)Math.Round(totalYears, MidpointRounding.AwayFromZero);
 
@@ -873,12 +873,12 @@ namespace Altalents.Business.Services
                     }
 
                     // Calculer la durée totale consolidée des missions en années
-                    var totalDays = plagesConsolidees
+                    double totalDays = plagesConsolidees
                         .Sum(plage => (plage.End - plage.Start).TotalDays);
-                    var totalYears = totalDays / 365.2425;
+                    double totalYears = totalDays / 365.2425;
 
                     // Appliquer l'arrondi selon les règles
-                    var roundedYears = totalYears < 1
+                    int roundedYears = totalYears < 1
                         ? 1
                         : (int)Math.Round(totalYears, MidpointRounding.AwayFromZero);
 
@@ -897,7 +897,7 @@ namespace Altalents.Business.Services
             if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
                 return string.Empty;
 
-            var technologies = dt.Experiences
+            List<string> technologies = dt.Experiences
                 .Where(exp => exp.LiaisonExperienceCompetences != null)
                 .SelectMany(exp => exp.LiaisonExperienceCompetences)
                 .Where(lt => lt.Competance != null)
@@ -915,7 +915,7 @@ namespace Altalents.Business.Services
             if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
                 return string.Empty;
 
-            var outils = dt.Experiences
+            List<string> outils = dt.Experiences
                 .Where(exp => exp.LiaisonExperienceOutils != null)
                 .SelectMany(exp => exp.LiaisonExperienceOutils)
                 .Where(lt => lt.Outil != null)
@@ -933,7 +933,7 @@ namespace Altalents.Business.Services
             if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
                 return string.Empty;
 
-            var technologies = dt.Experiences
+            List<string> technologies = dt.Experiences
                 .Where(exp => exp.LiaisonExperienceTechnologies != null)
                 .SelectMany(exp => exp.LiaisonExperienceTechnologies)
                 .Where(lt => lt.Technologie != null)
@@ -952,7 +952,7 @@ namespace Altalents.Business.Services
                 return string.Empty;
 
             // Extraire les libellés des méthodologies uniques
-            var methodologies = dt.Experiences
+            List<string> methodologies = dt.Experiences
                 .Where(exp => exp.LiaisonExperienceMethodologies != null) // Vérifier qu'il y a des méthodologies
                 .SelectMany(exp => exp.LiaisonExperienceMethodologies) // Rassembler toutes les méthodologies
                 .Where(lm => lm.Methodologie != null) // S'assurer que chaque méthodologie est non null
@@ -1004,7 +1004,7 @@ namespace Altalents.Business.Services
             }
 
             // Calcul de la durée totale en jours
-            var totalDays = plagesConsolidees
+            double totalDays = plagesConsolidees
                 .Sum(plage => (plage.End - plage.Start).TotalDays);
 
             // Conversion en années avec arrondi standard (0,5 ou plus monte à l'année supérieure)

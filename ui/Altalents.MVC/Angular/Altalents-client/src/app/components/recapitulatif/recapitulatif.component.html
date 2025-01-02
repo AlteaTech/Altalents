@@ -285,7 +285,7 @@
             <label class="">{{ question.question }}<span class="champ-obligatoire"
                     *ngIf="question.isObligatoire">*</span> : &nbsp;</label>
             <span *ngIf="question.reponse" class="font-normal">{{question.reponse}}</span>
-            <span *ngIf="!question.reponse" class="font-normal">(Vous n'avez pas répondu à cette question))</span>
+            <span *ngIf="!question.reponse" class="font-normal">(Vous n'avez pas répondu à cette question)</span>
         </div>
     </div>
     <div *ngIf="questions.length == 0">

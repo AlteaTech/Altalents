@@ -29,7 +29,7 @@ namespace Altalents.Report.Library.Services
 
                 using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputTempPath, true))
                 {
-                    var mainBody = wordDoc.MainDocumentPart.Document.Body;
+                    Body mainBody = wordDoc.MainDocumentPart.Document.Body;
 
                     Dictionary<string, string> data = GetDataExportDictionaryForMainPage(dt);
                     ReplacePlaceholders(mainBody, data);
@@ -70,7 +70,7 @@ namespace Altalents.Report.Library.Services
 
         private static void FeedCertificationSection(DtMainPageExportDso dt, Body mainBody)
         {
-            var paraWithKeyTABLEAU_RECURSIF_CERTIFICATION = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_CERTIFICATIONS));
+            Paragraph paraWithKeyTABLEAU_RECURSIF_CERTIFICATION = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_CERTIFICATIONS));
 
             if (paraWithKeyTABLEAU_RECURSIF_CERTIFICATION != null)
             {
@@ -103,7 +103,7 @@ namespace Altalents.Report.Library.Services
 
         private static void FeedFormationsSection(DtMainPageExportDso dt, Body mainBody)
         {
-            var paraWithKeyTABLEAU_RECURSIF_FORMATION = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_FORMATIONS));
+            Paragraph paraWithKeyTABLEAU_RECURSIF_FORMATION = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_FORMATIONS));
 
             if (paraWithKeyTABLEAU_RECURSIF_FORMATION != null)
             {
@@ -136,7 +136,7 @@ namespace Altalents.Report.Library.Services
 
         private static void FeedQuestionSection(DtMainPageExportDso dt, Body mainBody)
         {
-            var paraWithKeyTABLEAU_QUESTION_PERSONNALISEE = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_QUESTIONS_PERSONNALISEES));
+            Paragraph paraWithKeyTABLEAU_QUESTION_PERSONNALISEE = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_QUESTIONS_PERSONNALISEES));
 
             if (paraWithKeyTABLEAU_QUESTION_PERSONNALISEE != null)
             {
@@ -169,7 +169,7 @@ namespace Altalents.Report.Library.Services
 
         private static void FeedCompMetierSection(DtMainPageExportDso dt, Body mainBody)
         {
-            var paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_COMPETENCES_METIER));
+            Paragraph paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_COMPETENCES_METIER));
 
             if (paraWithKeyTABLEAU_RECURSIF_COMPETENCES_METIERS != null)
             {
@@ -211,7 +211,7 @@ namespace Altalents.Report.Library.Services
 
         private void FeedExperiencesSection(DtMainPageExportDso dt, Body mainBody)
         {
-            var paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
+            Paragraph paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
 
             if (paraWithKeyEXPERIENCES_RECURSIF != null)
             {
@@ -247,7 +247,7 @@ namespace Altalents.Report.Library.Services
 
         private static void FeedLanguageSection(DtMainPageExportDso dt, Body mainBody)
         {
-            var paraWithKeyTABLEAU_RECURSIF_LANGUES = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_LANGUES));
+            Paragraph paraWithKeyTABLEAU_RECURSIF_LANGUES = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_TABLEAU_RECURSIF_LANGUES));
 
             if (paraWithKeyTABLEAU_RECURSIF_LANGUES != null)
             {
@@ -289,7 +289,7 @@ namespace Altalents.Report.Library.Services
 
         private static void RemoveSection(Paragraph paraWithKeyTABLEAU_RECURSIF_CERTIFICATION)
         {
-            var previousElement = paraWithKeyTABLEAU_RECURSIF_CERTIFICATION.PreviousSibling();
+            OpenXmlElement previousElement = paraWithKeyTABLEAU_RECURSIF_CERTIFICATION.PreviousSibling();
             List<OpenXmlElement> elementsToRemove = new List<OpenXmlElement>();
 
             // Collecter tous les éléments avant le tableau et entre le tableau et le paragraphe
@@ -306,7 +306,7 @@ namespace Altalents.Report.Library.Services
             }
 
             // Supprimer tous les éléments collectés
-            foreach (var element in elementsToRemove)
+            foreach (OpenXmlElement element in elementsToRemove)
             {
                 element.Remove();
             }
@@ -323,7 +323,7 @@ namespace Altalents.Report.Library.Services
 
             // Supprimer les lignes du modèle
             var rowsToRemove = newTableau.Elements<TableRow>().Take(2).ToList();
-            foreach (var row in rowsToRemove)
+            foreach (TableRow row in rowsToRemove)
             {
                 row.Remove();
             }
@@ -338,8 +338,8 @@ namespace Altalents.Report.Library.Services
             // Insérer le nouveau tableau juste avant le paragraphe à remplacer
             parent.InsertAfter(newTableau, paraWithKeyTABLEAU_RECURSIF);
 
-            var rowsToRemove = newTableau.Elements<TableRow>().Take(1).ToList();
-            foreach (var row in rowsToRemove)
+            List<TableRow> rowsToRemove = newTableau.Elements<TableRow>().Take(1).ToList();
+            foreach (TableRow row in rowsToRemove)
             {
                 row.Remove();
             }
@@ -381,8 +381,8 @@ namespace Altalents.Report.Library.Services
             // Insérer le nouveau tableau juste avant le paragraphe à remplacer
             parent.InsertAfter(newTableau, paraWithKeyQUESTION_PERSONNALISEE);
 
-            var rowsToRemove = newTableau.Elements<TableRow>().Take(1).ToList();
-            foreach (var row in rowsToRemove)
+            List<TableRow> rowsToRemove = newTableau.Elements<TableRow>().Take(1).ToList();
+            foreach (TableRow row in rowsToRemove)
             {
                 row.Remove();
             }
@@ -421,10 +421,10 @@ namespace Altalents.Report.Library.Services
         private static TableCell GetNewRowTableauHorizontal(TableRow modelRowLibelle, TableRow modelRowValeur, TableRow newRowLibelle, string libelle, string value)
         {
 
-            var modelCellLibelle = modelRowLibelle.Elements<TableCell>().FirstOrDefault();
-            var newCellLibelle = (TableCell)modelCellLibelle.CloneNode(true);
+            TableCell modelCellLibelle = modelRowLibelle.Elements<TableCell>().FirstOrDefault();
+            TableCell newCellLibelle = (TableCell)modelCellLibelle.CloneNode(true);
 
-            foreach (var text in newCellLibelle.Descendants<Text>())
+            foreach (Text text in newCellLibelle.Descendants<Text>())
             {
                 if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_LIBELLE))
                 {
@@ -433,10 +433,10 @@ namespace Altalents.Report.Library.Services
             }
             newRowLibelle.Append(newCellLibelle);
 
-            var modelCellValeur = modelRowValeur.Elements<TableCell>().FirstOrDefault();
-            var newCellValeur = (TableCell)modelCellValeur.CloneNode(true);
+            TableCell modelCellValeur = modelRowValeur.Elements<TableCell>().FirstOrDefault();
+            TableCell newCellValeur = (TableCell)modelCellValeur.CloneNode(true);
 
-            foreach (var text in newCellValeur.Descendants<Text>())
+            foreach (Text text in newCellValeur.Descendants<Text>())
             {
                 if (text.Text.Contains(DtTemplatesReplacementKeys.TABLEAU_RECURSIF_ITEM_VALEUR))
                 {
@@ -505,7 +505,7 @@ namespace Altalents.Report.Library.Services
             string textToAddInProjectsPlaceholder = "";
             string textToAddInTachesPlaceholder = "";
 
-            foreach (var missionOrProject in exp.MissionsOrProjects)
+            foreach (DtExpProMission missionOrProject in exp.MissionsOrProjects)
             {
                 string projet = "";
 
@@ -595,9 +595,9 @@ namespace Altalents.Report.Library.Services
 
         private void ReplacePlaceholders(OpenXmlElement elem, Dictionary<string, string> placeholders)
         {
-            foreach (var paragraph in elem.Descendants<OpenXmlElement>())
+            foreach (OpenXmlElement paragraph in elem.Descendants<OpenXmlElement>())
             {
-                foreach (var run in paragraph.Descendants<Run>())
+                foreach (Run run in paragraph.Descendants<Run>())
                 {
                     foreach (var placeholder in placeholders)
                     {
@@ -629,7 +629,7 @@ namespace Altalents.Report.Library.Services
                                     Run clonedRun = (Run)run.CloneNode(true);
 
                                     // Modifier uniquement le texte du clone
-                                    var textElement = clonedRun.GetFirstChild<Text>();
+                                    Text textElement = clonedRun.GetFirstChild<Text>();
                                     if (textElement != null)
                                     {
                                         textElement.Text = "• "+line;
@@ -655,7 +655,7 @@ namespace Altalents.Report.Library.Services
                                         Run clonedRun = (Run)run.CloneNode(true);
 
                                         // Ajouter la balise en gras à ce texte
-                                        var textElement = clonedRun.GetFirstChild<Text>();
+                                        Text textElement = clonedRun.GetFirstChild<Text>();
                                         if (textElement != null)
                                         {
                                             textElement.Text = boldText;
@@ -685,7 +685,7 @@ namespace Altalents.Report.Library.Services
                                     if (!string.IsNullOrWhiteSpace(line))
                                     {
                                         Run clonedRun = (Run)run.CloneNode(true);
-                                        var textElement = clonedRun.GetFirstChild<Text>();
+                                        Text textElement = clonedRun.GetFirstChild<Text>();
                                         if (textElement != null)
                                         {
                                             textElement.Text = line;
@@ -715,19 +715,19 @@ namespace Altalents.Report.Library.Services
         private void ReplacePlaceholdersInFooters(MainDocumentPart mainDocumentPart, Dictionary<string, string> placeholders)
         {
             // Parcourir tous les pieds de page du document
-            foreach (var footerPart in mainDocumentPart.FooterParts)
+            foreach (FooterPart footerPart in mainDocumentPart.FooterParts)
             {
-                var footer = footerPart.Footer;
+                Footer footer = footerPart.Footer;
 
                 // Parcourir tous les descendants du pied de page
-                foreach (var element in footer.Descendants<OpenXmlElement>())
+                foreach (OpenXmlElement element in footer.Descendants<OpenXmlElement>())
                 {
                     // Vérifier et remplacer les placeholders dans les textes
                     foreach (var placeholder in placeholders)
                     {
                         if (element.InnerText.Contains(placeholder.Key))
                         {
-                            var textElement = element.GetFirstChild<Text>();
+                            Text textElement = element.GetFirstChild<Text>();
                             if (textElement != null)
                             {
                                 textElement.Text = element.InnerText.Replace(placeholder.Key, placeholder.Value);
