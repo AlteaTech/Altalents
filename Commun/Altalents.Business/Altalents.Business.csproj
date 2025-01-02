@@ -35,7 +35,6 @@
     <ProjectReference Include="..\Altalents.Commun\Altalents.Commun.csproj" />
     <ProjectReference Include="..\Altalents.IBusiness\Altalents.IBusiness.csproj" />
     <ProjectReference Include="..\Altalents.DataAccess\Altalents.DataAccess.csproj" />
-    <ProjectReference Include="..\Altalents.Report.Library\Altalents.Report.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>

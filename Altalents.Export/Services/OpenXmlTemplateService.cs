@@ -23,7 +23,7 @@ namespace Altalents.Export.Services
 
             try
             {
-                string normalizedPath = GetNormalisedFullPathWordTemplate(FilesNamesConstantes.ExportDtMainPage_WordTemplate_FileNameWithExt);
+                string normalizedPath = GetNormalisedFullPathWordTemplate(FilesNamesConstantes.ExportDtMainPage_WordTemplatePage_FileNameWithExt);
 
                 File.Copy(normalizedPath, outputTempPath, true);
 
@@ -450,25 +450,25 @@ namespace Altalents.Export.Services
 
         private static string GetTemplateItemTabHorizontalPath()
         {
-            string templateDocName = "Template_DT_Altea_2024_ItemTabHorizontal.docx";
+            string templateDocName = FilesNamesConstantes.ItemTabHorizontal_WordTemplateItem_FileNameWithExt;
             return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
         private static string GetTemplateExperiencelPath()
         {
-            string templateDocName = "Template_DT_Altea_2024_ItemExperience.docx";
+            string templateDocName = FilesNamesConstantes.ItemExperience_WordTemplateItem_FileNameWithExt;
             return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
         private static string GetTemplateItemTabVerticalPath()
         {
-            string templateDocName = "Template_DT_Altea_2024_ItemTabVertical.docx";
+            string templateDocName = FilesNamesConstantes.ItemTabVertical_WordTemplateItem_FileNameWithExt;
             return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
         private static string GetTemplateItemQuestionPersonaliseePath()
         {
-            string templateDocName = "Template_DT_Altea_2024_ItemQuestion.docx";
+            string templateDocName = FilesNamesConstantes.ItemQuestion_WordTemplateItem_FileNameWithExt;
             return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
