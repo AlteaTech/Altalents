@@ -4,18 +4,16 @@ using Altalents.Business.Extensions;
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
 using Altalents.Entities;
+using Altalents.Export.DSO.OpenXml;
+using Altalents.Export.OpenXml;
+using Altalents.Export.Services;
 using Altalents.IBusiness.DTO.Request;
-using Altalents.Report.Library;
-using Altalents.Report.Library.DSO;
-using Altalents.Report.Library.DSO.OpenXml;
-using Altalents.Report.Library.Services;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 
-using Telerik.Reporting;
-using Telerik.Reporting.Processing;
+
 
 namespace Altalents.Business.Services
 {
@@ -64,6 +62,7 @@ namespace Altalents.Business.Services
 
             if (!dt.RempliParCandidat)
             {
+                //On envoi en async volontairement
                 EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
                 dt.RempliParCandidat = true;
                 await context.SaveBaseEntityChangesAsync(cancellationToken);
@@ -84,8 +83,8 @@ namespace Altalents.Business.Services
         private async Task EnvoiEmailCreationDtCandidatAsync(string emailTo, Guid tokenAccesRapide, string fullNameCandidat)
         {
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
-                "EmailConfirmationCreationDtForCandidat.html",
-                "email-styles.css",
+                FilesNamesConstantes.EmailConfirmationCreationDt_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
                 new Dictionary<string, string>
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
@@ -105,8 +104,8 @@ namespace Altalents.Business.Services
         private async Task EnvoiEmailDtCandidatCompletAsync(Guid tokenAccesRapide, string fullNameCandidat)
         {
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
-                "EmailConfirmationValidationDtByCandidat.html",
-                "email-styles.css",
+                FilesNamesConstantes.EmailConfirmationValidationDt_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
                 new Dictionary<string, string>
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
@@ -1065,63 +1064,6 @@ namespace Altalents.Business.Services
 
         }
 
-        //Relicat de la version d'avant qui utilisait telerick qui marchait bien mais qui permettait pas de garder le design du word
-        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
-        {
-            using CustomDbContext context = GetScopedDbContexte();
-
-            DossierCompetenceDso dossierCompetenceDso = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
-                .ProjectTo<DossierCompetenceDso>(Mapper.ConfigurationProvider)
-                .FirstAsync(cancellationToken);
-
-            dossierCompetenceDso.Commercial = new()
-            {
-                Mail = _commercialSettings.Mail,
-                Telephone = _commercialSettings.Telephone,
-                Name = _commercialSettings.Nom,
-                WebSite = _commercialSettings.SiteWeb
-            };
-
-            DossierCompetance dtTelerikRepportsrc = new DossierCompetance();
-
-            dtTelerikRepportsrc.dossierCompetanceDataSource.DataSource = dossierCompetenceDso;
-            dtTelerikRepportsrc.experienceDataSource.DataSource = dossierCompetenceDso.Experiences;
-
-            InstanceReportSource reportSource = new InstanceReportSource
-            {
-                ReportDocument = dtTelerikRepportsrc
-            };
-
-            string formatDocument = "PDF";
-            string mimeType = "application/pdf";
-            if (typeExportEnum == TypeExportEnum.RTF)
-            {
-                formatDocument = "RTF";
-                mimeType = "application/rtf";
-            }
-
-
-            Hashtable deviceInfo = new System.Collections.Hashtable();
-
-            ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();
-            RenderingResult result = reportProcessor.RenderReport(formatDocument, reportSource, deviceInfo);
-
-            if (!result.HasErrors)
-            {
-                string fileName = result.DocumentName + "." + result.Extension;
-
-                return new DocumentDto()
-                {
-                    MimeType = mimeType,
-                    NomFichier = fileName,
-                    Data = result.DocumentBytes
-                };
-            }
-            else
-            {
-                throw new Exception(result.Errors.ToString());
-            }
-        }
 
         public async Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {

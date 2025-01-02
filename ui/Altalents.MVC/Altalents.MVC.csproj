@@ -128,17 +128,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Telerik.Reporting">
-      <HintPath>..\..\Commun\Altalents.Business\dll\Telerik.Reporting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Telerik.Reporting.OpenXmlRendering.2.7.2">
-      <HintPath>..\..\Commun\Altalents.Business\dll\Telerik.Reporting.OpenXmlRendering.2.7.2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Resources\LibellesResources.Designer.cs">
       <DependentUpon>LibellesResources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
