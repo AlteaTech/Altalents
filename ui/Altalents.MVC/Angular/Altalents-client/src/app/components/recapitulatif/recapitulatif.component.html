@@ -51,7 +51,7 @@
     <div *ngIf="formations.length > 0">
         <div *ngFor="let formation of formations" class="margin-bottom">
             <p class="at-c-violet">{{formation.libelle}}</p>
-            <p class="font-bold">{{formation.domaine}} <span *ngIf="formation.niveau">({{formation.niveau}})</span></p>
+            <p class="font-bold" *ngIf="formation.niveau"><span>({{formation.niveau}})</span></p>
             <p class="font-normal">{{formation.organisme}}</p>
             <p class="font-normal" *ngIf="formation.dateFin">
                 De {{formation.dateDebut | date : "MMMM YYYY" }} à {{formation.dateFin | date : "MMMM YYYY" }}
@@ -79,8 +79,7 @@
     <div *ngIf="certifications.length > 0">
         <div *ngFor="let certification of certifications" class="margin-bottom">
             <p class="at-c-violet">{{certification.libelle}}</p>
-            <p class="font-bold">{{certification.domaine}} <span
-                    *ngIf="certification.niveau">({{certification.niveau}})</span></p>
+            <p class="font-bold" *ngIf="certification.niveau"><span>({{certification.niveau}})</span></p>
             <p class="font-normal">{{certification.organisme}}</p>
             <p class="font-normal" *ngIf="certification.dateFin">
                 De {{certification.dateDebut | date : "MMMM YYYY" }} à {{certification.dateFin | date : "MMMM YYYY" }}

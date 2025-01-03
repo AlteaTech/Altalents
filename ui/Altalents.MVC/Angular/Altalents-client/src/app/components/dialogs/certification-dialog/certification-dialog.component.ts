@@ -23,7 +23,6 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
       super();
       this.formGroup = new FormGroup<CertificationForm>({
       libelle: new FormControl(null, Validators.required),
-      domaine: new FormControl(),
       niveau: new FormControl(),
       organisme: new FormControl(),
       dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
@@ -37,7 +36,6 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
     if (this.certification) {
       this.formGroup.patchValue({
         libelle: this.certification.libelle,
-        domaine: this.certification.domaine,
         niveau: this.certification.niveau,
         organisme: this.certification.organisme,
         dateDebut:  formatDate(this.certification.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale), 
@@ -52,7 +50,6 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
       const values = this.formGroup.value;
       let certification: Certification = this.certification ?? new Certification();
       certification.libelle = values.libelle!;
-      certification.domaine = values.domaine;
       certification.niveau = values.niveau;
       certification.organisme = values.organisme;
       certification.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();

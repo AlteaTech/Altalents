@@ -22,7 +22,6 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
     super();
     this.formGroup = new FormGroup<FormationForm>({
       libelle: new FormControl(null, Validators.required),
-      domaine: new FormControl(),
       niveau: new FormControl(),
       organisme: new FormControl(),
       dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
@@ -37,7 +36,6 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
     if (this.formation) {
       this.formGroup.patchValue({
         libelle: this.formation.libelle,
-        domaine: this.formation.domaine,
         niveau: this.formation.niveau,
         organisme: this.formation.organisme,
         dateDebut:  formatDate(this.formation.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale), 
@@ -52,7 +50,6 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
       const values = this.formGroup.value;
       let formation: Formation = this.formation ?? new Formation();
       formation.libelle = values.libelle!;
-      formation.domaine = values.domaine;
       formation.niveau = values.niveau;
       formation.organisme = values.organisme;
       formation.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();

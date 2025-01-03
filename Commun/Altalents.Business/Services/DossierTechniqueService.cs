@@ -723,18 +723,16 @@ namespace Altalents.Business.Services
               {
                   // Construire le libellé complet
                   string niveauPart = !string.IsNullOrEmpty(certif.Niveau) ? $" ({certif.Niveau})" : string.Empty;
-                  string domainePart = !string.IsNullOrEmpty(certif.Domaine) ? $" - {certif.Domaine}" : string.Empty;
                   string organiusmePart = !string.IsNullOrEmpty(certif.Organisme) ? $" - {certif.Organisme}" : string.Empty;
 
                   return new DtCertificationExportDso
                   {
                       Annee = (certif.DateFin ?? certif.DateDebut).ToString("yyyy"), // Convertir DateTime en string
-                      LibelleComplet = certif.Libelle + niveauPart + domainePart
+                      LibelleComplet = certif.Libelle + niveauPart 
                   };
               })
               .ToList();
         }
-
 
         private static List<DtFormationExportDso> getFormationsOrderedByDate(DossierTechnique dt)
         {
@@ -744,19 +742,16 @@ namespace Altalents.Business.Services
               {
                   // Construire le libellé complet
                   string niveauPart = !string.IsNullOrEmpty(forma.Niveau) ? $" ({forma.Niveau})" : string.Empty;
-                  string domainePart = !string.IsNullOrEmpty(forma.Domaine) ? $" - {forma.Domaine}" : string.Empty;
                   string organiusmePart = !string.IsNullOrEmpty(forma.Organisme) ? $" - {forma.Organisme}" : string.Empty;
 
                   return new DtFormationExportDso
                   {
                       Annee = (forma.DateFin ?? forma.DateDebut).ToString("yyyy"), // Convertir DateTime en string
-                      LibelleComplet = forma.Libelle + niveauPart + organiusmePart + domainePart
+                      LibelleComplet = forma.Libelle + niveauPart + organiusmePart 
                   };
               })
               .ToList();
         }
-
-
 
         private static List<DtLangueExportDso> getLanguesParle(DossierTechnique dt)
         {
@@ -775,22 +770,17 @@ namespace Altalents.Business.Services
 
         private static List<DtCompetenceMetierExportDso> getDomainesMetierWithNbAnneeExp(DossierTechnique dt)
         {
-            // Étape 1: Récupérer les domaines métier à partir des expériences
             List<DtCompetenceMetierExportDso> domainesMetierExperiences = getDomainesMetierFromExperiences(dt);
-
-            // Étape 2: Récupérer les domaines métier à partir des missions
             List<DtCompetenceMetierExportDso> domainesMetierMissions = getDomainesMetierFromMissions(dt);
 
-            // Combiner les résultats et faire un Distinct pour éviter les doublons
             var result = domainesMetierExperiences
-                .Union(domainesMetierMissions) // Union des résultats
-                .GroupBy(d => d.Nom) // Grouper par nom pour appliquer Distinct
+                .Union(domainesMetierMissions) 
+                .GroupBy(d => d.Nom) //
                 .Select(g => g.OrderByDescending(d =>
                 {
-                    // Convertir "DureeExperience" en nombre d'années pour comparer les durées
                     int years = int.TryParse(d.DureeExperience.Split(' ')[0], out var y) ? y : 0;
                     return years;
-                }).First()) // Sélectionner l'élément avec la plus grande durée d'expérience
+                }).First())
                 .ToList();
 
             return result;
@@ -799,8 +789,8 @@ namespace Altalents.Business.Services
         private static List<DtCompetenceMetierExportDso> getDomainesMetierFromExperiences(DossierTechnique dt)
         {
             return dt.Experiences
-                .Where(exp => exp.DomaineMetier != null) // Filtrer les expériences avec un domaine métier valide
-                .GroupBy(exp => exp.DomaineMetier.Libelle) // Regrouper par domaine métier
+                .Where(exp => exp.DomaineMetier != null) 
+                .GroupBy(exp => exp.DomaineMetier.Libelle)
                 .Select(group =>
                 {
                     // Récupérer les plages de dates pour ce domaine
@@ -855,9 +845,9 @@ namespace Altalents.Business.Services
         private static List<DtCompetenceMetierExportDso> getDomainesMetierFromMissions(DossierTechnique dt)
         {
             return dt.Experiences
-                .SelectMany(exp => exp.ProjetsOrMissionsClient) // Récupérer les missions associées
-                .Where(pmc => pmc.DomaineMetier != null) // Filtrer les missions avec un domaine métier valide
-                .GroupBy(pmc => pmc.DomaineMetier.Libelle) // Regrouper par domaine métier
+                .SelectMany(exp => exp.ProjetsOrMissionsClient) 
+                .Where(pmc => pmc.DomaineMetier != null)
+                .GroupBy(pmc => pmc.DomaineMetier.Libelle)
                 .Select(group =>
                 {
                     // Récupérer les plages de dates pour ce domaine (missions)
@@ -1187,7 +1177,6 @@ namespace Altalents.Business.Services
                             certifToAddOrUpdate.Niveau = request.Niveau;
                             certifToAddOrUpdate.DateDebut = request.DateDebut;
                             certifToAddOrUpdate.DateFin = request.DateFin;
-                            certifToAddOrUpdate.Domaine = request.Domaine;
                             certifToAddOrUpdate.Organisme = request.Organisme;
                         }
                         else
@@ -1219,7 +1208,6 @@ namespace Altalents.Business.Services
                             formationfToAddOrUpdate.Niveau = request.Niveau;
                             formationfToAddOrUpdate.DateDebut = request.DateDebut;
                             formationfToAddOrUpdate.DateFin = request.DateFin;
-                            formationfToAddOrUpdate.Domaine = request.Domaine;
                             formationfToAddOrUpdate.Organisme = request.Organisme;
                         }
                         else

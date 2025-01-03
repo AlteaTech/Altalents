@@ -2995,7 +2995,6 @@ export interface IExperienceRequestDto {
 export class FormationCertificationDto implements IFormationCertificationDto {
     id!: string;
     libelle?: string | null;
-    domaine?: string | null;
     niveau?: string | null;
     organisme?: string | null;
     dateDebut?: string;
@@ -3014,7 +3013,6 @@ export class FormationCertificationDto implements IFormationCertificationDto {
         if (_data) {
             this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
             this.libelle = _data["Libelle"] !== undefined ? _data["Libelle"] : <any>null;
-            this.domaine = _data["Domaine"] !== undefined ? _data["Domaine"] : <any>null;
             this.niveau = _data["Niveau"] !== undefined ? _data["Niveau"] : <any>null;
             this.organisme = _data["Organisme"] !== undefined ? _data["Organisme"] : <any>null;
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
@@ -3033,7 +3031,6 @@ export class FormationCertificationDto implements IFormationCertificationDto {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id !== undefined ? this.id : <any>null;
         data["Libelle"] = this.libelle !== undefined ? this.libelle : <any>null;
-        data["Domaine"] = this.domaine !== undefined ? this.domaine : <any>null;
         data["Niveau"] = this.niveau !== undefined ? this.niveau : <any>null;
         data["Organisme"] = this.organisme !== undefined ? this.organisme : <any>null;
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
@@ -3045,7 +3042,6 @@ export class FormationCertificationDto implements IFormationCertificationDto {
 export interface IFormationCertificationDto {
     id: string;
     libelle?: string | null;
-    domaine?: string | null;
     niveau?: string | null;
     organisme?: string | null;
     dateDebut?: string;
@@ -3060,7 +3056,6 @@ export enum FormationCertificationEnum {
 export class FormationCertificationRequestDto implements IFormationCertificationRequestDto {
     formationOrCertificationEnumCode?: string | null;
     libelle?: string | null;
-    domaine?: string | null;
     niveau?: string | null;
     organisme?: string | null;
     dateDebut!: string;
@@ -3079,7 +3074,6 @@ export class FormationCertificationRequestDto implements IFormationCertification
         if (_data) {
             this.formationOrCertificationEnumCode = _data["FormationOrCertificationEnumCode"] !== undefined ? _data["FormationOrCertificationEnumCode"] : <any>null;
             this.libelle = _data["Libelle"] !== undefined ? _data["Libelle"] : <any>null;
-            this.domaine = _data["Domaine"] !== undefined ? _data["Domaine"] : <any>null;
             this.niveau = _data["Niveau"] !== undefined ? _data["Niveau"] : <any>null;
             this.organisme = _data["Organisme"] !== undefined ? _data["Organisme"] : <any>null;
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
@@ -3098,7 +3092,6 @@ export class FormationCertificationRequestDto implements IFormationCertification
         data = typeof data === 'object' ? data : {};
         data["FormationOrCertificationEnumCode"] = this.formationOrCertificationEnumCode !== undefined ? this.formationOrCertificationEnumCode : <any>null;
         data["Libelle"] = this.libelle !== undefined ? this.libelle : <any>null;
-        data["Domaine"] = this.domaine !== undefined ? this.domaine : <any>null;
         data["Niveau"] = this.niveau !== undefined ? this.niveau : <any>null;
         data["Organisme"] = this.organisme !== undefined ? this.organisme : <any>null;
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
@@ -3110,7 +3103,6 @@ export class FormationCertificationRequestDto implements IFormationCertification
 export interface IFormationCertificationRequestDto {
     formationOrCertificationEnumCode?: string | null;
     libelle?: string | null;
-    domaine?: string | null;
     niveau?: string | null;
     organisme?: string | null;
     dateDebut: string;

@@ -190,7 +190,6 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
     let dto = new FormationCertificationRequestDto();
         dto.dateDebut = formatDate(certification.dateDebut!, Constantes.formatDateBack, Constantes.formatDateLocale);
         dto.dateFin = certification.dateFin ? formatDate(certification.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
-        dto.domaine = certification.domaine;
         dto.libelle = certification.libelle;
         dto.niveau = certification.niveau;
         dto.organisme = certification.organisme;
@@ -202,7 +201,6 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
     let dto = new FormationCertificationRequestDto();
         dto.dateDebut = formatDate(formation.dateDebut!, Constantes.formatDateBack, Constantes.formatDateLocale);
         dto.dateFin = formation.dateFin ? formatDate(formation.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
-        dto.domaine = formation.domaine;
         dto.libelle = formation.libelle;
         dto.niveau = formation.niveau;
         dto.organisme = formation.organisme;

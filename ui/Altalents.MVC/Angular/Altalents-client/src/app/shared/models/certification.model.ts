@@ -4,7 +4,6 @@ import { DureeExperienceService } from "../services/services/calculators/duree-e
 export class Certification {
     id!: string;
     libelle!: string;
-    domaine?: string;
     niveau?: string;
     organisme?: string;
     dateDebut!: Date;
@@ -18,7 +17,6 @@ export class Certification {
         model.id = dto.id;
         model.dateDebut =  new Date(dto.dateDebut!);
         model.dateFin = dto.dateFin ? new Date(dto.dateFin) : undefined;
-        model.domaine = dto.domaine!;
         model.libelle = dto.libelle!;
         model.niveau = dto.niveau!;
         model.organisme = dto.organisme!;

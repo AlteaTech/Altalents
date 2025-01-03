@@ -9,7 +9,6 @@ namespace Altalents.Export
     public static class DtTemplatesReplacementKeys
     {
 
-        
         public const string HEADER_CANDIDAT_TRI = "{{HEADER_CANDIDAT_TRI}}";
         public const string HEADER_CANDIDAT_POSTE = "{{HEADER_CANDIDAT_POSTE}}";
 
@@ -57,7 +56,6 @@ namespace Altalents.Export
 
         public const string EXP_PROJ_OR_MISSION_LIBELLE = "{{EXP_PROJ_OR_MISSION_LIBELLE}}";
         public const string EXP_PROJ_OR_MISSION_VALUES = "{{EXP_PROJ_OR_MISSION_VALUES}}";
-
 
     }
 }

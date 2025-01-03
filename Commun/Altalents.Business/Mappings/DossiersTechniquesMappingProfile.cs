@@ -132,7 +132,6 @@ namespace Altalents.Business.Mappings
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
               .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
               .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
-              .ForMember(dest => dest.Domaine, opt => opt.MapFrom(src => src.Domaine))
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
@@ -141,7 +140,6 @@ namespace Altalents.Business.Mappings
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
               .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
               .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
-              .ForMember(dest => dest.Domaine, opt => opt.MapFrom(src => src.Domaine))
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
@@ -156,7 +154,6 @@ namespace Altalents.Business.Mappings
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
               .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
               .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
-              .ForMember(dest => dest.Domaine, opt => opt.MapFrom(src => src.Domaine))
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
@@ -164,7 +161,6 @@ namespace Altalents.Business.Mappings
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
               .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
               .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
-              .ForMember(dest => dest.Domaine, opt => opt.MapFrom(src => src.Domaine))
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 

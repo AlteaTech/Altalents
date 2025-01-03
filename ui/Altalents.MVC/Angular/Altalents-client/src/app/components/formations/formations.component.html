@@ -17,9 +17,6 @@
           <path d="M100 135 L110 120 L90 120 Z" fill="#cc3300" />
         </svg>
       </div>
-      
-      
-      
     <p>
         Deuxième étape : <span class="font-normal">vous avez étudié à Poudlard? Vous parlez couramment le patois péruvien avec un léger accent du sud? 
         Vous possèdez une certification officielle de meilleur imitateur de France que Nicolas Canteloup vous jalouse? 
@@ -42,11 +39,10 @@
                 </a>
             </div>
         </div>
-        <p class="font-bold ">{{formation.domaine}}<span *ngIf="formation.niveau"> - {{formation.niveau}}</span></p>
+        <p class="font-bold" *ngIf="formation.niveau">{{formation.niveau}}</p>
         <p class="font-normal">{{formation.organisme}}</p>
         <p class="font-normal" *ngIf="formation.dateFin">De {{formation.dateDebut | date : "MMMM YYYY" }} à {{formation.dateFin | date : "MMMM YYYY" }} <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span></p>
         <p class="font-normal" *ngIf="!formation.dateFin">Depuis {{formation.dateDebut | date : "MMMM YYYY" }} <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span></p>
-        
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddFormationClick()">
@@ -70,7 +66,7 @@
                 </a>
             </div>
         </div>
-        <p class="font-bold ">{{certification.domaine}}<span *ngIf="certification.niveau && certification.domaine "> - </span>{{certification.niveau}}</p>
+        <p class="font-bold " *ngIf="certification.niveau">{{certification.niveau}}</p>
         <p class="font-normal">{{certification.organisme}}</p>
         <p class="font-normal" *ngIf="certification.dateFin">De {{certification.dateDebut | date : "MMMM YYYY" }} à {{certification.dateFin | date : "MMMM YYYY" }} <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span></p>
         <p class="font-normal" *ngIf="!certification.dateFin">Depuis {{certification.dateDebut | date : "MMMM YYYY" }} <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span></p>
