@@ -20,9 +20,6 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250)
                 .IsRequired();
-            builder.Property(e => e.Description)
-                .HasColumnType("varchar(max)")
-                .IsRequired();
             builder.Property(e => e.DateDebut)
                 .HasColumnType("datetime")
                 .IsRequired();

@@ -13,15 +13,11 @@ export interface ExperienceForm {
     dateFin: FormControl<string | null>,
     isPosteActuel: FormControl<boolean | null>,
     lieu: FormControl<string | null>,
-    description: FormControl<string | null>,
     domaineMetier: FormControl<Reference | null>,
-    compositionEquipe: FormControl<string | null>,
     technologies: FormControl<Reference[] | null>,
     competences: FormControl<Reference[] | null>,
     methodologies: FormControl<Reference[] | null>,
     outils: FormControl<Reference[] | null>,
-    isBudgetGere: FormControl<boolean | null>,
-    budgetGere: FormControl<number | null>,
     projects: FormArray<FormGroup<ProjectForm>>;
 
 }

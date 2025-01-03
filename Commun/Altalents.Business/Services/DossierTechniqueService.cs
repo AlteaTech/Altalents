@@ -686,9 +686,7 @@ namespace Altalents.Business.Services
                     IntitulePoste = exp.IntitulePoste,
                     Lieu = exp.LieuEntreprise,
                     TypeContrat = exp.TypeContrat?.Libelle,
-                    Equipe = exp.CompositionEquipe,
                     DateDebutEtDateFin = $"{exp.DateDebut:MM/yyyy} --> {(exp.DateFin.HasValue ? exp.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
-                    Context = exp.Description,
                     EnvironnementsTechnique = string.Join(", ",
                         (exp.LiaisonExperienceTechnologies?.Select(lt => lt.Technologie?.Libelle) ?? Enumerable.Empty<string>())
                         .Concat(exp.LiaisonExperienceOutils?.Select(lo => lo.Outil?.Libelle) ?? Enumerable.Empty<string>())),

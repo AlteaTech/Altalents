@@ -10,9 +10,6 @@ namespace Altalents.Entities
         public string NomEntreprise { get; set; }
         public bool IsEntrepriseEsnOrInterim { get; set; }
         public string LieuEntreprise { get; set; }
-        public string Description { get; set; }
-        public string CompositionEquipe { get; set; }
-        public decimal? Budget { get; set; }
         public DateTime DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
         public Guid DomaineMetierId { get; set; }

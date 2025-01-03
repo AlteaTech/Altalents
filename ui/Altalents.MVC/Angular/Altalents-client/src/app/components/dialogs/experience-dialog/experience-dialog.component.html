@@ -133,7 +133,7 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-lg-3 label-champ-input">
+                        <div class="col-lg-3 label-champ-input"  *ngIf="isLieuVisible">
                             <label for="lieu" class="col-form-label">Lieu<span
                                     class="champ-obligatoire">*</span></label>
                             <div class="error-message"
@@ -141,38 +141,9 @@
                                 Le lieu est requis.
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-3" *ngIf="isLieuVisible">
                             <input type="text" id="lieu" formControlName="lieu" class="form-control"
                                 placeholder="Jumanji">
-                        </div>
-                        <div class="col-lg-3 label-champ-input">
-                            <label for="budgetGere" class="col-form-label">Budget géré</label>
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="text" id="budgetGere" formControlName="budgetGere" placeholder="0 €"
-                                   class="form-control budget-field" >
-                        </div>                     
-                    </div>
-                    <div class="row mb-2">
-                 
-                        <div class="col-lg-3  label-champ-input">
-                            <label for="description">Contexte<span
-                                    class="champ-obligatoire">*</span></label>
-                            <div class="error-message"
-                                *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
-                                Le contexte est requise.
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <textarea formControlName="description" id="description" rows="4"  placeholder="J'était rataché au pole cyber sécurité de l'entreprise"
-                                class="form-control"></textarea>
-                        </div>
-                        <div class="col-lg-3 label-champ-input">
-                            <label for="compositionEquipe" class="col-form-label">Composition d'équipe</label>
-                        </div>
-                        <div class="col-lg-3">
-                                <textarea id="compositionEquipe" rows="4"  formControlName="compositionEquipe" class="form-control"
-                                placeholder="Le pole comprenait 2 directeurs d'agence, 3 commerciaux, 10 dev, 1 DA, 2 Graphiste..."></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -232,27 +203,36 @@
                         <div *ngFor="let project of getProjets().controls; let i = index" [formGroupName]="i" class=""
                             [ngClass]="{'project-even': i % 2 === 0, 'project-odd': i % 2 !== 0}">
 
-                            <div class="row mb-2" *ngIf="IsEsn">
-                                <div class="col-lg-3 label-champ-input">
+                            
+  
+
+
+                            <div class="row mb-2">
+                                <div class="col-lg-3 label-champ-input"  *ngIf="IsEsn">
                                     <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client</label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-3"  *ngIf="IsEsn">
                                     <input id="nomClientOrProjet{{i}}" type="text" formControlName="nomClientOrProjet"
                                         class="form-control" placeholder="Edf, Areva, Michelin ...">
                                 </div>
 
-                                <div class="col-lg-3 label-champ-input">
-
+                                <div class="col-lg-3 label-champ-input"  *ngIf="IsEsn">
                                     <label for="domaineMetier{{i}}" class="col-form-label">Domaine métier</label>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-3" *ngIf="IsEsn">
                                     <select id="domaineMetier{{i}}" formControlName="domaineMetier" class="form-select">
                                         <option *ngFor="let domaine of domaines" [ngValue]="domaine">
                                             {{ domaine.libelle }}
                                         </option>
                                     </select>
+                                </div> 
+                                <div class="col-lg-3 label-champ-input"  *ngIf="IsEsn">
+                                    <label for="lieu{{i}}" class="col-form-label">Lieu</label>
                                 </div>
-
+                                <div class="col-lg-3"  *ngIf="IsEsn">
+                                    <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control"
+                                        placeholder="Lieu">
+                                </div>
                                 <!-- Date de début -->
                                 <div class="col-lg-3 label-champ-input">
                                     <label for="dateDebut{{i}}" class="col-form-label">Date de début</label>
@@ -280,41 +260,18 @@
                                 <div class="col-lg-3">
                                     <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control">
                                 </div>
+
                                 <div class="col-lg-3 label-champ-input">
-                                    <label for="lieu{{i}}" class="col-form-label">Lieu</label>
+                                    <label for="budget{{i}}" class="col-form-label">Budget</label>
+                                    <div *ngIf="project?.get('budget')?.invalid && project?.get('budget')?.touched"
+                                        class="error-message">
+                                        Le budget doit être un nombre positif.
+                                    </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control"
-                                        placeholder="Lieu">
+                                    <input type="text" id="budget{{i}}" formControlName="budget" placeholder="0 €"
+                                    class="form-control budget-field"  >                          
                                 </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-lg-3 label-champ-input">
-                                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">Contexte<span class="error-message">*</span></label>
-                                    <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched"
-                                        class="error-message">
-                                        Le contexte est requise.
-                                    </div>
-                                </div>
-                                <div class="col-lg-9">
-                                    <textarea id="descriptionProjetOrMission{{i}}"
-                                        formControlName="descriptionProjetOrMission" class="form-control"
-                                        placeholder="En charge du développement d'une application de gestion des patients pour les médecins hospitaliers."></textarea>
-                                </div>
-                                <div class="col-lg-3 label-champ-input">
-                                    <label for="taches{{i}}" class="col-form-label">Description des tâches<span
-                                            class="error-message">*</span></label>
-                                    <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched"
-                                        class="error-message">
-                                        La description est requises.
-                                    </div>
-                                </div>
-                                <div class="col-lg-9">
-                                    <textarea id="taches{{i}}" rows="5"  formControlName="taches" class="form-control"
-                                        placeholder="Tâches effectuées"></textarea>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-3 label-champ-input">
                                     <label for="compositionEquipe{{i}}" class="col-form-label">Composition
                                         d'équipe</label>
@@ -324,19 +281,40 @@
                                         placeholder="1 Lead, 3 dev, 1 PO, 4 QA"></textarea>
 
                                 </div>
-                                <div class="col-lg-3 label-champ-input">
-                                    <label for="budget{{i}}" class="col-form-label">Budget</label>
-                                    <div *ngIf="project?.get('budget')?.invalid && project?.get('budget')?.touched"
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-lg-6">
+                                    <label for="descriptionProjetOrMission{{i}}" class="col-form-label">
+                                        Contexte projet <span class="error-message">*</span>
+                                    </label>
+                                    <textarea id="descriptionProjetOrMission{{i}}"
+                                        formControlName="descriptionProjetOrMission"
+                                        class="form-control"
+                                        rows="4"
+                                        placeholder="En charge du développement d'une application de gestion des patients pour les médecins hospitaliers.">
+                                    </textarea>
+                                    <div *ngIf="project?.get('descriptionProjetOrMission')?.invalid && project?.get('descriptionProjetOrMission')?.touched"
                                         class="error-message">
-                                        Le budget doit être un nombre positif.
+                                        Le contexte est requis.
                                     </div>
-
-                                    
                                 </div>
-                                <div class="col-lg-3">
-                                    <input type="text" id="budget{{i}}" formControlName="budget" placeholder="0 €"
-                                    class="form-control budget-field"  >                          
+                                <div class="col-lg-6">
+                                    <label for="taches{{i}}" class="col-form-label">
+                                        Description des tâches <span class="error-message">*</span>
+                                    </label>
+                                    <textarea id="taches{{i}}"
+                                        formControlName="taches"
+                                        class="form-control"
+                                        rows="4"
+                                        placeholder="Tâches effectuées">
+                                    </textarea>
+                                    <div *ngIf="project?.get('taches')?.invalid && project?.get('taches')?.touched"
+                                        class="error-message">
+                                        La description est requise.
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="row mt-2">
                                 <div class="col-lg-9">
                                     <label class="col-form-label">&nbsp;</label>
                                 </div>
@@ -350,6 +328,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                         <div *ngIf="!hasAtLeastOneProject()" class="error-message margin-top-big">
                             {{ IsEsn ? 'Vous devez renseigner au moins une mission.' : 'Vous devez renseigner au moins
