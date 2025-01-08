@@ -12,9 +12,10 @@ namespace Altalents.API.Controllers
         private readonly IDossierTechniqueService _dossierTechniqueService;
         private readonly IDossierTechniqueExportService _dossierTechniqueExportService;
 
-        public DossiersTechniquesController(IDossierTechniqueService dossierTechniqueService)
+        public DossiersTechniquesController(IDossierTechniqueService dossierTechniqueService, IDossierTechniqueExportService dossierTechniqueExportService)
         {
             _dossierTechniqueService = dossierTechniqueService;
+            _dossierTechniqueExportService = dossierTechniqueExportService;
         }
 
         [HttpPost("", Name = "AddDossierTechnique")]
