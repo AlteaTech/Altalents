@@ -19,10 +19,6 @@ namespace Altalents.IBusiness.DTO.Request
         [Required]
         public bool IsEntrepriseEsnOrInterim { get; set; }
         public DateTime? DateFin { get; set; }
-        public List<ReferenceDto> Technologies{ get; set; }
-        public List<ReferenceDto> Methodologies { get; set; }
-        public List<ReferenceDto> Competences { get; set; }
-        public List<ReferenceDto> Outils { get; set; }
         public List<ProjetOrMissionClientDto> ProjetsOrMissionsClient{ get; set; }
     }
 }

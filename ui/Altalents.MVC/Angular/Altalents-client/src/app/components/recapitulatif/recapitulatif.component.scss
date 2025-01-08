@@ -2,10 +2,6 @@ p{
     margin-bottom: 0px;
 }
 
-.margin-bottom{
-    margin-bottom: 1em;
-}
-
 .flex-row-comp {
     display: flex;
     flex-wrap: wrap;
@@ -43,7 +39,7 @@ p{
     align-items: center; /* Centre horizontalement tous les éléments */
     justify-content: center; /* Centre verticalement tous les éléments dans la section */
     text-align: center; /* Centre le texte à l'intérieur des éléments */
-    margin-top: 20px; /* Facultatif : ajoute de l'espace en haut */
+    margin-top: 30px; /* Facultatif : ajoute de l'espace en haut */
   }
   
   .toggle-container {

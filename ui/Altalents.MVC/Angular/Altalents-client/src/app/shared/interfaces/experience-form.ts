@@ -14,10 +14,7 @@ export interface ExperienceForm {
     isPosteActuel: FormControl<boolean | null>,
     lieu: FormControl<string | null>,
     domaineMetier: FormControl<Reference | null>,
-    technologies: FormControl<Reference[] | null>,
-    competences: FormControl<Reference[] | null>,
-    methodologies: FormControl<Reference[] | null>,
-    outils: FormControl<Reference[] | null>,
+
     projects: FormArray<FormGroup<ProjectForm>>;
 
 }

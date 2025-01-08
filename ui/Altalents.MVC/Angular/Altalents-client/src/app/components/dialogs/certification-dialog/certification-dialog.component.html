@@ -4,14 +4,14 @@
         <legend><i class="fa-solid fa-medal"></i> Certification</legend>
   
         <!-- Certification -->
-        <div class="row mb-2">
-          <div class="col-lg-6 label-champ-input">
+        <div class="row ">
+          <div class="col-lg-6 mt-2 label-champ-input">
             <label for="libelle" class="col-form-label">Intitulé de la certification<span class="champ-obligatoire">*</span></label>
             <div class="error-message" *ngIf="formGroup.controls.libelle.invalid && formGroup.controls.libelle.touched">
               L'intitulé de la certification est requis.
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6 mb-2">
             <input
               type="text"
               class="form-control"
@@ -22,11 +22,11 @@
         </div>
   
         <!-- Niveau -->
-        <div class="row mb-2">
-          <div class="col-lg-6 label-champ-input">
+        <div class="row">
+          <div class="col-lg-6 mt-2 label-champ-input">
             <label for="niveau" class="col-form-label">Niveau</label>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6 mb-2">
             <input
               type="text"
               class="form-control"
@@ -37,11 +37,11 @@
         </div>
   
         <!-- Organisme -->
-        <div class="row mb-2">
-          <div class="col-lg-6 label-champ-input">
+        <div class="row">
+          <div class="col-lg-6 mt-2 label-champ-input">
             <label for="organisme" class="col-form-label">Organisme de certification</label>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6 mb-2">
             <input
               type="text"
               class="form-control"
@@ -52,8 +52,8 @@
         </div>
   
         <!-- Date de début -->
-        <div class="row mb-2">
-          <div class="col-lg-6 label-champ-input">
+        <div class="row">
+          <div class="col-lg-6 mt-2 label-champ-input">
             <label for="dateDebut" class="col-form-label">
               Date de début <span class="champ-obligatoire">*</span>
             </label>
@@ -64,7 +64,7 @@
               La date ne peut pas être supérieure à aujourd'hui.
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6 mb-2">
             <input
               type="date"
               class="form-control"
@@ -75,8 +75,8 @@
         </div>
   
         <!-- Date de fin -->
-        <div class="row mb-3">
-          <div class="col-lg-6 label-champ-input">
+        <div class="row">
+          <div class="col-lg-6 mt-2 label-champ-input">
             <label for="dateFin" class="col-form-label">Date de fin</label>
             <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
               La date ne peut pas être supérieure à aujourd'hui.
@@ -85,7 +85,7 @@
               La date de fin doit être postérieure à la date de début.
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-6 mb-2">
             <input
               type="date"
               class="form-control"

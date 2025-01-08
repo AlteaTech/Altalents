@@ -18,10 +18,6 @@ namespace Altalents.IBusiness.DTO.Request
         public Guid? TypeContratId { get; set; }
         public DateTime? DateFin { get; set; }
         public bool IsEntrepriseEsnOrInterim { get; set; }
-        public List<Guid> TechnologieIds { get; set; }
-        public List<Guid> MethodologieIds { get; set; }
-        public List<Guid> CompetenceIds { get; set; }
-        public List<Guid> OutilIds { get; set; }
         public List<ProjetOrMissionClientRequestDto> ProjetsOrMissionsClient { get; set; }
     }
 }

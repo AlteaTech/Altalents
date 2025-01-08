@@ -2,6 +2,7 @@ namespace Altalents.Entities
 {
     public partial class Experience : BaseEntity
     {
+
         public Experience()
         {
         }
@@ -12,16 +13,16 @@ namespace Altalents.Entities
         public string LieuEntreprise { get; set; }
         public DateTime DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
+
         public Guid DomaineMetierId { get; set; }
         public Reference DomaineMetier { get; set; }
+
         public Guid DossierTechniqueId { get; set; }
         public DossierTechnique DossierTechnique { get; set; }
+
         public Guid TypeContratId { get; set; }
         public Reference TypeContrat { get; set; }
-        public List<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
-        public List<LiaisonExperienceMethodologie> LiaisonExperienceMethodologies { get; set; }
-        public List<LiaisonExperienceCompetence> LiaisonExperienceCompetences { get; set; }
-        public List<LiaisonExperienceOutil> LiaisonExperienceOutils { get; set; }
+
         public List<ProjetOrMissionClient> ProjetsOrMissionsClient { get; set; }
 
     }

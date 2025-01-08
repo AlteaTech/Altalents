@@ -25,7 +25,6 @@ namespace Altalents.IBusiness.IServices
         Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<List<DocumentDto>> GetPiecesJointesDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<DocumentDto> GetCvDtAsync(Guid tokenRapide, CancellationToken cancellationToken);
-        Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<Guid> AddOrUpdateFormationCertificationAsync(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null);
         Task<Guid> AddOrUpdateLangueParleeAsync(Guid tokenAccesRapide, LangueParleeRequestDto request, CancellationToken cancellationToken, Guid? id = null);

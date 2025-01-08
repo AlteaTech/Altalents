@@ -11,7 +11,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.TypeReference, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
-                .ForMember(dest => dest.NbDtAssocie, opt => opt.MapFrom(src => src.LiaisonExperienceCompetances.Count() + src.LiaisonExperienceMethodologies.Count() + src.LiaisonExperienceTechnologies.Count()))
+                .ForMember(dest => dest.NbDtAssocie, opt => opt.MapFrom(src => src.LiaisonProjetCompetences.Count() + src.LiaisonProjetMethodologies.Count() + src.LiaisonProjetTechnologies.Count()))
                 ;
         }
     }

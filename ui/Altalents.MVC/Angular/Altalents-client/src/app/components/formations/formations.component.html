@@ -25,12 +25,12 @@
 </div>
 <fieldset>
     <legend><span><i class="fa-solid fa-graduation-cap "></i>Formations</span></legend>
-    <div *ngFor="let formation of stepFormation.formations" class="margin-bottom">
-        <div class="flex-row space-between align-center at-c-violet">
-            <p class="custom-margin-top-bottom">
+    <div *ngFor="let formation of stepFormation.formations" class="mb-3">
+        <div class="flex-row space-between align-center">
+            <p class="at-c-violet mb-0 mt-2">
               {{formation.libelle}}
             </p>
-            <div class="edit-links">
+            <div class="edit-links mt-2">
                 <a (click)="onModifierFormationClick(formation)" class="edit-link">
                 <p class="at-c-violet"><i class="fa-regular fa-pen-to-square"></i>Modifier</p>
                 </a>
@@ -44,7 +44,7 @@
         <p class="font-normal" *ngIf="formation.dateFin">De {{formation.dateDebut | date : "MMMM YYYY" }} à {{formation.dateFin | date : "MMMM YYYY" }} <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span></p>
         <p class="font-normal" *ngIf="!formation.dateFin">Depuis {{formation.dateDebut | date : "MMMM YYYY" }} <span *ngIf="formation.dureeExperience">({{formation.dureeExperience}})</span></p>
     </div>
-    <div class="at-p-button-ajouter">
+    <div class="at-p-button-ajouter mt-1 mb-4">
         <button (click)="onAddFormationClick()">
             <p><i class="fa-regular fa-plus at-c-violet"></i>Ajouter une formation</p>
         </button>
@@ -52,12 +52,12 @@
 </fieldset>
 <fieldset>
     <legend><i class="fa-solid fa-medal"></i>Certifications</legend>
-    <div *ngFor="let certification of stepFormation.certifications" class="margin-bottom">
+    <div *ngFor="let certification of stepFormation.certifications" class="mb-3">
         <div class="flex-row space-between align-center">
-            <p class=" at-c-violet custom-margin-top-bottom">
+            <p class=" at-c-violet mb-0 mt-2">
               {{certification.libelle}}
             </p>
-            <div class="edit-links">
+            <div class="edit-links mt-2">
                 <a (click)="onModifierCertificationClick(certification)" class="edit-link">
                 <p class="at-c-violet"><i class="fa-regular fa-pen-to-square"></i>Modifier</p>
                 </a>
@@ -71,27 +71,27 @@
         <p class="font-normal" *ngIf="certification.dateFin">De {{certification.dateDebut | date : "MMMM YYYY" }} à {{certification.dateFin | date : "MMMM YYYY" }} <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span></p>
         <p class="font-normal" *ngIf="!certification.dateFin">Depuis {{certification.dateDebut | date : "MMMM YYYY" }} <span *ngIf="certification.dureeExperience">({{certification.dureeExperience}})</span></p>
     </div>
-    <div class="at-p-button-ajouter">
+    <div class="at-p-button-ajouter mt-1 mb-4">
         <button (click)="onAddCertificationClick()">
             <p><i class="fa-regular fa-plus at-c-violet"></i>Ajouter une certification</p>
         </button>
     </div>   
 </fieldset>
 <fieldset>
-    <legend><i class="fa-solid fa-language"></i>Langues parlées</legend>
-    <div *ngFor="let langue of stepFormation.langues" class="margin-bottom">
+    <legend class="mb-3"><i class="fa-solid fa-language"></i>Langues parlées</legend>
+    <div *ngFor="let langue of stepFormation.langues" class="mb-1">
         <div class="flex-row space-between align-center">
-            <p class="custom-margin-top-bottom">
-                {{langue.libelleLangue}} ({{langue.libelleReferenceNiveau}})
+            <p class="mb-1 mt-1">
+                {{langue.libelleLangue}}<span class="font-normal"> ({{langue.libelleReferenceNiveau}}) </span>
             </p>
-            <div class="edit-links">
+            <div class="edit-links mt-1">
                 <a (click)="onDeleteLangueClick(langue)" class="edit-link">
                     <p class="at-c-violet"><i class="fa-solid fa-trash"></i>Supprimer</p>
                 </a>
             </div>
         </div>
     </div >
-    <div class="at-p-button-ajouter">
+    <div class="at-p-button-ajouter mt-3 mb-2">
         <button (click)="onAddLangueClick()">
             <p><i class="fa-regular fa-plus at-c-violet"></i>Ajouter une langue</p>
         </button>

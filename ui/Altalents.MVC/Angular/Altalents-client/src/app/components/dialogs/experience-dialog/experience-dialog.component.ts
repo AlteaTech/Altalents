@@ -16,12 +16,14 @@ import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
 import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { DataFormatService } from 'src/app/shared/services/services/formators/currency-formator';
+import { Competence } from 'src/app/shared/models/competence.model';
 
 @Component({
   selector: 'app-experience-dialog',
   templateUrl: './experience-dialog.component.html',
   styleUrls: ['./experience-dialog.component.scss']
 })
+
 export class ExperienceDialogComponent extends BaseComponentCallHttpComponent implements OnInit {
   public experience?: Experience;
   public formGroup: FormGroup<ExperienceForm>;
@@ -47,6 +49,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     const today = new Date();
 
     this.formGroup = new FormGroup<ExperienceForm>({
+      
       typeContrat: new FormControl(null, Validators.required),
       intitulePoste: new FormControl(null, Validators.required),
       entreprise: new FormControl(null, Validators.required),
@@ -56,10 +59,6 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       isPosteActuel: new FormControl(),
       lieu: new FormControl(null, Validators.required),
       domaineMetier: new FormControl(null, Validators.required),
-      technologies: new FormControl(),
-      competences: new FormControl(),
-      methodologies: new FormControl(),
-      outils: new FormControl(),
       projects: new FormArray<FormGroup<ProjectForm>>([], [Validators.required, Validators.minLength(1)]),
     });
 
@@ -82,10 +81,6 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         isPosteActuel: !this.experience.dateFin,
         lieu: this.experience.lieu,
         domaineMetier: this.experience.domaineMetier,
-        technologies: this.experience.technologies,
-        competences: this.experience.competences,
-        methodologies: this.experience.methodologies,
-        outils: this.experience.outils,
         projects: this.experience.projetOrMission,
       });
 
@@ -129,6 +124,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     const projectsArray = this.formGroup.get('projects') as FormArray;
 
     const projectGroup = new FormGroup({
+      
       nomClientOrProjet: new FormControl(project?.NomClientOrProjet ?? null),
       descriptionProjetOrMission: new FormControl(project?.descriptionProjetOrMission ?? null, Validators.required),
       domaineMetier: new FormControl(project?.domaineMetier ?? null),
@@ -138,6 +134,12 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       compositionEquipe: new FormControl(project?.compositionEquipe ?? null),
       budget: new FormControl(project?.budget ?? null),
       lieu: new FormControl(project?.lieu ?? null),
+
+      technologies: new FormControl(project?.technologies ?? null),
+      competences: new FormControl(project?.competences ?? null),
+      outils: new FormControl(project?.outils ?? null),
+      methodologies: new FormControl(project?.methodologies ?? null),
+
     });
 
     projectGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
@@ -215,9 +217,11 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
           if (this.experience.projetOrMission) {
             this.experience.projetOrMission.forEach((project, index) => {
+
               const selectedDomaineMetier = this.domaines.find(d => d.id === project.domaineMetier?.id) ?? null;
               const projectGroup = (this.formGroup.get('projects') as FormArray).at(index) as FormGroup;
               projectGroup.controls['domaineMetier'].setValue(selectedDomaineMetier);
+
             });
           }
         } else {
@@ -248,16 +252,23 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     if (this.formGroup.valid) {
       const projects: ProjectOrMissionClient[] = projectsArray.controls.map((group) => {
         const valuesProj = group.value;
+
         return {
           NomClientOrProjet: valuesProj.nomClientOrProjet ?? "",
           descriptionProjetOrMission: valuesProj.descriptionProjetOrMission ?? "",
+
           taches: valuesProj.taches ?? "",
           lieu: valuesProj.lieu ?? "",
           budget: valuesProj.budget ? parseFloat(valuesProj.budget.toString().replace(/[€,\s]/g, '').trim()) : undefined,
           compositionEquipe: valuesProj.compositionEquipe ?? "",
           dateDebut: valuesProj.dateDebut!,
           dateFin: valuesProj.dateFin!,
-          domaineMetier: valuesProj.domaineMetier ?? undefined
+          domaineMetier: valuesProj.domaineMetier ?? undefined,
+
+          technologies: valuesProj.technologies ?? [],
+          competences: valuesProj.competences ?? [],
+          methodologies: valuesProj.methodologies ?? [],
+          outils: valuesProj.outils ?? []
         };
       });
 
@@ -272,15 +283,15 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       experience.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
       experience.lieu = values.lieu ?? "";
       experience.domaineMetier = values.domaineMetier ?? new Reference();
-      experience.technologies = values.technologies ?? [];
-      experience.competences = values.competences ?? [];
-      experience.methodologies = values.methodologies ?? [];
-      experience.outils = values.outils ?? [];
+
       experience.projetOrMission = projects ?? [];
 
       this.activeModal.close(experience);
+
     } else {
+
       this.formGroup.markAllAsTouched();
+
     }
   }
 
@@ -288,19 +299,28 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     this.activeModal.close();
   }
 
-  public onSelectedTechnologiesChange(technologies: Reference[]): void {
-    this.formGroup.controls.technologies.setValue(technologies);
+  public onSelectedTechnologiesChange(technologies: Reference[], index: number): void {
+    const projectsArray = this.formGroup.get('projects') as FormArray;
+    const projectFormGroup = projectsArray.at(index) as FormGroup<ProjectForm>;
+    projectFormGroup.controls.technologies.setValue(technologies);
   }
 
-  public onSelectedCompetencesChange(competences: Reference[]): void {
-    this.formGroup.controls.competences.setValue(competences);
+  public onSelectedCompetencesChange(competences: Reference[], index: number): void {
+    const projectsArray = this.formGroup.get('projects') as FormArray;
+    const projectFormGroup = projectsArray.at(index) as FormGroup<ProjectForm>;
+    projectFormGroup.controls.competences.setValue(competences);
   }
 
-  public onSelectedMethodologiesChange(methodologies: Reference[]): void {
-    this.formGroup.controls.methodologies.setValue(methodologies);
+  public onSelectedMethodologiesChange(methodologies: Reference[], index: number): void {
+    const projectsArray = this.formGroup.get('projects') as FormArray;
+    const projectFormGroup = projectsArray.at(index) as FormGroup<ProjectForm>;
+    projectFormGroup.controls.methodologies.setValue(methodologies);
   }
 
-  public onSelectedOutilsChange(outils: Reference[]): void {
-    this.formGroup.controls.outils.setValue(outils);
+  public onSelectedOutilsChange(outils: Reference[], index: number): void {
+    const projectsArray = this.formGroup.get('projects') as FormArray;
+    const projectFormGroup = projectsArray.at(index) as FormGroup<ProjectForm>;
+    projectFormGroup.controls.outils.setValue(outils);
   }
+
 }

@@ -109,8 +109,6 @@ h4,
     width: 50px;
     margin-bottom: 10px;
   }
-
-
 }
 
 .drop-zone.dragging {
@@ -154,9 +152,7 @@ h4,
       margin: 10px;
       text-align: justify;
     }
-
   }
-
 }
 
 .bubble-container::after {
@@ -171,7 +167,6 @@ h4,
   border-right: 15px solid transparent;
   border-top: 20px solid #fff;
 }
-
 
 .font-bold {
   font-weight: bold;
@@ -193,22 +188,6 @@ h4,
 
 .font-small {
   font-size: small;
-}
-
-.margin-all {
-  margin: 2px;
-}
-
-.margin-top {
-  margin-top: 1em;
-}
-
-.margin-bottom {
-  margin-bottom: 1em;
-}
-
-.custom-margin-top-bottom {
-  margin: 2px 0;
 }
 
 .text-ellipsis {
@@ -349,7 +328,6 @@ h4,
         margin-left: 5px;
         margin-right: 5px;
       }
-
     }
 
     img {
@@ -464,8 +442,6 @@ h4,
   padding-right: 2vw;
 }
 
-
-
 .at-p-label-champ-input {
   text-align: right;
 }
@@ -484,6 +460,26 @@ h4,
   box-sizing: border-box;
 }
 
+.tab-content{
+  padding-top: 10px;
+
+}
+
+.nav-tabs{
+  padding-top: 10px;
+
+  .nav-item{
+
+    .nav-link{
+      background-color: #F5F5FF;
+
+      &.active {
+        background-color: white;
+      }
+    }
+  }
+}
+
 .container-text-only {
   height: 55vh;
   position: relative;
@@ -496,7 +492,6 @@ h4,
   .text {
 
     h1 {
-
       margin-bottom: 20px;
     }
 
@@ -534,18 +529,10 @@ h4,
     z-index: 10;
   }
 
-
-
   .at-c-title {
     font-size: 35px;
     padding-top: 20px;
   }
-
-  // .at-p-formulaire-info-section img {
-  //   width: 50px;
-  //   height: auto;
-  //   margin-right: 40px;
-  // }
 
   .at-p-button-ajouter button {
     width: 35vh;
@@ -557,10 +544,7 @@ h4,
 
   .container {
     padding-top: 20px;
-    ;
-
   }
-
 
   .container-text-only .text {
     position: absolute;

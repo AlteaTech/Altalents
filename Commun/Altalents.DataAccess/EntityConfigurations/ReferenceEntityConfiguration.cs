@@ -82,22 +82,22 @@ namespace Altalents.DataAccess.EntityConfigurations
 .HasForeignKey(e => e.DomaineMetierId)
 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceTechnologies)
+            builder.HasMany(navigationExpression: e => e.LiaisonProjetTechnologies)
  .WithOne(x => x.Technologie)
  .HasForeignKey(e => e.TechnologieId)
  .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceCompetances)
- .WithOne(x => x.Competance)
+            builder.HasMany(navigationExpression: e => e.LiaisonProjetCompetences)
+ .WithOne(x => x.Competence)
  .HasForeignKey(e => e.CompetenceId)
  .OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceMethodologies)
 
+            builder.HasMany(navigationExpression: e => e.LiaisonProjetMethodologies)
  .WithOne(x => x.Methodologie)
  .HasForeignKey(e => e.MethodologieId)
  .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceOutils)
+            builder.HasMany(navigationExpression: e => e.LiaisonProjetOutils)
 .WithOne(x => x.Outil)
 .HasForeignKey(e => e.OutilId)
 .OnDelete(DeleteBehavior.NoAction);

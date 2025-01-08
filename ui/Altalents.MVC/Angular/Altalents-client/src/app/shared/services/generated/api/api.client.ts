@@ -2687,18 +2687,11 @@ export class ExperienceDto implements IExperienceDto {
     intitulePoste!: string;
     nomEntreprise!: string;
     lieuEntreprise!: string;
-    description!: string;
     domaineMetier!: ReferenceDto;
     dateDebut!: string;
     typeContrat!: ReferenceDto;
     isEntrepriseEsnOrInterim!: boolean;
     dateFin?: string | null;
-    budget?: number | null;
-    compositionEquipe?: string | null;
-    technologies?: ReferenceDto[] | null;
-    methodologies?: ReferenceDto[] | null;
-    competences?: ReferenceDto[] | null;
-    outils?: ReferenceDto[] | null;
     projetsOrMissionsClient?: ProjetOrMissionClientDto[] | null;
 
     constructor(data?: IExperienceDto) {
@@ -2720,46 +2713,11 @@ export class ExperienceDto implements IExperienceDto {
             this.intitulePoste = _data["IntitulePoste"] !== undefined ? _data["IntitulePoste"] : <any>null;
             this.nomEntreprise = _data["NomEntreprise"] !== undefined ? _data["NomEntreprise"] : <any>null;
             this.lieuEntreprise = _data["LieuEntreprise"] !== undefined ? _data["LieuEntreprise"] : <any>null;
-            this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
             this.domaineMetier = _data["DomaineMetier"] ? ReferenceDto.fromJS(_data["DomaineMetier"]) : new ReferenceDto();
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
             this.typeContrat = _data["TypeContrat"] ? ReferenceDto.fromJS(_data["TypeContrat"]) : new ReferenceDto();
             this.isEntrepriseEsnOrInterim = _data["IsEntrepriseEsnOrInterim"] !== undefined ? _data["IsEntrepriseEsnOrInterim"] : <any>null;
             this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
-            this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
-            this.compositionEquipe = _data["CompositionEquipe"] !== undefined ? _data["CompositionEquipe"] : <any>null;
-            if (Array.isArray(_data["Technologies"])) {
-                this.technologies = [] as any;
-                for (let item of _data["Technologies"])
-                    this.technologies!.push(ReferenceDto.fromJS(item));
-            }
-            else {
-                this.technologies = <any>null;
-            }
-            if (Array.isArray(_data["Methodologies"])) {
-                this.methodologies = [] as any;
-                for (let item of _data["Methodologies"])
-                    this.methodologies!.push(ReferenceDto.fromJS(item));
-            }
-            else {
-                this.methodologies = <any>null;
-            }
-            if (Array.isArray(_data["Competences"])) {
-                this.competences = [] as any;
-                for (let item of _data["Competences"])
-                    this.competences!.push(ReferenceDto.fromJS(item));
-            }
-            else {
-                this.competences = <any>null;
-            }
-            if (Array.isArray(_data["Outils"])) {
-                this.outils = [] as any;
-                for (let item of _data["Outils"])
-                    this.outils!.push(ReferenceDto.fromJS(item));
-            }
-            else {
-                this.outils = <any>null;
-            }
             if (Array.isArray(_data["ProjetsOrMissionsClient"])) {
                 this.projetsOrMissionsClient = [] as any;
                 for (let item of _data["ProjetsOrMissionsClient"])
@@ -2784,34 +2742,11 @@ export class ExperienceDto implements IExperienceDto {
         data["IntitulePoste"] = this.intitulePoste !== undefined ? this.intitulePoste : <any>null;
         data["NomEntreprise"] = this.nomEntreprise !== undefined ? this.nomEntreprise : <any>null;
         data["LieuEntreprise"] = this.lieuEntreprise !== undefined ? this.lieuEntreprise : <any>null;
-        data["Description"] = this.description !== undefined ? this.description : <any>null;
         data["DomaineMetier"] = this.domaineMetier ? this.domaineMetier.toJSON() : <any>null;
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
         data["TypeContrat"] = this.typeContrat ? this.typeContrat.toJSON() : <any>null;
         data["IsEntrepriseEsnOrInterim"] = this.isEntrepriseEsnOrInterim !== undefined ? this.isEntrepriseEsnOrInterim : <any>null;
         data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
-        data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
-        data["CompositionEquipe"] = this.compositionEquipe !== undefined ? this.compositionEquipe : <any>null;
-        if (Array.isArray(this.technologies)) {
-            data["Technologies"] = [];
-            for (let item of this.technologies)
-                data["Technologies"].push(item.toJSON());
-        }
-        if (Array.isArray(this.methodologies)) {
-            data["Methodologies"] = [];
-            for (let item of this.methodologies)
-                data["Methodologies"].push(item.toJSON());
-        }
-        if (Array.isArray(this.competences)) {
-            data["Competences"] = [];
-            for (let item of this.competences)
-                data["Competences"].push(item.toJSON());
-        }
-        if (Array.isArray(this.outils)) {
-            data["Outils"] = [];
-            for (let item of this.outils)
-                data["Outils"].push(item.toJSON());
-        }
         if (Array.isArray(this.projetsOrMissionsClient)) {
             data["ProjetsOrMissionsClient"] = [];
             for (let item of this.projetsOrMissionsClient)
@@ -2826,37 +2761,23 @@ export interface IExperienceDto {
     intitulePoste: string;
     nomEntreprise: string;
     lieuEntreprise: string;
-    description: string;
     domaineMetier: ReferenceDto;
     dateDebut: string;
     typeContrat: ReferenceDto;
     isEntrepriseEsnOrInterim: boolean;
     dateFin?: string | null;
-    budget?: number | null;
-    compositionEquipe?: string | null;
-    technologies?: ReferenceDto[] | null;
-    methodologies?: ReferenceDto[] | null;
-    competences?: ReferenceDto[] | null;
-    outils?: ReferenceDto[] | null;
     projetsOrMissionsClient?: ProjetOrMissionClientDto[] | null;
 }
 
 export class ExperienceRequestDto implements IExperienceRequestDto {
     intitulePoste!: string;
     entreprise!: string;
-    lieu!: string;
-    description!: string;
+    lieu?: string | null;
     domaineMetierId!: string;
     dateDebut!: string;
     typeContratId!: string;
     dateFin?: string | null;
-    budget?: number | null;
     isEntrepriseEsnOrInterim?: boolean;
-    compositionEquipe?: string | null;
-    technologieIds?: string[] | null;
-    methodologieIds?: string[] | null;
-    competenceIds?: string[] | null;
-    outilIds?: string[] | null;
     projetsOrMissionsClient?: ProjetOrMissionClientRequestDto[] | null;
 
     constructor(data?: IExperienceRequestDto) {
@@ -2873,46 +2794,11 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
             this.intitulePoste = _data["IntitulePoste"] !== undefined ? _data["IntitulePoste"] : <any>null;
             this.entreprise = _data["Entreprise"] !== undefined ? _data["Entreprise"] : <any>null;
             this.lieu = _data["Lieu"] !== undefined ? _data["Lieu"] : <any>null;
-            this.description = _data["Description"] !== undefined ? _data["Description"] : <any>null;
             this.domaineMetierId = _data["DomaineMetierId"] !== undefined ? _data["DomaineMetierId"] : <any>null;
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
             this.typeContratId = _data["TypeContratId"] !== undefined ? _data["TypeContratId"] : <any>null;
             this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
-            this.budget = _data["Budget"] !== undefined ? _data["Budget"] : <any>null;
             this.isEntrepriseEsnOrInterim = _data["IsEntrepriseEsnOrInterim"] !== undefined ? _data["IsEntrepriseEsnOrInterim"] : <any>null;
-            this.compositionEquipe = _data["CompositionEquipe"] !== undefined ? _data["CompositionEquipe"] : <any>null;
-            if (Array.isArray(_data["TechnologieIds"])) {
-                this.technologieIds = [] as any;
-                for (let item of _data["TechnologieIds"])
-                    this.technologieIds!.push(item);
-            }
-            else {
-                this.technologieIds = <any>null;
-            }
-            if (Array.isArray(_data["MethodologieIds"])) {
-                this.methodologieIds = [] as any;
-                for (let item of _data["MethodologieIds"])
-                    this.methodologieIds!.push(item);
-            }
-            else {
-                this.methodologieIds = <any>null;
-            }
-            if (Array.isArray(_data["CompetenceIds"])) {
-                this.competenceIds = [] as any;
-                for (let item of _data["CompetenceIds"])
-                    this.competenceIds!.push(item);
-            }
-            else {
-                this.competenceIds = <any>null;
-            }
-            if (Array.isArray(_data["OutilIds"])) {
-                this.outilIds = [] as any;
-                for (let item of _data["OutilIds"])
-                    this.outilIds!.push(item);
-            }
-            else {
-                this.outilIds = <any>null;
-            }
             if (Array.isArray(_data["ProjetsOrMissionsClient"])) {
                 this.projetsOrMissionsClient = [] as any;
                 for (let item of _data["ProjetsOrMissionsClient"])
@@ -2936,34 +2822,11 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
         data["IntitulePoste"] = this.intitulePoste !== undefined ? this.intitulePoste : <any>null;
         data["Entreprise"] = this.entreprise !== undefined ? this.entreprise : <any>null;
         data["Lieu"] = this.lieu !== undefined ? this.lieu : <any>null;
-        data["Description"] = this.description !== undefined ? this.description : <any>null;
         data["DomaineMetierId"] = this.domaineMetierId !== undefined ? this.domaineMetierId : <any>null;
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
         data["TypeContratId"] = this.typeContratId !== undefined ? this.typeContratId : <any>null;
         data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
-        data["Budget"] = this.budget !== undefined ? this.budget : <any>null;
         data["IsEntrepriseEsnOrInterim"] = this.isEntrepriseEsnOrInterim !== undefined ? this.isEntrepriseEsnOrInterim : <any>null;
-        data["CompositionEquipe"] = this.compositionEquipe !== undefined ? this.compositionEquipe : <any>null;
-        if (Array.isArray(this.technologieIds)) {
-            data["TechnologieIds"] = [];
-            for (let item of this.technologieIds)
-                data["TechnologieIds"].push(item);
-        }
-        if (Array.isArray(this.methodologieIds)) {
-            data["MethodologieIds"] = [];
-            for (let item of this.methodologieIds)
-                data["MethodologieIds"].push(item);
-        }
-        if (Array.isArray(this.competenceIds)) {
-            data["CompetenceIds"] = [];
-            for (let item of this.competenceIds)
-                data["CompetenceIds"].push(item);
-        }
-        if (Array.isArray(this.outilIds)) {
-            data["OutilIds"] = [];
-            for (let item of this.outilIds)
-                data["OutilIds"].push(item);
-        }
         if (Array.isArray(this.projetsOrMissionsClient)) {
             data["ProjetsOrMissionsClient"] = [];
             for (let item of this.projetsOrMissionsClient)
@@ -2976,19 +2839,12 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
 export interface IExperienceRequestDto {
     intitulePoste: string;
     entreprise: string;
-    lieu: string;
-    description: string;
+    lieu?: string | null;
     domaineMetierId: string;
     dateDebut: string;
     typeContratId: string;
     dateFin?: string | null;
-    budget?: number | null;
     isEntrepriseEsnOrInterim?: boolean;
-    compositionEquipe?: string | null;
-    technologieIds?: string[] | null;
-    methodologieIds?: string[] | null;
-    competenceIds?: string[] | null;
-    outilIds?: string[] | null;
     projetsOrMissionsClient?: ProjetOrMissionClientRequestDto[] | null;
 }
 
@@ -3533,6 +3389,10 @@ export class ProjetOrMissionClientDto implements IProjetOrMissionClientDto {
     dateDebut?: string | null;
     dateFin?: string | null;
     domaineMetier?: ReferenceDto;
+    technologies?: ReferenceDto[] | null;
+    methodologies?: ReferenceDto[] | null;
+    competences?: ReferenceDto[] | null;
+    outils?: ReferenceDto[] | null;
 
     constructor(data?: IProjetOrMissionClientDto) {
         if (data) {
@@ -3554,6 +3414,38 @@ export class ProjetOrMissionClientDto implements IProjetOrMissionClientDto {
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
             this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
             this.domaineMetier = _data["DomaineMetier"] ? ReferenceDto.fromJS(_data["DomaineMetier"]) : <any>null;
+            if (Array.isArray(_data["Technologies"])) {
+                this.technologies = [] as any;
+                for (let item of _data["Technologies"])
+                    this.technologies!.push(ReferenceDto.fromJS(item));
+            }
+            else {
+                this.technologies = <any>null;
+            }
+            if (Array.isArray(_data["Methodologies"])) {
+                this.methodologies = [] as any;
+                for (let item of _data["Methodologies"])
+                    this.methodologies!.push(ReferenceDto.fromJS(item));
+            }
+            else {
+                this.methodologies = <any>null;
+            }
+            if (Array.isArray(_data["Competences"])) {
+                this.competences = [] as any;
+                for (let item of _data["Competences"])
+                    this.competences!.push(ReferenceDto.fromJS(item));
+            }
+            else {
+                this.competences = <any>null;
+            }
+            if (Array.isArray(_data["Outils"])) {
+                this.outils = [] as any;
+                for (let item of _data["Outils"])
+                    this.outils!.push(ReferenceDto.fromJS(item));
+            }
+            else {
+                this.outils = <any>null;
+            }
         }
     }
 
@@ -3575,6 +3467,26 @@ export class ProjetOrMissionClientDto implements IProjetOrMissionClientDto {
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
         data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
         data["DomaineMetier"] = this.domaineMetier ? this.domaineMetier.toJSON() : <any>null;
+        if (Array.isArray(this.technologies)) {
+            data["Technologies"] = [];
+            for (let item of this.technologies)
+                data["Technologies"].push(item.toJSON());
+        }
+        if (Array.isArray(this.methodologies)) {
+            data["Methodologies"] = [];
+            for (let item of this.methodologies)
+                data["Methodologies"].push(item.toJSON());
+        }
+        if (Array.isArray(this.competences)) {
+            data["Competences"] = [];
+            for (let item of this.competences)
+                data["Competences"].push(item.toJSON());
+        }
+        if (Array.isArray(this.outils)) {
+            data["Outils"] = [];
+            for (let item of this.outils)
+                data["Outils"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -3589,6 +3501,10 @@ export interface IProjetOrMissionClientDto {
     dateDebut?: string | null;
     dateFin?: string | null;
     domaineMetier?: ReferenceDto;
+    technologies?: ReferenceDto[] | null;
+    methodologies?: ReferenceDto[] | null;
+    competences?: ReferenceDto[] | null;
+    outils?: ReferenceDto[] | null;
 }
 
 export class ProjetOrMissionClientRequestDto implements IProjetOrMissionClientRequestDto {
@@ -3601,6 +3517,10 @@ export class ProjetOrMissionClientRequestDto implements IProjetOrMissionClientRe
     dateDebut?: string | null;
     dateFin?: string | null;
     domaineMetierId?: string | null;
+    technologieIds?: string[] | null;
+    methodologieIds?: string[] | null;
+    competenceIds?: string[] | null;
+    outilIds?: string[] | null;
 
     constructor(data?: IProjetOrMissionClientRequestDto) {
         if (data) {
@@ -3622,6 +3542,38 @@ export class ProjetOrMissionClientRequestDto implements IProjetOrMissionClientRe
             this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
             this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
             this.domaineMetierId = _data["DomaineMetierId"] !== undefined ? _data["DomaineMetierId"] : <any>null;
+            if (Array.isArray(_data["TechnologieIds"])) {
+                this.technologieIds = [] as any;
+                for (let item of _data["TechnologieIds"])
+                    this.technologieIds!.push(item);
+            }
+            else {
+                this.technologieIds = <any>null;
+            }
+            if (Array.isArray(_data["MethodologieIds"])) {
+                this.methodologieIds = [] as any;
+                for (let item of _data["MethodologieIds"])
+                    this.methodologieIds!.push(item);
+            }
+            else {
+                this.methodologieIds = <any>null;
+            }
+            if (Array.isArray(_data["CompetenceIds"])) {
+                this.competenceIds = [] as any;
+                for (let item of _data["CompetenceIds"])
+                    this.competenceIds!.push(item);
+            }
+            else {
+                this.competenceIds = <any>null;
+            }
+            if (Array.isArray(_data["OutilIds"])) {
+                this.outilIds = [] as any;
+                for (let item of _data["OutilIds"])
+                    this.outilIds!.push(item);
+            }
+            else {
+                this.outilIds = <any>null;
+            }
         }
     }
 
@@ -3643,6 +3595,26 @@ export class ProjetOrMissionClientRequestDto implements IProjetOrMissionClientRe
         data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
         data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
         data["DomaineMetierId"] = this.domaineMetierId !== undefined ? this.domaineMetierId : <any>null;
+        if (Array.isArray(this.technologieIds)) {
+            data["TechnologieIds"] = [];
+            for (let item of this.technologieIds)
+                data["TechnologieIds"].push(item);
+        }
+        if (Array.isArray(this.methodologieIds)) {
+            data["MethodologieIds"] = [];
+            for (let item of this.methodologieIds)
+                data["MethodologieIds"].push(item);
+        }
+        if (Array.isArray(this.competenceIds)) {
+            data["CompetenceIds"] = [];
+            for (let item of this.competenceIds)
+                data["CompetenceIds"].push(item);
+        }
+        if (Array.isArray(this.outilIds)) {
+            data["OutilIds"] = [];
+            for (let item of this.outilIds)
+                data["OutilIds"].push(item);
+        }
         return data;
     }
 }
@@ -3657,6 +3629,10 @@ export interface IProjetOrMissionClientRequestDto {
     dateDebut?: string | null;
     dateFin?: string | null;
     domaineMetierId?: string | null;
+    technologieIds?: string[] | null;
+    methodologieIds?: string[] | null;
+    competenceIds?: string[] | null;
+    outilIds?: string[] | null;
 }
 
 export class QuestionInsertDto implements IQuestionInsertDto {

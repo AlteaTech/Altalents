@@ -17,6 +17,10 @@ namespace Altalents.IBusiness.DTO
         public DateTime? DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
         public ReferenceDto DomaineMetier { get; set; }
+        public List<ReferenceDto> Technologies { get; set; }
+        public List<ReferenceDto> Methodologies { get; set; }
+        public List<ReferenceDto> Competences { get; set; }
+        public List<ReferenceDto> Outils { get; set; }
     }
 
 }

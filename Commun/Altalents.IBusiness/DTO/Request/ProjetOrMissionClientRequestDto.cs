@@ -11,16 +11,25 @@ namespace Altalents.IBusiness.DTO.Request
     {
 
         public string NomClientOrProjet { get; set; }
+
         [Required]
         public string DescriptionProjetOrMission { get; set; }
+
         [Required]
         public string Taches { get; set; }
+
         public string Lieu { get; set; }
         public string CompositionEquipe { get; set; }
         public decimal? Budget { get; set; }
         public DateTime? DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
         public Guid? DomaineMetierId { get; set; }
+
+        public List<Guid> TechnologieIds { get; set; }
+        public List<Guid> MethodologieIds { get; set; }
+        public List<Guid> CompetenceIds { get; set; }
+        public List<Guid> OutilIds { get; set; }
+
     }
 
 }
