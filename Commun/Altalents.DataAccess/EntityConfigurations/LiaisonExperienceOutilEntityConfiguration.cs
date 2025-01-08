@@ -1,10 +1,10 @@
 namespace Altalents.DataAccess.EntityConfigurations
 {
-    internal class LiaisonExperienceOutilEntityConfiguration : IEntityTypeConfiguration<LiaisonExperienceOutil>
+    internal class LiaisonProjetOutilEntityConfiguration : IEntityTypeConfiguration<LiaisonProjetOutil>
     {
-        public void Configure(EntityTypeBuilder<LiaisonExperienceOutil> builder)
+        public void Configure(EntityTypeBuilder<LiaisonProjetOutil> builder)
         {
-            EntityTypeBuilderBaseHelper<LiaisonExperienceOutil>.ConfigureBase(builder);
+            EntityTypeBuilderBaseHelper<LiaisonProjetOutil>.ConfigureBase(builder);
             builder.ToTable("LiaisonExperienceOutils");
         }
     }

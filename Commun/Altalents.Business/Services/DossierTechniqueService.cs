@@ -4,18 +4,17 @@ using Altalents.Business.Extensions;
 using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
 using Altalents.Entities;
+using Altalents.Export.DSO.OpenXml;
+using Altalents.Export.OpenXml;
+using Altalents.Export.Services;
 using Altalents.IBusiness.DTO.Request;
-using Altalents.Report.Library;
-using Altalents.Report.Library.DSO;
-using Altalents.Report.Library.DSO.OpenXml;
-using Altalents.Report.Library.Services;
+using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 
-using Telerik.Reporting;
-using Telerik.Reporting.Processing;
+
 
 namespace Altalents.Business.Services
 {
@@ -64,6 +63,7 @@ namespace Altalents.Business.Services
 
             if (!dt.RempliParCandidat)
             {
+                //On envoi en async volontairement
                 EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
                 dt.RempliParCandidat = true;
                 await context.SaveBaseEntityChangesAsync(cancellationToken);
@@ -84,8 +84,8 @@ namespace Altalents.Business.Services
         private async Task EnvoiEmailCreationDtCandidatAsync(string emailTo, Guid tokenAccesRapide, string fullNameCandidat)
         {
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
-                "EmailConfirmationCreationDtForCandidat.html",
-                "email-styles.css",
+                FilesNamesConstantes.EmailConfirmationCreationDt_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
                 new Dictionary<string, string>
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
@@ -105,8 +105,8 @@ namespace Altalents.Business.Services
         private async Task EnvoiEmailDtCandidatCompletAsync(Guid tokenAccesRapide, string fullNameCandidat)
         {
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
-                "EmailConfirmationValidationDtByCandidat.html",
-                "email-styles.css",
+                FilesNamesConstantes.EmailConfirmationValidationDt_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
                 new Dictionary<string, string>
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
@@ -117,7 +117,7 @@ namespace Altalents.Business.Services
             );
 
             await _emailService.SendEmailWithRetryAsync(
-                _emailSettings.CciMails,
+                _emailSettings.MailsServiceCommercial,
                 $"Alerte : Un candidat ({fullNameCandidat}) a complété son dossier technique",
                 htmlContent
             );
@@ -337,6 +337,23 @@ namespace Altalents.Business.Services
                 return false;
         }
 
+        public async Task<DocumentDto> GetCvDtAsync(Guid tokenRapide, CancellationToken cancellationToken)
+        {
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            Entities.Document cv =  await context.DossierTechniques
+                            .Where(x => x.TokenAccesRapide == tokenRapide)
+                            .Include(x => x.Personne)
+                                .ThenInclude(x => x.Documents).Select(e => e.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV)).SingleAsync(cancellationToken);
+
+            if (cv == null)
+                return null;
+
+            return new DocumentDto() { Id = cv.Id, MimeType = cv.MimeType, NomFichier = cv.Nom, Data = cv.Data };
+
+        }
+
         public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync(Guid tokenRapide, CancellationToken cancellationToken)
         {
 
@@ -360,7 +377,7 @@ namespace Altalents.Business.Services
             Entities.Document CV = dt.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV);
             if (CV != null)
             {
-                listDocDtos.Add(new DocumentDto() { Data = CV.Data, MimeType = CV.MimeType, NomFichier = CV.Nom });
+                listDocDtos.Add(new DocumentDto() { Id = CV.Id, MimeType = CV.MimeType, NomFichier = CV.Nom });
             }
 
             ParlonsDeVousDto reponse = new ParlonsDeVousDto()
@@ -533,10 +550,10 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<DocumentDto>> GetDocumentsAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        public async Task<List<DocumentDto>> GetPiecesJointesDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
-            var result = await context.DossierTechniques
+            List<DocumentDto> result = await context.DossierTechniques
                 .Where(x => x.TokenAccesRapide == tokenAccesRapide)
                 .SelectMany(x => x.DocumentComplementaires
                     .Where(w => w.TypeDocument == TypeDocumentEnum.PieceJointeDt)
@@ -549,578 +566,6 @@ namespace Altalents.Business.Services
                     }))
                 .ToListAsync(cancellationToken);
             return result;
-        }
-
-        public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
-        {
-            using CustomDbContext context = GetScopedDbContexte();
-
-            DossierTechnique dt = await context.DossierTechniques
-
-                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
-                    .Include(dt => dt.Experiences)
-                        .ThenInclude(ec => ec.DomaineMetier)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.LiaisonExperienceCompetences)
-                        .ThenInclude(ec => ec.Competance)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.LiaisonExperienceOutils)
-                        .ThenInclude(lo => lo.Outil)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.LiaisonExperienceMethodologies)
-                        .ThenInclude(lm => lm.Methodologie)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.LiaisonExperienceTechnologies)
-                        .ThenInclude(lt => lt.Technologie)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
-                        .ThenInclude(lt => lt.DomaineMetier)
-                .Include(dt => dt.Formations)
-                .Include(dt => dt.Personne)
-                .Include(dt => dt.Certifications)
-                .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Langue)
-                .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Niveau)
-                .Include(dt => dt.QuestionDossierTechniques)
-                .SingleOrDefaultAsync(cancellationToken);
-
-            if (dt == null)
-            {
-                throw new BusinessException("UNAUTHORIZED Action");
-            }
-
-            DtMainPageExportDso modelExport = new DtMainPageExportDso();
-
-            //Remplissage data de l'entete
-            modelExport.Candidat_Trigramme = dt.Personne.Trigramme;
-            modelExport.Dt_Poste = dt.Poste;
-
-            //remplissage data du bloc Contact Commercial
-            modelExport.Commercial_SiteWeb = "www.altea-si.com";
-            modelExport.Commercial_NomComplet = _commercialSettings.Nom;
-            modelExport.Commercial_Email = _commercialSettings.Mail;
-            modelExport.Commercial_Phone = _commercialSettings.Telephone;
-
-            //remplissage data du bloc Contact Focus
-            int nbExp = CalculerTotalAnneesExperienceAvecChevauchements(dt);
-            modelExport.Candidat_NbAnneesExperiences = nbExp == 0 ? "Novice" : nbExp == 1 ? "1 an" : nbExp.ToString() + " ans";
-            modelExport.Candidat_CompetencesClefs = GetTop5Competences(dt);
-            modelExport.Candidat_Synthese = dt.Synthese;
-
-            //remplissage data du tableau compétences technique
-            modelExport.Candidat_SoftSkill = "";
-            modelExport.Candidat_Bdd = "";
-            modelExport.Candidat_Versionning = "";
-            modelExport.Candidat_IDE = "";
-            modelExport.Candidat_Framework = "";
-
-            modelExport.Candidat_Domaines = GetFormatedCompetencesFromExperiences(dt);
-            modelExport.Candidat_Languages_Prog = GetFormatedTechnologiesFromExperiences(dt);
-            modelExport.Candidat_Outils = GetFormatedOutilsFromExperiences(dt);
-            modelExport.Candidat_Methodologie = GetFormatedMethodologiesFromExperiences(dt);
-
-            //Remplissage data des templates enfants
-            modelExport.Candidat_CompetencesMetiers = getDomainesMetierWithNbAnneeExp(dt);
-            modelExport.Candidat_Formations = getFormationsOrderedByDate(dt);
-            modelExport.Candidat_Certifications = getCertificationOrderedByDate(dt);
-            modelExport.Candidat_Langues = getLanguesParle(dt);
-            modelExport.Candidat_ExperiencesPro = GetExperiencesOrderedByDate(dt);
-
-            modelExport.Candidat_Questions = GetQuestionToShowInDt(dt);
-
-
-            GetQuestionToShowInDt(dt);
-
-            WordTemplateService wordTemplateService = new WordTemplateService();
-            byte[] generatedFile = wordTemplateService.GenerateDocument(modelExport);
-
-            return new DocumentDto()
-            {
-                MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                NomFichier = dt.Personne.Trigramme + " - "+  dt.Poste + " - " + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + ".docx",
-                Data = generatedFile
-            };
-        }
-
-        private List<DtQuestionDso> GetQuestionToShowInDt(DossierTechnique dt)
-        {
-           return dt.QuestionDossierTechniques.Where(x => x.IsShowDt)
-                            .Select(x => new DtQuestionDso()
-                            {
-                                Question = x.Question,
-                                Reponse = x.Reponse,
-                            }).ToList();
-        }
-
-        public List<DtExperienceProExportDso> GetExperiencesOrderedByDate(DossierTechnique dt)
-        {
-            if (dt == null || dt.Experiences == null)
-                return new List<DtExperienceProExportDso>();
-
-            return dt.Experiences
-                .OrderByDescending(exp => exp.DateDebut) 
-                .Select(exp => new DtExperienceProExportDso
-                {
-                    IsEsn = exp.IsEntrepriseEsnOrInterim,
-                    NomClientIfEsn = exp.IsEntrepriseEsnOrInterim && exp.ProjetsOrMissionsClient != null
-                        ? string.Join(", ", exp.ProjetsOrMissionsClient.Select(p => p.NomClientOrProjet))
-                        : null,
-                    NomEntreprise = exp.NomEntreprise,
-                    IntitulePoste = exp.IntitulePoste,
-                    Lieu = exp.LieuEntreprise,
-                    TypeContrat = exp.TypeContrat?.Libelle,
-                    Equipe = exp.CompositionEquipe,
-                    DateDebutEtDateFin = $"{exp.DateDebut:MM/yyyy} --> {(exp.DateFin.HasValue ? exp.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
-                    Context = exp.Description,
-                    EnvironnementsTechnique = string.Join(", ",
-                        (exp.LiaisonExperienceTechnologies?.Select(lt => lt.Technologie?.Libelle) ?? Enumerable.Empty<string>())
-                        .Concat(exp.LiaisonExperienceOutils?.Select(lo => lo.Outil?.Libelle) ?? Enumerable.Empty<string>())),
-                    MissionsOrProjects = exp.ProjetsOrMissionsClient?
-                        .OrderByDescending(p => p.DateDebut)
-                        .Select(p => new DtExpProMission
-                        {
-                            NomClient = p.NomClientOrProjet,
-                            DateDebutDateFin = p.DateDebut.HasValue && p.DateFin.HasValue
-                                ? $"Début : {p.DateDebut:MM/yyyy} --> Fin : {p.DateFin:MM/yyyy}"
-                                : p.DateDebut.HasValue
-                                    ? $"Début : {p.DateDebut:MM/yyyy}"
-                                    : p.DateFin.HasValue
-                                        ? $"Fin : {p.DateFin:MM/yyyy}"
-                                        : string.Empty,
-                            DomaineMetier = p.DomaineMetier?.Libelle,
-                            Lieu = p.Lieu,
-                            DescriptionProjet = p.DescriptionProjetOrMission,
-                            Taches = p.Taches,
-                            CompoEquipe = p.CompositionEquipe,
-                            Budget = p.Budget.HasValue ? p.Budget.Value + " €" : null
-                        }).ToList()
-                }).ToList();
-        }
-
-
-        private static List<DtCertificationExportDso> getCertificationOrderedByDate(DossierTechnique dt)
-        {
-            return dt.Certifications
-              .OrderBy(certif => certif.DateFin ?? certif.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
-              .Select(certif =>
-              {
-                  // Construire le libellé complet
-                  string niveauPart = !string.IsNullOrEmpty(certif.Niveau) ? $" ({certif.Niveau})" : string.Empty;
-                  string domainePart = !string.IsNullOrEmpty(certif.Domaine) ? $" - {certif.Domaine}" : string.Empty;
-                  string organiusmePart = !string.IsNullOrEmpty(certif.Organisme) ? $" - {certif.Organisme}" : string.Empty;
-
-                  return new DtCertificationExportDso
-                  {
-                      Annee = (certif.DateFin ?? certif.DateDebut).ToString("yyyy"), // Convertir DateTime en string
-                      LibelleComplet = certif.Libelle + niveauPart + domainePart
-                  };
-              })
-              .ToList();
-        }
-
-
-        private static List<DtFormationExportDso> getFormationsOrderedByDate(DossierTechnique dt)
-        {
-            return dt.Formations
-              .OrderBy(forma => forma.DateFin ?? forma.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
-              .Select(forma =>
-              {
-                  // Construire le libellé complet
-                  string niveauPart = !string.IsNullOrEmpty(forma.Niveau) ? $" ({forma.Niveau})" : string.Empty;
-                  string domainePart = !string.IsNullOrEmpty(forma.Domaine) ? $" - {forma.Domaine}" : string.Empty;
-                  string organiusmePart = !string.IsNullOrEmpty(forma.Organisme) ? $" - {forma.Organisme}" : string.Empty;
-
-                  return new DtFormationExportDso
-                  {
-                      Annee = (forma.DateFin ?? forma.DateDebut).ToString("yyyy"), // Convertir DateTime en string
-                      LibelleComplet = forma.Libelle + niveauPart + organiusmePart + domainePart
-                  };
-              })
-              .ToList();
-        }
-
-
-
-        private static List<DtLangueExportDso> getLanguesParle(DossierTechnique dt)
-        {
-            return dt.DossierTechniqueLangues
-              .OrderByDescending(lang => lang.Niveau.OrdreTri)
-              .Select(lang =>
-              {
-                  return new DtLangueExportDso
-                  {
-                      Libelle = lang.Langue.Libelle,
-                      Niveau = lang.Niveau.Libelle
-                  };
-              })
-              .ToList();
-        }
-
-        private static List<DtCompetenceMetierExportDso> getDomainesMetierWithNbAnneeExp(DossierTechnique dt)
-        {
-            // Étape 1: Récupérer les domaines métier à partir des expériences
-            var domainesMetierExperiences = getDomainesMetierFromExperiences(dt);
-
-            // Étape 2: Récupérer les domaines métier à partir des missions
-            var domainesMetierMissions = getDomainesMetierFromMissions(dt);
-
-            // Combiner les résultats et faire un Distinct pour éviter les doublons
-            var result = domainesMetierExperiences
-                .Union(domainesMetierMissions) // Union des résultats
-                .GroupBy(d => d.Nom) // Grouper par nom pour appliquer Distinct
-                .Select(g => g.OrderByDescending(d =>
-                {
-                    // Convertir "DureeExperience" en nombre d'années pour comparer les durées
-                    var years = int.TryParse(d.DureeExperience.Split(' ')[0], out var y) ? y : 0;
-                    return years;
-                }).First()) // Sélectionner l'élément avec la plus grande durée d'expérience
-                .ToList();
-
-            return result;
-        }
-
-        private static List<DtCompetenceMetierExportDso> getDomainesMetierFromExperiences(DossierTechnique dt)
-        {
-            return dt.Experiences
-                .Where(exp => exp.DomaineMetier != null) // Filtrer les expériences avec un domaine métier valide
-                .GroupBy(exp => exp.DomaineMetier.Libelle) // Regrouper par domaine métier
-                .Select(group =>
-                {
-                    // Récupérer les plages de dates pour ce domaine
-                    var plages = group
-                        .Select(exp => new
-                        {
-                            StartDate = exp.DateDebut,
-                            EndDate = exp.DateFin ?? DateTime.UtcNow
-                        })
-                        .OrderBy(plage => plage.StartDate)
-                        .ToList();
-
-                    // Consolidation des plages pour gérer les chevauchements
-                    var plagesConsolidees = new List<(DateTime Start, DateTime End)>();
-                    foreach (var plage in plages)
-                    {
-                        if (plagesConsolidees.Count == 0 || plagesConsolidees.Last().End < plage.StartDate)
-                        {
-                            // Pas de chevauchement, ajouter directement
-                            plagesConsolidees.Add((plage.StartDate, plage.EndDate));
-                        }
-                        else
-                        {
-                            // Fusionner avec la dernière plage
-                            var dernierePlage = plagesConsolidees.Last();
-                            plagesConsolidees[plagesConsolidees.Count - 1] = (
-                                dernierePlage.Start,
-                                new DateTime(Math.Max(dernierePlage.End.Ticks, plage.EndDate.Ticks))
-                            );
-                        }
-                    }
-
-                    // Calculer la durée totale consolidée en années
-                    var totalDays = plagesConsolidees
-                        .Sum(plage => (plage.End - plage.Start).TotalDays);
-                    var totalYears = totalDays / 365.2425;
-
-                    // Appliquer l'arrondi selon les règles
-                    var roundedYears = totalYears < 1
-                        ? 1
-                        : (int)Math.Round(totalYears, MidpointRounding.AwayFromZero);
-
-                    return new DtCompetenceMetierExportDso
-                    {
-                        Nom = group.Key,
-                        DureeExperience = $"{roundedYears} année{(roundedYears > 1 ? "s" : "")}"
-                    };
-                })
-                .ToList();
-        }
-
-        private static List<DtCompetenceMetierExportDso> getDomainesMetierFromMissions(DossierTechnique dt)
-        {
-            return dt.Experiences
-                .SelectMany(exp => exp.ProjetsOrMissionsClient) // Récupérer les missions associées
-                .Where(pmc => pmc.DomaineMetier != null) // Filtrer les missions avec un domaine métier valide
-                .GroupBy(pmc => pmc.DomaineMetier.Libelle) // Regrouper par domaine métier
-                .Select(group =>
-                {
-                    // Récupérer les plages de dates pour ce domaine (missions)
-                    var plages = group
-                        .Select(pmc => new
-                        {
-                            StartDate = pmc.DateDebut ?? DateTime.UtcNow, // Utiliser DateTime.UtcNow si la date de début est null
-                            EndDate = pmc.DateFin ?? DateTime.UtcNow // Idem pour la date de fin
-                        })
-                        .OrderBy(plage => plage.StartDate)
-                        .ToList();
-
-                    // Consolidation des plages pour gérer les chevauchements
-                    var plagesConsolidees = new List<(DateTime Start, DateTime End)>();
-                    foreach (var plage in plages)
-                    {
-                        if (plagesConsolidees.Count == 0 || plagesConsolidees.Last().End < plage.StartDate)
-                        {
-                            // Pas de chevauchement, ajouter directement
-                            plagesConsolidees.Add((plage.StartDate, plage.EndDate));
-                        }
-                        else
-                        {
-                            // Fusionner avec la dernière plage
-                            var dernierePlage = plagesConsolidees.Last();
-                            plagesConsolidees[plagesConsolidees.Count - 1] = (
-                                dernierePlage.Start,
-                                new DateTime(Math.Max(dernierePlage.End.Ticks, plage.EndDate.Ticks))
-                            );
-                        }
-                    }
-
-                    // Calculer la durée totale consolidée des missions en années
-                    var totalDays = plagesConsolidees
-                        .Sum(plage => (plage.End - plage.Start).TotalDays);
-                    var totalYears = totalDays / 365.2425;
-
-                    // Appliquer l'arrondi selon les règles
-                    var roundedYears = totalYears < 1
-                        ? 1
-                        : (int)Math.Round(totalYears, MidpointRounding.AwayFromZero);
-
-                    return new DtCompetenceMetierExportDso
-                    {
-                        Nom = group.Key,
-                        DureeExperience = $"{roundedYears} année{(roundedYears > 1 ? "s" : "")}" // Affichage avec le bon pluriel
-                    };
-                })
-                .ToList();
-        }
-
-
-        public string GetFormatedCompetencesFromExperiences(DossierTechnique dt)
-        {
-            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
-                return string.Empty;
-
-            var technologies = dt.Experiences
-                .Where(exp => exp.LiaisonExperienceCompetences != null)
-                .SelectMany(exp => exp.LiaisonExperienceCompetences)
-                .Where(lt => lt.Competance != null)
-                .Select(lt => lt.Competance.Libelle)
-                .Distinct()
-                .OrderBy(libelle => libelle)
-                .ToList();
-
-            return string.Join(", ", technologies);
-
-        }
-
-        public string GetFormatedOutilsFromExperiences(DossierTechnique dt)
-        {
-            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
-                return string.Empty;
-
-            var outils = dt.Experiences
-                .Where(exp => exp.LiaisonExperienceOutils != null)
-                .SelectMany(exp => exp.LiaisonExperienceOutils)
-                .Where(lt => lt.Outil != null)
-                .Select(lt => lt.Outil.Libelle)
-                .Distinct()
-                .OrderBy(libelle => libelle)
-                .ToList();
-
-            return string.Join(", ", outils);
-        }
-
-        public string GetFormatedTechnologiesFromExperiences(DossierTechnique dt)
-        {
-
-            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
-                return string.Empty;
-
-            var technologies = dt.Experiences
-                .Where(exp => exp.LiaisonExperienceTechnologies != null)
-                .SelectMany(exp => exp.LiaisonExperienceTechnologies)
-                .Where(lt => lt.Technologie != null)
-                .Select(lt => lt.Technologie.Libelle)
-                .Distinct()
-                .OrderBy(libelle => libelle)
-                .ToList();
-
-            return string.Join(", ", technologies);
-
-        }
-
-        public string GetFormatedMethodologiesFromExperiences(DossierTechnique dt)
-        {
-            if (dt == null || dt.Experiences == null || !dt.Experiences.Any())
-                return string.Empty;
-
-            // Extraire les libellés des méthodologies uniques
-            var methodologies = dt.Experiences
-                .Where(exp => exp.LiaisonExperienceMethodologies != null) // Vérifier qu'il y a des méthodologies
-                .SelectMany(exp => exp.LiaisonExperienceMethodologies) // Rassembler toutes les méthodologies
-                .Where(lm => lm.Methodologie != null) // S'assurer que chaque méthodologie est non null
-                .Select(lm => lm.Methodologie.Libelle) // Récupérer les libellés
-                .Distinct() // Éliminer les doublons
-                .OrderBy(libelle => libelle) // Trier par ordre alphabétique (optionnel)
-                .ToList();
-
-            // Combiner les libellés en une seule chaîne séparée par des virgules
-            return string.Join(", ", methodologies);
-        }
-
-
-        private static int CalculerTotalAnneesExperienceAvecChevauchements(DossierTechnique dt)
-        {
-            if (dt?.Experiences == null || !dt.Experiences.Any())
-            {
-                return 0; // Aucun calcul si aucune expérience n'est associée
-            }
-
-            // Récupère et normalise les plages de dates
-            var plages = dt.Experiences
-                .Select(exp => new
-                {
-                    StartDate = exp.DateDebut,
-                    EndDate = exp.DateFin ?? DateTime.UtcNow // Utilise la date actuelle si DateFin est null
-                })
-                .OrderBy(exp => exp.StartDate)
-                .ToList();
-
-            // Consolidation des plages pour gérer les chevauchements
-            var plagesConsolidees = new List<(DateTime Start, DateTime End)>();
-            foreach (var plage in plages)
-            {
-                if (plagesConsolidees.Count == 0 || plagesConsolidees.Last().End < plage.StartDate)
-                {
-                    // Pas de chevauchement, ajouter directement
-                    plagesConsolidees.Add((plage.StartDate, plage.EndDate));
-                }
-                else
-                {
-                    // Fusionner avec la dernière plage
-                    var dernierePlage = plagesConsolidees.Last();
-                    plagesConsolidees[plagesConsolidees.Count - 1] = (
-                        dernierePlage.Start,
-                        new DateTime(Math.Max(dernierePlage.End.Ticks, plage.EndDate.Ticks))
-                    );
-                }
-            }
-
-            // Calcul de la durée totale en jours
-            var totalDays = plagesConsolidees
-                .Sum(plage => (plage.End - plage.Start).TotalDays);
-
-            // Conversion en années avec arrondi standard (0,5 ou plus monte à l'année supérieure)
-            return (int)Math.Round(totalDays / 365.2425, MidpointRounding.AwayFromZero);
-        }
-
-        private static string GetTop5Competences(DossierTechnique dt)
-        {
-
-            var allCompetences = dt.Experiences
-                .SelectMany(exp => exp.LiaisonExperienceCompetences
-                    .Where(lec => lec.Competance != null)
-                    .Select(lec => new
-                    {
-                        lec.Competance.Libelle,
-                        lec.Niveau
-                    }))
-                .Concat(dt.Experiences
-                    .SelectMany(exp => exp.LiaisonExperienceTechnologies
-                        .Where(lt => lt.Technologie != null)
-                        .Select(lt => new
-                        {
-                            lt.Technologie.Libelle,
-                            lt.Niveau
-                        })))
-                .Concat(dt.Experiences
-                    .SelectMany(exp => exp.LiaisonExperienceMethodologies
-                        .Where(lm => lm.Methodologie != null)
-                        .Select(lm => new
-                        {
-                            lm.Methodologie.Libelle,
-                            lm.Niveau
-                        })))
-                .Concat(dt.Experiences
-                    .SelectMany(exp => exp.LiaisonExperienceOutils
-                        .Where(lo => lo.Outil != null)
-                        .Select(lo => new
-                        {
-                            lo.Outil.Libelle,
-                            lo.Niveau
-                        })))
-                .OrderByDescending(x => x.Niveau)
-                .Take(5)
-                .ToList();
-
-            string Top5BestCompetences = "";
-            foreach (var competence in allCompetences)
-            {
-                Top5BestCompetences += competence.Libelle + ", ";
-            }
-
-            if (Top5BestCompetences.Length >= 2)
-            {
-                Top5BestCompetences = Top5BestCompetences.Remove(Top5BestCompetences.Length - 2);
-            }
-
-            return Top5BestCompetences;
-
-        }
-
-        //Relicat de la version d'avant qui utilisait telerick qui marchait bien mais qui permettait pas de garder le design du word
-        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync(Guid tokenAccesRapide, TypeExportEnum typeExportEnum, CancellationToken cancellationToken)
-        {
-            using CustomDbContext context = GetScopedDbContexte();
-
-            DossierCompetenceDso dossierCompetenceDso = await context.DossierTechniques.Where(x => x.TokenAccesRapide == tokenAccesRapide)
-                .ProjectTo<DossierCompetenceDso>(Mapper.ConfigurationProvider)
-                .FirstAsync(cancellationToken);
-
-            dossierCompetenceDso.Commercial = new()
-            {
-                Mail = _commercialSettings.Mail,
-                Telephone = _commercialSettings.Telephone,
-                Name = _commercialSettings.Nom,
-                WebSite = _commercialSettings.SiteWeb
-            };
-
-            DossierCompetance dtTelerikRepportsrc = new DossierCompetance();
-
-            dtTelerikRepportsrc.dossierCompetanceDataSource.DataSource = dossierCompetenceDso;
-            dtTelerikRepportsrc.experienceDataSource.DataSource = dossierCompetenceDso.Experiences;
-
-            InstanceReportSource reportSource = new InstanceReportSource
-            {
-                ReportDocument = dtTelerikRepportsrc
-            };
-
-            string formatDocument = "PDF";
-            string mimeType = "application/pdf";
-            if (typeExportEnum == TypeExportEnum.RTF)
-            {
-                formatDocument = "RTF";
-                mimeType = "application/rtf";
-            }
-
-
-            Hashtable deviceInfo = new System.Collections.Hashtable();
-
-            ReportProcessor reportProcessor = new Telerik.Reporting.Processing.ReportProcessor();
-            RenderingResult result = reportProcessor.RenderReport(formatDocument, reportSource, deviceInfo);
-
-            if (!result.HasErrors)
-            {
-                string fileName = result.DocumentName + "." + result.Extension;
-
-                return new DocumentDto()
-                {
-                    MimeType = mimeType,
-                    NomFichier = fileName,
-                    Data = result.DocumentBytes
-                };
-            }
-            else
-            {
-                throw new Exception(result.Errors.ToString());
-            }
         }
 
         public async Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
@@ -1226,7 +671,6 @@ namespace Altalents.Business.Services
                             certifToAddOrUpdate.Niveau = request.Niveau;
                             certifToAddOrUpdate.DateDebut = request.DateDebut;
                             certifToAddOrUpdate.DateFin = request.DateFin;
-                            certifToAddOrUpdate.Domaine = request.Domaine;
                             certifToAddOrUpdate.Organisme = request.Organisme;
                         }
                         else
@@ -1258,7 +702,6 @@ namespace Altalents.Business.Services
                             formationfToAddOrUpdate.Niveau = request.Niveau;
                             formationfToAddOrUpdate.DateDebut = request.DateDebut;
                             formationfToAddOrUpdate.DateFin = request.DateFin;
-                            formationfToAddOrUpdate.Domaine = request.Domaine;
                             formationfToAddOrUpdate.Organisme = request.Organisme;
                         }
                         else
@@ -1282,8 +725,8 @@ namespace Altalents.Business.Services
             {
                 case TypeLiaisonEnum.Competence:
 
-                    List<LiaisonExperienceCompetence> competences = await context.LiaisonExperienceCompetences.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
-                                     .Include(x => x.Competance)
+                    List<LiaisonProjetCompetence> competences = await context.LiaisonProjetCompetences.Where(x => x.ProjetOrMissionClient.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                                     .Include(x => x.Competence)
                                      .GroupBy(e => e.CompetenceId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
                                      .ToListAsync(cancellationToken);
@@ -1292,7 +735,7 @@ namespace Altalents.Business.Services
 
                 case TypeLiaisonEnum.Methodologie:
 
-                    List<LiaisonExperienceMethodologie> methodologies = await context.LiaisonExperienceMethodologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                    List<LiaisonProjetMethodologie> methodologies = await context.LiaisonProjetMethodologies.Where(x => x.ProjetOrMissionClient.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                      .Include(x => x.Methodologie)
                                      .GroupBy(e => e.MethodologieId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
@@ -1302,7 +745,7 @@ namespace Altalents.Business.Services
 
                 case TypeLiaisonEnum.Outil:
 
-                    List<LiaisonExperienceOutil> Outils = await context.LiaisonExperienceOutils.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                    List<LiaisonProjetOutil> Outils = await context.LiaisonProjetOutils.Where(x => x.ProjetOrMissionClient.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                      .Include(x => x.Outil)
                                      .GroupBy(e => e.OutilId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
@@ -1312,7 +755,7 @@ namespace Altalents.Business.Services
 
                 case TypeLiaisonEnum.Technologie:
 
-                    List<LiaisonExperienceTechnologie> technologies = await context.LiaisonExperienceTechnologies.Where(x => x.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
+                    List<LiaisonProjetTechnologie> technologies = await context.LiaisonProjetTechnologies.Where(x => x.ProjetOrMissionClient.Experience.DossierTechnique.TokenAccesRapide == tokenRapide)
                                     .Include(x => x.Technologie)
                                      .GroupBy(e => e.TechnologieId)
                                      .Select(g => g.OrderByDescending(e => e.Niveau).First())
@@ -1337,25 +780,25 @@ namespace Altalents.Business.Services
             {
                 case TypeLiaisonEnum.Competence:
 
-                    LiaisonExperienceCompetence liaisonCompetence = await context.LiaisonExperienceCompetences.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    LiaisonProjetCompetence liaisonCompetence = await context.LiaisonProjetCompetences.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
                     liaisonCompetence.Niveau = request.Note;
                     break;
 
                 case TypeLiaisonEnum.Methodologie:
 
-                    LiaisonExperienceMethodologie liaisonMethodo = await context.LiaisonExperienceMethodologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    LiaisonProjetMethodologie liaisonMethodo = await context.LiaisonProjetMethodologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
                     liaisonMethodo.Niveau = request.Note;
                     break;
 
                 case TypeLiaisonEnum.Outil:
 
-                    LiaisonExperienceOutil liaisonOutil = await context.LiaisonExperienceOutils.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    LiaisonProjetOutil liaisonOutil = await context.LiaisonProjetOutils.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
                     liaisonOutil.Niveau = request.Note;
                     break;
 
                 case TypeLiaisonEnum.Technologie:
 
-                    LiaisonExperienceTechnologie liaisonTechno = await context.LiaisonExperienceTechnologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
+                    LiaisonProjetTechnologie liaisonTechno = await context.LiaisonProjetTechnologies.AsTracking().SingleAsync(x => x.Id == request.LiaisonId, cancellationToken);
                     liaisonTechno.Niveau = request.Note;
                     break;
 
@@ -1410,18 +853,22 @@ namespace Altalents.Business.Services
             Task<DossierTechnique> dossierTechniqueTask = context.DossierTechniques
 
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
+              .Include(dt => dt.Experiences)
+                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
+                        .ThenInclude(exp => exp.LiaisonProjetCompetences)
+                            .ThenInclude(ec => ec.Competence)
                 .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.LiaisonExperienceCompetences)
-                        .ThenInclude(ec => ec.Competance)
+                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
+                        .ThenInclude(exp => exp.LiaisonProjetOutils)
+                            .ThenInclude(lo => lo.Outil)
                 .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.LiaisonExperienceOutils)
-                        .ThenInclude(lo => lo.Outil)
+                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
+                        .ThenInclude(exp => exp.LiaisonProjetMethodologies)
+                            .ThenInclude(lm => lm.Methodologie)
                 .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.LiaisonExperienceMethodologies)
-                        .ThenInclude(lm => lm.Methodologie)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.LiaisonExperienceTechnologies)
-                        .ThenInclude(lt => lt.Technologie)
+                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
+                        .ThenInclude(exp => exp.LiaisonProjetTechnologies)
+                            .ThenInclude(lt => lt.Technologie)
                 .Include(dt => dt.Experiences)
                     .ThenInclude(exp => exp.ProjetsOrMissionsClient)
                         .ThenInclude(lt => lt.DomaineMetier)

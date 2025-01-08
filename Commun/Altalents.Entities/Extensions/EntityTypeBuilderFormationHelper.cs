@@ -17,9 +17,6 @@ namespace Altalents.Entities.Extensions
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250)
                 .IsRequired();
-            builder.Property(e => e.Domaine)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(250);
             builder.Property(e => e.Niveau)
                 .HasColumnType("varchar")
                 .HasMaxLength(100);

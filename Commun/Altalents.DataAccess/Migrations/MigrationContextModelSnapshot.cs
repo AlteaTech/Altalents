@@ -95,10 +95,6 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<DateTime?>("DateMaj")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Domaine")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar");
-
                     b.Property<Guid>("DossierTechniqueId")
                         .HasColumnType("uniqueidentifier");
 
@@ -406,12 +402,6 @@ namespace Altalents.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal?>("Budget")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CompositionEquipe")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateCrea")
                         .HasColumnType("datetime");
 
@@ -423,10 +413,6 @@ namespace Altalents.DataAccess.Migrations
 
                     b.Property<DateTime?>("DateMaj")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("varchar(max)");
 
                     b.Property<Guid>("DomaineMetierId")
                         .ValueGeneratedOnAdd()
@@ -494,10 +480,6 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<DateTime?>("DateMaj")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Domaine")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar");
-
                     b.Property<Guid>("DossierTechniqueId")
                         .HasColumnType("uniqueidentifier");
 
@@ -530,7 +512,7 @@ namespace Altalents.DataAccess.Migrations
                     b.ToTable("Formations", (string)null);
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetence", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonProjetCompetence", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -545,11 +527,11 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<DateTime?>("DateMaj")
                         .HasColumnType("datetime");
 
-                    b.Property<Guid>("ExperienceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Niveau")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("ProjetOrMissionClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UtiCrea")
                         .IsRequired()
@@ -564,12 +546,12 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasIndex("CompetenceId");
 
-                    b.HasIndex("ExperienceId");
+                    b.HasIndex("ProjetOrMissionClientId");
 
                     b.ToTable("LiaisonExperienceCompetences", (string)null);
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceMethodologie", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonProjetMethodologie", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -580,9 +562,6 @@ namespace Altalents.DataAccess.Migrations
 
                     b.Property<DateTime?>("DateMaj")
                         .HasColumnType("datetime");
-
-                    b.Property<Guid>("ExperienceId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("MethodologieId")
                         .HasColumnType("uniqueidentifier");
@@ -590,6 +569,9 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<int>("Niveau")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("ProjetOrMissionClientId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UtiCrea")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -601,14 +583,14 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExperienceId");
-
                     b.HasIndex("MethodologieId");
+
+                    b.HasIndex("ProjetOrMissionClientId");
 
                     b.ToTable("LiaisonExperienceMethodologies", (string)null);
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceOutil", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonProjetOutil", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -619,9 +601,6 @@ namespace Altalents.DataAccess.Migrations
 
                     b.Property<DateTime?>("DateMaj")
                         .HasColumnType("datetime");
-
-                    b.Property<Guid>("ExperienceId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Niveau")
                         .HasColumnType("int");
@@ -629,6 +608,9 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<Guid>("OutilId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ProjetOrMissionClientId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UtiCrea")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -640,14 +622,14 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExperienceId");
-
                     b.HasIndex("OutilId");
+
+                    b.HasIndex("ProjetOrMissionClientId");
 
                     b.ToTable("LiaisonExperienceOutils", (string)null);
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceTechnologie", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonProjetTechnologie", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -659,11 +641,11 @@ namespace Altalents.DataAccess.Migrations
                     b.Property<DateTime?>("DateMaj")
                         .HasColumnType("datetime");
 
-                    b.Property<Guid>("ExperienceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Niveau")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("ProjetOrMissionClientId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TechnologieId")
                         .HasColumnType("uniqueidentifier");
@@ -679,7 +661,7 @@ namespace Altalents.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExperienceId");
+                    b.HasIndex("ProjetOrMissionClientId");
 
                     b.HasIndex("TechnologieId");
 
@@ -1828,110 +1810,33 @@ namespace Altalents.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e37ab257-7c00-4a8a-b71f-681ad18d1de2"),
-                            Code = "ActivitesJuridiquesEtComptables",
+                            Id = new Guid("53f64464-3ac1-4440-9cbe-c629c0244ec7"),
+                            Code = "SanteMedical",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Activités Juridiques Et Comptables",
+                            Libelle = "Santé / Médical",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("21d2b28e-9d36-4d4d-8f01-f62d0ea149ef"),
-                            Code = "AgricultureEtElevage",
+                            Id = new Guid("413c2810-d35c-4164-9021-73f5e50bad2b"),
+                            Code = "Education",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Agriculture Et Élevage",
+                            Libelle = "Éducation",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("650e788b-86b9-4884-a4eb-3582eb4f1d0d"),
-                            Code = "ArchitectureEtudesEtNormes",
+                            Id = new Guid("7b41cb52-4dbe-451e-bf7c-51d01a04e7e9"),
+                            Code = "BanqueAssurance",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Architecture Études Et Normes",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("95b23bbb-a76b-4ed5-ba30-0ff4c1eb8870"),
-                            Code = "ArtAudiovisuelEtSpectacle",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Art Audiovisuel Et Spectacle",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("89810245-c71d-4772-b648-3fa7b626ea69"),
-                            Code = "Automobile",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Automobile",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("5557465c-07ad-4ffe-85e3-bf8c2c34a07f"),
-                            Code = "BatimentEtTravauxPublic",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Bâtiment Et Travaux Publics",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("4055b77d-03a0-44f8-84dd-926fdb07f568"),
-                            Code = "CommerceEtDistribution",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Commerce Et Distribution",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("babdff53-7380-48df-81ca-30e6da210010"),
-                            Code = "CommunicationMarketing",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Communication Et Marketing",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("f05c980c-fd2d-454c-81d9-9afaa2f4b822"),
-                            Code = "CulturePatrimoine",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Culture Et Patrimoine",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("c24eefc2-f4ba-463b-88fa-dca5f83e9d6f"),
-                            Code = "Edition",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Édition",
+                            Libelle = "Banque / Assurance",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
@@ -1949,66 +1854,55 @@ namespace Altalents.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("413c2810-d35c-4164-9021-73f5e50bad2b"),
-                            Code = "EnseignementEtFormation",
+                            Id = new Guid("804109be-d3de-4745-a8aa-e6535e1c3151"),
+                            Code = "Services",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Enseignement Et Formation",
+                            Libelle = "Services",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("f0d37651-b240-46d7-a6a1-e01aeb2b6b08"),
-                            Code = "Environnement",
+                            Id = new Guid("e37ab257-7c00-4a8a-b71f-681ad18d1de2"),
+                            Code = "GestionComptabilite",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Environnement",
+                            Libelle = "Gestion / Comptabilité",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("7b41cb52-4dbe-451e-bf7c-51d01a04e7e9"),
-                            Code = "FinanceBanqueEtAssurance",
+                            Id = new Guid("93123d1d-aa63-4e9a-b89c-72db6e616f76"),
+                            Code = "TransportsLogistique",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Finance Banque Et Assurance",
+                            Libelle = "Transports / Logistique",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("bc9e9fa2-b46a-4974-9961-8814be2aa9f5"),
-                            Code = "GestionAdministrativeEtRessourcesHumaine",
+                            Id = new Guid("4055b77d-03a0-44f8-84dd-926fdb07f568"),
+                            Code = "CommerceDistribution",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Gestion Administrative Et Ressources Humaines",
+                            Libelle = "Commerce / Distribution",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("8c479024-2491-4d30-99bf-c2d0948d36e6"),
-                            Code = "HotellerieEtRestauration",
+                            Id = new Guid("939d7426-2069-4100-a8db-5ec86082fd49"),
+                            Code = "TelecomInformatique",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Hôtellerie Et Restauration",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("4052f410-0ded-4078-b065-46139c5f7f42"),
-                            Code = "Immobilier",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Immobilier",
+                            Libelle = "Télécom / Informatique",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
@@ -2026,77 +1920,33 @@ namespace Altalents.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("939d7426-2069-4100-a8db-5ec86082fd49"),
-                            Code = "InformatiqueEtTelecommunication",
+                            Id = new Guid("f5f43903-c3f7-47fd-a207-98887dd59e87"),
+                            Code = "TourismeLoisir",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Informatique Et Télécommunication",
+                            Libelle = "Tourisme / Loisir",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("93123d1d-aa63-4e9a-b89c-72db6e616f76"),
-                            Code = "LogistiqueEtTransport",
+                            Id = new Guid("f0d37651-b240-46d7-a6a1-e01aeb2b6b08"),
+                            Code = "Environnement",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Logistique Et Transport",
+                            Libelle = "Environnement",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("74536288-8a56-4ab1-9410-e9203bbaa60d"),
-                            Code = "MaintenanceEntretienEtNotoyage",
+                            Id = new Guid("4052f410-0ded-4078-b065-46139c5f7f42"),
+                            Code = "Immobilier",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Maintenance Entretien Et Nettoyage",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("7c1c4f41-e0e6-4b32-897c-db2799ea8b29"),
-                            Code = "Recherche",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Recherche",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("53f64464-3ac1-4440-9cbe-c629c0244ec7"),
-                            Code = "Santé",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Santé",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("804109be-d3de-4745-a8aa-e6535e1c3151"),
-                            Code = "ServiceALaPersonne",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Service À La Personne",
-                            OrdreTri = 1,
-                            Type = "Domaine",
-                            UtiCrea = "ALTEA"
-                        },
-                        new
-                        {
-                            Id = new Guid("85e06dc8-abe0-4eb7-85df-c8f67d2f2cca"),
-                            Code = "ServicePublicDefenseSecurite",
-                            DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsValide = true,
-                            Libelle = "Service Public Défense Et Sécurité",
+                            Libelle = "Immobilier",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
@@ -2114,22 +1964,22 @@ namespace Altalents.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f5f43903-c3f7-47fd-a207-98887dd59e87"),
-                            Code = "SportAnimationLoisir",
+                            Id = new Guid("7c1c4f41-e0e6-4b32-897c-db2799ea8b29"),
+                            Code = "Recherche",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Sport, Animation Et Loisir",
+                            Libelle = "Recherche",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("41a511c4-eac4-4411-9fcc-2dad63333206"),
-                            Code = "Tourismne",
+                            Id = new Guid("85e06dc8-abe0-4eb7-85df-c8f67d2f2cca"),
+                            Code = "Administration",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Tourisme",
+                            Libelle = "Administration",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"
@@ -2137,7 +1987,7 @@ namespace Altalents.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("3b2315eb-7b6d-40dd-b53c-bbd5eb85d3d4"),
-                            Code = "Tourismne",
+                            Code = "AutreDomaines",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
                             Libelle = "Autre",
@@ -2418,78 +2268,78 @@ namespace Altalents.DataAccess.Migrations
                     b.Navigation("DossierTechnique");
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceCompetence", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonProjetCompetence", b =>
                 {
-                    b.HasOne("Altalents.Entities.Reference", "Competance")
-                        .WithMany("LiaisonExperienceCompetances")
+                    b.HasOne("Altalents.Entities.Reference", "Competence")
+                        .WithMany("LiaisonProjetCompetences")
                         .HasForeignKey("CompetenceId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Altalents.Entities.Experience", "Experience")
-                        .WithMany("LiaisonExperienceCompetences")
-                        .HasForeignKey("ExperienceId")
+                    b.HasOne("Altalents.Entities.ProjetOrMissionClient", "ProjetOrMissionClient")
+                        .WithMany("LiaisonProjetCompetences")
+                        .HasForeignKey("ProjetOrMissionClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Competance");
+                    b.Navigation("Competence");
 
-                    b.Navigation("Experience");
+                    b.Navigation("ProjetOrMissionClient");
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceMethodologie", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonProjetMethodologie", b =>
                 {
-                    b.HasOne("Altalents.Entities.Experience", "Experience")
-                        .WithMany("LiaisonExperienceMethodologies")
-                        .HasForeignKey("ExperienceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Altalents.Entities.Reference", "Methodologie")
-                        .WithMany("LiaisonExperienceMethodologies")
+                        .WithMany("LiaisonProjetMethodologies")
                         .HasForeignKey("MethodologieId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Experience");
-
-                    b.Navigation("Methodologie");
-                });
-
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceOutil", b =>
-                {
-                    b.HasOne("Altalents.Entities.Experience", "Experience")
-                        .WithMany("LiaisonExperienceOutils")
-                        .HasForeignKey("ExperienceId")
+                    b.HasOne("Altalents.Entities.ProjetOrMissionClient", "ProjetOrMissionClient")
+                        .WithMany("LiaisonProjetMethodologies")
+                        .HasForeignKey("ProjetOrMissionClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Methodologie");
+
+                    b.Navigation("ProjetOrMissionClient");
+                });
+
+            modelBuilder.Entity("Altalents.Entities.LiaisonProjetOutil", b =>
+                {
                     b.HasOne("Altalents.Entities.Reference", "Outil")
-                        .WithMany("LiaisonExperienceOutils")
+                        .WithMany("LiaisonProjetOutils")
                         .HasForeignKey("OutilId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Experience");
+                    b.HasOne("Altalents.Entities.ProjetOrMissionClient", "ProjetOrMissionClient")
+                        .WithMany("LiaisonProjetOutils")
+                        .HasForeignKey("ProjetOrMissionClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Outil");
+
+                    b.Navigation("ProjetOrMissionClient");
                 });
 
-            modelBuilder.Entity("Altalents.Entities.LiaisonExperienceTechnologie", b =>
+            modelBuilder.Entity("Altalents.Entities.LiaisonProjetTechnologie", b =>
                 {
-                    b.HasOne("Altalents.Entities.Experience", "Experience")
-                        .WithMany("LiaisonExperienceTechnologies")
-                        .HasForeignKey("ExperienceId")
+                    b.HasOne("Altalents.Entities.ProjetOrMissionClient", "ProjetOrMissionClient")
+                        .WithMany("LiaisonProjetTechnologies")
+                        .HasForeignKey("ProjetOrMissionClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Altalents.Entities.Reference", "Technologie")
-                        .WithMany("LiaisonExperienceTechnologies")
+                        .WithMany("LiaisonProjetTechnologies")
                         .HasForeignKey("TechnologieId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Experience");
+                    b.Navigation("ProjetOrMissionClient");
 
                     b.Navigation("Technologie");
                 });
@@ -2550,14 +2400,6 @@ namespace Altalents.DataAccess.Migrations
 
             modelBuilder.Entity("Altalents.Entities.Experience", b =>
                 {
-                    b.Navigation("LiaisonExperienceCompetences");
-
-                    b.Navigation("LiaisonExperienceMethodologies");
-
-                    b.Navigation("LiaisonExperienceOutils");
-
-                    b.Navigation("LiaisonExperienceTechnologies");
-
                     b.Navigation("ProjetsOrMissionsClient");
                 });
 
@@ -2572,6 +2414,17 @@ namespace Altalents.DataAccess.Migrations
                     b.Navigation("DossierTechniques");
                 });
 
+            modelBuilder.Entity("Altalents.Entities.ProjetOrMissionClient", b =>
+                {
+                    b.Navigation("LiaisonProjetCompetences");
+
+                    b.Navigation("LiaisonProjetMethodologies");
+
+                    b.Navigation("LiaisonProjetOutils");
+
+                    b.Navigation("LiaisonProjetTechnologies");
+                });
+
             modelBuilder.Entity("Altalents.Entities.Reference", b =>
                 {
                     b.Navigation("Contacts");
@@ -2584,13 +2437,13 @@ namespace Altalents.DataAccess.Migrations
 
                     b.Navigation("DossierTechniquesByStatut");
 
-                    b.Navigation("LiaisonExperienceCompetances");
+                    b.Navigation("LiaisonProjetCompetences");
 
-                    b.Navigation("LiaisonExperienceMethodologies");
+                    b.Navigation("LiaisonProjetMethodologies");
 
-                    b.Navigation("LiaisonExperienceOutils");
+                    b.Navigation("LiaisonProjetOutils");
 
-                    b.Navigation("LiaisonExperienceTechnologies");
+                    b.Navigation("LiaisonProjetTechnologies");
 
                     b.Navigation("NiveauLangues");
 

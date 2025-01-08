@@ -16,6 +16,11 @@ export class ProjectOrMissionClient {
     dateFin!: string;
     domaineMetier?: Reference;
 
+    technologies?: Reference[];
+    competences?: Reference[];
+    methodologies?: Reference[];
+    outils?: Reference[];
+
     // champs calculés 
     dureeExperience?: string;
 
@@ -33,7 +38,11 @@ export class ProjectOrMissionClient {
         model.domaineMetier = dto.domaineMetier ? Reference.fromReferenceDto(dto.domaineMetier) : undefined; 
         model.dureeExperience = model.dateDebut ? DureeExperienceService.CalculateDureeExperience(new Date(model.dateDebut!), ValidateDate(model.dateFin)?new Date(model.dateFin):undefined) : undefined;
 
-        
+        model.technologies = dto.technologies ? Reference.fromListReferenceDto(dto.technologies) : undefined;
+        model.competences = dto.competences ? Reference.fromListReferenceDto(dto.competences) : undefined;
+        model.methodologies = dto.methodologies ? Reference.fromListReferenceDto(dto.methodologies) : undefined;
+        model.outils = dto.outils ? Reference.fromListReferenceDto(dto.outils) : undefined;
+
       return model;
 
     }

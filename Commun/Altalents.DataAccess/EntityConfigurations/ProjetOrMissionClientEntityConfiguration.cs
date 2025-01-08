@@ -20,6 +20,26 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
 
+            builder.HasMany(navigationExpression: e => e.LiaisonProjetTechnologies)
+                .WithOne(x => x.ProjetOrMissionClient)
+                .HasForeignKey(e => e.ProjetOrMissionClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(navigationExpression: e => e.LiaisonProjetCompetences)
+                .WithOne(x => x.ProjetOrMissionClient)
+                .HasForeignKey(e => e.ProjetOrMissionClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(navigationExpression: e => e.LiaisonProjetMethodologies)
+                .WithOne(x => x.ProjetOrMissionClient)
+                .HasForeignKey(e => e.ProjetOrMissionClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(navigationExpression: e => e.LiaisonProjetOutils)
+                .WithOne(x => x.ProjetOrMissionClient)
+                .HasForeignKey(e => e.ProjetOrMissionClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

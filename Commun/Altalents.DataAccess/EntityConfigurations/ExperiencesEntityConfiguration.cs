@@ -20,9 +20,6 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250)
                 .IsRequired();
-            builder.Property(e => e.Description)
-                .HasColumnType("varchar(max)")
-                .IsRequired();
             builder.Property(e => e.DateDebut)
                 .HasColumnType("datetime")
                 .IsRequired();
@@ -31,25 +28,7 @@ namespace Altalents.DataAccess.EntityConfigurations
             builder.Property(e => e.DomaineMetierId)
                 .HasDefaultValue(new Guid(IdsConstantes.DomaineAutreId));
 
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceTechnologies)
-                .WithOne(x => x.Experience)
-                .HasForeignKey(e => e.ExperienceId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceCompetences)
-                .WithOne(x => x.Experience)
-                .HasForeignKey(e => e.ExperienceId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceMethodologies)
-                .WithOne(x => x.Experience)
-                .HasForeignKey(e => e.ExperienceId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(navigationExpression: e => e.LiaisonExperienceOutils)
-                .WithOne(x => x.Experience)
-                .HasForeignKey(e => e.ExperienceId)
-                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

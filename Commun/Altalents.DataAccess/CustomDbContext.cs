@@ -31,16 +31,17 @@ namespace Altalents.DataAccess
         public virtual DbSet<Experience> Experiences { get; set; }
         public virtual DbSet<Personne> Personnes { get; set; }
         public virtual DbSet<TrigrammeLock> TrigrammeLocks { get; set; }
-        public virtual DbSet<LiaisonExperienceCompetence> LiaisonExperienceCompetences { get; set; }
-        public virtual DbSet<LiaisonExperienceMethodologie> LiaisonExperienceMethodologies { get; set; }
-        public virtual DbSet<LiaisonExperienceOutil> LiaisonExperienceOutils { get; set; }
-        public virtual DbSet<LiaisonExperienceTechnologie> LiaisonExperienceTechnologies { get; set; }
+
+        public virtual DbSet<LiaisonProjetCompetence> LiaisonProjetCompetences { get; set; }
+        public virtual DbSet<LiaisonProjetMethodologie> LiaisonProjetMethodologies { get; set; }
+        public virtual DbSet<LiaisonProjetOutil> LiaisonProjetOutils { get; set; }
+        public virtual DbSet<LiaisonProjetTechnologie> LiaisonProjetTechnologies { get; set; }
+
         public virtual DbSet<Formation> Formations { get; set; }
         public virtual DbSet<Certification> Certifications { get; set; }
         public virtual DbSet<DossierTechniqueLangue> DossierTechniqueLangues { get; set; }
         public virtual DbSet<DocumentComplementaire> DocumentComplementairesTD { get; set; }
-
-        
+        public virtual DbSet<Document> Document { get; set; }
 
     }
 }

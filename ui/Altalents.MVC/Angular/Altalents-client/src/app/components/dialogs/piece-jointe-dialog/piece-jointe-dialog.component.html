@@ -2,7 +2,7 @@
     <form [formGroup]="formGroup">
         <fieldset>
             <legend>{{modalTitle}}</legend>
-            <div class="row mb-2  margin-all">
+            <div class="row m-1 mb-2">
                 <div class="drop-zone col-lg-12" dropzone="move"   [class.dragging]="isDragging" (click)="triggerFileInput()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
                     <input type="file" (change)="onFileUploadChange($event)" style="display: none;" id="fileInput">
                     <img src="Images/ICON_FEATHER_DOWNLOAD.png">
@@ -15,7 +15,7 @@
                     Le CV est obligatoire.
                 </div>
             </div>
-            <div class="row mb-2 margin-all">
+            <div class="row m-1 mb-2">
                 <label for="commentaire" class="col-form-label no-padding-left">Commentaire</label>
                 <input type="text" class="form-control" formControlName="commentaire" placeholder="Pas de commentaire">
             </div>

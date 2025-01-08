@@ -7,6 +7,8 @@ namespace Altalents.IBusiness.DTO.Request
         [Required]
         public string MimeType { get; set; }
 
+        public Guid? Id { get; set; }
+
         [Required]
         public string NomFichier { get; set; }
         public string Commentaire { get; set; }

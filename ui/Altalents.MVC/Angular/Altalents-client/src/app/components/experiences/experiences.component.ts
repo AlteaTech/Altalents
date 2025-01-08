@@ -113,27 +113,8 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experienceDto.dateDebut = formatDate(experience.dateDebut, Constantes.formatDateBack, Constantes.formatDateLocale);
       experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
       experienceDto.lieu = experience.lieu;
-      experienceDto.description = experience.description;
       experienceDto.domaineMetierId = experience.domaineMetier.id;
-      experienceDto.budget = experience.budgetGere;
 
-      experienceDto.technologieIds = [];
-      experience.technologies?.forEach(x => {
-        experienceDto.technologieIds?.push(x.id);
-      })
-      experienceDto.competenceIds = [];
-      experience.competences?.forEach(x => {
-        experienceDto.competenceIds?.push(x.id);
-      })
-      experienceDto.methodologieIds = [];
-      experience.methodologies?.forEach(x => {
-        experienceDto.methodologieIds?.push(x.id);
-      })
-      experienceDto.outilIds = [];
-      experience.outils?.forEach(x => {
-        experienceDto.outilIds?.push(x.id);
-      })
-    
       experienceDto.projetsOrMissionsClient = [];
       experience.projetOrMission?.forEach(p => {
 
@@ -148,6 +129,23 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
         projectdto.domaineMetierId = p.domaineMetier?.id;
         projectdto.compositionEquipe = p.compositionEquipe;
         projectdto.budget = p.budget;
+
+        projectdto.technologieIds = [];
+        p.technologies?.forEach(x => {
+          projectdto.technologieIds?.push(x.id);
+        })
+        projectdto.competenceIds = [];
+        p.competences?.forEach(x => {
+          projectdto.competenceIds?.push(x.id);
+        })
+        projectdto.methodologieIds = [];
+        p.methodologies?.forEach(x => {
+          projectdto.methodologieIds?.push(x.id);
+        })
+        projectdto.outilIds = [];
+        p.outils?.forEach(x => {
+          projectdto.outilIds?.push(x.id);
+        })
 
         experienceDto.projetsOrMissionsClient?.push(projectdto);
 

@@ -20,7 +20,7 @@
     </p>
 </div>
 <fieldset>
-    <legend class="flex-row space-between margin-bottom">
+    <legend class="flex-row space-between mb-3">
         <span><i class="fa-solid fa-info"></i>Informations personnelles</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.ParlonsDeVous)" class="edit-link">
@@ -28,19 +28,19 @@
             </a>
         </div>
     </legend>
-    <p class="at-c-violet margin-top">{{parlonsDeVous.formattedName}}</p>
+    <p class="at-c-violet mt-3">{{parlonsDeVous.formattedName}}</p>
     <p class="font-bold ">{{parlonsDeVous.email}}</p>
     <p class="font-normal">{{parlonsDeVous.telephone1}}<span *ngIf="parlonsDeVous.telephone2"> -
             {{parlonsDeVous.telephone2}}</span></p>
     <p class="font-normal" *ngIf="parlonsDeVous.adresse">{{parlonsDeVous.adresse.getFormatedAdress}}</p>
-    <p class="font-bold margin-top" *ngIf="parlonsDeVous.zoneGeo">Zone géographique : <span class="font-normal">{{parlonsDeVous.zoneGeo}}</span></p>
+    <p class="font-bold mt-3" *ngIf="parlonsDeVous.zoneGeo">Zone géographique : <span class="font-normal">{{parlonsDeVous.zoneGeo}}</span></p>
     <p class="font-bold" *ngIf="parlonsDeVous.synthese">Synthèse : <span class="font-normal">{{parlonsDeVous.synthese}}</span></p>
     <p class="font-bold" *ngIf="parlonsDeVous.softSKills">Soft skills : <span class="font-normal">{{parlonsDeVous.softSKills}}</span></p>
-    <p class="font-bold margin-top" *ngIf="parlonsDeVous.pieceJointe">Mon CV : <a class="link" (click)="downloadPj()">
+    <p class="font-bold mt-3 mb-3" *ngIf="parlonsDeVous.pieceJointe">Mon CV : <a class="link" (click)="downloadPj()">
             {{this.parlonsDeVous.pieceJointe.nomFichier }}</a></p>
 </fieldset>
 <fieldset>
-    <legend class="flex-row space-between">
+    <legend class="flex-row space-between mb-3">
         <span><i class="fa-solid fa-graduation-cap"></i>Formation</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
@@ -49,9 +49,9 @@
         </div>
     </legend>
     <div *ngIf="formations.length > 0">
-        <div *ngFor="let formation of formations" class="margin-bottom">
+        <div *ngFor="let formation of formations" class="mb-3">
             <p class="at-c-violet">{{formation.libelle}}</p>
-            <p class="font-bold">{{formation.domaine}} <span *ngIf="formation.niveau">({{formation.niveau}})</span></p>
+            <p class="font-bold" *ngIf="formation.niveau"><span>({{formation.niveau}})</span></p>
             <p class="font-normal">{{formation.organisme}}</p>
             <p class="font-normal" *ngIf="formation.dateFin">
                 De {{formation.dateDebut | date : "MMMM YYYY" }} à {{formation.dateFin | date : "MMMM YYYY" }}
@@ -63,12 +63,12 @@
             </p>
         </div>
     </div>
-    <div class="margin-bottom" *ngIf="formations.length == 0">
+    <div class="mb-3" *ngIf="formations.length == 0">
         <p class="font-normal">Vous n'avez renseigné aucune formation... C'est balo!</p>
     </div>
 </fieldset>
 <fieldset>
-    <legend class="flex-row space-between">
+    <legend class="flex-row space-between mb-3">
         <span><i class="fa-solid fa-medal"></i>Certification</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
@@ -77,10 +77,9 @@
         </div>
     </legend>
     <div *ngIf="certifications.length > 0">
-        <div *ngFor="let certification of certifications" class="margin-bottom">
+        <div *ngFor="let certification of certifications" class="mb-3">
             <p class="at-c-violet">{{certification.libelle}}</p>
-            <p class="font-bold">{{certification.domaine}} <span
-                    *ngIf="certification.niveau">({{certification.niveau}})</span></p>
+            <p class="font-bold" *ngIf="certification.niveau"><span>({{certification.niveau}})</span></p>
             <p class="font-normal">{{certification.organisme}}</p>
             <p class="font-normal" *ngIf="certification.dateFin">
                 De {{certification.dateDebut | date : "MMMM YYYY" }} à {{certification.dateFin | date : "MMMM YYYY" }}
@@ -92,12 +91,12 @@
             </p>
         </div>
     </div>
-    <div class="margin-bottom" *ngIf="certifications.length == 0">
+    <div class="mb-3" *ngIf="certifications.length == 0">
         <p class="font-normal">Vous n'avez renseigné aucune certification.</p>
     </div>
 </fieldset>
 <fieldset>
-    <legend class="flex-row space-between">
+    <legend class="flex-row space-between mb-3">
         <span><i class="fa-regular fa-building"></i>Expérience professionnelle</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Experiences)" class="edit-link">
@@ -106,7 +105,7 @@
         </div>
     </legend>
     <div *ngIf="experiences.length > 0">
-        <div *ngFor="let experience of experiences" class="margin-bottom">
+        <div *ngFor="let experience of experiences" class="mb-2">
             <p class="at-c-violet">{{experience.intitulePoste}}</p>
             <p class="font-bold">{{experience.nomEntreprise}} <span
                     *ngIf="experience.nomEntreprise && experience.typeContrat.libelle"> -
@@ -117,25 +116,12 @@
             <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }}
                 <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span>
             </p>
-            <p class="font-normal" *ngIf="experience.budgetGere"><span class=""> Budget : </span>{{experience.budgetGere | number: '1.0-0'}}<span *ngIf="experience.budgetGere"> €</span></p>
-      
-            <p>
-                <span *ngFor="let technologie of experience.technologies" class="at-p-autocomplete-choix">
-                    {{technologie.libelle}}
-                </span>
-                <span *ngFor="let competence of experience.competences" class="at-p-autocomplete-choix">
-                    {{competence.libelle}}
-                </span>
-                <span *ngFor="let methodologie of experience.methodologies" class="at-p-autocomplete-choix">
-                    {{methodologie.libelle}}
-                </span>
-                <span *ngFor="let outil of experience.outils" class="at-p-autocomplete-choix">
-                    {{outil.libelle}}
-                </span>
-            </p>
-            <p class="font-normal">{{experience.description}}</p>
-            <div class="row margin-top">
-                <div class="col-lg-4" *ngFor="let project of experience.projetOrMission">
+            <div class="row mt-3">
+                <div *ngFor="let project of experience.projetOrMission"   [ngClass]="{
+                    'col-lg-12': (experience.projetOrMission?.length || 0) === 1,
+                    'col-lg-6': (experience.projetOrMission?.length || 0) === 2,
+                    'col-lg-4': (experience.projetOrMission?.length || 0) >= 3
+                }">
                     <div class="item-bloc">
                         <p *ngIf="project.NomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">
                             {{project.NomClientOrProjet}} <span
@@ -149,29 +135,43 @@
                                 <span *ngIf="project.dureeExperience">({{project.dureeExperience}})</span></span>
                         </div>
                         <div *ngIf="project.budget || project.compositionEquipe || project.lieu"
-                            class="font-italic font-small font-normal margin-bottom">
+                            class="font-italic font-small font-normal mb-2">
                             {{project.budget | number: '1.0-0'}}<span *ngIf="project.budget"> €</span><span
                                 *ngIf="project.compositionEquipe && project.budget"> -
                             </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu">
                                 - </span>{{project.lieu}}
                         </div>
-                        <div *ngIf="project.descriptionProjetOrMission" class="font-normal margin-bottom text-ellipsis">
+                        <div *ngIf="project.descriptionProjetOrMission" class="font-normal mb-2 text-ellipsis">
                             {{project.descriptionProjetOrMission}}</div>
                         <div *ngIf="project.taches" class="text-ellipsis">
                             <span class="font-normal"><span class="font-underline">Taches</span> :
                                 {{project.taches}}</span>
                         </div>
+                        <p>
+                            <span *ngFor="let technologie of project.technologies" class="at-p-autocomplete-choix">
+                                {{technologie.libelle}}
+                            </span>
+                            <span *ngFor="let competence of project.competences" class="at-p-autocomplete-choix">
+                                {{competence.libelle}}
+                            </span>
+                            <span *ngFor="let methodologie of project.methodologies" class="at-p-autocomplete-choix">
+                                {{methodologie.libelle}}
+                            </span>
+                            <span *ngFor="let outil of project.outils" class="at-p-autocomplete-choix">
+                                {{outil.libelle}}
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="margin-bottom" *ngIf="experiences.length == 0">
+    <div class="mb-3" *ngIf="experiences.length == 0">
         <p class="font-normal">Vous n'avez renseigné aucune expérience professionnelle... C'est balo!</p>
     </div>
 </fieldset>
 <fieldset>
-    <legend class="flex-row space-between">
+    <legend class="flex-row space-between mb-3">
         <span><i class="fa-solid fa-expand "></i>Compétences</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Competences)" class="edit-link">
@@ -179,8 +179,9 @@
             </a>
         </div>
     </legend>
-    <div class="margin-bottom" *ngIf="compCompetences.length > 0">
-        <div>Compétences</div>
+
+    <div>Compétences</div>
+    <div class="mb-3" *ngIf="compCompetences.length > 0">
         <div class="flex-row-comp">
             <span *ngFor="let competence of compCompetences" class="competence-item">
                 <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
@@ -193,65 +194,68 @@
             </span>
         </div>
     </div>
-    <div class="margin-bottom" *ngIf="compMethodologies.length > 0">
-        <div>Méthodologies</div>
-        <div class="flex-row-comp">
-            <span *ngFor="let competence of compMethodologies" class="competence-item">
-                <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
-                <div class="competence-stars">
-                    <span *ngFor="let star of arrayNbEtoiles">
-                        <i class="at-c-violet fa"
-                            [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
-                    </span>
-                </div>
-            </span>
-        </div>
-    </div>
-    <div class="margin-bottom" *ngIf="compOutils.length > 0">
-        <div>Outils</div>
-        <div class="flex-row-comp">
-            <span *ngFor="let competence of compOutils" class="competence-item">
-                <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
-                <div class="competence-stars">
-                    <span *ngFor="let star of arrayNbEtoiles">
-                        <i class="at-c-violet fa"
-                            [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
-                    </span>
-                </div>
-            </span>
-        </div>
+    <div class="mb-3" *ngIf="compCompetences.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucune compétence associée à vos expériences professionnelles.</p>
     </div>
 
-    <div class="margin-bottom" *ngIf="compTechnologie.length > 0">
-        <div>Téchnologies</div>
+    <div>Méthodologies</div>
+    <div class="mb-3" *ngIf="compMethodologies.length > 0">
         <div class="flex-row-comp">
-            <span *ngFor="let competence of compTechnologie" class="competence-item">
-                <p class="competence-libelle font-normal">{{ competence.libelle }}</p>
+            <span *ngFor="let methodo of compMethodologies" class="competence-item">
+                <p class="competence-libelle font-normal">{{ methodo.libelle }}</p>
                 <div class="competence-stars">
                     <span *ngFor="let star of arrayNbEtoiles">
                         <i class="at-c-violet fa"
-                            [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                            [ngClass]="star <= methodo.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
                     </span>
                 </div>
             </span>
         </div>
     </div>
-    <div class="margin-bottom" *ngIf="compTechnologie.length == 0">
-        <p class="font-normal">Vous n'avez renseigné aucune technologie associée à vos expériences professionnelles.</p>
-    </div>
-    <div class="margin-bottom" *ngIf="compOutils.length == 0">
-        <p class="font-normal">Vous n'avez renseigné aucun outil associée à vos expériences professionnelles.</p>
-    </div>
-    <div class="margin-bottom" *ngIf="compMethodologies.length == 0">
+    <div class="mb-3" *ngIf="compMethodologies.length == 0">
         <p class="font-normal">Vous n'avez renseigné aucune méthodologie associée à vos expériences professionnelles.
         </p>
     </div>
-    <div class="margin-bottom" *ngIf="compCompetences.length == 0">
-        <p class="font-normal">Vous n'avez renseigné aucune compétence associée à vos expériences professionnelles.</p>
+
+    <div>Outils</div>
+    <div class="mb-3" *ngIf="compOutils.length > 0">
+        <div class="flex-row-comp">
+            <span *ngFor="let outil of compOutils" class="competence-item">
+                <p class="competence-libelle font-normal">{{ outil.libelle }}</p>
+                <div class="competence-stars">
+                    <span *ngFor="let star of arrayNbEtoiles">
+                        <i class="at-c-violet fa"
+                            [ngClass]="star <= outil.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                    </span>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="mb-3" *ngIf="compOutils.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucun outil associée à vos expériences professionnelles.</p>
+    </div>
+
+    <div>Téchnologies</div>
+    <div class="mb-3" *ngIf="compTechnologie.length > 0">
+        <div class="flex-row-comp">
+            <span *ngFor="let techno of compTechnologie" class="competence-item">
+                <p class="competence-libelle font-normal">{{ techno.libelle }}</p>
+                <div class="competence-stars">
+                    <span *ngFor="let star of arrayNbEtoiles">
+                        <i class="at-c-violet fa"
+                            [ngClass]="star <= techno.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+                    </span>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="mb-3" *ngIf="compTechnologie.length == 0">
+        <p class="font-normal">Vous n'avez renseigné aucune technologie associée à vos expériences professionnelles.</p>
     </div>
 </fieldset>
+
 <fieldset>
-    <legend class="flex-row space-between">
+    <legend class="flex-row space-between mb-3">
         <span><i class="fa-solid fa-language"></i>Langues parlées</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Formations)" class="edit-link">
@@ -259,7 +263,7 @@
             </a>
         </div>
     </legend>
-    <div class="margin-bottom">
+    <div class="mb-4">
         <div *ngIf="langues.length > 0">
             <span *ngFor="let langue of langues; last as isLast">
                 <span class="">{{langue.libelleLangue}}</span><span
@@ -272,7 +276,7 @@
     </div>
 </fieldset>
 <fieldset>
-    <legend class="flex-row space-between">
+    <legend class="flex-row space-between mb-3">
         <span><i class="fa-solid fa-question "></i>Questions spécifiques & documentation</span>
         <div class="edit-links">
             <a (click)="goToStep(dossierTechniqueEnum.Questions)" class="edit-link">
@@ -281,11 +285,11 @@
         </div>
     </legend>
     <div *ngIf="questions.length > 0">
-        <div *ngFor="let question of questions" class="margin-bottom">
+        <div *ngFor="let question of questions" class="mb-2">
             <label class="">{{ question.question }}<span class="champ-obligatoire"
                     *ngIf="question.isObligatoire">*</span> : &nbsp;</label>
             <span *ngIf="question.reponse" class="font-normal">{{question.reponse}}</span>
-            <span *ngIf="!question.reponse" class="font-normal">(Vous n'avez pas répondu à cette question))</span>
+            <span *ngIf="!question.reponse" class="font-normal">(Vous n'avez pas répondu à cette question)</span>
         </div>
     </div>
     <div *ngIf="questions.length == 0">
