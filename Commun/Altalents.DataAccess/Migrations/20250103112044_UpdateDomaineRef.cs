@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -13,6 +13,7 @@ namespace Altalents.DataAccess.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("Delete from Experiences where DomaineMetierId in ('21d2b28e-9d36-4d4d-8f01-f62d0ea149ef','41a511c4-eac4-4411-9fcc-2dad63333206','5557465c-07ad-4ffe-85e3-bf8c2c34a07f','650e788b-86b9-4884-a4eb-3582eb4f1d0d','74536288-8a56-4ab1-9410-e9203bbaa60d','89810245-c71d-4772-b648-3fa7b626ea69','8c479024-2491-4d30-99bf-c2d0948d36e6','95b23bbb-a76b-4ed5-ba30-0ff4c1eb8870','babdff53-7380-48df-81ca-30e6da210010','bc9e9fa2-b46a-4974-9961-8814be2aa9f5','c24eefc2-f4ba-463b-88fa-dca5f83e9d6f','f05c980c-fd2d-454c-81d9-9afaa2f4b822');");
             migrationBuilder.DeleteData(
                 table: "References",
                 keyColumn: "Id",
