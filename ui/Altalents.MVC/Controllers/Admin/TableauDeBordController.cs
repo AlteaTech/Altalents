@@ -1,4 +1,7 @@
+using System.Threading;
 using Altalents.Commun.Enums;
+using Altalents.Entities;
+using Altalents.MVC.Extension;
 
 namespace Altalents.MVC.Controllers.Admin
 {
@@ -23,6 +26,13 @@ namespace Altalents.MVC.Controllers.Admin
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatutAsync([DataSourceRequest] DataSourceRequest request, Guid id, Guid statutId)
+        {
+            return await this.CallWithActionSecurisedAsync(request, UpdateStatutRunnerAsync(request, id, statutId));
+        }
+
+
         public async Task<IActionResult> GetDtsEnCoursLimitedRealAsync([DataSourceRequest] DataSourceRequest request)
         {
             return await this.CallWithActionSecurisedAsync(request, GetDtsEnCoursLimitedRunnerAsync(request, EtatFiltreDtEnum.InProgress));
@@ -37,6 +47,14 @@ namespace Altalents.MVC.Controllers.Admin
         {
             DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetDtsEnCours(etat).Take(6).ToDataSourceResultAsync(request);
             return base.Json(bibliothequeDossierTechniques);
+        }
+
+        private async Task<IActionResult> UpdateStatutRunnerAsync(DataSourceRequest request, Guid id, Guid statutId)
+        {
+
+            await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, CancellationToken.None);
+            return Json(new[] { id }.ToDataSourceResultAsync(request));
+
         }
     }
 }

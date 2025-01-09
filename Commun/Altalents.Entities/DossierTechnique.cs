@@ -15,7 +15,6 @@ namespace Altalents.Entities
         public string Synthese { get; set; }
         public string SoftSkills { get; set; }
         public string ZoneGeo { get; set; }
-        public bool RempliParCandidat { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Numero { get; set; }

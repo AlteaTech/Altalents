@@ -53,7 +53,8 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.DateUpdate, opt => opt.MapFrom(src => src.DateMaj))
                 .ForMember(dest => dest.Statut, opt => opt.MapFrom(src => src.Statut.Libelle))
                 .ForMember(dest => dest.StatutCode, opt => opt.MapFrom(src => src.Statut.Code))
-                .ForMember(dest => dest.Commercial, opt => opt.MapFrom(src => src.Commercial.Nom));
+                .ForMember(dest => dest.Commercial, opt => opt.MapFrom(src => src.Commercial.Nom))
+                .ForMember(dest => dest.TokenAccesRapide, opt => opt.MapFrom(src => src.TokenAccesRapide));
         }
     }
 }

@@ -9,6 +9,19 @@
     gridDossierTechniqueAControllerActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetDtsAControllerLimitedReal", ControllerName = TableauDeBordController.ControllerName });
 }
 
+<script type="text/javascript">
+
+    function reloadGridDtEnCours(e) {
+        var gridDtEnCours = $("#gridDossierTechniqueEnCoursLimitedDto").data("kendoGrid");
+        gridDtEnCours.dataSource.read();
+    }
+
+    function reloadGridDtAController(e) {
+        var gridDtAController = $("#gridDossierTechniqueAController").data("kendoGrid");
+        gridDtAController.dataSource.read();
+    }
+
+</script>
 
 <h2>@ViewData["Title"]</h2>
 <div class="row">
@@ -25,7 +38,7 @@
     .Columns(columns =>
     {
         columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT);
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/dossier-technique/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
@@ -33,7 +46,7 @@
         columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
                         .ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
-        columns.Bound(p => p.Statut).Title(LibellesResources.Statut);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>"); ;
     })
     .CreateDefautToolBar(withCreate: false, withSearch: false)
     .CreateDefautDataSource(gridDossierTechniqueEnCoursActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
@@ -48,7 +61,7 @@
     .Columns(columns =>
     {
         columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT);
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/dossier-technique/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
@@ -60,4 +73,86 @@
     })
     .CreateDefautToolBar(withCreate: false, withSearch: false)
     .CreateDefautDataSource(gridDossierTechniqueAControllerActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
-) 
+)
+
+<div id="statusWindow" style="display: none;">
+    <form id="statusForm">
+        <input type="hidden" id="dtId" />
+        <div class="form-group">
+            <label for="statusDropdown">Statut</label>
+            <select id="statusDropdown" class="form-control">
+                <option value="5f92b7d6-4ddf-4ec5-965b-9824387afa57">Créé</option>
+                <option value="5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5">En cours</option>
+            </select>
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="k-grid-save-command k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
+                id="saveStatusBtn">
+                <span class="k-icon k-i-save k-button-icon"></span>
+                <span class="k-button-text">Enregistrer</span>
+            </button>
+            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-secondary"
+                onclick="closeKendoStatusWindow()">
+                <span class="k-icon k-i-cancel k-button-icon"></span>
+                <span class="k-button-text">Annuler</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    var statusWindow;
+
+$(document).ready(function () {
+    // Initialisation de la modal Kendo
+    statusWindow = $("#statusWindow").kendoWindow({
+        title: "Modifier le statut",
+        modal: true,
+        visible: false,
+        resizable: false,
+        actions: ["Close"]
+    }).data("kendoWindow");
+});
+
+function openKendoStatusWindow(id, currentStatus) {
+    // Remplir les données dans la modal
+    $('#dtId').val(id);
+    $('#statusDropdown').val(currentStatus);
+
+    // Ouvrir la modal
+    statusWindow.center().open();
+}
+
+function closeKendoStatusWindow() {
+    statusWindow.close();
+}
+
+    $('#saveStatusBtn').on('click', function () {
+        const dtId = $('#dtId').val();
+        const newStatus = $('#statusDropdown').val();
+
+        // Appel AJAX pour sauvegarder le nouveau statut
+        $.ajax({
+            url: '@Url.Action("UpdateStatut", TableauDeBordController.ControllerName)',
+            type: 'POST',
+            data: { id: dtId, statutId: newStatus },
+            success: function (recData) {
+                if (recData.Errors) {
+                    erreurFunction(recData.Errors);
+                }
+                else {
+                    // Fermer la modal Kendo
+                    closeKendoStatusWindow();
+
+                    // Recharger les grilles
+                    reloadGridDtEnCours();
+                    reloadGridDtAController();
+                }
+            },
+            error: function () {
+                alert('Une erreur est survenue lors de la mise à jour du statut.');
+            }
+        });
+    });
+
+</script>

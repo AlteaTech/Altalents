@@ -61,11 +61,12 @@ namespace Altalents.Business.Services
 
             DossierTechnique dt = await context.DossierTechniques.Include(x => x.Personne).AsTracking().SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide);
 
-            if (!dt.RempliParCandidat)
+            if (dt.StatutId == Guid.Parse(IdsConstantes.StatutDtCreeId))
             {
-                //On envoi en async volontairement
+                //On envoi en async volontairement pour de raison de perf (Pas besoin d'attendre un envoi de mail)
                 EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
-                dt.RempliParCandidat = true;
+
+                dt.StatutId = Guid.Parse(IdsConstantes.StatutDtEnCoursId);
                 await context.SaveBaseEntityChangesAsync(cancellationToken);
             }
 
@@ -506,8 +507,6 @@ namespace Altalents.Business.Services
             {
                 dt.Personne.Contacts[1].Valeur = request.Telephone2;
             }
-
-            dt.StatutId = Guid.Parse(IdsConstantes.StatutDtEnCoursId);
 
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
 

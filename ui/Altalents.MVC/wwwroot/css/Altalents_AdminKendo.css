@@ -258,6 +258,7 @@ script {
   .k-disabled .k-link {
     cursor: default;
     outline: 0;
+    color: #7A4AFF;
   }
 
 .k-hr {
@@ -45243,13 +45244,13 @@ kendo-card-footer {
   }
 
   .k-grid a {
-    color: inherit;
-    text-decoration: none;
+    color: #7A4AFF;
+    text-decoration: underline;
   }
 
-    .k-grid a:hover {
-      text-decoration: none;
-    }
+  .k-grid a:hover {
+     
+  }
 
   .k-grid .k-grid-header-wrap {
     box-sizing: content-box;
@@ -55577,3 +55578,4 @@ kendo-scrollview.k-scrollview .k-scrollview-nav {
 .k-signature .k-signature-line {
   border-bottom-color: color-mix(in srgb, var(--kendo-color-info, #0058e9) 24%, transparent);
 }
+
