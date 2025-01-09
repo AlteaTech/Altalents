@@ -148,4 +148,54 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="App_Data\Templates\Emails\EmailConfirmationCreationDtForCandidat.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Emails\EmailConfirmationValidationDtByCandidat.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Emails\Styles\email-styles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_Before_Add_Key - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_Before_Add_Key.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_FirstPage - Copy %282%29.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_FirstPage - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_FirstPage.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemExperience - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemExperience.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemQuestion - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemQuestion.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemTabHorizontal - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemTabHorizontal.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemTabVertical - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemTabVertical.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

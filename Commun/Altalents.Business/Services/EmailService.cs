@@ -70,14 +70,11 @@ namespace Altalents.Business.Services
         public string LoadEmailTemplateWithCss(string templateName, string cssFileName, Dictionary<string, string> placeholders)
         {
 
-            string projectRoot = Directory.GetParent(AppContext.BaseDirectory)?.Parent?.Parent?.Parent?.FullName;
-
-            // Charger le fichier HTML
-            string templatePath = Path.Combine(projectRoot, "App_Data", "Templates", "Emails", templateName);
+            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Templates", "Emails", templateName);
             string templateContent = File.ReadAllText(templatePath, Encoding.UTF8);
 
             // Charger le fichier CSS
-            string cssPath = Path.Combine(projectRoot, "App_Data", "Templates", "Emails", "Styles", cssFileName);
+            string cssPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Templates", "Emails", "Styles", cssFileName);
             string cssContent = File.ReadAllText(cssPath, Encoding.UTF8);
 
             // Injecter les styles CSS dans le HTML (via une balise <style>)
