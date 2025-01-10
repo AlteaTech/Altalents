@@ -39,6 +39,7 @@ namespace Altalents.Business.Services
             await CheckNouveauCandidat(dossierTechnique, cancellationToken);
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
 
+            dt.StatutId = Guid.Parse(IdsConstantes.StatutDtCreeId);
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
 
@@ -112,8 +113,9 @@ namespace Altalents.Business.Services
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
                     { "candidatFullName", fullNameCandidat },
-                    { "downloadLink",$"{_globalSettings.BaseUrl}/DossiersTechniques/{tokenAccesRapide}/download-dt" },
-                    { "editLink", $"{_globalSettings.BaseUrl}/DossiersTechniques/{tokenAccesRapide}" }
+                    { "downloadLink",$"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossierTechnique}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt}" },
+                    { "openAdminLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.MvcAreaAdmin}/{RoutesNamesConstantes.MvcControllerTableauDeBord}" },
+                    { "editLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossierTechnique}/{tokenAccesRapide}" }
                 }
             );
 

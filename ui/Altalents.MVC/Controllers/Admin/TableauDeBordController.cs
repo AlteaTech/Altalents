@@ -7,7 +7,7 @@ namespace Altalents.MVC.Controllers.Admin
 {
     public class TableauDeBordController : AdminController
     {
-        public static string ControllerName = "TableauDeBord";
+        public static string ControllerName = RoutesNamesConstantes.MvcControllerTableauDeBord;
         private readonly IDossierTechniqueService _dossierTechniqueService;
 
         public TableauDeBordController(ILogger<TableauDeBordController> logger, IDossierTechniqueService dossierTechniqueService) : base(logger)
@@ -31,7 +31,6 @@ namespace Altalents.MVC.Controllers.Admin
         {
             return await this.CallWithActionSecurisedAsync(request, UpdateStatutRunnerAsync(request, id, statutId));
         }
-
 
         public async Task<IActionResult> GetDtsEnCoursLimitedRealAsync([DataSourceRequest] DataSourceRequest request)
         {

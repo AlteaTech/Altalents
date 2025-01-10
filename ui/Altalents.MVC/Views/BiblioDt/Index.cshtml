@@ -3,7 +3,7 @@
     ViewData["Title"] = LibellesResources.TitreBiblioDT;
     Layout = "_LayoutAdmin";
     Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueActionDictionary = new();
-    gridDossierTechniqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetBiblioDts", ControllerName = BiblioDtController.ControllerName });
+    gridDossierTechniqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, ControllerName = BiblioDtController.ControllerName });
 }
 
 

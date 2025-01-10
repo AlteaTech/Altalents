@@ -13,7 +13,7 @@
         <span class="connexion-title">@ViewData["Title"]</span>
 
         <p class="text-danger cus-mt-10">@Model.ErrorMessage</p>
-        <form name="loginForm" action="@Url.Action("Login", AccountController.ControllerName)" method="POST">
+        <form name="loginForm" action="@Url.Action(RoutesNamesConstantes.MvcControllerAccount_MethodeLogin, AccountController.ControllerName)" method="POST">
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-8">

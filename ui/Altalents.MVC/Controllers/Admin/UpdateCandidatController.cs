@@ -2,7 +2,7 @@ namespace Altalents.MVC.Controllers.Admin
 {
     public class UpdateCandidatController : AdminController
     {
-        public static string ControllerName = "UpdateCandidat";
+        public static string ControllerName = RoutesNamesConstantes.MvcControllerUpdateCandidat;
 
         public UpdateCandidatController(ILogger<UpdateCandidatController> logger) : base(logger)
         {

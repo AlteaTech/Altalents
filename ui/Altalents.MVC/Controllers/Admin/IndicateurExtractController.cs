@@ -1,8 +1,8 @@
-﻿namespace Altalents.MVC.Controllers.Admin
+namespace Altalents.MVC.Controllers.Admin
 {
     public class IndicateurExtractController : AdminController
     {
-        public static string ControllerName = "IndicateurExtract";
+        public static string ControllerName = RoutesNamesConstantes.MvcControllerIndicateurExtract;
 
         public IndicateurExtractController(ILogger<IndicateurExtractController> logger) : base(logger)
         {

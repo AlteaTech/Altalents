@@ -2,7 +2,7 @@ namespace Altalents.MVC.Controllers.Admin
 {
     public class DataControleController : AdminController
     {
-        public static string ControllerName = "DataControle";
+        public static string ControllerName = RoutesNamesConstantes.MvcControllerDataControle;
         private readonly IReferencesService _referencesService;
 
         public DataControleController(IReferencesService referencesService, ILogger<DataControleController> logger) : base(logger)
