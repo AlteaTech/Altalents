@@ -31,7 +31,6 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       prenom: new FormControl(this.parlonsDeVous.prenom!, Validators.required),
       nom: new FormControl('', Validators.required),
       numeroTelephone1: new FormControl('', Validators.required, ValidateTelephoneWithApi(this.service, true)),
-      numeroTelephone2: new FormControl(null, undefined, ValidateTelephoneWithApi(this.service, true)),
       adresseMail: new FormControl('', Validators.required),
       zoneGeo: new FormControl('', Validators.required),
       adresse1: new FormControl(null),
@@ -63,7 +62,6 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
               prenom : this.parlonsDeVous.prenom,
               nom: this.parlonsDeVous.nom,
               numeroTelephone1: this.parlonsDeVous.telephone1,
-              numeroTelephone2: this.parlonsDeVous.telephone2,
               adresseMail:  this.parlonsDeVous.email,
               adresse1:  this.parlonsDeVous.adresse?.adresse1,
               adresse2: this.parlonsDeVous.adresse?.adresse2,
@@ -211,7 +209,6 @@ public async onDrop(event: DragEvent): Promise<void> {
     requestDto.nom = values.nom ?? "";
     requestDto.prenom = values.prenom ?? "";
     requestDto.telephone1 = values.numeroTelephone1 ?? "";
-    requestDto.telephone2 = values.numeroTelephone2;
     requestDto.email = values.adresseMail ?? "";
     requestDto.adresse = adresseRequestDto;
     requestDto.synthese = values.synthese;

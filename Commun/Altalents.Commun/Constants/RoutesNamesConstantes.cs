@@ -55,7 +55,10 @@ namespace Altalents.Commun.Constants
         public const string MvcControllerUtilisateur_MethodeUpdateUtilisateur = "UpdateUtilisateur";
         public const string MvcControllerUtilisateur_MethodeDeleteUtilisateur = "DeleteUtilisateur";
         public const string MvcControllerUtilisateur_MethodeTypeCompte = "TypeCompte";
-        
+
+
+
+
         //API AREAS NAMES
 
         //API SWAGGER ENDPOINT

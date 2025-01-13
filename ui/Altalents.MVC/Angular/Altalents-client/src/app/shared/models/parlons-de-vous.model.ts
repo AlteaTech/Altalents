@@ -7,7 +7,6 @@ export class ParlonsDeVous {
     prenom?: string | null;
     nom?: string | null;
     telephone1?: string | null;
-    telephone2?: string | null;
     email?: string | null;
     adresse?: Adress;
     synthese?: string | null;
@@ -24,7 +23,6 @@ export class ParlonsDeVous {
       return `${formattedPrenom} ${upperNom}`.trim();
   }
 
-
     public static from(dto : ParlonsDeVousDto):ParlonsDeVous{
 
         var model = new ParlonsDeVous ();
@@ -32,7 +30,6 @@ export class ParlonsDeVous {
         model.prenom = dto.prenom;
         model.nom = dto.nom;
         model.telephone1 = dto.telephone1;
-        model.telephone2 = dto.telephone2;
         model.email = dto.email;
         model.synthese = dto.synthese;
         model.zoneGeo = dto.zoneGeo;
@@ -42,7 +39,6 @@ export class ParlonsDeVous {
           if (dto.adresse) {
             model.adresse = new Adress();
             model.adresse.adresse1 = dto.adresse.adresse1;
-            model.adresse.adresse2 = dto.adresse.adresse2;
             model.adresse.codePostal = dto.adresse.codePostal;
             model.adresse.ville = dto.adresse.ville;
             model.adresse.pays = dto.adresse.pays;

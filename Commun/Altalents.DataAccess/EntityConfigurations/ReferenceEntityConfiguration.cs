@@ -534,6 +534,15 @@ namespace Altalents.DataAccess.EntityConfigurations
  Type = Commun.Enums.TypeReferenceEnum.Contrat,
  OrdreTri = 2
             },
+             new (){
+ Libelle = "Freelance",
+ Code= Commun.Enums.CodeReferenceEnum.Freelance.ToString("g"),
+ Id = Guid.Parse("{205c8084-ea26-4794-b759-a1f505192acd}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Contrat,
+ OrdreTri = 3
+            },
             #endregion
             #region Statut
             new (){

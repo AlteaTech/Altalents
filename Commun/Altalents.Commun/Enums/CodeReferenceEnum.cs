@@ -51,8 +51,11 @@ namespace Altalents.Commun.Enums
         Telephone = 47,
         Cv = 48,
         Dt = 49,
+
         Cdi = 50,
         Cdd = 51,
+        Freelance = 102,
+
         Cree = 52,
         EnCours = 53,
         NonValide = 54,

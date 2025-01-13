@@ -39,7 +39,7 @@
     .Columns(columns =>
     {
         columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-    columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/"+@RoutesNamesConstantes.ApiControllerDossierTechnique+""/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+    columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/"+@RoutesNamesConstantes.ApiControllerDossierTechnique+"/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);

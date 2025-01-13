@@ -11,8 +11,6 @@ namespace Altalents.IBusiness.DTO.Request
         [Required]
         public string Telephone1 { get; set; }
 
-        public string Telephone2 { get; set; }
-
         [Required]
         public string Email { get; set; }
 

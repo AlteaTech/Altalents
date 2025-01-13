@@ -387,7 +387,6 @@ namespace Altalents.Business.Services
             {
                 Adresse = adresseDto,
                 Telephone1 = contactTelephones.FirstOrDefault()?.Valeur,
-                Telephone2 = contactTelephones.Count <= 1 ? null : contactTelephones.LastOrDefault()?.Valeur,
                 Email = dt.Personne.Email,
                 Nom = dt.Personne.Nom,
                 Prenom = dt.Personne.Prenom,
@@ -487,27 +486,6 @@ namespace Altalents.Business.Services
                     Valeur = request.Telephone1,
                     TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
                 });
-                if (!string.IsNullOrEmpty(request.Telephone2))
-                {
-                    dt.Personne.Contacts.Add(new Contact()
-                    {
-                        Valeur = request.Telephone2,
-                        TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
-                    });
-                }
-            }
-
-            if (contactTelephones.Count <= 1 && !string.IsNullOrEmpty(request.Telephone2))
-            {
-                dt.Personne.Contacts.Add(new Contact()
-                {
-                    Valeur = request.Telephone2,
-                    TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
-                });
-            }
-            else if (contactTelephones.Count > 1)
-            {
-                dt.Personne.Contacts[1].Valeur = request.Telephone2;
             }
 
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);

@@ -30,8 +30,7 @@
     </legend>
     <p class="at-c-violet mt-3">{{parlonsDeVous.formattedName}}</p>
     <p class="font-bold ">{{parlonsDeVous.email}}</p>
-    <p class="font-normal">{{parlonsDeVous.telephone1}}<span *ngIf="parlonsDeVous.telephone2"> -
-            {{parlonsDeVous.telephone2}}</span></p>
+    <p class="font-normal">{{parlonsDeVous.telephone1}}
     <p class="font-normal" *ngIf="parlonsDeVous.adresse">{{parlonsDeVous.adresse.getFormatedAdress}}</p>
     <p class="font-bold mt-3" *ngIf="parlonsDeVous.zoneGeo">Zone géographique : <span class="font-normal">{{parlonsDeVous.zoneGeo}}</span></p>
     <p class="font-bold" *ngIf="parlonsDeVous.synthese">Synthèse : <span class="font-normal">{{parlonsDeVous.synthese}}</span></p>
