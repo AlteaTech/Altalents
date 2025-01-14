@@ -69,7 +69,7 @@
                 <legend class="legent-text"><i class="fa-regular fa-address-book"></i>Coordonnées de contact</legend>
                 <div class="row">
                     <div class="col-lg-6 mt-2 label-champ-input">
-                        <label for="numeroTelephone1 align-items-center" class="col-form-label">N° de téléphone 1<span
+                        <label for="numeroTelephone1 align-items-center" class="col-form-label">N° de téléphone<span
                                 class="champ-obligatoire">*</span></label>
                         <div class="error-message"
                             *ngIf="formGroup.get('numeroTelephone1')?.invalid && formGroup.get('numeroTelephone1')?.touched">
@@ -78,20 +78,6 @@
                     </div>
                     <div class="col-lg-6 mb-2">
                         <input type="text" class="form-control" formControlName="numeroTelephone1"
-                            placeholder="+33 123456789 ou 0123456789">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 mt-2 label-champ-input ">
-                        <label for="numeroTelephone2 align-items-center" class="col-form-label">N° de téléphone
-                            2</label>
-                        <div class="error-message"
-                            *ngIf="formGroup.get('numeroTelephone2')?.invalid && formGroup.get('numeroTelephone2')?.touched">
-                            Le numéro de téléphone doit être un numéro français ou international valide.
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-2">
-                        <input type="text" class="form-control" formControlName="numeroTelephone2"
                             placeholder="+33 123456789 ou 0123456789">
                     </div>
                 </div>

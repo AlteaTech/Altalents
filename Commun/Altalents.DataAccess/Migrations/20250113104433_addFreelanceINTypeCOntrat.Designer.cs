@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20250113104433_addFreelanceINTypeCOntrat")]
+    partial class addFreelanceINTypeCOntrat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1463,23 +1466,56 @@ namespace Altalents.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5"),
-                            Code = "AValider",
+                            Id = new Guid("c09db97a-1547-41c1-afa9-428dd1d5ba55"),
+                            Code = "Inactif",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "À valider",
+                            Libelle = "Inactif",
+                            OrdreTri = 1,
+                            Type = "StatutDt",
+                            UtiCrea = "ALTEA"
+                        },
+                        new
+                        {
+                            Id = new Guid("5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5"),
+                            Code = "EnCours",
+                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsValide = true,
+                            Libelle = "En Cours",
                             OrdreTri = 2,
                             Type = "StatutDt",
                             UtiCrea = "ALTEA"
                         },
                         new
                         {
-                            Id = new Guid("d47e05b8-3e19-4a31-bd82-b28e8fc97060"),
-                            Code = "Termine",
+                            Id = new Guid("610f6ca4-0f22-44ec-9269-f744873b92f2"),
+                            Code = "NonValide",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Terminé",
+                            Libelle = "Non valide",
+                            OrdreTri = 3,
+                            Type = "StatutDt",
+                            UtiCrea = "ALTEA"
+                        },
+                        new
+                        {
+                            Id = new Guid("78a3cb44-9fd3-4c6c-9848-677937324ecd"),
+                            Code = "Valide",
+                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsValide = true,
+                            Libelle = "Valide",
                             OrdreTri = 4,
+                            Type = "StatutDt",
+                            UtiCrea = "ALTEA"
+                        },
+                        new
+                        {
+                            Id = new Guid("02e3d3ee-f745-4bf1-a00d-61e640dac8ae"),
+                            Code = "AModifier",
+                            DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsValide = true,
+                            Libelle = "A Modifier",
+                            OrdreTri = 5,
                             Type = "StatutDt",
                             UtiCrea = "ALTEA"
                         },
@@ -1524,7 +1560,7 @@ namespace Altalents.DataAccess.Migrations
                             Code = "Avance",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Avancé",
+                            Libelle = "Avance",
                             OrdreTri = 3,
                             Type = "NiveauLangue",
                             UtiCrea = "ALTEA"
@@ -1533,7 +1569,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("9398ffec-86fa-43f1-a180-478cd43b85a7"),
                             Code = "Bilingue",
-                            CommentaireFun = "tu te la pètes",
+                            CommentaireFun = "tu te la pète",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
                             Libelle = "Bilingue",
@@ -1896,10 +1932,10 @@ namespace Altalents.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("f5f43903-c3f7-47fd-a207-98887dd59e87"),
-                            Code = "TourismeLoisirs",
+                            Code = "TourismeLoisir",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Tourisme / Loisirs",
+                            Libelle = "Tourisme / Loisir",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"

@@ -39,6 +39,9 @@ namespace Altalents.Business.Services
             await CheckNouveauCandidat(dossierTechnique, cancellationToken);
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
 
+            dt.StatutId = Guid.Parse(IdsConstantes.StatutDtCreeId);
+            dt.DateCrea = DateTime.Now;
+            dt.DateMaj = DateTime.Now;
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
 
@@ -61,11 +64,13 @@ namespace Altalents.Business.Services
 
             DossierTechnique dt = await context.DossierTechniques.Include(x => x.Personne).AsTracking().SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide);
 
-            if (!dt.RempliParCandidat)
+            if (dt.StatutId == Guid.Parse(IdsConstantes.StatutDtCreeId))
             {
-                //On envoi en async volontairement
+                //On envoi en async volontairement pour de raison de perf (Pas besoin d'attendre un envoi de mail)
                 EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
-                dt.RempliParCandidat = true;
+
+                dt.StatutId = Guid.Parse(IdsConstantes.StatutDtAValiderId);
+                dt.DateMaj = DateTime.Now;
                 await context.SaveBaseEntityChangesAsync(cancellationToken);
             }
 
@@ -111,8 +116,9 @@ namespace Altalents.Business.Services
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
                     { "candidatFullName", fullNameCandidat },
-                    { "downloadLink",$"{_globalSettings.BaseUrl}/DossiersTechniques/{tokenAccesRapide}/download-dt" },
-                    { "editLink", $"{_globalSettings.BaseUrl}/DossiersTechniques/{tokenAccesRapide}" }
+                    { "downloadLink",$"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossierTechnique}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt}" },
+                    { "openAdminLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.MvcAreaAdmin}/{RoutesNamesConstantes.MvcControllerTableauDeBord}" },
+                    { "editLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossierTechnique}/{tokenAccesRapide}" }
                 }
             );
 
@@ -187,7 +193,10 @@ namespace Altalents.Business.Services
             {
                 throw new BusinessException("Statut inexistant");
             }
+
             dt.StatutId = statutId;
+            dt.DateMaj = DateTime.Now;
+
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
@@ -211,26 +220,40 @@ namespace Altalents.Business.Services
                 .Select(dt => dt.Id).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
+        public IQueryable<DossierTechniqueForAdminDto> GetBibliothequeDossierTechniques()
         {
             return DbContext.DossierTechniques
-                                         .ProjectTo<DossierTechniqueDto>(Mapper.ConfigurationProvider);
+                                         .ProjectTo<DossierTechniqueForAdminDto>(Mapper.ConfigurationProvider);
+    
         }
 
-        public IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat)
+        public IQueryable<DossierTechniqueForAdminDto> GetDtsByStatus(EtatFiltreDtEnum etat, int nbItemToGe = 10)
         {
-            if (etat == EtatFiltreDtEnum.InProgress)
+
+            string statusCode = "Unset";
+
+            switch (etat)
             {
-                return DbContext.DossierTechniques
-                    .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
-                    .Where(x => x.Statut.Code == CodeReferenceEnum.EnCours.ToString("g") || x.Statut.Code == CodeReferenceEnum.Inactif.ToString("g") || x.Statut.Code == CodeReferenceEnum.Cree.ToString("g"))
-                                             .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
+                case EtatFiltreDtEnum.Cree:
+                    statusCode = CodeReferenceEnum.Cree.ToString("g");
+                    break;
+
+                case EtatFiltreDtEnum.AValider:
+                    statusCode = CodeReferenceEnum.AValider.ToString("g");
+                    break;
+
+                case EtatFiltreDtEnum.Terminee:
+                    statusCode = CodeReferenceEnum.Termine.ToString("g");
+                    break;
+
             }
 
             return DbContext.DossierTechniques
-                    .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
-                    .Where(x => x.Statut.Code == CodeReferenceEnum.AModifier.ToString("g") || x.Statut.Code == CodeReferenceEnum.NonValide.ToString("g") || x.Statut.Code == CodeReferenceEnum.Valide.ToString("g"))
-                                         .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
+                .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
+                .Where(x => x.Statut.Code == statusCode)
+                .OrderBy(x => x.DateMaj)
+                .Take(nbItemToGe)
+                .ProjectTo<DossierTechniqueForAdminDto>(Mapper.ConfigurationProvider);
         }
 
         public async Task<TrigrammeDto> GetTrigrammeAsync(GetTrigrammeRequestDto request, CancellationToken cancellationToken)
@@ -384,7 +407,6 @@ namespace Altalents.Business.Services
             {
                 Adresse = adresseDto,
                 Telephone1 = contactTelephones.FirstOrDefault()?.Valeur,
-                Telephone2 = contactTelephones.Count <= 1 ? null : contactTelephones.LastOrDefault()?.Valeur,
                 Email = dt.Personne.Email,
                 Nom = dt.Personne.Nom,
                 Prenom = dt.Personne.Prenom,
@@ -484,30 +506,7 @@ namespace Altalents.Business.Services
                     Valeur = request.Telephone1,
                     TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
                 });
-                if (!string.IsNullOrEmpty(request.Telephone2))
-                {
-                    dt.Personne.Contacts.Add(new Contact()
-                    {
-                        Valeur = request.Telephone2,
-                        TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
-                    });
-                }
             }
-
-            if (contactTelephones.Count <= 1 && !string.IsNullOrEmpty(request.Telephone2))
-            {
-                dt.Personne.Contacts.Add(new Contact()
-                {
-                    Valeur = request.Telephone2,
-                    TypeId = Guid.Parse(IdsConstantes.ContactTelephoneId)
-                });
-            }
-            else if (contactTelephones.Count > 1)
-            {
-                dt.Personne.Contacts[1].Valeur = request.Telephone2;
-            }
-
-            dt.StatutId = Guid.Parse(IdsConstantes.StatutDtEnCoursId);
 
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
 

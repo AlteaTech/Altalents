@@ -370,59 +370,6 @@ export class ApiClient {
     /**
      * @return OK
      */
-    changerStatutDossierTechnique(id: string, statutId: string): Observable<void> {
-        let url_ = this.baseUrl + "/DossiersTechniques/{id}/statut/{statutId}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        if (statutId === undefined || statutId === null)
-            throw new Error("The parameter 'statutId' must be defined.");
-        url_ = url_.replace("{statutId}", encodeURIComponent("" + statutId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processChangerStatutDossierTechnique(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processChangerStatutDossierTechnique(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
-        }));
-    }
-
-    protected processChangerStatutDossierTechnique(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * @return OK
-     */
     validationDtCompletByCandidat(tokenRapide: string): Observable<void> {
         let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/validate-by-candidat";
         if (tokenRapide === undefined || tokenRapide === null)
@@ -3225,7 +3172,6 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
     prenom?: string | null;
     nom?: string | null;
     telephone1?: string | null;
-    telephone2?: string | null;
     email?: string | null;
     adresse?: AdresseDto;
     synthese?: string | null;
@@ -3247,7 +3193,6 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
             this.prenom = _data["Prenom"] !== undefined ? _data["Prenom"] : <any>null;
             this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
             this.telephone1 = _data["Telephone1"] !== undefined ? _data["Telephone1"] : <any>null;
-            this.telephone2 = _data["Telephone2"] !== undefined ? _data["Telephone2"] : <any>null;
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseDto.fromJS(_data["Adresse"]) : <any>null;
             this.synthese = _data["Synthese"] !== undefined ? _data["Synthese"] : <any>null;
@@ -3276,7 +3221,6 @@ export class ParlonsDeVousDto implements IParlonsDeVousDto {
         data["Prenom"] = this.prenom !== undefined ? this.prenom : <any>null;
         data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
         data["Telephone1"] = this.telephone1 !== undefined ? this.telephone1 : <any>null;
-        data["Telephone2"] = this.telephone2 !== undefined ? this.telephone2 : <any>null;
         data["Email"] = this.email !== undefined ? this.email : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
         data["Synthese"] = this.synthese !== undefined ? this.synthese : <any>null;
@@ -3295,7 +3239,6 @@ export interface IParlonsDeVousDto {
     prenom?: string | null;
     nom?: string | null;
     telephone1?: string | null;
-    telephone2?: string | null;
     email?: string | null;
     adresse?: AdresseDto;
     synthese?: string | null;
@@ -3308,7 +3251,6 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
     prenom!: string;
     nom!: string;
     telephone1!: string;
-    telephone2?: string | null;
     email!: string;
     zoneGeo!: string;
     adresse!: AdresseUpdateRequestDto;
@@ -3333,7 +3275,6 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
             this.prenom = _data["Prenom"] !== undefined ? _data["Prenom"] : <any>null;
             this.nom = _data["Nom"] !== undefined ? _data["Nom"] : <any>null;
             this.telephone1 = _data["Telephone1"] !== undefined ? _data["Telephone1"] : <any>null;
-            this.telephone2 = _data["Telephone2"] !== undefined ? _data["Telephone2"] : <any>null;
             this.email = _data["Email"] !== undefined ? _data["Email"] : <any>null;
             this.zoneGeo = _data["zoneGeo"] !== undefined ? _data["zoneGeo"] : <any>null;
             this.adresse = _data["Adresse"] ? AdresseUpdateRequestDto.fromJS(_data["Adresse"]) : new AdresseUpdateRequestDto();
@@ -3355,7 +3296,6 @@ export class ParlonsDeVousUpdateRequestDto implements IParlonsDeVousUpdateReques
         data["Prenom"] = this.prenom !== undefined ? this.prenom : <any>null;
         data["Nom"] = this.nom !== undefined ? this.nom : <any>null;
         data["Telephone1"] = this.telephone1 !== undefined ? this.telephone1 : <any>null;
-        data["Telephone2"] = this.telephone2 !== undefined ? this.telephone2 : <any>null;
         data["Email"] = this.email !== undefined ? this.email : <any>null;
         data["zoneGeo"] = this.zoneGeo !== undefined ? this.zoneGeo : <any>null;
         data["Adresse"] = this.adresse ? this.adresse.toJSON() : <any>null;
@@ -3370,7 +3310,6 @@ export interface IParlonsDeVousUpdateRequestDto {
     prenom: string;
     nom: string;
     telephone1: string;
-    telephone2?: string | null;
     email: string;
     zoneGeo: string;
     adresse: AdresseUpdateRequestDto;

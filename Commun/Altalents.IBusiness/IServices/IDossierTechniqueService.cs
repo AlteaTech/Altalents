@@ -9,8 +9,8 @@ namespace Altalents.IBusiness.IServices
         Task<Guid> AddDossierTechniqueAsync(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken);
         Task ChangerStatutDossierTechniqueAsync(Guid id, Guid statutId, CancellationToken cancellationToken);
         Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
-        IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques();
-        IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat);
+        IQueryable<DossierTechniqueForAdminDto> GetBibliothequeDossierTechniques();
+        IQueryable<DossierTechniqueForAdminDto> GetDtsByStatus(EtatFiltreDtEnum etat, int nbItemToGe = 10);
         Task<TrigrammeDto> GetTrigrammeAsync(GetTrigrammeRequestDto request, CancellationToken cancellationToken);
         Task<bool> IsEmailValidAsync(string email, Guid? tokenRapide, CancellationToken cancellationToken);
         Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken);

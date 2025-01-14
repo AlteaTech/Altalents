@@ -50,7 +50,7 @@
     </div>
     <div class="k-edit-field">
         @Html.Kendo().ComboBoxFor(model => model.TypeCompteSelected).DataTextField("Text").DataValueField("Value").DataSource(dataSource => {
-                dataSource.Read("TypeCompte", UtilisateurController.ControllerName);
+                dataSource.Read(RoutesNamesConstantes.MvcControllerUtilisateur_MethodeTypeCompte, UtilisateurController.ControllerName);
                 })
         @Html.ValidationMessageFor(model => model.TypeCompte)
     </div>

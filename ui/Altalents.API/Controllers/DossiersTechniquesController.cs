@@ -48,11 +48,11 @@ namespace Altalents.API.Controllers
             return _dossierTechniqueService.IsTelephoneValid(request.Telephone, request.IsOptionnal);
         }
 
-        [HttpPut("{id}/statut/{statutId}", Name = "ChangerStatutDossierTechnique")]
-        public async Task ChangerStatutDossierTechniqueAsync([FromRoute] Guid id, [FromRoute] Guid statutId, CancellationToken cancellationToken)
-        {
-            await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, cancellationToken);
-        }
+        //[HttpPut("{id}/statut/{statutId}", Name = "ChangerStatutDossierTechnique")]
+        //public async Task ChangerStatutDossierTechniqueAsync([FromRoute] Guid id, [FromRoute] Guid statutId, CancellationToken cancellationToken)
+        //{
+        //    await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, cancellationToken);
+        //}
 
         [HttpGet("{tokenRapide}/validate-by-candidat", Name = "ValidationDtCompletByCandidat")]
         public async Task ValidationDtCompletByCandidatAsync([FromRoute] Guid tokenRapide, CancellationToken cancellationToken)

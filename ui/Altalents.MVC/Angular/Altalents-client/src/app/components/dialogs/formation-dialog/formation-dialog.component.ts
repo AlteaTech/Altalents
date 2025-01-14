@@ -23,7 +23,7 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
     this.formGroup = new FormGroup<FormationForm>({
       libelle: new FormControl(null, Validators.required),
       niveau: new FormControl(),
-      organisme: new FormControl(),
+      organisme: new FormControl(null, Validators.required),
       dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
       dateFin: new FormControl(null, [maxDateTodayValidator()]),
     });
@@ -51,7 +51,7 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
       let formation: Formation = this.formation ?? new Formation();
       formation.libelle = values.libelle!;
       formation.niveau = values.niveau;
-      formation.organisme = values.organisme;
+      formation.organisme = values.organisme!;
       formation.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
       formation.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
 

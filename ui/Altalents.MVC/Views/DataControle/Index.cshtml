@@ -3,8 +3,8 @@
     ViewData["Title"] = LibellesResources.TitreDataControle;
     Layout = "_LayoutAdmin";
     Dictionary<GridActionEnum, RouteActionModel> gridReferenceAValiderActionDictionary = new();
-    gridReferenceAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetReferences", ControllerName = DataControleController.ControllerName, DynamicAdditionnalDataMethode = "gridReferenceAValiderGetAditionnalData" });
-    gridReferenceAValiderActionDictionary.Add(GridActionEnum.Update, new() { ActionName = "UpdateReferenc", ControllerName = DataControleController.ControllerName });
+    gridReferenceAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerDataControle_MethodeGetReferences, ControllerName = DataControleController.ControllerName, DynamicAdditionnalDataMethode = "gridReferenceAValiderGetAditionnalData" });
+    gridReferenceAValiderActionDictionary.Add(GridActionEnum.Update, new() { ActionName = RoutesNamesConstantes.MvcControllerDataControle_MethodeUpdateReference, ControllerName = DataControleController.ControllerName });
 }
 
 <script type="text/javascript">

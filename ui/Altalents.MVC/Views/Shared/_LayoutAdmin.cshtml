@@ -35,16 +35,16 @@
                 </div>
 
                 <div class="row">
-                    <a class="lienmenu @(""+(isTableauDeBord ? "menuselected" : ""))" href="@Url.Action("Index", TableauDeBordController.ControllerName)">@LibellesResources.TitreTableauDeBord</a>
-                    <a class="lienmenu @(""+(isGestionDt ? "menuselected" : ""))" href="@Url.Action("Index", BiblioDtController.ControllerName)">@LibellesResources.TitreGestionDT</a>
+                    <a class="lienmenu @(""+(isTableauDeBord ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeIndex, TableauDeBordController.ControllerName)">@LibellesResources.TitreTableauDeBord</a>
+                    <a class="lienmenu @(""+(isGestionDt ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, BiblioDtController.ControllerName)">@LibellesResources.TitreGestionDT</a>
                     @if (isGestionDt)
                     {
-                        <a class="liensousmenu @(""+(isBiblioDT ? "sousmenuselected" : ""))" href="@Url.Action("Index", BiblioDtController.ControllerName)">@LibellesResources.TitreBiblioDT</a>
-                        <a class="liensousmenu @(""+(isUpdateCandidat ? "sousmenuselected" : ""))" href="@Url.Action("Index", UpdateCandidatController.ControllerName)">@LibellesResources.TitreUpdateCandidat</a>
+                        <a class="liensousmenu @(""+(isBiblioDT ? "sousmenuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, BiblioDtController.ControllerName)">@LibellesResources.TitreBiblioDT</a>
+                        <a class="liensousmenu @(""+(isUpdateCandidat ? "sousmenuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerUpdateCandidat_MethodeIndex, UpdateCandidatController.ControllerName)">@LibellesResources.TitreUpdateCandidat</a>
                     }
-                    <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action("Index", UtilisateurController.ControllerName)">@LibellesResources.TitreGestionCompteUtilisateurs</a>
-                    <a class="lienmenu @(""+(isIndicateurExtract ? "menuselected" : ""))" href="@Url.Action("Index", IndicateurExtractController.ControllerName)">@LibellesResources.TitreIndicateurExtract</a>
-                    <a class="lienmenu @(""+(isDataControle ? "menuselected" : ""))" href="@Url.Action("Index", DataControleController.ControllerName)">@LibellesResources.TitreDataControle</a>
+                    <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerUtilisateur_MethodeIndex, UtilisateurController.ControllerName)">@LibellesResources.TitreGestionCompteUtilisateurs</a>
+                    <a class="lienmenu @(""+(isIndicateurExtract ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerIndicateurExtract_MethodeIndex, IndicateurExtractController.ControllerName)">@LibellesResources.TitreIndicateurExtract</a>
+                    <a class="lienmenu @(""+(isDataControle ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerDataControle_MethodeIndex, DataControleController.ControllerName)">@LibellesResources.TitreDataControle</a>
                     <a class="lienmenu" href="@Url.Action("Logout", AccountController.ControllerName)">Se déconnecter</a>
                 </div>
                 @Html.Raw(JavaScriptSnippet.FullScript)

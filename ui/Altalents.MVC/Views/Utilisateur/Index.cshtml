@@ -3,9 +3,9 @@
     ViewData["Title"] = LibellesResources.TitreGestionCompteUtilisateurs;
     Layout = "_LayoutAdmin";
     Dictionary<GridActionEnum, RouteActionModel> gridUtilisateurActionDictionary = new();
-    gridUtilisateurActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetUtilisateurs", ControllerName = UtilisateurController.ControllerName });
-    gridUtilisateurActionDictionary.Add(GridActionEnum.Create, new() { ActionName = "CreateUtilisateur", ControllerName = UtilisateurController.ControllerName });
-    gridUtilisateurActionDictionary.Add(GridActionEnum.Update, new() { ActionName = "UpdateUtilisateur", ControllerName = UtilisateurController.ControllerName });
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerUtilisateur_MethodeGetUtilisateurs, ControllerName = UtilisateurController.ControllerName });
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Create, new() { ActionName = RoutesNamesConstantes.MvcControllerUtilisateur_MethodeCreateUtilisateur, ControllerName = UtilisateurController.ControllerName });
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Update, new() { ActionName = RoutesNamesConstantes.MvcControllerUtilisateur_MethodeUpdateUtilisateur, ControllerName = UtilisateurController.ControllerName });
 }
 
 <script type="text/javascript">
@@ -16,7 +16,7 @@
 
     function actionConfirmationSuppressionUtilisateur(idUser, callbackFinalize) {
         $.ajax({
-            url: '@Url.Action("DeleteUtilisateur", UtilisateurController.ControllerName)',
+            url: '@Url.Action(RoutesNamesConstantes.MvcControllerUtilisateur_MethodeDeleteUtilisateur, UtilisateurController.ControllerName)',
             type: "POST",
             data: { utilisateurId: idUser },
             success: function (recData) {

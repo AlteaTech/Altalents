@@ -4,7 +4,7 @@ namespace Altalents.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        public static string ControllerName = "Home";
+        public static string ControllerName = RoutesNamesConstantes.MvcControllerHome;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)

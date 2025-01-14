@@ -1,0 +1,25 @@
+<div id="statusWindow" style="display: none;">
+    <form id="statusForm">
+        <input type="hidden" id="dtId" />
+        <div class="form-group">
+            <label for="statusDropdown">Statut</label>
+            <select id="statusDropdown" class="form-control">
+                <option value="@Guid.Parse(IdsConstantes.StatutDtCreeId)">Créé</option>
+                <option value="@Guid.Parse(IdsConstantes.StatutDtAValiderId)">À valider</option>
+                <option value="@Guid.Parse(IdsConstantes.StatutDtTermineId)">Terminé</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="k-grid-save-command k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
+                    id="saveStatusBtn">
+                <span class="k-icon k-i-save k-button-icon"></span>
+                <span class="k-button-text">Enregistrer</span>
+            </button>
+            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-secondary"
+                    onclick="closeKendoStatusWindow()">
+                <span class="k-icon k-i-cancel k-button-icon"></span>
+                <span class="k-button-text">Annuler</span>
+            </button>
+        </div>
+    </form>
+</div>

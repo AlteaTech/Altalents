@@ -5,7 +5,7 @@ export class Formation {
     id!: string;
     libelle!: string;
     niveau?: string;
-    organisme?: string;
+    organisme!: string;
     dateDebut!: Date;
     dateFin?: Date;
 

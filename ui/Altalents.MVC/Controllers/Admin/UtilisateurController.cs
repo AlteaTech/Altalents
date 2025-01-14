@@ -4,7 +4,7 @@ namespace Altalents.MVC.Controllers.Admin
 {
     public class UtilisateurController : AdminController
     {
-        public static string ControllerName = "Utilisateur";
+        public static string ControllerName = RoutesNamesConstantes.MvcControllerUtilisateur;
         private readonly IUtilisateurService _utilisateurService;
 
         public UtilisateurController(IUtilisateurService utilisateurService, ILogger<UtilisateurController> logger) : base(logger)

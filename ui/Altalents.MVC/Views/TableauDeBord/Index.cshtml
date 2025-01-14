@@ -4,11 +4,39 @@
     Layout = "_LayoutAdmin";
 
     Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueEnCoursActionDictionary = new();
-    gridDossierTechniqueEnCoursActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetDtsEnCoursLimitedReal", ControllerName = TableauDeBordController.ControllerName });
-    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueAControllerActionDictionary = new();
-    gridDossierTechniqueAControllerActionDictionary.Add(GridActionEnum.Get, new() { ActionName = "GetDtsAControllerLimitedReal", ControllerName = TableauDeBordController.ControllerName });
+    gridDossierTechniqueEnCoursActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsCreesLimitedReal, ControllerName = TableauDeBordController.ControllerName });
+
+    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueAValiderActionDictionary = new();
+    gridDossierTechniqueAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsAValiderLimitedReal, ControllerName = TableauDeBordController.ControllerName });
+
+    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueTermineeActionDictionary = new();
+    gridDossierTechniqueTermineeActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsTermineesLimitedReal, ControllerName = TableauDeBordController.ControllerName });
 }
 
+<script type="text/javascript">
+
+    // Définir l'URL pour la sauvegarde
+    const saveStatusUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeUpdateStatut, TableauDeBordController.ControllerName)';
+
+    // Optionnel : Fonction pour recharger les grilles
+    function reloadGrids() {
+        reloadGridDtEnCours();
+        reloadGridDtAController();
+    }
+
+    function reloadGridDtEnCours(e) {
+        var gridDtEnCours = $("#gridDossierTechniqueEnCoursLimitedDto").data("kendoGrid");
+        gridDtEnCours.dataSource.read();
+    }
+
+    function reloadGridDtAController(e) {
+        var gridDtAController = $("#gridDossierTechniqueAController").data("kendoGrid");
+        gridDtAController.dataSource.read();
+    }
+
+</script>
+
+<script src="~/js/status-modal.js"></script>
 
 <h2>@ViewData["Title"]</h2>
 <div class="row">
@@ -16,16 +44,16 @@
     <div class="col-2"><a href="/creation-dt" class="btn-link"> <i class="fa-solid fa-plus"></i> Créer un DT</a></div>
 </div>
 
-<div class="at-sub-title">Liste des DT en cours de réalisation <a href="" class="at-link">Voir tout ></a></div>
+<div class="at-sub-title">Liste des DT à remplir par le candidat <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt)" class="at-link">Voir tout ></a></div>
 
 
-@(Html.Kendo().Grid<DossierTechniqueEnCoursDto>()
+@(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
     .Name("gridDossierTechniqueEnCoursLimitedDto")
     .HtmlAttributes(new { @class = "h-40" })
     .Columns(columns =>
     {
         columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT);
+    columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/"+@RoutesNamesConstantes.ApiControllerDossierTechnique+"/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
@@ -33,22 +61,22 @@
         columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
                         .ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
-        columns.Bound(p => p.Statut).Title(LibellesResources.Statut);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
     })
     .CreateDefautToolBar(withCreate: false, withSearch: false)
     .CreateDefautDataSource(gridDossierTechniqueEnCoursActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
 )
 
-<div class="at-sub-title">Liste des DT en cours à contrôler <a href="" class="at-link">Voir tout ></a></div>
+<div class="at-sub-title">Liste des DT à valider par le service commercial <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt)" class="at-link">Voir tout ></a></div>
 
 
-@(Html.Kendo().Grid<DossierTechniqueEnCoursDto>()
+@(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
     .Name("gridDossierTechniqueAController")
     .HtmlAttributes(new { @class = "h-40" })
     .Columns(columns =>
     {
         columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT);
+            columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/" + @RoutesNamesConstantes.ApiControllerDossierTechnique + "#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
@@ -56,8 +84,10 @@
         columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
                         .ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
-        columns.Bound(p => p.Statut).Title(LibellesResources.Statut);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
     })
     .CreateDefautToolBar(withCreate: false, withSearch: false)
-    .CreateDefautDataSource(gridDossierTechniqueAControllerActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
-) 
+    .CreateDefautDataSource(gridDossierTechniqueAValiderActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
+)
+
+@Html.Partial("_KendoStatusWindow")

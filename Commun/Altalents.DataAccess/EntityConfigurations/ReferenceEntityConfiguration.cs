@@ -534,6 +534,15 @@ namespace Altalents.DataAccess.EntityConfigurations
  Type = Commun.Enums.TypeReferenceEnum.Contrat,
  OrdreTri = 2
             },
+             new (){
+ Libelle = "Freelance",
+ Code= Commun.Enums.CodeReferenceEnum.Freelance.ToString("g"),
+ Id = Guid.Parse("{205c8084-ea26-4794-b759-a1f505192acd}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Contrat,
+ OrdreTri = 3
+            },
             #endregion
             #region Statut
             new (){
@@ -547,19 +556,9 @@ namespace Altalents.DataAccess.EntityConfigurations
  OrdreTri = 1
             },
             new (){
- Libelle = "Inactif",
- Code= Commun.Enums.CodeReferenceEnum.Inactif.ToString("g"),
- Id = Guid.Parse("{C09DB97A-1547-41C1-AFA9-428DD1D5BA55}"),
- DateCrea = new DateTime(2024,6,18),
- UtiCrea= "ALTEA",
- IsValide=true,
- Type = Commun.Enums.TypeReferenceEnum.StatutDt,
- OrdreTri = 1
-            },
-            new (){
- Libelle = "En Cours",
- Code= Commun.Enums.CodeReferenceEnum.EnCours.ToString("g"),
- Id = Guid.Parse("{5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5}"),
+ Libelle = "À valider",
+ Code= Commun.Enums.CodeReferenceEnum.AValider.ToString("g"),
+ Id =  Guid.Parse(IdsConstantes.StatutDtAValiderId),
  DateCrea = new DateTime(2024,6,18),
  UtiCrea= "ALTEA",
  IsValide=true,
@@ -567,35 +566,16 @@ namespace Altalents.DataAccess.EntityConfigurations
  OrdreTri = 2
             },
             new (){
- Libelle = "Non valide",
- Code= Commun.Enums.CodeReferenceEnum.NonValide.ToString("g"),
- Id = Guid.Parse("{610f6ca4-0f22-44ec-9269-f744873b92f2}"),
- DateCrea = new DateTime(2024,6,18),
- UtiCrea= "ALTEA",
- IsValide=true,
- Type = Commun.Enums.TypeReferenceEnum.StatutDt,
- OrdreTri = 3
-            },
-            new (){
- Libelle = "Valide",
- Code= Commun.Enums.CodeReferenceEnum.Valide.ToString("g"),
- Id = Guid.Parse("{78a3cb44-9fd3-4c6c-9848-677937324ecd}"),
+ Libelle = "Terminé",
+ Code= Commun.Enums.CodeReferenceEnum.Termine.ToString("g"),
+ Id = Guid.Parse(IdsConstantes.StatutDtTermineId),
  DateCrea = new DateTime(2024,6,18),
  UtiCrea= "ALTEA",
  IsValide=true,
  Type = Commun.Enums.TypeReferenceEnum.StatutDt,
  OrdreTri = 4
             },
-            new (){
- Libelle = "A Modifier",
- Code= Commun.Enums.CodeReferenceEnum.AModifier.ToString("g"),
- Id = Guid.Parse("{02e3d3ee-f745-4bf1-a00d-61e640dac8ae}"),
- DateCrea = new DateTime(2024,6,18),
- UtiCrea= "ALTEA",
- IsValide=true,
- Type = Commun.Enums.TypeReferenceEnum.StatutDt,
- OrdreTri = 5
-            },
+          
             #endregion
             #region TypePersonne
             new (){
@@ -630,7 +610,7 @@ namespace Altalents.DataAccess.EntityConfigurations
  Type = Commun.Enums.TypeReferenceEnum.NiveauLangue,
  OrdreTri = 2
             },new (){
- Libelle = "Avance",
+ Libelle = "Avancé",
  Code= Commun.Enums.CodeReferenceEnum.Avance.ToString("g"),
  Id = Guid.Parse("{2AA6BDDA-0BF1-4792-9209-C3B05B37A3AF}"),
  DateCrea = new DateTime(2024,6,18),
@@ -640,7 +620,7 @@ namespace Altalents.DataAccess.EntityConfigurations
  OrdreTri = 3
             },new (){
  Libelle = "Bilingue",
- CommentaireFun = "tu te la pète",
+ CommentaireFun = "tu te la pètes",
  Code= Commun.Enums.CodeReferenceEnum.Bilingue.ToString("g"),
  Id = Guid.Parse("{9398FFEC-86FA-43F1-A180-478CD43B85A7}"),
  DateCrea = new DateTime(2024,6,18),
@@ -764,7 +744,7 @@ namespace Altalents.DataAccess.EntityConfigurations
                 new () { Libelle = "Commerce / Distribution", Id = Guid.Parse("4055b77d-03a0-44f8-84dd-926fdb07f568"), DateCrea = new DateTime(2024,11,20), UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.CommerceDistribution.ToString("g") },
                 new () { Libelle = "Télécom / Informatique", Id = Guid.Parse("939d7426-2069-4100-a8db-5ec86082fd49"), DateCrea = new DateTime(2024,11,20), UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.TelecomInformatique.ToString("g") },
                 new () { Libelle = "Industrie", Id = Guid.Parse("f57fc24d-d771-4de2-8c56-180728b027ce"), DateCrea = new DateTime(2024,11,20), UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.Industrie.ToString("g") },
-                new () { Libelle = "Tourisme / Loisir", Id = Guid.Parse("f5f43903-c3f7-47fd-a207-98887dd59e87"), DateCrea = new DateTime(2024,11,20), UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.TourismeLoisir.ToString("g") },
+                new () { Libelle = "Tourisme / Loisirs", Id = Guid.Parse("f5f43903-c3f7-47fd-a207-98887dd59e87"), DateCrea = new DateTime(2024,11,20), UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.TourismeLoisirs.ToString("g") },
                 new () { Libelle = "Environnement", Id = Guid.Parse("f0d37651-b240-46d7-a6a1-e01aeb2b6b08"), DateCrea = new DateTime(2024,11,20), UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.Environnement.ToString("g") },
                 new () { Libelle = "Immobilier", Id = Guid.Parse("4052f410-0ded-4078-b065-46139c5f7f42"), DateCrea = new DateTime(2024,11,20), UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.Immobilier.ToString("g") },
                 new () { Libelle = "Social", Id = Guid.Parse("a1cba742-7102-432e-b7a0-55eacf200761"), DateCrea = new DateTime(2024,11,20), UtiCrea = "ALTEA", IsValide = true, Type = Commun.Enums.TypeReferenceEnum.Domaine, OrdreTri = 1, Code = Commun.Enums.CodeReferenceEnum.Social.ToString("g") },

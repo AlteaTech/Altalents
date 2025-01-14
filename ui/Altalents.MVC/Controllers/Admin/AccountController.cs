@@ -11,7 +11,7 @@ namespace Altalents.MVC.Controllers.Admin
 {
     public class AccountController : AdminController
     {
-        public static string ControllerName = "Account";
+        public static string ControllerName = RoutesNamesConstantes.MvcControllerAccount;
         private readonly SignInManager<Utilisateur> _signInManager;
         private readonly ILogger<LoginModel> _loggerLogin;
 

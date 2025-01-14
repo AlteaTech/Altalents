@@ -142,11 +142,11 @@ namespace Altalents.MVC
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AltalentsApi");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", RoutesNamesConstantes.ApiSwaggerEndpointName);
             });
             if (env.IsDevelopment())
             {
-                app.UseExceptionHandler("/HomeAdmin/Error");
+                app.UseExceptionHandler("/"+ RoutesNamesConstantes.MvcControllerHomeAdmin + "/"+ RoutesNamesConstantes.MvcControllerHomeAdmin_MethodeError);
                 app.UseHsts();
             }
             else
@@ -158,8 +158,8 @@ namespace Altalents.MVC
             }
 
             app.UseMiddleware<StatusCodeExceptionHandler>();
-            app.UseSupervision(NOM_API, "/state");
-            app.UseReadinessSupervision(NOM_API, "/readiness");
+            app.UseSupervision(NOM_API, "/"+ RoutesNamesConstantes.ApiSupervisionEndpointName);
+            app.UseReadinessSupervision(NOM_API, "/" + RoutesNamesConstantes.ApiSupervisionreadinessEndpointName);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -178,15 +178,15 @@ namespace Altalents.MVC
             {
                 endpoints.MapControllerRoute(
                     name: "admin",
-                    pattern: "Admin/{controller=Account}/{action=Index}/{id?}",
+                    pattern: RoutesNamesConstantes.MvcAreaAdmin+ "/{controller="+ RoutesNamesConstantes.MvcControllerAccount+ "}/{action="+ RoutesNamesConstantes.MvcControllerAccount_MethodeIndex+ "}/{id?}",
                     constraints: new { controller = @"^(?!Home$).*$" });
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=" + RoutesNamesConstantes.MvcControllerHome + "}/{action=" + RoutesNamesConstantes.MvcControllerHome_MethodeIndex + "}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "spaF",
                     pattern: "{*url}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    defaults: new { controller = RoutesNamesConstantes.MvcControllerHome, action = RoutesNamesConstantes.MvcControllerHome_MethodeIndex });
             });
 
             Serilog.Core.Logger serilogLogger = new LoggerConfiguration()
