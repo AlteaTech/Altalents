@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20250114152143_updateRefDesSTatusPossible")]
+    partial class updateRefDesSTatusPossible
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1467,7 +1470,7 @@ namespace Altalents.DataAccess.Migrations
                             Code = "AValider",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "À valider",
+                            Libelle = "à valider",
                             OrdreTri = 2,
                             Type = "StatutDt",
                             UtiCrea = "ALTEA"
@@ -1524,7 +1527,7 @@ namespace Altalents.DataAccess.Migrations
                             Code = "Avance",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Avancé",
+                            Libelle = "Avance",
                             OrdreTri = 3,
                             Type = "NiveauLangue",
                             UtiCrea = "ALTEA"
@@ -1533,7 +1536,7 @@ namespace Altalents.DataAccess.Migrations
                         {
                             Id = new Guid("9398ffec-86fa-43f1-a180-478cd43b85a7"),
                             Code = "Bilingue",
-                            CommentaireFun = "tu te la pètes",
+                            CommentaireFun = "tu te la pète",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
                             Libelle = "Bilingue",
@@ -1896,10 +1899,10 @@ namespace Altalents.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("f5f43903-c3f7-47fd-a207-98887dd59e87"),
-                            Code = "TourismeLoisirs",
+                            Code = "TourismeLoisir",
                             DateCrea = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Tourisme / Loisirs",
+                            Libelle = "Tourisme / Loisir",
                             OrdreTri = 1,
                             Type = "Domaine",
                             UtiCrea = "ALTEA"

@@ -40,6 +40,8 @@ namespace Altalents.Business.Services
             DossierTechnique dt = Mapper.Map<DossierTechnique>(dossierTechnique);
 
             dt.StatutId = Guid.Parse(IdsConstantes.StatutDtCreeId);
+            dt.DateCrea = DateTime.Now;
+            dt.DateMaj = DateTime.Now;
             dt.Personne.Contacts.RemoveAll(x => string.IsNullOrWhiteSpace(x.Valeur));
             dt.QuestionDossierTechniques = Mapper.Map<List<QuestionDossierTechnique>>(dossierTechnique.Questionnaires);
 
@@ -67,7 +69,8 @@ namespace Altalents.Business.Services
                 //On envoi en async volontairement pour de raison de perf (Pas besoin d'attendre un envoi de mail)
                 EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
 
-                dt.StatutId = Guid.Parse(IdsConstantes.StatutDtEnCoursId);
+                dt.StatutId = Guid.Parse(IdsConstantes.StatutDtAValiderId);
+                dt.DateMaj = DateTime.Now;
                 await context.SaveBaseEntityChangesAsync(cancellationToken);
             }
 
@@ -190,7 +193,10 @@ namespace Altalents.Business.Services
             {
                 throw new BusinessException("Statut inexistant");
             }
+
             dt.StatutId = statutId;
+            dt.DateMaj = DateTime.Now;
+
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
@@ -214,26 +220,40 @@ namespace Altalents.Business.Services
                 .Select(dt => dt.Id).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public IQueryable<DossierTechniqueDto> GetBibliothequeDossierTechniques()
+        public IQueryable<DossierTechniqueForAdminDto> GetBibliothequeDossierTechniques()
         {
             return DbContext.DossierTechniques
-                                         .ProjectTo<DossierTechniqueDto>(Mapper.ConfigurationProvider);
+                                         .ProjectTo<DossierTechniqueForAdminDto>(Mapper.ConfigurationProvider);
+    
         }
 
-        public IQueryable<DossierTechniqueEnCoursDto> GetDtsEnCours(EtatFiltreDtEnum etat)
+        public IQueryable<DossierTechniqueForAdminDto> GetDtsByStatus(EtatFiltreDtEnum etat, int nbItemToGe = 10)
         {
-            if (etat == EtatFiltreDtEnum.InProgress)
+
+            string statusCode = "Unset";
+
+            switch (etat)
             {
-                return DbContext.DossierTechniques
-                    .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
-                    .Where(x => x.Statut.Code == CodeReferenceEnum.EnCours.ToString("g") || x.Statut.Code == CodeReferenceEnum.Inactif.ToString("g") || x.Statut.Code == CodeReferenceEnum.Cree.ToString("g"))
-                                             .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
+                case EtatFiltreDtEnum.Cree:
+                    statusCode = CodeReferenceEnum.Cree.ToString("g");
+                    break;
+
+                case EtatFiltreDtEnum.AValider:
+                    statusCode = CodeReferenceEnum.AValider.ToString("g");
+                    break;
+
+                case EtatFiltreDtEnum.Terminee:
+                    statusCode = CodeReferenceEnum.Termine.ToString("g");
+                    break;
+
             }
 
             return DbContext.DossierTechniques
-                    .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
-                    .Where(x => x.Statut.Code == CodeReferenceEnum.AModifier.ToString("g") || x.Statut.Code == CodeReferenceEnum.NonValide.ToString("g") || x.Statut.Code == CodeReferenceEnum.Valide.ToString("g"))
-                                         .ProjectTo<DossierTechniqueEnCoursDto>(Mapper.ConfigurationProvider);
+                .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
+                .Where(x => x.Statut.Code == statusCode)
+                .OrderBy(x => x.DateMaj)
+                .Take(nbItemToGe)
+                .ProjectTo<DossierTechniqueForAdminDto>(Mapper.ConfigurationProvider);
         }
 
         public async Task<TrigrammeDto> GetTrigrammeAsync(GetTrigrammeRequestDto request, CancellationToken cancellationToken)

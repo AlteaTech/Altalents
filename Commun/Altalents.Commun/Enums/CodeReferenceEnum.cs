@@ -57,11 +57,9 @@ namespace Altalents.Commun.Enums
         Freelance = 102,
 
         Cree = 52,
-        EnCours = 53,
-        NonValide = 54,
-        Valide = 55,
-        AModifier = 56,
-        Inactif = 57,
+        AValider = 53,
+        Termine = 54,
+
         Candidat = 58,
         Basique = 59,
         Intermediaire = 60,
@@ -101,7 +99,7 @@ namespace Altalents.Commun.Enums
         CommerceDistribution = 92,
         TelecomInformatique = 93,
         Industrie = 94,
-        TourismeLoisir = 95,
+        TourismeLoisirs = 95,
         Environnement = 96,
         Immobilier = 97,
         Social = 98,

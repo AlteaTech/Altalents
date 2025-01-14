@@ -39,7 +39,10 @@
         <!-- Organisme -->
         <div class="row">
           <div class="col-lg-6 mt-2 label-champ-input">
-            <label for="organisme" class="col-form-label">Organisme de certification</label>
+            <label for="organisme" class="col-form-label">Organisme de certification<span class="champ-obligatoire">*</span></label>
+            <div class="error-message" *ngIf="formGroup.controls['organisme'].invalid && formGroup.controls['organisme'].touched">
+              L'école ou l'organisme de formation est requis.
+            </div>
           </div>
           <div class="col-lg-6 mb-2">
             <input
@@ -78,6 +81,7 @@
         <div class="row">
           <div class="col-lg-6 mt-2 label-champ-input">
             <label for="dateFin" class="col-form-label">Date de fin</label>
+            <p class="font-normal font-italic font-small">Si vous avez obtenu votre diplôme ou certification, merci de préciser une date de fin svp.</p>
             <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
               La date ne peut pas être supérieure à aujourd'hui.
             </div>

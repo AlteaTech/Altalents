@@ -237,4 +237,7 @@
     <value>Nom d’utilisateur</value>
     <comment>Libelle UTILISATEURS</comment>
   </data>
+  <data name="DateCreation" xml:space="preserve">
+    <value>Date création</value>
+  </data>
 </root>

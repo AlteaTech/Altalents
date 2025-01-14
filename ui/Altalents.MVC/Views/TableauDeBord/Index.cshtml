@@ -4,13 +4,25 @@
     Layout = "_LayoutAdmin";
 
     Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueEnCoursActionDictionary = new();
-    gridDossierTechniqueEnCoursActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsEnCoursLimitedReal, ControllerName = TableauDeBordController.ControllerName });
+    gridDossierTechniqueEnCoursActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsCreesLimitedReal, ControllerName = TableauDeBordController.ControllerName });
 
-    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueAControllerActionDictionary = new();
-    gridDossierTechniqueAControllerActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsAControllerLimitedReal, ControllerName = TableauDeBordController.ControllerName });
+    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueAValiderActionDictionary = new();
+    gridDossierTechniqueAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsAValiderLimitedReal, ControllerName = TableauDeBordController.ControllerName });
+
+    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueTermineeActionDictionary = new();
+    gridDossierTechniqueTermineeActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsTermineesLimitedReal, ControllerName = TableauDeBordController.ControllerName });
 }
 
 <script type="text/javascript">
+
+    // Définir l'URL pour la sauvegarde
+    const saveStatusUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeUpdateStatut, TableauDeBordController.ControllerName)';
+
+    // Optionnel : Fonction pour recharger les grilles
+    function reloadGrids() {
+        reloadGridDtEnCours();
+        reloadGridDtAController();
+    }
 
     function reloadGridDtEnCours(e) {
         var gridDtEnCours = $("#gridDossierTechniqueEnCoursLimitedDto").data("kendoGrid");
@@ -24,16 +36,18 @@
 
 </script>
 
+<script src="~/js/status-modal.js"></script>
+
 <h2>@ViewData["Title"]</h2>
 <div class="row">
     <div class="col-10"></div>
     <div class="col-2"><a href="/creation-dt" class="btn-link"> <i class="fa-solid fa-plus"></i> Créer un DT</a></div>
 </div>
 
-<div class="at-sub-title">Liste des DT en cours de réalisation <a href="" class="at-link">Voir tout ></a></div>
+<div class="at-sub-title">Liste des DT à remplir par le candidat <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt)" class="at-link">Voir tout ></a></div>
 
 
-@(Html.Kendo().Grid<DossierTechniqueEnCoursDto>()
+@(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
     .Name("gridDossierTechniqueEnCoursLimitedDto")
     .HtmlAttributes(new { @class = "h-40" })
     .Columns(columns =>
@@ -47,16 +61,16 @@
         columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
                         .ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
-        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>"); ;
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
     })
     .CreateDefautToolBar(withCreate: false, withSearch: false)
     .CreateDefautDataSource(gridDossierTechniqueEnCoursActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
 )
 
-<div class="at-sub-title">Liste des DT en cours à contrôler <a href="" class="at-link">Voir tout ></a></div>
+<div class="at-sub-title">Liste des DT à valider par le service commercial <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt)" class="at-link">Voir tout ></a></div>
 
 
-@(Html.Kendo().Grid<DossierTechniqueEnCoursDto>()
+@(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
     .Name("gridDossierTechniqueAController")
     .HtmlAttributes(new { @class = "h-40" })
     .Columns(columns =>
@@ -70,90 +84,10 @@
         columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
                         .ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
-        columns.Bound(p => p.Statut).Title(LibellesResources.Statut);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
     })
     .CreateDefautToolBar(withCreate: false, withSearch: false)
-    .CreateDefautDataSource(gridDossierTechniqueAControllerActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
+    .CreateDefautDataSource(gridDossierTechniqueAValiderActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
 )
 
-<div id="statusWindow" style="display: none;">
-    <form id="statusForm">
-        <input type="hidden" id="dtId" />
-        <div class="form-group">
-            <label for="statusDropdown">Statut</label>
-            <select id="statusDropdown" class="form-control">
-                <option value="@Guid.Parse(IdsConstantes.StatutDtCreeId)">Créé</option>
-                <option value="@Guid.Parse(IdsConstantes.StatutDtEnCoursId)">En cours</option>
-            </select>
-        </div>
-          <div class="modal-footer">
-            <button type="button" class="k-grid-save-command k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
-                id="saveStatusBtn">
-                <span class="k-icon k-i-save k-button-icon"></span>
-                <span class="k-button-text">Enregistrer</span>
-            </button>
-            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-secondary"
-                onclick="closeKendoStatusWindow()">
-                <span class="k-icon k-i-cancel k-button-icon"></span>
-                <span class="k-button-text">Annuler</span>
-            </button>
-        </div>
-    </form>
-</div>
-
-<script>
-    var statusWindow;
-
-$(document).ready(function () {
-    // Initialisation de la modal Kendo
-    statusWindow = $("#statusWindow").kendoWindow({
-        title: "Modifier le statut",
-        modal: true,
-        visible: false,
-        resizable: false,
-        actions: ["Close"]
-    }).data("kendoWindow");
-});
-
-function openKendoStatusWindow(id, currentStatus) {
-    // Remplir les données dans la modal
-    $('#dtId').val(id);
-    $('#statusDropdown').val(currentStatus);
-
-    // Ouvrir la modal
-    statusWindow.center().open();
-}
-
-function closeKendoStatusWindow() {
-    statusWindow.close();
-}
-
-    $('#saveStatusBtn').on('click', function () {
-        const dtId = $('#dtId').val();
-        const newStatus = $('#statusDropdown').val();
-
-        // Appel AJAX pour sauvegarder le nouveau statut
-        $.ajax({
-            url: '@Url.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeUpdateStatut, TableauDeBordController.ControllerName)',
-            type: 'POST',
-            data: { id: dtId, statutId: newStatus },
-            success: function (recData) {
-                if (recData.Errors) {
-                    erreurFunction(recData.Errors);
-                }
-                else {
-                    // Fermer la modal Kendo
-                    closeKendoStatusWindow();
-
-                    // Recharger les grilles
-                    reloadGridDtEnCours();
-                    reloadGridDtAController();
-                }
-            },
-            error: function () {
-                alert('Une erreur est survenue lors de la mise à jour du statut.');
-            }
-        });
-    });
-
-</script>
+@Html.Partial("_KendoStatusWindow")

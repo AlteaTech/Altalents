@@ -176,13 +176,7 @@
                                         </option>
                                     </select>
                                 </div> 
-                                <div class="col-lg-3 mt-2 label-champ-input"  *ngIf="IsEsn">
-                                    <label for="lieu{{i}}" class="col-form-label">Lieu</label>
-                                </div>
-                                <div class="col-lg-3 mb-2"  *ngIf="IsEsn">
-                                    <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control"
-                                        placeholder="Lieu">
-                                </div>
+                               
                                 <!-- Date de début -->
                                 <div class="col-lg-3 mt-2 label-champ-input">
                                     <label for="dateDebut{{i}}" class="col-form-label">Date de début</label>
@@ -209,6 +203,14 @@
                                 </div>
                                 <div class="col-lg-3 mb-2">
                                     <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control">
+                                </div>
+
+                                <div class="col-lg-3 mt-2 label-champ-input"  *ngIf="IsEsn">
+                                    <label for="lieu{{i}}" class="col-form-label">Lieu</label>
+                                </div>
+                                <div class="col-lg-3 mb-2"  *ngIf="IsEsn">
+                                    <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control"
+                                        placeholder="Lieu">
                                 </div>
 
                                 <div class="col-lg-3 mt-2 label-champ-input">

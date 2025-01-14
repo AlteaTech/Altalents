@@ -26,25 +26,36 @@ namespace Altalents.MVC.Controllers.Admin
             return View();
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> UpdateStatutAsync([DataSourceRequest] DataSourceRequest request, Guid id, Guid statutId)
         {
             return await this.CallWithActionSecurisedAsync(request, UpdateStatutRunnerAsync(request, id, statutId));
         }
 
-        public async Task<IActionResult> GetDtsEnCoursLimitedRealAsync([DataSourceRequest] DataSourceRequest request)
+
+
+        public async Task<IActionResult> GetDtsCreesLimitedReal([DataSourceRequest] DataSourceRequest request)
         {
-            return await this.CallWithActionSecurisedAsync(request, GetDtsEnCoursLimitedRunnerAsync(request, EtatFiltreDtEnum.InProgress));
+            return await this.CallWithActionSecurisedAsync(request, GetLastsDtByEtatLimitedRunnerAsync(request, EtatFiltreDtEnum.Cree));
         }
 
-        public async Task<IActionResult> GetDtsAControllerLimitedRealAsync([DataSourceRequest] DataSourceRequest request)
+        public async Task<IActionResult> GetDtsAValiderLimitedReal([DataSourceRequest] DataSourceRequest request)
         {
-            return await this.CallWithActionSecurisedAsync(request, GetDtsEnCoursLimitedRunnerAsync(request, EtatFiltreDtEnum.AController));
+            return await this.CallWithActionSecurisedAsync(request, GetLastsDtByEtatLimitedRunnerAsync(request, EtatFiltreDtEnum.AValider));
         }
 
-        private async Task<IActionResult> GetDtsEnCoursLimitedRunnerAsync(DataSourceRequest request, EtatFiltreDtEnum etat)
+        public async Task<IActionResult> GetDtsTermineesLimitedReal([DataSourceRequest] DataSourceRequest request)
         {
-            DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetDtsEnCours(etat).Take(6).ToDataSourceResultAsync(request);
+            return await this.CallWithActionSecurisedAsync(request, GetLastsDtByEtatLimitedRunnerAsync(request, EtatFiltreDtEnum.Terminee));
+        }
+
+
+        
+        private async Task<IActionResult> GetLastsDtByEtatLimitedRunnerAsync(DataSourceRequest request, EtatFiltreDtEnum etat)
+        {
+            DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetDtsByStatus(etat, 8).ToDataSourceResultAsync(request);
             return base.Json(bibliothequeDossierTechniques);
         }
 

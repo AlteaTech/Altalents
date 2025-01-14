@@ -5,32 +5,101 @@
     Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueActionDictionary = new();
     gridDossierTechniqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, ControllerName = BiblioDtController.ControllerName });
 }
+<script type="text/javascript">
 
+    // Définir l'URL pour la sauvegarde
+    const saveStatusUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeUpdateStatut, TableauDeBordController.ControllerName)';
+
+    // Optionnel : Fonction pour recharger les grilles
+    function reloadGrids() {
+        reloadGridDt();
+    }
+
+    function reloadGridDt(e) {
+        var gridDts = $("#gridDossierTechnique").data("kendoGrid");
+        gridDts.dataSource.read();
+    }
+
+    // Fonction pour normaliser une chaîne (supprimer accents et convertir en minuscules)
+       function normalizeString(str) {
+           return str
+               .toLowerCase() // Convertir en minuscules
+               .normalize("NFD") // Décomposer les caractères accentués
+               .replace(/[\u0300-\u036f]/g, ""); // Supprimer les diacritiques (accents)
+       }
+
+       // Fonction pour récupérer un paramètre depuis l'URL
+       function getUrlParameter(name) {
+           name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+           var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+           var results = regex.exec(location.search);
+           return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+       }
+
+       $(document).ready(function () {
+           // Récupérer le paramètre 'statut' dans l'URL
+           const statutParam = getUrlParameter('statut');
+
+           if (statutParam) {
+               // Normaliser le paramètre
+               const normalizedStatut = normalizeString(statutParam);
+
+               // Appliquer un filtre insensible à la casse et aux accents
+               var grid = $("#gridDossierTechnique").data("kendoGrid");
+               grid.dataSource.filter({
+                   logic: "and", // Combine les filtres si nécessaire
+                   filters: [
+                       {
+                           field: "Statut", // Nom du champ dans le modèle
+                           operator: function (itemValue) {
+                               // Normaliser la valeur de l'élément et comparer
+                               return normalizeString(itemValue) === normalizedStatut;
+                           }
+                       }
+                   ]
+               });
+           }
+       });
+
+</script>
+
+<script src="~/js/status-modal.js"></script>
 
 <h2>@ViewData["Title"]</h2>
 
-@(Html.Kendo().Grid<DossierTechniqueDto>()
+@(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
     .Name("gridDossierTechnique")
     .HtmlAttributes(new { @class = "h-90" })
     .Columns(columns =>
     {
         columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT);
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/" + @RoutesNamesConstantes.ApiControllerDossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
         columns.Bound(p => p.PosteVoulu).Title(LibellesResources.PosteVoulu);
-        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
-        .ClientTemplate("#=formatDate(DateUpdate)#"); ;
+        columns.Bound(p => p.DateCrea).Title(LibellesResources.DateCreation).ClientTemplate("#=formatDate(DateCrea)#"); ;
+        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate).ClientTemplate("#=formatDate(DateUpdate)#"); ;
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
     })
     .Selectable()
     .Sortable()
     .Filterable()
     .Scrollable()
-    .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}")
+    .Pageable(pager => pager
+        .PageSizes(new[] { 20, 50, 100 }) // Options de taille de page : 10, 20, 50
+        .ButtonCount(5) // Nombre de boutons dans la pagination
+
+    )
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, BiblioDtController.ControllerName)) // Action de lecture
+        .PageSize(20) // Par défaut, afficher 20 éléments par page
+    )
+   @*  .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}") *@
     .CreateDefautToolBar(withCreate: false, withSearch: false)
-    .CreateDefautDataSource(gridDossierTechniqueActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
+  @*   .CreateDefautDataSource(gridDossierTechniqueActionDictionary, model => model.Id(p => p.Id), "DateUpdate") *@
 )
-<script>
-</script>
+
+@Html.Partial("_KendoStatusWindow")

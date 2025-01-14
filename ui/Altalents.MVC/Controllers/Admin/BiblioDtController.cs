@@ -27,6 +27,21 @@ namespace Altalents.MVC.Controllers.Admin
             return await this.CallWithActionSecurisedAsync(request, GetBiblioDtsRunnerAsync(request));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatutAsync([DataSourceRequest] DataSourceRequest request, Guid id, Guid statutId)
+        {
+            return await this.CallWithActionSecurisedAsync(request, UpdateStatutRunnerAsync(request, id, statutId));
+        }
+
+
+        private async Task<IActionResult> UpdateStatutRunnerAsync(DataSourceRequest request, Guid id, Guid statutId)
+        {
+
+            await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, CancellationToken.None);
+            return Json(new[] { id }.ToDataSourceResultAsync(request));
+
+        }
+
         private async Task<IActionResult> GetBiblioDtsRunnerAsync(DataSourceRequest request)
         {
             DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetBibliothequeDossierTechniques().ToDataSourceResultAsync(request);

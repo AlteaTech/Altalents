@@ -35,7 +35,7 @@ export class ParlonsDeVous {
         model.zoneGeo = dto.zoneGeo;
         model.softSKills = dto.softSkills;
 
-            // Transformation de AdresseDto en Adress
+          // Transformation de AdresseDto en Adress
           if (dto.adresse) {
             model.adresse = new Adress();
             model.adresse.adresse1 = dto.adresse.adresse1;

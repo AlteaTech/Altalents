@@ -17,9 +17,10 @@ namespace Altalents.Commun.Constants
         public const string MvcControllerTableauDeBord = "TableauDeBord";
         public const string MvcControllerTableauDeBord_MethodeIndex = "Index";
         public const string MvcControllerTableauDeBord_MethodeUpdateStatut = "UpdateStatut";
-        public const string MvcControllerTableauDeBord_MethodeGetDtsEnCoursLimitedReal = "GetDtsEnCoursLimitedReal";
-        public const string MvcControllerTableauDeBord_MethodeGetDtsAControllerLimitedReal = "GetDtsAControllerLimitedReal";
-        
+        public const string MvcControllerTableauDeBord_MethodeGetDtsCreesLimitedReal = "GetDtsCreesLimitedReal";
+        public const string MvcControllerTableauDeBord_MethodeGetDtsAValiderLimitedReal = "GetDtsAValiderLimitedReal";
+        public const string MvcControllerTableauDeBord_MethodeGetDtsTermineesLimitedReal = "GetDtsTermineesLimitedReal";
+
         public const string MvcControllerHome = "Home";
         public const string MvcControllerHome_MethodeIndex = "Index";
 
@@ -29,6 +30,7 @@ namespace Altalents.Commun.Constants
 
         public const string MvcControllerBiblioDt = "BiblioDt";
         public const string MvcControllerBiblioDt_MethodeIndex = "Index";
+        public const string MvcControllerBiblioDt_MethodeUpdateStatut = "UpdateStatut";
         public const string MvcControllerBiblioDt_MethodeGetBiblioDts = "GetBiblioDts";
         
         public const string MvcControllerAutoLogout = "AutoLogout";

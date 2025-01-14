@@ -24,7 +24,7 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
       this.formGroup = new FormGroup<CertificationForm>({
       libelle: new FormControl(null, Validators.required),
       niveau: new FormControl(),
-      organisme: new FormControl(),
+      organisme: new FormControl(null, Validators.required),
       dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
       dateFin: new FormControl(null, [maxDateTodayValidator()]),
     });
@@ -51,7 +51,7 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
       let certification: Certification = this.certification ?? new Certification();
       certification.libelle = values.libelle!;
       certification.niveau = values.niveau;
-      certification.organisme = values.organisme;
+      certification.organisme = values.organisme!;
       certification.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
       certification.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
       this.activeModal.close(certification);
