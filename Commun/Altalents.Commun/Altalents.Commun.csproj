@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.14" />
+    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Hangfire" Version="8.0.17" />
     <PackageReference Include="MailKit" Version="4.6.0" />
   </ItemGroup>
   
