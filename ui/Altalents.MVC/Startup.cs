@@ -5,7 +5,6 @@ using Altalents.Business.Jobs;
 using Altalents.Business.Services;
 using Altalents.Commun.Settings;
 using Altalents.DataAccess;
-using Altalents.DataAccess.Hangfire;
 using Altalents.DataAccess.Supervision;
 using Altalents.Entities;
 using Altalents.Infrastructure;
@@ -14,7 +13,8 @@ using AlteaTools.Api.Core.Extensions;
 using AlteaTools.Api.Core.Handler;
 using AlteaTools.ApplicationInsight.Extensions;
 using AlteaTools.Hangfire;
-
+using AlteaTools.Hangfire.Extensions;
+using AlteaTools.Hangfire.SqlServer.Extensions;
 using Hangfire;
 using Hangfire.Dashboard;
 
@@ -34,9 +34,6 @@ namespace Altalents.MVC
     public partial class Startup
     {
         private const string NOM_API = "Altalents UI";
-        private static bool HangfireEnabled = false;
-        private static bool HangfireDashBoardReadOnly = false;
-        private static bool HangfireDashBoardEnabled = false;
 
         public Startup(IConfiguration configuration)
         {
@@ -123,12 +120,9 @@ namespace Altalents.MVC
             services.Configure<GlobalSettings>(Configuration.GetSection(GlobalSettings.Section));
 
             HangfireSettings hangfireSettings = configurationHangfireSection.Get<HangfireSettings>();
-            HangfireEnabled = hangfireSettings.IsActivated;
-            HangfireDashBoardEnabled = hangfireSettings.HasDashBoard;
-            HangfireDashBoardReadOnly = hangfireSettings.DashBoardReadOnly;
-            if (HangfireEnabled)
+            services.AddHangfire(Configuration.GetConnectionString("Hangfire"), hangfireSettings);
+            if (hangfireSettings.IsActivated)
             {
-                services.AddHangfire(Configuration.GetConnectionString("Hangfire"), hangfireSettings);
                 services.AddScoped<IMonitoringElement, HangfireSupervision>();
             }
             services.AddDefaultIdentity<Utilisateur>(options => options.SignIn.RequireConfirmedAccount = false).AddSignInManager<SigninUtilisateurService>();
@@ -142,15 +136,9 @@ namespace Altalents.MVC
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            if (HangfireDashBoardEnabled)
-            {
-                app.UseHangfireDashboard("/"+ RoutesNamesConstantes.HangfireEndpointName, new DashboardOptions
-                {
-                    IsReadOnlyFunc = (DashboardContext context) => HangfireDashBoardReadOnly,
-                    Authorization = new[] { new HangfireAuthorizationFilter() },
-                    IgnoreAntiforgeryToken = true
-                });
-            }
+            IConfigurationSection configurationHangfireSection = Configuration.GetSection(Commun.Settings.HangfireSettings.Section);
+            app.AddHangfireDashboard(configurationHangfireSection.Get<HangfireSettings>());
+   
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -208,8 +196,8 @@ namespace Altalents.MVC
             loggerFactory.AddSerilog(serilogLogger);
             JobScheduler.ScheduleRecurringJobs("UI");
 
-            IConfigurationSection configurationHangfireSection = Configuration.GetSection(Commun.Settings.GlobalSettings.Section);
-            GlobalSettings globalSettings = configurationHangfireSection.Get<GlobalSettings>();
+            IConfigurationSection configurationGlobalSettings = Configuration.GetSection(Commun.Settings.GlobalSettings.Section);
+            GlobalSettings globalSettings = configurationGlobalSettings.Get<GlobalSettings>();
             if (globalSettings.AutoMigrate)
             {
                 using (IServiceScope serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())

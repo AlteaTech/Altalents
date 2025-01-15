@@ -18,16 +18,17 @@
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.2.0" />
     <PackageReference Include="PreMailer.Net" Version="2.6.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.17" />
     <PackageReference Include="MailKit" Version="4.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
-    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.14" />
-    <PackageReference Include="AlteaTools.Application.Core" Version="8.0.14" />
-    <PackageReference Include="AlteaTools.EntityFramework" Version="8.0.14" />
-    <PackageReference Include="AlteaTools.Hangfire" Version="8.0.14" />
-    <PackageReference Include="AlteaTools.Session" Version="8.0.14" />
+    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Application.Core" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.EntityFramework" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Hangfire" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Hangfire.SqlServer" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Session" Version="8.0.17" />
   </ItemGroup>
 
   <ItemGroup>
