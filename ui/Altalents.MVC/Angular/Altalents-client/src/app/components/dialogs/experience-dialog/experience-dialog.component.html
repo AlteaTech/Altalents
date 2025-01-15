@@ -160,7 +160,15 @@
 
                             <div class="row">
                                 <div class="col-lg-3 mt-2 label-champ-input"  *ngIf="IsEsn">
-                                    <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client</label>
+                                    <label for="nomClientOrProjet{{i}}" class="col-form-label">Nom Client
+                                        <span
+                                        *ngIf="formGroup.controls.isEntrepriseEsnOrInterim.value"
+                                        class="champ-obligatoire">*</span>
+                                    </label>
+                                    <div *ngIf="project?.get('nomClientOrProjet')?.invalid && project?.get('nomClientOrProjet')?.touched"
+                                    class="error-message">
+                                        La nom Client est requise.
+                                    </div>
                                 </div>
                                 <div class="col-lg-3 mb-2"  *ngIf="IsEsn">
                                     <input id="nomClientOrProjet{{i}}" type="text" formControlName="nomClientOrProjet"
@@ -179,10 +187,18 @@
                                
                                 <!-- Date de début -->
                                 <div class="col-lg-3 mt-2 label-champ-input">
-                                    <label for="dateDebut{{i}}" class="col-form-label">Date de début</label>
+                                    <label for="dateDebut{{i}}" class="col-form-label">Date de début
+                                        <span
+                                        *ngIf="formGroup.controls.isEntrepriseEsnOrInterim.value"
+                                        class="champ-obligatoire">*</span>
+                                    </label>
                                     <div class="error-message"
                                         *ngIf="project?.get('dateDebut')?.errors?.['maxDate'] && project?.get('dateDebut')?.touched">
-                                        La date ne peut pas être supérieure à aujourd’hui.
+                                            La date ne peut pas être supérieure à aujourd’hui.
+                                    </div>
+                                    <div *ngIf="project?.get('dateDebut')?.errors?.['required'] && project?.get('dateDebut')?.touched"
+                                        class="error-message">
+                                            La date de début est requise.
                                     </div>
                                 </div>
                                 <div class="col-lg-3 mb-2">
@@ -206,7 +222,15 @@
                                 </div>
 
                                 <div class="col-lg-3 mt-2 label-champ-input"  *ngIf="IsEsn">
-                                    <label for="lieu{{i}}" class="col-form-label">Lieu</label>
+                                    <label for="lieu{{i}}" class="col-form-label">Lieu
+                                        <span
+                                        *ngIf="formGroup.controls.isEntrepriseEsnOrInterim.value"
+                                        class="champ-obligatoire">*</span>
+                                    </label>
+                                    <div *ngIf="project?.get('lieu')?.errors?.['required'] && project?.get('lieu')?.touched"
+                                    class="error-message">
+                                        Le lieu est requise.
+                                </div>
                                 </div>
                                 <div class="col-lg-3 mb-2"  *ngIf="IsEsn">
                                     <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control"

@@ -1,17 +1,13 @@
-
 function formatDate(date) {
   if (date) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
+    var d = new Date(date), // Conversion en objet Date
+      day = String(d.getDate()).padStart(2, '0'),
+      month = String(d.getMonth() + 1).padStart(2, '0'),
+      year = d.getFullYear(),
+      hours = String(d.getHours()).padStart(2, '0'),
+      minutes = String(d.getMinutes()).padStart(2, '0');
 
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-
-    return [day, month, year].join('/');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
-  return "";
+  return "-";
 }

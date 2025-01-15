@@ -139,13 +139,13 @@ namespace Altalents.API.Controllers
         }
 
         [HttpGet("{tokenAccesRapide}/generate-dt", Name = "GenerateDossierCompetenceFile")]
-        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
+        public async Task<DocumentDto> GenerateDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueExportService.GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken);
         }
 
         [HttpGet("{tokenAccesRapide}/download-dt", Name = "DownloadDossierCompetenceFile")]
-        public IActionResult DownloadDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] TypeExportEnum? typeExportEnum, CancellationToken cancellationToken)
+        public IActionResult DownloadDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             DocumentDto dto = _dossierTechniqueExportService.GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken).Result;
             return File(dto.Data, dto.MimeType, $"{DateTime.Now:yyyyMMdd}_{dto.NomFichier}");

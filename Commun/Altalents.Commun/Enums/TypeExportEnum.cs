@@ -1,8 +1,8 @@
-﻿namespace Altalents.Commun.Enums
+namespace Altalents.Commun.Enums
 {
     public enum TypeExportEnum
     {
         PDF,
-        RTF
+        WORD
     }
 }

@@ -1,7 +1,10 @@
 using System.Threading;
 using Altalents.Commun.Enums;
+using Altalents.Commun.Settings;
 using Altalents.Entities;
 using Altalents.MVC.Extension;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace Altalents.MVC.Controllers.Admin
 {
@@ -9,10 +12,13 @@ namespace Altalents.MVC.Controllers.Admin
     {
         public static string ControllerName = RoutesNamesConstantes.MvcControllerTableauDeBord;
         private readonly IDossierTechniqueService _dossierTechniqueService;
+        public readonly GlobalSettings _globalSettings;
 
-        public TableauDeBordController(ILogger<TableauDeBordController> logger, IDossierTechniqueService dossierTechniqueService) : base(logger)
+
+        public TableauDeBordController(ILogger<TableauDeBordController> logger, IDossierTechniqueService dossierTechniqueService, IOptionsMonitor<GlobalSettings> globalSettings) : base(logger)
         {
             _dossierTechniqueService = dossierTechniqueService;
+            _globalSettings = globalSettings.CurrentValue;
         }
 
         public IActionResult Index()
@@ -34,34 +40,32 @@ namespace Altalents.MVC.Controllers.Admin
             return await this.CallWithActionSecurisedAsync(request, UpdateStatutRunnerAsync(request, id, statutId));
         }
 
-
-
         public async Task<IActionResult> GetDtsCreesLimitedReal([DataSourceRequest] DataSourceRequest request)
         {
-            return await this.CallWithActionSecurisedAsync(request, GetLastsDtByEtatLimitedRunnerAsync(request, EtatFiltreDtEnum.Cree));
+            return await this.CallWithActionSecurisedAsync(request, GetLastsDtByEtatLimitedRunnerAsync(request, CodeReferenceEnum.Cree));
         }
 
         public async Task<IActionResult> GetDtsAValiderLimitedReal([DataSourceRequest] DataSourceRequest request)
         {
-            return await this.CallWithActionSecurisedAsync(request, GetLastsDtByEtatLimitedRunnerAsync(request, EtatFiltreDtEnum.AValider));
+            return await this.CallWithActionSecurisedAsync(request, GetLastsDtByEtatLimitedRunnerAsync(request, CodeReferenceEnum.AValider));
         }
 
-        public async Task<IActionResult> GetDtsTermineesLimitedReal([DataSourceRequest] DataSourceRequest request)
+        private async Task<IActionResult> GetLastsDtByEtatLimitedRunnerAsync(DataSourceRequest request, CodeReferenceEnum statutsCode)
         {
-            return await this.CallWithActionSecurisedAsync(request, GetLastsDtByEtatLimitedRunnerAsync(request, EtatFiltreDtEnum.Terminee));
-        }
 
+            IQueryable<DossierTechniqueForAdminDto> query = _dossierTechniqueService.GetQueryDtForKendoUi();
 
-        
-        private async Task<IActionResult> GetLastsDtByEtatLimitedRunnerAsync(DataSourceRequest request, EtatFiltreDtEnum etat)
-        {
-            DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetDtsByStatus(etat, 8).ToDataSourceResultAsync(request);
-            return base.Json(bibliothequeDossierTechniques);
+            query = query.Where(e => e.StatutCode == statutsCode.ToString());
+            query = query.OrderByDescending(e => e.DateUpdate);
+            query = query.Take(8);
+
+            DataSourceResult bibliothequeDossierTechniques = await query.ToDataSourceResultAsync(request);
+
+           return base.Json(bibliothequeDossierTechniques);
         }
 
         private async Task<IActionResult> UpdateStatutRunnerAsync(DataSourceRequest request, Guid id, Guid statutId)
         {
-
             await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, CancellationToken.None);
             return Json(new[] { id }.ToDataSourceResultAsync(request));
 

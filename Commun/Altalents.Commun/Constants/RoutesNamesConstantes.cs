@@ -10,10 +10,10 @@ namespace Altalents.Commun.Constants
     {
   
 
-        //MVC AREAS NAMES
+        //MVC ADMIN AREAS NAMES
         public const string MvcAreaAdmin = "Admin";
 
-        //MVC CONTROLERS & METHODES NAMES
+        //MVC ADMIN CONTROLERS & METHODES NAMES
         public const string MvcControllerTableauDeBord = "TableauDeBord";
         public const string MvcControllerTableauDeBord_MethodeIndex = "Index";
         public const string MvcControllerTableauDeBord_MethodeUpdateStatut = "UpdateStatut";
@@ -75,10 +75,16 @@ namespace Altalents.Commun.Constants
         
 
         //API CONTROLERS NAMES
-        public const string ApiControllerDossierTechnique = "dossier-technique";
+        public const string ApiControllerDossiersTechniques = "DossiersTechniques";
 
         //API METHODE NAMES
         public const string ApiControllerDossierTechnique_MethodeDownloadDt = "download-dt";
 
+
+
+
+
+        //ANGULAR APP
+        public const string AngularApp_DossierTechnique = "dossier-technique";
     }
 }

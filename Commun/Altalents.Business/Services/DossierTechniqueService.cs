@@ -11,6 +11,7 @@ using Altalents.IBusiness.DTO.Request;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 
@@ -116,9 +117,9 @@ namespace Altalents.Business.Services
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
                     { "candidatFullName", fullNameCandidat },
-                    { "downloadLink",$"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossierTechnique}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt}" },
+                    { "downloadLink",$"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossiersTechniques}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt}" },
                     { "openAdminLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.MvcAreaAdmin}/{RoutesNamesConstantes.MvcControllerTableauDeBord}" },
-                    { "editLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossierTechnique}/{tokenAccesRapide}" }
+                    { "editLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.AngularApp_DossierTechnique}/{tokenAccesRapide}" }
                 }
             );
 
@@ -220,40 +221,10 @@ namespace Altalents.Business.Services
                 .Select(dt => dt.Id).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public IQueryable<DossierTechniqueForAdminDto> GetBibliothequeDossierTechniques()
+        public IQueryable<DossierTechniqueForAdminDto> GetQueryDtForKendoUi()
         {
             return DbContext.DossierTechniques
-                                         .ProjectTo<DossierTechniqueForAdminDto>(Mapper.ConfigurationProvider);
-    
-        }
-
-        public IQueryable<DossierTechniqueForAdminDto> GetDtsByStatus(EtatFiltreDtEnum etat, int nbItemToGe = 10)
-        {
-
-            string statusCode = "Unset";
-
-            switch (etat)
-            {
-                case EtatFiltreDtEnum.Cree:
-                    statusCode = CodeReferenceEnum.Cree.ToString("g");
-                    break;
-
-                case EtatFiltreDtEnum.AValider:
-                    statusCode = CodeReferenceEnum.AValider.ToString("g");
-                    break;
-
-                case EtatFiltreDtEnum.Terminee:
-                    statusCode = CodeReferenceEnum.Termine.ToString("g");
-                    break;
-
-            }
-
-            return DbContext.DossierTechniques
-                .Where(x => x.Statut.Type == TypeReferenceEnum.StatutDt)
-                .Where(x => x.Statut.Code == statusCode)
-                .OrderBy(x => x.DateMaj)
-                .Take(nbItemToGe)
-                .ProjectTo<DossierTechniqueForAdminDto>(Mapper.ConfigurationProvider);
+                   .ProjectTo<DossierTechniqueForAdminDto>(Mapper.ConfigurationProvider);
         }
 
         public async Task<TrigrammeDto> GetTrigrammeAsync(GetTrigrammeRequestDto request, CancellationToken cancellationToken)
@@ -282,6 +253,7 @@ namespace Altalents.Business.Services
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
             return retour;
         }
+
 
         public async Task<bool> IsEmailValidAsync(string email, Guid? tokenRapide, CancellationToken cancellationToken)
         {

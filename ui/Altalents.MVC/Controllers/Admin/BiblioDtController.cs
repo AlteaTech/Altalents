@@ -44,7 +44,7 @@ namespace Altalents.MVC.Controllers.Admin
 
         private async Task<IActionResult> GetBiblioDtsRunnerAsync(DataSourceRequest request)
         {
-            DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetBibliothequeDossierTechniques().ToDataSourceResultAsync(request);
+            DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetQueryDtForKendoUi().ToDataSourceResultAsync(request);
             return base.Json(bibliothequeDossierTechniques);
         }
     }
