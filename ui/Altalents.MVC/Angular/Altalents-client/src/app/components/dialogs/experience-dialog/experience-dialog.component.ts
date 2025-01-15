@@ -154,6 +154,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   }
 
   private updateInputIsEsn() {
+    
     if (this.IsEsn) {
       this.isLieuVisible = false;
       this.formGroup.controls.lieu.clearValidators();
@@ -161,7 +162,31 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       this.isLieuVisible = true;
       this.formGroup.controls.lieu.setValidators(Validators.required);
     }
+
     this.formGroup.controls.lieu.updateValueAndValidity();
+
+    // Met à jour les validateurs pour les champs des projets
+    const projectsArray = this.formGroup.get('projects') as FormArray<FormGroup>;
+
+    projectsArray.controls.forEach((projectGroup) => {
+
+      // Maintenant, projectGroup est automatiquement reconnu comme un FormGroup
+      if (this.IsEsn) {
+        projectGroup.controls['nomClientOrProjet'].setValidators(Validators.required);
+        projectGroup.controls['lieu'].setValidators(Validators.required);
+        projectGroup.controls['dateDebut'].setValidators(Validators.required);
+      } else {
+        projectGroup.controls['nomClientOrProjet'].clearValidators();
+        projectGroup.controls['lieu'].clearValidators();
+        projectGroup.controls['dateDebut'].clearValidators();
+      }
+
+      projectGroup.controls['nomClientOrProjet'].updateValueAndValidity();
+      projectGroup.controls['lieu'].updateValueAndValidity();
+      projectGroup.controls['dateDebut'].updateValueAndValidity();
+
+    });
+
   }
 
   public removeProjet(index: number): void {

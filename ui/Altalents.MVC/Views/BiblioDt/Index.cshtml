@@ -2,8 +2,8 @@
 @{
     ViewData["Title"] = LibellesResources.TitreBiblioDT;
     Layout = "_LayoutAdmin";
-    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueActionDictionary = new();
-    gridDossierTechniqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, ControllerName = BiblioDtController.ControllerName });
+    // Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueActionDictionary = new();
+    // gridDossierTechniqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, ControllerName = BiblioDtController.ControllerName });
 }
 <script type="text/javascript">
 
@@ -72,8 +72,8 @@
     .HtmlAttributes(new { @class = "h-90" })
     .Columns(columns =>
     {
-        columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/" + @RoutesNamesConstantes.ApiControllerDossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+        columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
@@ -82,6 +82,12 @@
         columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate).ClientTemplate("#=formatDate(DateUpdate)#"); ;
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
         columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
+        // Nouvelle colonne pour le téléchargement
+        columns.Bound(p => p.Id).Title("<i class='fa fa-download' aria-hidden='true'></i>").Filterable(false) // Pas de titre pour économiser de l'espace
+            .ClientTemplate("<a href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt + "' class='k-link download-link' target='_blank'>" +
+                            "<i class='fa fa-download' aria-hidden='true'></i>" +
+                            "</a>")
+            .Width(40); // Largeur minimale
     })
     .Selectable()
     .Sortable()

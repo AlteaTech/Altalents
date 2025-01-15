@@ -3,14 +3,13 @@
     ViewData["Title"] = LibellesResources.TitreTableauDeBord;
     Layout = "_LayoutAdmin";
 
-    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueEnCoursActionDictionary = new();
-    gridDossierTechniqueEnCoursActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsCreesLimitedReal, ControllerName = TableauDeBordController.ControllerName });
+    // Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueEnCoursActionDictionary = new();
+    // gridDossierTechniqueEnCoursActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsCreesLimitedReal, ControllerName = TableauDeBordController.ControllerName });
 
-    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueAValiderActionDictionary = new();
-    gridDossierTechniqueAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsAValiderLimitedReal, ControllerName = TableauDeBordController.ControllerName });
+     Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueAValiderActionDictionary = new();
+     gridDossierTechniqueAValiderActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsAValiderLimitedReal, ControllerName = TableauDeBordController.ControllerName });
 
-    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueTermineeActionDictionary = new();
-    gridDossierTechniqueTermineeActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsTermineesLimitedReal, ControllerName = TableauDeBordController.ControllerName });
+ 
 }
 
 <script type="text/javascript">
@@ -26,12 +25,12 @@
 
     function reloadGridDtEnCours(e) {
         var gridDtEnCours = $("#gridDossierTechniqueEnCoursLimitedDto").data("kendoGrid");
-        gridDtEnCours.dataSource.read();
+        gridDtEnCours.dataSource.page(1).take(8).sort({ field: "DateMaj", dir: "desc" }).data();
     }
 
     function reloadGridDtAController(e) {
         var gridDtAController = $("#gridDossierTechniqueAController").data("kendoGrid");
-        gridDtAController.dataSource.read();
+        gridDtAController.dataSource.page(1).take(8).sort({ field: "DateMaj", dir: "desc" }).data();
     }
 
 </script>
@@ -52,8 +51,8 @@
     .HtmlAttributes(new { @class = "h-40" })
     .Columns(columns =>
     {
-        columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-    columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/"+@RoutesNamesConstantes.ApiControllerDossierTechnique+"/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+        columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
@@ -62,9 +61,19 @@
                         .ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
         columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
+        columns.Bound(p => p.Id).Title("<i class='fa fa-download' aria-hidden='true'></i>").Filterable(false) // Pas de titre pour économiser de l'espace
+           .ClientTemplate("<a href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt + "' class='k-link download-link' target='_blank'>" +
+                           "<i class='fa fa-download' aria-hidden='true'></i>" +
+                           "</a>")
+           .Width(40); // Largeur minimale
     })
     .CreateDefautToolBar(withCreate: false, withSearch: false)
-    .CreateDefautDataSource(gridDossierTechniqueEnCoursActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsCreesLimitedReal, TableauDeBordController.ControllerName)) // Action de lecture
+    )
+@*     .CreateDefautDataSource(gridDossierTechniqueEnCoursActionDictionary, model => model.Id(p => p.Id), "DateUpdate") *@
+
 )
 
 <div class="at-sub-title">Liste des DT à valider par le service commercial <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt)" class="at-link">Voir tout ></a></div>
@@ -75,8 +84,8 @@
     .HtmlAttributes(new { @class = "h-40" })
     .Columns(columns =>
     {
-        columns.Select().Width(75).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-            columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/" + @RoutesNamesConstantes.ApiControllerDossierTechnique + "#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+        columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
@@ -85,9 +94,18 @@
                         .ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
         columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
+        columns.Bound(p => p.Id).Title("<i class='fa fa-download' aria-hidden='true'></i>").Filterable(false) // Pas de titre pour économiser de l'espace
+           .ClientTemplate("<a href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt + "' class='k-link download-link' target='_blank'>" +
+                           "<i class='fa fa-download' aria-hidden='true'></i>" +
+                           "</a>")
+           .Width(40); // Largeur minimale
     })
     .CreateDefautToolBar(withCreate: false, withSearch: false)
-    .CreateDefautDataSource(gridDossierTechniqueAValiderActionDictionary, model => model.Id(p => p.Id), "DateUpdate")
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsAValiderLimitedReal, TableauDeBordController.ControllerName)) // Action de lecture
+    )
+    @* .CreateDefautDataSource(gridDossierTechniqueAValiderActionDictionary, model => model.Id(p => p.DateUpdate), "DateUpdate") *@
 )
 
 @Html.Partial("_KendoStatusWindow")
