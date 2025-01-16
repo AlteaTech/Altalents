@@ -897,6 +897,27 @@ namespace Altalents.Business.Services
             return recapitulatif;
         }
 
+
+
+
+        public async Task DeleteDossierTechnique(Guid idDossierTechnique, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            Entities.DossierTechnique dtToDelete = await context.DossierTechniques.AsTracking().SingleAsync(x => x.Id == idDossierTechnique);
+            if (dtToDelete != null)
+            {
+                    context.DossierTechniques.Remove(dtToDelete);
+                    await context.SaveBaseEntityChangesAsync(cancellationToken);
+            }
+            else
+            {
+                throw new BusinessException("Impossible de supprinmer un Dossier Technique qui n'existe pas en BDD");
+            }
+        }
+
+
+
         public async Task DeleteLangueParleeAsync(Guid tokenAccesRapide, Guid id, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();

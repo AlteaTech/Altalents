@@ -1,18 +1,18 @@
-<form [formGroup]="formGroup" (blur)="onFocusOut()" tabindex="-1" class="autocomplete-form">
+<form [formGroup]="formGroup" (blur)="closeDropdown()" tabindex="-1" class="autocomplete-form">
     <div class="autocomplete-input-container">
-        <input type="text" formControlName="input" [placeholder]="placeholder" (input)="onInputReferences()"
-            class="autocomplete-input form-select">
-        <button class="autocomplete-button" (click)="onFocusOut()">
+        <input type="text" formControlName="input" [placeholder]="placeholder" (input)="onInputReferences()" (focus)="onInputReferences()"
+            class="autocomplete-input form-select pointer">
+        <!-- <button class="autocomplete-button" (click)="closeDropdown()">
             Fermer
-        </button>
+        </button> -->
     </div>
     <div *ngIf="references.length" class="autocomplete-dropdown">
-        <p *ngFor="let reference of references" (click)="onReferenceClick(reference)">{{reference.libelle}}</p>
+        <div *ngFor="let reference of references" class="pointer font-normal m-3 reference-item" (click)="onReferenceClick(reference)">{{reference.libelle}}</div>
     </div>
     <div class="autocomplete-container">
         <ul class="autocomplete-ul">
-            <li *ngFor="let reference of selectedReferences" class="at-p-autocomplete-choix">
-                {{reference.libelle}}
+            <li *ngFor="let reference of selectedReferences" class="at-p-autocomplete-choix pointer">
+                <span class="">{{reference.libelle}}</span>
                 <span class="autocomplete-remove" (click)="onRemoveReferenceClick(reference)"><i
                         class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></span>
             </li>

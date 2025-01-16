@@ -1,4 +1,6 @@
+@using Altalents.Commun.Enums
 @using Altalents.MVC.Controllers.Admin;
+@using AlteaTools.Api.Core.Extensions
 @{
     ViewData["Title"] = LibellesResources.TitreTableauDeBord;
     Layout = "_LayoutAdmin";
@@ -43,8 +45,10 @@
     <div class="col-2"><a href="/creation-dt" class="btn-link"> <i class="fa-solid fa-plus"></i> Créer un DT</a></div>
 </div>
 
-<div class="at-sub-title">Liste des DT à remplir par le candidat <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt)" class="at-link">Voir tout ></a></div>
-
+<div class="at-sub-title">
+    Liste des DT à remplir par le candidat
+    <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt, new { statut = CodeReferenceEnum.Cree.GetDisplayName(false) })" class="at-link">Voir tout</a>
+</div>
 
 @(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
     .Name("gridDossierTechniqueEnCoursLimitedDto")
@@ -76,7 +80,7 @@
 
 )
 
-<div class="at-sub-title">Liste des DT à valider par le service commercial <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt)" class="at-link">Voir tout ></a></div>
+<div class="at-sub-title">Liste des DT à valider par le service commercial <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt, new { statut = CodeReferenceEnum.AValider.GetDisplayName(false) })" class="at-link">Voir tout ></a></div>
 
 
 @(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
