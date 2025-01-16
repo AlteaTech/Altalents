@@ -34,6 +34,13 @@ namespace Altalents.MVC.Controllers.Admin
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteDtAsync([DataSourceRequest] DataSourceRequest request, Guid dossierTechniqueId)
+        {
+            return await this.CallWithActionSecurisedAsync(request, DeleteDtRunnerAsync(request, dossierTechniqueId));
+        }
+
+
         private async Task<IActionResult> UpdateStatutRunnerAsync(DataSourceRequest request, Guid id, Guid statutId)
         {
 
@@ -46,6 +53,12 @@ namespace Altalents.MVC.Controllers.Admin
         {
             DataSourceResult bibliothequeDossierTechniques = await _dossierTechniqueService.GetQueryDtForKendoUi().ToDataSourceResultAsync(request);
             return base.Json(bibliothequeDossierTechniques);
+        }
+
+        private async Task<IActionResult> DeleteDtRunnerAsync(DataSourceRequest request, Guid idDossierTechnique)
+        {
+            await _dossierTechniqueService.DeleteDossierTechnique(idDossierTechnique, CancellationToken.None);
+            return Json(new[] { idDossierTechnique }.ToDataSourceResultAsync(request));
         }
     }
 }

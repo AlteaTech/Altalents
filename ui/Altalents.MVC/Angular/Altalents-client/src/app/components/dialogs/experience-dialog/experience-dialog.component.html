@@ -292,9 +292,10 @@
                             <div class="row">
                                 <div class="col-lg-2 mt-2 label-champ-input">
                                     <label for="competences{{i}}">Compétences</label>
+                                    <p class="font-normal font-italic font-small">Vous pouvez ajouter un nouvel item en écrivant, puis cliquer dessus</p>
                                 </div>
                                 <div class="col-lg-4 mb-2">
-                                    <app-multiple-autocomplete id="competences{{i}}" placeholder="Gestion de projet, Management, etc"
+                                    <app-multiple-autocomplete id="competences{{i}}" placeholder="Gestion de projet, Management, etc..."
                                         [constanteRequest]="constantesRequest.getReferencesCompetences"
                                         [constanteTypeReference]="constantesTypesReferences.competence"
                                         [selectedReferences]="project.value.competences ?? []"
@@ -302,9 +303,10 @@
                                 </div>
                                 <div class="col-lg-2 mt-2 label-champ-input">
                                     <label for="methodologies" class="col-form-label">Méthodologies</label>
+                                    <p class="font-normal font-italic font-small">Vous pouvez ajouter un nouvel item en écrivant, puis cliquer dessus</p>
                                 </div>
                                 <div class="col-lg-4 mb-2">
-                                    <app-multiple-autocomplete id="methodologies" placeholder="SCRUM, etc"
+                                    <app-multiple-autocomplete id="methodologies" placeholder="SCRUM, Agile, Lean, Cycle en V, etc..."
                                         [constanteRequest]="constantesRequest.getReferencesMethodologies"
                                         [constanteTypeReference]="constantesTypesReferences.methodologie"
                                         [selectedReferences]="project.value.methodologies ?? []"
@@ -314,10 +316,11 @@
                             <div class="row">
                                 <div class="col-lg-2 mt-2 label-champ-input">
                                     <label for="technologies" class="col-form-label">Technologies</label>
+                                    <p class="font-normal font-italic font-small">Vous pouvez ajouter un nouvel item en écrivant, puis cliquer dessus</p>
                                 </div>
                                 <div class="col-lg-4 mb-2">
                                     <app-multiple-autocomplete id="technologies"
-                                        placeholder="Décrivez les technologies utilisées"
+                                        placeholder="Java, Asp.net, C#, Angular, Jquery, etc..."
                                         [constanteRequest]="constantesRequest.getReferencesTechnologies"
                                         [constanteTypeReference]="constantesTypesReferences.technologie"
                                         [selectedReferences]="project.value.technologies ?? []"
@@ -326,9 +329,10 @@
                                 </div>
                                 <div class="col-lg-2 mt-2 label-champ-input">
                                     <label for="outils" class="col-form-label">Outils</label>
+                                    <p class="font-normal font-italic font-small">Vous pouvez ajouter un nouvel item en écrivant, puis cliquer dessus</p>
                                 </div>
                                 <div class="col-lg-4 mb-2">
-                                    <app-multiple-autocomplete outils placeholder="Visual studio, Ms project, etc"
+                                    <app-multiple-autocomplete outils placeholder="Visual studio, Eclipse, Ms project, etc..."
                                         [constanteRequest]="constantesRequest.getReferencesOutils"
                                         [constanteTypeReference]="constantesTypesReferences.outil"
                                         [selectedReferences]="project.value.outils ?? []"
@@ -342,7 +346,7 @@
                                 <div class="col-lg-3 mb-2">
                                     <div
                                         class="delete-link-container d-flex justify-content-between align-items-center">
-                                        <a (click)="removeProjet(i)" class="link ms-auto">
+                                        <a (click)="removeProjet(i)" class="delete-link ms-auto">
                                             <p class="at-c-violet text-end mb-0"><i
                                                     class="fa-solid fa-trash"></i> Supprimer</p>
                                         </a>

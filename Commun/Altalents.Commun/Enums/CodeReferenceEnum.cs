@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Altalents.Commun.Enums
 {
     public enum CodeReferenceEnum
@@ -56,8 +58,11 @@ namespace Altalents.Commun.Enums
         Cdd = 51,
         Freelance = 102,
 
+        [Display(Name = "Créé")]
         Cree = 52,
+        [Display(Name = "À Valider")]
         AValider = 53,
+        [Display(Name = "Terminé")]
         Termine = 54,
 
         Candidat = 58,

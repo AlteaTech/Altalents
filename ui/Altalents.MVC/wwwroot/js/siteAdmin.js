@@ -103,6 +103,12 @@ function openConfirmationSuppressionUtilisateurDialog(actionSiConfirmation, acti
   debugger;
   openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, 'Supprimer un compte d’utilisateur', 'Etes-vous sûr(e) de vouloir supprimer le compte d’utilisateur');
 }
+
+function openConfirmationSuppressionDTDialog(actionSiConfirmation, actionSiNonConfirmation) {
+  debugger;
+  openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, 'Supprimer un dossier Technique', 'Etes-vous sûr(e) de vouloir supprimer ce dossier Technique');
+}
+
 function openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, deleteHeaderMessage, deleteQuestionMessage) {
   if (!deleteHeaderMessage) {
     deleteHeaderMessage = 'Suppression d\'un élément';

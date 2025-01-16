@@ -11,3 +11,12 @@ function formatDate(date) {
   }
   return "-";
 }
+
+
+// Fonction pour récupérer un paramètre depuis l'URL
+function getUrlParameter(name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+  var results = regex.exec(location.search);
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}

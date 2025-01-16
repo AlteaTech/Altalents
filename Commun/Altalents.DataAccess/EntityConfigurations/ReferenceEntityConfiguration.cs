@@ -546,7 +546,7 @@ namespace Altalents.DataAccess.EntityConfigurations
             #endregion
             #region Statut
             new (){
- Libelle = "Créé",
+ Libelle = Commun.Enums.CodeReferenceEnum.Cree.GetDisplayName(false),
  Code= Commun.Enums.CodeReferenceEnum.Cree.ToString("g"),
  Id = Guid.Parse(IdsConstantes.StatutDtCreeId),
  DateCrea = new DateTime(2024,6,18),
@@ -556,7 +556,7 @@ namespace Altalents.DataAccess.EntityConfigurations
  OrdreTri = 1
             },
             new (){
- Libelle = "À valider",
+ Libelle = Commun.Enums.CodeReferenceEnum.AValider.GetDisplayName(false),
  Code= Commun.Enums.CodeReferenceEnum.AValider.ToString("g"),
  Id =  Guid.Parse(IdsConstantes.StatutDtAValiderId),
  DateCrea = new DateTime(2024,6,18),
@@ -566,7 +566,7 @@ namespace Altalents.DataAccess.EntityConfigurations
  OrdreTri = 2
             },
             new (){
- Libelle = "Terminé",
+ Libelle = Commun.Enums.CodeReferenceEnum.Termine.GetDisplayName(false),
  Code= Commun.Enums.CodeReferenceEnum.Termine.ToString("g"),
  Id = Guid.Parse(IdsConstantes.StatutDtTermineId),
  DateCrea = new DateTime(2024,6,18),

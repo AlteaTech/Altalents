@@ -53,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.17" />
     <PackageReference Include="AlteaTools.ApplicationInsight" Version="8.0.17" />
     <PackageReference Include="AnyAscii" Version="0.3.2" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />

@@ -1,12 +1,14 @@
+@using Altalents.Commun.Enums
+@using AlteaTools.Api.Core.Extensions
 <div id="statusWindow" style="display: none;">
     <form id="statusForm">
         <input type="hidden" id="dtId" />
         <div class="form-group">
             <label for="statusDropdown">Statut</label>
             <select id="statusDropdown" class="form-control">
-                <option value="@Guid.Parse(IdsConstantes.StatutDtCreeId)">Créé</option>
-                <option value="@Guid.Parse(IdsConstantes.StatutDtAValiderId)">À valider</option>
-                <option value="@Guid.Parse(IdsConstantes.StatutDtTermineId)">Terminé</option>
+                <option value="@Guid.Parse(IdsConstantes.StatutDtCreeId)">@CodeReferenceEnum.Cree.GetDisplayName(false)</option>
+                <option value="@Guid.Parse(IdsConstantes.StatutDtAValiderId)">@CodeReferenceEnum.AValider.GetDisplayName(false)</option>
+                <option value="@Guid.Parse(IdsConstantes.StatutDtTermineId)">@CodeReferenceEnum.Termine.GetDisplayName(false)</option>
             </select>
         </div>
         <div class="modal-footer">

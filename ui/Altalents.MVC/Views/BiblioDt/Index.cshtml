@@ -2,67 +2,16 @@
 @{
     ViewData["Title"] = LibellesResources.TitreBiblioDT;
     Layout = "_LayoutAdmin";
-    // Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueActionDictionary = new();
-    // gridDossierTechniqueActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, ControllerName = BiblioDtController.ControllerName });
+
+    Dictionary<GridActionEnum, RouteActionModel> gridDossierTechniqueActionDictionary = new();
+
+    gridDossierTechniqueActionDictionary.Add(GridActionEnum.Delete, new()
+    {
+        ActionName = RoutesNamesConstantes.MvcControllerBiblioDt_DeleteDt,
+        ControllerName = BiblioDtController.ControllerName
+    });
 }
-<script type="text/javascript">
-
-    // Définir l'URL pour la sauvegarde
-    const saveStatusUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeUpdateStatut, TableauDeBordController.ControllerName)';
-
-    // Optionnel : Fonction pour recharger les grilles
-    function reloadGrids() {
-        reloadGridDt();
-    }
-
-    function reloadGridDt(e) {
-        var gridDts = $("#gridDossierTechnique").data("kendoGrid");
-        gridDts.dataSource.read();
-    }
-
-    // Fonction pour normaliser une chaîne (supprimer accents et convertir en minuscules)
-       function normalizeString(str) {
-           return str
-               .toLowerCase() // Convertir en minuscules
-               .normalize("NFD") // Décomposer les caractères accentués
-               .replace(/[\u0300-\u036f]/g, ""); // Supprimer les diacritiques (accents)
-       }
-
-       // Fonction pour récupérer un paramètre depuis l'URL
-       function getUrlParameter(name) {
-           name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-           var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-           var results = regex.exec(location.search);
-           return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-       }
-
-       $(document).ready(function () {
-           // Récupérer le paramètre 'statut' dans l'URL
-           const statutParam = getUrlParameter('statut');
-
-           if (statutParam) {
-               // Normaliser le paramètre
-               const normalizedStatut = normalizeString(statutParam);
-
-               // Appliquer un filtre insensible à la casse et aux accents
-               var grid = $("#gridDossierTechnique").data("kendoGrid");
-               grid.dataSource.filter({
-                   logic: "and", // Combine les filtres si nécessaire
-                   filters: [
-                       {
-                           field: "Statut", // Nom du champ dans le modèle
-                           operator: function (itemValue) {
-                               // Normaliser la valeur de l'élément et comparer
-                               return normalizeString(itemValue) === normalizedStatut;
-                           }
-                       }
-                   ]
-               });
-           }
-       });
-
-</script>
-
+<script src="~/js/admin/tools.js"></script>
 <script src="~/js/status-modal.js"></script>
 
 <h2>@ViewData["Title"]</h2>
@@ -73,39 +22,135 @@
     .Columns(columns =>
     {
         columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT)
+            .ClientTemplate("<a href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
         columns.Bound(p => p.PosteVoulu).Title(LibellesResources.PosteVoulu);
-        columns.Bound(p => p.DateCrea).Title(LibellesResources.DateCreation).ClientTemplate("#=formatDate(DateCrea)#"); ;
-        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate).ClientTemplate("#=formatDate(DateUpdate)#"); ;
+        columns.Bound(p => p.DateCrea).Title(LibellesResources.DateCreation).ClientTemplate("#=formatDate(DateCrea)#");
+        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate).ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
-        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
-        // Nouvelle colonne pour le téléchargement
-        columns.Bound(p => p.Id).Title("<i class='fa fa-download' aria-hidden='true'></i>").Filterable(false) // Pas de titre pour économiser de l'espace
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut)
+            .ClientTemplate("<a href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=Statut#\")'>#=Statut#</a>");
+        columns.Bound(p => p.Id).Title("<i class='fa fa-download' aria-hidden='true'></i>").Filterable(false)
             .ClientTemplate("<a href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt + "' class='k-link download-link' target='_blank'>" +
                             "<i class='fa fa-download' aria-hidden='true'></i>" +
                             "</a>")
-            .Width(40); // Largeur minimale
+            .Width(40);
+        columns.Bound(p => p.Id).Title("<i class='fa fa-trash' aria-hidden='true'></i>").Filterable(false)
+            .ClientTemplate("<a href='javascript:void(0);' class='k-link delete-link' onclick='confirmDelete(\"#=Id#\", \"#=NumeroDt#\", \"#=PrenomCandidat#\", \"#=NomCandidat#\")'>" +
+                            "<i class='fa fa-trash' aria-hidden='true'></i>" +
+                            "</a>")
+            .Width(40);
     })
     .Selectable()
     .Sortable()
     .Filterable()
     .Scrollable()
     .Pageable(pager => pager
-        .PageSizes(new[] { 20, 50, 100 }) // Options de taille de page : 10, 20, 50
-        .ButtonCount(5) // Nombre de boutons dans la pagination
-
+        .PageSizes(new[] { 20, 50, 100 })
+        .ButtonCount(5)
     )
     .DataSource(dataSource => dataSource
         .Ajax()
-        .Read(read => read.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, BiblioDtController.ControllerName)) // Action de lecture
-        .PageSize(20) // Par défaut, afficher 20 éléments par page
+        .Read(read => read.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, BiblioDtController.ControllerName))
+        .PageSize(20)
     )
-   @*  .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}") *@
     .CreateDefautToolBar(withCreate: false, withSearch: false)
-  @*   .CreateDefautDataSource(gridDossierTechniqueActionDictionary, model => model.Id(p => p.Id), "DateUpdate") *@
 )
 
+<div id="confirmationDialog" style="display: none;">
+    <form id="confirmationForm">
+        <input type="hidden" id="dtId" />
+        <div class="form-group">
+            <label id="confirmationMessage"></label>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="k-grid-save-command k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
+                    id="confirmDeleteBtn">
+                <span class="k-icon k-i-check k-button-icon"></span>
+                <span class="k-button-text">Confirmer</span>
+            </button>
+            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-secondary"
+                    onclick="closeConfirmationDialog()">
+                <span class="k-icon k-i-cancel k-button-icon"></span>
+                <span class="k-button-text">Annuler</span>
+            </button>
+        </div>
+    </form>
+</div>
+
 @Html.Partial("_KendoStatusWindow")
+
+<script type="text/javascript">
+    let deleteConfirmWindow;
+
+    function reloadGridDt() {
+        const gridDts = $("#gridDossierTechnique").data("kendoGrid");
+        if (gridDts) {
+            gridDts.dataSource.read();
+        }
+    }
+
+    function openDeleteDtConfirmModal(id, numDt, nom, prenom) {
+        const message = `Êtes-vous sûr de vouloir supprimer ce dossier technique ?<br>
+                        <strong>Numéro DT :</strong> ${numDt}<br>
+                        <strong>Nom :</strong> ${nom} ${prenom}`;
+        $('#confirmationMessage').html(message);
+        $('#dtId').val(id);
+        deleteConfirmWindow.center().open();
+    }
+
+    function confirmDelete(id, numDt, nom, prenom) {
+        openDeleteDtConfirmModal(id, numDt, nom, prenom);
+    }
+
+    function closeConfirmationDialog() {
+        if (deleteConfirmWindow) {
+            deleteConfirmWindow.close();
+        }
+    }
+
+    function deleteItem(id) {
+        $.ajax({
+            url: '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_DeleteDt, BiblioDtController.ControllerName)',
+            type: 'POST',
+            data: { dossierTechniqueId: id },
+            success: function () {
+                reloadGridDt();
+                closeConfirmationDialog();
+            },
+            error: function () {
+                alert('Erreur lors de la suppression');
+                reloadGridDt();
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        deleteConfirmWindow = $("#confirmationDialog").kendoWindow({
+            title: "Suppression d'un DT",
+            modal: true,
+            visible: false,
+            resizable: false,
+            actions: ["Close"]
+        }).data("kendoWindow");
+
+        $('#confirmDeleteBtn').on('click', function () {
+            const id = $('#dtId').val();
+            deleteItem(id);
+        });
+
+        const grid = $("#gridDossierTechnique").data("kendoGrid");
+        grid.bind("dataBound", function () {
+            const statutParam = getUrlParameter('statut');
+            if (statutParam && !grid.dataSource.filter()) {
+                grid.dataSource.filter({
+                    logic: "and",
+                    filters: [{ field: "Statut", operator: "eq", value: statutParam }]
+                });
+            }
+        });
+    });
+</script>

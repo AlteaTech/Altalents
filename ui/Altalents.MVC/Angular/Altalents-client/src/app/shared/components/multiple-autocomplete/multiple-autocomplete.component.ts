@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Reference } from 'src/app/shared/models/reference.model';
 import { AutocompleteForm } from '../../interfaces/autocomplete-form';
@@ -6,6 +6,7 @@ import { ReferenceDto, ReferenceRequestDto } from '../../services/generated/api/
 import { ApiServiceAgent } from '../../services/services-agents/api.service-agent';
 import { ConstantesRequest } from '../../constantes/constantes-request';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
+
 @Component({
   selector: 'app-multiple-autocomplete',
   templateUrl: './multiple-autocomplete.component.html',
@@ -21,7 +22,9 @@ export class MultipleAutocompleteComponent extends BaseComponentCallHttpComponen
   public formGroup: FormGroup<AutocompleteForm>;
   public references: Reference[] = [];
   
-  constructor(private readonly service: ApiServiceAgent) {
+  constructor(private readonly service: ApiServiceAgent,
+    private elementRef: ElementRef // Injection de l'élément natif du composant
+  ) {
     super()
     this.formGroup = new FormGroup<AutocompleteForm>({
       input: new FormControl()
@@ -35,7 +38,8 @@ export class MultipleAutocompleteComponent extends BaseComponentCallHttpComponen
   public populateData(): void {}
   
   public onInputReferences(): void {
-    const input: string | undefined = this.formGroup.value.input;
+    // const input: string | undefined = this.formGroup.value.input;
+    const input: string = this.formGroup.value.input || "";
     this.callRequest(this.constanteRequest, this.service.getReferences(this.constanteTypeReference, input)
         .subscribe((response: ReferenceDto[]) => {
           this.references = Reference.fromListReferenceDto(response);
@@ -52,17 +56,18 @@ export class MultipleAutocompleteComponent extends BaseComponentCallHttpComponen
         }));
   }
 
-  public onFocusOut(): void {
-    this.formGroup.reset();
-    this.references = [];
-    this.selectedReferencesCallback.emit(this.selectedReferences);
-  }
+  // public onFocusOut(): void {
+  //   this.formGroup.reset();
+  //   this.references = [];
+  //   this.selectedReferencesCallback.emit(this.selectedReferences);
+  // }
 
   public onReferenceClick(reference: Reference): void {
     this.formGroup.reset();
     this.references = [];
 
     if(!reference.id) {
+      
       let requestDto = new ReferenceRequestDto();
       requestDto.typeReference = this.constanteTypeReference;
       requestDto.libelle = reference.libelle;
@@ -87,4 +92,19 @@ export class MultipleAutocompleteComponent extends BaseComponentCallHttpComponen
   private filterReferences(): void {
     this.references = this.references.filter(x => !this.selectedReferences.find(y => y.id == x.id));
   }
+
+  @HostListener('document:click', ['$event'])
+  public handleOutsideClick(event: Event): void {
+    // Si le clic n'est pas à l'intérieur du composant, ferme la liste
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.closeDropdown();
+    }
+  }
+
+  public closeDropdown(): void {
+    this.formGroup.reset();
+    this.references = [];
+    this.selectedReferencesCallback.emit(this.selectedReferences);
+  }
+
 }

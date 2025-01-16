@@ -32,8 +32,6 @@ namespace Altalents.MVC.Controllers.Admin
             return View();
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> UpdateStatutAsync([DataSourceRequest] DataSourceRequest request, Guid id, Guid statutId)
         {
