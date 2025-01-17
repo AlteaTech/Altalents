@@ -131,6 +131,15 @@ function openConfirmationEnregistrementMarquePublieeDialog(actionSiConfirmation,
   openConfirmationDialog(actionSiConfirmation, actionSiNonConfirmation, '#confirmationDialog', 'Enregistrement de la marque', texte)
 }
 
+function openConfirmationSuppressionDTDialog(actionSiConfirmation, actionSiNonConfirmation, texte) {
+  openConfirmationSuppressionDialog(
+    actionSiConfirmation,
+    actionSiNonConfirmation,
+    'Supprimer un dossier technique',
+    texte || 'Êtes-vous sûr(e) de vouloir supprimer ce dossier technique ?'
+  );
+}
+
 function onConfirmationDialogClick() {
   if (typeof (modelModaleDialog.actionSiConfirmation) === "function") {
     modelModaleDialog.actionSiConfirmation(ResetModelModaleDialog);
@@ -153,4 +162,4 @@ function ResetModelModaleDialog() {
 let modelModaleDialog = {
   actionSiConfirmation : null,
   actionSiNonConfirmation : null,
-}
+};

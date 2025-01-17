@@ -9,6 +9,12 @@ namespace Altalents.Export.OpenXml
     public class DtCertificationExportDso
     {
 
+        public DtCertificationExportDso()
+        {
+
+
+        }
+
         public string Annee { get; set; }
 
         public string LibelleComplet { get; set; }

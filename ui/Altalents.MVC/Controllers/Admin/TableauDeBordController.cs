@@ -32,11 +32,11 @@ namespace Altalents.MVC.Controllers.Admin
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateStatutAsync([DataSourceRequest] DataSourceRequest request, Guid id, Guid statutId)
-        {
-            return await this.CallWithActionSecurisedAsync(request, UpdateStatutRunnerAsync(request, id, statutId));
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> UpdateStatutAsync([DataSourceRequest] DataSourceRequest request, Guid id, Guid statutId)
+        //{
+        //    return await this.CallWithActionSecurisedAsync(request, UpdateStatutRunnerAsync(request, id, statutId));
+        //}
 
         public async Task<IActionResult> GetDtsCreesLimitedReal([DataSourceRequest] DataSourceRequest request)
         {
@@ -62,11 +62,11 @@ namespace Altalents.MVC.Controllers.Admin
            return base.Json(bibliothequeDossierTechniques);
         }
 
-        private async Task<IActionResult> UpdateStatutRunnerAsync(DataSourceRequest request, Guid id, Guid statutId)
-        {
-            await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, CancellationToken.None);
-            return Json(new[] { id }.ToDataSourceResultAsync(request));
+        //private async Task<IActionResult> UpdateStatutRunnerAsync(DataSourceRequest request, Guid id, Guid statutId)
+        //{
+        //    await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, CancellationToken.None);
+        //    return Json(new[] { id }.ToDataSourceResultAsync(request));
 
-        }
+        //}
     }
 }

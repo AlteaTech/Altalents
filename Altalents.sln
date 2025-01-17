@@ -41,7 +41,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altalents.Infrastructure", "Altalents.Infrastructure\Altalents.Infrastructure.csproj", "{18A9565B-AAA5-4A9C-B9E3-7D7DC61D7139}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altalents.Export", "Altalents.Export\Altalents.Export.csproj", "{8D13E2BF-D05A-4221-96D7-71979C0D1B59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altalents.Export", "Altalents.Export\Altalents.Export.csproj", "{8D13E2BF-D05A-4221-96D7-71979C0D1B59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentations", "Documentations", "{81429C61-FECC-4D1B-86FA-9291B81A3DE4}"
+	ProjectSection(SolutionItems) = preProject
+		Liens des docs existants.txt = Liens des docs existants.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
