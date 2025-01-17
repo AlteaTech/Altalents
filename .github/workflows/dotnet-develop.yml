@@ -66,7 +66,7 @@ jobs:
 
     - name: Upload artifact for deployment job
       if: github.event_name == 'push'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: .net-app
         path: ${{github.workspace}}/altalentDeploy
@@ -83,7 +83,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: .net-app
           
