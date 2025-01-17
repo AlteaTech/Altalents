@@ -12,14 +12,17 @@ $(document).ready(function () {
 
   // Sauvegarder le statut via AJAX
   $('#saveStatusBtn').on('click', function () {
+
     const dtId = $('#dtId').val();
-    const newStatus = $('#statusDropdown').val();
+
+     // Récupération du GUID depuis data-guid de l'option sélectionnée
+    const newStatusGuid = $('#statusDropdown option:selected').data('guid');
 
     // Appel AJAX pour sauvegarder le nouveau statut
     $.ajax({
       url: saveStatusUrl, // Définir cette variable dans chaque page
       type: 'POST',
-      data: { id: dtId, statutId: newStatus },
+      data: { id: dtId, statutId: newStatusGuid },
       success: function (recData) {
         if (recData.Errors) {
           alert(recData.Errors.join('\n')); // Afficher les erreurs
@@ -27,8 +30,8 @@ $(document).ready(function () {
           closeKendoStatusWindow();
 
           // Recharger les grilles (recharger via des fonctions spécifiques à la page)
-          if (typeof reloadGrids === 'function') {
-            reloadGrids();
+          if (typeof reloadGrid === 'function') {
+            reloadGrid();
           }
         }
       },

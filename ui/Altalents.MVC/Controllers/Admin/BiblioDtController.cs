@@ -33,7 +33,6 @@ namespace Altalents.MVC.Controllers.Admin
             return await this.CallWithActionSecurisedAsync(request, UpdateStatutRunnerAsync(request, id, statutId));
         }
 
-
         [HttpPost]
         public async Task<IActionResult> DeleteDtAsync([DataSourceRequest] DataSourceRequest request, Guid dossierTechniqueId)
         {

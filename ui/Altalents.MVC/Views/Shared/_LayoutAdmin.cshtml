@@ -20,7 +20,7 @@
 <script type="text/javascript">
     kendo.culture("fr-FR");
 </script>
-<script type="text/javascript" src="~/js/admin/tools.js">
+<script type="text/javascript" src="~/js/tools.js">
 </script>
 
 <body class="@("h-100 " + (isLogged ? "" : "colorViolet"))">
@@ -81,7 +81,7 @@
         </div>
     </div>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/siteAdmin.js" asp-append-version="true"></script>
+    <script src="~/js/site-admin.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
