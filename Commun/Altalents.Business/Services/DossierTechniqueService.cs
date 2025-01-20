@@ -9,6 +9,7 @@ using Altalents.Export.OpenXml;
 using Altalents.Export.Services;
 using Altalents.IBusiness.DTO.Request;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Http;
@@ -295,6 +296,43 @@ namespace Altalents.Business.Services
 
             return true;
         }
+
+
+        public async Task<PermissionConsultationDtDto> GetPermissionConsultationDtAsync(Guid tokenRapide, bool isUserLoggedInBackoffice, CancellationToken cancellationToken)
+        {
+
+            PermissionConsultationDtDto permissiontDto = new PermissionConsultationDtDto();
+
+            permissiontDto.IsDtAccessible = false;
+            permissiontDto.IsDtReadOnly = false;
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            // Utilisation de FirstOrDefaultAsync avec le CancellationToken
+            string statutCode = await context.DossierTechniques
+                .Where(x => x.TokenAccesRapide == tokenRapide)
+                .Select(e => e.Statut.Code)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (statutCode == CodeReferenceEnum.Cree.ToString())
+            {
+                permissiontDto.IsDtAccessible = true;
+            }
+            else if (statutCode == CodeReferenceEnum.AValider.ToString())
+            {
+                permissiontDto.IsDtAccessible = true;
+
+                if(!isUserLoggedInBackoffice)
+                    permissiontDto.IsDtReadOnly = true;
+            }
+            else if (statutCode == CodeReferenceEnum.Termine.ToString())
+            {
+                //On garde le DT inaccessible a tous au niveau de l'app angulare
+            }
+
+            return permissiontDto;
+        }
+
 
         public async Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken)
         {

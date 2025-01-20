@@ -491,10 +491,10 @@ namespace Altalents.Export.Services
             data.Add(DtTemplatesReplacementKeys.EXP_EQUIPE, exp.Equipe);
             data.Add(DtTemplatesReplacementKeys.EXP_ENV_TECH, exp.EnvironnementsTechnique);
 
-            string textToAddInTachesPLaceholder = "Projets";
+            string textToAddInTachesPLaceholder = "Projet(s)";
             if (exp.IsEsn)
             {
-                textToAddInTachesPLaceholder = "Missions";
+                textToAddInTachesPLaceholder = "Mission(s)";
             }
 
             string textToAddInProjectsPlaceholder = "";
