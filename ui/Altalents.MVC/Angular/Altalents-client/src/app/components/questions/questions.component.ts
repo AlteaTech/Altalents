@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { firstValueFrom, merge, tap } from 'rxjs';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
-import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { Question } from 'src/app/shared/models/question.model';
 import { DocumentDto, QuestionnaireDto, QuestionnaireUpdateDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { DocumentDt } from 'src/app/shared/models/document.model';
+import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
 
 @Component({
   selector: 'app-questions',
@@ -14,19 +15,35 @@ import { DocumentDt } from 'src/app/shared/models/document.model';
 })
 export class QuestionsComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
+  @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
   public questions: Question[] = [];
   public documents: DocumentDt[] = [];
   public showErreurs: boolean = false;
 
-  constructor(private readonly service: ApiServiceAgent) {
+  constructor(private readonly service: ApiServiceAgent, private permissionService: PermissionService, private el: ElementRef, private renderer: Renderer2) {
     super();
   }
  
   public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
-    this.populateData();
+    if (this.permissionDT.isDtAccessible) {
+        this.validationCallback.emit(() => this.submit());
+        this.populateData();
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    //L observer est necessaire pour les champs qui ont *ngIf ou *ngFor (car il sont generer plus tard et donc ne sont pas dans le DOM au moment de l'entré dans ngAfterViewInit)
+    if (this.permissionDT.isDtReadOnly) {
+      const observer = new MutationObserver(() => {
+        this.permissionService.disableAllFields(this.el, this.renderer);
+      });
+      observer.observe(this.el.nativeElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
   }
   
   public downloadPj(i: number): void {

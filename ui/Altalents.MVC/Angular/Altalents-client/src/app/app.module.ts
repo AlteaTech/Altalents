@@ -28,6 +28,8 @@ import { PieceJointeDialogComponent } from './components/dialogs/piece-jointe-di
 import { TelechargementDtComponent } from './components/telechargement-dt/telechargement-dt.component';
 import { CustomLoaderComponent } from './shared/components/custom-loader/custom-loader.component';
 import { ConfirmDeleteDialogComponent } from './components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { AccesDtInterditComponent } from './components/acces-dt-interdit/acces-dt-interdit.component';
+import { DtReadonlyMessageComponent } from './shared/components/dt-readonly-message/dt-readonly-message.component';
 
 
 registerLocaleData(localeFr);
@@ -56,6 +58,8 @@ registerLocaleData(localeFr);
     TelechargementDtComponent,
     CustomLoaderComponent,
     ConfirmDeleteDialogComponent,
+    AccesDtInterditComponent,
+    DtReadonlyMessageComponent,
   ],
   imports: [
     CommonModule,

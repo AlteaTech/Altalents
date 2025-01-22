@@ -13,5 +13,11 @@ namespace Altalents.IBusiness.DTO
 
         public bool IsDtReadOnly { get; set; }
 
+        public bool IsUserLoggedInBackOffice { get; set; }
+
+        public string Message { get; set; }
+
+        public string CodeStatutDT { get; set; }
+        public string LibelleStatutDT { get; set; }
     }
 }

@@ -1155,18 +1155,13 @@ export class ApiClient {
     }
 
     /**
-     * @param typeExportEnum (optional) 
      * @return OK
      */
-    generateDossierCompetenceFile(tokenAccesRapide: string, typeExportEnum?: TypeExportEnum | undefined): Observable<DocumentDto> {
-        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/generate-dt?";
+    generateDossierCompetenceFile(tokenAccesRapide: string): Observable<DocumentDto> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/generate-dt";
         if (tokenAccesRapide === undefined || tokenAccesRapide === null)
             throw new Error("The parameter 'tokenAccesRapide' must be defined.");
         url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
-        if (typeExportEnum === null)
-            throw new Error("The parameter 'typeExportEnum' cannot be null.");
-        else if (typeExportEnum !== undefined)
-            url_ += "typeExportEnum=" + encodeURIComponent("" + typeExportEnum) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1214,18 +1209,13 @@ export class ApiClient {
     }
 
     /**
-     * @param typeExportEnum (optional) 
      * @return OK
      */
-    downloadDossierCompetenceFile(tokenAccesRapide: string, typeExportEnum?: TypeExportEnum | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/download-dt?";
+    downloadDossierCompetenceFile(tokenAccesRapide: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/download-dt";
         if (tokenAccesRapide === undefined || tokenAccesRapide === null)
             throw new Error("The parameter 'tokenAccesRapide' must be defined.");
         url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
-        if (typeExportEnum === null)
-            throw new Error("The parameter 'typeExportEnum' cannot be null.");
-        else if (typeExportEnum !== undefined)
-            url_ += "typeExportEnum=" + encodeURIComponent("" + typeExportEnum) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1324,6 +1314,60 @@ export class ApiClient {
             else {
                 result200 = <any>null;
             }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getPermissionsDT(tokenAccesRapide: string): Observable<PermissionConsultationDtDto> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/permission";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPermissionsDT(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPermissionsDT(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PermissionConsultationDtDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PermissionConsultationDtDto>;
+        }));
+    }
+
+    protected processGetPermissionsDT(response: HttpResponseBase): Observable<PermissionConsultationDtDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PermissionConsultationDtDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3318,6 +3362,62 @@ export interface IParlonsDeVousUpdateRequestDto {
     cv?: DocumentDto;
 }
 
+export class PermissionConsultationDtDto implements IPermissionConsultationDtDto {
+    isDtAccessible?: boolean;
+    isDtReadOnly?: boolean;
+    isUserLoggedInBackOffice?: boolean;
+    message?: string | null;
+    codeStatutDT?: string | null;
+    libelleStatutDT?: string | null;
+
+    constructor(data?: IPermissionConsultationDtDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isDtAccessible = _data["IsDtAccessible"] !== undefined ? _data["IsDtAccessible"] : <any>null;
+            this.isDtReadOnly = _data["IsDtReadOnly"] !== undefined ? _data["IsDtReadOnly"] : <any>null;
+            this.isUserLoggedInBackOffice = _data["IsUserLoggedInBackOffice"] !== undefined ? _data["IsUserLoggedInBackOffice"] : <any>null;
+            this.message = _data["Message"] !== undefined ? _data["Message"] : <any>null;
+            this.codeStatutDT = _data["CodeStatutDT"] !== undefined ? _data["CodeStatutDT"] : <any>null;
+            this.libelleStatutDT = _data["LibelleStatutDT"] !== undefined ? _data["LibelleStatutDT"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): PermissionConsultationDtDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionConsultationDtDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["IsDtAccessible"] = this.isDtAccessible !== undefined ? this.isDtAccessible : <any>null;
+        data["IsDtReadOnly"] = this.isDtReadOnly !== undefined ? this.isDtReadOnly : <any>null;
+        data["IsUserLoggedInBackOffice"] = this.isUserLoggedInBackOffice !== undefined ? this.isUserLoggedInBackOffice : <any>null;
+        data["Message"] = this.message !== undefined ? this.message : <any>null;
+        data["CodeStatutDT"] = this.codeStatutDT !== undefined ? this.codeStatutDT : <any>null;
+        data["LibelleStatutDT"] = this.libelleStatutDT !== undefined ? this.libelleStatutDT : <any>null;
+        return data;
+    }
+}
+
+export interface IPermissionConsultationDtDto {
+    isDtAccessible?: boolean;
+    isDtReadOnly?: boolean;
+    isUserLoggedInBackOffice?: boolean;
+    message?: string | null;
+    codeStatutDT?: string | null;
+    libelleStatutDT?: string | null;
+}
+
 export class ProjetOrMissionClientDto implements IProjetOrMissionClientDto {
     nomClientOrProjet?: string | null;
     descriptionProjetOrMission?: string | null;
@@ -3943,11 +4043,6 @@ export class TrigrammeDto implements ITrigrammeDto {
 
 export interface ITrigrammeDto {
     valeur: string;
-}
-
-export enum TypeExportEnum {
-    PDF = "PDF",
-    RTF = "RTF",
 }
 
 export class ApiException extends Error {

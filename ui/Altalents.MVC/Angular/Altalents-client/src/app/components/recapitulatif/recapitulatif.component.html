@@ -140,9 +140,9 @@
                             </span>{{project.compositionEquipe}}<span *ngIf="project.compositionEquipe && project.lieu">
                                 - </span>{{project.lieu}}
                         </div>
-                        <div *ngIf="project.descriptionProjetOrMission" class="font-normal mb-2 text-ellipsis">
+                        <div *ngIf="project.descriptionProjetOrMission" class="font-normal mb-2 text-ellipsis" title="{{project.descriptionProjetOrMission}}">
                             {{project.descriptionProjetOrMission}}</div>
-                        <div *ngIf="project.taches" class="text-ellipsis">
+                        <div *ngIf="project.taches" class="text-ellipsis" title="{{project.taches}}">
                             <span class="font-normal"><span class="font-underline">Taches</span> :
                                 {{project.taches}}</span>
                         </div>
@@ -296,7 +296,7 @@
     </div>
 </fieldset>
 <fieldset>
-    <div class="confirmation-section">
+    <div class="confirmation-section" *ngIf="!permissionDT.isDtReadOnly">
         <label class="toggle-container">
             <input type="checkbox" [(ngModel)]="confirmation" hidden />
             <span class="toggle-slider"></span>

@@ -16,7 +16,6 @@ import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
 import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { DataFormatService } from 'src/app/shared/services/services/formators/currency-formator';
-import { Competence } from 'src/app/shared/models/competence.model';
 
 @Component({
   selector: 'app-experience-dialog',

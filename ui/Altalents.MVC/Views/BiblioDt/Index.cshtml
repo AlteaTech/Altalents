@@ -79,6 +79,14 @@
     $(document).ready(function () {
 
         const grid = $("#gridDossierTechnique").data("kendoGrid");
+
+        // Appliquer un tri par défaut sur la colonne DateUpdate (ordre décroissant)
+        grid.dataSource.sort({
+            field: "DateUpdate",
+            dir: "desc"
+        });
+
+        // Si un paramètre "statut" est trouvé dans l'URL et qu'aucun filtre n'est encore appliqué sur la grille
         grid.bind("dataBound", function () {
             const statutParam = getUrlParameter('statut');
             if (statutParam && !grid.dataSource.filter()) {

@@ -154,8 +154,8 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, typeLiaisonCode, cancellationToken);
         }
 
-        [HttpGet("{tokenAccesRapide}/permission", Name = "GetPermissions")]
-        public async Task<PermissionConsultationDtDto> GetStepCompetencesAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        [HttpGet("{tokenAccesRapide}/permission", Name = "GetPermissionsDT")]
+        public async Task<PermissionConsultationDtDto> GetPermissionsDTAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetPermissionConsultationDtAsync(tokenAccesRapide, GetIsLogged(), cancellationToken);
         }

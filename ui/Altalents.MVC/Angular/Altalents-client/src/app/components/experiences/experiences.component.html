@@ -2,6 +2,7 @@
 <div class="at-p-formulaire-info-section">
     <div class="speaker-container" style="margin: 20px; text-align: center;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
+            
           <!-- Cercle de fond -->
           <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
           
@@ -16,9 +17,9 @@
           
           <!-- Flèche de progression -->
           <path d="M100 145 L110 130 L90 130 Z" fill="#cc3300" />
+
         </svg>
       </div>
-      
     <p>
         Troisième étape : <span class="font-normal">Tenez bon, il ne restera plus grand chose à faire ensuite. 
         Buvez un verre d'eau, détendez-vous et tout va bien se passer : 
@@ -73,10 +74,10 @@
                         <span *ngIf="project.compositionEquipe && project.budget"> - </span>{{project.compositionEquipe}}
                         <span *ngIf="project.compositionEquipe && project.lieu"> - </span>{{project.lieu}}
                     </div>
-                    <div *ngIf="project.descriptionProjetOrMission" class="font-normal mb-2 text-ellipsis">
+                    <div *ngIf="project.descriptionProjetOrMission" class="font-normal mb-2 text-ellipsis" title="{{project.descriptionProjetOrMission}}">
                         {{project.descriptionProjetOrMission}}
                     </div>
-                    <div *ngIf="project.taches" class="text-ellipsis">
+                    <div *ngIf="project.taches" class="text-ellipsis" title="{{project.taches}}">
                         <span class="font-normal"><span class="font-underline">Taches</span> : {{project.taches}}</span>
                     </div>
                     <div class="mt-2">
@@ -96,7 +97,6 @@
                 </div> 
             </div>
         </div>
-        
     </div>
     <div class="at-p-button-ajouter">
         <button (click)="onAddExperienceClick()">

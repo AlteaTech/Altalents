@@ -190,6 +190,11 @@ h4,
   font-size: small;
 }
 
+.clickable-item-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 .text-ellipsis {
   display: -webkit-box;
   -webkit-line-clamp: 3;

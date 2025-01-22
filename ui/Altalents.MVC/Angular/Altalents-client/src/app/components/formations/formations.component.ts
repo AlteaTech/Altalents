@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { FormationDialogComponent } from '../dialogs/formation-dialog/formation-dialog.component';
 import { StepFormation } from 'src/app/shared/models/step-formation.model';
 import { Formation } from 'src/app/shared/models/formation.model';
@@ -16,7 +16,8 @@ import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request'
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { formatDate } from '@angular/common';
 import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-
+import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
 @Component({
   selector: 'app-formations',
   templateUrl: './formations.component.html',
@@ -24,6 +25,7 @@ import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/c
 })
 export class FormationsComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
+  @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
   public stepFormation: StepFormation = new StepFormation();
@@ -35,14 +37,32 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   };
 
   constructor(private modalService: NgbModal,
-    private service: ApiServiceAgent
+    private service: ApiServiceAgent,
+        private permissionService: PermissionService, 
+        private el: ElementRef,
+        private renderer: Renderer2
   ) {
     super()
   }
 
   public ngOnInit(): void {
-     this.validationCallback.emit(() => this.submit());
-    this.populateData();
+      if (this.permissionDT.isDtAccessible) {
+          this.validationCallback.emit(() => this.submit());
+          this.populateData();
+      }
+  }
+
+  public ngAfterViewInit(): void {
+    //L observer est necessaire pour les champs qui ont *ngIf ou *ngFor (car il sont generer plus tard et donc ne sont pas dans le DOM au moment de l'entré dans ngAfterViewInit)
+    if (this.permissionDT.isDtReadOnly) {
+      const observer = new MutationObserver(() => {
+        this.permissionService.disableAllFields(this.el, this.renderer);
+      });
+      observer.observe(this.el.nativeElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
   }
 
   private async submit(): Promise<boolean> {
