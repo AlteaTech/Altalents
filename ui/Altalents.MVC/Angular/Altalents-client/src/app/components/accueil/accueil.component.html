@@ -5,9 +5,15 @@
     </div>
 </header>
 <div class="main-content">
+
+      
     <div class="row">
         <div class="body-bulle">
+
+
+
             <div class="bubble-container">
+  
                 <div class="text">
                     <h1 class="">Bienvenue sur le dossier de compétences de <span
                             class="at-c-violet">{{nomPrenomCandidat}}</span> !</h1>
@@ -21,6 +27,7 @@
                     <p class="font-normal">
                         Cliquez sur démarrer pour commencer à remplir le formulaire !
                     </p>
+                    <app-dt-readonly-message [isReadOnly]="permissionDT.isDtReadOnly"></app-dt-readonly-message>
                 </div>
             </div>
         </div>
@@ -28,7 +35,8 @@
     <div class="row">
         <div class="at-p-button-container">
             <button class="at-p-button" (click)="onDemarrerClick()">
-                <p><i class="fa-solid fa-play"></i>Démarrer</p>
+                <p *ngIf="!permissionDT.isDtReadOnly"><i class="fa-solid fa-play"></i>Démarrer</p>
+                <p *ngIf="permissionDT.isDtReadOnly"><i class="fa-solid fa-eye"></i>Consulter</p>
             </button>
         </div>
     </div>

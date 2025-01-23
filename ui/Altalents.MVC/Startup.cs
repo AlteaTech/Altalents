@@ -111,7 +111,7 @@ namespace Altalents.MVC
 
             services.AddSession(options =>
             {
-                options.Cookie.Name = ".AdventureWorks.Session";
+                options.Cookie.Name = ".Altalants.Session";
                 options.IdleTimeout = TimeSpan.FromSeconds(globalSettings.TimeoutSessionSeconds);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;

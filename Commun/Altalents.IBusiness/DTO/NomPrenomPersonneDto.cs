@@ -4,5 +4,8 @@ namespace Altalents.IBusiness.DTO
     {
         public string Nom { get; set; }
         public string Prenom { get; set; }
+
+
+
     }
 }

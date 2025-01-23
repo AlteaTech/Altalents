@@ -36,5 +36,6 @@ namespace Altalents.IBusiness.IServices
         Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, string emailTo, string fullNameCandidat, CancellationToken cancellationToken);
         Task TestEnvoiEmailValidationDtByCandidatAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken);
         Task ValidationDtCompletByCandidatAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
+        Task<PermissionConsultationDtDto> GetPermissionConsultationDtAsync(Guid tokenRapide, bool isUserLoggedInBackoffice, CancellationToken cancellationToken);
     }
 }

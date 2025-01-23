@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { Competence } from 'src/app/shared/models/competence.model';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { CompetenceDto, LiaisonExperienceUpdateNiveauDto } from 'src/app/shared/services/generated/api/api.client';
 import { merge, tap } from 'rxjs';
 import { ConstantesTypesLiaisons } from 'src/app/shared/constantes/constantes-types-liaisons';
+import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
 
 @Component({
   selector: 'app-competences',
@@ -15,6 +17,7 @@ import { ConstantesTypesLiaisons } from 'src/app/shared/constantes/constantes-ty
 export class CompetencesComponent extends BaseComponentCallHttpComponent implements OnInit {
 
   @Input() public tokenDossierTechnique: string = "";
+  @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   
   public compCompetences: Competence[] = [];
@@ -24,14 +27,30 @@ export class CompetencesComponent extends BaseComponentCallHttpComponent impleme
   public arrayNbEtoiles: number[] = [1,2,3,4,5];
   public constantesTypesLiaisons = ConstantesTypesLiaisons;
   
-  constructor(private service: ApiServiceAgent) {
+  constructor(private service: ApiServiceAgent, private permissionService: PermissionService, private el: ElementRef, private renderer: Renderer2 ) {
     super()
   }
   
   public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
-   this.populateData();
+    if (this.permissionDT.isDtAccessible) {
+        this.validationCallback.emit(() => this.submit());
+        this.populateData();
+    }
  }
+
+
+ public ngAfterViewInit(): void {
+  //L observer est necessaire pour les champs qui ont *ngIf ou *ngFor (car il sont generer plus tard et donc ne sont pas dans le DOM au moment de l'entré dans ngAfterViewInit)
+  if (this.permissionDT.isDtReadOnly) {
+    const observer = new MutationObserver(() => {
+      this.permissionService.disableAllFields(this.el, this.renderer);
+    });
+    observer.observe(this.el.nativeElement, {
+      childList: true,
+      subtree: true,
+    });
+  }
+}
 
  private async submit(): Promise<boolean> {
    return new Promise<boolean>(resolve => resolve(true))

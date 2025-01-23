@@ -27,4 +27,8 @@
     <Using Include="AlteaTools.Application.Core" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
 </Project>

@@ -2,8 +2,12 @@
     ViewData["Title"] = "Connexion terminée";
     Layout = "_LayoutVide";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Connexion terminée</h1>
-    <p>Vous avez été déconnecté <a href="/Admin">cliquez ici</a> pour vous reconnecter.</p>
+<div id="loginView" class="cadre-blanc-connexion">
+    <div class="grid-align-center mt-55px">
+            <div class="text-center">
+            <span class="connexion-title">@ViewData["Title"]</span>
+            <br />  <br />  <br />
+                <p>Vous avez été déconnecté <a href="/Admin">cliquez ici</a> pour vous reconnecter.</p>
+            </div>
+        </div>
 </div>

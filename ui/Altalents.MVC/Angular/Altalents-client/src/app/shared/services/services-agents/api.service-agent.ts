@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto, AllAboutFormationsDto, RecapitulatifDtDto, ExperienceRequestDto, FormationCertificationEnum } from '../generated/api/api.client';
+import { ApiClient, CompetenceDto, CustomUserLoggedDto, DocumentDto, DossierTechniqueInsertRequestDto, ExperienceDto, GetTrigrammeRequestDto, IsTelephoneValidRequestDto, NomPrenomPersonneDto, ParlonsDeVousDto, ParlonsDeVousUpdateRequestDto, QuestionnaireDto, QuestionnaireUpdateDto, ReferenceDto, ReferenceRequestDto, TrigrammeDto, LiaisonExperienceUpdateNiveauDto, FormationCertificationRequestDto, LangueParleeRequestDto, AllAboutFormationsDto, RecapitulatifDtDto, ExperienceRequestDto, FormationCertificationEnum, PermissionConsultationDtDto } from '../generated/api/api.client';
 
 @Injectable({ providedIn: 'root' })
 export class ApiServiceAgent {
@@ -26,6 +26,10 @@ export class ApiServiceAgent {
     mock.login = "a";
     mock.userId = "870eab28-378d-48e3-84bd-08dc96b4bf1b";
     return new Observable<CustomUserLoggedDto>((subscriber: Subscriber<CustomUserLoggedDto>) => subscriber.next(mock));
+  }
+
+  getPermissionsDT(token: string): Observable<PermissionConsultationDtDto> {
+    return this.apiClient.getPermissionsDT(token);
   }
 
   getReferences(typeReferenceCode: string, startsWith?: string | undefined): Observable<ReferenceDto[]> {

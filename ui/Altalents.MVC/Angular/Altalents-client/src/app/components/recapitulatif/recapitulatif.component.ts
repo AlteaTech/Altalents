@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output, ElementRef, Renderer2 } from '@angular/core';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
@@ -14,6 +14,8 @@ import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-ste
 import { FormContainerComponent } from '../form-container/form-container.component';
 import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
 import { firstValueFrom } from 'rxjs';
+import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
 
 @Component({
   selector: 'app-recapitulatif',
@@ -24,6 +26,7 @@ import { firstValueFrom } from 'rxjs';
 export class RecapitulatifComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
   @Output() stepChange = new EventEmitter<DossierTechniqueEnum>();
+  @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
   public dossierTechniqueEnum = DossierTechniqueEnum; 
@@ -45,14 +48,32 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
   public compTechnologie: Competence[] = [];
 
   constructor(private modalService: NgbModal,
-    private service: ApiServiceAgent
+    private service: ApiServiceAgent,
+                private permissionService: PermissionService, 
+                private el: ElementRef,
+                private renderer: Renderer2
   ) {
     super()
   }
 
   public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
-    this.populateData();
+    if (this.permissionDT.isDtAccessible) {
+      this.validationCallback.emit(() => this.submit());
+      this.populateData();
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    //L observer est necessaire pour les champs qui ont *ngIf ou *ngFor (car il sont generer plus tard et donc ne sont pas dans le DOM au moment de l'entré dans ngAfterViewInit)
+    if (this.permissionDT.isDtReadOnly) {
+      const observer = new MutationObserver(() => {
+        this.permissionService.disableAllFields(this.el, this.renderer);
+      });
+      observer.observe(this.el.nativeElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
   }
 
   goToStep(step: DossierTechniqueEnum) {

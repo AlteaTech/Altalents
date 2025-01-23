@@ -6,4 +6,5 @@ export class ConstantesRoutes {
     public static paramTokenDossierTechnique: string = "tokenDossierTechnique";
     public static commercialAccueilCreateDt: string = "creation-dt";
     public static commercialAccueilConfigurationDt: string = "configuration";
+    public static dtForbidenAccess: string = "dt-forbiden-access";
 }

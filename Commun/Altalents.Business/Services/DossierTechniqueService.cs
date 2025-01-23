@@ -8,7 +8,9 @@ using Altalents.Export.DSO.OpenXml;
 using Altalents.Export.OpenXml;
 using Altalents.Export.Services;
 using Altalents.IBusiness.DTO.Request;
+using AlteaTools.Api.Core.Extensions;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Http;
@@ -296,6 +298,50 @@ namespace Altalents.Business.Services
             return true;
         }
 
+
+        public async Task<PermissionConsultationDtDto> GetPermissionConsultationDtAsync(Guid tokenRapide, bool isUserLoggedInBackoffice, CancellationToken cancellationToken)
+        {
+
+            PermissionConsultationDtDto permissiontDto = new PermissionConsultationDtDto();
+
+            permissiontDto.IsUserLoggedInBackOffice = isUserLoggedInBackoffice;
+            permissiontDto.IsDtAccessible = false;
+            permissiontDto.IsDtReadOnly = false;
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            // Utilisation de FirstOrDefaultAsync avec le CancellationToken
+            string statutCode = await context.DossierTechniques
+                .Where(x => x.TokenAccesRapide == tokenRapide)
+                .Select(e => e.Statut.Code)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            permissiontDto.CodeStatutDT = statutCode;
+
+            if (statutCode == CodeReferenceEnum.Cree.ToString())
+            {
+                permissiontDto.IsDtAccessible = true;
+                permissiontDto.LibelleStatutDT = CodeReferenceEnum.Cree.GetDisplayName();
+            }
+            else if (statutCode == CodeReferenceEnum.AValider.ToString())
+            {
+                permissiontDto.LibelleStatutDT = CodeReferenceEnum.AValider.GetDisplayName();
+                permissiontDto.Message = "Lorsque le statut d'un DT est \"À valider\", il est uniquement accessible au service commercial. Si vous appartenez à ce service, veuillez préalablement vous authentifier sur back-office d'Altalants pour accéder à ce DT.";
+
+                permissiontDto.IsDtAccessible = true;
+
+                if(!isUserLoggedInBackoffice)
+                    permissiontDto.IsDtReadOnly = true;
+            }
+            else if (statutCode == CodeReferenceEnum.Termine.ToString())
+            {
+                permissiontDto.LibelleStatutDT = CodeReferenceEnum.Termine.GetDisplayName();
+                permissiontDto.Message = "Lorsque le statut d'un DT est à: 'terminé', il est alors inaccessible à tous le monde. Si vous appartenez au service commercial, vous pouvez modifier le statut d'un DT.";
+            }
+
+            return permissiontDto;
+        }
+
         public async Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
@@ -481,7 +527,6 @@ namespace Altalents.Business.Services
             }
 
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
-
         }
 
         public async Task<List<QuestionnaireDto>> GetQuestionnairesAsync(Guid tokenRapide, CancellationToken cancellationToken)
@@ -779,7 +824,6 @@ namespace Altalents.Business.Services
             }
 
             await context.SaveBaseEntityChangesAsync(cancellationToken);
-
         }
 
         public async Task<Guid> AddOrUpdateLangueParleeAsync(Guid tokenAccesRapide, LangueParleeRequestDto request, CancellationToken cancellationToken, Guid? id = null)
@@ -896,9 +940,6 @@ namespace Altalents.Business.Services
 
             return recapitulatif;
         }
-
-
-
 
         public async Task DeleteDossierTechnique(Guid idDossierTechnique, CancellationToken cancellationToken)
         {

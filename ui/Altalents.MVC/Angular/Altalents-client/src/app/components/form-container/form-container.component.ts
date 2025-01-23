@@ -1,17 +1,22 @@
+import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTitresSteps } from 'src/app/shared/constantes/constantes-titres-steps';
 import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-step.enum';
+import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
 
 @Component({
   selector: 'app-form-container',
   templateUrl: './form-container.component.html',
   styleUrls: ['form-container.component.scss']
 })
-export class FormContainerComponent implements OnInit {
+export class FormContainerComponent extends BaseComponentCallHttpComponent implements OnInit {
 
   public static instance: FormContainerComponent;
+
+  public permissionDT: PermissionDT = new PermissionDT();
   public tokenDossierTechnique: string = "";
   public dossierTechniqueEnum = DossierTechniqueEnum;
   public currentStep: DossierTechniqueEnum = DossierTechniqueEnum.ParlonsDeVous;
@@ -19,16 +24,27 @@ export class FormContainerComponent implements OnInit {
   public steps: number[] = [];
   public validationCallBack: (() => Promise<boolean>) | undefined;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,private permissionService: PermissionService) {
+
+    super();
     FormContainerComponent.instance = this;
+     
   }
 
-  public ngOnInit(): void {
+  public async  ngOnInit(): Promise<void>  {
+    this.isLoading = true;
     this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.paramTokenDossierTechnique) ?? "";
+
+    this.permissionDT = await this.permissionService.getRefreshedDTPermissionAndRedirectIfNecessary(this.tokenDossierTechnique);
+
+
+  // Récupérer les permissions et définir l'état readOnly
+  //  this.permissionDT = await this.permissionService.getLastPermissionDT();
 
     // Les enums sont gérés bizarrement en Angular, on ne peut pas simplement boucler dessus (valeurs en double).
     // On récupère les keys de chaque valeur de l'enum pour pouvoir boucler dessus pour afficher le stepper dynamiquement.
     this.steps = Object.keys(this.dossierTechniqueEnum).filter(f => !isNaN(Number(f))).map(k => parseInt(k));
+    this.isLoading = false;
   }
 
   public onStepClick(stepSelected: DossierTechniqueEnum): void {

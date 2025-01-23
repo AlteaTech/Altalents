@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
@@ -9,14 +9,17 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
 import { ValidateTelephoneWithApi } from 'src/app/shared/services/services/validators/validate-telephone-with-api';
 import { ParlonsDeVous } from 'src/app/shared/models/parlons-de-vous.model';
 import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
+import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
 
 @Component({
   selector: 'app-parlons-de-vous',
   templateUrl: './parlons-de-vous.component.html',
   styleUrls: ['./parlons-de-vous.component.scss']
 })
-export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent implements OnInit {
+export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent implements OnInit  {
   @Input() public tokenDossierTechnique: string = "";
+  @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   
   public formGroup!: FormGroup<ParlonsDeVousForm>;
@@ -24,7 +27,13 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
   public errorMessageFile: string | null = null;
   public isDragging: boolean = false;
   
-  constructor(private readonly service: ApiServiceAgent) {
+  constructor(
+    private readonly service: ApiServiceAgent,
+    private permissionService: PermissionService, 
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) 
+  {
     super();
 
     this.formGroup = new FormGroup<ParlonsDeVousForm>({
@@ -44,11 +53,26 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
     });
   }
 
-  public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
-    this.populateData();
-    this.formGroup.get('adresseMail')?.disable();
+  public async ngOnInit(): Promise<void> {
+    // Appeler la méthode pour obtenir la permission et attendre sa résolution
+
+
+    // Vérifier si le dossier technique est accessible
+    if (this.permissionDT.isDtAccessible) {
+      this.validationCallback.emit(() => this.submit());
+
+      this.populateData();
+      this.formGroup.get('adresseMail')?.disable();
+    }
   }
+
+  public ngAfterViewInit(): void {
+    // Déplacer la logique ici pour désactiver les champs si nécessaire
+    if (this.permissionDT.isDtReadOnly) {
+      this.permissionService.disableAllFields(this.el, this.renderer);
+    }
+  }
+
 
   public populateData(): void {
     this.isLoading = true;
@@ -71,8 +95,8 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
               synthese: this.parlonsDeVous.synthese,
               // fileInput: this.parlonsDeVous.pieceJointe?.data,
               zoneGeo: this.parlonsDeVous.zoneGeo,
-              softSkills : this.parlonsDeVous.softSKills
-            });
+              softSkills: this.parlonsDeVous.softSKills,
+            }, { emitEvent: false });
           }
 
           this.isLoading = false;

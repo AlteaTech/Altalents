@@ -18,28 +18,38 @@
                     </ol>
                 </div>
             </div>
-            <div [ngSwitch]="currentStep">
-                <app-parlons-de-vous *ngSwitchCase="dossierTechniqueEnum.ParlonsDeVous"
-                    [tokenDossierTechnique]="tokenDossierTechnique"
-                    (validationCallback)="onValidationCallbackChange($event)"></app-parlons-de-vous>
-                <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations"
-                    [tokenDossierTechnique]="tokenDossierTechnique"
-                    (validationCallback)="onValidationCallbackChange($event)"></app-formations>
-                <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences"
-                    [tokenDossierTechnique]="tokenDossierTechnique"
-                    (validationCallback)="onValidationCallbackChange($event)"></app-experiences>
-                <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences"
-                    [tokenDossierTechnique]="tokenDossierTechnique"
-                    (validationCallback)="onValidationCallbackChange($event)"></app-competences>
-                <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions"
-                    [tokenDossierTechnique]="tokenDossierTechnique"
-                    (validationCallback)="onValidationCallbackChange($event)"></app-questions>
-                <app-recapitulatif (stepChange)="onStepClick($event)" *ngSwitchCase="dossierTechniqueEnum.Recapitulatif"
-                    [tokenDossierTechnique]="tokenDossierTechnique"
-                    (validationCallback)="onValidationCallbackChange($event)"></app-recapitulatif>
+            <app-custom-loader [isLoading]="isLoading" />
+            <app-dt-readonly-message [isReadOnly]="permissionDT.isDtReadOnly"></app-dt-readonly-message>
+            <div [ngSwitch]="currentStep" >
+                <ng-container *ngIf="permissionDT.isDtAccessible">
+                    <app-parlons-de-vous *ngSwitchCase="dossierTechniqueEnum.ParlonsDeVous"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-parlons-de-vous>
+                    <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-formations>
+                    <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-experiences>
+                    <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-competences>
+                    <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-questions>
+                    <app-recapitulatif (stepChange)="onStepClick($event)" *ngSwitchCase="dossierTechniqueEnum.Recapitulatif"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-recapitulatif>
+                </ng-container>
             </div>
             <div>
-                <div class="at-p-button-container">
+                <div *ngIf="!permissionDT.isDtReadOnly" class="at-p-button-container">
                     <altea-button-secondary label="Retour" imgSrc="Images/ICONE_REPLAY.png" (onClick)="onRetourClick()"></altea-button-secondary>
                     <altea-button-prim [label]="currentStep != dossierTechniqueEnum.Recapitulatif ? 'Suivant' : 'Terminer'" imgSrc="Images/ICONE_PLAY.png" (onClick)="onSuivantClick()"></altea-button-prim>
                 </div>    

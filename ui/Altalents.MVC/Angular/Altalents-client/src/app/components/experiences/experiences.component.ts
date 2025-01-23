@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Experience } from 'src/app/shared/models/experience.model';
 import { ExperienceDialogComponent } from '../dialogs/experience-dialog/experience-dialog.component';
@@ -12,40 +12,51 @@ import { Constantes } from 'src/app/shared/constantes/constantes';
 import { DureeExperienceService } from 'src/app/shared/services/services/calculators/duree-experience-calculator';
 import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ValidateDate } from 'src/app/shared/services/services/validators/validate-date';
+import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
+import { MODAL_OPTIONS_LG, MODAL_OPTIONS_XL } from 'src/app/shared/modal-options';
 
 @Component({
   selector: 'app-experiences',
   templateUrl: './experiences.component.html',
   styleUrls: ['./experiences.component.scss']
 })
+
 export class ExperiencesComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
+  @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
   
   public experiences: Experience[] = [];
 
-  private ngbModalUpdateOptions: NgbModalOptions = {
-    backdrop : 'static',
-    keyboard : false,
-    size: 'xl'
-  };
-
-  public ngbModalDeleteOptions: NgbModalOptions = {
-    backdrop : 'static',
-    keyboard : false,
-    size: 'lg'
-  };
-  
   constructor(private modalService: NgbModal,
-    private service: ApiServiceAgent
+    private service: ApiServiceAgent,
+            private permissionService: PermissionService, 
+            private el: ElementRef,
+            private renderer: Renderer2
   ) {
     super()
   }
   
   public ngOnInit(): void {
-    this.validationCallback.emit(() => this.submit());
-   this.populateData();
+      if (this.permissionDT.isDtAccessible) {
+        this.validationCallback.emit(() => this.submit());
+        this.populateData();
+    }
  }
+
+ public ngAfterViewInit(): void {
+  //L observer est necessaire pour les champs qui ont *ngIf ou *ngFor (car il sont generer plus tard et donc ne sont pas dans le DOM au moment de l'entré dans ngAfterViewInit)
+  if (this.permissionDT.isDtReadOnly) {
+    const observer = new MutationObserver(() => {
+      this.permissionService.disableAllFields(this.el, this.renderer);
+    });
+    observer.observe(this.el.nativeElement, {
+      childList: true,
+      subtree: true,
+    });
+  }
+}
 
  private async submit(): Promise<boolean> {
    return new Promise<boolean>(resolve => resolve(true))
@@ -62,7 +73,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onAddExperienceClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, this.ngbModalUpdateOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, MODAL_OPTIONS_XL);
     dialogRef.result.then((experience: Experience | undefined) => {
       if(experience) {
         this.service.addExperiance(this.tokenDossierTechnique, this.populateRequestDto(experience)).pipe(
@@ -75,7 +86,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onModifierExperienceClick(experience: Experience): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, this.ngbModalUpdateOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, MODAL_OPTIONS_XL);
     dialogRef.componentInstance.experience = experience;
     dialogRef.result.then((experience: Experience | undefined) => {
       if(experience) {
@@ -89,7 +100,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   }
 
   public onDeleteExperienceClick(experience : Experience): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.itemName = experience.intitulePoste;
     dialogRef.result.then((validated: boolean | undefined) => {
       if(validated) {

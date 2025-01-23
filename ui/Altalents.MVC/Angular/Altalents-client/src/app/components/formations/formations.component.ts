@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { FormationDialogComponent } from '../dialogs/formation-dialog/formation-dialog.component';
 import { StepFormation } from 'src/app/shared/models/step-formation.model';
 import { Formation } from 'src/app/shared/models/formation.model';
@@ -16,7 +16,9 @@ import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request'
 import { Constantes } from 'src/app/shared/constantes/constantes';
 import { formatDate } from '@angular/common';
 import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-
+import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
+import { MODAL_OPTIONS_LG } from 'src/app/shared/modal-options';
 @Component({
   selector: 'app-formations',
   templateUrl: './formations.component.html',
@@ -24,25 +26,38 @@ import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/c
 })
 export class FormationsComponent extends BaseComponentCallHttpComponent implements OnInit {
   @Input() public tokenDossierTechnique: string = "";
+  @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
 
   public stepFormation: StepFormation = new StepFormation();
 
-  public ngbModalOptions: NgbModalOptions = {
-    backdrop : 'static',
-    keyboard : false,
-    size: 'lg'
-  };
-
   constructor(private modalService: NgbModal,
-    private service: ApiServiceAgent
+    private service: ApiServiceAgent,
+        private permissionService: PermissionService, 
+        private el: ElementRef,
+        private renderer: Renderer2
   ) {
     super()
   }
 
   public ngOnInit(): void {
-     this.validationCallback.emit(() => this.submit());
-    this.populateData();
+      if (this.permissionDT.isDtAccessible) {
+          this.validationCallback.emit(() => this.submit());
+          this.populateData();
+      }
+  }
+
+  public ngAfterViewInit(): void {
+    //L observer est necessaire pour les champs qui ont *ngIf ou *ngFor (car il sont generer plus tard et donc ne sont pas dans le DOM au moment de l'entré dans ngAfterViewInit)
+    if (this.permissionDT.isDtReadOnly) {
+      const observer = new MutationObserver(() => {
+        this.permissionService.disableAllFields(this.el, this.renderer);
+      });
+      observer.observe(this.el.nativeElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
   }
 
   private async submit(): Promise<boolean> {
@@ -50,7 +65,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onAddFormationClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.result.then((nouvelFormation: Formation | undefined) => {
       if(nouvelFormation) {
         this.service.addFormationCertification(this.tokenDossierTechnique, this.populateFormationRequestDto(nouvelFormation))
@@ -67,7 +82,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onModifierFormationClick(formation: Formation): void {
-    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(FormationDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.formation = formation;
     dialogRef.result.then((formationToUpdate: Formation | undefined) => {
       if(formationToUpdate) {
@@ -81,7 +96,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onAddCertificationClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.result.then((nouvelCertification: Certification | undefined) => {
       if(nouvelCertification) {
         this.service.addFormationCertification (this.tokenDossierTechnique, this.populateCertificationRequestDto(nouvelCertification)).pipe(
@@ -94,7 +109,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onModifierCertificationClick(certification: Certification): void {
-    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(CertificationDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.certification = certification;
     dialogRef.result.then((CertificationToUpdate: Certification | undefined) => {
       if(CertificationToUpdate) {
@@ -108,7 +123,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onAddLangueClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.result.then((selectedLangue: Langue | undefined) => {
       if(selectedLangue) {
         this.service.addLangueParlee(this.tokenDossierTechnique, this.populateLangueParleeRequestDto(selectedLangue)).pipe(
@@ -121,7 +136,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onUpdateLangueClick(): void {
-    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.result.then((selectedLangue: Langue | undefined) => {
       if(selectedLangue) {
         this.service.updateLangueParlee(this.tokenDossierTechnique, selectedLangue.id, this.populateLangueParleeRequestDto(selectedLangue)).pipe(
@@ -134,7 +149,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onDeleteLangueClick(langue : Langue): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.itemName = langue.libelleLangue;
     dialogRef.result.then((validated: boolean | undefined) => {
       if(validated) {
@@ -148,7 +163,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onDeleteCertificationClick(certification : Certification): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.itemName = certification.libelle;
     dialogRef.result.then((validated: boolean | undefined) => {
       if(validated) {
@@ -162,7 +177,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public onDeleteFormationClick(formation : Formation): void {
-    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.itemName = formation.libelle;
     dialogRef.result.then((validated: boolean | undefined) => {
       if(validated) {

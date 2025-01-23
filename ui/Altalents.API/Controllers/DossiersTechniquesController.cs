@@ -1,7 +1,10 @@
 using System.Threading;
 using Altalents.Commun.Enums;
 using Altalents.IBusiness.DTO.Request;
+using AlteaTools.Session.Dto;
+using AlteaTools.Session;
 using Humanizer;
+using AlteaTools.Session.Extension;
 
 namespace Altalents.API.Controllers
 {
@@ -47,12 +50,6 @@ namespace Altalents.API.Controllers
         {
             return _dossierTechniqueService.IsTelephoneValid(request.Telephone, request.IsOptionnal);
         }
-
-        //[HttpPut("{id}/statut/{statutId}", Name = "ChangerStatutDossierTechnique")]
-        //public async Task ChangerStatutDossierTechniqueAsync([FromRoute] Guid id, [FromRoute] Guid statutId, CancellationToken cancellationToken)
-        //{
-        //    await _dossierTechniqueService.ChangerStatutDossierTechniqueAsync(id, statutId, cancellationToken);
-        //}
 
         [HttpGet("{tokenRapide}/validate-by-candidat", Name = "ValidationDtCompletByCandidat")]
         public async Task ValidationDtCompletByCandidatAsync([FromRoute] Guid tokenRapide, CancellationToken cancellationToken)
@@ -157,6 +154,12 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, typeLiaisonCode, cancellationToken);
         }
 
+        [HttpGet("{tokenAccesRapide}/permission", Name = "GetPermissionsDT")]
+        public async Task<PermissionConsultationDtDto> GetPermissionsDTAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetPermissionConsultationDtAsync(tokenAccesRapide, GetIsLogged(), cancellationToken);
+        }
+
         [HttpPut("competences", Name = "PutNote")]
         public async Task PutNoteAsync([FromBody] LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken)
         {
@@ -209,6 +212,12 @@ namespace Altalents.API.Controllers
         public async Task<RecapitulatifDtDto> GetRecapitulatifAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetRecapitulatifDtAsync(tokenAccesRapide, cancellationToken);
+        }
+
+        protected bool GetIsLogged()
+        {
+            return HttpContext.Session.Get<bool>(SessionKeyConstantes.IsLogged) &&
+                HttpContext.Session.Get<UserLoggedDto>(SessionKeyConstantes.UserLogged) != null;
         }
 
     }

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
@@ -18,6 +17,8 @@ import { PieceJointeDialogComponent } from '../dialogs/piece-jointe-dialog/piece
 import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
 import { Question } from 'src/app/shared/models/question.model';
 import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MODAL_OPTIONS_LG } from 'src/app/shared/modal-options';
 
 @Component({
   selector: 'app-commercial-creation-dt-configuration',
@@ -31,11 +32,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
   public questions: Question[] | undefined;
   public piecesJointes: PieceJointe[] = [];
 
-  public ngbModalDeleteOptions: NgbModalOptions = {
-    backdrop : 'static',
-    keyboard : false,
-    size: 'lg'
-  };
+
 
   constructor(private modalService: NgbModal,
     private readonly service: ApiServiceAgent) {
@@ -104,12 +101,8 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
   }
 
   public onAjouterQuestionnaireClick(): void {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop : 'static',
-      keyboard : false,
-      size: 'lg'
-    };
-    let dialogRef: NgbModalRef = this.modalService.open(QuestionnaireDialogComponent, ngbModalOptions);
+
+    let dialogRef: NgbModalRef = this.modalService.open(QuestionnaireDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.questions = this.questions;
     dialogRef.result.then((nouvelElement: Question[] | undefined) => {
       if(nouvelElement) {
@@ -119,12 +112,8 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
   }
 
   public onAjouterDocumentClick(): void {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg',
-    };
-    let dialogRef: NgbModalRef = this.modalService.open(PieceJointeDialogComponent, ngbModalOptions);
+
+    let dialogRef: NgbModalRef = this.modalService.open(PieceJointeDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.modalTitle = "Document pour le candidat";
     dialogRef.result.then((nouvelElement: PieceJointe | undefined) => {
       if (nouvelElement) {
@@ -136,13 +125,9 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
   }
 
   public onModifierDocumentClick(i: number): void {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg',
-    };
+
   
-    let dialogRef: NgbModalRef = this.modalService.open(PieceJointeDialogComponent, ngbModalOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(PieceJointeDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.modalTitle = "Document pour le candidat";
     dialogRef.componentInstance.pieceJointe = this.piecesJointes[i];  // Passage du document à modifier
     dialogRef.result.then((nouvelElement: PieceJointe | undefined) => {
@@ -158,7 +143,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
   public removePieceJointe(i: number, nomFichier : string): void {
 
 
-    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.itemName = nomFichier;
     dialogRef.result.then((validated: boolean | undefined) => {
       if(validated) {
