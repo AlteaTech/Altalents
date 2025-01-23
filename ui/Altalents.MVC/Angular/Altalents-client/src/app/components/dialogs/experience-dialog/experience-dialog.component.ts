@@ -16,6 +16,7 @@ import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
 import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { DataFormatService } from 'src/app/shared/services/services/formators/currency-formator';
+import { MODAL_OPTIONS_LG } from 'src/app/shared/modal-options';
 
 @Component({
   selector: 'app-experience-dialog',
@@ -34,11 +35,6 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public submitted = false;
   public isLieuVisible: boolean = true;  // Nouvelle variable pour gérer la visibilité du champ "lieu"
 
-  public ngbModalDeleteOptions: NgbModalOptions = {
-    backdrop: 'static',
-    keyboard: false,
-    size: 'lg'
-  };
 
   constructor(public activeModal: NgbActiveModal,
     private modalService: NgbModal,
@@ -190,7 +186,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
   public removeProjet(index: number): void {
     this.submitted = false;
-    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.itemName = this.IsEsn  ? 'cette mission' : 'ce projet ';
     dialogRef.result.then((validated: boolean | undefined) => {
       if (validated) {

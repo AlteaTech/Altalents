@@ -143,7 +143,7 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
   public removePieceJointe(i: number, nomFichier : string): void {
 
 
-    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, this.ngbModalDeleteOptions);
+    let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.itemName = nomFichier;
     dialogRef.result.then((validated: boolean | undefined) => {
       if(validated) {
