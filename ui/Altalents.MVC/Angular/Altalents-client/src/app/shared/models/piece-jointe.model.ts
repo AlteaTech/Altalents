@@ -13,7 +13,7 @@ export class PieceJointe {
         var model = new PieceJointe ();
 
         model.id = dto.id;
-        model.data = dto.data;
+        model.data = dto.data!;
         model.mimeType = dto.mimeType;
         model.nomFichier = dto.nomFichier;
         model.commentaire = dto.commentaire!;
@@ -68,7 +68,7 @@ export class PieceJointe {
       pj.mimeType = dto.mimeType;
       pj.nomFichier = dto.nomFichier;
       pj.commentaire = dto.commentaire!;
-      pj.data = dto.data;
+      pj.data = dto.data!;
   
       return pj;
       
