@@ -5,7 +5,7 @@ export class DocumentDt {
     mimeType!: string;
     nomFichier!: string;
     commentaire?: string | null;
-    data!: string;
+    data?: string | null;
     
     public static from(dto: DocumentDto): DocumentDt {
       let model = new DocumentDto();

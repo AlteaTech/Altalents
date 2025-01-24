@@ -99,6 +99,15 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
             }, { emitEvent: false });
           }
 
+
+          // Vérification si pieceJointe est définie pour ajuster la validation
+          if (this.parlonsDeVous.pieceJointe) {
+            this.formGroup.get('fileInput')?.clearValidators();
+          } else {
+            this.formGroup.get('fileInput')?.setValidators(Validators.required);
+          }
+          this.formGroup.get('fileInput')?.updateValueAndValidity();
+
           this.isLoading = false;
         }));
   }

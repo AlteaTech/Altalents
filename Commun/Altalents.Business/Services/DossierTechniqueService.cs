@@ -499,27 +499,30 @@ namespace Altalents.Business.Services
             dt.Personne.Prenom = request.Prenom;
             dt.Personne.Email = request.Email;
 
-            Entities.Document cv = dt.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV);
-            if (cv != null)
-            {
-                cv.Nom = request.Cv.NomFichier;
-                cv.TypeDocument = TypeDocumentEnum.CV;
-                cv.MimeType = request.Cv.MimeType;
-                cv.Data = request.Cv.Data;
-            }
-            else
-            {
-                dt.Personne.Documents = new()
+            //si un CV a ete renseigné
+            if(request.Cv.Data!= null && request.Cv.Data.Length > 0) {
+                Entities.Document cv = dt.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV);
+                if (cv != null)
                 {
-                    new()
+                    cv.Nom = request.Cv.NomFichier;
+                    cv.TypeDocument = TypeDocumentEnum.CV;
+                    cv.MimeType = request.Cv.MimeType;
+                    cv.Data = request.Cv.Data;
+                }
+                else
+                {
+                    dt.Personne.Documents = new()
                     {
-                       Nom = request.Cv.NomFichier,
-                       TypeDocument = TypeDocumentEnum.CV,
-                       MimeType = request.Cv.MimeType,
-                       Data = request.Cv.Data,
+                        new()
+                        {
+                           Nom = request.Cv.NomFichier,
+                           TypeDocument = TypeDocumentEnum.CV,
+                           MimeType = request.Cv.MimeType,
+                           Data = request.Cv.Data,
 
-                    }
-                };
+                        }
+                    };
+                }
             }
 
             List<Contact> contactTelephones = dt.Personne.Contacts.Where(x => x.TypeId == Guid.Parse(IdsConstantes.ContactTelephoneId)).ToList();

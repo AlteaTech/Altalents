@@ -2524,7 +2524,7 @@ export class DocumentDto implements IDocumentDto {
     id?: string | null;
     nomFichier!: string;
     commentaire?: string | null;
-    data!: string;
+    data?: string | null;
 
     constructor(data?: IDocumentDto) {
         if (data) {
@@ -2568,7 +2568,7 @@ export interface IDocumentDto {
     id?: string | null;
     nomFichier: string;
     commentaire?: string | null;
-    data: string;
+    data?: string | null;
 }
 
 export class DossierTechniqueInsertRequestDto implements IDossierTechniqueInsertRequestDto {
@@ -3364,6 +3364,7 @@ export interface IParlonsDeVousUpdateRequestDto {
 
 export class PermissionConsultationDtDto implements IPermissionConsultationDtDto {
     tokenAccesRapide?: string | null;
+    isValideGuidFromToken?: boolean;
     isDtExiste?: boolean;
     isDtAccessible?: boolean;
     isDtReadOnly?: boolean;
@@ -3384,6 +3385,7 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
     init(_data?: any) {
         if (_data) {
             this.tokenAccesRapide = _data["TokenAccesRapide"] !== undefined ? _data["TokenAccesRapide"] : <any>null;
+            this.isValideGuidFromToken = _data["IsValideGuidFromToken"] !== undefined ? _data["IsValideGuidFromToken"] : <any>null;
             this.isDtExiste = _data["IsDtExiste"] !== undefined ? _data["IsDtExiste"] : <any>null;
             this.isDtAccessible = _data["IsDtAccessible"] !== undefined ? _data["IsDtAccessible"] : <any>null;
             this.isDtReadOnly = _data["IsDtReadOnly"] !== undefined ? _data["IsDtReadOnly"] : <any>null;
@@ -3404,6 +3406,7 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["TokenAccesRapide"] = this.tokenAccesRapide !== undefined ? this.tokenAccesRapide : <any>null;
+        data["IsValideGuidFromToken"] = this.isValideGuidFromToken !== undefined ? this.isValideGuidFromToken : <any>null;
         data["IsDtExiste"] = this.isDtExiste !== undefined ? this.isDtExiste : <any>null;
         data["IsDtAccessible"] = this.isDtAccessible !== undefined ? this.isDtAccessible : <any>null;
         data["IsDtReadOnly"] = this.isDtReadOnly !== undefined ? this.isDtReadOnly : <any>null;
@@ -3417,6 +3420,7 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
 
 export interface IPermissionConsultationDtDto {
     tokenAccesRapide?: string | null;
+    isValideGuidFromToken?: boolean;
     isDtExiste?: boolean;
     isDtAccessible?: boolean;
     isDtReadOnly?: boolean;
