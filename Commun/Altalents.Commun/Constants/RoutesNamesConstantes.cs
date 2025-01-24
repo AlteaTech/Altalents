@@ -87,5 +87,6 @@ namespace Altalents.Commun.Constants
 
         //ANGULAR APP
         public const string AngularApp_DossierTechnique = "dossier-technique";
+        public const string AngularApp_CreationDt = "creation-dt";
     }
 }

@@ -88,6 +88,15 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Créer un DT.
+        /// </summary>
+        public static string CreerDT {
+            get {
+                return ResourceManager.GetString("CreerDT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date création.
         /// </summary>
         public static string DateCreation {
