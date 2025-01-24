@@ -58,7 +58,7 @@ namespace Altalents.MVC.Controllers.Admin
         {
             try
             {
-                string returnUrl = Url.Content(RedirectionConstantes.Home);
+                string returnUrl = Url.Content(RedirectionConstantes.ReLogin);
                 HttpContext.Session.Set(SessionKeyConstantes.IsLogged, false);
                 HttpContext.Session.Set<UserLoggedDto>(SessionKeyConstantes.UserLogged, null);
                 return LocalRedirect(returnUrl);
