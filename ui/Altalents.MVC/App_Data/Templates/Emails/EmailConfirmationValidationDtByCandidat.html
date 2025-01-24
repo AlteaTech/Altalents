@@ -4,11 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alerte : Dossier Technique de {{candidatFullName}} Complété</title>
+  <style>
+    /* Par défaut, le logo clair est affiché */
+    .logo-light {
+      display: block;
+    }
+
+    .logo-dark {
+      display: none;
+    }
+
+    /* Si le mode sombre est activé, on affiche le logo sombre */
+    @media (prefers-color-scheme: dark) {
+      .logo-light {
+        display: none;
+      }
+
+      .logo-dark {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="{{baseUrl}}/Images/LOGO_ALTALENTS.png" alt="Logo Altalents" style="max-width: 200px; height: auto;">
+      <img src="{{baseUrl}}/Images/LOGO_ALTALENTS.png" class="logo-light" alt="Logo Altalents" style="max-width: 200px; height: auto; display: block;">
+      <img src="{{baseUrl}}/Images/LOGO_ALTALENTS_DARKMODE.png" class="logo-dark" alt="Logo Altalents" style="max-width: 200px; height: auto; display: none;">
     </div>
     <div class="content">
       <p>Bonjour,</p>
