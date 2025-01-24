@@ -58,6 +58,7 @@ namespace Altalents.Commun.Enums
         Cdd = 51,
         Freelance = 102,
 
+        //ATTENTION SI VOUS MODIFER OU SUPPRIMER le code d'un des statut, l'app front angular en contient de ref a ces code
         [Display(Name = "Créé")]
         Cree = 52,
         [Display(Name = "À Valider")]
