@@ -240,4 +240,7 @@
   <data name="DateCreation" xml:space="preserve">
     <value>Date création</value>
   </data>
+  <data name="CreerDT" xml:space="preserve">
+    <value>Créer un DT</value>
+  </data>
 </root>

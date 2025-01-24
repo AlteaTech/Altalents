@@ -40,6 +40,7 @@
                     @if (isGestionDt)
                     {
                         <a class="liensousmenu @(""+(isBiblioDT ? "sousmenuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, BiblioDtController.ControllerName)">@LibellesResources.TitreBiblioDT</a>
+                        <a class="liensousmenu" href="/@RoutesNamesConstantes.AngularApp_CreationDt">@LibellesResources.CreerDT</a>
                         <a class="liensousmenu @(""+(isUpdateCandidat ? "sousmenuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerUpdateCandidat_MethodeIndex, UpdateCandidatController.ControllerName)">@LibellesResources.TitreUpdateCandidat</a>
                     }
                     <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerUtilisateur_MethodeIndex, UtilisateurController.ControllerName)">@LibellesResources.TitreGestionCompteUtilisateurs</a>
