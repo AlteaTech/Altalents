@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { PermissionDT } from '../../models/permissionDT.model';
 
 @Component({
   selector: 'app-dt-readonly-message',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./dt-readonly-message.component.css']
 })
 export class DtReadonlyMessageComponent {
-  @Input() isReadOnly: boolean = false;
+  @Input() permissionDT: PermissionDT = new PermissionDT();
 }
