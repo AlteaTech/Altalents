@@ -5,4 +5,8 @@
 </p>
 <p *ngIf="!permissionDT.isDtReadOnly && permissionDT.isUserLoggedInBackOffice && permissionDT.codeStatutDT == 'AValider'" class="alert alert-warning" role="alert">
     <i class="fa-solid fa-exclamation-triangle"></i>
-    Le statut de ce DT est 'À valider'. Vous êtes autorisé à le mettre à jour, car vous êtes actuellement authentifié dans le back-office d'Altalante.</p>
+        Le statut de ce DT est 'À valider'. Vous êtes autorisé à le mettre à jour, car vous êtes actuellement authentifié dans le back-office d'Altalante.</p>
+    <p *ngIf="!permissionDT.isDtReadOnly && permissionDT.isUserLoggedInBackOffice && permissionDT.codeStatutDT == 'Cree'" class="alert alert-warning" role="alert">
+        <i class="fa-solid fa-exclamation-triangle"></i>
+        Nous avons remarqué que vous êtes actuellement authentifié dans le back-office d'Altalante. Pour information, lorsque le statut d'un DT est "créé", c'est le candidat qui est censé renseigner son propre dossier technique et non le service commercial.
+    </p>
