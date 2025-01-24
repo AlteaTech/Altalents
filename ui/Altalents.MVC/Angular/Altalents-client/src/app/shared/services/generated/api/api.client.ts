@@ -3363,6 +3363,8 @@ export interface IParlonsDeVousUpdateRequestDto {
 }
 
 export class PermissionConsultationDtDto implements IPermissionConsultationDtDto {
+    tokenAccesRapide?: string | null;
+    isDtExiste?: boolean;
     isDtAccessible?: boolean;
     isDtReadOnly?: boolean;
     isUserLoggedInBackOffice?: boolean;
@@ -3381,6 +3383,8 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
 
     init(_data?: any) {
         if (_data) {
+            this.tokenAccesRapide = _data["TokenAccesRapide"] !== undefined ? _data["TokenAccesRapide"] : <any>null;
+            this.isDtExiste = _data["IsDtExiste"] !== undefined ? _data["IsDtExiste"] : <any>null;
             this.isDtAccessible = _data["IsDtAccessible"] !== undefined ? _data["IsDtAccessible"] : <any>null;
             this.isDtReadOnly = _data["IsDtReadOnly"] !== undefined ? _data["IsDtReadOnly"] : <any>null;
             this.isUserLoggedInBackOffice = _data["IsUserLoggedInBackOffice"] !== undefined ? _data["IsUserLoggedInBackOffice"] : <any>null;
@@ -3399,6 +3403,8 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["TokenAccesRapide"] = this.tokenAccesRapide !== undefined ? this.tokenAccesRapide : <any>null;
+        data["IsDtExiste"] = this.isDtExiste !== undefined ? this.isDtExiste : <any>null;
         data["IsDtAccessible"] = this.isDtAccessible !== undefined ? this.isDtAccessible : <any>null;
         data["IsDtReadOnly"] = this.isDtReadOnly !== undefined ? this.isDtReadOnly : <any>null;
         data["IsUserLoggedInBackOffice"] = this.isUserLoggedInBackOffice !== undefined ? this.isUserLoggedInBackOffice : <any>null;
@@ -3410,6 +3416,8 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
 }
 
 export interface IPermissionConsultationDtDto {
+    tokenAccesRapide?: string | null;
+    isDtExiste?: boolean;
     isDtAccessible?: boolean;
     isDtReadOnly?: boolean;
     isUserLoggedInBackOffice?: boolean;

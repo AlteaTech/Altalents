@@ -299,31 +299,42 @@ namespace Altalents.Business.Services
         }
 
 
-        public async Task<PermissionConsultationDtDto> GetPermissionConsultationDtAsync(Guid tokenRapide, bool isUserLoggedInBackoffice, CancellationToken cancellationToken)
+        public async Task<PermissionConsultationDtDto> GetPermissionConsultationDtAsync(string tokenRapide, bool isUserLoggedInBackoffice, CancellationToken cancellationToken)
         {
 
             PermissionConsultationDtDto permissiontDto = new PermissionConsultationDtDto();
 
+   
+            permissiontDto.TokenAccesRapide = tokenRapide;
             permissiontDto.IsUserLoggedInBackOffice = isUserLoggedInBackoffice;
             permissiontDto.IsDtAccessible = false;
             permissiontDto.IsDtReadOnly = false;
+            permissiontDto.IsValideGuidFromToken = false;
 
+            Guid validGuid;
+            permissiontDto.IsValideGuidFromToken = Guid.TryParse(tokenRapide, out validGuid);
+
+            if (!permissiontDto.IsValideGuidFromToken)
+                return permissiontDto;
+           
             using CustomDbContext context = GetScopedDbContexte();
 
-            // Utilisation de FirstOrDefaultAsync avec le CancellationToken
-            string statutCode = await context.DossierTechniques
-                .Where(x => x.TokenAccesRapide == tokenRapide)
-                .Select(e => e.Statut.Code)
+            // Vérifie si le dossier technique existe et récupère le code du statut
+            var dossierTechnique = await context.DossierTechniques
+                .Where(x => x.TokenAccesRapide == validGuid)
+                .Select(e => new { Existe = true, StatutCode = e.Statut.Code })
                 .FirstOrDefaultAsync(cancellationToken);
 
-            permissiontDto.CodeStatutDT = statutCode;
+            permissiontDto.IsDtExiste = dossierTechnique != null;
 
-            if (statutCode == CodeReferenceEnum.Cree.ToString())
+            permissiontDto.CodeStatutDT = dossierTechnique?.StatutCode;
+
+            if (permissiontDto.CodeStatutDT == CodeReferenceEnum.Cree.ToString())
             {
                 permissiontDto.IsDtAccessible = true;
                 permissiontDto.LibelleStatutDT = CodeReferenceEnum.Cree.GetDisplayName();
             }
-            else if (statutCode == CodeReferenceEnum.AValider.ToString())
+            else if (permissiontDto.CodeStatutDT == CodeReferenceEnum.AValider.ToString())
             {
                 permissiontDto.LibelleStatutDT = CodeReferenceEnum.AValider.GetDisplayName();
                 permissiontDto.Message = "Lorsque le statut d'un DT est \"À valider\", il est uniquement accessible au service commercial. Si vous appartenez à ce service, veuillez préalablement vous authentifier sur back-office d'Altalants pour accéder à ce DT.";
@@ -333,7 +344,7 @@ namespace Altalents.Business.Services
                 if(!isUserLoggedInBackoffice)
                     permissiontDto.IsDtReadOnly = true;
             }
-            else if (statutCode == CodeReferenceEnum.Termine.ToString())
+            else if (permissiontDto.CodeStatutDT == CodeReferenceEnum.Termine.ToString())
             {
                 permissiontDto.LibelleStatutDT = CodeReferenceEnum.Termine.GetDisplayName();
                 permissiontDto.Message = "Lorsque le statut d'un DT est à: 'terminé', il est alors inaccessible à tous le monde. Si vous appartenez au service commercial, vous pouvez modifier le statut d'un DT.";

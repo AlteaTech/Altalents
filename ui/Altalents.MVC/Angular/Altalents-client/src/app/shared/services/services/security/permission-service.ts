@@ -33,13 +33,17 @@ export class PermissionService extends BaseComponentCallHttpComponent implements
 
   public async getRefreshedDTPermissionAndRedirectIfNecessary(tokenRapide: string): Promise<PermissionDT> {
     try {
+
       // Convertir l'Observable en Promise avec lastValueFrom
       const response = await lastValueFrom(this.service.getPermissionsDT(tokenRapide));
   
       this.tokenDossierTechnique = tokenRapide;
       this.permissionDT = PermissionDT.from(response);
   
-      if (!this.permissionDT.isDtAccessible) {
+      if (!this.permissionDT.isDtExist) {
+        this.router.navigateByUrl(ConstantesRoutes.dtInexistant);
+      }
+      else if (!this.permissionDT.isDtAccessible) {
         this.router.navigateByUrl(ConstantesRoutes.dtForbidenAccess);
       }
   

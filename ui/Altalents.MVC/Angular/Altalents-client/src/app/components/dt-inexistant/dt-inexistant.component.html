@@ -8,21 +8,17 @@
         <div class="body-bulle">
             <div class="bubble-container">
                 <div class="text">
-                    <h1 class="mb-3">Accès Refusé</h1>
-                    <p class="font-normal mb-3">Vous n'avez pas la permission de consulter ce dossier technique pour le moment.</p>
+                    <h1 class="mb-3">Dossier technique introuvable</h1>
+                    <p class="font-normal mb-3">Le token d'acces rapide ne correspond à aucun dossiet technique.</p>
                     <p *ngIf="permissionDT.tokenAccesRapide" class="font-normal">Token du DT : <span class="font-bold">{{permissionDT.tokenAccesRapide}}</span></p>
-                    <p *ngIf="permissionDT.libelleStatutDT" class="font-normal mb-3">Statut du DT: <span class="font-bold">'{{permissionDT.libelleStatutDT}}'</span></p>
-                    <p *ngIf="permissionDT.message"  class="font-normal">
-                        {{permissionDT.message}}
-                    </p>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="at-p-button-container">
-            <button class="at-p-button" (click)="goBack()">
-                <p><i class="fa-solid fa-rotate-right"></i>Recharger le DT</p>
+            <button class="at-p-button" (click)="goMoon()">
+                <p><i class="fa-brands fa-space-awesome"></i>Consulter fake jobs</p>
             </button>
         </div>
     </div>

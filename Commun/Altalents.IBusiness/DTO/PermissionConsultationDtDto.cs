@@ -9,6 +9,12 @@ namespace Altalents.IBusiness.DTO
     public class PermissionConsultationDtDto
     {
 
+        public string TokenAccesRapide { get; set; }
+
+        public bool IsValideGuidFromToken { get; set; }
+
+        public bool IsDtExiste { get; set; }
+
         public bool IsDtAccessible { get; set; }
 
         public bool IsDtReadOnly { get; set; }
@@ -18,6 +24,7 @@ namespace Altalents.IBusiness.DTO
         public string Message { get; set; }
 
         public string CodeStatutDT { get; set; }
+
         public string LibelleStatutDT { get; set; }
     }
 }

@@ -8,6 +8,7 @@ import { CommercialCreationDtAccueilComponent } from './components/commercial-cr
 import { CommercialCreationDtConfigurationComponent } from './components/commercial-creation-dt-configuration/commercial-creation-dt-configuration.component';
 import { TelechargementDtComponent } from './components/telechargement-dt/telechargement-dt.component';
 import { AccesDtInterditComponent } from './components/acces-dt-interdit/acces-dt-interdit.component';
+import { DtInexistantComponent } from './components/dt-inexistant/dt-inexistant.component';
 
 const routes: Routes = [
   { path: `${ConstantesRoutes.accueilBaseUrl}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: AccueilComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: `${ConstantesRoutes.telechargementDt}:${ConstantesRoutes.paramTokenDossierTechnique}`, component: TelechargementDtComponent },
   { path: `${ConstantesRoutes.commercialAccueilCreateDt}`, component: CommercialCreationDtAccueilComponent },
   { path: `${ConstantesRoutes.dtForbidenAccess}`, component: AccesDtInterditComponent },
+  { path: `${ConstantesRoutes.dtInexistant}`, component: DtInexistantComponent },
   { path: `${ConstantesRoutes.commercialAccueilCreateDt}/${ConstantesRoutes.commercialAccueilConfigurationDt}`, component: CommercialCreationDtConfigurationComponent },
 ];
 
