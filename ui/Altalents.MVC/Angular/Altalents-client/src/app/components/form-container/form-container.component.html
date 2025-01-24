@@ -19,7 +19,7 @@
                 </div>
             </div>
             <app-custom-loader [isLoading]="isLoading" />
-            <app-dt-readonly-message [isReadOnly]="permissionDT.isDtReadOnly"></app-dt-readonly-message>
+            <app-dt-readonly-message [permissionDT]="permissionDT"></app-dt-readonly-message>
             <div [ngSwitch]="currentStep" >
                 <ng-container *ngIf="permissionDT.isDtAccessible">
                     <app-parlons-de-vous *ngSwitchCase="dossierTechniqueEnum.ParlonsDeVous"
