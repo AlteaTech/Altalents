@@ -155,7 +155,7 @@ namespace Altalents.API.Controllers
         }
 
         [HttpGet("{tokenAccesRapide}/permission", Name = "GetPermissionsDT")]
-        public async Task<PermissionConsultationDtDto> GetPermissionsDTAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        public async Task<PermissionConsultationDtDto> GetPermissionsDTAsync([FromRoute] string tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetPermissionConsultationDtAsync(tokenAccesRapide, GetIsLogged(), cancellationToken);
         }

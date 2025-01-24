@@ -30,6 +30,7 @@ import { CustomLoaderComponent } from './shared/components/custom-loader/custom-
 import { ConfirmDeleteDialogComponent } from './components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { AccesDtInterditComponent } from './components/acces-dt-interdit/acces-dt-interdit.component';
 import { DtReadonlyMessageComponent } from './shared/components/dt-readonly-message/dt-readonly-message.component';
+import { DtInexistantComponent } from './components/dt-inexistant/dt-inexistant.component';
 
 
 registerLocaleData(localeFr);
@@ -60,6 +61,7 @@ registerLocaleData(localeFr);
     ConfirmDeleteDialogComponent,
     AccesDtInterditComponent,
     DtReadonlyMessageComponent,
+    DtInexistantComponent,
   ],
   imports: [
     CommonModule,

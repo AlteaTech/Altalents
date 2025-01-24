@@ -4,11 +4,11 @@ import { PermissionService } from 'src/app/shared/services/services/security/per
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-acces-dt-interdit',
-  templateUrl: './acces-dt-interdit.component.html',
-  styleUrls: ['./acces-dt-interdit.component.css']
+  selector: 'app-dt-inexistant',
+  templateUrl: './dt-inexistant.component.html',
+  styleUrls: ['./dt-inexistant.component.css']
 })
-export class AccesDtInterditComponent {
+export class DtInexistantComponent {
     public permissionDT: PermissionDT = new PermissionDT();
     
     constructor(private permissionService: PermissionService, private location: Location) {}
@@ -17,9 +17,7 @@ export class AccesDtInterditComponent {
       this.permissionDT = this.permissionService.getLastPermissionDT();
     }
 
-    public goBack(): void {
-      this.location.back(); // Redirige vers la page précédente
+    public goMoon(): void {
+      window.open('https://www.nasa.gov', '_blank'); // Ouvre dans un nouvel onglet
     }
-
-
 }

@@ -7,4 +7,5 @@ export class ConstantesRoutes {
     public static commercialAccueilCreateDt: string = "creation-dt";
     public static commercialAccueilConfigurationDt: string = "configuration";
     public static dtForbidenAccess: string = "dt-forbiden-access";
+    public static dtInexistant: string = "dt-inexistant";
 }

@@ -1,6 +1,9 @@
 import { PermissionConsultationDtDto } from "../services/generated/api/api.client";
 
 export class PermissionDT {
+   
+    tokenAccesRapide!: string;
+    isDtExist!: boolean;
     isDtAccessible!: boolean;
     isDtReadOnly!: boolean;
     isUserLoggedInBackOffice!: boolean;
@@ -9,8 +12,11 @@ export class PermissionDT {
     libelleStatutDT!: string;
 
     public static from(dto : PermissionConsultationDtDto):PermissionDT{
+
         var model = new PermissionDT ();
 
+        model.tokenAccesRapide = dto.tokenAccesRapide!;
+        model.isDtExist = dto.isDtExiste ?? false;
         model.isDtAccessible = dto.isDtAccessible ?? false;
         model.isDtReadOnly =  dto.isDtReadOnly ?? true;
         model.message = dto.message! ;
@@ -19,6 +25,7 @@ export class PermissionDT {
         model.isUserLoggedInBackOffice = dto.isUserLoggedInBackOffice!;
         
         return model;
+
       }
 
 }
