@@ -337,7 +337,7 @@ namespace Altalents.Business.Services
             else if (permissiontDto.CodeStatutDT == CodeReferenceEnum.AValider.ToString())
             {
                 permissiontDto.LibelleStatutDT = CodeReferenceEnum.AValider.GetDisplayName();
-                permissiontDto.Message = "Lorsque le statut d'un DT est \"À valider\", il est uniquement accessible au service commercial. Si vous appartenez à ce service, veuillez préalablement vous authentifier sur back-office d'Altalants pour accéder à ce DT.";
+               //permissiontDto.Message = "Lorsque le statut d'un DT est \"À valider\", il est uniquement accessible au service commercial. Si vous appartenez à ce service, veuillez préalablement vous authentifier sur back-office d'Altalants pour accéder à ce DT.";
 
                 permissiontDto.IsDtAccessible = true;
 

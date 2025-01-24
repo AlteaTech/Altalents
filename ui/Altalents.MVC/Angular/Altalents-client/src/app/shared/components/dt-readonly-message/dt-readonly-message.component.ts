@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PermissionDT } from '../../models/permissionDT.model';
+import { StatutDtFromCodeReferenceEnumInBackend } from '../../constantes/constantes-statut-dt-backend-enum';
 
 @Component({
   selector: 'app-dt-readonly-message',
@@ -8,4 +9,5 @@ import { PermissionDT } from '../../models/permissionDT.model';
 })
 export class DtReadonlyMessageComponent {
   @Input() public permissionDT: PermissionDT = new PermissionDT();
+  public statutDtEnum = StatutDtFromCodeReferenceEnumInBackend; // Exposition de la classe au template
 }
