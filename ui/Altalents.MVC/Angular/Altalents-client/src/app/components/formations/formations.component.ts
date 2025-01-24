@@ -10,7 +10,7 @@ import { Langue } from 'src/app/shared/models/langue.model';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { AllAboutFormationsDto, FormationCertificationEnum, FormationCertificationRequestDto, LangueParleeRequestDto } from 'src/app/shared/services/generated/api/api.client';
-import { ConstantesFormationCertification } from 'src/app/shared/constantes/constantes-formation-certification';
+
 import { tap } from 'rxjs';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { Constantes } from 'src/app/shared/constantes/constantes';
@@ -19,6 +19,7 @@ import { ConfirmDeleteDialogComponent } from '../dialogs/confirm-delete-dialog/c
 import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
 import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
 import { MODAL_OPTIONS_LG } from 'src/app/shared/modal-options';
+import { FormationCertificationEnumCodeInBackend } from 'src/app/shared/constantes/constantes-formation-certification-backend-enum';
 @Component({
   selector: 'app-formations',
   templateUrl: './formations.component.html',
@@ -208,7 +209,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
         dto.libelle = certification.libelle;
         dto.niveau = certification.niveau;
         dto.organisme = certification.organisme;
-        dto.formationOrCertificationEnumCode = ConstantesFormationCertification.certification;
+        dto.formationOrCertificationEnumCode = FormationCertificationEnumCodeInBackend.certification;
     return dto;
   }
 
@@ -219,7 +220,7 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
         dto.libelle = formation.libelle;
         dto.niveau = formation.niveau;
         dto.organisme = formation.organisme;
-        dto.formationOrCertificationEnumCode = ConstantesFormationCertification.formation;
+        dto.formationOrCertificationEnumCode = FormationCertificationEnumCodeInBackend.formation;
     return dto;
   }
 
