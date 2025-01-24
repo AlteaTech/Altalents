@@ -7,5 +7,5 @@ import { PermissionDT } from '../../models/permissionDT.model';
   styleUrls: ['./dt-readonly-message.component.css']
 })
 export class DtReadonlyMessageComponent {
-  @Input() permissionDT: PermissionDT = new PermissionDT();
+  @Input() public permissionDT: PermissionDT = new PermissionDT();
 }
