@@ -26,6 +26,9 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
   }
   
   public async ngOnInit(): Promise<void> {
+    
+    this.isLoading = true;
+
     // Récupérer le token
     this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.paramTokenDossierTechnique) ?? "";
     
@@ -43,9 +46,11 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
   }
 
   public populateData(): void {    
+
     this.callRequest(ConstantesRequest.getNomPrenom, this.service.getNomPrenomFromToken(this.tokenDossierTechnique)
         .subscribe((response: NomPrenomPersonneDto) => {
           this.nomPrenomCandidat = response.prenom + " " + response.nom;
+          this.isLoading = false;
         }));
   }
 

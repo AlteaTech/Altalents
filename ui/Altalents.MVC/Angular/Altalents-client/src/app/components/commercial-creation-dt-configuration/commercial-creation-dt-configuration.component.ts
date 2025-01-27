@@ -195,5 +195,6 @@ export class CommercialCreationDtConfigurationComponent  extends BaseComponentCa
     let controls = this.formGroup.controls;
     controls.isPrixJourEnable.value ? controls.prixJour.enable() : controls.prixJour.disable();
   }
+  
 }
 

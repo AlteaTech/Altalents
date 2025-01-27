@@ -21,10 +21,13 @@ export class ApiServiceAgent {
     //@ts-ignore
     if(window.baseUrlApi != null && window.baseUrlApi != undefined){
       return this.apiClient.getUserLoggedDto();
-    } const mock = new CustomUserLoggedDto();
+    } 
+
+    const mock = new CustomUserLoggedDto();
     mock.nom = "a";
     mock.login = "a";
-    mock.userId = "870eab28-378d-48e3-84bd-08dc96b4bf1b";
+    mock.userId = "C30FC30D-EFD3-499B-0341-08DC9B68B575";
+
     return new Observable<CustomUserLoggedDto>((subscriber: Subscriber<CustomUserLoggedDto>) => subscriber.next(mock));
   }
 
