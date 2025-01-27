@@ -31,7 +31,7 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .IsRequired();
 
             builder.HasIndex(e => e.Email).IsUnique();
-            builder.HasIndex(e => e.Trigramme).IsUnique();
+            //builder.HasIndex(e => e.Trigramme).IsUnique();
             builder.HasIndex(e => e.BoondId).IsUnique();
 
             builder.HasMany(navigationExpression: e => e.DossierTechniques)
