@@ -50,6 +50,7 @@
     <Content Include="wwwroot\Images\LOGO_ALTALENTS.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="wwwroot\Images\LOGO_ALTALENTS_DARKMODE.png" />
   </ItemGroup>
 
   <ItemGroup>

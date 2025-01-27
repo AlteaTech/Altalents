@@ -56,7 +56,7 @@ namespace Altalents.Business.Services
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
 
-            await EnvoiEmailCreationDtCandidatAsync(dossierTechnique.AdresseMail, dt.TokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
+            EnvoiEmailCreationDtCandidatAsync(dossierTechnique.AdresseMail, dt.TokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
 
             return dt.Id;
         }
