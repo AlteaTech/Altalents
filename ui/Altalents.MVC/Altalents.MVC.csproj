@@ -47,10 +47,10 @@
     <Content Include="wwwroot\Images\loader.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\Images\LOGO_ALTALENTS.png">
+    <Content Include="wwwroot\Images\LOGO_ALTALANTS_EMAILS_TEMPLATE.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\Images\LOGO_ALTALENTS_DARKMODE.png">
+    <Content Include="wwwroot\Images\LOGO_ALTALENTS.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
