@@ -15,6 +15,7 @@ import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.ser
   templateUrl: './langue-dialog.component.html'
 })
 export class LangueDialogComponent extends BaseComponentCallHttpComponent implements OnInit {
+    public langueInput?: Langue;
   public formGroup: FormGroup<LangueForm>;
   public langues: Reference[] = [];
   public niveauxLangues: Reference[] = [];
@@ -37,7 +38,7 @@ export class LangueDialogComponent extends BaseComponentCallHttpComponent implem
       
       this.isLoading = true;
       const values = this.formGroup.value;
-      let langue: Langue = new Langue();
+      let langue: Langue = this.langueInput ?? new Langue();
       langue.idLangue = values.langue?.id;
       langue.libelleLangue = values.langue?.libelle;
       langue.idReferenceNiveau = values.niveau?.id;
@@ -70,18 +71,33 @@ export class LangueDialogComponent extends BaseComponentCallHttpComponent implem
             return 0; // Maintient l'ordre pour les autres
           });
           
-          // Définir la première valeur comme sélectionnée par défaut
-          this.formGroup.controls.langue.setValue(this.langues[0]);
-          
+
+          if (this.langueInput) {
+            const selectedRefLang: Reference = this.langues.find(x => x.id == this.langueInput!.idLangue) ?? this.langues[0];
+            this.formGroup.controls.langue.setValue(selectedRefLang);
+          } else {
+            this.formGroup.controls.langue.setValue(this.langues[0]);
+          }
+
           this.checkLoadingTermine(nbAppelsAsync);
         }));
+
 
     this.callRequest(ConstantesRequest.getReferencesNiveauxLangues, this.service.getReferences(ConstantesTypesReferences.niveauLangue)
         .subscribe((response: ReferenceDto[]) => {
           this.niveauxLangues = Reference.fromListReferenceDto(response);
-          this.formGroup.controls.niveau.setValue(this.niveauxLangues[0]);
+
+          if (this.langueInput) {
+            const selectedNivLang: Reference = this.niveauxLangues.find(x => x.id == this.langueInput!.idReferenceNiveau) ?? this.niveauxLangues[0];
+            this.formGroup.controls.niveau.setValue(selectedNivLang);
+          } else {
+            this.formGroup.controls.niveau.setValue(this.niveauxLangues[0]);
+          }
+
           this.checkLoadingTermine(nbAppelsAsync);
         }));
         
+ 
+
   }
 }

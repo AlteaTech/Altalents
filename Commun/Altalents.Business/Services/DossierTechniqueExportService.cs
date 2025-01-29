@@ -93,7 +93,7 @@ namespace Altalents.Business.Services
             modelExport.Candidat_Synthese = dt.Synthese;
 
             //remplissage data du tableau compétences technique
-            modelExport.Candidat_SoftSkill = "";
+            modelExport.Candidat_SoftSkill = dt.SoftSkills;
             modelExport.Candidat_Bdd = "";
             modelExport.Candidat_Versionning = "";
             modelExport.Candidat_IDE = "";

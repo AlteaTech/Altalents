@@ -32,6 +32,7 @@ namespace Altalents.IBusiness.IServices
         Task DeleteFormationCertificationAsync(Guid tokenAccesRapide, Guid id, FormationCertificationEnum formationOrCertificationEnum, CancellationToken cancellationToken);
         Task DeleteExperienceAsync(Guid tokenAccesRapide, Guid id, CancellationToken cancellationToken);
         Task DeleteLangueParleeAsync(Guid tokenAccesRapide, Guid id, CancellationToken cancellationToken);
+        Task DeleteProjectOrMissionAsync(Guid tokenAccesRapide, Guid idMissionToDelete, CancellationToken cancellationToken);
         Task<Guid> AddOrUpdateExperienceAsync(Guid tokenAccesRapide, ExperienceRequestDto experienceDto, CancellationToken cancellationToken, Guid? id = null);
         Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, string emailTo, string fullNameCandidat, CancellationToken cancellationToken);
         Task TestEnvoiEmailValidationDtByCandidatAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken);

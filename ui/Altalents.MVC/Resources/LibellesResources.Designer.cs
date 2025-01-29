@@ -196,7 +196,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numéro DT.
+        ///   Looks up a localized string similar to Num.
         /// </summary>
         public static string NumDT {
             get {

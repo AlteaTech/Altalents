@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-10">
                     <select formControlName="langue" class="form-select">
-                        <option selected value="">-- Choisissez une langue --</option>
+                        <!-- <option selected value="">-- Choisissez une langue --</option> -->
                         <option *ngFor="let langue of langues" [ngValue]="langue">
                           {{ langue.libelle }}
                         </option>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-10">
                     <select formControlName="niveau" class="form-select">
-                        <option selected value="">-- Choisissez un niveau --</option>
+                        <!-- <option selected value="">-- Choisissez un niveau --</option> -->
                         <option *ngFor="let niveauLangue of niveauxLangues" [ngValue]="niveauLangue">
                             {{niveauLangue.libelle}} <span *ngIf="niveauLangue.commentaireFun">({{niveauLangue.commentaireFun}})</span>
                         </option>

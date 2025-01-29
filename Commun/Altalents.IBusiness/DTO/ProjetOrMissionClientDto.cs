@@ -8,6 +8,9 @@ namespace Altalents.IBusiness.DTO
 {
     public class ProjetOrMissionClientDto
     {
+
+        [Required]
+        public string Id { get; set; }
         public string NomClientOrProjet { get; set; }
         public string DescriptionProjetOrMission { get; set; }
         public string Taches { get; set; }

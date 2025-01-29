@@ -133,17 +133,17 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-3 mt-2 label-champ-input"  *ngIf="isLieuVisible">
-                                <label for="lieu" class="col-form-label">Lieu<span
+                            <div class="col-lg-3 mt-2 label-champ-input" >
+                                <label for="lieu" class="col-form-label">Lieu<span *ngIf="IsEsn"> de l'agence</span><span  *ngIf="!IsEsn"
                                         class="champ-obligatoire">*</span></label>
                                 <div class="error-message"
                                     *ngIf="formGroup.controls.lieu.invalid && formGroup.controls.lieu.touched">
                                     Le lieu est requis.
                                 </div>
                             </div>
-                            <div class="col-lg-3 mb-2" *ngIf="isLieuVisible">
+                            <div class="col-lg-3 mb-2" >
                                 <input type="text" id="lieu" formControlName="lieu" class="form-control"
-                                    placeholder="Jumanji">
+                                    placeholder="Marseille bébé">
                             </div>
                         </div>
                     </div>

@@ -88,16 +88,22 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   public onModifierExperienceClick(experience: Experience): void {
     let dialogRef: NgbModalRef = this.modalService.open(ExperienceDialogComponent, MODAL_OPTIONS_XL);
     dialogRef.componentInstance.experience = experience;
-    dialogRef.result.then((experience: Experience | undefined) => {
-      if(experience) {
-        this.service.updateExperiance(this.tokenDossierTechnique, experience.id, this.populateRequestDto(experience)).pipe(
-          tap(() => {
-            this.ngOnInit();
-          })
-        ).subscribe();
-      }
-    })
+    dialogRef.componentInstance.tokenAccesRapideDt = this.tokenDossierTechnique;
+  
+    dialogRef.result
+      .then((experience: Experience | undefined) => {
+        if (experience) {
+          this.service.updateExperiance(this.tokenDossierTechnique, experience.id, this.populateRequestDto(experience))
+            .pipe(tap(() => this.ngOnInit()))
+            .subscribe();
+        }
+      })
+      .catch(() => {
+        // Si l'utilisateur ferme le modal avec "Annuler" ou la croix, on recharge
+        this.ngOnInit();
+      });
   }
+  
 
   public onDeleteExperienceClick(experience : Experience): void {
     let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
@@ -133,7 +139,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
 
         projectdto.taches = p.taches;
         projectdto.descriptionProjetOrMission = p.descriptionProjetOrMission;
-        projectdto.nomClientOrProjet = p.NomClientOrProjet;
+        projectdto.nomClientOrProjet = p.nomClientOrProjet;
         projectdto.dateDebut = ValidateDate(p.dateDebut) ? p.dateDebut : null;
         projectdto.dateFin = ValidateDate(p.dateFin) ? p.dateFin : null;
         projectdto.lieu = p.lieu;

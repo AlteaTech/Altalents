@@ -17,6 +17,7 @@ import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/servic
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { DataFormatService } from 'src/app/shared/services/services/formators/currency-formator';
 import { MODAL_OPTIONS_LG } from 'src/app/shared/modal-options';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-experience-dialog',
@@ -25,6 +26,8 @@ import { MODAL_OPTIONS_LG } from 'src/app/shared/modal-options';
 })
 
 export class ExperienceDialogComponent extends BaseComponentCallHttpComponent implements OnInit {
+  
+  public tokenAccesRapideDt: string | undefined;
   public experience?: Experience;
   public formGroup: FormGroup<ExperienceForm>;
   public typesContrats: Reference[] = [];
@@ -67,6 +70,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       this.IsEsn = this.experience.IsEntrepriseEsnOrInterim;
 
       this.formGroup.patchValue({
+
         typeContrat: this.experience.typeContrat,
         intitulePoste: this.experience.intitulePoste,
         entreprise: this.experience.nomEntreprise,
@@ -120,7 +124,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     const projectGroup = new FormGroup({
       
-      nomClientOrProjet: new FormControl(project?.NomClientOrProjet ?? null),
+      id: new FormControl(project?.id ?? null),
+      nomClientOrProjet: new FormControl(project?.nomClientOrProjet ?? null),
       descriptionProjetOrMission: new FormControl(project?.descriptionProjetOrMission ?? null, Validators.required),
       domaineMetier: new FormControl(project?.domaineMetier ?? null),
       dateDebut: new FormControl(project?.dateDebut ? formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale) : null, [maxDateTodayValidator()]),
@@ -151,10 +156,10 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   private updateInputIsEsn() {
     
     if (this.IsEsn) {
-      this.isLieuVisible = false;
+      // this.isLieuVisible = false;
       this.formGroup.controls.lieu.clearValidators();
     } else {
-      this.isLieuVisible = true;
+      // this.isLieuVisible = true;
       this.formGroup.controls.lieu.setValidators(Validators.required);
     }
 
@@ -188,10 +193,31 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     this.submitted = false;
     let dialogRef: NgbModalRef = this.modalService.open(ConfirmDeleteDialogComponent, MODAL_OPTIONS_LG);
     dialogRef.componentInstance.itemName = this.IsEsn  ? 'cette mission' : 'ce projet ';
+    
     dialogRef.result.then((validated: boolean | undefined) => {
       if (validated) {
+        
+       
+
+        let idProjectOrMission : string | undefined;
+        
+        if (this.experience && this.experience.projetOrMission && this.experience.projetOrMission.length > index) {
+          idProjectOrMission = this.experience.projetOrMission[index]?.id;
+        }
+        
+        if(idProjectOrMission) {
+          this.isLoading = true;
+          this.service.deleteProjectOrMission(this.tokenAccesRapideDt!, idProjectOrMission).pipe(
+            tap(() => {
+              this.isLoading = false;
+           
+            })
+          ).subscribe();
+        }
+
         const projectsArray = this.formGroup.get('projects') as FormArray;
         projectsArray.removeAt(index);
+
       }
     });
   }
@@ -274,7 +300,9 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         const valuesProj = group.value;
 
         return {
-          NomClientOrProjet: valuesProj.nomClientOrProjet ?? "",
+          
+          id: valuesProj.id ?? "",
+          nomClientOrProjet: valuesProj.nomClientOrProjet ?? "",
           descriptionProjetOrMission: valuesProj.descriptionProjetOrMission ?? "",
 
           taches: valuesProj.taches ?? "",
@@ -316,7 +344,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   }
 
   public cancel(): void {
-    this.activeModal.close();
+    this.activeModal.dismiss(); 
   }
 
   public onSelectedTechnologiesChange(technologies: Reference[], index: number): void {

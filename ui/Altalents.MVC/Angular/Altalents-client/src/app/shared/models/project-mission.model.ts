@@ -6,7 +6,8 @@ import { Reference } from "./reference.model";
 
 export class ProjectOrMissionClient {
 
-    NomClientOrProjet!: string;
+    id!: string;
+    nomClientOrProjet!: string;
     descriptionProjetOrMission!: string;
     taches!: string;
     lieu!: string;
@@ -27,7 +28,8 @@ export class ProjectOrMissionClient {
     static from(dto : ProjetOrMissionClientDto):ProjectOrMissionClient{
       var model = new ProjectOrMissionClient ();
 
-        model.NomClientOrProjet = dto.nomClientOrProjet!;
+        model.id = dto.id;
+        model.nomClientOrProjet = dto.nomClientOrProjet!;
         model.descriptionProjetOrMission = dto.descriptionProjetOrMission!;
         model.taches = dto.taches!;
         model.lieu = dto.lieu!;

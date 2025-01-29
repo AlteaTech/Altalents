@@ -98,6 +98,10 @@ export class ApiServiceAgent {
     return this.apiClient.deleteExperience(token, id);
   }
 
+  deleteProjectOrMission(token: string, id: string): Observable<void> {
+    return this.apiClient.deleteProjectOrMission(token, id);
+  }
+
   getQuestionnaires(token: string): Observable<QuestionnaireDto[]> {
     return this.apiClient.getQuestionnaires(token);
   }
