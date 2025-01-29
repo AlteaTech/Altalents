@@ -56,6 +56,7 @@ namespace Altalents.Business.Services
             await DbContext.DossierTechniques.AddAsync(dt, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
 
+            //On envoi en async volontairement pour de raison de perf (Pas besoin d'attendre un envoi de mail)
             EnvoiEmailCreationDtCandidatAsync(dossierTechnique.AdresseMail, dt.TokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
 
             return dt.Id;
@@ -259,16 +260,23 @@ namespace Altalents.Business.Services
 
         public async Task<bool> IsEmailValidAsync(string email, Guid? tokenRapide, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
             string trimmedEmail = email.Trim().ToLower();
 
-            if (trimmedEmail.EndsWith("."))
+            // Vérifie si l'e-mail se termine par un "." ou ne contient pas une extension de domaine valide
+            if (trimmedEmail.EndsWith(".") || !Regex.IsMatch(trimmedEmail, @"^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$"))
             {
-                return false; // suggested by @TK-421
+                return false;
             }
+
             try
             {
                 System.Net.Mail.MailAddress addr = new System.Net.Mail.MailAddress(email);
-                if (addr.Address.ToLower() != trimmedEmail)
+                if (!addr.Address.Equals(trimmedEmail, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }
@@ -280,23 +288,20 @@ namespace Altalents.Business.Services
 
             using CustomDbContext context = GetScopedDbContexte();
 
-            if (!tokenRapide.HasValue)
+            var query = context.Personnes.AsQueryable();
+
+            if (tokenRapide.HasValue)
             {
-                if (await context.Personnes.AnyAsync(x => x.Email == trimmedEmail, cancellationToken: cancellationToken))
-                {
-                    return false;
-                }
+                query = query.Where(x => !x.DossierTechniques.Any(y => y.TokenAccesRapide == tokenRapide) && x.Email == trimmedEmail);
             }
             else
             {
-                if (await context.Personnes.AnyAsync(x => !x.DossierTechniques.Any(y => y.TokenAccesRapide == tokenRapide) && x.Email == trimmedEmail, cancellationToken: cancellationToken))
-                {
-                    return false;
-                }
+                query = query.Where(x => x.Email == trimmedEmail);
             }
 
-            return true;
+            return !await query.AnyAsync(cancellationToken);
         }
+
 
 
         public async Task<PermissionConsultationDtDto> GetPermissionConsultationDtAsync(string tokenRapide, bool isUserLoggedInBackoffice, CancellationToken cancellationToken)
@@ -971,6 +976,21 @@ namespace Altalents.Business.Services
             }
         }
 
+        public async Task DeleteProjectOrMissionAsync(Guid tokenAccesRapide, Guid idMissionToDelete, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            Entities.ProjetOrMissionClient prjOrMissionToDelete = await context.ProjetsOrMissionsClient.AsTracking().SingleAsync(x => x.Id == idMissionToDelete && x.Experience.DossierTechnique.TokenAccesRapide == tokenAccesRapide);
+            if (prjOrMissionToDelete != null)
+            {
+                context.ProjetsOrMissionsClient.Remove(prjOrMissionToDelete);
+                await context.SaveBaseEntityChangesAsync(cancellationToken);
+            }
+            else
+            {
+                throw new BusinessException("Ce projet ou cette mission n'existe pas ou alors vous n'avez pas le droit de la supprimer");
+            }
+        }
 
 
         public async Task DeleteLangueParleeAsync(Guid tokenAccesRapide, Guid id, CancellationToken cancellationToken)

@@ -29,6 +29,7 @@ namespace Altalents.DataAccess
         public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
         public virtual DbSet<DossierTechnique> DossierTechniques { get; set; }
         public virtual DbSet<Experience> Experiences { get; set; }
+        public virtual DbSet<ProjetOrMissionClient> ProjetsOrMissionsClient { get; set; }
         public virtual DbSet<Personne> Personnes { get; set; }
         public virtual DbSet<TrigrammeLock> TrigrammeLocks { get; set; }
 

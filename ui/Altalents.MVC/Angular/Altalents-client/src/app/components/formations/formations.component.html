@@ -85,6 +85,9 @@
                 {{langue.libelleLangue}}<span class="font-normal"> ({{langue.libelleReferenceNiveau}}) </span>
             </p>
             <div class="edit-links mt-1">
+                <a (click)="onUpdateLangueClick(langue)" class="edit-link">
+                    <p class="at-c-violet"><i class="fa-regular fa-pen-to-square"></i>Modifier</p>
+                    </a>
                 <a (click)="onDeleteLangueClick(langue)" class="edit-link">
                     <p class="at-c-violet"><i class="fa-solid fa-trash"></i>Supprimer</p>
                 </a>

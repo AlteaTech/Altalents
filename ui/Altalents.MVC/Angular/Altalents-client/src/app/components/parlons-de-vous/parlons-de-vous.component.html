@@ -82,17 +82,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 mt-2 label-champ-input ">
-                        <label for="adresseMail align-items-center" class="col-form-label">Adresse mail<span
-                                class="champ-obligatoire">*</span></label>
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="adresseMail" class="col-form-label">Adresse mail
+                            <span class="champ-obligatoire">*</span>
+                        </label>
                         <div class="error-message"
-                            *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
-                            Adresse mail est invalide. 
+                            *ngIf="formGroup.get('adresseMail')?.invalid && (formGroup.get('adresseMail')?.dirty || formGroup.get('adresseMail')?.touched)">
+                            <span *ngIf="formGroup.get('adresseMail')?.errors?.['required']">L'adresse mail est requise.</span>
+                            <span *ngIf="formGroup.get('adresseMail')?.errors?.['email']">Format d'adresse mail invalide.</span>
                         </div>
                     </div>
                     <div class="col-lg-6 mb-2">
-                        <input type="text" class="form-control" formControlName="adresseMail"
-                            placeholder="adresse@mail.com">
+                        <input type="email" class="form-control" formControlName="adresseMail" placeholder="adresse@mail.com">
                     </div>
                 </div>
             </fieldset>

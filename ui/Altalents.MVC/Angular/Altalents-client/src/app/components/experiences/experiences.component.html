@@ -54,9 +54,9 @@
                     'col-lg-4': (experience.projetOrMission?.length || 0) >= 3
                 }"> 
                 <div class="item-bloc">
-                    <p *ngIf="project.NomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">
-                        {{project.NomClientOrProjet}} 
-                        <span *ngIf="project.NomClientOrProjet && project.domaineMetier"> - </span>
+                    <p *ngIf="project.nomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">
+                        {{project.nomClientOrProjet}} 
+                        <span *ngIf="project.nomClientOrProjet && project.domaineMetier"> - </span>
                         <span *ngIf="project.domaineMetier">{{project?.domaineMetier?.libelle}}</span>
                     </p>
                     <div *ngIf="project.dateDebut" class="font-italic font-small font-normal">

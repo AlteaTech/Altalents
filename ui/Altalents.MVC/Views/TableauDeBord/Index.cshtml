@@ -47,8 +47,8 @@
     .HtmlAttributes(new { @class = "h-40" })
     .Columns(columns =>
     {
-        columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a title='Cliquer pour consulter le DT dans Altalants' href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+  @*       columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" }); *@
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).Width(40).ClientTemplate("<a title='Cliquer pour consulter le DT dans Altalants' href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
@@ -77,8 +77,8 @@
     .HtmlAttributes(new { @class = "h-40" })
     .Columns(columns =>
     {
-        columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).ClientTemplate("<a title='Cliquer pour consulter le DT dans Altalants' href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+        @* columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" }); *@
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).Width(40).ClientTemplate("<a title='Cliquer pour consulter le DT dans Altalants' href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
         columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);

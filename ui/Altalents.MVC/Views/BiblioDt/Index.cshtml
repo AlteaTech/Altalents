@@ -30,8 +30,8 @@
     .HtmlAttributes(new { @class = "h-90" })
     .Columns(columns =>
     {
-        columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" });
-        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT)
+    @*     columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" }); *@
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).Width(80)
             .ClientTemplate("<a href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' title='Cliquer pour consulter le DT dans Altalants' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);

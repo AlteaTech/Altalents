@@ -51,6 +51,7 @@ namespace Altalents.Business.Mappings
                 .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle));
 
              CreateMap<ProjetOrMissionClient, ProjetOrMissionClientDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.NomClientOrProjet, opt => opt.MapFrom(src => src.NomClientOrProjet))
                 .ForMember(dest => dest.DescriptionProjetOrMission, opt => opt.MapFrom(src => src.DescriptionProjetOrMission))
                 .ForMember(dest => dest.Taches, opt => opt.MapFrom(src => src.Taches))

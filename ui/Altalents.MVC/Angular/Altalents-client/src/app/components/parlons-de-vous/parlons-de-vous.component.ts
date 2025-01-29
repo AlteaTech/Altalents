@@ -40,7 +40,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
       prenom: new FormControl(this.parlonsDeVous.prenom!, Validators.required),
       nom: new FormControl('', Validators.required),
       numeroTelephone1: new FormControl('', Validators.required, ValidateTelephoneWithApi(this.service, true)),
-      adresseMail: new FormControl('', Validators.required),
+      adresseMail: new FormControl('', [Validators.required, Validators.email]),
       zoneGeo: new FormControl('', Validators.required),
       adresse1: new FormControl(null),
       adresse2: new FormControl(null),

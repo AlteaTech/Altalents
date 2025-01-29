@@ -69,6 +69,7 @@
     .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}")
     .CreateDefautToolBar(creerTexte:"Créer un compte d’utilisateur")
     .CreateDefautDataSource(gridUtilisateurActionDictionary, model => model.Id(p => p.Id), "DateCreation")
+    .Pageable(p => p.PageSizes(new[] { 20, 50, 100 }))
     .CreateDefautPopUpEdit("AddOrUpdateUtilisateurPopUp", "OnPopUpOpenGridUtilisateur", "onSupprimerUtilisateurClick", actionOnCancel: "reloadGridUtilisateur")
 )
 

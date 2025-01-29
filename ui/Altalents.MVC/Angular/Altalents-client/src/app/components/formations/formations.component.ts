@@ -72,12 +72,10 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
         this.service.addFormationCertification(this.tokenDossierTechnique, this.populateFormationRequestDto(nouvelFormation))
           .pipe(
             tap((response: string) => {
-              this.ngOnInit(); // Recharge les données
+              this.ngOnInit();
             })
           )
-          .subscribe({
-            error: (err) => console.error('Erreur lors de l’appel au service:', err),
-          });
+          .subscribe();
       }
     })
   }
@@ -136,11 +134,12 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
     })
   }
 
-  public onUpdateLangueClick(): void {
+  public onUpdateLangueClick(langue : Langue): void {
     let dialogRef: NgbModalRef = this.modalService.open(LangueDialogComponent, MODAL_OPTIONS_LG);
-    dialogRef.result.then((selectedLangue: Langue | undefined) => {
-      if(selectedLangue) {
-        this.service.updateLangueParlee(this.tokenDossierTechnique, selectedLangue.id, this.populateLangueParleeRequestDto(selectedLangue)).pipe(
+    dialogRef.componentInstance.langueInput = langue;
+    dialogRef.result.then((LangueToUpdate: Langue | undefined) => {
+      if(LangueToUpdate) {
+        this.service.updateLangueParlee(this.tokenDossierTechnique, LangueToUpdate.id, this.populateLangueParleeRequestDto(LangueToUpdate)).pipe(
           tap((response: void) => {
             this.ngOnInit();
           })

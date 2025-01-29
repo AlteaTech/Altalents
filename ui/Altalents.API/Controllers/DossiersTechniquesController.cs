@@ -27,6 +27,12 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.AddDossierTechniqueAsync(dossierTechnique, cancellationToken);
         }
 
+        [HttpGet("{tokenAccesRapide}/permission", Name = "GetPermissionsDT")]
+        public async Task<PermissionConsultationDtDto> GetPermissionsDTAsync([FromRoute] string tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetPermissionConsultationDtAsync(tokenAccesRapide, GetIsLogged(), cancellationToken);
+        }
+
         [HttpPost("/is-email-valid", Name = "IsEmailValid")]
         public async Task<bool> IsEmailValidAsync([FromBody] string email, [FromQuery] Guid? tokenRapide, CancellationToken cancellationToken)
         {
@@ -123,6 +129,12 @@ namespace Altalents.API.Controllers
             await _dossierTechniqueService.DeleteExperienceAsync(tokenAccesRapide, id, cancellationToken);
         }
 
+        [HttpDelete("{tokenAccesRapide}/projectsormissions/{id}", Name = "DeleteProjectOrMission")]
+        public async Task DeleteProjectOrMissionAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.DeleteProjectOrMissionAsync(tokenAccesRapide, id, cancellationToken);
+        }
+
         [HttpGet("{tokenAccesRapide}/documents", Name = "GetDocuments")]
         public async Task<List<DocumentDto>> GetDocumentsAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
@@ -152,12 +164,6 @@ namespace Altalents.API.Controllers
         public async Task<List<CompetenceDto>> GetCompetencesAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] string typeLiaisonCode, CancellationToken cancellationToken)
         {
             return await _dossierTechniqueService.GetLiaisonCandidatByTypeAsync(tokenAccesRapide, typeLiaisonCode, cancellationToken);
-        }
-
-        [HttpGet("{tokenAccesRapide}/permission", Name = "GetPermissionsDT")]
-        public async Task<PermissionConsultationDtDto> GetPermissionsDTAsync([FromRoute] string tokenAccesRapide, CancellationToken cancellationToken)
-        {
-            return await _dossierTechniqueService.GetPermissionConsultationDtAsync(tokenAccesRapide, GetIsLogged(), cancellationToken);
         }
 
         [HttpPut("competences", Name = "PutNote")]

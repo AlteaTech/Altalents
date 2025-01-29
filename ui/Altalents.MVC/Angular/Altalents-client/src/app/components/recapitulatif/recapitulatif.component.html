@@ -122,9 +122,9 @@
                     'col-lg-4': (experience.projetOrMission?.length || 0) >= 3
                 }">
                     <div class="item-bloc">
-                        <p *ngIf="project.NomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">
-                            {{project.NomClientOrProjet}} <span
-                                *ngIf="project.NomClientOrProjet && project.domaineMetier"> - </span><span
+                        <p *ngIf="project.nomClientOrProjet || project.domaineMetier" class="at-c-violet font-normal">
+                            {{project.nomClientOrProjet}} <span
+                                *ngIf="project.nomClientOrProjet && project.domaineMetier"> - </span><span
                                 *ngIf="project.domaineMetier">{{project?.domaineMetier?.libelle}}</span></p>
                         <div *ngIf="project.dateDebut" class="font-italic font-small font-normal">
                             <span class="" *ngIf="project.dateFin">De {{project.dateDebut | date : "MMMM YYYY" }} à
@@ -292,7 +292,7 @@
         </div>
     </div>
     <div *ngIf="questions.length == 0">
-        <p class="font-normal">Il n'y a aucune questions spécifique pour vous cette fois ci.</p>
+        <p class="font-normal">Il n'y a aucune question spécifique pour vous cette fois ci.</p>
     </div>
 </fieldset>
 <fieldset>
