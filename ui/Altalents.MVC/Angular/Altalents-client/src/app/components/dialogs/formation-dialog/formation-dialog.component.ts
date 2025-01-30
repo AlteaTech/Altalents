@@ -38,8 +38,7 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
         libelle: this.formation.libelle,
         niveau: this.formation.niveau,
         organisme: this.formation.organisme,
-        dateDebut:  formatDate(this.formation.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale), 
-        dateFin: this.formation.dateFin ? formatDate(this.formation.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
+        dateDebut:  formatDate(this.formation.dateObtention, Constantes.formatDateFront, Constantes.formatDateLocale), 
       });
     }
   }
@@ -52,8 +51,7 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
       formation.libelle = values.libelle!;
       formation.niveau = values.niveau;
       formation.organisme = values.organisme!;
-      formation.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
-      formation.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
+      formation.dateObtention = values.dateDebut ? new Date(values.dateDebut) : new Date();
 
       this.activeModal.close(formation);
     } else {

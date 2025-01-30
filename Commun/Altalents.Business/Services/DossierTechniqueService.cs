@@ -704,8 +704,7 @@ namespace Altalents.Business.Services
                             //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
                             certifToAddOrUpdate.Libelle = request.Libelle;
                             certifToAddOrUpdate.Niveau = request.Niveau;
-                            certifToAddOrUpdate.DateDebut = request.DateDebut;
-                            certifToAddOrUpdate.DateFin = request.DateFin;
+                            certifToAddOrUpdate.DateObtention = request.DateObtention;
                             certifToAddOrUpdate.Organisme = request.Organisme;
                         }
                         else
@@ -735,8 +734,7 @@ namespace Altalents.Business.Services
                             //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
                             formationfToAddOrUpdate.Libelle = request.Libelle;
                             formationfToAddOrUpdate.Niveau = request.Niveau;
-                            formationfToAddOrUpdate.DateDebut = request.DateDebut;
-                            formationfToAddOrUpdate.DateFin = request.DateFin;
+                            formationfToAddOrUpdate.DateObtention = request.DateObtention;
                             formationfToAddOrUpdate.Organisme = request.Organisme;
                         }
                         else
@@ -960,15 +958,20 @@ namespace Altalents.Business.Services
             return recapitulatif;
         }
 
-        public async Task DeleteDossierTechnique(Guid idDossierTechnique, CancellationToken cancellationToken)
+        public async Task DeleteDossierTechniqueAndPersonne(Guid idDossierTechnique, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
 
             Entities.DossierTechnique dtToDelete = await context.DossierTechniques.AsTracking().SingleAsync(x => x.Id == idDossierTechnique);
             if (dtToDelete != null)
             {
-                    context.DossierTechniques.Remove(dtToDelete);
-                    await context.SaveBaseEntityChangesAsync(cancellationToken);
+                context.DossierTechniques.Remove(dtToDelete);
+
+                var personne = new Entities.Personne { Id = dtToDelete.PersonneId };
+                context.Personnes.Attach(personne);
+                context.Personnes.Remove(personne);
+
+                await context.SaveBaseEntityChangesAsync(cancellationToken);
             }
             else
             {

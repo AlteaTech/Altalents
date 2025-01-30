@@ -54,16 +54,16 @@
           </div>
         </div>
   
-        <!-- Date de début -->
+        <!-- Date de l obtention -->
         <div class="row">
           <div class="col-lg-6 mt-2 label-champ-input">
             <label for="dateDebut" class="col-form-label">
-              Date de début <span class="champ-obligatoire">*</span>
+              Date d'obtention <span class="champ-obligatoire">*</span>
             </label>
-            <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['required'] && formGroup.get('dateDebut')?.touched">
-              La date de début est requise.
+            <div class="error-message" *ngIf="formGroup.get('dateObtention')?.errors?.['required'] && formGroup.get('dateObtention')?.touched">
+              La date d'obtention est requise.
             </div>
-            <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['maxDate'] && formGroup.get('dateDebut')?.touched">
+            <div class="error-message" *ngIf="formGroup.get('dateObtention')?.errors?.['maxDate'] && formGroup.get('dateObtention')?.touched">
               La date ne peut pas être supérieure à aujourd'hui.
             </div>
           </div>
@@ -73,28 +73,6 @@
               class="form-control"
               formControlName="dateDebut"
               placeholder="01/01/2020"
-            />
-          </div>
-        </div>
-  
-        <!-- Date de fin -->
-        <div class="row">
-          <div class="col-lg-6 mt-2 label-champ-input">
-            <label for="dateFin" class="col-form-label">Date de fin</label>
-            <p class="font-normal font-italic font-small">Si vous avez obtenu votre diplôme ou certification, merci de préciser une date de fin svp.</p>
-            <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
-              La date ne peut pas être supérieure à aujourd'hui.
-            </div>
-            <div class="error-message" *ngIf="formGroup.hasError('dateRangeInvalid')">
-              La date de fin doit être postérieure à la date de début.
-            </div>
-          </div>
-          <div class="col-lg-6 mb-2">
-            <input
-              type="date"
-              class="form-control"
-              formControlName="dateFin"
-              placeholder="31/12/2022"
             />
           </div>
         </div>

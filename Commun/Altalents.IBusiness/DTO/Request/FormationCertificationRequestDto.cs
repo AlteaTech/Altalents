@@ -14,7 +14,6 @@ namespace Altalents.IBusiness.DTO.Request
         public string Organisme { get; set; }        
 
         [Required]
-        public DateTime DateDebut { get; set; }      
-        public DateTime? DateFin { get; set; }    
+        public DateTime DateObtention { get; set; }       
     }
 }

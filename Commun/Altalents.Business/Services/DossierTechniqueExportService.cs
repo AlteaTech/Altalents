@@ -106,8 +106,8 @@ namespace Altalents.Business.Services
 
             //Remplissage data des templates enfants
             modelExport.Candidat_CompetencesMetiers = getDomainesMetierWithNbAnneeExp(dt);
-            modelExport.Candidat_Formations = getFormationsOrderedByDate(dt);
-            modelExport.Candidat_Certifications = getCertificationOrderedByDate(dt);
+            modelExport.Candidat_Formations = getFormationsOrderedByDateDesc(dt);
+            modelExport.Candidat_Certifications = getCertificationOrderedByDateDesc(dt);
             modelExport.Candidat_Langues = getLanguesParle(dt);
             modelExport.Candidat_ExperiencesPro = GetExperiencesOrderedByDate(dt);
 
@@ -439,10 +439,10 @@ namespace Altalents.Business.Services
                 .ToList();
         }
 
-        private static List<DtCertificationExportDso> getCertificationOrderedByDate(DossierTechnique dt)
+        private static List<DtCertificationExportDso> getCertificationOrderedByDateDesc(DossierTechnique dt)
         {
             return dt.Certifications
-              .OrderBy(certif => certif.DateFin ?? certif.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
+              .OrderByDescending(certif => certif.DateObtention) // Tri par DateFin ou DateDebut si DateFin est null
               .Select(certif =>
               {
                   // Construire le libellé complet
@@ -451,17 +451,17 @@ namespace Altalents.Business.Services
 
                   return new DtCertificationExportDso
                   {
-                      Annee = (certif.DateFin ?? certif.DateDebut).ToString("yyyy"), // Convertir DateTime en string
+                      Annee = certif.DateObtention.ToString("yyyy"), // Convertir DateTime en string
                       LibelleComplet = certif.Libelle + niveauPart
                   };
               })
               .ToList();
         }
 
-        private static List<DtFormationExportDso> getFormationsOrderedByDate(DossierTechnique dt)
+        private static List<DtFormationExportDso> getFormationsOrderedByDateDesc(DossierTechnique dt)
         {
             return dt.Formations
-              .OrderBy(forma => forma.DateFin ?? forma.DateDebut) // Tri par DateFin ou DateDebut si DateFin est null
+              .OrderByDescending(forma => forma.DateObtention) // Tri par DateFin ou DateDebut si DateFin est null
               .Select(forma =>
               {
                   // Construire le libellé complet
@@ -470,7 +470,7 @@ namespace Altalents.Business.Services
 
                   return new DtFormationExportDso
                   {
-                      Annee = (forma.DateFin ?? forma.DateDebut).ToString("yyyy"), // Convertir DateTime en string
+                      Annee = forma.DateObtention.ToString("yyyy"), // Convertir DateTime en string
                       LibelleComplet = forma.Libelle + niveauPart + organiusmePart
                   };
               })

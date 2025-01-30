@@ -5,7 +5,6 @@ namespace Altalents.Entities.BaseEntities
         public string Libelle { get; set; }
         public string Niveau { get; set; }
         public string Organisme { get; set; }
-        public DateTime DateDebut { get; set; }
-        public DateTime? DateFin { get; set; }
+        public DateTime DateObtention { get; set; }
     }
 }
