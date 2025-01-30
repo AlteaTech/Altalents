@@ -6,8 +6,7 @@ export class Formation {
     libelle!: string;
     niveau?: string;
     organisme!: string;
-    dateDebut!: Date;
-    dateFin?: Date;
+    dateObtention!: Date;
 
     // champs calculés 
     dureeExperience?: string;
@@ -17,13 +16,11 @@ export class Formation {
         var model = new Formation ();
 
         model.id = dto.id;
-        model.dateDebut =  new Date(dto.dateDebut!);
-        model.dateFin = dto.dateFin ? new Date(dto.dateFin) : undefined;
+        model.dateObtention =  new Date(dto.dateObtention!);
 
         model.libelle = dto.libelle!;
         model.niveau = dto.niveau!;
         model.organisme = dto.organisme!;
-        model.dureeExperience = DureeExperienceService.CalculateDureeExperience(model.dateDebut, model.dateFin);
 
         return model;
       }

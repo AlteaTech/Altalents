@@ -19,22 +19,32 @@ body {
 
 .header {
   text-align: center;
-  background-color: #f4f4f9;
+  background-color: white;
   color: white;
-  padding: 10px 0;
   border-radius: 7px 7px 0 0;
 }
+
+  .header img {
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    height: 50px;
+  }
+
 
   .header h1 {
     margin: 0;
     font-size: 24px;
   }
 
+
+
   .content {
-    padding: 20px;
-    font-size: 16px;
-    line-height: 1.5;
-  }
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
 
   .content a {
     color: #7A4AFF;

@@ -28,7 +28,7 @@ namespace Altalents.IBusiness.IServices
         Task<Guid> AddOrUpdateFormationCertificationAsync(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null);
         Task<Guid> AddOrUpdateLangueParleeAsync(Guid tokenAccesRapide, LangueParleeRequestDto request, CancellationToken cancellationToken, Guid? id = null);
         Task<RecapitulatifDtDto> GetRecapitulatifDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
-        Task DeleteDossierTechnique(Guid idDossierTechnique, CancellationToken cancellationToken);
+        Task DeleteDossierTechniqueAndPersonne(Guid idDossierTechnique, CancellationToken cancellationToken);
         Task DeleteFormationCertificationAsync(Guid tokenAccesRapide, Guid id, FormationCertificationEnum formationOrCertificationEnum, CancellationToken cancellationToken);
         Task DeleteExperienceAsync(Guid tokenAccesRapide, Guid id, CancellationToken cancellationToken);
         Task DeleteLangueParleeAsync(Guid tokenAccesRapide, Guid id, CancellationToken cancellationToken);

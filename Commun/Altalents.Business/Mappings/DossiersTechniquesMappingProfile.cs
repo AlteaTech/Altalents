@@ -143,16 +143,14 @@ namespace Altalents.Business.Mappings
             CreateMap<Certification, FormationCertificationDto>()
               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
-              .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
-              .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+              .ForMember(dest => dest.DateObtention, opt => opt.MapFrom(src => src.DateObtention))
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
             CreateMap<Formation, FormationCertificationDto>()
               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
-              .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
-              .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+              .ForMember(dest => dest.DateObtention, opt => opt.MapFrom(src => src.DateObtention))
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
@@ -165,15 +163,13 @@ namespace Altalents.Business.Mappings
 
             CreateMap<FormationCertificationRequestDto, Certification>()
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
-              .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
-              .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+              .ForMember(dest => dest.DateObtention, opt => opt.MapFrom(src => src.DateObtention))
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 
             CreateMap<FormationCertificationRequestDto, Formation>()
               .ForMember(dest => dest.Niveau, opt => opt.MapFrom(src => src.Niveau))
-              .ForMember(dest => dest.DateDebut, opt => opt.MapFrom(src => src.DateDebut))
-              .ForMember(dest => dest.DateFin, opt => opt.MapFrom(src => src.DateFin))
+              .ForMember(dest => dest.DateObtention, opt => opt.MapFrom(src => src.DateObtention))
               .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
               .ForMember(dest => dest.Organisme, opt => opt.MapFrom(src => src.Organisme));
 

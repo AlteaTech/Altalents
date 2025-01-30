@@ -56,7 +56,7 @@ namespace Altalents.MVC.Controllers.Admin
 
         private async Task<IActionResult> DeleteDtRunnerAsync(DataSourceRequest request, Guid idDossierTechnique)
         {
-            await _dossierTechniqueService.DeleteDossierTechnique(idDossierTechnique, CancellationToken.None);
+            await _dossierTechniqueService.DeleteDossierTechniqueAndPersonne(idDossierTechnique, CancellationToken.None);
             return Json(new[] { idDossierTechnique }.ToDataSourceResultAsync(request));
         }
     }

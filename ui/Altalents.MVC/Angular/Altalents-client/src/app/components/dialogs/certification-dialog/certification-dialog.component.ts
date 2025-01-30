@@ -25,8 +25,8 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
       libelle: new FormControl(null, Validators.required),
       niveau: new FormControl(),
       organisme: new FormControl(null, Validators.required),
-      dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
-      dateFin: new FormControl(null, [maxDateTodayValidator()]),
+      dateObtention: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
+      
     });
 
     this.formGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
@@ -38,8 +38,7 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
         libelle: this.certification.libelle,
         niveau: this.certification.niveau,
         organisme: this.certification.organisme,
-        dateDebut:  formatDate(this.certification.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale), 
-        dateFin: this.certification.dateFin ? formatDate(this.certification.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
+        dateObtention:  formatDate(this.certification.dateObtention, Constantes.formatDateFront, Constantes.formatDateLocale), 
       });
     }
   }
@@ -52,8 +51,7 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
       certification.libelle = values.libelle!;
       certification.niveau = values.niveau;
       certification.organisme = values.organisme!;
-      certification.dateDebut = values.dateDebut ? new Date(values.dateDebut) : new Date();
-      certification.dateFin = values.dateFin ? new Date(values.dateFin) : undefined;
+      certification.dateObtention = values.dateObtention ? new Date(values.dateObtention) : new Date();
       this.activeModal.close(certification);
     }else {
       this.formGroup.markAllAsTouched();

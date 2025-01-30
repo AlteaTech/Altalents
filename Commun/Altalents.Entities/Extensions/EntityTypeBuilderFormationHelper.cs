@@ -17,14 +17,11 @@ namespace Altalents.Entities.Extensions
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250)
                 .IsRequired();
+
             builder.Property(e => e.Niveau)
                 .HasColumnType("varchar")
                 .HasMaxLength(100);
-            builder.Property(e => e.DateDebut)
-                .HasColumnType("datetime")
-                .IsRequired();
-            builder.Property(e => e.DateFin)
-                .HasColumnType("datetime");
+
             builder.Property(e => e.Organisme)
                 .HasColumnType("nvarchar")
                 .HasMaxLength(250);

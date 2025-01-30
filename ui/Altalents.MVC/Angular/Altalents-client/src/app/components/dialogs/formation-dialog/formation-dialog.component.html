@@ -81,8 +81,8 @@
         <!-- Date de fin -->
         <div class="row">
           <div class="col-lg-6 mt-2 label-champ-input">
-            <label for="dateFin" class="col-form-label">Date de fin</label>
-            <p class="font-normal font-italic font-small">Si vous avez obtenu votre diplôme ou certification, merci de préciser une date de fin svp.</p>
+            <label for="dateFin" class="col-form-label">Date d'obtention du diplôme</label>
+            <p class="font-normal font-italic font-small"></p>
             <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
               La date ne peut pas être supérieure à aujourd'hui.
             </div>

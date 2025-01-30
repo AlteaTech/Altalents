@@ -2897,8 +2897,7 @@ export class FormationCertificationDto implements IFormationCertificationDto {
     libelle?: string | null;
     niveau?: string | null;
     organisme?: string | null;
-    dateDebut?: string;
-    dateFin?: string | null;
+    dateObtention?: string;
 
     constructor(data?: IFormationCertificationDto) {
         if (data) {
@@ -2915,8 +2914,7 @@ export class FormationCertificationDto implements IFormationCertificationDto {
             this.libelle = _data["Libelle"] !== undefined ? _data["Libelle"] : <any>null;
             this.niveau = _data["Niveau"] !== undefined ? _data["Niveau"] : <any>null;
             this.organisme = _data["Organisme"] !== undefined ? _data["Organisme"] : <any>null;
-            this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
-            this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
+            this.dateObtention = _data["DateObtention"] !== undefined ? _data["DateObtention"] : <any>null;
         }
     }
 
@@ -2933,8 +2931,7 @@ export class FormationCertificationDto implements IFormationCertificationDto {
         data["Libelle"] = this.libelle !== undefined ? this.libelle : <any>null;
         data["Niveau"] = this.niveau !== undefined ? this.niveau : <any>null;
         data["Organisme"] = this.organisme !== undefined ? this.organisme : <any>null;
-        data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
-        data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
+        data["DateObtention"] = this.dateObtention !== undefined ? this.dateObtention : <any>null;
         return data;
     }
 }
@@ -2944,8 +2941,7 @@ export interface IFormationCertificationDto {
     libelle?: string | null;
     niveau?: string | null;
     organisme?: string | null;
-    dateDebut?: string;
-    dateFin?: string | null;
+    dateObtention?: string;
 }
 
 export enum FormationCertificationEnum {
@@ -2958,8 +2954,7 @@ export class FormationCertificationRequestDto implements IFormationCertification
     libelle?: string | null;
     niveau?: string | null;
     organisme?: string | null;
-    dateDebut!: string;
-    dateFin?: string | null;
+    dateObtention!: string;
 
     constructor(data?: IFormationCertificationRequestDto) {
         if (data) {
@@ -2976,8 +2971,7 @@ export class FormationCertificationRequestDto implements IFormationCertification
             this.libelle = _data["Libelle"] !== undefined ? _data["Libelle"] : <any>null;
             this.niveau = _data["Niveau"] !== undefined ? _data["Niveau"] : <any>null;
             this.organisme = _data["Organisme"] !== undefined ? _data["Organisme"] : <any>null;
-            this.dateDebut = _data["DateDebut"] !== undefined ? _data["DateDebut"] : <any>null;
-            this.dateFin = _data["DateFin"] !== undefined ? _data["DateFin"] : <any>null;
+            this.dateObtention = _data["DateObtention"] !== undefined ? _data["DateObtention"] : <any>null;
         }
     }
 
@@ -2994,8 +2988,7 @@ export class FormationCertificationRequestDto implements IFormationCertification
         data["Libelle"] = this.libelle !== undefined ? this.libelle : <any>null;
         data["Niveau"] = this.niveau !== undefined ? this.niveau : <any>null;
         data["Organisme"] = this.organisme !== undefined ? this.organisme : <any>null;
-        data["DateDebut"] = this.dateDebut !== undefined ? this.dateDebut : <any>null;
-        data["DateFin"] = this.dateFin !== undefined ? this.dateFin : <any>null;
+        data["DateObtention"] = this.dateObtention !== undefined ? this.dateObtention : <any>null;
         return data;
     }
 }
@@ -3005,8 +2998,7 @@ export interface IFormationCertificationRequestDto {
     libelle?: string | null;
     niveau?: string | null;
     organisme?: string | null;
-    dateDebut: string;
-    dateFin?: string | null;
+    dateObtention: string;
 }
 
 export class GetTrigrammeRequestDto implements IGetTrigrammeRequestDto {

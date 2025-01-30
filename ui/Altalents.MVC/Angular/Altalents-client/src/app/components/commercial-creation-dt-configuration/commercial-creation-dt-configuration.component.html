@@ -169,6 +169,18 @@
                                         <p><i class="fa-regular fa-plus at-c-violet"></i> Ajouter un document</p>
                                     </button>
                                 </div>
+                                <div class="" *ngIf="questions && questions!.length>0">
+                                    <div *ngFor="let question of questions; let i = index" class="">
+                                        <div *ngIf="question.question" class="flex-row space-between align-center">
+                                            <p class="mb-0 mt-2">
+                                                <span class="me-2">{{question.question}}</span> 
+                                            <span *ngIf="question.isObligatoire" class="me-2" title="La réponse à cette question est obligatoire" ><i class="fa-solid fa-asterisk"></i></span>
+                                            <span *ngIf="question.isShowDt" class="me-2"  title="Le Question sera visible dans le Word"><i class="fa-solid fa-file-export"></i></span>
+                                            </p>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="at-p-button-ajouter">
                                     <button (click)="onAjouterQuestionnaireClick()">
                                         <p><i class="fa-regular fa-plus at-c-violet"></i>{{questions ? 'Modifier le ' : 'Ajouter un '}} questionnaire</p>
