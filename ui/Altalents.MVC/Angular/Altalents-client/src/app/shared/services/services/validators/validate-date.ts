@@ -35,3 +35,28 @@ export function ValidateDate(value: string): boolean {
       return null;
     };
   }
+
+
+export function maxDateThisMonthValidator(): (control: AbstractControl) => ValidationErrors | null {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) {
+      return null; // Pas d'erreur si le champ est vide
+    }
+
+    const inputDate = new Date(control.value);
+    const today = new Date();
+
+    // Vérification : l'année et le mois ne doivent pas dépasser le mois en cours
+    if (inputDate.getFullYear() > today.getFullYear() || 
+       (inputDate.getFullYear() === today.getFullYear() && inputDate.getMonth() > today.getMonth())) {
+      return {
+        maxDateThisMonth: {
+          value: control.value,
+          max: `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}`, // Format YYYY-MM
+        }
+      };
+    }
+    
+    return null;
+  };
+}

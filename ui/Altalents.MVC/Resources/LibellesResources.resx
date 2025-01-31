@@ -243,4 +243,7 @@
   <data name="CreerDT" xml:space="preserve">
     <value>Créer un DT</value>
   </data>
+  <data name="Valide" xml:space="preserve">
+    <value>Valide</value>
+  </data>
 </root>

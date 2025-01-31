@@ -24,14 +24,14 @@
                                     *ngIf="formGroup.get('dateDebut')?.errors?.['required'] && formGroup.get('dateDebut')?.touched">
                                     La date de début est requise.
                                 </div>
-                                <div class="error-message"
-                                    *ngIf="formGroup.get('dateDebut')?.errors?.['maxDate'] && formGroup.get('dateDebut')?.touched">
-                                    La date ne peut pas être supérieure à aujourd’hui.
-                                </div>
+                                <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['maxDateThisMonth'] && formGroup.get('dateDebut')?.touched">
+                                    La date de début ne peut pas être postérieure au mois en cours.
+                                  </div>
                             </div>
                             <div class="col-lg-3 mb-2">
-                                <input id="dateDebut" type="date" formControlName="dateDebut" class="form-control"
-                                    placeholder="JJ/MM/AAAA">
+                                <app-month-year-picker 
+                                    formControlName="dateDebut">
+                                </app-month-year-picker>
                             </div>
                             <div class="col-lg-3 mt-2 label-champ-input">
                                 <label for="dateFin" class="col-form-label">Date de fin<span
@@ -44,14 +44,14 @@
                                 <div class="error-message" *ngIf="formGroup.hasError('dateRangeInvalid')">
                                     La date de fin doit être postérieure à la date de début.
                                 </div>
-                                <div class="error-message"
-                                    *ngIf="formGroup.get('dateFin')?.errors?.['maxDate'] && formGroup.get('dateFin')?.touched">
-                                    La date ne peut pas être supérieure à aujourd’hui.
-                                </div>
+                                <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDateThisMonth'] && formGroup.get('dateFin')?.touched">
+                                    La date de fin ne peut pas être postérieure au mois en cours.
+                                  </div>
                             </div>
                             <div class="col-lg-3 mb-2">
-                                <input id="dateFin" type="date" formControlName="dateFin" class="form-control"
-                                    placeholder="JJ/MM/AAAA">
+                                <app-month-year-picker 
+                                formControlName="dateFin">
+                            </app-month-year-picker>
                             </div>
                         </div>
                         <div class="row">
@@ -90,19 +90,22 @@
                                 <input id="entreprise" type="text" formControlName="entreprise" class="form-control"
                                     placeholder="Nom de l'entreprise">
                             </div>
-                            <div class="col-lg-3 label-champ-input"> </div>
-                            <div class="col-lg-3 mt-2 mb-2 d-flex align-items-center">
-                                <label class="switch">
-                                    <input type="checkbox" id="isEntrepriseEsnOrInterim"
-                                        formControlName="isEntrepriseEsnOrInterim" (change)="toggleIsEsn()">
-                                    <span class="slider"></span>
-                                </label>
-                                <label for="isEntrepriseEsnOrInterim" class="ms-3">L'entreprise est une ESN</label>
+                           
+                            <div class="col-lg-3 label-champ-input" *ngIf="isToogleIsEsnVisible"> </div>
+                            <div class="col-lg-3 mt-2 mb-2 d-flex align-items-center" *ngIf="isToogleIsEsnVisible">
+                            
+                                    <label class="switch">
+                                        <input type="checkbox" id="isEntrepriseEsnOrInterim"
+                                            formControlName="isEntrepriseEsnOrInterim" (change)="toggleIsEsn()">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <label for="isEntrepriseEsnOrInterim" class="ms-3">ESN ou Intérim</label>
+                                </div>
                             </div>
-                        </div>
+                       
                         <div class="row">
                             <div class="col-lg-3 mt-2 label-champ-input">
-                                <label for="domaineMetier" class="col-form-label">Domaine métier<span
+                                <label for="domaineMetier" class="col-form-label">Domaine métier de l'entreprise<span
                                         class="champ-obligatoire">*</span></label>
                                 <div class="error-message"
                                     *ngIf="formGroup.controls.domaineMetier.invalid && formGroup.controls.domaineMetier.touched">
@@ -111,6 +114,7 @@
                             </div>
                             <div class="col-lg-3 mb-2">
                                 <select formControlName="domaineMetier" id="domaineMetier" class="form-select">
+                                    <option value="" class="text-muted">-- Choisir un domaine --</option>
                                     <option *ngFor="let domaine of domaines" [ngValue]="domaine">
                                         {{domaine.libelle}}
                                     </option>
@@ -126,6 +130,7 @@
                             </div>
                             <div class="col-lg-3 mb-2">
                                 <select id="typeContrat" formControlName="typeContrat" class="form-select">
+                                    <option value="" class="text-muted">-- Choisir un type de contrat --</option>
                                     <option *ngFor="let typeContrat of typesContrats" [ngValue]="typeContrat">
                                         {{typeContrat.libelle}}
                                     </option>
@@ -175,10 +180,11 @@
                                         class="form-control" placeholder="Edf, Areva, Michelin ...">
                                 </div>
                                 <div class="col-lg-3 mt-2 label-champ-input"  *ngIf="IsEsn">
-                                    <label for="domaineMetier{{i}}" class="col-form-label">Domaine métier</label>
+                                    <label for="domaineMetier{{i}}" class="col-form-label">Domaine métier du client</label>
                                 </div>
                                 <div class="col-lg-3 mb-2" *ngIf="IsEsn">
                                     <select id="domaineMetier{{i}}" formControlName="domaineMetier" class="form-select">
+                                        <option value="" class="text-muted">-- Choisir un domaine --</option>
                                         <option *ngFor="let domaine of domaines" [ngValue]="domaine">
                                             {{ domaine.libelle }}
                                         </option>
@@ -192,33 +198,66 @@
                                         *ngIf="formGroup.controls.isEntrepriseEsnOrInterim.value"
                                         class="champ-obligatoire">*</span>
                                     </label>
-                                    <div class="error-message"
-                                        *ngIf="project?.get('dateDebut')?.errors?.['maxDate'] && project?.get('dateDebut')?.touched">
-                                            La date ne peut pas être supérieure à aujourd’hui.
-                                    </div>
+                                    <div class="error-message" *ngIf="project.get('dateDebut')?.errors?.['maxDateThisMonth'] && project.get('dateDebut')?.touched">
+                                        La date de début ne peut pas être postérieure au mois en cours.
+                                      </div>
                                     <div *ngIf="project?.get('dateDebut')?.errors?.['required'] && project?.get('dateDebut')?.touched"
                                         class="error-message">
                                             La date de début est requise.
                                     </div>
+                                    
                                 </div>
                                 <div class="col-lg-3 mb-2">
-                                    <input id="dateDebut{{i}}" type="date" formControlName="dateDebut"
-                                        class="form-control">
+
+                                        <!-- Avant -->
+                                    <!-- <input id="dateDebut{{i}}" type="date" formControlName="dateDebut"
+                                        class="form-control"> -->
+
+                                      <!-- Maintenant -->
+                         
+                                        <app-month-year-picker 
+                                        [id]="'dateDebut' + i" 
+                                        formControlName="dateDebut">
+                                    </app-month-year-picker>
+                                </div>
+
+
+                                <div class="col-lg-3 label-champ-input"> </div>
+                                <div class="col-lg-3 mt-2 mb-2 d-flex align-items-center">
+                                    <label class="switch">
+                                        <input type="checkbox" formControlName="isEnCours" id="isEnCours{{i}}"
+                                            (change)="updateIsProjectOrMissionEnCours(i)">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <div>
+                                        <label for="isEnCours{{i}}" class="ms-3">{{ IsEsn ? ' Mission en cours' : 'Projet en cours' }}</label>
+                                    </div>
                                 </div>
 
                                 <!-- Date de fin -->
                                 <div class="col-lg-3 mt-2 label-champ-input">
-                                    <label for="dateFin{{i}}" class="col-form-label">Date de fin</label>
+                                    <label for="dateFin{{i}}" class="col-form-label">Date de fin
+                                        <span *ngIf="!project.get('isEnCours')?.value && this.IsEsn" class="champ-obligatoire">*</span>
+                                    </label>
+
+                                    <div *ngIf="project?.get('dateFin')?.errors?.['required'] && project?.get('dateFin')?.touched" class="error-message">
+                                        La date de fin est requise.
+                                    </div>
                                     <div class="error-message" *ngIf="project?.hasError('dateRangeInvalid')">
                                         La date de fin doit être postérieure à la date de début.
                                     </div>
-                                    <div class="error-message"
-                                        *ngIf="project?.get('dateFin')?.errors?.['maxDate'] && project?.get('dateFin')?.touched">
-                                        La date ne peut pas être supérieure à aujourd’hui.
-                                    </div>
+                                    
+                                    <div class="error-message" *ngIf="project.get('dateFin')?.errors?.['maxDateThisMonth'] && project.get('dateFin')?.touched">
+                                        La date de fin ne peut pas être postérieure au mois en cours.
+                                      </div>
+                               
                                 </div>
                                 <div class="col-lg-3 mb-2">
-                                    <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control">
+                                    <!-- <input id="dateFin{{i}}" type="date" formControlName="dateFin" class="form-control"> -->
+                                    <app-month-year-picker 
+                                    [id]="'dateFin' + i" 
+                                    formControlName="dateFin">
+                                </app-month-year-picker>
                                 </div>
 
                                 <div class="col-lg-3 mt-2 label-champ-input"  *ngIf="IsEsn">
@@ -236,7 +275,7 @@
                                     <input id="lieu{{i}}" type="text" formControlName="lieu" class="form-control"
                                         placeholder="Lieu">
                                 </div>
-
+<!-- 
                                 <div class="col-lg-3 mt-2 label-champ-input">
                                     <label for="budget{{i}}" class="col-form-label">Budget</label>
                                     <div *ngIf="project?.get('budget')?.invalid && project?.get('budget')?.touched"
@@ -247,7 +286,9 @@
                                 <div class="col-lg-3 mb-2">
                                     <input type="text" id="budget{{i}}" formControlName="budget" placeholder="0 €"
                                     class="form-control budget-field"  >                          
-                                </div>
+                                </div> -->
+
+
                                 <div class="col-lg-3 mt-2 label-champ-input">
                                     <label for="compositionEquipe{{i}}" class="col-form-label">Composition
                                         d'équipe</label>
@@ -370,13 +411,13 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="formGroup.invalid && formGroup.touched && submitted" class="error-message mt-4">
-                Veuillez corriger les champs en erreur avant de pouvoir valider (verifier tous les onglets).
+            <div *ngIf="formGroup.invalid && formGroup.touched && submitted" class="error-message mt-4 fs-5">
+                Vérifie tous les onglets ! Merci de ta collaboration, jeune Padawan.
             </div>
         </fieldset>
         <div>
             <div class="at-p-button-container">
-                <button class="at-p-secondary-button" (click)="cancel()">
+                <button class="at-p-secondary-button" *ngIf="isCancelButtonVisible" (click)="cancel()">
                     <p>Annuler</p>
                 </button>
                 <button class="at-p-button" (click)="submit()">

@@ -57,23 +57,20 @@
         <!-- Date de l obtention -->
         <div class="row">
           <div class="col-lg-6 mt-2 label-champ-input">
-            <label for="dateDebut" class="col-form-label">
+            <label for="dateObtention" class="col-form-label">
               Date d'obtention <span class="champ-obligatoire">*</span>
             </label>
             <div class="error-message" *ngIf="formGroup.get('dateObtention')?.errors?.['required'] && formGroup.get('dateObtention')?.touched">
               La date d'obtention est requise.
             </div>
-            <div class="error-message" *ngIf="formGroup.get('dateObtention')?.errors?.['maxDate'] && formGroup.get('dateObtention')?.touched">
-              La date ne peut pas être supérieure à aujourd'hui.
+            <div class="error-message" *ngIf="formGroup.get('dateObtention')?.errors?.['maxDateThisMonth'] && formGroup.get('dateObtention')?.touched">
+              La date d'obtention ne peut pas être postérieure au mois en cours.
             </div>
           </div>
           <div class="col-lg-6 mb-2">
-            <input
-              type="date"
-              class="form-control"
-              formControlName="dateDebut"
-              placeholder="01/01/2020"
-            />
+            <app-month-year-picker 
+              formControlName="dateObtention">
+            </app-month-year-picker>
           </div>
         </div>
       </fieldset>

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PermissionDT } from '../../models/permissionDT.model';
-import { StatutDtFromCodeReferenceEnumInBackend } from '../../constantes/constantes-statut-dt-backend-enum';
+import { StatutDtFromCodeReferenceEnumInBackend } from '../../constantes/constantes-backend-enums';
 
 @Component({
   selector: 'app-dt-readonly-message',

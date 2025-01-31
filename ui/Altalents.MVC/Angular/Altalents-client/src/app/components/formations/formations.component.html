@@ -41,7 +41,7 @@
         </div>
         <p class="font-bold" *ngIf="formation.niveau">{{formation.niveau}}</p>
         <p class="font-normal">{{formation.organisme}}</p>
-        <p class="font-normal" *ngIf="formation.dateObtention">Diplôme obtenu : {{formation.dateObtention | date : "MMMM YYYY" }}</p>
+        <p class="font-normal" *ngIf="formation.dateObtention">{{formation.dateObtention | date : "MMMM YYYY" }}</p>
        
     </div>
     <div class="at-p-button-ajouter mt-1 mb-4">
@@ -68,7 +68,7 @@
         </div>
         <p class="font-bold " *ngIf="certification.niveau">{{certification.niveau}}</p>
         <p class="font-normal">{{certification.organisme}}</p>
-        <p class="font-normal" *ngIf="certification.dateObtention">Certification obtenue : {{certification.dateObtention | date : "MMMM YYYY" }}</p>
+        <p class="font-normal" *ngIf="certification.dateObtention">{{certification.dateObtention | date : "MMMM YYYY" }}</p>
          </div>
     <div class="at-p-button-ajouter mt-1 mb-4">
         <button (click)="onAddCertificationClick()">

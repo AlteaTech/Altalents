@@ -56,8 +56,28 @@ namespace Altalents.Business.Services
             return references.ProjectTo<ReferenceAValiderDto>(Mapper.ConfigurationProvider);
         }
 
+
+
+        public async Task DeleteReference(Guid idRef, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            Entities.Reference toDelete = await context.References.AsTracking().SingleAsync(x => x.Id == idRef);
+
+            if (toDelete != null)
+            {
+                context.References.Remove(toDelete);
+                await context.SaveBaseEntityChangesAsync(cancellationToken);
+            }
+            else
+            {
+                throw new BusinessException("Impossible de supprinmer une référence qui n'existe pas en BDD");
+            }
+        }
+
         public Task UpdateReferenceAsync(ReferenceAValiderDto reference)
         {
+            //A FAIRE !!!!
             throw new NotImplementedException();
         }
     }

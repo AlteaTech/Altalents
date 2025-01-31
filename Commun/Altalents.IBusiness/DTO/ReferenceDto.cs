@@ -5,6 +5,7 @@ namespace Altalents.IBusiness.DTO
         [Required]
         public Guid Id { get; set; }
         public string Libelle { get; set; }
+        public string Code { get; set; }
         public string CommentaireFun { get; set; }
     }
 }

@@ -13,11 +13,12 @@ import { ReferenceDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { ProjectOrMissionClient } from 'src/app/shared/models/project-mission.model';
 import { ProjectForm } from 'src/app/shared/interfaces/project-mission-form';
-import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
+import { dateRangeValidator, maxDateThisMonthValidator } from 'src/app/shared/services/services/validators/validate-date';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { DataFormatService } from 'src/app/shared/services/services/formators/currency-formator';
 import { MODAL_OPTIONS_LG } from 'src/app/shared/modal-options';
 import { tap } from 'rxjs';
+import { TypeContratFromCodeReferenceEnumInBackend } from 'src/app/shared/constantes/constantes-backend-enums';
 
 @Component({
   selector: 'app-experience-dialog',
@@ -36,7 +37,9 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   public constantesTypesReferences = ConstantesTypesReferences;
   public IsEsn: boolean = false;
   public submitted = false;
+  public isToogleIsEsnVisible: boolean = true;  // Nouvelle variable pour gérer la visibilité du champ "lieu"
   public isLieuVisible: boolean = true;  // Nouvelle variable pour gérer la visibilité du champ "lieu"
+  public isCancelButtonVisible: boolean = true;
 
 
   constructor(public activeModal: NgbActiveModal,
@@ -52,8 +55,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       intitulePoste: new FormControl(null, Validators.required),
       entreprise: new FormControl(null, Validators.required),
       isEntrepriseEsnOrInterim: new FormControl(),
-      dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
-      dateFin: new FormControl(null, [maxDateTodayValidator()]),
+      dateDebut: new FormControl(null, [Validators.required, maxDateThisMonthValidator()]),
+      dateFin: new FormControl(null, maxDateThisMonthValidator()),
       isPosteActuel: new FormControl(),
       lieu: new FormControl(null, Validators.required),
       domaineMetier: new FormControl(null, Validators.required),
@@ -75,8 +78,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         intitulePoste: this.experience.intitulePoste,
         entreprise: this.experience.nomEntreprise,
         isEntrepriseEsnOrInterim: this.experience.IsEntrepriseEsnOrInterim,
-        dateDebut: formatDate(this.experience.dateDebut, Constantes.formatDateFront, Constantes.formatDateLocale),
-        dateFin: this.experience.dateFin ? formatDate(this.experience.dateFin, Constantes.formatDateFront, Constantes.formatDateLocale) : undefined,
+        dateDebut: this.experience.dateDebut,
+        dateFin: this.experience.dateFin ? this.experience.dateFin: undefined,
         isPosteActuel: !this.experience.dateFin,
         lieu: this.experience.lieu,
         domaineMetier: this.experience.domaineMetier,
@@ -89,8 +92,31 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         });
       }
     }
+
+      // Écouter les changements du select typeContrat
+      this.formGroup.get('typeContrat')?.valueChanges.subscribe((selectedTypeContrat) => {
+        this.onTypeContratChange(selectedTypeContrat!);
+      });
+
     this.updateInputPosteActuel();
     this.updateInputIsEsn();
+  }
+
+  public onTypeContratChange(selectedTypeContrat: Reference): void {
+   
+    if(selectedTypeContrat.code == TypeContratFromCodeReferenceEnumInBackend.alternance || selectedTypeContrat.code == TypeContratFromCodeReferenceEnumInBackend.stage)
+    {
+      this.IsEsn = false;
+      this.formGroup.controls.isEntrepriseEsnOrInterim.setValue(false);
+      this.isToogleIsEsnVisible = false;
+    }
+    else
+    {
+      this.isToogleIsEsnVisible = true;
+    }
+  
+    this.updateInputIsEsn();
+
   }
 
   ngAfterViewChecked(): void {
@@ -122,19 +148,19 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     this.submitted = false;
     const projectsArray = this.formGroup.get('projects') as FormArray;
 
-    const projectGroup = new FormGroup({
+    const projectGroup = new FormGroup<ProjectForm>({
       
       id: new FormControl(project?.id ?? null),
       nomClientOrProjet: new FormControl(project?.nomClientOrProjet ?? null),
       descriptionProjetOrMission: new FormControl(project?.descriptionProjetOrMission ?? null, Validators.required),
       domaineMetier: new FormControl(project?.domaineMetier ?? null),
-      dateDebut: new FormControl(project?.dateDebut ? formatDate(project?.dateDebut!, Constantes.formatDateFront, Constantes.formatDateLocale) : null, [maxDateTodayValidator()]),
-      dateFin: new FormControl(project?.dateFin ? formatDate(project?.dateFin!, Constantes.formatDateFront, Constantes.formatDateLocale): null, [maxDateTodayValidator()]),
+      dateDebut: new FormControl(project?.dateDebut ? project?.dateDebut!: null, [maxDateThisMonthValidator()]),
+      dateFin: new FormControl(project?.dateFin ? project?.dateFin!: null, [maxDateThisMonthValidator()]),
       taches: new FormControl(project?.taches ?? null, Validators.required),
       compositionEquipe: new FormControl(project?.compositionEquipe ?? null),
       budget: new FormControl(project?.budget ?? null),
       lieu: new FormControl(project?.lieu ?? null),
-
+      isEnCours: new FormControl(),
       technologies: new FormControl(project?.technologies ?? null),
       competences: new FormControl(project?.competences ?? null),
       outils: new FormControl(project?.outils ?? null),
@@ -142,7 +168,13 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     });
 
+    if(projectsArray.length == 0)
+    {
+      projectGroup.controls['dateDebut'].setValue(this.formGroup.controls.dateDebut.value);
+    }
+
     projectGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
+    
     projectsArray.push(projectGroup);
   }
 
@@ -156,10 +188,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
   private updateInputIsEsn() {
     
     if (this.IsEsn) {
-      // this.isLieuVisible = false;
       this.formGroup.controls.lieu.clearValidators();
     } else {
-      // this.isLieuVisible = true;
       this.formGroup.controls.lieu.setValidators(Validators.required);
     }
 
@@ -167,7 +197,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
 
     // Met à jour les validateurs pour les champs des projets
     const projectsArray = this.formGroup.get('projects') as FormArray<FormGroup>;
-
+    let index = 0;
     projectsArray.controls.forEach((projectGroup) => {
 
       // Maintenant, projectGroup est automatiquement reconnu comme un FormGroup
@@ -175,15 +205,22 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         projectGroup.controls['nomClientOrProjet'].setValidators(Validators.required);
         projectGroup.controls['lieu'].setValidators(Validators.required);
         projectGroup.controls['dateDebut'].setValidators(Validators.required);
+
       } else {
         projectGroup.controls['nomClientOrProjet'].clearValidators();
         projectGroup.controls['lieu'].clearValidators();
         projectGroup.controls['dateDebut'].clearValidators();
       }
 
+      projectGroup.controls['dateDebut'].addValidators(maxDateThisMonthValidator());
+      
+
       projectGroup.controls['nomClientOrProjet'].updateValueAndValidity();
       projectGroup.controls['lieu'].updateValueAndValidity();
       projectGroup.controls['dateDebut'].updateValueAndValidity();
+
+      this.updateIsProjectOrMissionEnCours(index);
+      index++;
 
     });
 
@@ -209,6 +246,10 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
           this.isLoading = true;
           this.service.deleteProjectOrMission(this.tokenAccesRapideDt!, idProjectOrMission).pipe(
             tap(() => {
+
+
+           this.isCancelButtonVisible = false; 
+
               this.isLoading = false;
            
             })
@@ -233,14 +274,49 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
     this.submitted = false;
 
     if (controls.isPosteActuel.value) {
-      controls.dateFin.disable();
+      //controls.dateFin.disable();
+      this.formGroup.get('dateFin')?.disable();
       controls.dateFin.clearValidators();
       controls.dateFin.reset();
     } else {
-      controls.dateFin.enable();
-      controls.dateFin.setValidators(Validators.required);
+      //controls.dateFin.enable();
+      this.formGroup.get('dateFin')?.enable();
+      controls.dateFin.setValidators([Validators.required,maxDateThisMonthValidator()]);
     }
     controls.dateFin.updateValueAndValidity();
+  }
+
+  public updateIsProjectOrMissionEnCours(index: number): void {
+
+    this.submitted = false;
+
+      const projectsArray = this.formGroup.get('projects') as FormArray;
+      const projectFormGroup = projectsArray.at(index) as FormGroup<ProjectForm>;
+
+      const controls = projectFormGroup.controls;
+
+  
+        controls['dateFin'].clearValidators();
+
+        // Maintenant, projectGroup est automatiquement reconnu comme un FormGroup
+        if (controls['isEnCours'].value) {
+          controls['dateFin'].disable();
+          controls['dateFin'].reset();
+  
+         
+        } else {
+          controls['dateFin'].enable();
+          controls['dateFin'].addValidators(maxDateThisMonthValidator());
+
+          if(this.IsEsn)
+          {
+            controls['dateFin'].addValidators([Validators.required]);
+          }
+
+        }
+
+        controls['dateFin'].updateValueAndValidity();
+
   }
 
   public populateData(): void {
@@ -309,8 +385,8 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
           lieu: valuesProj.lieu ?? "",
           budget: valuesProj.budget ? parseFloat(valuesProj.budget.toString().replace(/[€,\s]/g, '').trim()) : undefined,
           compositionEquipe: valuesProj.compositionEquipe ?? "",
-          dateDebut: valuesProj.dateDebut!,
-          dateFin: valuesProj.dateFin!,
+          dateDebut: valuesProj.dateDebut ? new Date(valuesProj.dateDebut) : undefined,
+          dateFin: valuesProj.dateFin ? new Date(valuesProj.dateFin) : undefined,
           domaineMetier: valuesProj.domaineMetier ?? undefined,
 
           technologies: valuesProj.technologies ?? [],

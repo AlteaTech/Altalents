@@ -1,0 +1,32 @@
+@using Altalents.Commun.Enums
+@using AlteaTools.Api.Core.Extensions
+
+<div id="ReferenceWindow" style="display: none;">
+    <form id="ReferenceForm">
+        <input type="hidden" id="ReferenceId" />
+
+        <div class="form-group">
+            <label for="IsValidatedCheckBox">Validée</label>
+            <input type="checkbox" id="IsValidatedCheckBox" class="k-checkbox form-control" />
+
+            <label for="Libelle">Libellé</label>
+            <input type="text" id="Libelle" class="k-textbox form-control" />
+
+            <label for="Commentaire">Commentaire</label>
+            <input type="text" id="Commentaire" class="k-textbox form-control" />
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="k-grid-save-command k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
+                    id="saveReferenceBtn">
+                <span class="k-icon k-i-save k-button-icon"></span>
+                <span class="k-button-text">Enregistrer</span>
+            </button>
+            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-secondary"
+                    onclick="closeKendoReferenceWindow()">
+                <span class="k-icon k-i-cancel k-button-icon"></span>
+                <span class="k-button-text">Annuler</span>
+            </button>
+        </div>
+    </form>
+</div>

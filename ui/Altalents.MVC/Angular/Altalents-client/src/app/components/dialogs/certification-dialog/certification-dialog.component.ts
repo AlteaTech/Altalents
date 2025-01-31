@@ -7,7 +7,7 @@ import { Constantes } from 'src/app/shared/constantes/constantes';
 import { CertificationForm } from 'src/app/shared/interfaces/certification-form';
 import { Certification } from 'src/app/shared/models/certification.model';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
-import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
+import { dateRangeValidator, maxDateThisMonthValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 
 @Component({
   selector: 'app-certification-dialog',
@@ -25,11 +25,11 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
       libelle: new FormControl(null, Validators.required),
       niveau: new FormControl(),
       organisme: new FormControl(null, Validators.required),
-      dateObtention: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
+      dateObtention: new FormControl(null, [Validators.required, maxDateThisMonthValidator()]),
       
     });
 
-    this.formGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
+
   }
 
   public ngOnInit(): void {
@@ -38,7 +38,7 @@ export class CertificationDialogComponent extends BaseComponentCallHttpComponent
         libelle: this.certification.libelle,
         niveau: this.certification.niveau,
         organisme: this.certification.organisme,
-        dateObtention:  formatDate(this.certification.dateObtention, Constantes.formatDateFront, Constantes.formatDateLocale), 
+        dateObtention:  this.certification.dateObtention, 
       });
     }
   }

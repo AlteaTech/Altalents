@@ -58,7 +58,7 @@
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
         columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a  title='Cliquer pour changer le statut de ce DT' href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=StatutCode#\")'>#=Statut#</a>");
         columns.Bound(p => p.Id).Title("<i class='fa fa-trash' aria-hidden='true'></i>").Filterable(false)
-             .ClientTemplate("<a title='Cliquer pour supprimer définitivement ce DT' title='Cliquer pour supprimer définitivement ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='onSupprimerDossietTechniqueClick(\"#=Id#\")'>" +
+             .ClientTemplate("<a title='Cliquer pour supprimer définitivement ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='onSupprimerDossietTechniqueClick(\"#=Id#\")'>" +
                              "<i class='fa fa-trash' aria-hidden='true'></i>" +
                              "</a>")
              .Width(40);
