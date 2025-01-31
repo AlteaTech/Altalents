@@ -57,6 +57,8 @@ namespace Altalents.Commun.Enums
         Cdi = 50,
         Cdd = 51,
         Freelance = 102,
+        Alternance = 103,
+        Stage = 104,
 
         //ATTENTION SI VOUS MODIFER OU SUPPRIMER le code d'un des statut, l'app front angular en contient de ref a ces code : VOIR StatutDtFromCodeReferenceEnumInBackend dans l'app angular
         [Display(Name = "Créé")]

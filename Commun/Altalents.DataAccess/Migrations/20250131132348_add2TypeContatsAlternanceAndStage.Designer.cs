@@ -4,6 +4,7 @@ using Altalents.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Altalents.DataAccess.Migrations
 {
     [DbContext(typeof(MigrationContext))]
-    partial class MigrationContextModelSnapshot : ModelSnapshot
+    [Migration("20250131132348_add2TypeContatsAlternanceAndStage")]
+    partial class add2TypeContatsAlternanceAndStage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1457,7 +1460,7 @@ namespace Altalents.DataAccess.Migrations
                             Code = "Stage",
                             DateCrea = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsValide = true,
-                            Libelle = "Stage",
+                            Libelle = "STage",
                             OrdreTri = 5,
                             Type = "Contrat",
                             UtiCrea = "ALTEA"

@@ -67,7 +67,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
     this.callRequest(ConstantesRequest.getExperiences, this.service.getExperiences(this.tokenDossierTechnique)
         .subscribe((response: ExperienceDto[]) => {
           this.experiences = Experience.fromList(response);
-          this.experiences.forEach(x => x.dureeExperience = DureeExperienceService.CalculateDureeExperience(x.dateDebut, x.dateFin));
+          this.experiences.forEach(x => x.dureeExperience = DureeExperienceService.CalculateDureeExperience(x.dateDebut, x.dateFin, true));
           this.isLoading = false;
     }));
   }
@@ -128,7 +128,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
       experienceDto.entreprise = experience.nomEntreprise;
       experienceDto.isEntrepriseEsnOrInterim = experience.IsEntrepriseEsnOrInterim;
       experienceDto.dateDebut = formatDate(experience.dateDebut, Constantes.formatDateBack, Constantes.formatDateLocale);
-      experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : undefined;
+      experienceDto.dateFin = experience.dateFin ? formatDate(experience.dateFin, Constantes.formatDateBack, Constantes.formatDateLocale) : null;
       experienceDto.lieu = experience.lieu;
       experienceDto.domaineMetierId = experience.domaineMetier.id;
 
@@ -140,8 +140,10 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
         projectdto.taches = p.taches;
         projectdto.descriptionProjetOrMission = p.descriptionProjetOrMission;
         projectdto.nomClientOrProjet = p.nomClientOrProjet;
-        projectdto.dateDebut = ValidateDate(p.dateDebut) ? p.dateDebut : null;
-        projectdto.dateFin = ValidateDate(p.dateFin) ? p.dateFin : null;
+
+        
+        projectdto.dateDebut = p.dateDebut ? formatDate(p.dateDebut!, Constantes.formatDateBack, Constantes.formatDateLocale) : null;
+        projectdto.dateFin = p.dateFin ? formatDate(p.dateFin!, Constantes.formatDateBack, Constantes.formatDateLocale) : null;
         projectdto.lieu = p.lieu;
         projectdto.domaineMetierId = p.domaineMetier?.id;
         projectdto.compositionEquipe = p.compositionEquipe;

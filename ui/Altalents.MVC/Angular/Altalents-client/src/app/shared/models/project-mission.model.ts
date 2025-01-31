@@ -13,8 +13,8 @@ export class ProjectOrMissionClient {
     lieu!: string;
     budget?: number;
     compositionEquipe!: string;
-    dateDebut!: string;
-    dateFin!: string;
+    dateDebut?: Date;
+    dateFin?: Date;
     domaineMetier?: Reference;
 
     technologies?: Reference[];
@@ -35,10 +35,10 @@ export class ProjectOrMissionClient {
         model.lieu = dto.lieu!;
         model.budget = dto.budget!;
         model.compositionEquipe = dto.compositionEquipe!;
-        model.dateDebut = dto.dateDebut! ; 
-        model.dateFin = dto.dateFin! ; 
+        model.dateDebut = dto.dateDebut ? new Date(dto.dateDebut) : undefined; 
+        model.dateFin = dto.dateFin ? new Date(dto.dateFin!): undefined;  
         model.domaineMetier = dto.domaineMetier ? Reference.fromReferenceDto(dto.domaineMetier) : undefined; 
-        model.dureeExperience = model.dateDebut ? DureeExperienceService.CalculateDureeExperience(new Date(model.dateDebut!), ValidateDate(model.dateFin)?new Date(model.dateFin):undefined) : undefined;
+        model.dureeExperience = model.dateDebut ? DureeExperienceService.CalculateDureeExperience(new Date(model.dateDebut!), model.dateFin ? new Date(model.dateFin):undefined, true) : undefined;
 
         model.technologies = dto.technologies ? Reference.fromListReferenceDto(dto.technologies) : undefined;
         model.competences = dto.competences ? Reference.fromListReferenceDto(dto.competences) : undefined;

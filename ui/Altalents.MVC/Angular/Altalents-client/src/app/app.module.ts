@@ -31,6 +31,7 @@ import { ConfirmDeleteDialogComponent } from './components/dialogs/confirm-delet
 import { AccesDtInterditComponent } from './components/acces-dt-interdit/acces-dt-interdit.component';
 import { DtReadonlyMessageComponent } from './shared/components/dt-readonly-message/dt-readonly-message.component';
 import { DtInexistantComponent } from './components/dt-inexistant/dt-inexistant.component';
+import { MonthYearPickerComponent } from './shared/components/month-year-picker/month-year-picker.component';
 
 
 registerLocaleData(localeFr);
@@ -62,6 +63,7 @@ registerLocaleData(localeFr);
     AccesDtInterditComponent,
     DtReadonlyMessageComponent,
     DtInexistantComponent,
+    MonthYearPickerComponent,
   ],
   imports: [
     CommonModule,

@@ -100,13 +100,18 @@ function openConfirmationDialog(actionSiConfirmation, actionSiNonConfirmation, i
 }
 
 function openConfirmationSuppressionUtilisateurDialog(actionSiConfirmation, actionSiNonConfirmation) {
-  debugger;
+
   openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, 'Supprimer un compte d’utilisateur', 'Etes-vous sûr(e) de vouloir supprimer définitivement ce compte d’utilisateur');
 }
 
 function openConfirmationSuppressionDTDialog(actionSiConfirmation, actionSiNonConfirmation) {
-  debugger;
+
   openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, 'Supprimer un dossier Technique', 'Etes-vous sûr(e) de vouloir supprimer définitivement ce dossier Technique');
+}
+
+function openConfirmationSuppressionReferenceDialog(actionSiConfirmation, actionSiNonConfirmation) {
+
+  openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, 'Supprimer un Référence', 'Etes-vous sûr(e) de vouloir supprimer définitivement cette référence');
 }
 
 function openConfirmationSuppressionDialog(actionSiConfirmation, actionSiNonConfirmation, deleteHeaderMessage, deleteQuestionMessage) {

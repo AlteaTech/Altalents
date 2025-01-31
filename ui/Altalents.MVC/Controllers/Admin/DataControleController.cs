@@ -21,9 +21,9 @@ namespace Altalents.MVC.Controllers.Admin
             return View();
         }
 
-        public async Task<IActionResult> GetReferencesAsync([DataSourceRequest] DataSourceRequest request, bool showAll)
+        public async Task<IActionResult> GetReferencesAsync([DataSourceRequest] DataSourceRequest request, bool showOnlyDataAValider)
         {
-            return await this.CallWithActionSecurisedAsync(request, GetReferencesRunnerAsync(request, showAll));
+            return await this.CallWithActionSecurisedAsync(request, GetReferencesRunnerAsync(request, !showOnlyDataAValider));
         }
 
         [HttpPost]
@@ -31,6 +31,13 @@ namespace Altalents.MVC.Controllers.Admin
         {
             return await this.CallWithActionSecurisedAsync(request, UpdateReferenceRunnerAsync(request, reference));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteReferenceAsync([DataSourceRequest] DataSourceRequest request, Guid refId)
+        {
+            return await this.CallWithActionSecurisedAsync(request, DeleteReferenceRunnerAsync(request, refId));
+        }
+
 
         private async Task<IActionResult> GetReferencesRunnerAsync(DataSourceRequest request, bool showAll)
         {
@@ -43,5 +50,12 @@ namespace Altalents.MVC.Controllers.Admin
             await _referencesService.UpdateReferenceAsync(reference);
             return Json(new[] { reference }.ToDataSourceResult(request));
         }
+
+        private async Task<IActionResult> DeleteReferenceRunnerAsync(DataSourceRequest request, Guid refId)
+        {
+            await _referencesService.DeleteReference(refId, CancellationToken.None);
+            return Json(new[] { refId }.ToDataSourceResultAsync(request));
+        }
+
     }
 }

@@ -48,9 +48,10 @@ namespace Altalents.Business.Mappings
             CreateMap<Reference, ReferenceDto>()
                 .ForMember(dest => dest.CommentaireFun, opt => opt.MapFrom(src => src.CommentaireFun))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle));
+                .ForMember(dest => dest.Libelle, opt => opt.MapFrom(src => src.Libelle))
+                .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Code));
 
-             CreateMap<ProjetOrMissionClient, ProjetOrMissionClientDto>()
+            CreateMap<ProjetOrMissionClient, ProjetOrMissionClientDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.NomClientOrProjet, opt => opt.MapFrom(src => src.NomClientOrProjet))
                 .ForMember(dest => dest.DescriptionProjetOrMission, opt => opt.MapFrom(src => src.DescriptionProjetOrMission))

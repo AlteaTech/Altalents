@@ -543,6 +543,24 @@ namespace Altalents.DataAccess.EntityConfigurations
  Type = Commun.Enums.TypeReferenceEnum.Contrat,
  OrdreTri = 3
             },
+                          new (){
+ Libelle = "Alternance",
+ Code= Commun.Enums.CodeReferenceEnum.Alternance.ToString("g"),
+ Id = Guid.Parse("{6b399cf1-425b-4f33-9895-3a551043e59d}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Contrat,
+ OrdreTri = 4
+            },
+                                       new (){
+ Libelle = "Stage",
+ Code= Commun.Enums.CodeReferenceEnum.Stage.ToString("g"),
+ Id = Guid.Parse("{72d1445f-4ade-43bd-b329-1401ea962382}"),
+ DateCrea = new DateTime(2024,6,18),
+ UtiCrea= "ALTEA",IsValide=true,
+ Type = Commun.Enums.TypeReferenceEnum.Contrat,
+ OrdreTri = 5
+            },
             #endregion
             #region Statut
             new (){

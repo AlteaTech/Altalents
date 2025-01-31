@@ -87,8 +87,9 @@
                                         <label for="disponibilite" class="col-form-label">Disponibilité</label>
                                     </div>
                                     <div class="col-lg-6">
-                                        <select id="country" class="at-w-200" class="form-control"
+                                        <select id="disponibilite" class="at-w-200" class="form-control"
                                             formControlName="disponibilite">
+                                            <option value="" class="text-muted">-- Choisir une disponibilité --</option>
                                             <option *ngFor="let disponibilite of disponibilites"
                                                 [ngValue]="disponibilite.id">{{ disponibilite.libelle }} <span
                                                     *ngIf="disponibilite.commentaireFun">(<em>{{disponibilite.commentaireFun}}</em>)</span>

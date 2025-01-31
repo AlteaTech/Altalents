@@ -3989,6 +3989,7 @@ export interface IRecapitulatifDtDto {
 export class ReferenceDto implements IReferenceDto {
     id!: string;
     libelle?: string | null;
+    code?: string | null;
     commentaireFun?: string | null;
 
     constructor(data?: IReferenceDto) {
@@ -4004,6 +4005,7 @@ export class ReferenceDto implements IReferenceDto {
         if (_data) {
             this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
             this.libelle = _data["Libelle"] !== undefined ? _data["Libelle"] : <any>null;
+            this.code = _data["Code"] !== undefined ? _data["Code"] : <any>null;
             this.commentaireFun = _data["CommentaireFun"] !== undefined ? _data["CommentaireFun"] : <any>null;
         }
     }
@@ -4019,6 +4021,7 @@ export class ReferenceDto implements IReferenceDto {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id !== undefined ? this.id : <any>null;
         data["Libelle"] = this.libelle !== undefined ? this.libelle : <any>null;
+        data["Code"] = this.code !== undefined ? this.code : <any>null;
         data["CommentaireFun"] = this.commentaireFun !== undefined ? this.commentaireFun : <any>null;
         return data;
     }
@@ -4027,6 +4030,7 @@ export class ReferenceDto implements IReferenceDto {
 export interface IReferenceDto {
     id: string;
     libelle?: string | null;
+    code?: string | null;
     commentaireFun?: string | null;
 }
 

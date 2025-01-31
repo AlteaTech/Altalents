@@ -7,7 +7,7 @@ import { Constantes } from 'src/app/shared/constantes/constantes';
 import { FormationForm } from 'src/app/shared/interfaces/formation-form';
 import { Formation } from 'src/app/shared/models/formation.model';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
-import { dateRangeValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
+import { dateRangeValidator, maxDateThisMonthValidator, maxDateTodayValidator } from 'src/app/shared/services/services/validators/validate-date';
 
 @Component({
   selector: 'app-formation-dialog',
@@ -24,12 +24,9 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
       libelle: new FormControl(null, Validators.required),
       niveau: new FormControl(),
       organisme: new FormControl(null, Validators.required),
-      dateDebut: new FormControl(null, [Validators.required, maxDateTodayValidator()]),
-      dateFin: new FormControl(null, [maxDateTodayValidator()]),
+      dateObtention: new FormControl(null, [Validators.required, maxDateThisMonthValidator()]),
+
     });
-
-    this.formGroup.setValidators(dateRangeValidator('dateDebut', 'dateFin'));
-
   }
 
   public ngOnInit(): void {
@@ -38,7 +35,7 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
         libelle: this.formation.libelle,
         niveau: this.formation.niveau,
         organisme: this.formation.organisme,
-        dateDebut:  formatDate(this.formation.dateObtention, Constantes.formatDateFront, Constantes.formatDateLocale), 
+        dateObtention:  this.formation.dateObtention, 
       });
     }
   }
@@ -51,7 +48,7 @@ export class FormationDialogComponent extends BaseComponentCallHttpComponent  im
       formation.libelle = values.libelle!;
       formation.niveau = values.niveau;
       formation.organisme = values.organisme!;
-      formation.dateObtention = values.dateDebut ? new Date(values.dateDebut) : new Date();
+      formation.dateObtention = values.dateObtention ? new Date(values.dateObtention) : new Date();
 
       this.activeModal.close(formation);
     } else {

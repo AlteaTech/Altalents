@@ -10,8 +10,9 @@ export interface ProjectForm {
     lieu: FormControl<string | null>,
     budget: FormControl<number | null>,
     compositionEquipe: FormControl<string | null>,
-    dateDebut: FormControl<string | null>,
-    dateFin: FormControl<string | null>,
+    dateDebut: FormControl<Date | null>,
+    dateFin: FormControl<Date | null>,
+    isEnCours: FormControl<boolean | null>,
     domaineMetier: FormControl<Reference | null>,
 
     technologies: FormControl<Reference[] | null>,

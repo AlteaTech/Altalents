@@ -392,5 +392,14 @@ namespace Altalents.MVC.Resources {
                 return ResourceManager.GetString("UtilisateurNom", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valide.
+        /// </summary>
+        public static string Valide {
+            get {
+                return ResourceManager.GetString("Valide", resourceCulture);
+            }
+        }
     }
 }

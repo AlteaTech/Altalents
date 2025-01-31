@@ -1,0 +1,19 @@
+<div class="row">
+
+    <!-- Sélection du mois -->
+    <div class="col-lg-6 mb-2">
+      <select class="form-control" [(ngModel)]="moisSelectionne" (change)="updateValue()" [disabled]="isDisabled"  [id]="idPrefix + '-mois'">
+        <option value="" class="text-muted">-- Mois --</option>
+        <option *ngFor="let mois of moisList" [value]="mois.value">{{ mois.label }}</option>
+      </select>
+    </div>
+  
+    <!-- Sélection de l'année -->
+    <div class="col-lg-6 mb-2">
+      <select class="form-control" [(ngModel)]="anneeSelectionnee" (change)="updateValue()" [disabled]="isDisabled" [id]="idPrefix + '-annee'"> 
+        <option value="" class="text-muted">-- Année --</option>
+        <option *ngFor="let annee of anneesList" [value]="annee">{{ annee }}</option>
+      </select>
+    </div>
+  </div>
+  

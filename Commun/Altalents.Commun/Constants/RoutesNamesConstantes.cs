@@ -41,6 +41,7 @@ namespace Altalents.Commun.Constants
         public const string MvcControllerDataControle_MethodeIndex = "Index";
         public const string MvcControllerDataControle_MethodeGetReferences = "GetReferences";
         public const string MvcControllerDataControle_MethodeUpdateReference = "UpdateReference";
+        public const string MvcControllerDataControle_MethodeDeleteReference = "DeleteReference";
 
         public const string MvcControllerHomeAdmin = "HomeAdmin";
         public const string MvcControllerHomeAdmin_MethodeError = "Error";
