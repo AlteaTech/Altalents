@@ -3,10 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
-import { NomPrenomPersonneDto, PermissionConsultationDtDto } from 'src/app/shared/services/generated/api/api.client';
+import { DocumentDto, NomPrenomPersonneDto, PermissionConsultationDtDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
 import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
+import { merge, tap } from 'rxjs';
+import { DocumentDt } from 'src/app/shared/models/document.model';
 
 @Component({
   selector: 'app-accueil',
@@ -19,7 +21,8 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
   public tokenDossierTechnique: string = "";
   public nomPrenomCandidat: string = "";
   public permissionDT: PermissionDT = new PermissionDT();
-  
+  public documents: DocumentDt[] = [];
+    
   constructor(private route: ActivatedRoute,
     private readonly service: ApiServiceAgent,private permissionService: PermissionService) {
     super();
@@ -45,13 +48,55 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
     document.location.href = `${ConstantesRoutes.dossierTechniqueBaseUrl}${this.tokenDossierTechnique}`
   }
 
+
+
+
   public populateData(): void {    
 
-    this.callRequest(ConstantesRequest.getNomPrenom, this.service.getNomPrenomFromToken(this.tokenDossierTechnique)
-        .subscribe((response: NomPrenomPersonneDto) => {
+
+    merge(
+
+      this.service.getNomPrenomFromToken(this.tokenDossierTechnique).pipe(
+        tap((response: NomPrenomPersonneDto) => {
           this.nomPrenomCandidat = response.prenom + " " + response.nom;
+        })
+      ),
+      this.service.getDocuments(this.tokenDossierTechnique).pipe(
+        tap((response: DocumentDto[]) => {
+          this.documents = DocumentDt.fromList(response);
+        })
+      ),
+
+
+    ).subscribe({
+      
+      next: () => {
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false; 
+      }
+    });
+    
+  }
+
+
+  public downloadPj(idDocument : string)
+  {
+    
+
+        this.isLoading = true;
+        this.callRequest(ConstantesRequest.getDocumentWithData, this.service.getDocumentWithData(this.tokenDossierTechnique, idDocument)
+        .subscribe((response: DocumentDto) => {
+
+          var a = document.createElement("a"); 
+          a.href = "data:" + response.mimeType + ";base64," + response.data;
+          a.download = response.nomFichier; 
+          a.click(); 
+
           this.isLoading = false;
         }));
+    
   }
 
 }

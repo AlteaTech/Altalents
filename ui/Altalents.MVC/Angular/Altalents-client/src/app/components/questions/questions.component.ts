@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 }
 import { firstValueFrom, merge, tap } from 'rxjs';
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { Question } from 'src/app/shared/models/question.model';
-import { DocumentDto, QuestionnaireDto, QuestionnaireUpdateDto } from 'src/app/shared/services/generated/api/api.client';
+import { QuestionnaireDto, QuestionnaireUpdateDto } from 'src/app/shared/services/generated/api/api.client';
 import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { DocumentDt } from 'src/app/shared/models/document.model';
 import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
@@ -62,18 +62,13 @@ export class QuestionsComponent extends BaseComponentCallHttpComponent implement
   public populateData(): void {
     this.isLoading = true;
 
-
     merge(
       this.service.getQuestionnaires(this.tokenDossierTechnique).pipe(
         tap((response: QuestionnaireDto[]) => {
           this.questions = Question.fromList(response);
         })
       ),
-      this.service.getDocuments(this.tokenDossierTechnique).pipe(
-        tap((response: DocumentDto[]) => {
-          this.documents = DocumentDt.fromList(response);
-        })
-      ),
+
     ).subscribe({
       next: () => {
         this.isLoading = false;
@@ -107,6 +102,7 @@ export class QuestionsComponent extends BaseComponentCallHttpComponent implement
     }
 
     return new Promise<boolean>(resolve => resolve(isValid));
+
   }
 
   private populateRequestDto(): QuestionnaireUpdateDto[] {

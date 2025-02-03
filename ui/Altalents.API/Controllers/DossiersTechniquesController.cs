@@ -138,8 +138,15 @@ namespace Altalents.API.Controllers
         [HttpGet("{tokenAccesRapide}/documents", Name = "GetDocuments")]
         public async Task<List<DocumentDto>> GetDocumentsAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
-            return await _dossierTechniqueService.GetPiecesJointesDtAsync(tokenAccesRapide, cancellationToken);
+            return await _dossierTechniqueService.GetPiecesJointesDtWithoutDataAsync(tokenAccesRapide, cancellationToken);
         }
+
+        [HttpGet("{tokenAccesRapide}/document/{id}", Name = "GetDocumentWithData")]
+        public async Task<DocumentDto> GetDocumentAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            return await _dossierTechniqueService.GetPieceJointeDtWithDataAsync(tokenAccesRapide, id, cancellationToken);
+        }
+
 
         [HttpGet("{tokenAccesRapide}/cv", Name = "GetCvFile")]
         public async Task<DocumentDto> GetCv([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)

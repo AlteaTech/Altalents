@@ -155,6 +155,68 @@ namespace Altalents.Business.Services
             };
         }
 
+        
+        public async Task<List<DocumentDto>> GetPiecesJointesDtWithoutDataAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            List<DocumentDto> result = await context.DossierTechniques
+                .Where(x => x.TokenAccesRapide == tokenAccesRapide)
+                .SelectMany(x => x.DocumentComplementaires
+                    .Where(w => w.TypeDocument == TypeDocumentEnum.PieceJointeDt)
+                    .Select(d => new DocumentDto
+                    {
+                        Id = d.Id,
+                        Commentaire = d.Commentaire,
+                        //Data = d.Data,
+                        MimeType = d.MimeType,
+                        NomFichier = d.Nom
+                    }))
+                .ToListAsync(cancellationToken);
+            return result;
+        }
+
+        public async Task<DocumentDto> GetPieceJointeDtWithDataAsync(Guid tokenAccesRapide, Guid documentId, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            DocumentComplementaire docToDl = await context.DocumentComplementairesTD.Include(x=>x.DossierTechnique).Where( x=>x.Id == documentId).SingleAsync(cancellationToken);
+
+            if(docToDl == null)
+                throw new BusinessException("Dossier technique inexistant");
+
+            if(docToDl.DossierTechnique.TokenAccesRapide != tokenAccesRapide)
+                throw new BusinessException("Le token d'acces rapide ne correspond pas");
+
+            DocumentDto toReturn = new DocumentDto()
+            {
+                Id = docToDl.Id,
+                Commentaire = docToDl.Commentaire,
+                Data = docToDl.Data,
+                MimeType = docToDl.MimeType,
+                NomFichier = docToDl.Nom
+            };
+
+            return toReturn;
+        }
+
+        public async Task<DocumentDto> GetCvDtAsync(Guid tokenRapide, CancellationToken cancellationToken)
+        {
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            Entities.Document cv = await context.DossierTechniques
+                            .Where(x => x.TokenAccesRapide == tokenRapide)
+                            .Include(x => x.Personne)
+                                .ThenInclude(x => x.Documents).Select(e => e.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV)).SingleAsync(cancellationToken);
+
+            if (cv == null)
+                return null;
+
+            return new DocumentDto() { Id = cv.Id, MimeType = cv.MimeType, NomFichier = cv.Nom, Data = cv.Data };
+
+        }
+
+
         private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
@@ -394,22 +456,7 @@ namespace Altalents.Business.Services
                 return false;
         }
 
-        public async Task<DocumentDto> GetCvDtAsync(Guid tokenRapide, CancellationToken cancellationToken)
-        {
 
-            using CustomDbContext context = GetScopedDbContexte();
-
-            Entities.Document cv =  await context.DossierTechniques
-                            .Where(x => x.TokenAccesRapide == tokenRapide)
-                            .Include(x => x.Personne)
-                                .ThenInclude(x => x.Documents).Select(e => e.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV)).SingleAsync(cancellationToken);
-
-            if (cv == null)
-                return null;
-
-            return new DocumentDto() { Id = cv.Id, MimeType = cv.MimeType, NomFichier = cv.Nom, Data = cv.Data };
-
-        }
 
         public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync(Guid tokenRapide, CancellationToken cancellationToken)
         {
@@ -585,23 +632,6 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<DocumentDto>> GetPiecesJointesDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
-        {
-            using CustomDbContext context = GetScopedDbContexte();
-            List<DocumentDto> result = await context.DossierTechniques
-                .Where(x => x.TokenAccesRapide == tokenAccesRapide)
-                .SelectMany(x => x.DocumentComplementaires
-                    .Where(w => w.TypeDocument == TypeDocumentEnum.PieceJointeDt)
-                    .Select(d => new DocumentDto
-                    {
-                        Commentaire = d.Commentaire,
-                        Data = d.Data,
-                        MimeType = d.MimeType,
-                        NomFichier = d.Nom
-                    }))
-                .ToListAsync(cancellationToken);
-            return result;
-        }
 
         public async Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
