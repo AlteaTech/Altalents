@@ -66,8 +66,8 @@
                                 <input id="intitulePoste" type="text" formControlName="intitulePoste" class="form-control"
                                     placeholder="Professeur d'histoire">
                             </div>
-                            <div class="col-lg-3 label-champ-input"> </div>
-                            <div class="col-lg-3 mt-2 mb-2 d-flex align-items-center">
+                            <div class="col-lg-1 label-champ-input"> </div>
+                            <div class="col-lg-5 mt-2 mb-2 d-flex align-items-center">
                                 <label class="switch">
                                     <input type="checkbox" formControlName="isPosteActuel" id="isPosteActuel"
                                         (change)="updateInputPosteActuel()">
@@ -91,53 +91,22 @@
                                     placeholder="Nom de l'entreprise">
                             </div>
                            
-                            <div class="col-lg-3 label-champ-input" *ngIf="isToogleIsEsnVisible"> </div>
-                            <div class="col-lg-3 mt-2 mb-2 d-flex align-items-center" *ngIf="isToogleIsEsnVisible">
+                            <div class="col-lg-1 label-champ-input" *ngIf="isToogleIsEsnVisible"> </div>
+                            <div class="col-lg-5 mt-2 mb-2 d-flex align-items-center" *ngIf="isToogleIsEsnVisible">
                             
                                     <label class="switch">
                                         <input type="checkbox" id="isEntrepriseEsnOrInterim"
                                             formControlName="isEntrepriseEsnOrInterim" (change)="toggleIsEsn()">
                                         <span class="slider"></span>
                                     </label>
-                                    <label for="isEntrepriseEsnOrInterim" class="ms-3">ESN ou Intérim</label>
+                                    <label for="isEntrepriseEsnOrInterim" class="ms-3">L'entreprise est une ESN ou agence d'intérim</label>
                                 </div>
                             </div>
                        
                         <div class="row">
-                            <div class="col-lg-3 mt-2 label-champ-input">
-                                <label for="domaineMetier" class="col-form-label">Domaine métier de l'entreprise<span
-                                        class="champ-obligatoire">*</span></label>
-                                <div class="error-message"
-                                    *ngIf="formGroup.controls.domaineMetier.invalid && formGroup.controls.domaineMetier.touched">
-                                    Le domaine métier est requis.
-                                </div>
-                            </div>
-                            <div class="col-lg-3 mb-2">
-                                <select formControlName="domaineMetier" id="domaineMetier" class="form-select">
-                                    <option value="" class="text-muted">-- Choisir un domaine --</option>
-                                    <option *ngFor="let domaine of domaines" [ngValue]="domaine">
-                                        {{domaine.libelle}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3 mt-2 label-champ-input">
-                                <label for="typeContrat" class="col-form-label">Type de contrat<span
-                                        class="champ-obligatoire">*</span></label>
-                                <div class="error-message"
-                                    *ngIf="formGroup.controls.typeContrat.invalid && formGroup.controls.typeContrat.touched">
-                                    Le type de contrat est requis.
-                                </div>
-                            </div>
-                            <div class="col-lg-3 mb-2">
-                                <select id="typeContrat" formControlName="typeContrat" class="form-select">
-                                    <option value="" class="text-muted">-- Choisir un type de contrat --</option>
-                                    <option *ngFor="let typeContrat of typesContrats" [ngValue]="typeContrat">
-                                        {{typeContrat.libelle}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
+                
+
+
                             <div class="col-lg-3 mt-2 label-champ-input" >
                                 <label for="lieu" class="col-form-label">Lieu<span *ngIf="IsEsn"> de l'agence</span><span  *ngIf="!IsEsn"
                                         class="champ-obligatoire">*</span></label>
@@ -150,6 +119,44 @@
                                 <input type="text" id="lieu" formControlName="lieu" class="form-control"
                                     placeholder="Marseille bébé">
                             </div>
+
+                            <div class="col-lg-3 mt-2 label-champ-input">
+                                <label for="typeContrat" class="col-form-label">Type de contrat<span
+                                        class="champ-obligatoire">*</span></label>
+                                <div class="error-message"
+                                    *ngIf="formGroup.controls.typeContrat.invalid && formGroup.controls.typeContrat.touched">
+                                    Le type de contrat est requis.
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-2">
+                                <select id="typeContrat" formControlName="typeContrat" class="form-select">
+                                    <option value="null" class="text-muted">-- Choisir un type de contrat --</option>
+                                    <option *ngFor="let typeContrat of typesContrats" [ngValue]="typeContrat">
+                                        {{typeContrat.libelle}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-3 mt-2 label-champ-input">
+                                <label for="domaineMetier" class="col-form-label">Domaine métier de l'entreprise
+                                    <!-- <span class="champ-obligatoire">*</span> -->
+                                </label>
+                                <div class="error-message"
+                                    *ngIf="formGroup.controls.domaineMetier.invalid && formGroup.controls.domaineMetier.touched">
+                                    Le domaine métier est requis.
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-2">
+                                <select formControlName="domaineMetier" id="domaineMetier" class="form-select">
+                                    <option value="null" class="text-muted">-- Choisir un domaine --</option>
+                                    <option *ngFor="let domaine of domaines" [ngValue]="domaine">
+                                        {{domaine.libelle}}
+                                    </option>
+                                </select>
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PieceJointeForm } from 'src/app/shared/interfaces/piece-jointe-form';
 import { PieceJointe } from 'src/app/shared/models/piece-jointe.model';
@@ -17,7 +17,7 @@ export class PieceJointeDialogComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal) {
     this.formGroup = new FormGroup<PieceJointeForm>({
-      commentaire: new FormControl()
+      commentaire:  new FormControl('', Validators.required),
     });
 
     if (this.modalTitle = "")

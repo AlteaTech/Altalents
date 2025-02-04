@@ -16,6 +16,7 @@
     <PackageReference Include="AnyAscii" Version="0.3.2" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.2.0" />
+    <PackageReference Include="FreeSpire.Doc" Version="12.2.0" />
     <PackageReference Include="PreMailer.Net" Version="2.6.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.17" />

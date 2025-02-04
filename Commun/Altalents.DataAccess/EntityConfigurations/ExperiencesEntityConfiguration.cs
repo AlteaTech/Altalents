@@ -25,8 +25,7 @@ namespace Altalents.DataAccess.EntityConfigurations
                 .IsRequired();
             builder.Property(e => e.DateFin)
                 .HasColumnType("datetime");
-            builder.Property(e => e.DomaineMetierId)
-                .HasDefaultValue(new Guid(IdsConstantes.DomaineAutreId));
+    
 
 
 

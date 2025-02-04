@@ -42,7 +42,10 @@
                 </a>
             </div>
         </div>
-        <p class="font-bold">{{experience.nomEntreprise}} <span *ngIf="experience.IsEntrepriseEsnOrInterim">[ESN]</span>  - {{experience.domaineMetier.libelle}}</p>
+        <p class="font-bold">{{experience.nomEntreprise}} 
+            <span *ngIf="experience.IsEntrepriseEsnOrInterim">[ESN]</span>  
+            <span *ngIf="experience.domaineMetier.libelle">- {{experience.domaineMetier.libelle}} </span>
+        </p>
         <p class="font-normal" *ngIf="experience.dateFin">De {{experience.dateDebut | date : "MMMM YYYY" }} à {{experience.dateFin | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
         <p class="font-normal" *ngIf="!experience.dateFin">Depuis {{experience.dateDebut | date : "MMMM YYYY" }} <span *ngIf="experience.dureeExperience">({{experience.dureeExperience}})</span></p>
         <div class="row mt-3">

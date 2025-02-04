@@ -13,6 +13,9 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
+using MimeKit;
+using Spire.Doc;
+using Document = Spire.Doc.Document;
 
 
 
@@ -127,7 +130,31 @@ namespace Altalents.Business.Services
             };
         }
 
+        public async Task<DocumentDto> GenereateDtWithOpenXmlAndReturnPdfAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            // Appeler la méthode qui génère le fichier Word
+            var wordGenerated = await GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken);
 
+            // Créer un flux mémoire pour le fichier PDF
+            using (MemoryStream wordStream = new MemoryStream(wordGenerated.Data))
+            using (MemoryStream pdfStream = new MemoryStream())
+            {
+                // Charger le fichier Word
+                Document wordDocument = new Document();
+                wordDocument.LoadFromStream(wordStream, FileFormat.Docx);
+
+                // Sauvegarder en PDF dans le flux mémoire
+                wordDocument.SaveToStream(pdfStream, FileFormat.PDF);
+
+                // Retourner le fichier PDF en réponse
+                return new DocumentDto()
+                {
+                    MimeType = "application/pdf", // Type MIME pour PDF
+                    NomFichier = wordGenerated.NomFichier.Replace(".docx", ".pdf"), // Remplacer l'extension en .pdf
+                    Data = pdfStream.ToArray() // Renvoyer les données PDF
+                };
+            }
+        }
 
         private static int CalculerTotalAnneesExperienceAvecChevauchements(DossierTechnique dt)
         {

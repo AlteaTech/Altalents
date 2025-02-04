@@ -639,8 +639,8 @@ export class ApiClient {
     /**
      * @return OK
      */
-    testEnvoiEmailValidationDt(tokenRapide: string, candidatFullName: string): Observable<void> {
-        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/test-email-validation-dt/{CandidatFullName}";
+    testEnvoiEmailValidationAuServiceComDtAsync(tokenRapide: string, candidatFullName: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/test-email-validation-dt-service-com/{CandidatFullName}";
         if (tokenRapide === undefined || tokenRapide === null)
             throw new Error("The parameter 'tokenRapide' must be defined.");
         url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
@@ -657,11 +657,11 @@ export class ApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTestEnvoiEmailValidationDt(response_);
+            return this.processTestEnvoiEmailValidationAuServiceComDtAsync(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processTestEnvoiEmailValidationDt(response_ as any);
+                    return this.processTestEnvoiEmailValidationAuServiceComDtAsync(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<void>;
                 }
@@ -670,7 +670,63 @@ export class ApiClient {
         }));
     }
 
-    protected processTestEnvoiEmailValidationDt(response: HttpResponseBase): Observable<void> {
+    protected processTestEnvoiEmailValidationAuServiceComDtAsync(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    testEnvoiEmailValidationDtAuCandidat(emailCandidat: string, candidatFullName: string, tokenRapide: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/test-email-validation-dt-candidat/{CandidatFullName}";
+        if (emailCandidat === undefined || emailCandidat === null)
+            throw new Error("The parameter 'emailCandidat' must be defined.");
+        url_ = url_.replace("{emailCandidat}", encodeURIComponent("" + emailCandidat));
+        if (candidatFullName === undefined || candidatFullName === null)
+            throw new Error("The parameter 'candidatFullName' must be defined.");
+        url_ = url_.replace("{CandidatFullName}", encodeURIComponent("" + candidatFullName));
+        if (tokenRapide === undefined || tokenRapide === null)
+            throw new Error("The parameter 'tokenRapide' must be defined.");
+        url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTestEnvoiEmailValidationDtAuCandidat(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTestEnvoiEmailValidationDtAuCandidat(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processTestEnvoiEmailValidationDtAuCandidat(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1267,6 +1323,59 @@ export class ApiClient {
     /**
      * @return OK
      */
+    downloadDocument(tokenAccesRapide: string, id: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/document/{id}/download";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDownloadDocument(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadDocument(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDownloadDocument(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getCvFile(tokenAccesRapide: string): Observable<DocumentDto> {
         let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/cv";
         if (tokenAccesRapide === undefined || tokenAccesRapide === null)
@@ -1309,6 +1418,56 @@ export class ApiClient {
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = DocumentDto.fromJS(resultData200);
             return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    downloadCVFile(tokenAccesRapide: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/download-cv";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDownloadCVFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadCVFile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDownloadCVFile(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1404,6 +1563,56 @@ export class ApiClient {
     }
 
     protected processDownloadDossierCompetenceFile(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    downloadDossierCompetencePdfFile(tokenAccesRapide: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/download-dt-pdf";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDownloadDossierCompetencePdfFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadDossierCompetencePdfFile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDownloadDossierCompetencePdfFile(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2874,7 +3083,7 @@ export class ExperienceRequestDto implements IExperienceRequestDto {
     intitulePoste!: string;
     entreprise!: string;
     lieu?: string | null;
-    domaineMetierId!: string;
+    domaineMetierId?: string | null;
     dateDebut!: string;
     typeContratId!: string;
     dateFin?: string | null;
@@ -2941,7 +3150,7 @@ export interface IExperienceRequestDto {
     intitulePoste: string;
     entreprise: string;
     lieu?: string | null;
-    domaineMetierId: string;
+    domaineMetierId?: string | null;
     dateDebut: string;
     typeContratId: string;
     dateFin?: string | null;

@@ -81,6 +81,13 @@
     .Columns(columns =>
     {
         @* columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" }); *@
+        columns.Bound(p => p.Id).Title("<i class='fa fa-file' aria-hidden='true'></i>").Filterable(false)
+    .ClientTemplate("# if (StatutCode !== 'Cree') { #" +
+        "<a title='Cliquer pour télécharger le CV uploader par le candidat' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadCv + "' " +
+        "class='k-link download-link' target='_blank' onclick='return handleCvDownload(event, this.href);'>" +
+        "<i class='fa fa-file' aria-hidden='true'></i>" +
+        "</a>" +
+    "# } #");
         columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).Width(40).ClientTemplate("<a title='Cliquer pour consulter le DT dans Altalants' href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
         columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
         columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
@@ -90,18 +97,19 @@
                         .ClientTemplate("#=formatDate(DateUpdate)#");
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
         columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a title='Cliquer pour changer le statut de ce DT' href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=StatutCode#\")'>#=Statut#</a>");
-        columns.Bound(p => p.Id).Title("<i class='fa fa-file' aria-hidden='true'></i>").Filterable(false)
-            .ClientTemplate("# if (StatutCode !== 'Cree') { #" +
-                "<a title='Cliquer pour télécharger le CV uploader par le candidat' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadCv + "' " +
-                "class='k-link download-link' target='_blank' onclick='return handleCvDownload(event, this.href);'>" +
-                "<i class='fa fa-file' aria-hidden='true'></i>" +
-                "</a>" +
-            "# } #");
+
         columns.Bound(p => p.Id).Title("<i class='fa fa-download' aria-hidden='true'></i>").Filterable(false) // Pas de titre pour économiser de l'espace
-           .ClientTemplate("<a title='Cliquer pour télécharger le DT au format WORD' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt + "' class='k-link download-link' target='_blank'>" +
+           .ClientTemplate("<a title='Cliquer pour télécharger le DT au format WORD' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtWord + "' class='k-link download-link' target='_blank'>" +
                            "<i class='fa fa-download' aria-hidden='true'></i>" +
                            "</a>")
               .Width(40);
+        columns.Bound(p => p.Id).Title("<i class='fa fa-file-pdf' aria-hidden='true'></i>").Filterable(false)
+.ClientTemplate("# if (StatutCode !== 'Cree') { #" +
+  "<a title='Cliquer pour télécharger le DT au format PDF' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtPdf + "' class='k-link download-link' target='_blank'>" +
+"<i class='fa fa-file-pdf' aria-hidden='true'></i>" +
+"</a>" +
+"# } #")
+.Width(40);
         columns.Bound(p => p.Id).Title("<i class='fa fa-trash' aria-hidden='true'></i>").Filterable(false)
               .ClientTemplate("<a title='Cliquer pour supprimer définitivement ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='onSupprimerDossietTechniqueClick(\"#=Id#\")'>" +
                               "<i class='fa fa-trash' aria-hidden='true'></i>" +

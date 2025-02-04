@@ -196,6 +196,12 @@ namespace Altalents.API.Controllers
             return File(dto.Data, dto.MimeType, $"{DateTime.Now:yyyyMMdd}_{dto.NomFichier}");
         }
 
+        [HttpGet("{tokenAccesRapide}/download-dt-pdf", Name = "DownloadDossierCompetencePdfFile")]
+        public IActionResult DownloadDossierCompetencePdfFileAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            DocumentDto dto = _dossierTechniqueExportService.GenereateDtWithOpenXmlAndReturnPdfAsync(tokenAccesRapide, cancellationToken).Result;
+            return File(dto.Data, dto.MimeType, $"{DateTime.Now:yyyyMMdd}_{dto.NomFichier}");
+        }
 
 
         [HttpGet("{tokenAccesRapide}/competences", Name = "GetCompetences")]

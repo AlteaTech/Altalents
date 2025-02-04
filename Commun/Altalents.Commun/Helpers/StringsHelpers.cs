@@ -27,5 +27,23 @@ namespace Altalents.Commun.Helpers
 
             return text;
         }
+
+        public static string FirstLetterToUpperCase(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return str;
+
+            return char.ToUpper(str[0]) + str.Substring(1);
+        }
+
+        public static string EnsureEndsWithQuestionMark(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return str;
+
+            str = str.Trim();
+            return str.EndsWith("?") ? str : str + "?";
+        }
+
     }
 }

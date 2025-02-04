@@ -1,4 +1,4 @@
-namespace Altalents.IBusiness.DTO.Request
+namespace Altalents.IBusiness.DTO
 {
     public class ExperienceDto
     {

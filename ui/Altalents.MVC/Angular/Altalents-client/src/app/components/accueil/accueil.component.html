@@ -24,19 +24,21 @@
                         remplir
                         les données nécessaires. N'oubliez pas de prendre bien soin d'être clair et concis.
                     </p>
-                    <p class="font-normal">
-                        Cliquez sur démarrer pour commencer à remplir le formulaire !
+                
+             
+                    <p class="font-normal font-italic font-small mt-3 mb-4">
+                        En fonction de votre expérience, prévoyez entre 30 min et 1h30 pour renseigner votre dossier, si toutefois le temps vous manque sachez qu’il vous est possible de vous interrompre pour y revenir plus tard, vos données seront sauvegardées.
                     </p>
                     <app-dt-readonly-message [permissionDT]="permissionDT"></app-dt-readonly-message>
                 </div>
 
-                <div *ngIf="documents.length > 0" class="mt-5 ">
-                    Le recruteur a déposé des documents sacrés 📜.<br/> Consultez-les avant de partir en quête de votre dossier de compétences ! 🚀
+                <div *ngIf="documents.length > 0" class="mt-3 mb-4">
+                    <span>Le recruteur a déposé des documents sacrés 📜.</span><br/>
+                    <span > Consultez-les avant de partir en quête de votre dossier de compétences ! 🚀</span>
                     <div *ngFor="let doc of documents; let i = index"  class="mt-3">
                         <p><a class="link" (click)="downloadPj(doc.id!)">{{doc.nomFichier}} </a> <span class="font-normal"> - {{doc.commentaire}}</span></p>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
