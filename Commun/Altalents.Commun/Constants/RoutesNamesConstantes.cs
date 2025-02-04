@@ -81,6 +81,7 @@ namespace Altalents.Commun.Constants
 
         //API METHODE NAMES
         public const string ApiControllerDossierTechnique_MethodeDownloadDt = "download-dt";
+        public const string ApiControllerDossierTechnique_MethodeDownloadCv = "download-cv";
 
 
 

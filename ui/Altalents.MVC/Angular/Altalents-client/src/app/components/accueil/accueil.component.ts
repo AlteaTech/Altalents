@@ -61,12 +61,12 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
           this.nomPrenomCandidat = response.prenom + " " + response.nom;
         })
       ),
+
       this.service.getDocuments(this.tokenDossierTechnique).pipe(
         tap((response: DocumentDto[]) => {
           this.documents = DocumentDt.fromList(response);
         })
       ),
-
 
     ).subscribe({
       

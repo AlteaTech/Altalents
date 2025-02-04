@@ -42,7 +42,14 @@
         columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
         columns.Bound(p => p.Statut).Title(LibellesResources.Statut)
             .ClientTemplate("<a  title='Cliquer pour changer le statut de ce DT' href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=StatutCode#\")'>#=Statut#</a>");
-        columns.Bound(p => p.Id).Title("<i class='fa fa-download' aria-hidden='true'></i>").Filterable(false)
+        columns.Bound(p => p.Id).Title("<i class='fa fa-file' aria-hidden='true'></i>").Filterable(false)
+.ClientTemplate("# if (StatutCode !== 'Cree') { #" +
+                "<a title='Cliquer pour télécharger le CV uploader par le candidat' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadCv + "' class='k-link download-link' target='_blank'>" +
+                "<i class='fa fa-file' aria-hidden='true'></i>" +
+                "</a>" +
+                "# } #")
+.Width(40);
+            columns.Bound(p => p.Id).Title("<i class='fa fa-download' aria-hidden='true'></i>").Filterable(false)
             .ClientTemplate("# if (StatutCode !== 'Cree') { #" +
                             "<a title='Cliquer pour télécharger le DT au format WORD' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt + "' class='k-link download-link' target='_blank'>" +
                             "<i class='fa fa-download' aria-hidden='true'></i>" +

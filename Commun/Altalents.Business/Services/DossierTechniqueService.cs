@@ -451,8 +451,20 @@ namespace Altalents.Business.Services
             }
             else if (permissiontDto.CodeStatutDT == CodeReferenceEnum.Termine.ToString())
             {
+
                 permissiontDto.LibelleStatutDT = CodeReferenceEnum.Termine.GetDisplayName();
-                permissiontDto.Message = "Lorsque le statut d'un DT est à: 'terminé', il est alors inaccessible à tous le monde. Si vous appartenez au service commercial, vous pouvez modifier le statut d'un DT.";
+
+                if (isUserLoggedInBackoffice)
+                {
+                    permissiontDto.IsDtAccessible = true;
+                    permissiontDto.IsDtReadOnly = true;
+                  }
+                else
+                {
+                   
+                    permissiontDto.Message = "Lorsque le statut d'un DT est à: 'terminé', il est alors publiquement inaccessible. Si vous appartenez au service commercial, vous pouvez vous connecter au Back Office d'altalents pour pouvoir le consulter.";
+
+                }
             }
 
             return permissiontDto;

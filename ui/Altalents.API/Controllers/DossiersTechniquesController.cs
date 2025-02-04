@@ -172,6 +172,17 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetCvDtAsync(tokenAccesRapide, cancellationToken);
         }
 
+        [HttpGet("{tokenAccesRapide}/download-cv", Name = "DownloadCVFileAsync")]
+        public  IActionResult DownloadCVFileAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            DocumentDto cv =  _dossierTechniqueService.GetCvDtAsync(tokenAccesRapide, cancellationToken).Result;
+            if (cv == null)
+            {
+                return NotFound(new { message = "Aucun CV disponible pour ce dossier technique." });
+            }
+            return File(cv.Data, cv.MimeType, $"{cv.NomFichier}");
+        }
+
         [HttpGet("{tokenAccesRapide}/generate-dt", Name = "GenerateDossierCompetenceFile")]
         public async Task<DocumentDto> GenerateDossierCompetenceFileAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
@@ -184,6 +195,8 @@ namespace Altalents.API.Controllers
             DocumentDto dto = _dossierTechniqueExportService.GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken).Result;
             return File(dto.Data, dto.MimeType, $"{DateTime.Now:yyyyMMdd}_{dto.NomFichier}");
         }
+
+
 
         [HttpGet("{tokenAccesRapide}/competences", Name = "GetCompetences")]
         public async Task<List<CompetenceDto>> GetCompetencesAsync([FromRoute] Guid tokenAccesRapide, [FromQuery] string typeLiaisonCode, CancellationToken cancellationToken)
