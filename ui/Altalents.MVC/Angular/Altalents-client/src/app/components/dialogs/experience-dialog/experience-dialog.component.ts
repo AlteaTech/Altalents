@@ -59,7 +59,7 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
       dateFin: new FormControl(null, maxDateThisMonthValidator()),
       isPosteActuel: new FormControl(),
       lieu: new FormControl(null, Validators.required),
-      domaineMetier: new FormControl(null, Validators.required),
+      domaineMetier: new FormControl(null),
       projects: new FormArray<FormGroup<ProjectForm>>([], [Validators.required, Validators.minLength(1)]),
     });
 
@@ -357,10 +357,10 @@ export class ExperienceDialogComponent extends BaseComponentCallHttpComponent im
         this.typesContrats = Reference.fromListReferenceDto(response);
 
         if (this.experience) {
-          const type: Reference = this.typesContrats.find(x => x.id == this.experience!.typeContrat.id) ?? this.typesContrats[0];
+          let type: Reference | null = this.typesContrats.find(x => x.id == this.experience!.typeContrat.id) ?? null;
           this.formGroup.controls.typeContrat.setValue(type);
         } else {
-          this.formGroup.controls.typeContrat.setValue(this.typesContrats[0]);
+          this.formGroup.controls.typeContrat.setValue(null);
         }
         this.checkLoadingTermine(nbAppelsAsync);
       }));

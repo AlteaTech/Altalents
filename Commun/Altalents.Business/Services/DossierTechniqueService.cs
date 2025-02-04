@@ -2,6 +2,7 @@ using System.Collections;
 using System.Net.Mail;
 using Altalents.Business.Extensions;
 using Altalents.Commun.Enums;
+using Altalents.Commun.Helpers;
 using Altalents.Commun.Settings;
 using Altalents.Entities;
 using Altalents.Export.DSO.OpenXml;
@@ -101,13 +102,15 @@ namespace Altalents.Business.Services
             var documentLinks = "";
             if (documentComplementaires != null && documentComplementaires.Any())
             {
-                documentLinks = "<ul>";
+                documentLinks = "  <p>PS : Nos amis du service commercial ont pensé à vous ! Ils ont mis à disposition quelques documents qui pourraient vous être utiles pour remplir votre dossier technique :</p>\r\n";
+                documentLinks += "<ul>";
                 foreach (var doc in documentComplementaires)
                 {
                     var downloadLink = $"{_globalSettings.BaseUrl}/api/documents/{tokenAccesRapide}/document/{doc.Id}/download";
-                    documentLinks += $"<li><a href='{downloadLink}' target='_blank'>{doc.Nom}</a></li>";
+                    documentLinks += $"<li><a href='{downloadLink}' target='_blank'>{doc.Nom}</a> - <span>{doc.Commentaire}</span></li>";
                 }
                 documentLinks += "</ul>";
+                documentLinks += "<p>(et non, ce ne sont pas des instructions en hiéroglyphes, promis 😄)</p>";
             }
 
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
@@ -158,7 +161,7 @@ namespace Altalents.Business.Services
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
                     { "candidatFullName", fullNameCandidat },
-                    { "downloadLink",$"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossiersTechniques}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDt}" },
+                    { "downloadLink",$"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossiersTechniques}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtWord}" },
                     { "openAdminLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.MvcAreaAdmin}/{RoutesNamesConstantes.MvcControllerTableauDeBord}" },
                     { "editLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.AngularApp_DossierTechnique}/{tokenAccesRapide}" }
                 }
@@ -569,19 +572,19 @@ namespace Altalents.Business.Services
                 .AsTracking()
                 .SingleAsync(cancellationToken);
 
-            dt.Synthese = request.Synthese;
-            dt.SoftSkills = request.SoftSKills;
+            dt.Synthese = StringsHelpers.FirstLetterToUpperCase(request.Synthese);
+            dt.SoftSkills = StringsHelpers.FirstLetterToUpperCase(request.SoftSKills);
 
             dt.ZoneGeo = request.zoneGeo;
 
             Adresse adresse = dt.Personne.Adresses?.FirstOrDefault();
             if (adresse != null)
             {
-                adresse.Pays = request.Adresse.Pays;
-                adresse.Adresse1 = request.Adresse.Adresse1;
-                adresse.Adresse2 = request.Adresse.Adresse2;
+                adresse.Pays = StringsHelpers.FirstLetterToUpperCase(request.Adresse.Pays);
+                adresse.Adresse1 = StringsHelpers.FirstLetterToUpperCase(request.Adresse.Adresse1);
+                adresse.Adresse2 = StringsHelpers.FirstLetterToUpperCase(request.Adresse.Adresse2);
                 adresse.CodePostal = request.Adresse.CodePostal;
-                adresse.Ville = request.Adresse.Ville;
+                adresse.Ville = StringsHelpers.FirstLetterToUpperCase(request.Adresse.Ville);
             }
             else
             {
@@ -589,16 +592,16 @@ namespace Altalents.Business.Services
                 {
                     new()
                     {
-                        Pays = request.Adresse.Pays,
-                        Adresse1 = request.Adresse.Adresse1,
-                        Adresse2 = request.Adresse.Adresse2,
+                        Pays = StringsHelpers.FirstLetterToUpperCase(request.Adresse.Pays),
+                        Adresse1 = StringsHelpers.FirstLetterToUpperCase(request.Adresse.Adresse1),
+                        Adresse2 = StringsHelpers.FirstLetterToUpperCase(request.Adresse.Adresse2),
                         CodePostal= request.Adresse.CodePostal,
-                        Ville = request.Adresse.Ville
+                        Ville = StringsHelpers.FirstLetterToUpperCase(request.Adresse.Ville)
                     }
                 };
             }
-            dt.Personne.Nom = request.Nom;
-            dt.Personne.Prenom = request.Prenom;
+            dt.Personne.Nom = StringsHelpers.FirstLetterToUpperCase(request.Nom);
+            dt.Personne.Prenom = StringsHelpers.FirstLetterToUpperCase(request.Prenom);
             dt.Personne.Email = request.Email;
 
             //si un CV a ete renseigné
@@ -667,7 +670,8 @@ namespace Altalents.Business.Services
 
             questionReponses.ForEach(question =>
             {
-                question.Reponse = questionnaires.Single(x => x.Id == question.Id).Reponse;
+                string rep = questionnaires.Single(x => x.Id == question.Id).Reponse;
+                question.Reponse = StringsHelpers.FirstLetterToUpperCase(rep);
             });
 
             await context.SaveBaseEntityChangesAsync(cancellationToken);
@@ -782,10 +786,10 @@ namespace Altalents.Business.Services
                         if (tokenAccesRapide == certifToAddOrUpdate.DossierTechnique.TokenAccesRapide)
                         {
                             //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
-                            certifToAddOrUpdate.Libelle = request.Libelle;
-                            certifToAddOrUpdate.Niveau = request.Niveau;
+                            certifToAddOrUpdate.Libelle = StringsHelpers.FirstLetterToUpperCase(request.Libelle);
+                            certifToAddOrUpdate.Niveau = StringsHelpers.FirstLetterToUpperCase(request.Niveau);
                             certifToAddOrUpdate.DateObtention = request.DateObtention;
-                            certifToAddOrUpdate.Organisme = request.Organisme;
+                            certifToAddOrUpdate.Organisme = StringsHelpers.FirstLetterToUpperCase(request.Organisme);
                         }
                         else
                         {
@@ -812,10 +816,10 @@ namespace Altalents.Business.Services
                         if (tokenAccesRapide == formationfToAddOrUpdate.DossierTechnique.TokenAccesRapide)
                         {
                             //Mappage manuel car le mappeur set A Null les champs qui ne sont pas definit dans la config alors que on veut pas vu que c'est un update
-                            formationfToAddOrUpdate.Libelle = request.Libelle;
-                            formationfToAddOrUpdate.Niveau = request.Niveau;
+                            formationfToAddOrUpdate.Libelle = StringsHelpers.FirstLetterToUpperCase(request.Libelle);
+                            formationfToAddOrUpdate.Niveau = StringsHelpers.FirstLetterToUpperCase(request.Niveau);
                             formationfToAddOrUpdate.DateObtention = request.DateObtention;
-                            formationfToAddOrUpdate.Organisme = request.Organisme;
+                            formationfToAddOrUpdate.Organisme = StringsHelpers.FirstLetterToUpperCase(request.Organisme);
                         }
                         else
                         {

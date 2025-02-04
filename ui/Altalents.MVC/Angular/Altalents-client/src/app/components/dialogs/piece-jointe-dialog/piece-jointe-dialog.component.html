@@ -17,8 +17,13 @@
             </div>
             <div class="row m-1 mb-2">
                 <label for="commentaire" class="col-form-label no-padding-left">Commentaire</label>
+             
                 <input type="text" class="form-control" formControlName="commentaire" placeholder="Pas de commentaire">
+                <div class="error-message" *ngIf="formGroup.get('commentaire')?.errors?.['required'] && formGroup.get('commentaire')?.touched">
+                    Un commentaire est requis.
+                  </div>
             </div>
+         
         </fieldset>
         <div class="at-p-button-container">
             <button class="at-p-secondary-button" (click)="closeDialog()">

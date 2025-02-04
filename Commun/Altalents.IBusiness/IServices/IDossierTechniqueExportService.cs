@@ -8,5 +8,7 @@ namespace Altalents.IBusiness.IServices
     {
         Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
 
+        Task<DocumentDto> GenereateDtWithOpenXmlAndReturnPdfAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
+
     }
 }
