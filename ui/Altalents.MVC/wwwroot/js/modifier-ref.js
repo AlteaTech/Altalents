@@ -14,7 +14,7 @@ $(document).ready(function () {
   $('#saveReferenceBtn').on('click', function () {
 
     const referenceId = $('#ReferenceId').val();
-    const isValidatedCheckBox = $('#IsValidatedCheckBox').val();
+    const isValidatedCheckBox = $('#IsValidatedCheckBox').prop('checked');
     const libelle = $('#Libelle').val();
     const commentaire = $('#Commentaire').val();
 
@@ -23,7 +23,7 @@ $(document).ready(function () {
     $.ajax({
       url: updateRefUrl, // Définir cette variable dans chaque page
       type: 'POST',
-      data: { id: referenceId, validated: isValidatedCheckBox, libelle: libelle, commentaire: commentaire },
+      data: { Id: referenceId, IsValide: isValidatedCheckBox, Libelle: libelle, Commentaire: commentaire },
       success: function (recData) {
         if (recData.Errors) {
           alert(recData.Errors.join('\n')); // Afficher les erreurs
@@ -48,9 +48,9 @@ function openKendoReferenceWindow(id, validated, libelle, commentaire) {
 
 
   $('#ReferenceId').val(id);
-  $('#IsValidatedCheckBox').val(validated);
+  $('#IsValidatedCheckBox').prop('checked', validated);
   $('#Libelle').val(libelle);
-  $('#Commentaire').val(commentaire);
+  $('#Commentaire').val(commentaire != 'null' ? commentaire : "");
 
 ;
 

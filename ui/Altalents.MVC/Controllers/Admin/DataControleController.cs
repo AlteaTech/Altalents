@@ -27,7 +27,7 @@ namespace Altalents.MVC.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateReferenceAsync([DataSourceRequest] DataSourceRequest request, ReferenceAValiderDto reference)
+        public async Task<IActionResult> UpdateReferenceAsync([DataSourceRequest] DataSourceRequest request, ReferenceRequestDto reference)
         {
             return await this.CallWithActionSecurisedAsync(request, UpdateReferenceRunnerAsync(request, reference));
         }
@@ -45,9 +45,9 @@ namespace Altalents.MVC.Controllers.Admin
             return base.Json(references);
         }
 
-        private async Task<IActionResult> UpdateReferenceRunnerAsync(DataSourceRequest request, ReferenceAValiderDto reference)
+        private async Task<IActionResult> UpdateReferenceRunnerAsync(DataSourceRequest request, ReferenceRequestDto reference)
         {
-            await _referencesService.UpdateReferenceAsync(reference);
+            await _referencesService.UpdateReferenceAsync(reference, CancellationToken.None);
             return Json(new[] { reference }.ToDataSourceResult(request));
         }
 

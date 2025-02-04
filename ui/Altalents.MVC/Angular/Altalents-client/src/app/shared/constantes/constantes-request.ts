@@ -24,4 +24,6 @@ export class ConstantesRequest {
   public static putNote = "putNote";
   public static getCvFile = "getCvFile";
   public static getPermissionsDT= "getPermissionsDT";
+  public static getDocumentWithData= "getDocumentWithData";
+  
 }

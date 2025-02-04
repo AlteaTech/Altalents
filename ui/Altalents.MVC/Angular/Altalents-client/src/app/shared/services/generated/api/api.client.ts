@@ -1210,6 +1210,63 @@ export class ApiClient {
     /**
      * @return OK
      */
+    getDocumentWithData(tokenAccesRapide: string, id: string): Observable<DocumentDto> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/document/{id}";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDocumentWithData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDocumentWithData(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DocumentDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DocumentDto>;
+        }));
+    }
+
+    protected processGetDocumentWithData(response: HttpResponseBase): Observable<DocumentDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DocumentDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getCvFile(tokenAccesRapide: string): Observable<DocumentDto> {
         let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/cv";
         if (tokenAccesRapide === undefined || tokenAccesRapide === null)
@@ -4035,8 +4092,11 @@ export interface IReferenceDto {
 }
 
 export class ReferenceRequestDto implements IReferenceRequestDto {
-    typeReference!: string;
+    id?: string | null;
+    typeReference?: string | null;
+    isValide?: boolean;
     libelle!: string;
+    commentaire?: string | null;
 
     constructor(data?: IReferenceRequestDto) {
         if (data) {
@@ -4049,8 +4109,11 @@ export class ReferenceRequestDto implements IReferenceRequestDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["Id"] !== undefined ? _data["Id"] : <any>null;
             this.typeReference = _data["TypeReference"] !== undefined ? _data["TypeReference"] : <any>null;
+            this.isValide = _data["IsValide"] !== undefined ? _data["IsValide"] : <any>null;
             this.libelle = _data["Libelle"] !== undefined ? _data["Libelle"] : <any>null;
+            this.commentaire = _data["Commentaire"] !== undefined ? _data["Commentaire"] : <any>null;
         }
     }
 
@@ -4063,15 +4126,21 @@ export class ReferenceRequestDto implements IReferenceRequestDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id !== undefined ? this.id : <any>null;
         data["TypeReference"] = this.typeReference !== undefined ? this.typeReference : <any>null;
+        data["IsValide"] = this.isValide !== undefined ? this.isValide : <any>null;
         data["Libelle"] = this.libelle !== undefined ? this.libelle : <any>null;
+        data["Commentaire"] = this.commentaire !== undefined ? this.commentaire : <any>null;
         return data;
     }
 }
 
 export interface IReferenceRequestDto {
-    typeReference: string;
+    id?: string | null;
+    typeReference?: string | null;
+    isValide?: boolean;
     libelle: string;
+    commentaire?: string | null;
 }
 
 export class TrigrammeDto implements ITrigrammeDto {

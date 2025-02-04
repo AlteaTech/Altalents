@@ -2,6 +2,8 @@
 using System.Reflection.Metadata;
 
 using Altalents.Commun.Enums;
+using Altalents.Entities;
+using DocumentFormat.OpenXml.InkML;
 
 namespace Altalents.Business.Services
 {
@@ -47,6 +49,7 @@ namespace Altalents.Business.Services
 
         public IQueryable<ReferenceAValiderDto> GetReferencesAValider(bool showAll)
         {
+
             List<TypeReferenceEnum> listType = [TypeReferenceEnum.Competence, TypeReferenceEnum.Technologie, TypeReferenceEnum.Methodologies, TypeReferenceEnum.Outil];
             IQueryable<Reference> references = DbContext.References.Where(x => listType.Contains(x.Type)).AsQueryable();
             if (!showAll)
@@ -62,23 +65,70 @@ namespace Altalents.Business.Services
         {
             using CustomDbContext context = GetScopedDbContexte();
 
-            Entities.Reference toDelete = await context.References.AsTracking().SingleAsync(x => x.Id == idRef);
+            Entities.Reference toDelete = await context.References
+                .AsTracking()
+                .SingleOrDefaultAsync(x => x.Id == idRef);
 
-            if (toDelete != null)
+            if (toDelete == null)
             {
-                context.References.Remove(toDelete);
-                await context.SaveBaseEntityChangesAsync(cancellationToken);
+                throw new BusinessException("Impossible de supprimer une référence qui n'existe pas en BDD");
             }
-            else
+
+            // Suppression des liaisons en fonction du type de référence
+            if (toDelete.Type == TypeReferenceEnum.Competence)
             {
-                throw new BusinessException("Impossible de supprinmer une référence qui n'existe pas en BDD");
+                var liaisons = context.LiaisonProjetCompetences.Where(x => x.CompetenceId == toDelete.Id);
+                context.LiaisonProjetCompetences.RemoveRange(liaisons);
             }
+            else if (toDelete.Type == TypeReferenceEnum.Methodologies)
+            {
+                var liaisons = context.LiaisonProjetMethodologies.Where(x => x.MethodologieId == toDelete.Id);
+                context.LiaisonProjetMethodologies.RemoveRange(liaisons);
+            }
+            else if (toDelete.Type == TypeReferenceEnum.Outil)
+            {
+                var liaisons = context.LiaisonProjetOutils.Where(x => x.OutilId == toDelete.Id);
+                context.LiaisonProjetOutils.RemoveRange(liaisons);
+            }
+            else if (toDelete.Type == TypeReferenceEnum.Technologie)
+            {
+                var liaisons = context.LiaisonProjetTechnologies.Where(x => x.TechnologieId == toDelete.Id);
+                context.LiaisonProjetTechnologies.RemoveRange(liaisons);
+            }
+
+            // Sauvegarde après suppression des liaisons
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
+
+            // Suppression de la référence
+            context.References.Remove(toDelete);
+            await context.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
-        public Task UpdateReferenceAsync(ReferenceAValiderDto reference)
+
+
+        public async Task UpdateReferenceAsync(ReferenceRequestDto referenceDto, CancellationToken cancellationToken)
         {
-            //A FAIRE !!!!
-            throw new NotImplementedException();
+
+            if(!referenceDto.Id.HasValue)
+                throw new BusinessException("Format de l'id incorrect");
+
+            using CustomDbContext customDbContext = GetScopedDbContexte();
+
+            Entities.Reference toUpdate = await customDbContext.References
+                .AsTracking()
+                .SingleOrDefaultAsync(x => x.Id == referenceDto.Id);
+
+            if (toUpdate == null)
+            {
+                throw new BusinessException("Impossible de mettre à jour une référence qui n'existe pas en BDD");
+            }
+
+            toUpdate.IsValide = referenceDto.IsValide;
+            toUpdate.Libelle = referenceDto.Libelle;
+            toUpdate.CommentaireFun = referenceDto.Commentaire;
+
+            await customDbContext.SaveBaseEntityChangesAsync(cancellationToken);
+
         }
     }
 }

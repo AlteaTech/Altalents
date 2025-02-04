@@ -72,6 +72,7 @@ namespace Altalents.Business.Services
             {
                 //On envoi en async volontairement pour de raison de perf (Pas besoin d'attendre un envoi de mail)
                 EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
+                EnvoiEmailConfirmationReceptionDtCandidatAsync(dt.Personne.Email, dt.Personne.Prenom + " " + dt.Personne.Nom);
 
                 dt.StatutId = Guid.Parse(IdsConstantes.StatutDtAValiderId);
                 dt.DateMaj = DateTime.Now;
@@ -80,9 +81,14 @@ namespace Altalents.Business.Services
 
         }
 
-        public async Task TestEnvoiEmailValidationDtByCandidatAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken)
+        public async Task TestEnvoiEmailValidationDtByCandidatAuServiceComAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken)
         {
             await EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, fullNameCandidat);
+        }
+
+        public async Task TestEnvoiEmailValidationDtByCandidatAuCandidatAsync(string emailCandidat, string fullNameCandidat, CancellationToken cancellationToken)
+        {
+            await EnvoiEmailConfirmationReceptionDtCandidatAsync(emailCandidat, fullNameCandidat);
         }
 
         public async Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, string emailTo, string fullNameCandidat, CancellationToken cancellationToken)
@@ -90,26 +96,58 @@ namespace Altalents.Business.Services
             await EnvoiEmailCreationDtCandidatAsync(emailTo, tokenAccesRapide, fullNameCandidat);
         }
 
-        private async Task EnvoiEmailCreationDtCandidatAsync(string emailTo, Guid tokenAccesRapide, string fullNameCandidat)
+        private async Task EnvoiEmailCreationDtCandidatAsync(string emailTo, Guid tokenAccesRapide, string fullNameCandidat, List<DocumentComplementaire> documentComplementaires = null)
         {
+            var documentLinks = "";
+            if (documentComplementaires != null && documentComplementaires.Any())
+            {
+                documentLinks = "<ul>";
+                foreach (var doc in documentComplementaires)
+                {
+                    var downloadLink = $"{_globalSettings.BaseUrl}/api/documents/{tokenAccesRapide}/document/{doc.Id}/download";
+                    documentLinks += $"<li><a href='{downloadLink}' target='_blank'>{doc.Nom}</a></li>";
+                }
+                documentLinks += "</ul>";
+            }
+
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
                 FilesNamesConstantes.EmailConfirmationCreationDt_HtmlTemplate_FileNameWithExt,
                 FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
                 new Dictionary<string, string>
                 {
-                    { "baseUrl", _globalSettings.BaseUrl },
-                    { "link", $"{_globalSettings.BaseUrl}/accueil/{tokenAccesRapide}" },
-                    { "candidatFullName", fullNameCandidat }
+            { "baseUrl", _globalSettings.BaseUrl },
+            { "link", $"{_globalSettings.BaseUrl}/accueil/{tokenAccesRapide}" },
+            { "candidatFullName", fullNameCandidat },
+            { "documentLinks", documentLinks } // Ajout des liens ici
+                }
+            );
+
+            await _emailService.SendEmailWithRetryAsync(
+                  emailTo,
+                  "Demande de création de dossier technique",
+                  htmlContent
+              );
+        }
+
+
+        private async Task EnvoiEmailConfirmationReceptionDtCandidatAsync(string emailTo, string fullNameCandidat)
+        {
+            string htmlContent = _emailService.LoadEmailTemplateWithCss(
+                FilesNamesConstantes.EmailConfirmationReceptionDt_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
+                new Dictionary<string, string>
+                {
+            { "baseUrl", _globalSettings.BaseUrl },
+            { "candidatFullName", fullNameCandidat }
                 }
             );
 
             await _emailService.SendEmailWithRetryAsync(
                 emailTo,
-                "Demande de création de dossier technique",
-                htmlContent
+                "Votre dossier technique a bien été reçu !",
+                htmlContent, false
             );
         }
-
 
         private async Task EnvoiEmailDtCandidatCompletAsync(Guid tokenAccesRapide, string fullNameCandidat)
         {
@@ -129,7 +167,7 @@ namespace Altalents.Business.Services
             await _emailService.SendEmailWithRetryAsync(
                 _emailSettings.MailsServiceCommercial,
                 $"Alerte : Un candidat ({fullNameCandidat}) a complété son dossier technique",
-                htmlContent
+                htmlContent, false
             );
         }
 
@@ -154,6 +192,68 @@ namespace Altalents.Business.Services
                 TypeDocument = TypeDocumentEnum.PieceJointeDt
             };
         }
+
+        
+        public async Task<List<DocumentDto>> GetPiecesJointesDtWithoutDataAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+            List<DocumentDto> result = await context.DossierTechniques
+                .Where(x => x.TokenAccesRapide == tokenAccesRapide)
+                .SelectMany(x => x.DocumentComplementaires
+                    .Where(w => w.TypeDocument == TypeDocumentEnum.PieceJointeDt)
+                    .Select(d => new DocumentDto
+                    {
+                        Id = d.Id,
+                        Commentaire = d.Commentaire,
+                        //Data = d.Data,
+                        MimeType = d.MimeType,
+                        NomFichier = d.Nom
+                    }))
+                .ToListAsync(cancellationToken);
+            return result;
+        }
+
+        public async Task<DocumentDto> GetPieceJointeDtWithDataAsync(Guid tokenAccesRapide, Guid documentId, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            DocumentComplementaire docToDl = await context.DocumentComplementairesTD.Include(x=>x.DossierTechnique).Where( x=>x.Id == documentId).SingleAsync(cancellationToken);
+
+            if(docToDl == null)
+                throw new BusinessException("Dossier technique inexistant");
+
+            if(docToDl.DossierTechnique.TokenAccesRapide != tokenAccesRapide)
+                throw new BusinessException("Le token d'acces rapide ne correspond pas");
+
+            DocumentDto toReturn = new DocumentDto()
+            {
+                Id = docToDl.Id,
+                Commentaire = docToDl.Commentaire,
+                Data = docToDl.Data,
+                MimeType = docToDl.MimeType,
+                NomFichier = docToDl.Nom
+            };
+
+            return toReturn;
+        }
+
+        public async Task<DocumentDto> GetCvDtAsync(Guid tokenRapide, CancellationToken cancellationToken)
+        {
+
+            using CustomDbContext context = GetScopedDbContexte();
+
+            Entities.Document cv = await context.DossierTechniques
+                            .Where(x => x.TokenAccesRapide == tokenRapide)
+                            .Include(x => x.Personne)
+                                .ThenInclude(x => x.Documents).Select(e => e.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV)).SingleAsync(cancellationToken);
+
+            if (cv == null)
+                return null;
+
+            return new DocumentDto() { Id = cv.Id, MimeType = cv.MimeType, NomFichier = cv.Nom, Data = cv.Data };
+
+        }
+
 
         private async Task CheckNouveauCandidat(DossierTechniqueInsertRequestDto dossierTechnique, CancellationToken cancellationToken)
         {
@@ -394,22 +494,7 @@ namespace Altalents.Business.Services
                 return false;
         }
 
-        public async Task<DocumentDto> GetCvDtAsync(Guid tokenRapide, CancellationToken cancellationToken)
-        {
 
-            using CustomDbContext context = GetScopedDbContexte();
-
-            Entities.Document cv =  await context.DossierTechniques
-                            .Where(x => x.TokenAccesRapide == tokenRapide)
-                            .Include(x => x.Personne)
-                                .ThenInclude(x => x.Documents).Select(e => e.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV)).SingleAsync(cancellationToken);
-
-            if (cv == null)
-                return null;
-
-            return new DocumentDto() { Id = cv.Id, MimeType = cv.MimeType, NomFichier = cv.Nom, Data = cv.Data };
-
-        }
 
         public async Task<ParlonsDeVousDto> GetParlonsDeVousAsync(Guid tokenRapide, CancellationToken cancellationToken)
         {
@@ -585,23 +670,6 @@ namespace Altalents.Business.Services
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<DocumentDto>> GetPiecesJointesDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
-        {
-            using CustomDbContext context = GetScopedDbContexte();
-            List<DocumentDto> result = await context.DossierTechniques
-                .Where(x => x.TokenAccesRapide == tokenAccesRapide)
-                .SelectMany(x => x.DocumentComplementaires
-                    .Where(w => w.TypeDocument == TypeDocumentEnum.PieceJointeDt)
-                    .Select(d => new DocumentDto
-                    {
-                        Commentaire = d.Commentaire,
-                        Data = d.Data,
-                        MimeType = d.MimeType,
-                        NomFichier = d.Nom
-                    }))
-                .ToListAsync(cancellationToken);
-            return result;
-        }
 
         public async Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {

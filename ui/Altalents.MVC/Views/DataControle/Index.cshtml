@@ -72,7 +72,7 @@
         columns.Bound(p => p.NbDtAssocie).Title(LibellesResources.ReferenceNbDtAssocie);
 
         columns.Bound(p => p.Id).Title("<i class='fa fa-edit' aria-hidden='true'></i>").Filterable(false) // Pas de titre pour économiser de l'espace
-           .ClientTemplate("<a title='Modifier cette référence' href='javascript:void(0);' onclick='openKendoReferenceWindow(\"#=Id#\", #=Validated#, \"#=Libelle#\", \"#=CommentaireFun#\")' class='k-link edit-link' target='_blank'>" +
+           .ClientTemplate("<a title='Modifier cette référence' href='javascript:void(0);' onclick='openKendoReferenceWindow(\"#=Id#\", #=Validated#, \"#=Libelle#\", \"#=CommentaireFun#\")' class='k-link edit-link'>" +
                            "<i class='fa fa-edit' aria-hidden='true'></i>" +
                            "</a>")
               .Width(40);
@@ -96,6 +96,6 @@
     .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}")
     .CreateDefautToolBar(withCreate: false, creerTexte: "Créer une reference")
     .CreateDefautDataSource(gridReferenceAValiderActionDictionary, model => model.Id(p => p.Id), colonneTriInitiale: "TypeReference", colonneTriSecondaire:"Libelle") *@
-) 
+
 
 @Html.Partial("_ModificationReferenceModal")

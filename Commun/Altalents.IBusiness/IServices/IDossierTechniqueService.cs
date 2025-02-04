@@ -22,7 +22,8 @@ namespace Altalents.IBusiness.IServices
         Task<List<CompetenceDto>> GetLiaisonCandidatByTypeAsync(Guid tokenRapide, string typeLiaisonCode, CancellationToken cancellationToken);
         Task UpdateNiveauLiaisonAsync(LiaisonExperienceUpdateNiveauDto request, CancellationToken cancellationToken);
         Task<List<ExperienceDto>> GetExperiencesAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
-        Task<List<DocumentDto>> GetPiecesJointesDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
+        Task<List<DocumentDto>> GetPiecesJointesDtWithoutDataAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
+        Task<DocumentDto> GetPieceJointeDtWithDataAsync(Guid tokenAccesRapide, Guid documentId, CancellationToken cancellationToken);
         Task<DocumentDto> GetCvDtAsync(Guid tokenRapide, CancellationToken cancellationToken);
         Task<AllAboutFormationsDto> GetAllAboutFormationAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<Guid> AddOrUpdateFormationCertificationAsync(Guid tokenAccesRapide, FormationCertificationRequestDto request, CancellationToken cancellationToken, Guid? id = null);
@@ -35,7 +36,8 @@ namespace Altalents.IBusiness.IServices
         Task DeleteProjectOrMissionAsync(Guid tokenAccesRapide, Guid idMissionToDelete, CancellationToken cancellationToken);
         Task<Guid> AddOrUpdateExperienceAsync(Guid tokenAccesRapide, ExperienceRequestDto experienceDto, CancellationToken cancellationToken, Guid? id = null);
         Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, string emailTo, string fullNameCandidat, CancellationToken cancellationToken);
-        Task TestEnvoiEmailValidationDtByCandidatAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken);
+        Task TestEnvoiEmailValidationDtByCandidatAuCandidatAsync(string emailCandidat, string fullNameCandidat, CancellationToken cancellationToken);
+        Task TestEnvoiEmailValidationDtByCandidatAuServiceComAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken);
         Task ValidationDtCompletByCandidatAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<PermissionConsultationDtDto> GetPermissionConsultationDtAsync(string tokenRapide, bool isUserLoggedInBackoffice, CancellationToken cancellationToken);
     }

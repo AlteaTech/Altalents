@@ -2,6 +2,8 @@ import { DocumentDto } from "../services/generated/api/api.client";
 
 
 export class DocumentDt {
+  
+    id?: string | null;
     mimeType!: string;
     nomFichier!: string;
     commentaire?: string | null;
@@ -9,10 +11,13 @@ export class DocumentDt {
     
     public static from(dto: DocumentDto): DocumentDt {
       let model = new DocumentDto();
+
+      model.id = dto.id;
       model.commentaire = dto.commentaire;
       model.data = dto.data;
       model.mimeType = dto.mimeType;
       model.nomFichier = dto.nomFichier;
+
       return model;
     }
 

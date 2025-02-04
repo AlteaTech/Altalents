@@ -153,6 +153,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Remove="App_Data\Templates\Emails\EmailConfirmationReceptionDtByCandidat.html" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Update="App_Data\Templates\Emails\EmailConfirmationCreationDtForCandidat.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

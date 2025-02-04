@@ -162,4 +162,8 @@ export class ApiServiceAgent {
     return this.apiClient.getCvFile(token);
   }
 
+  getDocumentWithData(token:string, id: string): Observable<DocumentDto> {
+    return this.apiClient.getDocumentWithData(token, id);
+  }
+
 }

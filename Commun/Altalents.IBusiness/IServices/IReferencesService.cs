@@ -8,6 +8,6 @@ namespace Altalents.IBusiness.IServices
         Task<List<ReferenceDto>> GetReferencesAsync(string typeReferenceCode, string startWith, CancellationToken cancellationToken);
         IQueryable<ReferenceAValiderDto> GetReferencesAValider(bool showAll);
         Task DeleteReference(Guid idRef, CancellationToken cancellationToken);
-        Task UpdateReferenceAsync(ReferenceAValiderDto reference);
+        Task UpdateReferenceAsync(ReferenceRequestDto referenceDto, CancellationToken cancellationToken);
     }
 }
