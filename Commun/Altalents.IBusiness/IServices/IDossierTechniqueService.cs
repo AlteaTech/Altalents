@@ -36,7 +36,8 @@ namespace Altalents.IBusiness.IServices
         Task DeleteProjectOrMissionAsync(Guid tokenAccesRapide, Guid idMissionToDelete, CancellationToken cancellationToken);
         Task<Guid> AddOrUpdateExperienceAsync(Guid tokenAccesRapide, ExperienceRequestDto experienceDto, CancellationToken cancellationToken, Guid? id = null);
         Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, string emailTo, string fullNameCandidat, CancellationToken cancellationToken);
-        Task TestEnvoiEmailValidationDtByCandidatAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken);
+        Task TestEnvoiEmailValidationDtByCandidatAuCandidatAsync(string emailCandidat, string fullNameCandidat, CancellationToken cancellationToken);
+        Task TestEnvoiEmailValidationDtByCandidatAuServiceComAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken);
         Task ValidationDtCompletByCandidatAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         Task<PermissionConsultationDtDto> GetPermissionConsultationDtAsync(string tokenRapide, bool isUserLoggedInBackoffice, CancellationToken cancellationToken);
     }

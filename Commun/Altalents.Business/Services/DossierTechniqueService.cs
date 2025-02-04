@@ -72,6 +72,7 @@ namespace Altalents.Business.Services
             {
                 //On envoi en async volontairement pour de raison de perf (Pas besoin d'attendre un envoi de mail)
                 EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom);
+                EnvoiEmailConfirmationReceptionDtCandidatAsync(dt.Personne.Email, dt.Personne.Prenom + " " + dt.Personne.Nom);
 
                 dt.StatutId = Guid.Parse(IdsConstantes.StatutDtAValiderId);
                 dt.DateMaj = DateTime.Now;
@@ -80,9 +81,14 @@ namespace Altalents.Business.Services
 
         }
 
-        public async Task TestEnvoiEmailValidationDtByCandidatAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken)
+        public async Task TestEnvoiEmailValidationDtByCandidatAuServiceComAsync(Guid tokenAccesRapide, string fullNameCandidat, CancellationToken cancellationToken)
         {
             await EnvoiEmailDtCandidatCompletAsync(tokenAccesRapide, fullNameCandidat);
+        }
+
+        public async Task TestEnvoiEmailValidationDtByCandidatAuCandidatAsync(string emailCandidat, string fullNameCandidat, CancellationToken cancellationToken)
+        {
+            await EnvoiEmailConfirmationReceptionDtCandidatAsync(emailCandidat, fullNameCandidat);
         }
 
         public async Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, string emailTo, string fullNameCandidat, CancellationToken cancellationToken)
@@ -90,26 +96,58 @@ namespace Altalents.Business.Services
             await EnvoiEmailCreationDtCandidatAsync(emailTo, tokenAccesRapide, fullNameCandidat);
         }
 
-        private async Task EnvoiEmailCreationDtCandidatAsync(string emailTo, Guid tokenAccesRapide, string fullNameCandidat)
+        private async Task EnvoiEmailCreationDtCandidatAsync(string emailTo, Guid tokenAccesRapide, string fullNameCandidat, List<DocumentComplementaire> documentComplementaires = null)
         {
+            var documentLinks = "";
+            if (documentComplementaires != null && documentComplementaires.Any())
+            {
+                documentLinks = "<ul>";
+                foreach (var doc in documentComplementaires)
+                {
+                    var downloadLink = $"{_globalSettings.BaseUrl}/api/documents/{tokenAccesRapide}/document/{doc.Id}/download";
+                    documentLinks += $"<li><a href='{downloadLink}' target='_blank'>{doc.Nom}</a></li>";
+                }
+                documentLinks += "</ul>";
+            }
+
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
                 FilesNamesConstantes.EmailConfirmationCreationDt_HtmlTemplate_FileNameWithExt,
                 FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
                 new Dictionary<string, string>
                 {
-                    { "baseUrl", _globalSettings.BaseUrl },
-                    { "link", $"{_globalSettings.BaseUrl}/accueil/{tokenAccesRapide}" },
-                    { "candidatFullName", fullNameCandidat }
+            { "baseUrl", _globalSettings.BaseUrl },
+            { "link", $"{_globalSettings.BaseUrl}/accueil/{tokenAccesRapide}" },
+            { "candidatFullName", fullNameCandidat },
+            { "documentLinks", documentLinks } // Ajout des liens ici
+                }
+            );
+
+            await _emailService.SendEmailWithRetryAsync(
+                  emailTo,
+                  "Demande de création de dossier technique",
+                  htmlContent
+              );
+        }
+
+
+        private async Task EnvoiEmailConfirmationReceptionDtCandidatAsync(string emailTo, string fullNameCandidat)
+        {
+            string htmlContent = _emailService.LoadEmailTemplateWithCss(
+                FilesNamesConstantes.EmailConfirmationReceptionDt_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
+                new Dictionary<string, string>
+                {
+            { "baseUrl", _globalSettings.BaseUrl },
+            { "candidatFullName", fullNameCandidat }
                 }
             );
 
             await _emailService.SendEmailWithRetryAsync(
                 emailTo,
-                "Demande de création de dossier technique",
-                htmlContent
+                "Votre dossier technique a bien été reçu !",
+                htmlContent, false
             );
         }
-
 
         private async Task EnvoiEmailDtCandidatCompletAsync(Guid tokenAccesRapide, string fullNameCandidat)
         {
@@ -129,7 +167,7 @@ namespace Altalents.Business.Services
             await _emailService.SendEmailWithRetryAsync(
                 _emailSettings.MailsServiceCommercial,
                 $"Alerte : Un candidat ({fullNameCandidat}) a complété son dossier technique",
-                htmlContent
+                htmlContent, false
             );
         }
 

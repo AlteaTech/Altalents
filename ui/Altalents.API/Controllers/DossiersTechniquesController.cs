@@ -75,10 +75,16 @@ namespace Altalents.API.Controllers
            await  _dossierTechniqueService.TestEnvoiEmailCreationDtAuCandidatAsync(tokenRapide, emailTo, CandidatFullName, cancellationToken);
         }
 
-        [HttpGet("{tokenRapide}/test-email-validation-dt/{CandidatFullName}", Name = "TestEnvoiEmailValidationDtAsync")]
-        public async void TestEnvoiEmailValidationDtAsync([FromRoute] Guid tokenRapide, [FromRoute] string CandidatFullName, CancellationToken cancellationToken)
+        [HttpGet("{tokenRapide}/test-email-validation-dt-service-com/{CandidatFullName}", Name = "TestEnvoiEmailValidationAuServiceComDtAsyncAsync")]
+        public async void TestEnvoiEmailValidationAuServiceComDtAsync([FromRoute] Guid tokenRapide, [FromRoute] string CandidatFullName, CancellationToken cancellationToken)
         {
-            await _dossierTechniqueService.TestEnvoiEmailValidationDtByCandidatAsync(tokenRapide, CandidatFullName, cancellationToken);
+            await _dossierTechniqueService.TestEnvoiEmailValidationDtByCandidatAuServiceComAsync(tokenRapide, CandidatFullName, cancellationToken);
+        }
+
+        [HttpGet("{tokenRapide}/test-email-validation-dt-candidat/{CandidatFullName}", Name = "TestEnvoiEmailValidationDtAuCandidatAsync")]
+        public async void TestEnvoiEmailValidationDtAuCandidatAsync([FromRoute] string emailCandidat, [FromRoute] string CandidatFullName, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.TestEnvoiEmailValidationDtByCandidatAuCandidatAsync(emailCandidat, CandidatFullName, cancellationToken);
         }
 
         [HttpGet("{tokenRapide}/questionnaires", Name = "GetQuestionnaires")]
@@ -147,6 +153,18 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetPieceJointeDtWithDataAsync(tokenAccesRapide, id, cancellationToken);
         }
 
+        [HttpGet("{tokenAccesRapide}/document/{id}/download", Name = "DownloadDocument")]
+        public async Task<IActionResult> DownloadDocumentAsync([FromRoute] Guid tokenAccesRapide, [FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            var document = await _dossierTechniqueService.GetPieceJointeDtWithDataAsync(tokenAccesRapide, id, cancellationToken);
+
+            if (document == null || document.Data == null)
+            {
+                return NotFound();
+            }
+
+            return File(document.Data, document.MimeType, document.NomFichier);
+        }
 
         [HttpGet("{tokenAccesRapide}/cv", Name = "GetCvFile")]
         public async Task<DocumentDto> GetCv([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)

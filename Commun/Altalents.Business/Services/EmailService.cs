@@ -21,23 +21,23 @@ namespace Altalents.Business.Services
             _emailSettings = emailSetting.Value;
         }
 
-        public void SendEmail(string toEmail, string subject, string message)
+        public void SendEmail(string toEmail, string subject, string message, bool sendCcToCciMailsList = true)
         {
             SendEmailAsync(toEmail, subject, message).Wait();
         }
 
-        public async Task SendEmailWithRetryAsync(string toEmail, string subject, string message)
+        public async Task SendEmailWithRetryAsync(string toEmail, string subject, string message, bool sendCcToCciMailsList = true)
         {
             try
             {
-                await SendEmailAsync(toEmail, subject, message, default);
+                await SendEmailAsync(toEmail, subject, message, sendCcToCciMailsList, default);
             }
             catch
             {
-                BackgroundJob.Enqueue(() => SendEmail(toEmail, subject, message));
+                BackgroundJob.Enqueue(() => SendEmail(toEmail, subject, message, sendCcToCciMailsList));
             }
         }
-        public async Task SendEmailAsync(string toEmail, string subject, string message, CancellationToken token = default)
+        public async Task SendEmailAsync(string toEmail, string subject, string message, bool sendCcToCciMailsList = true, CancellationToken token = default)
         {
             subject = $"{_emailSettings.PrefixMail} - {subject}";
             MimeMessage emailMessage = new();
@@ -48,10 +48,14 @@ namespace Altalents.Business.Services
             }
             emailMessage.Subject = subject;
 
-            foreach (string cci in _emailSettings.CciMails.Split(';'))
+            if (sendCcToCciMailsList)
             {
-                emailMessage.Bcc.Add(new MailboxAddress(cci, cci));
+                foreach (string cci in _emailSettings.CciMails.Split(';'))
+                {
+                    emailMessage.Bcc.Add(new MailboxAddress(cci, cci));
+                }
             }
+
 
             BodyBuilder bodyBuilder = new();
             bodyBuilder.HtmlBody = message;
