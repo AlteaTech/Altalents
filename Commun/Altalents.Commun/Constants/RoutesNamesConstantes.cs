@@ -83,6 +83,9 @@ namespace Altalents.Commun.Constants
         public const string ApiControllerDossierTechnique_MethodeDownloadDtWord = "download-dt";
         public const string ApiControllerDossierTechnique_MethodeDownloadDtPdf = "download-dt-pdf";
         public const string ApiControllerDossierTechnique_MethodeDownloadCv = "download-cv";
+        public const string ApiControllerDossierTechnique_MethodeDocument = "document";
+
+        public const string ApiControllerDossierTechnique_RouteDownload = "document";
 
 
 

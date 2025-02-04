@@ -92,9 +92,13 @@ namespace Altalents.Business.Services
             await EnvoiEmailConfirmationReceptionDtCandidatAsync(emailCandidat, fullNameCandidat);
         }
 
-        public async Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, string emailTo, string fullNameCandidat, CancellationToken cancellationToken)
+        public async Task TestEnvoiEmailCreationDtAuCandidatAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
-            await EnvoiEmailCreationDtCandidatAsync(emailTo, tokenAccesRapide, fullNameCandidat);
+            using CustomDbContext context = GetScopedDbContexte();
+
+            DossierTechnique dt = await context.DossierTechniques.Include(x => x.Personne).Include(x => x.DocumentComplementaires).AsTracking().SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide);
+
+            await EnvoiEmailCreationDtCandidatAsync(dt.Personne.Email, tokenAccesRapide, dt.Personne.Prenom + " " + dt.Personne.Nom, dt.DocumentComplementaires);
         }
 
         private async Task EnvoiEmailCreationDtCandidatAsync(string emailTo, Guid tokenAccesRapide, string fullNameCandidat, List<DocumentComplementaire> documentComplementaires = null)
@@ -102,15 +106,15 @@ namespace Altalents.Business.Services
             var documentLinks = "";
             if (documentComplementaires != null && documentComplementaires.Any())
             {
-                documentLinks = "  <p>PS : Nos amis du service commercial ont pensé à vous ! Ils ont mis à disposition quelques documents qui pourraient vous être utiles pour remplir votre dossier technique :</p>\r\n";
+                documentLinks += "<p class='small'>PS : Nos amis du service commercial ont pensé à vous ! Ils ont mis à disposition quelques documents qui pourraient vous être utiles pour remplir votre dossier technique :</p>\r\n";
                 documentLinks += "<ul>";
                 foreach (var doc in documentComplementaires)
                 {
-                    var downloadLink = $"{_globalSettings.BaseUrl}/api/documents/{tokenAccesRapide}/document/{doc.Id}/download";
+                    var downloadLink = $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossiersTechniques}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDocument}/{doc.Id}/{RoutesNamesConstantes.ApiControllerDossierTechnique_RouteDownload}";
                     documentLinks += $"<li><a href='{downloadLink}' target='_blank'>{doc.Nom}</a> - <span>{doc.Commentaire}</span></li>";
                 }
                 documentLinks += "</ul>";
-                documentLinks += "<p>(et non, ce ne sont pas des instructions en hiéroglyphes, promis 😄)</p>";
+                documentLinks += "<p class='small'>et non, ce ne sont pas des instructions en hiéroglyphes, promis 😄</p>";
             }
 
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
@@ -161,7 +165,7 @@ namespace Altalents.Business.Services
                 {
                     { "baseUrl", _globalSettings.BaseUrl },
                     { "candidatFullName", fullNameCandidat },
-                    { "downloadLink",$"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossiersTechniques}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtWord}" },
+                    { "downloadLink",$"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.ApiControllerDossiersTechniques}/{tokenAccesRapide}/{RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtWord}"},
                     { "openAdminLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.MvcAreaAdmin}/{RoutesNamesConstantes.MvcControllerTableauDeBord}" },
                     { "editLink", $"{_globalSettings.BaseUrl}/{RoutesNamesConstantes.AngularApp_DossierTechnique}/{tokenAccesRapide}" }
                 }

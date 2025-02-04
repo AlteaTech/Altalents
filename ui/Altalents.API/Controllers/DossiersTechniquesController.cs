@@ -69,10 +69,10 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetParlonsDeVousAsync(tokenRapide, cancellationToken);
         }
 
-        [HttpGet("{tokenRapide}/test-email-creation-dt/{emailTo}/{CandidatFullName}", Name = "TestEnvoiEmailCreationDtAsync")]
-        public async void TestEnvoiEmailCreationDtAsync([FromRoute] Guid tokenRapide, [FromRoute] string emailTo, [FromRoute] string CandidatFullName, CancellationToken cancellationToken)
+        [HttpGet("{tokenRapide}/test-email-creation-dt", Name = "TestEnvoiEmailCreationDtAsync")]
+        public async void TestEnvoiEmailCreationDtAsync([FromRoute] Guid tokenRapide, CancellationToken cancellationToken)
         {
-           await  _dossierTechniqueService.TestEnvoiEmailCreationDtAuCandidatAsync(tokenRapide, emailTo, CandidatFullName, cancellationToken);
+           await  _dossierTechniqueService.TestEnvoiEmailCreationDtAuCandidatAsync(tokenRapide, cancellationToken);
         }
 
         [HttpGet("{tokenRapide}/test-email-validation-dt-service-com/{CandidatFullName}", Name = "TestEnvoiEmailValidationAuServiceComDtAsyncAsync")]
