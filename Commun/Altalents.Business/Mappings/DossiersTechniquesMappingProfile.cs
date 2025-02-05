@@ -104,7 +104,7 @@ namespace Altalents.Business.Mappings
             CreateMap<DossierTechniqueInsertRequestDto, Personne>()
                 .ForMember(dest => dest.Nom, opt => opt.MapFrom(src => StringsHelpers.FirstLetterToUpperCase(src.Nom)))
                 .ForMember(dest => dest.Prenom, opt => opt.MapFrom(src => StringsHelpers.FirstLetterToUpperCase(src.Prenom)))
-                .ForMember(dest => dest.Trigramme, opt => opt.MapFrom(src => src.Trigramme.ToLower()))
+                .ForMember(dest => dest.Trigramme, opt => opt.MapFrom(src => src.Trigramme.ToUpper()))
                 .ForMember(dest => dest.BoondId, opt => opt.MapFrom(src => src.IdBoond))
                 .ForMember(dest => dest.Documents, opt => opt.Ignore())
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AdresseMail.ToLower().Trim()))

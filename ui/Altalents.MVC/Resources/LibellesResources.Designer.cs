@@ -124,7 +124,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mauvaise combinaison Email/ mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site..
+        ///   Looks up a localized string similar to Mauvaise combinaison Email/ mot de passe..
         /// </summary>
         public static string LoginFailed {
             get {
@@ -250,7 +250,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nombre de Dt Associés.
+        ///   Looks up a localized string similar to Nb DT Associés.
         /// </summary>
         public static string ReferenceNbDtAssocie {
             get {

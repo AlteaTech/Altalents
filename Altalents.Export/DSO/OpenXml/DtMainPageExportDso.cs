@@ -39,7 +39,9 @@ namespace Altalents.Export.DSO.OpenXml
         public List<DtFormationExportDso> Candidat_Formations { get; set; }
         public List<DtCertificationExportDso> Candidat_Certifications{ get; set; }
         public List<DtLangueExportDso> Candidat_Langues { get; set; }
-        public  List<DtExperienceProExportDso> Candidat_ExperiencesPro { get; set; }
+
+        public List<DtExperienceProExportDso> Candidat_ExperiencesProV1 { get; set; }
+        public List<DtExperienceProExportDsoV2> Candidat_ExperiencesProV2 { get; set; }
         public List<DtQuestionDso> Candidat_Questions { get; set; }
 
     }

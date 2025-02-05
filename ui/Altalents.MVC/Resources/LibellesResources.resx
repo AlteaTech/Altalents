@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -133,7 +133,7 @@
     <value>Identifiant Boond</value>
   </data>
   <data name="LoginFailed" xml:space="preserve">
-    <value>Mauvaise combinaison Email/ mot de passe. Veuillez ressaisir vos informations de connexion ou contacter l’administrateur du site.</value>
+    <value>Mauvaise combinaison Email/ mot de passe.</value>
     <comment>Libelle LOGIN</comment>
   </data>
   <data name="LoginIdentifiant" xml:space="preserve">
@@ -183,7 +183,7 @@
     <value>Libelle</value>
   </data>
   <data name="ReferenceNbDtAssocie" xml:space="preserve">
-    <value>Nombre de Dt Associés</value>
+    <value>Nb DT Associés</value>
   </data>
   <data name="ReferenceType" xml:space="preserve">
     <value>Type</value>

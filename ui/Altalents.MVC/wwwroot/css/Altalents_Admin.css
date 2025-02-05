@@ -14,6 +14,10 @@ body {
   color: #141431;
 }
 
+.text-danger {
+font-size:13px;
+}
+
 .liensousmenu {
   margin-left: 30px;
   padding-left: 20px;

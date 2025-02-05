@@ -55,7 +55,7 @@ namespace Altalents.MVC.Controllers.Admin
 
             query = query.Where(e => e.StatutCode == statutsCode.ToString());
             query = query.OrderByDescending(e => e.DateUpdate);
-            query = query.Take(8);
+            query = query.Take(10);
 
             DataSourceResult bibliothequeDossierTechniques = await query.ToDataSourceResultAsync(request);
 
