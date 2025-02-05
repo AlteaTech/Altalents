@@ -23,7 +23,7 @@ namespace Altalents.Export.Services
 
             try
             {
-                string normalizedPath = GetNormalisedFullPathWordTemplate(FilesNamesConstantes.ExportDtMainPage_WordTemplatePage_FileNameWithExt);
+                string normalizedPath = GetNormalisedFullPathWordTemplate(FilesNamesConstantes.ExportDtMainPage_WordTemplatePage_FileNameWithExt_V2);
 
                 File.Copy(normalizedPath, outputTempPath, true);
 
@@ -39,7 +39,8 @@ namespace Altalents.Export.Services
                     FeedFormationsSection(dt, mainBody);
                     FeedCertificationSection(dt, mainBody);
                     FeedLanguageSection(dt, mainBody);
-                    FeedExperiencesSection(dt, mainBody);
+                    //FeedExperiencesSectionV1(dt, mainBody);
+                    FeedExperiencesSectionV2(dt, mainBody);
                     FeedQuestionSection(dt, mainBody);
 
                     wordDoc.MainDocumentPart.Document.Save();
@@ -209,7 +210,7 @@ namespace Altalents.Export.Services
             }
         }
 
-        private void FeedExperiencesSection(DtMainPageExportDso dt, Body mainBody)
+        private void FeedExperiencesSectionV1(DtMainPageExportDso dt, Body mainBody)
         {
             Paragraph paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
 
@@ -217,7 +218,7 @@ namespace Altalents.Export.Services
             {
                 OpenXmlElement parent = paraWithKeyEXPERIENCES_RECURSIF.Parent;
 
-                if (dt.Candidat_ExperiencesPro == null || dt.Candidat_ExperiencesPro.Count == 0)
+                if (dt.Candidat_ExperiencesProV1 == null || dt.Candidat_ExperiencesProV1.Count == 0)
                 {
                     RemoveSection(paraWithKeyEXPERIENCES_RECURSIF);
                     return;
@@ -229,16 +230,60 @@ namespace Altalents.Export.Services
                     Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
                     Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
 
-                    foreach (DtExperienceProExportDso expDso in dt.Candidat_ExperiencesPro)
+                    foreach (DtExperienceProExportDso expDso in dt.Candidat_ExperiencesProV1)
                     {
                         Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
-                        Dictionary<string, string> data = GetDataExportDictionaryForOneExperience(expDso);
+                        Dictionary<string, string> data = GetDataExportDictionaryForOneExperienceV1(expDso);
 
                         ReplacePlaceholders(newTableau, data);
                         parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
 
                         Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
                         parent.InsertAfter(emptyParagraph, newTableau);
+                    }
+                }
+                paraWithKeyEXPERIENCES_RECURSIF.Remove();
+            }
+        }
+
+        private void FeedExperiencesSectionV2(DtMainPageExportDso dt, Body mainBody)
+        {
+            Paragraph paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
+
+            if (paraWithKeyEXPERIENCES_RECURSIF != null)
+            {
+                OpenXmlElement parent = paraWithKeyEXPERIENCES_RECURSIF.Parent;
+
+                if (dt.Candidat_ExperiencesProV2 == null || dt.Candidat_ExperiencesProV2.Count == 0)
+                {
+                    RemoveSection(paraWithKeyEXPERIENCES_RECURSIF);
+                    return;
+                }
+
+                string templatePath = GetTemplateExperiencelPath();
+                using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(templatePath, false))
+                {
+                    Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
+                    Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
+
+
+                    int index = 0;
+                    foreach (DtExperienceProExportDsoV2 expDso in dt.Candidat_ExperiencesProV2)
+                    {
+                        index = index + 1;
+                        Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
+                        Dictionary<string, string> data = GetDataExportDictionaryForOneExperienceV2(expDso);
+
+                        ReplacePlaceholders(newTableau, data);
+                        parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
+
+                        if (dt.Candidat_ExperiencesProV2.Count != index)
+                        {
+                            Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
+                            parent.InsertAfter(emptyParagraph, newTableau);
+                        }
+
+                        
                     }
                 }
                 paraWithKeyEXPERIENCES_RECURSIF.Remove();
@@ -451,7 +496,7 @@ namespace Altalents.Export.Services
 
         private static string GetTemplateExperiencelPath()
         {
-            string templateDocName = FilesNamesConstantes.ItemExperience_WordTemplateItem_FileNameWithExt;
+            string templateDocName = FilesNamesConstantes.ItemExperience_WordTemplateItem_FileNameWithExt_V2;
             return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
@@ -474,7 +519,7 @@ namespace Altalents.Export.Services
             return FileNormalizedPath;
         }
 
-        private static Dictionary<string, string> GetDataExportDictionaryForOneExperience(DtExperienceProExportDso exp)
+        private static Dictionary<string, string> GetDataExportDictionaryForOneExperienceV1(DtExperienceProExportDso exp)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -558,6 +603,77 @@ namespace Altalents.Export.Services
             return data;
         }
 
+
+        private static Dictionary<string, string> GetDataExportDictionaryForOneExperienceV2(DtExperienceProExportDsoV2 exp)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            string ESN = "";
+            if (exp.IsEsn)
+            {
+                ESN = " (ESN ou Intérim)";
+            }
+
+            data.Add(DtTemplatesReplacementKeys.EXP_ENTREPRISE, exp.NomEntreprise + ESN);
+            data.Add(DtTemplatesReplacementKeys.EXP_POSTE, exp.IntitulePoste);
+            data.Add(DtTemplatesReplacementKeys.EXP_DATES, exp.DateDebutEtDateFin);
+
+            string textToAddInProjectsPlaceholder = "";
+
+            int numProj = 0;
+
+            foreach (DtExpProProjetOrMissionV2 missionOrProject in exp.MissionsOrProjects)
+            {
+
+                string projet = "\n";
+                numProj = numProj + 1;
+
+                projet += "<b>";
+                if (exp.IsEsn)
+                {
+                    projet += $"MISSION {numProj} : ";
+                    projet += missionOrProject.NomClient;
+                    if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetierClient))
+                        projet += " [" + missionOrProject.DomaineMetierClient + "] ";
+                        projet += "| " + missionOrProject.Lieu + " ";
+                }
+                else
+                {
+                    projet += $"PROJET {numProj} : ";
+                }
+
+                if (!string.IsNullOrWhiteSpace(missionOrProject.DateDebutDateFin))
+                    projet += "| " + missionOrProject.DateDebutDateFin + " ";
+
+                projet += "</b>";
+                projet += "\n\n";
+
+                projet += "<b>Contexte</b> : " + missionOrProject.Context + "\n";
+
+                projet += "<b>Tâches</b> : " + missionOrProject.Taches + "\n";
+
+                if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
+                    projet += "<b>Equipe</b> : " + missionOrProject.CompoEquipe + "\n";
+
+                if (!string.IsNullOrWhiteSpace(missionOrProject.Competences))
+                    projet += "<b>Compétence(s)</b> : " + missionOrProject.Competences + "\n";
+
+                if (!string.IsNullOrWhiteSpace(missionOrProject.Methodologies))
+                    projet += "<b>Méthodologie(s)</b> : " + missionOrProject.CompoEquipe + "\n";
+
+                if (!string.IsNullOrWhiteSpace(missionOrProject.EnvironnementsTechnique))
+                    projet += "<b>Environnement(s) Technique</b> : " + missionOrProject.EnvironnementsTechnique + "\n";
+
+                textToAddInProjectsPlaceholder += projet + "\n";
+            }
+
+            //on retire les 1 retour a la ligne si c'est le dernier element
+            textToAddInProjectsPlaceholder = textToAddInProjectsPlaceholder.Remove(textToAddInProjectsPlaceholder.Count() - 1, 1);
+
+            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_VALUES, textToAddInProjectsPlaceholder);
+
+            return data;
+        }
 
         private static Dictionary<string, string> GetDataExportDictionaryForMainPage(DtMainPageExportDso dt)
         {

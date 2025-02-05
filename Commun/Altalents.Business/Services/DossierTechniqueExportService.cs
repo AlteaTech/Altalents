@@ -79,7 +79,7 @@ namespace Altalents.Business.Services
             DtMainPageExportDso modelExport = new DtMainPageExportDso
             {
                 //Remplissage data de l'entete
-                Candidat_Trigramme = dt.Personne.Trigramme,
+                Candidat_Trigramme = dt.Personne.Trigramme.ToUpper(),
                 Dt_Poste = dt.Poste,
 
                 //remplissage data du bloc Contact Commercial
@@ -97,10 +97,10 @@ namespace Altalents.Business.Services
 
             //remplissage data du tableau compétences technique
             modelExport.Candidat_SoftSkill = dt.SoftSkills;
-            modelExport.Candidat_Bdd = "";
-            modelExport.Candidat_Versionning = "";
-            modelExport.Candidat_IDE = "";
-            modelExport.Candidat_Framework = "";
+            //modelExport.Candidat_Bdd = "";
+            //modelExport.Candidat_Versionning = "";
+            //modelExport.Candidat_IDE = "";
+            //modelExport.Candidat_Framework = "";
 
             modelExport.Candidat_Domaines = GetFormatedCompetencesFromExperiences(dt);
             modelExport.Candidat_Languages_Prog = GetFormatedTechnologiesFromExperiences(dt);
@@ -112,7 +112,8 @@ namespace Altalents.Business.Services
             modelExport.Candidat_Formations = getFormationsOrderedByDateDesc(dt);
             modelExport.Candidat_Certifications = getCertificationOrderedByDateDesc(dt);
             modelExport.Candidat_Langues = getLanguesParle(dt);
-            modelExport.Candidat_ExperiencesPro = GetExperiencesOrderedByDate(dt);
+            //modelExport.Candidat_ExperiencesProV1 = GetExperiencesOrderedByDate(dt);
+            modelExport.Candidat_ExperiencesProV2 = GetExperiencesOrderedByDateV2(dt);
 
             modelExport.Candidat_Questions = GetQuestionToShowInDt(dt);
 
@@ -125,7 +126,7 @@ namespace Altalents.Business.Services
             return new DocumentDto()
             {
                 MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                NomFichier = dt.Personne.Trigramme + " - " + dt.Poste + " - " + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + ".docx",
+                NomFichier = dt.Personne.Trigramme.ToUpper() + " - " + dt.Poste + " - " + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + ".docx",
                 Data = generatedFile
             };
         }
@@ -479,7 +480,7 @@ namespace Altalents.Business.Services
                   return new DtCertificationExportDso
                   {
                       Annee = certif.DateObtention.ToString("yyyy"), // Convertir DateTime en string
-                      LibelleComplet = certif.Libelle + niveauPart
+                      LibelleComplet = certif.Libelle + niveauPart + organiusmePart
                   };
               })
               .ToList();
@@ -557,10 +558,59 @@ namespace Altalents.Business.Services
                             DescriptionProjet = p.DescriptionProjetOrMission,
                             Taches = p.Taches,
                             CompoEquipe = p.CompositionEquipe,
-                            Budget = p.Budget.HasValue ? p.Budget.Value + " €" : null
+                            Budget = p.Budget.HasValue ? p.Budget.Value + " €" : null,
+
                         }).ToList()
                 }).ToList();
         }
+
+
+        public List<DtExperienceProExportDsoV2> GetExperiencesOrderedByDateV2(DossierTechnique dt)
+        {
+            if (dt == null || dt.Experiences == null)
+                return new List<DtExperienceProExportDsoV2>();
+
+            return dt.Experiences
+                .OrderBy(exp => exp.DateDebut)
+                .Select(exp => new DtExperienceProExportDsoV2
+                {
+                    IsEsn = exp.IsEntrepriseEsnOrInterim,
+                    NomEntreprise = exp.NomEntreprise,
+                    IntitulePoste = exp.IntitulePoste,
+                    Lieu = exp.LieuEntreprise,
+                    TypeContrat = exp.TypeContrat?.Libelle,
+                    DateDebutEtDateFin = $"{exp.DateDebut:MM/yyyy} --> {(exp.DateFin.HasValue ? exp.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
+                    DomaineMetier = exp.DomaineMetier?.Libelle,
+                    MissionsOrProjects = exp.ProjetsOrMissionsClient?
+                        .OrderByDescending(p => p.DateDebut)
+                        .Select(p => new DtExpProProjetOrMissionV2
+                        {
+                            NomClient = p.NomClientOrProjet,
+                            DateDebutDateFin = p.DateDebut.HasValue && p.DateFin.HasValue
+                                ? $"Début : {p.DateDebut:MM/yyyy} --> Fin : {p.DateFin:MM/yyyy}"
+                                : p.DateDebut.HasValue
+                                    ? $"Début : {p.DateDebut:MM/yyyy}"
+                                    : p.DateFin.HasValue
+                                        ? $"Fin : {p.DateFin:MM/yyyy}"
+                                        : string.Empty,
+                            DomaineMetierClient = p.DomaineMetier?.Libelle,
+                            
+                            Lieu = p.Lieu,
+                            Context = p.DescriptionProjetOrMission,
+                            Taches = string.Join(", ", p.Taches.Split('\n')
+                                          .Select(t => t.Trim())
+                                          .Where(t => !string.IsNullOrEmpty(t))),
+                            CompoEquipe = p.CompositionEquipe,
+                            Competences = string.Join(", ", p.LiaisonProjetCompetences?.Select(lo => lo.Competence?.Libelle)),
+                            Methodologies = string.Join(", ", p.LiaisonProjetMethodologies?.Select(lo => lo.Methodologie?.Libelle)),
+                            EnvironnementsTechnique = string.Join(", ",
+                            p.LiaisonProjetTechnologies?.Select(lt => lt.Technologie?.Libelle) ?? Enumerable.Empty<string>()
+                                .Concat(p.LiaisonProjetOutils?.Select(lo => lo.Outil?.Libelle) ?? Enumerable.Empty<string>()))
+
+                        }).ToList()
+                }).ToList();
+        }
+
 
         private List<DtQuestionDso> GetQuestionToShowInDt(DossierTechnique dt)
         {

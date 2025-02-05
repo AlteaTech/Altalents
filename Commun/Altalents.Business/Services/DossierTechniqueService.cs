@@ -136,7 +136,6 @@ namespace Altalents.Business.Services
               );
         }
 
-
         private async Task EnvoiEmailConfirmationReceptionDtCandidatAsync(string emailTo, string fullNameCandidat)
         {
             string htmlContent = _emailService.LoadEmailTemplateWithCss(
