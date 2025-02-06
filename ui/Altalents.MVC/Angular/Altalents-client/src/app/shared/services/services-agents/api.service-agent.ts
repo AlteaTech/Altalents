@@ -166,4 +166,8 @@ export class ApiServiceAgent {
     return this.apiClient.getDocumentWithData(token, id);
   }
 
+  setLastValidatedEtape(token:string, numEtapeValidated: number ): Observable<void> {
+    return this.apiClient.setLastValidatedEtape(token, numEtapeValidated);
+  }
+
 }

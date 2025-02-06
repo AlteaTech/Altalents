@@ -26,6 +26,7 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   @Input() public tokenDossierTechnique: string = "";
   @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
+  @Output() public stepperUpdate: EventEmitter<void> = new EventEmitter<void>();
   
   public experiences: Experience[] = [];
 
@@ -41,9 +42,12 @@ export class ExperiencesComponent extends BaseComponentCallHttpComponent impleme
   public ngOnInit(): void {
       if (this.permissionDT.isDtAccessible) {
         this.validationCallback.emit(() => this.submit());
+        //ici on recharge le stepper car dans le cas d'un ajout ou d'un modif 'un exp dt.NumLastEtapValidated reviens a 2 (pour que l'utilisateur soit forcer a redefinir les notes de ces competences qui ont été delete suite a l update de l'exp);
+        this.stepperUpdate.emit(); 
         this.populateData();
     }
  }
+
 
  public ngAfterViewInit(): void {
   //L observer est necessaire pour les champs qui ont *ngIf ou *ngFor (car il sont generer plus tard et donc ne sont pas dans le DOM au moment de l'entré dans ngAfterViewInit)

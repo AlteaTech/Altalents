@@ -108,8 +108,11 @@
 
 
                             <div class="col-lg-3 mt-2 label-champ-input" >
-                                <label for="lieu" class="col-form-label">Lieu<span *ngIf="IsEsn"> de l'agence</span><span  *ngIf="!IsEsn"
-                                        class="champ-obligatoire">*</span></label>
+                                <label for="lieu" class="col-form-label">
+                                    <span *ngIf="IsEsn">Localisation de l'agence</span>
+                                    <span *ngIf="!IsEsn">Localisation de l'entreprise</span>
+                                    <span *ngIf="!IsEsn" class="champ-obligatoire">*</span>
+                                </label>
                                 <div class="error-message"
                                     *ngIf="formGroup.controls.lieu.invalid && formGroup.controls.lieu.touched">
                                     Le lieu est requis.

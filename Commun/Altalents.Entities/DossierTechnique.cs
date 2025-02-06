@@ -24,6 +24,7 @@ namespace Altalents.Entities
         public Reference Disponibilite { get; set; }
         public Guid StatutId { get; set; }
         public Reference Statut { get; set; }
+        public int NumLastEtapValidated { get; set; }
         public Guid CommercialId { get; set; }
         public Utilisateur Commercial { get; set; }
         public Guid PersonneId { get; set; }
