@@ -16,7 +16,8 @@
                 </div>
             </div>
             <div class="row m-1 mb-2">
-                <label for="commentaire" class="col-form-label no-padding-left">Commentaire</label>
+                <label for="commentaire" class="col-form-label no-padding-left">Commentaire<span
+                    class="champ-obligatoire">*</span></label>
              
                 <input type="text" class="form-control" formControlName="commentaire" placeholder="Pas de commentaire">
                 <div class="error-message" *ngIf="formGroup.get('commentaire')?.errors?.['required'] && formGroup.get('commentaire')?.touched">
