@@ -648,18 +648,18 @@ namespace Altalents.Export.Services
                 projet += "</b>";
                 projet += "\n\n";
 
-                projet += "<b>Contexte</b> : " + missionOrProject.Context + "\n";
+                projet += "<b>Contexte</b> : " + missionOrProject.Context + "\n\n";
 
-                projet += "<b>Tâches</b> : " + missionOrProject.Taches + "\n";
+                projet += "<b>Tâches</b> : " + missionOrProject.Taches + "\n\n";
 
                 if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
-                    projet += "<b>Equipe</b> : " + missionOrProject.CompoEquipe + "\n";
+                    projet += "<b>Equipe</b> : " + missionOrProject.CompoEquipe + "\n\n";
 
                 if (!string.IsNullOrWhiteSpace(missionOrProject.Competences))
-                    projet += "<b>Compétence(s)</b> : " + missionOrProject.Competences + "\n";
+                    projet += "<b>Compétence(s)</b> : " + missionOrProject.Competences + "\n\n";
 
                 if (!string.IsNullOrWhiteSpace(missionOrProject.Methodologies))
-                    projet += "<b>Méthodologie(s)</b> : " + missionOrProject.CompoEquipe + "\n";
+                    projet += "<b>Méthodologie(s)</b> : " + missionOrProject.CompoEquipe + "\n\n";
 
                 if (!string.IsNullOrWhiteSpace(missionOrProject.EnvironnementsTechnique))
                     projet += "<b>Environnement(s) Technique</b> : " + missionOrProject.EnvironnementsTechnique + "\n";

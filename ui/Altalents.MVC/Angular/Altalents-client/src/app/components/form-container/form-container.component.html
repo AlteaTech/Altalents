@@ -13,13 +13,13 @@
                 <div class="col-lg-7">
                     <ol class="stepper">
                         <li *ngFor="let step of steps"
-                            [ngClass]="{
-                                'active': currentStep == step,
-                                'clickable': step <= permissionDT.numLastEtapeValidated,
-                                'validated-step': step > currentStep && step <= permissionDT.numLastEtapeValidated
-                            }"
-                            (click)="step <= permissionDT.numLastEtapeValidated ? onStepClick(step) : null">
-                        </li>
+                        [ngClass]="{
+                            'active': currentStep == step,
+                            'clickable': permissionDT.isDtReadOnly || step <= permissionDT.numLastEtapeValidated,
+                            'validated-step': step > currentStep && step <= permissionDT.numLastEtapeValidated
+                        }"
+                        (click)="(permissionDT.isDtReadOnly || step <= permissionDT.numLastEtapeValidated) ? onStepClick(step) : null">
+                    </li>
                     </ol>
                 </div>
             </div>
