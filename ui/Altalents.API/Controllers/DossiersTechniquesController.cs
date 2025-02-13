@@ -33,6 +33,12 @@ namespace Altalents.API.Controllers
             return await _dossierTechniqueService.GetPermissionConsultationDtAsync(tokenAccesRapide, GetIsLogged(), cancellationToken);
         }
 
+        [HttpPost("{tokenAccesRapide}/validate-step", Name = "SetLastValidatedEtape")]
+        public async Task SetLastValidatedEtape([FromRoute] Guid tokenAccesRapide, [FromBody] int numEtapeValidated, CancellationToken cancellationToken)
+        {
+            await _dossierTechniqueService.SetLastValidatedEtape(tokenAccesRapide, numEtapeValidated, cancellationToken);
+        }
+
         [HttpPost("/is-email-valid", Name = "IsEmailValid")]
         public async Task<bool> IsEmailValidAsync([FromBody] string email, [FromQuery] Guid? tokenRapide, CancellationToken cancellationToken)
         {

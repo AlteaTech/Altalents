@@ -12,8 +12,13 @@
                 </div>
                 <div class="col-lg-7">
                     <ol class="stepper">
-                        <li *ngFor="let step of steps" [ngClass]="{'active' : currentStep == step}"
-                            (click)="onStepClick(step)">
+                        <li *ngFor="let step of steps"
+                            [ngClass]="{
+                                'active': currentStep == step,
+                                'clickable': step <= permissionDT.numLastEtapeValidated,
+                                'validated-step': step > currentStep && step <= permissionDT.numLastEtapeValidated
+                            }"
+                            (click)="step <= permissionDT.numLastEtapeValidated ? onStepClick(step) : null">
                         </li>
                     </ol>
                 </div>
@@ -25,26 +30,32 @@
                     <app-parlons-de-vous *ngSwitchCase="dossierTechniqueEnum.ParlonsDeVous"
                         [tokenDossierTechnique]="tokenDossierTechnique"
                         [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
                         (validationCallback)="onValidationCallbackChange($event)"></app-parlons-de-vous>
                     <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations"
                         [tokenDossierTechnique]="tokenDossierTechnique"
                         [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
                         (validationCallback)="onValidationCallbackChange($event)"></app-formations>
                     <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences"
                         [tokenDossierTechnique]="tokenDossierTechnique"
                         [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
                         (validationCallback)="onValidationCallbackChange($event)"></app-experiences>
                     <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences"
                         [tokenDossierTechnique]="tokenDossierTechnique"
                         [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
                         (validationCallback)="onValidationCallbackChange($event)"></app-competences>
                     <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions"
                         [tokenDossierTechnique]="tokenDossierTechnique"
                         [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
                         (validationCallback)="onValidationCallbackChange($event)"></app-questions>
                     <app-recapitulatif (stepChange)="onStepClick($event)" *ngSwitchCase="dossierTechniqueEnum.Recapitulatif"
                         [tokenDossierTechnique]="tokenDossierTechnique"
                         [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
                         (validationCallback)="onValidationCallbackChange($event)"></app-recapitulatif>
                 </ng-container>
             </div>

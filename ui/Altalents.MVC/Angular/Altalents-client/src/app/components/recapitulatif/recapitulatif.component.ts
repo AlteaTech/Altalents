@@ -28,7 +28,8 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
   @Output() stepChange = new EventEmitter<DossierTechniqueEnum>();
   @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
-
+  @Output() public stepperUpdate: EventEmitter<void> = new EventEmitter<void>();
+  
   public dossierTechniqueEnum = DossierTechniqueEnum; 
   public formContainer = FormContainerComponent;
   public confirmation: boolean = false;
@@ -57,6 +58,8 @@ export class RecapitulatifComponent extends BaseComponentCallHttpComponent imple
   }
 
   public ngOnInit(): void {
+    this.stepperUpdate.emit(); 
+
     if (this.permissionDT.isDtAccessible) {
       this.validationCallback.emit(() => this.submit());
       this.populateData();

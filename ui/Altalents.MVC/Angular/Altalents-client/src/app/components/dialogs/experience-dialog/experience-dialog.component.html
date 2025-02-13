@@ -2,7 +2,7 @@
 <div class="fenetre-dialog">
     <form [formGroup]="formGroup">
         <fieldset>
-            <legend class="mb-3"><i class="fa-regular fa-building"></i>Expérience professionelle</legend>
+            <legend class="mb-3"><i class="fa-regular fa-building"></i>Expérience professionnelle</legend>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active " id="experience-tab" data-bs-toggle="tab" href="#experience" role="tab"
@@ -18,14 +18,14 @@
                     <div class="">
                         <div class="row">
                             <div class="col-lg-3 mt-2 label-champ-input">
-                                <label for="dateDebut" class="col-form-label">Date de début<span
+                                <label for="dateDebut" class="col-form-label">Date d'embauche<span
                                         class="champ-obligatoire">*</span></label>
                                 <div class="error-message"
                                     *ngIf="formGroup.get('dateDebut')?.errors?.['required'] && formGroup.get('dateDebut')?.touched">
-                                    La date de début est requise.
+                                    La date d'embauche est requise.
                                 </div>
                                 <div class="error-message" *ngIf="formGroup.get('dateDebut')?.errors?.['maxDateThisMonth'] && formGroup.get('dateDebut')?.touched">
-                                    La date de début ne peut pas être postérieure au mois en cours.
+                                    La date d'embauche ne peut pas être postérieure au mois en cours.
                                   </div>
                             </div>
                             <div class="col-lg-3 mb-2">
@@ -34,15 +34,15 @@
                                 </app-month-year-picker>
                             </div>
                             <div class="col-lg-3 mt-2 label-champ-input">
-                                <label for="dateFin" class="col-form-label">Date de fin<span
+                                <label for="dateFin" class="col-form-label">Date de cessation d’emploi<span
                                         *ngIf="!formGroup.controls.isPosteActuel.value"
                                         class="champ-obligatoire">*</span></label>
                                 <div class="error-message"
                                     *ngIf="formGroup.get('dateFin')?.errors?.['required'] && formGroup.get('dateFin')?.touched">
-                                    La date de fin est requise.
+                                    La date de cessation d’emploi est requise.
                                 </div>
                                 <div class="error-message" *ngIf="formGroup.hasError('dateRangeInvalid')">
-                                    La date de fin doit être postérieure à la date de début.
+                                    La date de cessation d’emploi doit être postérieure à la date de début.
                                 </div>
                                 <div class="error-message" *ngIf="formGroup.get('dateFin')?.errors?.['maxDateThisMonth'] && formGroup.get('dateFin')?.touched">
                                     La date de fin ne peut pas être postérieure au mois en cours.
@@ -80,7 +80,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-3 mt-2 label-champ-input">
-                                <label for="entreprise">Entreprise<span class="champ-obligatoire">*</span></label>
+                                <label for="entreprise">Nom de l'Entreprise<span class="champ-obligatoire">*</span></label>
                                 <div class="error-message"
                                     *ngIf="formGroup.controls.entreprise.invalid && formGroup.controls.entreprise.touched">
                                     Le nom de l'entreprise est requis.
@@ -108,8 +108,11 @@
 
 
                             <div class="col-lg-3 mt-2 label-champ-input" >
-                                <label for="lieu" class="col-form-label">Lieu<span *ngIf="IsEsn"> de l'agence</span><span  *ngIf="!IsEsn"
-                                        class="champ-obligatoire">*</span></label>
+                                <label for="lieu" class="col-form-label">
+                                    <span *ngIf="IsEsn">Localisation de l'agence</span>
+                                    <span *ngIf="!IsEsn">Localisation de l'entreprise</span>
+                                    <span *ngIf="!IsEsn" class="champ-obligatoire">*</span>
+                                </label>
                                 <div class="error-message"
                                     *ngIf="formGroup.controls.lieu.invalid && formGroup.controls.lieu.touched">
                                     Le lieu est requis.
@@ -200,10 +203,10 @@
                                
                                 <!-- Date de début -->
                                 <div class="col-lg-3 mt-2 label-champ-input">
-                                    <label for="dateDebut{{i}}" class="col-form-label">Date de début
-                                        <span
-                                        *ngIf="formGroup.controls.isEntrepriseEsnOrInterim.value"
-                                        class="champ-obligatoire">*</span>
+                                    <label for="dateDebut{{i}}" class="col-form-label">
+                                        <span *ngIf="IsEsn">Date début de mission</span> 
+                                        <span *ngIf="!IsEsn">Date début du projet</span>
+                                        <span *ngIf="formGroup.controls.isEntrepriseEsnOrInterim.value" class="champ-obligatoire">*</span>
                                     </label>
                                     <div class="error-message" *ngIf="project.get('dateDebut')?.errors?.['maxDateThisMonth'] && project.get('dateDebut')?.touched">
                                         La date de début ne peut pas être postérieure au mois en cours.
@@ -212,7 +215,6 @@
                                         class="error-message">
                                             La date de début est requise.
                                     </div>
-                                    
                                 </div>
                                 <div class="col-lg-3 mb-2">
 
@@ -243,10 +245,11 @@
 
                                 <!-- Date de fin -->
                                 <div class="col-lg-3 mt-2 label-champ-input">
-                                    <label for="dateFin{{i}}" class="col-form-label">Date de fin
+                                    <label for="dateFin{{i}}" class="col-form-label">
+                                        <span *ngIf="IsEsn">Date fin de mission</span> 
+                                        <span *ngIf="!IsEsn">Date fin du projet</span> 
                                         <span *ngIf="!project.get('isEnCours')?.value && this.IsEsn" class="champ-obligatoire">*</span>
                                     </label>
-
                                     <div *ngIf="project?.get('dateFin')?.errors?.['required'] && project?.get('dateFin')?.touched" class="error-message">
                                         La date de fin est requise.
                                     </div>
@@ -268,7 +271,7 @@
                                 </div>
 
                                 <div class="col-lg-3 mt-2 label-champ-input"  *ngIf="IsEsn">
-                                    <label for="lieu{{i}}" class="col-form-label">Lieu
+                                    <label for="lieu{{i}}" class="col-form-label">Lieu de la mission
                                         <span
                                         *ngIf="formGroup.controls.isEntrepriseEsnOrInterim.value"
                                         class="champ-obligatoire">*</span>

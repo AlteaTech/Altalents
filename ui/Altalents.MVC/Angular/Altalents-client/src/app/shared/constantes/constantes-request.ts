@@ -25,5 +25,7 @@ export class ConstantesRequest {
   public static getCvFile = "getCvFile";
   public static getPermissionsDT= "getPermissionsDT";
   public static getDocumentWithData= "getDocumentWithData";
+  public static setLastValidatedEtape= "setLastValidatedEtape";
+  
   
 }

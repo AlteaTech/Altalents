@@ -21,6 +21,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
   @Input() public tokenDossierTechnique: string = "";
   @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
+  @Output() public stepperUpdate: EventEmitter<void> = new EventEmitter<void>();
   
   public formGroup!: FormGroup<ParlonsDeVousForm>;
   public parlonsDeVous: ParlonsDeVous = new ParlonsDeVous();
@@ -55,7 +56,7 @@ export class ParlonsDeVousComponent extends BaseComponentCallHttpComponent imple
 
   public async ngOnInit(): Promise<void> {
     // Appeler la méthode pour obtenir la permission et attendre sa résolution
-
+    this.stepperUpdate.emit(); 
 
     // Vérifier si le dossier technique est accessible
     if (this.permissionDT.isDtAccessible) {

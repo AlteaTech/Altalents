@@ -189,6 +189,61 @@ export class ApiClient {
     }
 
     /**
+     * @param body (optional) 
+     * @return OK
+     */
+    setLastValidatedEtape(tokenAccesRapide: string, body?: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenAccesRapide}/validate-step";
+        if (tokenAccesRapide === undefined || tokenAccesRapide === null)
+            throw new Error("The parameter 'tokenAccesRapide' must be defined.");
+        url_ = url_.replace("{tokenAccesRapide}", encodeURIComponent("" + tokenAccesRapide));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSetLastValidatedEtape(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetLastValidatedEtape(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processSetLastValidatedEtape(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param tokenRapide (optional) 
      * @param body (optional) 
      * @return OK
@@ -583,17 +638,11 @@ export class ApiClient {
     /**
      * @return OK
      */
-    testEnvoiEmailCreationDt(tokenRapide: string, emailTo: string, candidatFullName: string): Observable<void> {
-        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/test-email-creation-dt/{emailTo}/{CandidatFullName}";
+    testEnvoiEmailCreationDt(tokenRapide: string): Observable<void> {
+        let url_ = this.baseUrl + "/DossiersTechniques/{tokenRapide}/test-email-creation-dt";
         if (tokenRapide === undefined || tokenRapide === null)
             throw new Error("The parameter 'tokenRapide' must be defined.");
         url_ = url_.replace("{tokenRapide}", encodeURIComponent("" + tokenRapide));
-        if (emailTo === undefined || emailTo === null)
-            throw new Error("The parameter 'emailTo' must be defined.");
-        url_ = url_.replace("{emailTo}", encodeURIComponent("" + emailTo));
-        if (candidatFullName === undefined || candidatFullName === null)
-            throw new Error("The parameter 'candidatFullName' must be defined.");
-        url_ = url_.replace("{CandidatFullName}", encodeURIComponent("" + candidatFullName));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3680,6 +3729,7 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
     isDtAccessible?: boolean;
     isDtReadOnly?: boolean;
     isUserLoggedInBackOffice?: boolean;
+    numLastEtapeValidated?: number;
     message?: string | null;
     codeStatutDT?: string | null;
     libelleStatutDT?: string | null;
@@ -3701,6 +3751,7 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
             this.isDtAccessible = _data["IsDtAccessible"] !== undefined ? _data["IsDtAccessible"] : <any>null;
             this.isDtReadOnly = _data["IsDtReadOnly"] !== undefined ? _data["IsDtReadOnly"] : <any>null;
             this.isUserLoggedInBackOffice = _data["IsUserLoggedInBackOffice"] !== undefined ? _data["IsUserLoggedInBackOffice"] : <any>null;
+            this.numLastEtapeValidated = _data["NumLastEtapeValidated"] !== undefined ? _data["NumLastEtapeValidated"] : <any>null;
             this.message = _data["Message"] !== undefined ? _data["Message"] : <any>null;
             this.codeStatutDT = _data["CodeStatutDT"] !== undefined ? _data["CodeStatutDT"] : <any>null;
             this.libelleStatutDT = _data["LibelleStatutDT"] !== undefined ? _data["LibelleStatutDT"] : <any>null;
@@ -3722,6 +3773,7 @@ export class PermissionConsultationDtDto implements IPermissionConsultationDtDto
         data["IsDtAccessible"] = this.isDtAccessible !== undefined ? this.isDtAccessible : <any>null;
         data["IsDtReadOnly"] = this.isDtReadOnly !== undefined ? this.isDtReadOnly : <any>null;
         data["IsUserLoggedInBackOffice"] = this.isUserLoggedInBackOffice !== undefined ? this.isUserLoggedInBackOffice : <any>null;
+        data["NumLastEtapeValidated"] = this.numLastEtapeValidated !== undefined ? this.numLastEtapeValidated : <any>null;
         data["Message"] = this.message !== undefined ? this.message : <any>null;
         data["CodeStatutDT"] = this.codeStatutDT !== undefined ? this.codeStatutDT : <any>null;
         data["LibelleStatutDT"] = this.libelleStatutDT !== undefined ? this.libelleStatutDT : <any>null;
@@ -3736,6 +3788,7 @@ export interface IPermissionConsultationDtDto {
     isDtAccessible?: boolean;
     isDtReadOnly?: boolean;
     isUserLoggedInBackOffice?: boolean;
+    numLastEtapeValidated?: number;
     message?: string | null;
     codeStatutDT?: string | null;
     libelleStatutDT?: string | null;

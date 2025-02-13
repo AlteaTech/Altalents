@@ -29,7 +29,8 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   @Input() public tokenDossierTechnique: string = "";
   @Input() public permissionDT: PermissionDT = new PermissionDT();
   @Output() public validationCallback: EventEmitter<() => Promise<boolean>> = new EventEmitter();
-
+  @Output() public stepperUpdate: EventEmitter<void> = new EventEmitter<void>();
+  
   public stepFormation: StepFormation = new StepFormation();
 
   constructor(private modalService: NgbModal,
@@ -42,6 +43,8 @@ export class FormationsComponent extends BaseComponentCallHttpComponent implemen
   }
 
   public ngOnInit(): void {
+    this.stepperUpdate.emit(); 
+
       if (this.permissionDT.isDtAccessible) {
           this.validationCallback.emit(() => this.submit());
           this.populateData();

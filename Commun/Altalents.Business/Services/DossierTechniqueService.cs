@@ -63,6 +63,24 @@ namespace Altalents.Business.Services
             return dt.Id;
         }
 
+
+        public async Task SetLastValidatedEtape(Guid tokenAccesRapide, int numEtapeValidated, CancellationToken cancellationToken)
+        {
+            using CustomDbContext context = GetScopedDbContexte();
+
+            DossierTechnique dt = await context.DossierTechniques.AsTracking().SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide);
+
+            if (dt == null)
+                throw new BusinessException("Impossible de setter une etape à 'Validé' si aucun DT ne correspond au tokenAccesRapide");
+
+            if (dt.NumLastEtapValidated < numEtapeValidated)
+            {
+                dt.NumLastEtapValidated = numEtapeValidated;
+                await context.SaveBaseEntityChangesAsync(cancellationToken);
+            }
+
+        }
+
         public async Task ValidationDtCompletByCandidatAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
@@ -433,10 +451,11 @@ namespace Altalents.Business.Services
             // Vérifie si le dossier technique existe et récupère le code du statut
             var dossierTechnique = await context.DossierTechniques
                 .Where(x => x.TokenAccesRapide == validGuid)
-                .Select(e => new { Existe = true, StatutCode = e.Statut.Code })
+                .Select(e => new { Existe = true, StatutCode = e.Statut.Code, NumLastEtapeValidated = e.NumLastEtapValidated })
                 .FirstOrDefaultAsync(cancellationToken);
 
             permissiontDto.IsDtExiste = dossierTechnique != null;
+            permissiontDto.NumLastEtapeValidated = dossierTechnique?.NumLastEtapeValidated ?? 0;
 
             permissiontDto.CodeStatutDT = dossierTechnique?.StatutCode;
 
@@ -756,9 +775,13 @@ namespace Altalents.Business.Services
             }
             else
             {
+                DossierTechnique dt = await context.DossierTechniques.AsTracking().SingleAsync(x => x.TokenAccesRapide == tokenAccesRapide);
+                dt.NumLastEtapValidated = 2;
+
                 Entities.Experience expToAdd = Mapper.Map<Entities.Experience>(experienceDto);
                 expToAdd.DossierTechniqueId = idDossierTechnique.Value;
                 await context.Experiences.AddAsync(expToAdd, cancellationToken);
+
                 await context.SaveBaseEntityChangesAsync(cancellationToken);
                 return expToAdd.Id;
             }

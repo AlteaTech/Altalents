@@ -197,7 +197,7 @@
                             style="display: none;" 
                         />
                         <img src="Images/ICON_FEATHER_DOWNLOAD.png" alt="Upload Icon">
-                        <p class="at-c-violet">{{ this.parlonsDeVous.pieceJointe?.data ? 'Modifier votre' : 'Déposez votre' }} CV </p><span class="font-normal">Format Word de préférence / 5Mo max</span>
+                        <p class="at-c-violet">{{ this.parlonsDeVous.pieceJointe?.data ? 'Modifier votre' : 'Déposez votre' }} CV </p><span class="font-normal">.pdf ou .docx (Word) / 5Mo max</span>
                     </div>
                     <div class="error-message"
                         *ngIf="formGroup.get('fileInput')?.invalid && formGroup.get('fileInput')?.touched">

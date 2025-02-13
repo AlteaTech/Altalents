@@ -1,10 +1,12 @@
 import { BaseComponentCallHttpComponent } from '@altea-si-tech/altea-base';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ConstantesRequest } from 'src/app/shared/constantes/constantes-request';
 import { ConstantesRoutes } from 'src/app/shared/constantes/constantes-routes';
 import { ConstantesTitresSteps } from 'src/app/shared/constantes/constantes-titres-steps';
 import { DossierTechniqueEnum } from 'src/app/shared/enums/dossier-technique-step.enum';
 import { PermissionDT } from 'src/app/shared/models/permissionDT.model';
+import { ApiServiceAgent } from 'src/app/shared/services/services-agents/api.service-agent';
 import { PermissionService } from 'src/app/shared/services/services/security/permission-service';
 
 @Component({
@@ -13,6 +15,7 @@ import { PermissionService } from 'src/app/shared/services/services/security/per
   styleUrls: ['form-container.component.scss']
 })
 export class FormContainerComponent extends BaseComponentCallHttpComponent implements OnInit {
+
 
   public static instance: FormContainerComponent;
 
@@ -24,17 +27,17 @@ export class FormContainerComponent extends BaseComponentCallHttpComponent imple
   public steps: number[] = [];
   public validationCallBack: (() => Promise<boolean>) | undefined;
 
-  constructor(private route: ActivatedRoute,private permissionService: PermissionService) {
+  constructor(private route: ActivatedRoute, private readonly service: ApiServiceAgent,private permissionService: PermissionService) {
 
     super();
     FormContainerComponent.instance = this;
+    
      
   }
 
   public async  ngOnInit(): Promise<void>  {
     this.isLoading = true;
     this.tokenDossierTechnique = this.route.snapshot.paramMap.get(ConstantesRoutes.paramTokenDossierTechnique) ?? "";
-
     this.permissionDT = await this.permissionService.getRefreshedDTPermissionAndRedirectIfNecessary(this.tokenDossierTechnique);
 
 
@@ -68,13 +71,23 @@ export class FormContainerComponent extends BaseComponentCallHttpComponent imple
           return;
         }
 
-        this.validationCallBack = undefined;
-        if(this.currentStep == this.steps.length - 1){
-          document.location.href = `${ConstantesRoutes.finBaseUrl}${this.tokenDossierTechnique}`
-        } else {
-          this.currentStep += 1;
-          this.changeStep();
-        }
+        let numEtape : number = this.currentStep+1;
+          this.callRequest(ConstantesRequest.setLastValidatedEtape, this.service.setLastValidatedEtape(this.tokenDossierTechnique, numEtape)
+            .subscribe(() => {
+
+              this.validationCallBack = undefined;
+            if(this.currentStep == this.steps.length - 1){
+              document.location.href = `${ConstantesRoutes.finBaseUrl}${this.tokenDossierTechnique}`
+            } else {
+              this.currentStep += 1;
+              this.changeStep();
+            }
+
+        
+        }));
+        
+
+
       })
     }
   }

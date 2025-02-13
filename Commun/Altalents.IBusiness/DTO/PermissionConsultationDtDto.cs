@@ -21,6 +21,8 @@ namespace Altalents.IBusiness.DTO
 
         public bool IsUserLoggedInBackOffice { get; set; }
 
+        public int NumLastEtapeValidated { get; set; }
+
         public string Message { get; set; }
 
         public string CodeStatutDT { get; set; }

@@ -10,6 +10,7 @@ export class PermissionDT {
     message!: string;
     codeStatutDT!: string;
     libelleStatutDT!: string;
+    numLastEtapeValidated! :number;
 
     public static from(dto : PermissionConsultationDtDto):PermissionDT{
 
@@ -23,7 +24,8 @@ export class PermissionDT {
         model.codeStatutDT = dto.codeStatutDT!;
         model.libelleStatutDT = dto.libelleStatutDT!;
         model.isUserLoggedInBackOffice = dto.isUserLoggedInBackOffice!;
-        
+        model.numLastEtapeValidated = dto.numLastEtapeValidated! ;
+
         return model;
 
       }

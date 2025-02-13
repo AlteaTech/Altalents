@@ -24,7 +24,8 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
   public documents: DocumentDt[] = [];
     
   constructor(private route: ActivatedRoute,
-    private readonly service: ApiServiceAgent,private permissionService: PermissionService) {
+    private readonly service: ApiServiceAgent,
+    private permissionService: PermissionService) {
     super();
   }
   
@@ -48,12 +49,7 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
     document.location.href = `${ConstantesRoutes.dossierTechniqueBaseUrl}${this.tokenDossierTechnique}`
   }
 
-
-
-
   public populateData(): void {    
-
-
     merge(
 
       this.service.getNomPrenomFromToken(this.tokenDossierTechnique).pipe(
@@ -77,14 +73,10 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
         this.isLoading = false; 
       }
     });
-    
   }
-
 
   public downloadPj(idDocument : string)
   {
-    
-
         this.isLoading = true;
         this.callRequest(ConstantesRequest.getDocumentWithData, this.service.getDocumentWithData(this.tokenDossierTechnique, idDocument)
         .subscribe((response: DocumentDto) => {
@@ -95,8 +87,6 @@ export class AccueilComponent extends BaseComponentCallHttpComponent implements 
           a.click(); 
 
           this.isLoading = false;
-        }));
-    
+    }));
   }
-
 }
