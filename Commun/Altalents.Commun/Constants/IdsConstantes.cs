@@ -10,6 +10,11 @@ namespace Altalents.Commun.Constants
         public const string StatutDtAValiderId = "{5f1d5f70-c35d-45c2-b0b8-6ee8ff2ea1a5}";
         public const string StatutDtTermineId = "{d47e05b8-3e19-4a31-bd82-b28e8fc97060}";
 
+        public const string DisponibiliteCandidatImmediateId = "{8f486cd6-6313-47f9-a4b5-5bd535c199a9}";
+        public const string DisponibiliteCandidatSousUnMoisId = "{92dfd90f-79b4-4d5e-93e6-fb7046b3416a}";
+        public const string DisponibiliteCandidatSousTroisMoisId = "{f35745ef-66d0-4cb0-9657-b57c2f149e3f}";
+        
+
         public const string DomaineAutreId = "{3B2315EB-7B6D-40DD-B53C-BBD5EB85D3D4}";
     }
 }

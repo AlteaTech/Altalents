@@ -217,7 +217,7 @@ namespace Altalents.Business.Services
             };
         }
 
-        
+
         public async Task<List<DocumentDto>> GetPiecesJointesDtWithoutDataAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             using CustomDbContext context = GetScopedDbContexte();
@@ -241,12 +241,12 @@ namespace Altalents.Business.Services
         {
             using CustomDbContext context = GetScopedDbContexte();
 
-            DocumentComplementaire docToDl = await context.DocumentComplementairesTD.Include(x=>x.DossierTechnique).Where( x=>x.Id == documentId).SingleAsync(cancellationToken);
+            DocumentComplementaire docToDl = await context.DocumentComplementairesTD.Include(x => x.DossierTechnique).Where(x => x.Id == documentId).SingleAsync(cancellationToken);
 
-            if(docToDl == null)
+            if (docToDl == null)
                 throw new BusinessException("Dossier technique inexistant");
 
-            if(docToDl.DossierTechnique.TokenAccesRapide != tokenAccesRapide)
+            if (docToDl.DossierTechnique.TokenAccesRapide != tokenAccesRapide)
                 throw new BusinessException("Le token d'acces rapide ne correspond pas");
 
             DocumentDto toReturn = new DocumentDto()
@@ -328,7 +328,50 @@ namespace Altalents.Business.Services
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
         }
 
-        public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        public async Task<PrivatesDatasDto> GetPrivateDatasDossierTechniqueAsync(Guid id, CancellationToken cancellationToken)
+        {
+            DossierTechnique dt = await DbContext.DossierTechniques.Include(x => x.Personne).SingleAsync(x => x.Id == id, cancellationToken);
+            if (dt == null)
+            {
+                throw new BusinessException("DT inexistant");
+            }
+
+            PrivatesDatasDto toReturn = new PrivatesDatasDto();
+
+            toReturn.DtId = dt.Id;
+            toReturn.TarifJournalier = dt.PrixJour;
+            toReturn.Trigramme = dt.Personne.Trigramme;
+            toReturn.DisponibiliteId = dt.DisponibiliteId;
+            toReturn.Email = dt.Personne.Email;
+            toReturn.Poste = dt.Poste;
+
+            return toReturn;
+        }
+    
+
+
+
+        public async Task UpdatePrivateDatasDossierTechniqueAsync(PrivatesDatasRequestDto privatesDatasRequestDto, CancellationToken cancellationToken)
+        {
+
+            DossierTechnique dt = await DbContext.DossierTechniques.Include(x => x.Personne).AsTracking().SingleAsync(x => x.Id == privatesDatasRequestDto.DtId, cancellationToken);
+            if (dt == null)
+            {
+                throw new BusinessException("DT inexistant");
+            }
+
+            dt.DisponibiliteId = privatesDatasRequestDto.DisponibiliteId;
+            dt.Personne.Trigramme = privatesDatasRequestDto.Trigramme;
+            dt.PrixJour = privatesDatasRequestDto.TarifJournalier;
+            dt.Personne.Email = privatesDatasRequestDto.Email;
+            dt.Poste = privatesDatasRequestDto.Poste;
+
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+
+        }
+
+
+            public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await DbContext.DossierTechniques
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)

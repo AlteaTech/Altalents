@@ -47,9 +47,14 @@ namespace Altalents.Commun.Enums
         Suedois = 41,
         Tamoul = 42,
         Turc = 43,
+
+        [Display(Name = "Immédiate")]
         Immediate = 44,
+        [Display(Name = "1 mois")]
         SousUnMois = 45,
+        [Display(Name = "3 mois")]
         SousTroisMois = 46,
+
         Telephone = 47,
         Cv = 48,
         Dt = 49,

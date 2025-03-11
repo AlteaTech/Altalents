@@ -11,6 +11,8 @@ namespace Altalents.IBusiness.IServices
         Task ChangerStatutDossierTechniqueAsync(Guid id, Guid statutId, CancellationToken cancellationToken);
         Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
         IQueryable<DossierTechniqueForAdminDto> GetQueryDtForKendoUi();
+        Task<PrivatesDatasDto> GetPrivateDatasDossierTechniqueAsync(Guid id, CancellationToken cancellationToken);
+        Task UpdatePrivateDatasDossierTechniqueAsync(PrivatesDatasRequestDto privatesDatasRequestDto, CancellationToken cancellationToken);
         Task<TrigrammeDto> GetTrigrammeAsync(GetTrigrammeRequestDto request, CancellationToken cancellationToken);
         Task<bool> IsEmailValidAsync(string email, Guid? tokenRapide, CancellationToken cancellationToken);
         Task<bool> IsIdBoondValidAsync(string idboond, CancellationToken cancellationToken);
