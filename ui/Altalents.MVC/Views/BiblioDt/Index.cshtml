@@ -6,8 +6,14 @@
 
 <script type="text/javascript">
 
-    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde du nouveau statut
     const saveStatusUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeUpdateStatut, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde des infos privé
+    const getPrivateDataUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_GetPrivateData, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde
+    const savePrivateDataUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_UpdatePrivateData, BiblioDtController.ControllerName)';
 
     // OBLIGATOIRE : Définir l'URL pour le delete d'un DT
     const deleteDtUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_DeleteDt, BiblioDtController.ControllerName)';
@@ -21,6 +27,7 @@
 </script>
 
 <script src="~/js/modifier-statut-dt.js"></script>
+<script src="~/js/modifier-private-data-dt.js"></script>
 <script src="~/js/supprimer-dt.js"></script>
 
 <h2 class="mt-3 mb-3">@ViewData["Title"]</h2>
@@ -66,7 +73,11 @@
         "# } #")
 .Width(40);
 
-
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+            .ClientTemplate("<a title='Cliquer pour modifier les données privées de ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='openKendoPrivateDatatDteWindow(\"#=Id#\")'>" +
+                            "<i class='fa fa-edit' aria-hidden='true'></i>" +
+                            "</a>")
+            .Width(40);
            
         columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
             .ClientTemplate("<a title='Cliquer pour supprimer définitivement ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='onSupprimerDossietTechniqueClick(\"#=Id#\")'>" +
@@ -92,7 +103,7 @@
 
 
 @Html.Partial("_ModificationStatutDtModal")
-
+@Html.Partial("_ModificationPrivateDataDtModal")
 
 
 <script type="text/javascript">

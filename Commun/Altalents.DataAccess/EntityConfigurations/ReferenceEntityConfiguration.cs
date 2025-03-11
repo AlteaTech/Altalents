@@ -453,27 +453,27 @@ namespace Altalents.DataAccess.EntityConfigurations
  #endregion
             #region Disponibilite
             new (){
- Libelle = "Immédiate",
+ Libelle = Commun.Enums.CodeReferenceEnum.Immediate.GetDisplayName(),
  Code= Commun.Enums.CodeReferenceEnum.Immediate.ToString("g"),
- Id = Guid.Parse("{8f486cd6-6313-47f9-a4b5-5bd535c199a9}"),
+ Id = Guid.Parse(IdsConstantes.DisponibiliteCandidatImmediateId),
  DateCrea = new DateTime(2024,6,17),
  UtiCrea= "ALTEA",IsValide=true,
  Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
  OrdreTri = 1
             },
             new (){
- Libelle = "Sous un mois",
+ Libelle = Commun.Enums.CodeReferenceEnum.SousUnMois.GetDisplayName(),
  Code= Commun.Enums.CodeReferenceEnum.SousUnMois.ToString("g"),
- Id = Guid.Parse("{92dfd90f-79b4-4d5e-93e6-fb7046b3416a}"),
+ Id = Guid.Parse(IdsConstantes.DisponibiliteCandidatSousUnMoisId),
  DateCrea = new DateTime(2024,6,17),
  UtiCrea= "ALTEA",IsValide=true,
  Type = Commun.Enums.TypeReferenceEnum.Disponibilite,
  OrdreTri = 2
             },
             new (){
- Libelle = "Sous trois mois",
+ Libelle = Commun.Enums.CodeReferenceEnum.SousTroisMois.GetDisplayName(),
  Code= Commun.Enums.CodeReferenceEnum.SousTroisMois.ToString("g"),
- Id = Guid.Parse("{f35745ef-66d0-4cb0-9657-b57c2f149e3f}"),
+ Id = Guid.Parse(IdsConstantes.DisponibiliteCandidatSousTroisMoisId),
  DateCrea = new DateTime(2024,6,17),
  UtiCrea= "ALTEA",IsValide=true,
  Type = Commun.Enums.TypeReferenceEnum.Disponibilite,

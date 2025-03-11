@@ -31,6 +31,8 @@ namespace Altalents.Commun.Constants
         public const string MvcControllerBiblioDt = "BiblioDt";
         public const string MvcControllerBiblioDt_MethodeIndex = "Index";
         public const string MvcControllerBiblioDt_MethodeUpdateStatut = "UpdateStatut";
+        public const string MvcControllerBiblioDt_GetPrivateData = "GetPrivateData";
+        public const string MvcControllerBiblioDt_UpdatePrivateData = "UpdatePrivateData";
         public const string MvcControllerBiblioDt_MethodeGetBiblioDts = "GetBiblioDts";
         public const string MvcControllerBiblioDt_DeleteDt = "DeleteDt";
 

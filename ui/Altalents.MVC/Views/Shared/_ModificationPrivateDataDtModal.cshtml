@@ -1,0 +1,48 @@
+@using Altalents.Commun.Enums
+@using AlteaTools.Api.Core.Extensions
+<div id="PrivateDataDtWindow" style="display: none;">
+    <form id="PrivateDataForm">
+        <input type="hidden" id="DtId" />
+        <div class="form-group">
+            <label for="Email">E-mail</label>
+            <input type="text" id="Email" class="k-textbox form-control" />
+            <br />
+            <label for="Trigram">Trigramme</label>
+            <input type="text" id="Trigram" class="k-textbox form-control" />
+            <br />
+            <label for="Poste">Poste</label>
+            <input type="text" id="Poste" class="k-textbox form-control" />
+            <br />
+            <label for="Tarif">Tarif</label>
+            <input type="text" id="Tarif" class="k-textbox form-control" />
+            <br />
+            <label for="DispoDropdown">Disponibilité</label>
+            <select id="DispoDropdown" class="form-control">
+                <option data-guid="@Guid.Parse(IdsConstantes.DisponibiliteCandidatImmediateId)"
+                        value="@Guid.Parse(IdsConstantes.DisponibiliteCandidatImmediateId)">
+                    @CodeReferenceEnum.Immediate.GetDisplayName(false)
+                </option>
+                <option data-guid="@Guid.Parse(IdsConstantes.DisponibiliteCandidatSousUnMoisId)"
+                        value="@Guid.Parse(IdsConstantes.DisponibiliteCandidatSousUnMoisId)">
+                    @CodeReferenceEnum.SousUnMois.GetDisplayName(false)
+                </option>
+                <option data-guid="@Guid.Parse(IdsConstantes.DisponibiliteCandidatSousTroisMoisId)"
+                        value="@Guid.Parse(IdsConstantes.DisponibiliteCandidatSousTroisMoisId)">
+                    @CodeReferenceEnum.SousTroisMois.GetDisplayName(false)
+                </option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="k-grid-save-command k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
+                    id="SavePrivateDataDtBtn">
+                <span class="k-icon k-i-save k-button-icon"></span>
+                <span class="k-button-text">Enregistrer</span>
+            </button>
+            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-secondary"
+                    onclick="closeKendoPrivateDataWindow()">
+                <span class="k-icon k-i-cancel k-button-icon"></span>
+                <span class="k-button-text">Annuler</span>
+            </button>
+        </div>
+    </form>
+</div>
