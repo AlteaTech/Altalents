@@ -73,12 +73,6 @@
                     "</a>")
     .Width(40);
 
-        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
-        .ClientTemplate("<a title='Cliquer pour modifier les données privées de ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='openKendoPrivateDatatDteWindow(\"#=Id#\")'>" +
-                        "<i class='fa fa-edit' aria-hidden='true'></i>" +
-                        "</a>")
-        .Width(40);
-
 
         columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
              .ClientTemplate("<a title='Cliquer pour supprimer définitivement ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='onSupprimerDossietTechniqueClick(\"#=Id#\")'>" +
