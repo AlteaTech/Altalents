@@ -1,0 +1,91 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Configurations>Debug;Release;Development;Qa;DevelopmentEborn</Configurations>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Job\**" />
+    <EmbeddedResource Remove="Job\**" />
+    <None Remove="Job\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AnyAscii" Version="0.3.2" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.2.0" />
+    <PackageReference Include="FreeSpire.Doc" Version="12.2.0" />
+    <PackageReference Include="PreMailer.Net" Version="2.6.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.17" />
+    <PackageReference Include="MailKit" Version="4.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Application.Core" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.EntityFramework" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Hangfire" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Hangfire.SqlServer" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.Session" Version="8.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Altalents.Export\Altalents.Export.csproj" />
+    <ProjectReference Include="..\Altalents.Commun\Altalents.Commun.csproj" />
+    <ProjectReference Include="..\Altalents.IBusiness\Altalents.IBusiness.csproj" />
+    <ProjectReference Include="..\Altalents.DataAccess\Altalents.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Telerik.Reporting">
+      <HintPath>dll\Telerik.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.OpenXmlRendering.2.7.2">
+      <HintPath>dll\Telerik.Reporting.OpenXmlRendering.2.7.2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="AlteaTools.Api.Core.Exceptions" />
+    <Using Include="AlteaTools.Api.Core.Helper" />
+    <Using Include="AlteaTools.Application.Core" />
+    <Using Include="AutoMapper" />
+    <Using Include="AutoMapper.QueryableExtensions" />
+    <Using Include="Altalents.Commun.Constants" />
+    <Using Include="Altalents.Commun.Resources" />
+    <Using Include="Altalents.DataAccess" />
+    <Using Include="Altalents.Entities" />
+    <Using Include="Altalents.IBusiness.DTO" />
+    <Using Include="Altalents.IBusiness.IServices" />
+    <Using Include="Microsoft.AspNetCore.Mvc" />
+    <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="Microsoft.Extensions.Logging" />
+
+    <Using Include="System" />
+    <Using Include="System.Data" />
+    <Using Include="System.Text" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Text.RegularExpressions" />
+    <Using Include="System.IO" />
+    <Using Include="System.Net.Http.Headers" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading.Tasks" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dll\Telerik.Reporting.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="dll\Telerik.Reporting.OpenXmlRendering.2.7.2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="dll\Telerik.Reporting.OpenXmlRendering.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

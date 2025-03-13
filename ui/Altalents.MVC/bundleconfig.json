@@ -1,0 +1,47 @@
+// bundleconfig.json
+
+[
+  {
+    "outputFileName": "wwwroot/js/app-client.js",
+    "inputFiles": [
+      "Angular/Altalents-client/dist/Altalents-client/*.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/assets/i18n/en.json",
+    "inputFiles": [
+      "Angular/Altalents-client/dist/Altalents-client/assets/i18n/en.json"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false,
+  },
+  {
+    "outputFileName": "wwwroot/assets/i18n/fr.json",
+    "inputFiles": [
+      "Angular/Altalents-client/dist/Altalents-client/assets/i18n/fr.json"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/css/app-client.css",
+    "inputFiles": [
+      "Angular/Altalents-client/dist/Altalents-client/*.css"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    }
+  }
+]

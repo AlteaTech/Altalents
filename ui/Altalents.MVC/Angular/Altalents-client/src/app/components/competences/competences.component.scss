@@ -1,0 +1,68 @@
+/* Pour la section avec le titre et le texte explicatif */
+.at-p-formulaire-info-section {
+  display: flex;
+  flex-direction: column; /* Organise les éléments en colonne */
+  gap: 20px; /* Espacement entre le titre, le texte et la légende */
+  text-align: center; /* Centre tout le texte */
+}
+
+/* Titre */
+.at-p-formulaire-info-section h2 {
+  margin: 0;
+  text-align: center;
+  width: 100%; /* S'assure que le titre occupe toute la largeur */
+}
+
+/* Paragraphe explicatif */
+.at-p-formulaire-info-section p {
+  margin: 0;
+  font-weight: normal;
+}
+
+/* Légende du barème */
+.barème-legende {
+  display: flex;
+  justify-content: space-between; /* Espace égal entre les éléments */
+  gap: 50px; /* Espacement entre chaque légende */
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+  margin-top: 20px; /* Un peu d'espace entre le texte et la légende */
+}
+
+.legende-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.etoiles {
+  display: flex;
+  gap: 5px; /* Espacement entre les étoiles */
+}
+
+
+
+.barème-legende span {
+  font-size: 14px; /* Taille de la police pour la légende */
+  margin-top: 5px; /* Un peu d'espace entre les étoiles et le texte */
+}
+
+
+.competence-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.competence-libelle {
+  flex: 1; /* Libellé occupe l'espace disponible à gauche */
+  text-align: left;
+  margin-right: 10px; /* espacement entre libellé et étoiles */
+  
+}
+
+.competence-stars {
+  flex-shrink: 0; /* Empêche la réduction des étoiles */
+  text-align: right;
+  font-size: 25px;
+}

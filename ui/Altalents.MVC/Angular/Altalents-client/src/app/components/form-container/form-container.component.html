@@ -1,0 +1,70 @@
+<body>
+    <header class="at-p-header">
+        <div class="logo-altalents">
+            <img src="Images/LOGO_ALTALENTS.png">
+        </div>
+    </header>
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-5 mt-3">
+                    <h1 class="enum-dossier-technique">{{titreStep}}</h1>
+                </div>
+                <div class="col-lg-7">
+                    <ol class="stepper">
+                        <li *ngFor="let step of steps"
+                        [ngClass]="{
+                            'active': currentStep == step,
+                            'clickable': permissionDT.isDtReadOnly || step <= permissionDT.numLastEtapeValidated,
+                            'validated-step': step > currentStep && step <= permissionDT.numLastEtapeValidated
+                        }"
+                        (click)="(permissionDT.isDtReadOnly || step <= permissionDT.numLastEtapeValidated) ? onStepClick(step) : null">
+                    </li>
+                    </ol>
+                </div>
+            </div>
+            <app-custom-loader [isLoading]="isLoading" />
+            <app-dt-readonly-message [permissionDT]="permissionDT"></app-dt-readonly-message>
+            <div [ngSwitch]="currentStep" >
+                <ng-container *ngIf="permissionDT.isDtAccessible">
+                    <app-parlons-de-vous *ngSwitchCase="dossierTechniqueEnum.ParlonsDeVous"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-parlons-de-vous>
+                    <app-formations *ngSwitchCase="dossierTechniqueEnum.Formations"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-formations>
+                    <app-experiences *ngSwitchCase="dossierTechniqueEnum.Experiences"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-experiences>
+                    <app-competences *ngSwitchCase="dossierTechniqueEnum.Competences"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-competences>
+                    <app-questions *ngSwitchCase="dossierTechniqueEnum.Questions"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-questions>
+                    <app-recapitulatif (stepChange)="onStepClick($event)" *ngSwitchCase="dossierTechniqueEnum.Recapitulatif"
+                        [tokenDossierTechnique]="tokenDossierTechnique"
+                        [permissionDT]="permissionDT"
+                        (stepperUpdate)="ngOnInit()"
+                        (validationCallback)="onValidationCallbackChange($event)"></app-recapitulatif>
+                </ng-container>
+            </div>
+            <div>
+                <div *ngIf="!permissionDT.isDtReadOnly" class="at-p-button-container">
+                    <altea-button-secondary label="Retour" imgSrc="Images/ICONE_REPLAY.png" (onClick)="onRetourClick()"></altea-button-secondary>
+                    <altea-button-prim [label]="currentStep != dossierTechniqueEnum.Recapitulatif ? 'Suivant' : 'Terminer'" imgSrc="Images/ICONE_PLAY.png" (onClick)="onSuivantClick()"></altea-button-prim>
+                </div>    
+            </div>
+        </div>
+    </div>
+</body>

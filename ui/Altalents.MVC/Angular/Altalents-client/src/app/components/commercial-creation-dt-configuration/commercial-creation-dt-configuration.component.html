@@ -1,0 +1,203 @@
+<app-custom-loader [isLoading]="isLoading" />
+<div *ngIf="userIdLogged">
+    <header class="at-p-header">
+        <div class="logo-altalents">
+            <img src="Images/LOGO_ALTALENTS.png">
+        </div>
+    </header>
+    <div class="container">
+        <div class="content">
+            <h1>Création d'un dossier Technique</h1>
+            <div class="row">
+                <form [formGroup]="formGroup" class="col-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <fieldset>
+                                <legend><i class="fa-solid fa-info"></i>Informations personnelles</legend>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 label-champ-input">
+                                        <label for="prenom" class="col-form-label">Prénom<span class="champ-obligatoire ">*</span></label>
+                                        <div class="error-message"
+                                            *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
+                                            Prénom est requis.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control " formControlName="prenom"
+                                            placeholder="Julien" (change)="nomPrenomChange()">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 label-champ-input">
+                                        <label for="nom" class="col-form-label">Nom<span class="champ-obligatoire">*</span></label>
+                                        <div class="error-message"
+                                            *ngIf="formGroup.get('nom')?.invalid && formGroup.get('nom')?.touched">
+                                            Nom est requis.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" formControlName="nom"
+                                            placeholder="Dupont" (change)="nomPrenomChange()">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 label-champ-input">
+                                        <label for="trigram" class="col-form-label">Trigramme<span class="champ-obligatoire">*</span></label>
+                                        <div class="error-message"
+                                            *ngIf="formGroup.get('trigram')?.invalid && formGroup.get('trigram')?.touched">
+                                            Ce trigramme existe déja.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" formControlName="trigram"
+                                            placeholder="JUD">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend><i class="fa-solid fa-check"></i>Conditions</legend>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 label-champ-input">
+                                        <label for="poste" class="col-form-label">Poste</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" formControlName="poste"
+                                            placeholder="Titre">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 d-flex align-items-center custom-justify-end">
+                                        <div class=" text-end">
+                                            <label class="switch">
+                                                <input type="checkbox" formControlName="isPrixJourEnable" (change)="updateInputPrixJour()">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label for="prixJour" class="ms-3">Tarif journalier</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" formControlName="prixJour"
+                                            placeholder="100 €">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 label-champ-input">
+                                        <label for="disponibilite" class="col-form-label">Disponibilité</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <select id="disponibilite" class="at-w-200" class="form-control"
+                                            formControlName="disponibilite">
+                                            <option value="" class="text-muted">-- Choisir une disponibilité --</option>
+                                            <option *ngFor="let disponibilite of disponibilites"
+                                                [ngValue]="disponibilite.id">{{ disponibilite.libelle }} <span
+                                                    *ngIf="disponibilite.commentaireFun">(<em>{{disponibilite.commentaireFun}}</em>)</span>
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-lg-6">
+                            <fieldset>
+                                <legend><i class="fa-solid fa-b"></i>Identifiant de Boond Manager du candidat</legend>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 label-champ-input">
+                                        <label for="idBoond" class="col-form-label">ID de Boond Manager<span class="champ-obligatoire">*</span></label>
+                                        <div class="error-message"
+                                            *ngIf="formGroup.get('idBoond')?.invalid && formGroup.get('idBoond')?.touched">
+                                            L'identifiant de Boond Manager existe déja.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" formControlName="idBoond"
+                                            placeholder="15415s">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend><i class="fa-regular fa-address-book"></i>Coordonnées de contact</legend>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 label-champ-input">
+                                        <label for="numeroTelephone1" class="col-form-label">N° de téléphone</label>
+                                        <div class="error-message"
+                                            *ngIf="formGroup.get('numeroTelephone1')?.invalid && formGroup.get('numeroTelephone1')?.touched">
+                                            N° de téléphone est invalide.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" formControlName="numeroTelephone1"
+                                            placeholder="+33XXXXXXXX">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-lg-6 label-champ-input">
+                                        <label for="adresseMail" class="col-form-label">Adresse e-mail<span
+                                                class="champ-obligatoire">*</span></label>
+                                        <div class="error-message"
+                                            *ngIf="formGroup.get('adresseMail')?.invalid && formGroup.get('adresseMail')?.touched">
+                                            L'adresse e-mail est invalide ou existe déja.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" formControlName="adresseMail"
+                                            placeholder="adresse@mail.com">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend><i class="fa-solid fa-question"></i>Questionnaires & documents</legend>
+                                <div class="documents-list" *ngIf="piecesJointes.length > 0">
+                                    <div *ngFor="let document of piecesJointes; let i = index" class="document-item">
+                                        <div class="flex-row space-between align-center">
+                                            <p class=" at-c-violet mb-2 mt-2">
+                                             <a (click)="downloadPj(i)">{{document.nomFichier}} </a>
+                                            </p>
+                                            <div class="edit-links">
+                                                <a (click)="onModifierDocumentClick(i)" class="edit-link">
+                                                <p class="at-c-violet"><i class="fas fa-edit"></i> Modifier</p>
+                                                </a>
+                                                <a (click)="removePieceJointe(i, document.nomFichier )" class="edit-link">
+                                                    <p class="at-c-violet"><i class="fa-solid fa-trash"></i> Supprimer</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="at-p-button-ajouter">
+                                    <button (click)="onAjouterDocumentClick()">
+                                        <p><i class="fa-regular fa-plus at-c-violet"></i> Ajouter un document</p>
+                                    </button>
+                                </div>
+                                <div class="" *ngIf="questions && questions!.length>0">
+                                    <div *ngFor="let question of questions; let i = index" class="">
+                                        <div *ngIf="question.question" class="flex-row space-between align-center">
+                                            <p class="mb-0 mt-2">
+                                                <span class="me-2">{{question.question}}</span> 
+                                            <span *ngIf="question.isObligatoire" class="me-2" title="La réponse à cette question est obligatoire" ><i class="fa-solid fa-asterisk"></i></span>
+                                            <span *ngIf="question.isShowDt" class="me-2"  title="Le Question sera visible dans le Word"><i class="fa-solid fa-file-export"></i></span>
+                                            </p>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="at-p-button-ajouter">
+                                    <button (click)="onAjouterQuestionnaireClick()">
+                                        <p><i class="fa-regular fa-plus at-c-violet"></i>{{questions ? 'Modifier le ' : 'Ajouter un '}} questionnaire</p>
+                                    </button>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <div class="at-p-button-container">
+                    <altea-button-secondary label="Retour" imgSrc="Images/ICONE_REPLAY.png" (onClick)="return()"></altea-button-secondary>
+                    <altea-button-prim label="Envoyer" imgSrc="Images/ICONE_PLAY.png" (onClick)="sendCandidat()"></altea-button-prim>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>

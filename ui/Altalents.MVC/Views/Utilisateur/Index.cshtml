@@ -1,0 +1,93 @@
+@using Altalents.MVC.Controllers.Admin;
+@{
+    ViewData["Title"] = LibellesResources.TitreGestionCompteUtilisateurs;
+    Layout = "_LayoutAdmin";
+    Dictionary<GridActionEnum, RouteActionModel> gridUtilisateurActionDictionary = new();
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Get, new() { ActionName = RoutesNamesConstantes.MvcControllerUtilisateur_MethodeGetUtilisateurs, ControllerName = UtilisateurController.ControllerName });
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Create, new() { ActionName = RoutesNamesConstantes.MvcControllerUtilisateur_MethodeCreateUtilisateur, ControllerName = UtilisateurController.ControllerName });
+    gridUtilisateurActionDictionary.Add(GridActionEnum.Update, new() { ActionName = RoutesNamesConstantes.MvcControllerUtilisateur_MethodeUpdateUtilisateur, ControllerName = UtilisateurController.ControllerName });
+}
+
+<script type="text/javascript">
+    function reloadGridUtilisateur(e) {
+        var grid = $("#gridUtilisateur").data("kendoGrid");
+        grid.dataSource.read();
+    }
+
+    function actionConfirmationSuppressionUtilisateur(idUser, callbackFinalize) {
+        $.ajax({
+            url: '@Url.Action(RoutesNamesConstantes.MvcControllerUtilisateur_MethodeDeleteUtilisateur, UtilisateurController.ControllerName)',
+            type: "POST",
+            data: { utilisateurId: idUser },
+            success: function (recData) {
+                if (recData.Errors) {
+                    erreurFunction(recData.Errors);
+                }
+                else {
+                    suppressionReussie();
+                    reloadGridUtilisateur();
+                }
+            },
+            error: erreurFunction,
+            finalize: function () {
+                callbackFinalize();
+            }
+        });
+    }
+
+    function actionNonConfirmationUtilisateur(callbackFinalize) {
+        callbackFinalize();
+    }
+
+    function onSupprimerUtilisateurClick(e) {
+        var functionOnConfirmation = function (callbackFinalize) {
+            actionConfirmationSuppressionUtilisateur(e.model.Id, callbackFinalize);
+        }
+        openConfirmationSuppressionUtilisateurDialog(functionOnConfirmation, actionNonConfirmationUtilisateur);
+    }
+
+</script>
+
+<h2 class="mt-3 mb-3">@ViewData["Title"]</h2>
+
+@(Html.Kendo().Grid<UtilisateurDto>()
+    .Name("gridUtilisateur")
+    .HtmlAttributes(new { @class = "h-90" })
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Nom).Title(LibellesResources.UtilisateurNom);
+        columns.Bound(p => p.Telephone).Title(LibellesResources.Telephone);
+        columns.Bound(p => p.Email).Title(LibellesResources.UtilisateurEmail);
+        columns.Bound(p => p.Poste).Title(LibellesResources.Poste);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut);
+        columns.CreateDefaultCommands(nameof(UtilisateurDto)).Title(LibellesResources.Action);
+    })
+    .Events(e => e.DataBound("onDataBoundUtilisateurs"))
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .CreateDefautPagger("", "Afficher les lignes de {0} à  {1} sur {2}")
+    .CreateDefautToolBar(creerTexte:"Créer un compte d’utilisateur")
+    .CreateDefautDataSource(gridUtilisateurActionDictionary, model => model.Id(p => p.Id), "DateCreation")
+    .Pageable(p => p.PageSizes(new[] { 20, 50, 100 }))
+    .CreateDefautPopUpEdit("AddOrUpdateUtilisateurPopUp", "OnPopUpOpenGridUtilisateur", "onSupprimerUtilisateurClick", actionOnCancel: "reloadGridUtilisateur")
+)
+
+<script>
+
+    function onDataBoundUtilisateurs(e) {
+        onDataBoundGloblalEdit(e, '@nameof(UtilisateurDto)');
+        onDataBoundGloblalDelete(e, '@nameof(UtilisateurDto)');
+    }
+
+    function OnPopUpOpenGridUtilisateur(e) {
+        let titleSpan = $('.k-window-title', $(e.container).parent());
+        if (e.model.isNew()) {
+            titleSpan.text('Créer un compte d’utilisateur');
+            $(".forUpdateUtilisateur").remove();
+        } else {
+            titleSpan.text('Modifier un compte d’utilisateur');
+            $(".forCreateUtilisateur").remove();
+        }
+    }
+</script>

@@ -1,0 +1,91 @@
+<div class="fenetre-dialog">
+    <form [formGroup]="formGroup">
+      <fieldset>
+        <legend><i class="fa-solid fa-medal"></i> Certification</legend>
+  
+        <!-- Certification -->
+        <div class="row ">
+          <div class="col-lg-6 mt-2 label-champ-input">
+            <label for="libelle" class="col-form-label">Intitulé de la certification<span class="champ-obligatoire">*</span></label>
+            <div class="error-message" *ngIf="formGroup.controls.libelle.invalid && formGroup.controls.libelle.touched">
+              L'intitulé de la certification est requis.
+            </div>
+          </div>
+          <div class="col-lg-6 mb-2">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="libelle"
+              placeholder="PMP (Project Management Professional), TOEFL"
+            />
+          </div>
+        </div>
+  
+        <!-- Niveau -->
+        <div class="row">
+          <div class="col-lg-6 mt-2 label-champ-input">
+            <label for="niveau" class="col-form-label">Niveau</label>
+          </div>
+          <div class="col-lg-6 mb-2">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="niveau"
+              placeholder="Avancé, Expert, Intermédiaire"
+            />
+          </div>
+        </div>
+  
+        <!-- Organisme -->
+        <div class="row">
+          <div class="col-lg-6 mt-2 label-champ-input">
+            <label for="organisme" class="col-form-label">Organisme de certification<span class="champ-obligatoire">*</span></label>
+            <div class="error-message" *ngIf="formGroup.controls['organisme'].invalid && formGroup.controls['organisme'].touched">
+              L'école ou l'organisme de formation est requis.
+            </div>
+          </div>
+          <div class="col-lg-6 mb-2">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="organisme"
+              placeholder="PMI (Project Management Institute), ETS Global"
+            />
+          </div>
+        </div>
+  
+        <!-- Date de l obtention -->
+        <div class="row">
+          <div class="col-lg-6 mt-2 label-champ-input">
+            <label for="dateObtention" class="col-form-label">
+              Date d'obtention <span class="champ-obligatoire">*</span>
+            </label>
+            <div class="error-message" *ngIf="formGroup.get('dateObtention')?.errors?.['required'] && formGroup.get('dateObtention')?.touched">
+              La date d'obtention est requise.
+            </div>
+            <div class="error-message" *ngIf="formGroup.get('dateObtention')?.errors?.['maxDateThisMonth'] && formGroup.get('dateObtention')?.touched">
+              La date d'obtention ne peut pas être postérieure au mois en cours.
+            </div>
+          </div>
+          <div class="col-lg-6 mb-2">
+            <app-month-year-picker 
+              formControlName="dateObtention">
+            </app-month-year-picker>
+          </div>
+        </div>
+      </fieldset>
+  
+      <!-- Boutons -->
+      <div>
+        <div class="at-p-button-container">
+          <button class="at-p-secondary-button" (click)="closeDialog()">
+            <p>Annuler</p>
+          </button>
+          <button class="at-p-button" (click)="submit()">
+            <p>Valider</p>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  

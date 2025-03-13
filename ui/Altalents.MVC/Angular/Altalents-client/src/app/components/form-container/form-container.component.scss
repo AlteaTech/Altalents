@@ -1,0 +1,107 @@
+.container{
+  padding-top: 20px;
+}
+
+ol.stepper {
+  --default-b: #E9E9F3;
+  --default-c: white;
+  --active-b: #7A4AFF;
+  --active-c: white;
+
+  display: flex;
+  cursor: pointer;
+  list-style: none;
+  justify-content: space-between;
+  background: linear-gradient(var(--default-b) 0 0) no-repeat 50% calc((var(--circle) - var(--b)) / 2) / 100% var(--b);
+  counter-reset: step;
+  margin: 20px;
+  padding: 0;
+  font-size: 22px;
+  font-weight: bold;
+  overflow: hidden;
+}
+
+ol.stepper li {
+  display: grid;
+  place-items: center;
+  gap: 5px;
+  font-family: sans-serif;
+  position: relative;
+}
+
+ol.stepper li::before {
+  content: counter(step) " ";
+  counter-increment: step;
+  display: grid;
+  place-content: center;
+  aspect-ratio: 1;
+  height: var(--circle);
+  box-sizing: border-box;
+  background: var(--active-b);
+  color: var(--active-c);
+  border-radius: 50%;
+  font-family: monospace;
+  z-index: 1;
+}
+
+ol.stepper li.active~li::before {
+  background: var(--default-b);
+  color: var(--default-c);
+}
+
+ol.stepper li.active::after {
+  content: "";
+  position: absolute;
+  height: var(--b);
+  right: 100%;
+  top: calc((var(--circle) - var(--b)) / 2);
+  width: 100vw;
+  background: var(--active-b);
+}
+
+ol.stepper li.clickable {
+  cursor: pointer;
+}
+
+ol.stepper li:not(.clickable) {
+  cursor: not-allowed;
+}
+
+
+ol.stepper li.validated-step::before {
+  background-color: #C3A6FF !important;  /* Violet clair pour les étapes validées après l'étape en cours */
+  color: white !important;
+}
+
+ol.stepper li.active::before {
+  background-color: #7A4AFF !important;  /* Violet foncé pour l'étape en cours */
+  color: white !important;
+}
+
+@media (max-width: 992px) {
+  ol.stepper {
+    --circle: 50px;
+    --b: 5px;
+  }
+  .enum-dossier-technique {
+    text-align: center;
+  }
+}
+
+@media (max-width: 500px) {
+  ol.stepper {
+    --circle: 30px;
+    --b: 5px;
+  }
+}
+
+@media (min-width: 992px) {
+  ol.stepper {
+    --circle: 60px;
+    --b: 10px;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -1,0 +1,51 @@
+<app-custom-loader [isLoading]="isLoading" />
+
+    <div class="at-p-formulaire-info-section">
+        <div class="speaker-container" style="margin: 20px; text-align: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
+              <!-- Cercle de fond -->
+              <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
+              
+              <!-- Icône de document -->
+              <rect x="55" y="60" width="90" height="120" fill="#ff6633" stroke="#cc3300" stroke-width="5" />
+              <line x1="55" y1="80" x2="145" y2="80" stroke="#cc3300" stroke-width="4" />
+              <line x1="55" y1="100" x2="145" y2="100" stroke="#cc3300" stroke-width="4" />
+              <line x1="55" y1="120" x2="145" y2="120" stroke="#cc3300" stroke-width="4" />
+              
+              <!-- Loupe pour symboliser la recherche -->
+              <circle cx="150" cy="40" r="15" fill="none" stroke="#cc3300" stroke-width="4" />
+              <line x1="160" y1="50" x2="180" y2="70" stroke="#cc3300" stroke-width="4" />
+            </svg>
+          </div>
+          
+          
+    <p>
+        cinquièmes étape : <span class="font-normal">on entre dans le vif du sujet ! C’est ici que nous allons vous poser quelques questions spécifiques pour mieux comprendre vos besoins, vos attentes ou vos superpouvoirs secrets (on ne juge pas). Allez, on sait que vous pouvez le faire !</span>
+    </p>
+</div>
+<fieldset>
+<legend><i class="fa-solid fa-question"></i>Questions</legend>
+<div *ngIf="questions.length > 0">
+    <div *ngFor="let question of questions">
+        <label class="col-form-label">{{ question.question }}<span class="champ-obligatoire" *ngIf="question.isObligatoire">*</span></label>
+        <textarea class="form-control" placeholder="Répondez ici" [(ngModel)]="question.reponse"></textarea>
+        <div class="error-message" *ngIf="question.isObligatoire && !question.reponse && showErreurs">
+            La réponse est requise.
+        </div>
+    </div>
+</div>
+<div *ngIf="questions.length == 0">
+    <p class="font-normal">Il n'y a aucune question spécifique pour vous cette fois ci.</p>
+</div>
+</fieldset>
+<!-- <fieldset>
+    <legend><i class="fa-regular fa-file"></i>Documents</legend>
+    <div *ngIf="documents.length > 0">
+        <div *ngFor="let doc of documents; let i = index" >
+            <p><a class="link" (click)="downloadPj(i)">{{doc.nomFichier}} </a></p>
+        </div>
+    </div>
+    <div *ngIf="documents.length == 0">
+          <p class="font-normal">Il n'y a aucun document à consulter pour cette fois.</p>
+    </div>
+</fieldset>  -->

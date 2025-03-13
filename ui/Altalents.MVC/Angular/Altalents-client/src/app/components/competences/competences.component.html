@@ -1,0 +1,144 @@
+<app-custom-loader [isLoading]="isLoading" />
+<div class="at-p-formulaire-info-section">
+  <div class="speaker-container" style="margin: 20px; text-align: center;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
+      <!-- Cercle de fond -->
+      <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
+
+      <!-- Barème simplifié (échelle plus large) -->
+      <rect x="50" y="80" width="100" height="20" fill="#ff6633" />
+
+      <!-- Niveaux du barème (cercles plus gros) -->
+      <circle cx="60" cy="90" r="12" fill="#ff6633" />
+      <circle cx="80" cy="90" r="12" fill="#ff6633" />
+      <circle cx="100" cy="90" r="12" fill="#ff6633" />
+      <circle cx="120" cy="90" r="12" fill="#ff6633" />
+      <circle cx="140" cy="90" r="12" fill="#ff6633" />
+
+      <!-- Flèche symbolisant la position ou l'évaluation -->
+      <path d="M100 105 L110 95 L90 95 Z" fill="#cc3300" />
+
+    </svg>
+  </div>
+  <h2 class="">Barème</h2>
+  <p>
+    <span class="font-normal">Veuillez procéder à une autoévaluation en cliquant sur les étoiles représentant une note
+      de 1 à 5. Retrouvez ci-dessous le détail de la signification de ces notes.
+    </span>
+  </p>
+  <div class="row">
+    <div class="barème-legende">
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+        </div>
+        <div>Pas ouf</div>
+      </div>
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+        </div>
+        <span>À peu près</span>
+      </div>
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+        </div>
+        <span>Pas si mal</span>
+      </div>
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa-regular fa-star"></span>
+        </div>
+        <span>Plutôt bon</span>
+      </div>
+      <div class="legende-item">
+        <div class="etoiles">
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+        </div>
+        <span>Marions-nous</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Vérification de l'absence de compétences -->
+<div *ngIf="compCompetences.length === 0 && compMethodologies.length === 0 && compOutils.length === 0 && compTechnologie.length === 0" class="alert">
+  <p>Vous n'avez défini aucune compétence dans vos expériences professionnelles, il n'y a donc aucune compétence spécifique à évaluer. C'est balo dis voir !</p>
+</div>
+
+<!-- Compétences -->
+<fieldset *ngIf="compCompetences.length > 0">
+  <legend><i class="fa-solid fa-expand"></i>Compétences</legend>
+  <div *ngFor="let competence of compCompetences" class="competence-item">
+    <p class="competence-libelle">{{ competence.libelle }}</p>
+    <div class="competence-stars">
+      <span *ngFor="let star of arrayNbEtoiles"
+        (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.competence, star)">
+        <i class="at-c-violet fa pointer" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+      </span>
+    </div>
+  </div>
+</fieldset>
+
+<!-- Méthodologie -->
+<fieldset *ngIf="compMethodologies.length > 0">
+  <legend><i class="fa-solid fa-book"></i>Méthodologie</legend>
+  <div *ngFor="let competence of compMethodologies" class="competence-item">
+    <p class="competence-libelle">{{ competence.libelle }}</p>
+    <div class="competence-stars">
+      <span *ngFor="let star of arrayNbEtoiles"
+        (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.methodologie, star)">
+        <i class="at-c-violet fa pointer" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+      </span>
+    </div>
+  </div>
+</fieldset>
+
+<!-- Outils -->
+<fieldset *ngIf="compOutils.length > 0">
+  <legend><i class="fa-solid fa-hammer"></i>Outils</legend>
+  <div *ngFor="let competence of compOutils" class="competence-item">
+    <p class="competence-libelle">{{ competence.libelle }}</p>
+    <div class="competence-stars">
+      <span *ngFor="let star of arrayNbEtoiles"
+        (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.outil, star)">
+        <i class="at-c-violet fa pointer" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+      </span>
+    </div>
+  </div>
+</fieldset>
+
+<!-- Technologies -->
+<fieldset *ngIf="compTechnologie.length > 0">
+  <legend><i class="fa-solid fa-code"></i>Technologies</legend>
+  <div *ngFor="let competence of compTechnologie" class="competence-item">
+    <p class="competence-libelle">{{ competence.libelle }}</p>
+    <div class="competence-stars">
+      <span *ngFor="let star of arrayNbEtoiles"
+        (click)="onEtoileCompetenceClick(competence, constantesTypesLiaisons.technologie, star)">
+        <i class="at-c-violet fa pointer" [ngClass]="star <= competence.niveau ? 'fa-star' : 'fa-regular fa-star'"></i>
+      </span>
+    </div>
+  </div>
+</fieldset>

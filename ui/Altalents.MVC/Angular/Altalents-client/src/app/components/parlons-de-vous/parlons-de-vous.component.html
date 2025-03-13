@@ -1,0 +1,223 @@
+<app-custom-loader [isLoading]="isLoading" />
+<div class="at-p-formulaire-info-section">
+    <div class="speaker-container" style="margin: 20px; text-align: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
+          <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
+          <path d="M50 80 h30 l50 -30 v120 l-50 -30 h-30 z" fill="#ff6633" stroke="#cc3300" stroke-width="5" stroke-linejoin="round" />
+          <line x1="50" y1="95" x2="80" y2="95" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <line x1="50" y1="110" x2="80" y2="110" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <line x1="50" y1="125" x2="80" y2="125" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <path d="M140 90 c10 10 10 30 0 40" fill="none" stroke="#ff6633" stroke-width="4" stroke-linecap="round" />
+          <path d="M150 80 c20 20 20 60 0 80" fill="none" stroke="#cc3300" stroke-width="4" stroke-linecap="round" />
+          <path d="M160 70 c30 30 30 90 0 120" fill="none" stroke="#ff3300" stroke-width="3" stroke-linecap="round" />
+        </svg>
+      </div>
+    <p>
+        C’est parti! <span class="font-normal">Pour la première étape nous allons avoir besoin de recueillir vos infos personnelles histoire de
+        tout revendre à Zukerberg. Je plaisante, ces informations ne seront évidemment partagées à personne, comme nos
+        meilleures vannes d’ailleurs.</span>
+    </p>
+</div>
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-lg-6">
+            <fieldset>
+                <legend class="legend-text"><i class="fa-solid fa-info"></i>Informations personnelles</legend>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="prenom" class="col-form-label">Prénom<span
+                                class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('prenom')?.invalid && formGroup.get('prenom')?.touched">
+                            Prénom est requis.
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <input type="text" class="form-control" formControlName="prenom" placeholder="Julien">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input ">
+                        <label for="nom" class="col-form-label">Nom<span class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('nom')?.invalid && formGroup.get('nom')?.touched">
+                            Nom est requis.
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <input type="text" class="form-control" formControlName="nom" placeholder="Dupont">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="zoneGeo" class="col-form-label">Zone geographique<span class="champ-obligatoire">*</span></label>
+                        <p class="font-normal font-italic font-small">Dites nous dans quel zone geographique vous accepteriez de travailler (Departement, régions, ville ...)</p>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('zoneGeo')?.invalid && formGroup.get('zoneGeo')?.touched">
+                                La zone geographique est requise.
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <textarea rows="3" class="form-control" formControlName="zoneGeo"
+                            placeholder="Aucun problème pour moi, je peux déménager n'importe où en France."></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-lg-6">
+            <fieldset>
+                <legend class="legent-text"><i class="fa-regular fa-address-book"></i>Coordonnées de contact</legend>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="numeroTelephone1 align-items-center" class="col-form-label">N° de téléphone<span
+                                class="champ-obligatoire">*</span></label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('numeroTelephone1')?.invalid && formGroup.get('numeroTelephone1')?.touched">
+                            Le numéro de téléphone doit être un numéro français ou international valide.
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <input type="text" class="form-control" formControlName="numeroTelephone1"
+                            placeholder="+33 123456789 ou 0123456789">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="adresseMail" class="col-form-label">Adresse mail
+                            <span class="champ-obligatoire">*</span>
+                        </label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('adresseMail')?.invalid && (formGroup.get('adresseMail')?.dirty || formGroup.get('adresseMail')?.touched)">
+                            <span *ngIf="formGroup.get('adresseMail')?.errors?.['required']">L'adresse mail est requise.</span>
+                            <span *ngIf="formGroup.get('adresseMail')?.errors?.['email']">Format d'adresse mail invalide.</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <input type="email" class="form-control" formControlName="adresseMail" placeholder="adresse@mail.com">
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <fieldset>
+                <legend class="legent-text"><i class="fa-regular fa-map"></i>Adresse</legend>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input ">
+                        <label for="adresse1 align-items-center" class="col-form-label">Adresse (ligne 1)</label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('adresse1')?.invalid && formGroup.get('adresse1')?.touched">
+                            Adresse est requis.
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <input type="text" class="form-control" formControlName="adresse1"
+                            placeholder="12 rue des Fleurs">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="adresse2 align-items-center" class="col-form-label">Adresse (Ligne 2)</label>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <input type="text" class="form-control" formControlName="adresse2"
+                            placeholder="22 rue des Adresses">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input ">
+                        <label class="col-form-label">Code postal / Ville</label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('codePostal')?.invalid && formGroup.get('codePostal')?.touched">
+                            Code Postal est invalide.
+                        </div>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('ville')?.invalid && formGroup.get('ville')?.touched">
+                            Ville est requise.
+                        </div>
+                    </div>
+                    <div class="col-lg-2 mb-2">
+                        <input type="text" class="form-control" formControlName="codePostal" placeholder="13820">
+                    </div>
+                    <div class="col-lg-4 mb-2">
+                        <input type="text" class="form-control" formControlName="ville" placeholder="Charleville">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="pays" class="col-form-label">Pays</label>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('pays')?.invalid && formGroup.get('pays')?.touched">
+                            Pays est requise.
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <input type="text" class="form-control" formControlName="pays" placeholder="France">
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-lg-6">
+            <fieldset>
+                <legend class="legent-text"><i class="fa-solid fa-align-justify"></i>Synthèse / soft skills</legend>
+                 <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="pays" class="col-form-label">Synthèse<span class="champ-obligatoire">*</span></label>
+                        <p class="font-normal font-italic font-small">Environs 100 mots. Vous pouvez évoquer vos accomplissements ou ce qui vous caractérise... Pareil que dans ta synthèse LinkedIn si jamais tu en as une</p>
+                        <div class="error-message"
+                            *ngIf="formGroup.get('synthese')?.invalid && formGroup.get('synthese')?.touched">
+                                La synthèse est requise.
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <textarea rows="4" class="form-control" formControlName="synthese"
+                            placeholder="Passionnée par le film Matrix depuis que je suis bébé, je me suis toujours intéressée aux technologies de l'information et, plus largement, à la matrice..."></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mt-2 label-champ-input">
+                        <label for="pays" class="col-form-label">Soft Skills</label>
+                        <p class="font-normal font-italic font-small">Les soft skills sont des compétences relationnelles et comportementales</p>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <textarea rows="4" class="form-control" formControlName="softSkills"
+                            placeholder="Communication, esprit d'équipe, gestion du stress..."></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-lg-12">
+            <fieldset>
+                 <div class="row m-1">
+                        <div class="drop-zone col-lg-12"  [class.dragging]="isDragging" (click)="triggerFileInput()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+                        <input id="fileInput"
+                            type="file" 
+                            (change)="onFileUploadChange($event)" 
+                            style="display: none;" 
+                        />
+                        <img src="Images/ICON_FEATHER_DOWNLOAD.png" alt="Upload Icon">
+                        <p class="at-c-violet">{{ this.parlonsDeVous.pieceJointe?.data ? 'Modifier votre' : 'Déposez votre' }} CV </p><span class="font-normal">.pdf ou .docx (Word) / 5Mo max</span>
+                    </div>
+                    <div class="error-message"
+                        *ngIf="formGroup.get('fileInput')?.invalid && formGroup.get('fileInput')?.touched">
+                            Votre CV est requis.
+                    </div>
+                     <!-- Afficher un message d'erreur pour la taille -->
+                    <div class="error-message" *ngIf="errorMessageFile">
+                        <p>{{ errorMessageFile }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                      <div class="col-lg-12 mt-3 text-center">
+                        <div class="nom-fichier-uploaded" *ngIf="this.parlonsDeVous.pieceJointe?.nomFichier">
+                            <p>Votre CV : <a class="link" (click)="downloadPj()"> {{ this.parlonsDeVous.pieceJointe?.nomFichier }}</a>
+                                <span class="font-normal" *ngIf="this.parlonsDeVous.pieceJointe?.commentaire" >&nbsp;({{this.parlonsDeVous.pieceJointe?.commentaire}}) </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,208 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Angular\**" />
+    <Compile Remove="wwwroot\Images\**" />
+    <Content Remove="Angular\**" />
+    <Content Remove="wwwroot\Images\**" />
+    <EmbeddedResource Remove="Angular\**" />
+    <EmbeddedResource Remove="wwwroot\Images\**" />
+    <None Remove="Angular\**" />
+    <None Remove="wwwroot\Images\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="wwwroot\Images\BULLE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\GROUPE_5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\GROUPE_6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\HONNETETE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ICONE_PLAY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ICONE_PLUS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ICONE_REPLAY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ICON_FEATHER_DOWNLOAD.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\ILLUSTRATION_STABILO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\loader.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\LOGO_ALTALANTS_EMAILS_TEMPLATE.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wwwroot\Images\LOGO_ALTALENTS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AlteaTools.Api.Core" Version="8.0.17" />
+    <PackageReference Include="AlteaTools.ApplicationInsight" Version="8.0.17" />
+    <PackageReference Include="AnyAscii" Version="0.3.2" />
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="AlteaTools.Kendo" Version="8.0.17" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2024.2.514" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Data" />
+    <Using Include="System.Text" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Text.RegularExpressions" />
+    <Using Include="System.IO" />
+    <Using Include="System.Net.Http.Headers" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Threading.Tasks" />
+    <Using Include="Altalents.IBusiness.DTO" />
+    <Using Include="Altalents.IBusiness.IServices" />
+    <Using Include="Altalents.MVC.Controllers" />
+    <Using Include="Altalents.MVC.Extension" />
+    <Using Include="Altalents.MVC.Models" />
+    <Using Include="Altalents.MVC.Resources" />
+    <Using Include="Kendo.Mvc.Extensions" />
+    <Using Include="Kendo.Mvc.UI" />
+    <Using Include="Microsoft.AspNetCore.Mvc" />
+    <Using Include="Altalents.Commun.Constants" />
+    <Using Include="Altalents.Commun.Resources" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Altalents.Infrastructure\Altalents.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Commun\Altalents.Business\Altalents.Business.csproj" />
+    <ProjectReference Include="..\..\Commun\Altalents.Entities\Altalents.Entities.csproj" />
+    <ProjectReference Include="..\Altalents.API\Altalents.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\AutoLogout\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\css\app-client.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\js\cultures\kendo.culture.fr-FR.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\js\cultures\kendo.messages.fr-FR.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\LibellesResources.Designer.cs">
+      <DependentUpon>LibellesResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\LibellesResources.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>LibellesResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="App_Data\Templates\Emails\EmailConfirmationReceptionDtByCandidat.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="App_Data\Templates\Emails\EmailConfirmationCreationDtForCandidat.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Emails\EmailConfirmationValidationDtByCandidat.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Emails\Styles\email-styles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_Before_Add_Key - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_Before_Add_Key.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_FirstPage - Copy %282%29.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_FirstPage - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_FirstPage.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemExperience - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemExperience.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemQuestion - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemQuestion.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemTabHorizontal - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemTabHorizontal.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemTabVertical - Copy.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemTabVertical.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

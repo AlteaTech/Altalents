@@ -1,0 +1,75 @@
+/* Conteneur pour le lien "Supprimer" */
+.delete-link-container {
+    display: flex;
+    align-items: center; /* Aligne le lien "Supprimer" au centre verticalement */
+    margin-left: auto; /* Si tu veux pousser le lien "Supprimer" à droite */
+    text-decoration: none;
+}
+
+/* Lien "Supprimer" */
+.delete-link {
+    margin-top: 12px;
+    text-decoration: none; /* Supprime le soulignement du lien */
+    cursor: pointer; /* Modifie le curseur au survol */
+}
+
+/* Effet de survol pour le lien "Supprimer" */
+.delete-link:hover {
+    text-decoration: underline; /* Souligne le lien au survol */
+}
+
+.project-even {
+    background-color: #ffffff; /* Gris clair */
+    padding-bottom: 20px;
+    border-radius: 8px; /* Optionnel : pour des bords arrondis */
+}
+
+.project-odd {
+    background-color: #f1f1f1; /* Gris légèrement plus foncé */
+    padding: 20px; /* Ajustez la valeur du padding selon vos besoins */
+    border-radius: 8px; /* Optionnel : pour des bords arrondis */
+}
+
+/* Onglets */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .tablinks {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 14px 16px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .tablinks:hover {
+    background-color: #ddd;
+  }
+  
+  .tablinks.active {
+    background-color: #ddd;
+    font-weight: bold;
+  }
+  
+  .tabcontent {
+    display: none;
+    padding: 20px;
+    border-top: 2px solid #ddd;
+  }
+  
+  .tabcontent.active {
+    display: block;
+  }
+
+  .nav-link{
+
+    color: black;
+  }
+
+  .nav-link.active{
+
+    color: #7A4AFF;
+  }

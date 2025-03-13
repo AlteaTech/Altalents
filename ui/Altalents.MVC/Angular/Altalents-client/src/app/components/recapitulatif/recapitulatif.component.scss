@@ -1,0 +1,91 @@
+p{
+    margin-bottom: 0px;
+}
+
+.flex-row-comp {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: flex-start; 
+    width: 100%; 
+}
+
+.competence-item {
+    display: flex; 
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.competence-libelle {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.competence-stars {
+    display: flex; 
+    margin-left: 10px;
+}
+
+
+
+.space-between {
+    justify-content: space-between; /* Espace maximal entre les éléments */
+}
+
+.confirmation-section {
+    display: flex;
+    flex-direction: column; /* Arrange les éléments verticalement */
+    align-items: center; /* Centre horizontalement tous les éléments */
+    justify-content: center; /* Centre verticalement tous les éléments dans la section */
+    text-align: center; /* Centre le texte à l'intérieur des éléments */
+    margin-top: 30px; /* Facultatif : ajoute de l'espace en haut */
+  }
+  
+  .toggle-container {
+    display: flex;
+    align-items: center; /* Aligne verticalement le texte avec le toggle */
+    gap: 8px; /* Espace entre le toggle et le texte */
+  }
+  
+
+  .toggle-slider {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+  
+  .toggle-slider:before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  
+  input[type="checkbox"]:checked + .toggle-slider {
+    background-color: #6b38f4; /* Violet */
+  }
+  
+  input[type="checkbox"]:checked + .toggle-slider:before {
+    transform: translateX(20px);
+  }
+
+  @media (max-width: 992px) {
+    .toggle-container {
+      flex-direction: column; /* Passe le toggle au-dessus du texte */
+      gap: 4px; /* Réduit l'espace entre le toggle et le texte */
+      text-align: center; /* Centre le texte et le toggle */
+    }
+  
+    .toggle-slider {
+      margin-bottom: 8px; /* Ajoute un espace sous le toggle */
+    }
+  }

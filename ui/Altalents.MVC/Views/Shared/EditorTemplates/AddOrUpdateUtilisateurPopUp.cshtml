@@ -1,0 +1,57 @@
+@model UtilisateurDto
+
+<div class="k-edit-form-container">
+    <div class="k-edit-label">
+        @Html.LabelFor(model => model.Nom, LibellesResources.UtilisateurNom)
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(model => model.Nom)
+        @Html.ValidationMessageFor(model => model.Nom)
+    </div>
+    <div class="k-edit-label">
+        @Html.LabelFor(model => model.Email, LibellesResources.UtilisateurEmail)
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(model => model.Email)
+        @Html.ValidationMessageFor(model => model.Email)
+    </div>
+    <div class="k-edit-label forCreateUtilisateur">
+        @Html.LabelFor(model => model.MotDePasse, LibellesResources.UtilisateurMotDePasse)
+    </div>
+    <div class="k-edit-field forCreateUtilisateur">
+        @Html.Kendo().TextBoxFor(model => model.MotDePasse).HtmlAttributes(new { type = "password" })
+        @Html.ValidationMessageFor(model => model.MotDePasse)
+    </div>
+
+    <div class="k-edit-label forUpdateUtilisateur">
+        @Html.LabelFor(model => model.NouveauMotDePasse, LibellesResources.UtilisateurMotDePasse)
+    </div>
+    <div class="k-edit-field forUpdateUtilisateur">
+        @Html.Kendo().TextBoxFor(model => model.NouveauMotDePasse).HtmlAttributes(new { type = "password" })
+        @Html.ValidationMessageFor(model => model.NouveauMotDePasse)
+    </div>
+
+    <div class="k-edit-label">
+        @Html.LabelFor(model => model.Telephone, LibellesResources.Telephone)
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(model => model.Telephone)
+        @Html.ValidationMessageFor(model => model.Telephone)
+    </div>
+    <div class="k-edit-label">
+        @Html.LabelFor(model => model.Poste, LibellesResources.Poste)
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(model => model.Poste)
+        @Html.ValidationMessageFor(model => model.Poste)
+    </div>
+    <div class="k-edit-label">
+        @Html.LabelFor(model => model.TypeCompteSelected, LibellesResources.Statut)
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().ComboBoxFor(model => model.TypeCompteSelected).DataTextField("Text").DataValueField("Value").DataSource(dataSource => {
+                dataSource.Read(RoutesNamesConstantes.MvcControllerUtilisateur_MethodeTypeCompte, UtilisateurController.ControllerName);
+                })
+        @Html.ValidationMessageFor(model => model.TypeCompte)
+    </div>
+</div>

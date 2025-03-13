@@ -1,0 +1,151 @@
+@using Altalents.Commun.Enums
+@using Altalents.MVC.Controllers.Admin;
+@using AlteaTools.Api.Core.Extensions
+@{
+    ViewData["Title"] = LibellesResources.TitreTableauDeBord;
+    Layout = "_LayoutAdmin";
+}
+
+<script type="text/javascript">
+
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde
+    const saveStatusUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeUpdateStatut, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde des infos privé
+    const getPrivateDataUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_GetPrivateData, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde
+    const savePrivateDataUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_UpdatePrivateData, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE : Définir l'URL pour le delete d'un DT
+    const deleteDtUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_DeleteDt, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE, pour recharger le tableau apres methode ajax
+    function reloadGrid() {
+
+        var gridDtAController = $("#gridDossierTechniqueAController").data("kendoGrid");
+         gridDtAController.dataSource.read();  // Ajoutez cette ligne pour recharger les données
+         // gridDtAController.refresh();           // Forcer le rafraîchissement du grid
+
+        var gridDtEnCours = $("#gridDossierTechniqueEnCoursLimitedDto").data("kendoGrid");
+         gridDtEnCours.dataSource.read();      // Ajoutez cette ligne pour recharger les données
+         // gridDtEnCours.refresh();
+    }
+
+
+
+</script>
+
+<script src="~/js/modifier-statut-dt.js"></script>
+<script src="~/js/modifier-private-data-dt.js"></script>
+<script src="~/js/supprimer-dt.js"></script>
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2 class="m-0 mb-3">@ViewData["Title"]</h2>
+    <a href="/@RoutesNamesConstantes.AngularApp_CreationDt" class="btn-link mt-3">
+        <i class="fa-solid fa-plus"></i> @LibellesResources.CreerDT
+    </a>
+</div>
+
+<div class="at-sub-title mb-2">
+    Liste des DT à remplir par le candidat
+    <a title="Consulter tous les DT ayant le statut 'Créé'" href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt, new { statut = CodeReferenceEnum.Cree.GetDisplayName(false) })" class="at-link">Voir tout ></a>
+</div>
+
+@(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
+    .Name("gridDossierTechniqueEnCoursLimitedDto")
+    .HtmlAttributes(new { @class = "h-auto" })
+    .Columns(columns =>
+    {
+  @*       columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" }); *@
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).Width(60).ClientTemplate("<a title='Cliquer pour consulter le DT dans Altalants' href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+        columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
+        columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
+        columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
+        columns.Bound(p => p.PosteVoulu).Title(LibellesResources.PosteVoulu);
+        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
+                        .ClientTemplate("#=formatDate(DateUpdate)#");
+        columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a  title='Cliquer pour changer le statut de ce DT' href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=StatutCode#\")'>#=Statut#</a>");
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+    .ClientTemplate("<a title='Cliquer pour modifier les données privées de ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='openKendoPrivateDatatDteWindow(\"#=Id#\")'>" +
+                    "<i class='fa fa-edit' aria-hidden='true'></i>" +
+                    "</a>")
+    .Width(40);
+
+
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+             .ClientTemplate("<a title='Cliquer pour supprimer définitivement ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='onSupprimerDossietTechniqueClick(\"#=Id#\")'>" +
+                             "<i class='fa fa-trash' aria-hidden='true'></i>" +
+                             "</a>")
+             .Width(40);
+    })
+    .CreateDefautToolBar(withCreate: false, withSearch: false)
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsCreesLimitedReal, TableauDeBordController.ControllerName)) // Action de lecture
+    )
+)
+<br/>
+<div title="Consulter tous les DT ayant le statut 'À valider'" class="at-sub-title mb-2">Liste des DT à valider par le service commercial <a href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, RoutesNamesConstantes.MvcControllerBiblioDt, new { statut = CodeReferenceEnum.AValider.GetDisplayName(false) })" class="at-link">Voir tout ></a></div>
+
+@(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
+    .Name("gridDossierTechniqueAController")
+    .HtmlAttributes(new { @class = "h-auto" })
+    .Columns(columns =>
+    {
+        @* columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" }); *@
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false).Width(40)
+    .ClientTemplate("# if (StatutCode !== 'Cree') { #" +
+        "<a title='Cliquer pour télécharger le CV uploader par le candidat' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadCv + "' " +
+        "class='k-link download-link' target='_blank' onclick='return handleCvDownload(event, this.href);'>" +
+        "<i class='fa fa-file' aria-hidden='true'></i>" +
+        "</a>" +
+    "# } #");
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).Width(60).ClientTemplate("<a title='Cliquer pour consulter le DT dans Altalants' href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' class='k-link'>#=NumeroDt#</a>");
+        columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
+        columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
+        columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
+        columns.Bound(p => p.PosteVoulu).Title(LibellesResources.PosteVoulu);
+        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate)
+                        .ClientTemplate("#=formatDate(DateUpdate)#");
+        columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut).ClientTemplate("<a title='Cliquer pour changer le statut de ce DT' href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=StatutCode#\")'>#=Statut#</a>");
+
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false) // Pas de titre pour économiser de l'espace
+           .ClientTemplate("<a title='Cliquer pour télécharger le DT au format WORD' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtWord + "' class='k-link download-link' target='_blank'>" +
+                           "<i class='fa fa-download' aria-hidden='true'></i>" +
+                           "</a>")
+              .Width(40);
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+.ClientTemplate("# if (StatutCode !== 'Cree') { #" +
+  "<a title='Cliquer pour télécharger le DT au format PDF' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtPdf + "' class='k-link download-link' target='_blank'>" +
+"<i class='fa fa-file-pdf' aria-hidden='true'></i>" +
+"</a>" +
+"# } #")
+.Width(40);
+
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+            .ClientTemplate("<a title='Cliquer pour modifier les données privées de ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='openKendoPrivateDatatDteWindow(\"#=Id#\")'>" +
+                            "<i class='fa fa-edit' aria-hidden='true'></i>" +
+                            "</a>")
+            .Width(40);
+
+
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+              .ClientTemplate("<a title='Cliquer pour supprimer définitivement ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='onSupprimerDossietTechniqueClick(\"#=Id#\")'>" +
+                              "<i class='fa fa-trash' aria-hidden='true'></i>" +
+                              "</a>")
+              .Width(40);
+    })
+    .CreateDefautToolBar(withCreate: false, withSearch: false)
+    .Scrollable()
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeGetDtsAValiderLimitedReal, TableauDeBordController.ControllerName)) // Action de lecture
+    )
+)
+
+@Html.Partial("_ModificationStatutDtModal")
+@Html.Partial("_ModificationPrivateDataDtModal")

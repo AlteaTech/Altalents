@@ -1,0 +1,24 @@
+@using AlteaTools.Session.Extension
+@inject IHttpContextAccessor Accessor
+@{
+    var session = Accessor.HttpContext.Session;
+}
+<!DOCTYPE html>
+<html lang="fr">
+<partial name="_headerAdmin" />
+<body>
+    <header>
+        @Html.Raw(JavaScriptSnippet.FullScript)
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <img class="logo-altalent" src="~/Images/LOGO_ALTALENTS.png" />
+            <img class="logo-altalent-stabilo" src="~/Images/ILLUSTRATION_STABILO.png" />
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site-admin.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

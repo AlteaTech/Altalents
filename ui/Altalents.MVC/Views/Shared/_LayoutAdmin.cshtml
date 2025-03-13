@@ -1,0 +1,93 @@
+@using AlteaTools.Session.Extension
+@using AlteaTools.Session
+@inject IHttpContextAccessor Accessor
+@{
+    var session = Accessor.HttpContext.Session;
+    var isLogged = session.Get<bool>(SessionKeyConstantes.IsLogged);
+}
+<!DOCTYPE html>
+<html lang="fr">
+<partial name="_headerAdmin" />
+@{
+    bool isUtilisateur = (bool?)ViewData["isUtilisateur"] ?? false;
+    bool isTableauDeBord = (bool?)ViewData["isTableauDeBord"] ?? false;
+    bool isGestionDt = (bool?)ViewData["isGestionDt"] ?? false;
+    bool isDataControle = (bool?)ViewData["isDataControle"] ?? false;
+    bool isIndicateurExtract = (bool?)ViewData["isIndicateurExtract"] ?? false;
+    bool isBiblioDT = (bool?)ViewData["isBiblioDT"] ?? false;
+    bool isUpdateCandidat = (bool?)ViewData["isUpdateCandidat"] ?? false;
+}
+<script type="text/javascript">
+    kendo.culture("fr-FR");
+</script>
+<script type="text/javascript" src="~/js/tools.js">
+</script>
+
+<body class="@("h-100 " + (isLogged ? "" : "colorViolet"))">
+    <div class="row h-100">
+        @if (isLogged)
+        {
+            <div class="col-md-2 colorViolet">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"><img class="mt-3" src="~/Images/LOGO_ALTALENTS.png" /></div>
+                    <div class="col-md-4"></div>
+                </div>
+
+                <div class="row">
+                    <a class="lienmenu @(""+(isTableauDeBord ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerTableauDeBord_MethodeIndex, TableauDeBordController.ControllerName)">@LibellesResources.TitreTableauDeBord</a>
+                    <a class="lienmenu @(""+(isGestionDt ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, BiblioDtController.ControllerName)">@LibellesResources.TitreGestionDT</a>
+                    @if (isGestionDt)
+                    {
+                        <a class="liensousmenu @(""+(isBiblioDT ? "sousmenuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeIndex, BiblioDtController.ControllerName)">@LibellesResources.TitreBiblioDT</a>
+                        <a class="liensousmenu" href="/@RoutesNamesConstantes.AngularApp_CreationDt" target="_blank">@LibellesResources.CreerDT</a>
+                       @*  <a class="liensousmenu @(""+(isUpdateCandidat ? "sousmenuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerUpdateCandidat_MethodeIndex, UpdateCandidatController.ControllerName)">@LibellesResources.TitreUpdateCandidat</a> *@
+                    }
+                    <a class="lienmenu @(""+(isUtilisateur ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerUtilisateur_MethodeIndex, UtilisateurController.ControllerName)">@LibellesResources.TitreGestionCompteUtilisateurs</a>
+                  @*   <a class="lienmenu @(""+(isIndicateurExtract ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerIndicateurExtract_MethodeIndex, IndicateurExtractController.ControllerName)">@LibellesResources.TitreIndicateurExtract</a>
+                   *@
+                   <a class="lienmenu @(""+(isDataControle ? "menuselected" : ""))" href="@Url.Action(RoutesNamesConstantes.MvcControllerDataControle_MethodeIndex, DataControleController.ControllerName)">@LibellesResources.TitreDataControle</a>
+                    <a class="lienmenu" href="@Url.Action("Logout", AccountController.ControllerName)">Se déconnecter</a>
+                </div>
+                @Html.Raw(JavaScriptSnippet.FullScript)
+            </div>
+        }
+        else
+        {
+            <div class="col-md-3">
+            </div>
+        }
+        <div class="col-md-10 ml-3">
+            <div class="row h-100">
+                <main role="main" class="col-12 pb-3">
+                    @(Html.Kendo().Notification()
+                        .Name("popupNotification")
+                        .AutoHideAfter(5000)
+                        .Width(300)
+                        .Position(p => p.Top(70))
+                        )
+
+                    @(Html.Kendo().Dialog()
+                        .CreateDefautDialog("confirmationDialog", 500)
+                        .Actions(a =>
+                        {
+                            a.Add().Text("Non").Action("onNonConfirmationDialogClick");
+                            a.Add().Text("Oui").Primary(true).Action("onConfirmationDialogClick");
+                        })
+                        )
+
+                    @(Html.Kendo().Dialog().CreateDefautDialog("loadingDialog").Closable(false))
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site-admin.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<script src="/js/cultures/kendo.culture.fr-FR.min.js"></script>
+<script src="/js/cultures/kendo.messages.fr-FR.min.js"></script>
+<script src="https://kit.fontawesome.com/9ebf361d61.js" crossorigin="anonymous"></script>

@@ -1,0 +1,26 @@
+<header class="at-p-header">
+    <div class="logo-altalents">
+        <img src="Images/LOGO_ALTALENTS.png">
+    </div>
+</header>
+<div class="main-content">
+    <div class="row">
+        <div class="body-bulle">
+            <div class="bubble-container">
+                <div class="text">
+                    <h1 class="mb-3">Dossier technique introuvable</h1>
+                    <p class="font-normal mb-3">Le token d'acces rapide ne correspond à aucun dossiet technique.</p>
+                    <p *ngIf="permissionDT.tokenAccesRapide" class="font-normal">Token du DT : <span class="font-bold">{{permissionDT.tokenAccesRapide}}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="at-p-button-container">
+            <button class="at-p-button" (click)="goMoon()">
+                <p><i class="fa-brands fa-space-awesome"></i>Consulter fake jobs</p>
+            </button>
+        </div>
+    </div>
+</div>
+<img src="Images/ILLUSTRATION_STABILO.png" class="logo-altalent-stabilo">

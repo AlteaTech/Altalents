@@ -1,0 +1,133 @@
+@using Altalents.MVC.Controllers.Admin;
+@{
+    ViewData["Title"] = LibellesResources.TitreBiblioDT;
+    Layout = "_LayoutAdmin";
+}
+
+<script type="text/javascript">
+
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde du nouveau statut
+    const saveStatusUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeUpdateStatut, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde des infos privé
+    const getPrivateDataUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_GetPrivateData, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE :  Définir l'URL pour la sauvegarde
+    const savePrivateDataUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_UpdatePrivateData, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE : Définir l'URL pour le delete d'un DT
+    const deleteDtUrl = '@Url.Action(RoutesNamesConstantes.MvcControllerBiblioDt_DeleteDt, BiblioDtController.ControllerName)';
+
+    // OBLIGATOIRE, pour recharger le tableau apres methode ajax
+    function reloadGrid(e) {
+        var grid = $("#gridDossierTechnique").data("kendoGrid");
+        grid.dataSource.read();
+    }
+
+</script>
+
+<script src="~/js/modifier-statut-dt.js"></script>
+<script src="~/js/modifier-private-data-dt.js"></script>
+<script src="~/js/supprimer-dt.js"></script>
+
+<h2 class="mt-3 mb-3">@ViewData["Title"]</h2>
+
+@(Html.Kendo().Grid<DossierTechniqueForAdminDto>()
+    .Name("gridDossierTechnique")
+    .HtmlAttributes(new { @class = "h-90" })
+    .Columns(columns =>
+    {
+    @*     columns.Select().Width(40).HtmlAttributes(new { @class = "checkbox-align" }).HeaderHtmlAttributes(new { @class = "checkbox-align" }); *@
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+.ClientTemplate("# if (StatutCode !== 'Cree') { #" +
+    "<a title='Cliquer pour télécharger le CV uploader par le candidat' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadCv + "' class='k-link download-link' target='_blank'>" +
+    "<i class='fa fa-file' aria-hidden='true'></i>" +
+    "</a>" +
+    "# } #")
+.Width(40);
+        columns.Bound(p => p.NumeroDt).Title(LibellesResources.NumDT).Width(80)
+                  .ClientTemplate("<a href='/" + @RoutesNamesConstantes.AngularApp_DossierTechnique + "/#=TokenAccesRapide#' target='_blank' title='Cliquer pour consulter le DT dans Altalants' class='k-link'>#=NumeroDt#</a>");
+
+            columns.Bound(p => p.NomCandidat).Title(LibellesResources.NomCandidat);
+        columns.Bound(p => p.PrenomCandidat).Title(LibellesResources.PrenomCandidat);
+        columns.Bound(p => p.IdBoond).Title(LibellesResources.IdBoond);
+        columns.Bound(p => p.PosteVoulu).Title(LibellesResources.PosteVoulu);
+        columns.Bound(p => p.DateCrea).Title(LibellesResources.DateCreation).ClientTemplate("#=formatDate(DateCrea)#");
+        columns.Bound(p => p.DateUpdate).Title(LibellesResources.DateUpdate).ClientTemplate("#=formatDate(DateUpdate)#");
+        columns.Bound(p => p.Commercial).Title(LibellesResources.Commercial);
+        columns.Bound(p => p.Statut).Title(LibellesResources.Statut)
+            .ClientTemplate("<a  title='Cliquer pour changer le statut de ce DT' href='javascript:void(0);' class='link-status' onclick='openKendoStatusWindow(\"#=Id#\", \"#=StatutCode#\")'>#=Statut#</a>");
+
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+            .ClientTemplate("# if (StatutCode !== 'Cree') { #" +
+                            "<a title='Cliquer pour télécharger le DT au format WORD' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtWord + "' class='k-link download-link' target='_blank'>" +
+                            "<i class='fa fa-download' aria-hidden='true'></i>" +
+                            "</a>" +
+                            "# } #")
+            .Width(40);
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+.ClientTemplate("# if (StatutCode !== 'Cree') { #" +
+            "<a title='Cliquer pour télécharger le DT au format PDF' href='/" + @RoutesNamesConstantes.ApiControllerDossiersTechniques + "/#=TokenAccesRapide#/" + @RoutesNamesConstantes.ApiControllerDossierTechnique_MethodeDownloadDtPdf + "' class='k-link download-link' target='_blank'>" +
+        "<i class='fa fa-file-pdf' aria-hidden='true'></i>" +
+        "</a>" +
+        "# } #")
+.Width(40);
+
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+            .ClientTemplate("<a title='Cliquer pour modifier les données privées de ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='openKendoPrivateDatatDteWindow(\"#=Id#\")'>" +
+                            "<i class='fa fa-edit' aria-hidden='true'></i>" +
+                            "</a>")
+            .Width(40);
+           
+        columns.Bound(p => p.Id).Title("&nbsp").Filterable(false)
+            .ClientTemplate("<a title='Cliquer pour supprimer définitivement ce DT' href='javascript:void(0);' class='k-link delete-link' onclick='onSupprimerDossietTechniqueClick(\"#=Id#\")'>" +
+                            "<i class='fa fa-trash' aria-hidden='true'></i>" +
+                            "</a>")
+            .Width(40);
+    })
+    .Selectable()
+    .Sortable()
+    .Filterable()
+    .Scrollable()
+    .Pageable(pager => pager
+        .PageSizes(new[] { 20, 50, 100 })
+        .ButtonCount(5)
+    )
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action(RoutesNamesConstantes.MvcControllerBiblioDt_MethodeGetBiblioDts, BiblioDtController.ControllerName))
+        .PageSize(20)
+    )
+    .CreateDefautToolBar(withCreate: false, withSearch: false)
+)
+
+
+@Html.Partial("_ModificationStatutDtModal")
+@Html.Partial("_ModificationPrivateDataDtModal")
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        const grid = $("#gridDossierTechnique").data("kendoGrid");
+
+        // Appliquer un tri par défaut sur la colonne DateUpdate (ordre décroissant)
+        grid.dataSource.sort({
+            field: "DateUpdate",
+            dir: "desc"
+        });
+
+        // Si un paramètre "statut" est trouvé dans l'URL et qu'aucun filtre n'est encore appliqué sur la grille
+        grid.bind("dataBound", function () {
+            const statutParam = getUrlParameter('statut');
+            if (statutParam && !grid.dataSource.filter()) {
+                grid.dataSource.filter({
+                    logic: "and",
+                    filters: [{ field: "Statut", operator: "eq", value: statutParam }]
+                });
+            }
+        });
+    });
+
+</script>

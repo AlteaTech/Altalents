@@ -1,0 +1,18 @@
+<p *ngIf="permissionDT.isDtReadOnly" class="alert alert-warning" role="alert">
+    <i class="fa-solid fa-exclamation-triangle"> </i>
+
+    <span *ngIf="permissionDT.codeStatutDT == statutDtEnum.termine">Ce DT possède le statut "Terminé". Vous y avez actuellement accès car vous êtes connecté au back-office d'Altalents. Si vous souhaitez le modifier, vous devez d'abord changer son statut en "À valider".
+    </span>
+    <span *ngIf="permissionDT.codeStatutDT != statutDtEnum.termine">Les champs de ce dossier technique sont en mode lecture seule car son statut ne vous permet pas de le mettre à jour. Merci de votre compréhension. <br/>
+        <span class="font-normal font-italic">Si vous appartenez au service commercial, vous connecter au back office d'altalants vous donnera les droits de modifier ce DT.</span>
+    </span>
+
+    
+</p>
+<p *ngIf="!permissionDT.isDtReadOnly && permissionDT.isUserLoggedInBackOffice && permissionDT.codeStatutDT == statutDtEnum.aValider" class="alert alert-warning" role="alert">
+    <i class="fa-solid fa-exclamation-triangle"></i>
+        Le statut de ce DT est 'À valider'. Vous êtes autorisé à le mettre à jour, car vous êtes actuellement authentifié dans le back-office d'Altalents.</p>
+    <p *ngIf="!permissionDT.isDtReadOnly && permissionDT.isUserLoggedInBackOffice && permissionDT.codeStatutDT == statutDtEnum.cree" class="alert alert-warning" role="alert">
+        <i class="fa-solid fa-exclamation-triangle"></i>
+        Nous avons remarqué que vous êtes actuellement authentifié dans le back-office d'Altalents. Pour information, lorsque le statut d'un DT est 'Créé', c'est le candidat qui est censé renseigner son propre dossier technique et non le service commercial.
+    </p>

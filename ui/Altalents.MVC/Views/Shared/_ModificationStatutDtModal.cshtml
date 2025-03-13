@@ -1,0 +1,36 @@
+@using Altalents.Commun.Enums
+@using AlteaTools.Api.Core.Extensions
+<div id="statusWindow" style="display: none;">
+    <form id="statusForm">
+        <input type="hidden" id="dtId" />
+        <div class="form-group">
+            <label for="statusDropdown">Statut</label>
+            <select id="statusDropdown" class="form-control">
+                <option data-guid="@Guid.Parse(IdsConstantes.StatutDtCreeId)"
+                        value="@CodeReferenceEnum.Cree.ToString()">
+                    @CodeReferenceEnum.Cree.GetDisplayName(false)
+                </option>
+                <option data-guid="@Guid.Parse(IdsConstantes.StatutDtAValiderId)"
+                        value="@CodeReferenceEnum.AValider.ToString()">
+                    @CodeReferenceEnum.AValider.GetDisplayName(false)
+                </option>
+                <option data-guid="@Guid.Parse(IdsConstantes.StatutDtTermineId)"
+                        value="@CodeReferenceEnum.Termine.ToString()">
+                    @CodeReferenceEnum.Termine.GetDisplayName(false)
+                </option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="k-grid-save-command k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary"
+                    id="saveStatusBtn">
+                <span class="k-icon k-i-save k-button-icon"></span>
+                <span class="k-button-text">Enregistrer</span>
+            </button>
+            <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-secondary"
+                    onclick="closeKendoStatusWindow()">
+                <span class="k-icon k-i-cancel k-button-icon"></span>
+                <span class="k-button-text">Annuler</span>
+            </button>
+        </div>
+    </form>
+</div>

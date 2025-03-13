@@ -1,0 +1,101 @@
+<app-custom-loader [isLoading]="isLoading" />
+<div class="at-p-formulaire-info-section">
+    <div class="speaker-container" style="margin: 20px; text-align: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
+          <!-- Cercle de fond -->
+          <circle cx="100" cy="100" r="90" fill="#ff6633" opacity="0.15" />
+          
+          <!-- Livre ouvert (symbolise l'éducation) -->
+          <path d="M50 75 Q75 50 100 75 Q125 50 150 75 V150 Q125 130 100 150 Q75 130 50 150 Z" fill="#ff6633" stroke="#cc3300" stroke-width="5" />
+          
+          <!-- Lignes sur le livre (pages) -->
+          <line x1="50" y1="90" x2="150" y2="90" stroke="#ffffff" stroke-width="4" />
+          <line x1="50" y1="105" x2="150" y2="105" stroke="#ffffff" stroke-width="4" />
+          <line x1="50" y1="120" x2="150" y2="120" stroke="#ffffff" stroke-width="4" />
+          
+          <!-- Flèche symbolisant la progression -->
+          <path d="M100 135 L110 120 L90 120 Z" fill="#cc3300" />
+        </svg>
+      </div>
+    <p>
+        Deuxième étape : <span class="font-normal">vous avez étudié à Poudlard? Vous parlez couramment le patois péruvien avec un léger accent du sud? 
+        Vous possèdez une certification officielle de meilleur imitateur de France que Nicolas Canteloup vous jalouse? 
+        C'est ici qu'il faut nous le dire.</span>
+    </p>
+</div>
+<fieldset>
+    <legend><span><i class="fa-solid fa-graduation-cap "></i>Formations</span></legend>
+    <div *ngFor="let formation of stepFormation.formations" class="mb-3">
+        <div class="flex-row space-between align-center">
+            <p class="at-c-violet mb-0 mt-2">
+              {{formation.libelle}}
+            </p>
+            <div class="edit-links mt-2">
+                <a (click)="onModifierFormationClick(formation)" class="edit-link">
+                <p class="at-c-violet"><i class="fa-regular fa-pen-to-square"></i>Modifier</p>
+                </a>
+                <a (click)="onDeleteFormationClick(formation)" class="edit-link">
+                    <p class="at-c-violet"><i class="fa-solid fa-trash"></i>Supprimer</p>
+                </a>
+            </div>
+        </div>
+        <p class="font-bold" *ngIf="formation.niveau">{{formation.niveau}}</p>
+        <p class="font-normal">{{formation.organisme}}</p>
+        <p class="font-normal" *ngIf="formation.dateObtention">{{formation.dateObtention | date : "MMMM YYYY" }}</p>
+       
+    </div>
+    <div class="at-p-button-ajouter mt-1 mb-4">
+        <button (click)="onAddFormationClick()">
+            <p><i class="fa-regular fa-plus at-c-violet"></i>Ajouter une formation</p>
+        </button>
+    </div>   
+</fieldset>
+<fieldset>
+    <legend><i class="fa-solid fa-medal"></i>Certifications</legend>
+    <div *ngFor="let certification of stepFormation.certifications" class="mb-3">
+        <div class="flex-row space-between align-center">
+            <p class=" at-c-violet mb-0 mt-2">
+              {{certification.libelle}}
+            </p>
+            <div class="edit-links mt-2">
+                <a (click)="onModifierCertificationClick(certification)" class="edit-link">
+                <p class="at-c-violet"><i class="fa-regular fa-pen-to-square"></i>Modifier</p>
+                </a>
+                <a (click)="onDeleteCertificationClick(certification)" class="edit-link">
+                    <p class="at-c-violet"><i class="fa-solid fa-trash"></i>Supprimer</p>
+                </a>
+            </div>
+        </div>
+        <p class="font-bold " *ngIf="certification.niveau">{{certification.niveau}}</p>
+        <p class="font-normal">{{certification.organisme}}</p>
+        <p class="font-normal" *ngIf="certification.dateObtention">{{certification.dateObtention | date : "MMMM YYYY" }}</p>
+         </div>
+    <div class="at-p-button-ajouter mt-1 mb-4">
+        <button (click)="onAddCertificationClick()">
+            <p><i class="fa-regular fa-plus at-c-violet"></i>Ajouter une certification</p>
+        </button>
+    </div>   
+</fieldset>
+<fieldset>
+    <legend class="mb-3"><i class="fa-solid fa-language"></i>Langues parlées</legend>
+    <div *ngFor="let langue of stepFormation.langues" class="mb-1">
+        <div class="flex-row space-between align-center">
+            <p class="mb-1 mt-1">
+                {{langue.libelleLangue}}<span class="font-normal"> ({{langue.libelleReferenceNiveau}}) </span>
+            </p>
+            <div class="edit-links mt-1">
+                <a (click)="onUpdateLangueClick(langue)" class="edit-link">
+                    <p class="at-c-violet"><i class="fa-regular fa-pen-to-square"></i>Modifier</p>
+                    </a>
+                <a (click)="onDeleteLangueClick(langue)" class="edit-link">
+                    <p class="at-c-violet"><i class="fa-solid fa-trash"></i>Supprimer</p>
+                </a>
+            </div>
+        </div>
+    </div >
+    <div class="at-p-button-ajouter mt-3 mb-2">
+        <button (click)="onAddLangueClick()">
+            <p><i class="fa-regular fa-plus at-c-violet"></i>Ajouter une langue</p>
+        </button>
+    </div>  
+</fieldset>
