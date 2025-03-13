@@ -123,7 +123,7 @@ namespace Altalents.Business.Services
                 throw new BusinessException("Impossible de mettre à jour une référence qui n'existe pas en BDD");
             }
 
-            toUpdate.IsValide = referenceDto.IsValide;
+            toUpdate.IsValide = referenceDto.IsValide ?? false;
             toUpdate.Libelle = referenceDto.Libelle;
             toUpdate.CommentaireFun = referenceDto.Commentaire;
 
