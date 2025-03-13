@@ -496,7 +496,7 @@ namespace Altalents.Export.Services
 
         private static string GetTemplateExperiencelPath()
         {
-            string templateDocName = FilesNamesConstantes.ItemExperience_WordTemplateItem_FileNameWithExt_V2;
+            string templateDocName = FilesNamesConstantes.ItemExperience_WordTemplateItem_FileNameWithExt_V1;
             return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
