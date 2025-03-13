@@ -1,17 +1,10 @@
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Packaging;
-using System.Linq;
-using System.Text.RegularExpressions;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.ExtendedProperties;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Altalents.Commun.Constants;
 using Altalents.Export.DSO.OpenXml;
 using Altalents.Export.OpenXml;
+
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Altalents.Export.Services
 {
@@ -270,20 +263,37 @@ namespace Altalents.Export.Services
                     int index = 0;
                     foreach (DtExperienceProExportDsoV2 expDso in dt.Candidat_ExperiencesProV2)
                     {
-                        index = index + 1;
-                        Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
-                        Dictionary<string, string> data = GetDataExportDictionaryForOneExperienceV2(expDso);
-
-                        ReplacePlaceholders(newTableau, data);
-                        parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
-
-                        if (dt.Candidat_ExperiencesProV2.Count != index)
+                        int numProj = 0;
+                        foreach (DtExpProProjetOrMissionV2 dtExpProProjetOrMissionV2 in expDso.MissionsOrProjects)
                         {
-                            Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
-                            parent.InsertAfter(emptyParagraph, newTableau);
-                        }
+                            numProj++;
+                            index = index + 1;
+                            Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
+                            Dictionary<string, string> data = GetDataExportDictionaryForOneExperienceV3(expDso, dtExpProProjetOrMissionV2, numProj);
 
-                        
+                            ReplacePlaceholders(newTableau, data);
+                            parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
+
+                            if (dt.Candidat_ExperiencesProV2.Count != index)
+                            {
+                                Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
+                                parent.InsertAfter(emptyParagraph, newTableau);
+                            }
+                        }
+                        //index = index + 1;
+                        //Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
+                        //Dictionary<string, string> data = GetDataExportDictionaryForOneExperienceV2(expDso);
+
+                        //ReplacePlaceholders(newTableau, data);
+                        //parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
+
+                        //if (dt.Candidat_ExperiencesProV2.Count != index)
+                        //{
+                        //    Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
+                        //    parent.InsertAfter(emptyParagraph, newTableau);
+                        //}
+
+
                     }
                 }
                 paraWithKeyEXPERIENCES_RECURSIF.Remove();
@@ -314,7 +324,7 @@ namespace Altalents.Export.Services
                         TableRow modelRowLibelle = tableauFromTemplate.Elements<TableRow>().FirstOrDefault();
                         TableRow modelRowValeur = tableauFromTemplate.Elements<TableRow>().Skip(1).FirstOrDefault();
 
-                        TableRow newRowLibelle = (TableRow)modelRowLibelle.CloneNode(false); 
+                        TableRow newRowLibelle = (TableRow)modelRowLibelle.CloneNode(false);
                         TableRow newRowValeur = (TableRow)modelRowValeur.CloneNode(false);
 
                         foreach (DtLangueExportDso LangueDso in dt.Candidat_Langues)
@@ -551,7 +561,7 @@ namespace Altalents.Export.Services
 
                 if (exp.IsEsn)
                 {
-                    projet += "<b>" + missionOrProject.NomClient  ;
+                    projet += "<b>" + missionOrProject.NomClient;
 
                     if (!string.IsNullOrEmpty(missionOrProject.DomaineMetier) || !string.IsNullOrEmpty(missionOrProject.Lieu) || !string.IsNullOrEmpty(missionOrProject.DateDebutDateFin))
                     {
@@ -581,15 +591,15 @@ namespace Altalents.Export.Services
 
                     if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
                     {
-                        projet +=  " | ";
-                    } 
+                        projet += " | ";
+                    }
                 }
 
                 if (!string.IsNullOrWhiteSpace(missionOrProject.CompoEquipe))
                     projet += "Equipe : " + missionOrProject.CompoEquipe;
 
-                textToAddInProjectsPlaceholder += projet+ "\n\n\n";
-                textToAddInTachesPlaceholder += missionOrProject.Taches+ "\n\n\n";
+                textToAddInProjectsPlaceholder += projet + "\n\n\n";
+                textToAddInTachesPlaceholder += missionOrProject.Taches + "\n\n\n";
             }
 
             //on retire les 3 retour a la ligne si c'est le dernier element
@@ -635,7 +645,7 @@ namespace Altalents.Export.Services
                     projet += missionOrProject.NomClient;
                     if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetierClient))
                         projet += " [" + missionOrProject.DomaineMetierClient + "] ";
-                        projet += "| " + missionOrProject.Lieu + " ";
+                    projet += "| " + missionOrProject.Lieu + " ";
                 }
                 else
                 {
@@ -666,6 +676,66 @@ namespace Altalents.Export.Services
 
                 textToAddInProjectsPlaceholder += projet + "\n";
             }
+
+            //on retire les 1 retour a la ligne si c'est le dernier element
+            textToAddInProjectsPlaceholder = textToAddInProjectsPlaceholder.Remove(textToAddInProjectsPlaceholder.Count() - 1, 1);
+
+            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_VALUES, textToAddInProjectsPlaceholder);
+
+            return data;
+        }
+
+        private static Dictionary<string, string> GetDataExportDictionaryForOneExperienceV3(DtExperienceProExportDsoV2 exp, DtExpProProjetOrMissionV2 missionOrProject, int numProj)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            string ESN = "";
+            if (exp.IsEsn)
+            {
+                ESN = " (ESN ou Intérim)";
+            }
+
+            data.Add(DtTemplatesReplacementKeys.EXP_ENTREPRISE, exp.NomEntreprise + ESN);
+            data.Add(DtTemplatesReplacementKeys.EXP_POSTE, exp.IntitulePoste);
+            data.Add(DtTemplatesReplacementKeys.EXP_DATES, exp.DateDebutEtDateFin);
+            data.Add(DtTemplatesReplacementKeys.EXP_CONTEXT, missionOrProject.Context);
+            data.Add(DtTemplatesReplacementKeys.EXP_EQUIPE, missionOrProject.CompoEquipe);
+            data.Add(DtTemplatesReplacementKeys.EXP_TACHES, missionOrProject.Taches);
+            data.Add(DtTemplatesReplacementKeys.EXP_ENV_TECH, missionOrProject.EnvironnementsTechnique);
+            string libelle = "";
+            libelle += "<b>";
+            if (exp.IsEsn)
+            {
+                libelle += $"MISSION {numProj} : ";
+                libelle += missionOrProject.NomClient;
+                if (!string.IsNullOrWhiteSpace(missionOrProject.DomaineMetierClient))
+                    libelle += " [" + missionOrProject.DomaineMetierClient + "] ";
+                libelle += "| " + missionOrProject.Lieu + " ";
+            }
+            else
+            {
+                libelle += $"PROJET {numProj} : ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(missionOrProject.DateDebutDateFin))
+                libelle += "| " + missionOrProject.DateDebutDateFin + " ";
+
+            libelle += "</b>";
+            data.Add(DtTemplatesReplacementKeys.EXP_PROJ_OR_MISSION_LIBELLE, libelle);
+
+            string textToAddInProjectsPlaceholder = "";
+
+
+            string projet = "\n";
+
+
+
+            if (!string.IsNullOrWhiteSpace(missionOrProject.Competences))
+                projet += "<b>Compétence(s)</b> : " + missionOrProject.Competences + "\n\n";
+
+
+            textToAddInProjectsPlaceholder += projet + "\n";
+
 
             //on retire les 1 retour a la ligne si c'est le dernier element
             textToAddInProjectsPlaceholder = textToAddInProjectsPlaceholder.Remove(textToAddInProjectsPlaceholder.Count() - 1, 1);
@@ -744,7 +814,7 @@ namespace Altalents.Export.Services
                                     Text textElement = clonedRun.GetFirstChild<Text>();
                                     if (textElement != null)
                                     {
-                                        textElement.Text = "• "+line;
+                                        textElement.Text = "• " + line;
                                     }
 
                                     // Ajouter le Run cloné après la puce
@@ -813,7 +883,7 @@ namespace Altalents.Export.Services
                                     parent.InsertBefore(new Run(new Break()), run);
                                 }
                             }
-                            
+
                             run.Remove();
                         }
                     }
