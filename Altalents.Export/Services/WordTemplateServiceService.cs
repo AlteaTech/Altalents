@@ -39,8 +39,8 @@ namespace Altalents.Export.Services
                     FeedFormationsSection(dt, mainBody);
                     FeedCertificationSection(dt, mainBody);
                     FeedLanguageSection(dt, mainBody);
-                    //FeedExperiencesSectionV1(dt, mainBody);
-                    FeedExperiencesSectionV2(dt, mainBody);
+                    FeedExperiencesSectionV1(dt, mainBody);
+                    //FeedExperiencesSectionV2(dt, mainBody);
                     FeedQuestionSection(dt, mainBody);
 
                     wordDoc.MainDocumentPart.Document.Save();
