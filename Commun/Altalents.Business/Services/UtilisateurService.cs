@@ -1,10 +1,13 @@
 using Altalents.Commun.Settings;
 using Altalents.Entities;
+using Altalents.IBusiness.DTO;
 
 using AlteaTools.Application.Core.Helper;
 using AlteaTools.Session;
 using AlteaTools.Session.Dto;
 using AlteaTools.Session.Extension;
+
+using DocumentFormat.OpenXml.Spreadsheet;
 
 using Hangfire;
 
@@ -69,8 +72,28 @@ namespace Altalents.Business.Services
             nouvelUtilisateur.IsSupprimable = true;
             nouvelUtilisateur.Email = nouvelUtilisateur.Email.ToLower();
 
+
+
             await DbContext.Utilisateurs.AddAsync(nouvelUtilisateur, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+
+            string htmlContent = _emailService.LoadEmailTemplateWithCss(
+                FilesNamesConstantes.EmailCreationCompte_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
+                new Dictionary<string, string>
+                {
+            { "baseUrl", _globalSettings.BaseUrl },
+            { "UserNom", utilisateur.Nom.ToUpper() },
+            { "mdp", utilisateur.MotDePasse } // Ajout des liens ici
+                }
+            );
+
+            await _emailService.SendEmailWithRetryAsync(
+                  utilisateur.Email,
+                  "Nouveau compte Altalent",
+                  htmlContent, false
+              );
+
             return nouvelUtilisateur.Id;
         }
 

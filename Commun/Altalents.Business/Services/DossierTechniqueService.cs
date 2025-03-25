@@ -1110,13 +1110,7 @@ namespace Altalents.Business.Services
             if (dtToDelete != null)
             {
                 context.DossierTechniques.Remove(dtToDelete);
-                /*
-                 * 
-        public List<DossierTechnique> DossierTechniques { get; set; }
-        public List<Contact> Contacts { get; set; }
-        public List<Document> Documents { get; set; }
-        public List<Adresse> Adresses { get; set; }
-                 */
+
                 await context.Experiences.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();
                 await context.DocumentComplementaires.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();
                 await context.QuestionDossierTechniques.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();

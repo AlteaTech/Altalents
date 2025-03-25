@@ -17,6 +17,7 @@ namespace Altalents.Commun.Constants
         public const string EmailConfirmationReceptionDt_HtmlTemplate_FileNameWithExt = "EmailConfirmationReceptionDtByCandidat.html";
 
         public const string EmailResetmdp_HtmlTemplate_FileNameWithExt = "EmailResetMdp.html";
+        public const string EmailCreationCompte_HtmlTemplate_FileNameWithExt = "EmailCreationCompte.html";
 
 
         //Word Templates file name
