@@ -1,20 +1,10 @@
-using System.Collections;
-using System.Net.Mail;
-using Altalents.Business.Extensions;
 using Altalents.Commun.Enums;
 using Altalents.Commun.Helpers;
 using Altalents.Commun.Settings;
-using Altalents.Entities;
-using Altalents.Export.DSO.OpenXml;
-using Altalents.Export.OpenXml;
-using Altalents.Export.Services;
 using Altalents.IBusiness.DTO.Request;
+
 using AlteaTools.Api.Core.Extensions;
-using DocumentFormat.OpenXml.InkML;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 
@@ -241,7 +231,7 @@ namespace Altalents.Business.Services
         {
             using CustomDbContext context = GetScopedDbContexte();
 
-            DocumentComplementaire docToDl = await context.DocumentComplementairesTD.Include(x => x.DossierTechnique).Where(x => x.Id == documentId).SingleAsync(cancellationToken);
+            DocumentComplementaire docToDl = await context.DocumentComplementaires.Include(x => x.DossierTechnique).Where(x => x.Id == documentId).SingleAsync(cancellationToken);
 
             if (docToDl == null)
                 throw new BusinessException("Dossier technique inexistant");
@@ -347,7 +337,7 @@ namespace Altalents.Business.Services
 
             return toReturn;
         }
-    
+
 
 
 
@@ -371,7 +361,7 @@ namespace Altalents.Business.Services
         }
 
 
-            public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
+        public async Task<NomPrenomPersonneDto> GetNomPrenomFromTokenAsync([FromRoute] Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
             return await DbContext.DossierTechniques
                 .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
@@ -476,7 +466,7 @@ namespace Altalents.Business.Services
 
             PermissionConsultationDtDto permissiontDto = new PermissionConsultationDtDto();
 
-   
+
             permissiontDto.TokenAccesRapide = tokenRapide;
             permissiontDto.IsUserLoggedInBackOffice = isUserLoggedInBackoffice;
             permissiontDto.IsDtAccessible = false;
@@ -488,7 +478,7 @@ namespace Altalents.Business.Services
 
             if (!permissiontDto.IsValideGuidFromToken)
                 return permissiontDto;
-           
+
             using CustomDbContext context = GetScopedDbContexte();
 
             // Vérifie si le dossier technique existe et récupère le code du statut
@@ -510,11 +500,11 @@ namespace Altalents.Business.Services
             else if (permissiontDto.CodeStatutDT == CodeReferenceEnum.AValider.ToString())
             {
                 permissiontDto.LibelleStatutDT = CodeReferenceEnum.AValider.GetDisplayName();
-               //permissiontDto.Message = "Lorsque le statut d'un DT est \"À valider\", il est uniquement accessible au service commercial. Si vous appartenez à ce service, veuillez préalablement vous authentifier sur back-office d'Altalants pour accéder à ce DT.";
+                //permissiontDto.Message = "Lorsque le statut d'un DT est \"À valider\", il est uniquement accessible au service commercial. Si vous appartenez à ce service, veuillez préalablement vous authentifier sur back-office d'Altalants pour accéder à ce DT.";
 
                 permissiontDto.IsDtAccessible = true;
 
-                if(!isUserLoggedInBackoffice)
+                if (!isUserLoggedInBackoffice)
                     permissiontDto.IsDtReadOnly = true;
             }
             else if (permissiontDto.CodeStatutDT == CodeReferenceEnum.Termine.ToString())
@@ -526,10 +516,10 @@ namespace Altalents.Business.Services
                 {
                     permissiontDto.IsDtAccessible = true;
                     permissiontDto.IsDtReadOnly = true;
-                  }
+                }
                 else
                 {
-                   
+
                     permissiontDto.Message = "Lorsque le statut d'un DT est à: 'terminé', il est alors publiquement inaccessible. Si vous appartenez au service commercial, vous pouvez vous connecter au Back Office d'altalents pour pouvoir le consulter.";
 
                 }
@@ -670,7 +660,8 @@ namespace Altalents.Business.Services
             dt.Personne.Email = request.Email;
 
             //si un CV a ete renseigné
-            if(request.Cv.Data!= null && request.Cv.Data.Length > 0) {
+            if (request.Cv.Data != null && request.Cv.Data.Length > 0)
+            {
                 Entities.Document cv = dt.Personne.Documents.FirstOrDefault(e => e.TypeDocument == TypeDocumentEnum.CV);
                 if (cv != null)
                 {
@@ -1119,11 +1110,25 @@ namespace Altalents.Business.Services
             if (dtToDelete != null)
             {
                 context.DossierTechniques.Remove(dtToDelete);
+                /*
+                 * 
+        public List<DossierTechnique> DossierTechniques { get; set; }
+        public List<Contact> Contacts { get; set; }
+        public List<Document> Documents { get; set; }
+        public List<Adresse> Adresses { get; set; }
+                 */
+                await context.Experiences.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();
+                await context.DocumentComplementaires.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();
+                await context.QuestionDossierTechniques.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();
+                await context.Formations.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();
+                await context.Certifications.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();
+                await context.DossierTechniqueLangues.Where(x => x.DossierTechniqueId == idDossierTechnique).ExecuteDeleteAsync();
 
+                await context.Contacts.Where(x => x.PersonneId == dtToDelete.PersonneId).ExecuteDeleteAsync();
+                await context.Documents.Where(x => x.PersonneId == dtToDelete.PersonneId).ExecuteDeleteAsync();
+                await context.Adresses.Where(x => x.PersonneId == dtToDelete.PersonneId).ExecuteDeleteAsync();
                 var personne = new Entities.Personne { Id = dtToDelete.PersonneId };
-                context.Personnes.Attach(personne);
                 context.Personnes.Remove(personne);
-
                 await context.SaveBaseEntityChangesAsync(cancellationToken);
             }
             else

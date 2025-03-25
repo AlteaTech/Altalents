@@ -67,6 +67,7 @@ namespace Altalents.Business.Services
             nouvelUtilisateur.IsActif = true;
             nouvelUtilisateur.IsModifiable = true;
             nouvelUtilisateur.IsSupprimable = true;
+            nouvelUtilisateur.Email = nouvelUtilisateur.Email.ToLower();
 
             await DbContext.Utilisateurs.AddAsync(nouvelUtilisateur, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
