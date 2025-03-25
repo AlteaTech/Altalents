@@ -10,5 +10,6 @@ namespace Altalents.IBusiness.IServices
         Task DeleteUtilisateurAsync(Guid id, CancellationToken cancellationToken = default);
         Task UpdateUtilisateurAsync(UtilisateurDto utilisateurModifie, CancellationToken cancellationToken = default);
         IQueryable<UtilisateurDto> GetUtilisateursActifs();
+        Task RegenMdpAsync(RegenMdpDto regenMdpDto, CancellationToken cancellationToken);
     }
 }

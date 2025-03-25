@@ -27,6 +27,7 @@ namespace Altalents.Commun.Constants
         public const string MvcControllerAccount = "Account";
         public const string MvcControllerAccount_MethodeIndex = "Index";
         public const string MvcControllerAccount_MethodeLogin = "Login";
+        public const string MvcControllerAccount_MethodeMdpOubliePage = "MdpOublie";
 
         public const string MvcControllerBiblioDt = "BiblioDt";
         public const string MvcControllerBiblioDt_MethodeIndex = "Index";

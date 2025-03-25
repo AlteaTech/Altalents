@@ -13,12 +13,14 @@ namespace Altalents.MVC.Controllers.Admin
     {
         public static string ControllerName = RoutesNamesConstantes.MvcControllerAccount;
         private readonly SignInManager<Utilisateur> _signInManager;
+        private readonly IUtilisateurService _utilisateurService;
         private readonly ILogger<LoginModel> _loggerLogin;
 
-        public AccountController(SignInManager<Utilisateur> signInManager, ILogger<AccountController> logger, ILogger<LoginModel> loggerLogin) : base(logger)
+        public AccountController(SignInManager<Utilisateur> signInManager, IUtilisateurService utilisateurService, ILogger<AccountController> logger, ILogger<LoginModel> loggerLogin) : base(logger)
         {
             _signInManager = signInManager;
             _loggerLogin = loggerLogin;
+            _utilisateurService = utilisateurService;
         }
 
         // GET: AccountController
@@ -44,6 +46,18 @@ namespace Altalents.MVC.Controllers.Admin
                 string returnUrl = Url.Content(RedirectionConstantes.LoggedHome);
                 return LocalRedirect(returnUrl);
             }
+        }
+        // GET: AccountController
+        public ActionResult MdpOublie(string? errorMessage = null)
+        {
+                try
+                {
+                    return View("MdpOublie", new RegenMdpDto());
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
         }
 
         // GET: AccountController
@@ -90,6 +104,13 @@ namespace Altalents.MVC.Controllers.Admin
 
             // If we got this far, something failed, redisplay form
             return Login(LibellesResources.LoginFailed);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MdpOublieAsync(RegenMdpDto regenMdpDto, CancellationToken cancellationToken)
+        {
+            await _utilisateurService.RegenMdpAsync(regenMdpDto, cancellationToken);
+            return Login(null);
         }
     }
 }

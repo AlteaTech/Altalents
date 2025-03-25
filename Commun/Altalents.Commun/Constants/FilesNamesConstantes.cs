@@ -16,6 +16,8 @@ namespace Altalents.Commun.Constants
        public const string EmailConfirmationValidationDt_HtmlTemplate_FileNameWithExt = "EmailConfirmationValidationDtByCandidat.html";
         public const string EmailConfirmationReceptionDt_HtmlTemplate_FileNameWithExt = "EmailConfirmationReceptionDtByCandidat.html";
 
+        public const string EmailResetmdp_HtmlTemplate_FileNameWithExt = "EmailResetMdp.html";
+
 
         //Word Templates file name
         public const string ExportDtMainPage_WordTemplatePage_FileNameWithExt_V1 = "Template_DT_Altea_2024_FirstPage_V1.docx";

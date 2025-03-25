@@ -154,8 +154,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="App_Data\Templates\Emails\EmailConfirmationReceptionDtByCandidat.html" />
+    <None Remove="App_Data\Templates\Emails\EmailResetMdp.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="App_Data\Templates\Emails\EmailResetMdp.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="App_Data\Templates\Emails\EmailConfirmationCreationDtForCandidat.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
