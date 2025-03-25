@@ -154,8 +154,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="App_Data\Templates\Emails\EmailConfirmationReceptionDtByCandidat.html" />
+    <None Remove="App_Data\Templates\Emails\EmailCreationCompte.html" />
+    <None Remove="App_Data\Templates\Emails\EmailResetMdp.html" />
+    <None Remove="App_Data\Templates\Emails\Styles\EmailResetMdp.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="App_Data\Templates\Emails\EmailCreationCompte.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Emails\EmailResetMdp.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="App_Data\Templates\Emails\EmailConfirmationCreationDtForCandidat.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

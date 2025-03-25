@@ -1,0 +1,34 @@
+@model RegenMdpDto
+
+@{
+    ViewData["Title"] = "Mot de passe oublié";
+    Layout = "_LayoutAdmin";
+}
+<script src="https://kit.fontawesome.com/ef969af50e.js" crossorigin="anonymous"></script>
+
+<img class="logo-altalent" src="~/Images/LOGO_ALTALENTS.png" />
+<img class="logo-altalent-stabilo" src="~/Images/ILLUSTRATION_STABILO.png" />
+<div id="loginView" class="cadre-blanc-connexion">
+    <div class="grid-align-center mt-55px">
+        <span class="connexion-title">@ViewData["Title"]</span>
+
+        <form name="loginForm" action="@Url.Action(RoutesNamesConstantes.MvcControllerAccount_MethodeMdpOubliePage, AccountController.ControllerName)" method="POST">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    @(Html.CreateDefautTextBox(new() { Name = "AdressEmail", Value = "", HtmlAttributes = new { @placeholder = LibellesResources.LoginIdentifiant, @class = "input-login" } }))
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="mt-55px">
+                <button class="btn-prim btn-fat-180-60" type="submit">
+                    Régénerer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

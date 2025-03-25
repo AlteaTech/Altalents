@@ -1,25 +1,40 @@
+using Altalents.Commun.Settings;
+using Altalents.Entities;
+using Altalents.IBusiness.DTO;
+
 using AlteaTools.Application.Core.Helper;
 using AlteaTools.Session;
 using AlteaTools.Session.Dto;
 using AlteaTools.Session.Extension;
 
+using DocumentFormat.OpenXml.Spreadsheet;
+
+using Hangfire;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace Altalents.Business.Services
 {
     public class UtilisateurService : BaseAppService<CustomDbContext>, IUtilisateurService
     {
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IEmailService _emailService;
+        private readonly GlobalSettings _globalSettings;
 
         public UtilisateurService(IHttpContextAccessor contextAccessor,
             ILogger<UtilisateurService> logger,
             CustomDbContext dbContext,
             IMapper mapper,
+            IEmailService emailService,
+            IOptionsMonitor<GlobalSettings> globalSettings,
             IServiceProvider serviceProvider)
             : base(logger, dbContext, mapper, serviceProvider)
         {
             _contextAccessor = contextAccessor;
+            _emailService = emailService;
+            _globalSettings = globalSettings.CurrentValue;
         }
 
         public async Task DeleteUtilisateurAsync(Guid id, CancellationToken cancellationToken = default)
@@ -55,9 +70,30 @@ namespace Altalents.Business.Services
             nouvelUtilisateur.IsActif = true;
             nouvelUtilisateur.IsModifiable = true;
             nouvelUtilisateur.IsSupprimable = true;
+            nouvelUtilisateur.Email = nouvelUtilisateur.Email.ToLower();
+
+
 
             await DbContext.Utilisateurs.AddAsync(nouvelUtilisateur, cancellationToken);
             await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+
+            string htmlContent = _emailService.LoadEmailTemplateWithCss(
+                FilesNamesConstantes.EmailCreationCompte_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
+                new Dictionary<string, string>
+                {
+            { "baseUrl", _globalSettings.BaseUrl },
+            { "UserNom", utilisateur.Nom.ToUpper() },
+            { "mdp", utilisateur.MotDePasse } // Ajout des liens ici
+                }
+            );
+
+            await _emailService.SendEmailWithRetryAsync(
+                  utilisateur.Email,
+                  "Nouveau compte Altalent",
+                  htmlContent, false
+              );
+
             return nouvelUtilisateur.Id;
         }
 
@@ -159,6 +195,33 @@ namespace Altalents.Business.Services
         {
             // Suppress finalization.
             GC.SuppressFinalize(this);
+        }
+
+        public async Task RegenMdpAsync(RegenMdpDto regenMdpDto, CancellationToken cancellationToken)
+        {
+            Task<Utilisateur> utilisateurTask = DbContext.Utilisateurs.Where(x => x.Email == regenMdpDto.AdressEmail).AsTracking().SingleAsync(cancellationToken);
+            string newMdp = Guid.NewGuid().ToString();
+            string crypted = MotDePasseHelper.GetHashedMotDePasse(newMdp);
+            Utilisateur user = await utilisateurTask;
+            user.MotDePasseCrypte = crypted;
+            await DbContext.SaveBaseEntityChangesAsync(cancellationToken);
+
+            string htmlContent = _emailService.LoadEmailTemplateWithCss(
+                FilesNamesConstantes.EmailResetmdp_HtmlTemplate_FileNameWithExt,
+                FilesNamesConstantes.EmailTemplate_CssStyle_FileNameWithExt,
+                new Dictionary<string, string>
+                {
+            { "baseUrl", _globalSettings.BaseUrl },
+            { "UserNom", user.Nom.ToUpper() },
+            { "mdp", newMdp } // Ajout des liens ici
+                }
+            );
+
+            await _emailService.SendEmailWithRetryAsync(
+                  regenMdpDto.AdressEmail,
+                  "Demande de Reset de mdp",
+                  htmlContent,false
+              );
         }
     }
 }
