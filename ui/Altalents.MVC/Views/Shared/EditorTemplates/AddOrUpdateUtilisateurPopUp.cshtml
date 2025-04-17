@@ -24,7 +24,7 @@
     </div>
 
     <div class="k-edit-label forUpdateUtilisateur">
-        @Html.LabelFor(model => model.NouveauMotDePasse, LibellesResources.UtilisateurMotDePasse)
+        @Html.LabelFor(model => model.NouveauMotDePasse, LibellesResources.UtilisateurNewMotDePasse)
     </div>
     <div class="k-edit-field forUpdateUtilisateur">
         @Html.Kendo().TextBoxFor(model => model.NouveauMotDePasse).HtmlAttributes(new { type = "password" })
@@ -55,3 +55,23 @@
         @Html.ValidationMessageFor(model => model.TypeCompte)
     </div>
 </div>
+
+        <script>
+
+    $("#Nom").on("change", function () {
+        let mail = $("#Email").val();
+        if (mail == null || mail == "" || mail == undefined) {
+
+            let splitNom = $("#Nom").val().split(' ');
+            if (splitNom[1]) {
+                mail = splitNom[0][0] + splitNom[1] + "@@altea-si.com";
+            }
+            else {
+                mail = splitNom[0] + "@@altea-si.com";
+            }
+            mail = mail.toLowerCase();
+            $("#Email").val(mail);
+        }
+
+    });
+        </script>
