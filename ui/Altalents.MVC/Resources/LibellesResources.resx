@@ -246,4 +246,8 @@
   <data name="Valide" xml:space="preserve">
     <value>Valide</value>
   </data>
+  <data name="UtilisateurNewMotDePasse" xml:space="preserve">
+    <value>Nouveau mot de passe</value>
+    <comment>Libelle UTILISATEURS</comment>
+  </data>
 </root>
