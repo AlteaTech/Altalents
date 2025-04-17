@@ -234,7 +234,7 @@
     <comment>Libelle UTILISATEURS</comment>
   </data>
   <data name="UtilisateurNom" xml:space="preserve">
-    <value>Nom d’utilisateur</value>
+    <value>Prenom NOM</value>
     <comment>Libelle UTILISATEURS</comment>
   </data>
   <data name="DateCreation" xml:space="preserve">
@@ -245,5 +245,9 @@
   </data>
   <data name="Valide" xml:space="preserve">
     <value>Valide</value>
+  </data>
+  <data name="UtilisateurNewMotDePasse" xml:space="preserve">
+    <value>Nouveau mot de passe</value>
+    <comment>Libelle UTILISATEURS</comment>
   </data>
 </root>
