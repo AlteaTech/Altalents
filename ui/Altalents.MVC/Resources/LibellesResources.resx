@@ -234,7 +234,7 @@
     <comment>Libelle UTILISATEURS</comment>
   </data>
   <data name="UtilisateurNom" xml:space="preserve">
-    <value>Nom d’utilisateur</value>
+    <value>Prenom NOM</value>
     <comment>Libelle UTILISATEURS</comment>
   </data>
   <data name="DateCreation" xml:space="preserve">

@@ -394,7 +394,7 @@ namespace Altalents.MVC.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Nom d’utilisateur.
+        ///   Recherche une chaîne localisée semblable à Prenom NOM.
         /// </summary>
         public static string UtilisateurNom {
             get {
