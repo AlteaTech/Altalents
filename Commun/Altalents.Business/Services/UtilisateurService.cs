@@ -64,6 +64,22 @@ namespace Altalents.Business.Services
 
         public async Task<Guid> InsertUtilisateurAsync(UtilisateurDto utilisateur, CancellationToken cancellationToken = default)
         {
+            if (string.IsNullOrEmpty(utilisateur.Email))
+            {
+                /*
+                        si modifié doit aussi etre modifié coté front (fichier AddOrUpdateUtilisateurPopUp.cshtml)
+                */
+
+                string[] splitNom = utilisateur.Nom.Split(' ');
+                if (splitNom.Length > 1)
+                {
+                    utilisateur.Email = splitNom[0][0] + splitNom[1] + "@altea-si.com";
+                }
+                else
+                {
+                    utilisateur.Email = splitNom[0] + "@altea-si.com";
+                }
+            }
             await CheckLoginExistAsync(utilisateur.Email, cancellationToken);
             Utilisateur nouvelUtilisateur = Mapper.Map<Utilisateur>(utilisateur);
             nouvelUtilisateur.MotDePasseCrypte = MotDePasseHelper.GetHashedMotDePasse(utilisateur.MotDePasse);

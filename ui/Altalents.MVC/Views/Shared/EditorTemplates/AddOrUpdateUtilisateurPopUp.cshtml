@@ -59,6 +59,9 @@
         <script>
 
     $("#Nom").on("change", function () {
+        /*
+                si modifié doit aussi etre modifié coté back (fichier UtilisateurService)
+        */
         let mail = $("#Email").val();
         if (mail == null || mail == "" || mail == undefined) {
 
