@@ -33,16 +33,22 @@ namespace Altalents.Business.Services
             _commercialSettings = commercialSettings.Value;
         }
 
+        private IQueryable<DossierTechnique> GetDossierTechniquesFromToken(Guid tokenAccesRapide, CustomDbContext contexte)
+        {
+            return contexte.DossierTechniques
 
+                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide);
+        }
         public async Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
-            using CustomDbContext context = GetScopedDbContexte();
+            using CustomDbContext contextExperiences = GetScopedDbContexte();
+            using CustomDbContext contextFormationsPersonneCertifications = GetScopedDbContexte();
+            using CustomDbContext contextLanguesQuestionDossierTechniques = GetScopedDbContexte();
 
-            DossierTechnique dt = await context.DossierTechniques
-
-                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
-                    .Include(dt => dt.Experiences)
-                        .ThenInclude(ec => ec.DomaineMetier)
+            DossierTechnique dt = null;
+            Task<DossierTechnique> dtExperiencesTask = GetDossierTechniquesFromToken(tokenAccesRapide, contextExperiences)
+                .Include(dt => dt.Experiences)
+                    .ThenInclude(ec => ec.DomaineMetier)
                 .Include(dt => dt.Experiences)
                     .ThenInclude(exp => exp.ProjetsOrMissionsClient)
                         .ThenInclude(exp => exp.LiaisonProjetCompetences)
@@ -62,14 +68,25 @@ namespace Altalents.Business.Services
                 .Include(dt => dt.Experiences)
                     .ThenInclude(exp => exp.ProjetsOrMissionsClient)
                         .ThenInclude(lt => lt.DomaineMetier)
+                .SingleOrDefaultAsync(cancellationToken);
 
+            Task<DossierTechnique> dtFormationsPersonneCertificationsTask = GetDossierTechniquesFromToken(tokenAccesRapide, contextFormationsPersonneCertifications)
                 .Include(dt => dt.Formations)
                 .Include(dt => dt.Personne)
                 .Include(dt => dt.Certifications)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            Task<DossierTechnique> dtDossierTechniqueLanguesQuestionDossierTechniquesTask = GetDossierTechniquesFromToken(tokenAccesRapide, contextLanguesQuestionDossierTechniques)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Langue)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Niveau)
                 .Include(dt => dt.QuestionDossierTechniques)
                 .SingleOrDefaultAsync(cancellationToken);
+
+            dt = await dtFormationsPersonneCertificationsTask;
+            DossierTechnique dtDossierTechniqueLanguesQuestionDossierTechniques = await dtDossierTechniqueLanguesQuestionDossierTechniquesTask
+            dt.DossierTechniqueLangues = dtDossierTechniqueLanguesQuestionDossierTechniques.DossierTechniqueLangues;
+            dt.QuestionDossierTechniques = dtDossierTechniqueLanguesQuestionDossierTechniques.QuestionDossierTechniques;
+            dt.Experiences = (await dtExperiencesTask).Experiences;
 
             if (dt == null)
             {
