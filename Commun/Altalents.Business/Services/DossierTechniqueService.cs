@@ -1020,15 +1020,21 @@ namespace Altalents.Business.Services
             return dossierTechniqueLangueToAddOrUpdate.Id;
         }
 
+        private IQueryable<DossierTechnique> GetDossierTechniquesFromToken(Guid tokenAccesRapide, CustomDbContext contexte)
+        {
+            return contexte.DossierTechniques
+
+                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide);
+        }
+
         public async Task<RecapitulatifDtDto> GetRecapitulatifDtAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
         {
 
             using CustomDbContext context = GetScopedDbContexte();
+            using CustomDbContext context2 = GetScopedDbContexte();
 
             // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
-            Task<DossierTechnique> dossierTechniqueTask = context.DossierTechniques
-
-                .Where(dt => dt.TokenAccesRapide == tokenAccesRapide)
+            Task<DossierTechnique> dossierTechniqueTask = GetDossierTechniquesFromToken(tokenAccesRapide, context)
               .Include(dt => dt.Experiences)
                     .ThenInclude(exp => exp.ProjetsOrMissionsClient)
                         .ThenInclude(exp => exp.LiaisonProjetCompetences)
@@ -1048,15 +1054,16 @@ namespace Altalents.Business.Services
                 .Include(dt => dt.Experiences)
                     .ThenInclude(exp => exp.ProjetsOrMissionsClient)
                         .ThenInclude(lt => lt.DomaineMetier)
+                .SingleOrDefaultAsync(cancellationToken);
 
+            // Lancer la récupération de dossierTechnique en parallèle avec les autres appels
+            Task<DossierTechnique> dossierTechnique2Task = GetDossierTechniquesFromToken(tokenAccesRapide, context2)
                 .Include(dt => dt.Formations)
                 .Include(dt => dt.Personne)
                 .Include(dt => dt.Certifications)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Langue)
                 .Include(dt => dt.DossierTechniqueLangues).ThenInclude(dtl => dtl.Niveau)
                 .Include(dt => dt.QuestionDossierTechniques)
-
-
                 .SingleOrDefaultAsync(cancellationToken);
 
             Task<List<CompetenceDto>> competencesTask = GetLiaisonCandidatByTypeAsync(tokenAccesRapide, TypeLiaisonEnum.Competence.GetHashCode().ToString(), cancellationToken);
@@ -1067,7 +1074,12 @@ namespace Altalents.Business.Services
             Task<ParlonsDeVousDto> InfoBasicTask = GetParlonsDeVousAsync(tokenAccesRapide, cancellationToken);
 
             DossierTechnique dossierTechnique = await dossierTechniqueTask;
-
+            DossierTechnique dossierTechnique2 = await dossierTechnique2Task;
+            dossierTechnique.Formations = dossierTechnique2.Formations;
+            dossierTechnique.Personne = dossierTechnique2.Personne;
+            dossierTechnique.Certifications = dossierTechnique2.Certifications;
+            dossierTechnique.DossierTechniqueLangues = dossierTechnique2.DossierTechniqueLangues;
+            dossierTechnique.QuestionDossierTechniques = dossierTechnique2.QuestionDossierTechniques;
             // Appliquer le tri sur les expériences après récupération
             if (dossierTechnique != null && dossierTechnique.Experiences != null)
             {
