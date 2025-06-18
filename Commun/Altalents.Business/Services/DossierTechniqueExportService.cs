@@ -44,31 +44,33 @@ namespace Altalents.Business.Services
             using CustomDbContext contextExperiences = GetScopedDbContexte();
             using CustomDbContext contextFormationsPersonneCertifications = GetScopedDbContexte();
             using CustomDbContext contextLanguesQuestionDossierTechniques = GetScopedDbContexte();
+            using CustomDbContext contextProjetsOrMissionsClient = GetScopedDbContexte();
+            using CustomDbContext contextExpIds = GetScopedDbContexte();
+
+            List<Guid> expIds = await GetDossierTechniquesFromToken(tokenAccesRapide, contextExperiences)
+                .SelectMany(x => x.Experiences.Select(x => x.Id))
+                .ToListAsync(cancellationToken);
+            expIds = expIds.Distinct().ToList();
 
             DossierTechnique dt = null;
             Task<DossierTechnique> dtExperiencesTask = GetDossierTechniquesFromToken(tokenAccesRapide, contextExperiences)
                 .Include(dt => dt.Experiences)
                     .ThenInclude(ec => ec.DomaineMetier)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
-                        .ThenInclude(exp => exp.LiaisonProjetCompetences)
-                            .ThenInclude(ec => ec.Competence)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
-                        .ThenInclude(exp => exp.LiaisonProjetOutils)
-                            .ThenInclude(lo => lo.Outil)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
-                        .ThenInclude(exp => exp.LiaisonProjetMethodologies)
-                            .ThenInclude(lm => lm.Methodologie)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
-                        .ThenInclude(exp => exp.LiaisonProjetTechnologies)
-                            .ThenInclude(lt => lt.Technologie)
-                .Include(dt => dt.Experiences)
-                    .ThenInclude(exp => exp.ProjetsOrMissionsClient)
-                        .ThenInclude(lt => lt.DomaineMetier)
                 .SingleOrDefaultAsync(cancellationToken);
+
+
+            Task<List<ProjetOrMissionClient>> projetsOrMissionsClientTask = contextProjetsOrMissionsClient.ProjetsOrMissionsClient.Where(x => expIds.Contains(x.ExperienceId))
+
+                        .Include(exp => exp.LiaisonProjetCompetences)
+                            .ThenInclude(ec => ec.Competence)
+                        .Include(exp => exp.LiaisonProjetOutils)
+                            .ThenInclude(lo => lo.Outil)
+                        .Include(exp => exp.LiaisonProjetMethodologies)
+                            .ThenInclude(lm => lm.Methodologie)
+                        .Include(exp => exp.LiaisonProjetTechnologies)
+                            .ThenInclude(lt => lt.Technologie)
+                        .Include(lt => lt.DomaineMetier)
+                .ToListAsync(cancellationToken);
 
             Task<DossierTechnique> dtFormationsPersonneCertificationsTask = GetDossierTechniquesFromToken(tokenAccesRapide, contextFormationsPersonneCertifications)
                 .Include(dt => dt.Formations)
@@ -88,9 +90,16 @@ namespace Altalents.Business.Services
             dt.QuestionDossierTechniques = dtDossierTechniqueLanguesQuestionDossierTechniques.QuestionDossierTechniques;
             dt.Experiences = (await dtExperiencesTask).Experiences;
 
+            List<ProjetOrMissionClient> projetsOrMissionsClient = await projetsOrMissionsClientTask;
+
             if (dt == null)
             {
                 throw new BusinessException("UNAUTHORIZED Action");
+            }
+
+            foreach (Experience exp in dt.Experiences)
+            {
+                exp.ProjetsOrMissionsClient = projetsOrMissionsClient.Where(x => x.ExperienceId == exp.Id).ToList();
             }
 
             DtMainPageExportDso modelExport = new DtMainPageExportDso
