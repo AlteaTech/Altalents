@@ -83,7 +83,7 @@ namespace Altalents.Business.Services
                 .SingleOrDefaultAsync(cancellationToken);
 
             dt = await dtFormationsPersonneCertificationsTask;
-            DossierTechnique dtDossierTechniqueLanguesQuestionDossierTechniques = await dtDossierTechniqueLanguesQuestionDossierTechniquesTask
+            DossierTechnique dtDossierTechniqueLanguesQuestionDossierTechniques = await dtDossierTechniqueLanguesQuestionDossierTechniquesTask;
             dt.DossierTechniqueLangues = dtDossierTechniqueLanguesQuestionDossierTechniques.DossierTechniqueLangues;
             dt.QuestionDossierTechniques = dtDossierTechniqueLanguesQuestionDossierTechniques.QuestionDossierTechniques;
             dt.Experiences = (await dtExperiencesTask).Experiences;
