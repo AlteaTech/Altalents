@@ -145,6 +145,7 @@ namespace Altalents.Business.Services
                 Data = generatedFile
             };
         }
+
         private static int CalculerTotalAnneesExperienceAvecChevauchements(DossierTechnique dt)
         {
             if (dt?.Experiences == null || !dt.Experiences.Any())
