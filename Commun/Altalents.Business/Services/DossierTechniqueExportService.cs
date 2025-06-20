@@ -1,21 +1,10 @@
-using System.Collections;
-using System.Net.Mail;
-using Altalents.Business.Extensions;
-using Altalents.Commun.Enums;
 using Altalents.Commun.Settings;
-using Altalents.Entities;
 using Altalents.Export.DSO.OpenXml;
 using Altalents.Export.OpenXml;
 using Altalents.Export.Services;
 using Altalents.IBusiness.DTO.Request;
-using DocumentFormat.OpenXml.InkML;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.EntityFrameworkCore.Query;
+
 using Microsoft.Extensions.Options;
-using MimeKit;
-using Spire.Doc;
-using Document = Spire.Doc.Document;
 
 
 
@@ -157,32 +146,6 @@ namespace Altalents.Business.Services
             };
         }
 
-        public async Task<DocumentDto> GenereateDtWithOpenXmlAndReturnPdfAsync(Guid tokenAccesRapide, CancellationToken cancellationToken)
-        {
-            // Appeler la méthode qui génère le fichier Word
-            var wordGenerated = await GenereateDtWithOpenXmlAsync(tokenAccesRapide, cancellationToken);
-
-            // Créer un flux mémoire pour le fichier PDF
-            using (MemoryStream wordStream = new MemoryStream(wordGenerated.Data))
-            using (MemoryStream pdfStream = new MemoryStream())
-            {
-                // Charger le fichier Word
-                Document wordDocument = new Document();
-                wordDocument.LoadFromStream(wordStream, FileFormat.Docx);
-
-                // Sauvegarder en PDF dans le flux mémoire
-                wordDocument.SaveToStream(pdfStream, FileFormat.PDF);
-
-                // Retourner le fichier PDF en réponse
-                return new DocumentDto()
-                {
-                    MimeType = "application/pdf", // Type MIME pour PDF
-                    NomFichier = wordGenerated.NomFichier.Replace(".docx", ".pdf"), // Remplacer l'extension en .pdf
-                    Data = pdfStream.ToArray() // Renvoyer les données PDF
-                };
-            }
-        }
-
         private static int CalculerTotalAnneesExperienceAvecChevauchements(DossierTechnique dt)
         {
             if (dt?.Experiences == null || !dt.Experiences.Any())
@@ -235,7 +198,7 @@ namespace Altalents.Business.Services
             var allCompetences = dt.Experiences
                 .SelectMany(exp => exp.ProjetsOrMissionsClient
                         .SelectMany(proj => proj.LiaisonProjetCompetences
-                            .Where(lec => lec.Competence != null )
+                            .Where(lec => lec.Competence != null)
                             .Select(lec => new
                             {
                                 lec.Competence.Libelle,
@@ -565,8 +528,8 @@ namespace Altalents.Business.Services
                     TypeContrat = exp.TypeContrat?.Libelle,
                     DateDebutEtDateFin = $"{exp.DateDebut:MM/yyyy} --> {(exp.DateFin.HasValue ? exp.DateFin.Value.ToString("MM/yyyy") : "Aujourd'hui")}",
                     EnvironnementsTechnique = string.Join(", ",
-                        (exp.ProjetsOrMissionsClient.SelectMany(x=>x.LiaisonProjetTechnologies?.Select(lt => lt.Technologie?.Libelle) ?? Enumerable.Empty<string>()))
-                        .Concat(exp.ProjetsOrMissionsClient.SelectMany(x=>x.LiaisonProjetOutils?.Select(lo => lo.Outil?.Libelle) ?? Enumerable.Empty<string>()))),
+                        (exp.ProjetsOrMissionsClient.SelectMany(x => x.LiaisonProjetTechnologies?.Select(lt => lt.Technologie?.Libelle) ?? Enumerable.Empty<string>()))
+                        .Concat(exp.ProjetsOrMissionsClient.SelectMany(x => x.LiaisonProjetOutils?.Select(lo => lo.Outil?.Libelle) ?? Enumerable.Empty<string>()))),
                     MissionsOrProjects = exp.ProjetsOrMissionsClient?
                         .OrderByDescending(p => p.DateDebut)
                         .Select(p => new DtExpProMission
@@ -620,7 +583,7 @@ namespace Altalents.Business.Services
                                         ? $"Fin : {p.DateFin:MM/yyyy}"
                                         : string.Empty,
                             DomaineMetierClient = p.DomaineMetier?.Libelle,
-                            
+
                             Lieu = p.Lieu,
                             Context = p.DescriptionProjetOrMission,
                             Taches = string.Join(", ", p.Taches.Split('\n')

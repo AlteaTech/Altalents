@@ -7,8 +7,5 @@ namespace Altalents.IBusiness.IServices
     public interface IDossierTechniqueExportService : IInjectableService
     {
         Task<DocumentDto> GenereateDtWithOpenXmlAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
-
-        Task<DocumentDto> GenereateDtWithOpenXmlAndReturnPdfAsync(Guid tokenAccesRapide, CancellationToken cancellationToken);
-
     }
 }
