@@ -586,7 +586,7 @@ namespace Altalents.Business.Services
 
                             Lieu = p.Lieu,
                             Context = p.DescriptionProjetOrMission,
-                            Taches = string.Join(", ", p.Taches.Split('\n')
+                            Taches = string.Join("\n", p.Taches.Split('\n')
                                           .Select(t => t.Trim())
                                           .Where(t => !string.IsNullOrEmpty(t))),
                             CompoEquipe = p.CompositionEquipe,
