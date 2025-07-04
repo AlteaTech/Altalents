@@ -25,6 +25,7 @@ namespace Altalents.Commun.Constants
         public const string ExportDtMainPage_WordTemplatePage_FileNameWithExt_V2 = "Template_DT_Altea_2024_FirstPage_V2.docx";
 
         public const string ItemExperience_WordTemplateItem_FileNameWithExt_V1 = "Template_DT_Altea_2024_ItemExperience_V1.docx";
+        public const string ItemExperience_WordTemplateItem_FileNameWithExt_V1_MONO = "Template_DT_Altea_2024_ItemExperience_V1_MONO.docx";
         public const string ItemExperience_WordTemplateItem_FileNameWithExt_V2 = "Template_DT_Altea_2024_ItemExperience_V2.docx";
 
         public const string ItemQuestion_WordTemplateItem_FileNameWithExt = "Template_DT_Altea_2024_ItemQuestion.docx";
