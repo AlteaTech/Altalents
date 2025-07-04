@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -157,6 +157,7 @@
     <None Remove="App_Data\Templates\Emails\EmailCreationCompte.html" />
     <None Remove="App_Data\Templates\Emails\EmailResetMdp.html" />
     <None Remove="App_Data\Templates\Emails\Styles\EmailResetMdp.html" />
+    <None Remove="App_Data\Templates\Word\Template_DT_Altea_2024_ItemExperience_V1_MONO.docx" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="App_Data\Templates\Emails\EmailCreationCompte.html">
@@ -194,6 +195,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemExperience.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemExperience_V1_MONO.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="App_Data\Templates\Word\Template_DT_Altea_2024_ItemQuestion - Copy.docx">

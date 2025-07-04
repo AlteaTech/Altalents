@@ -32,7 +32,6 @@ namespace Altalents.Export.Services
                     FeedFormationsSection(dt, mainBody);
                     FeedCertificationSection(dt, mainBody);
                     FeedLanguageSection(dt, mainBody);
-                    //FeedExperiencesSectionV1(dt, mainBody);
                     FeedExperiencesSectionV2(dt, mainBody);
                     FeedQuestionSection(dt, mainBody);
 
@@ -203,42 +202,6 @@ namespace Altalents.Export.Services
             }
         }
 
-        private void FeedExperiencesSectionV1(DtMainPageExportDso dt, Body mainBody)
-        {
-            Paragraph paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
-
-            if (paraWithKeyEXPERIENCES_RECURSIF != null)
-            {
-                OpenXmlElement parent = paraWithKeyEXPERIENCES_RECURSIF.Parent;
-
-                if (dt.Candidat_ExperiencesProV1 == null || dt.Candidat_ExperiencesProV1.Count == 0)
-                {
-                    RemoveSection(paraWithKeyEXPERIENCES_RECURSIF);
-                    return;
-                }
-
-                string templatePath = GetTemplateExperiencelPath();
-                using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(templatePath, false))
-                {
-                    Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
-                    Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
-
-                    foreach (DtExperienceProExportDso expDso in dt.Candidat_ExperiencesProV1)
-                    {
-                        Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
-                        Dictionary<string, string> data = GetDataExportDictionaryForOneExperienceV1(expDso);
-
-                        ReplacePlaceholders(newTableau, data);
-                        parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
-
-                        Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
-                        parent.InsertAfter(emptyParagraph, newTableau);
-                    }
-                }
-                paraWithKeyEXPERIENCES_RECURSIF.Remove();
-            }
-        }
-
         private void FeedExperiencesSectionV2(DtMainPageExportDso dt, Body mainBody)
         {
             Paragraph paraWithKeyEXPERIENCES_RECURSIF = mainBody.Descendants<Paragraph>().FirstOrDefault(p => p.InnerText.Contains(DtTemplatesReplacementKeys.SECTION_EXPERIENCES_PRO_RECURSIF));
@@ -253,16 +216,24 @@ namespace Altalents.Export.Services
                     return;
                 }
 
-                string templatePath = GetTemplateExperiencelPath();
-                using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(templatePath, false))
+                string templatePath = "";
+
+                int index = 0;
+                foreach (DtExperienceProExportDsoV2 expDso in dt.Candidat_ExperiencesProV2)
                 {
-                    Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
-                    Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
-
-
-                    int index = 0;
-                    foreach (DtExperienceProExportDsoV2 expDso in dt.Candidat_ExperiencesProV2)
+                    using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(templatePath, false))
                     {
+                        Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
+                        Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
+                        if (expDso.MissionsOrProjects.Count > 1)
+                        {
+                            templatePath = GetTemplateExperiencelPathMultiMission();
+                        }
+                        else
+                        {
+                            templatePath = GetTemplateExperiencelPathMonoMission();
+                        }
+
                         int numProj = 0;
                         foreach (DtExpProProjetOrMissionV2 dtExpProProjetOrMissionV2 in expDso.MissionsOrProjects)
                         {
@@ -280,20 +251,6 @@ namespace Altalents.Export.Services
                                 parent.InsertAfter(emptyParagraph, newTableau);
                             }
                         }
-                        //index = index + 1;
-                        //Table newTableau = (Table)tableauFromTemplate.CloneNode(true);
-                        //Dictionary<string, string> data = GetDataExportDictionaryForOneExperienceV2(expDso);
-
-                        //ReplacePlaceholders(newTableau, data);
-                        //parent.InsertAfter(newTableau, paraWithKeyEXPERIENCES_RECURSIF);
-
-                        //if (dt.Candidat_ExperiencesProV2.Count != index)
-                        //{
-                        //    Paragraph emptyParagraph = new Paragraph(new Run(new Break()));
-                        //    parent.InsertAfter(emptyParagraph, newTableau);
-                        //}
-
-
                     }
                 }
                 paraWithKeyEXPERIENCES_RECURSIF.Remove();
@@ -504,9 +461,15 @@ namespace Altalents.Export.Services
             return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
-        private static string GetTemplateExperiencelPath()
+        private static string GetTemplateExperiencelPathMultiMission()
         {
             string templateDocName = FilesNamesConstantes.ItemExperience_WordTemplateItem_FileNameWithExt_V1;
+            return GetNormalisedFullPathWordTemplate(templateDocName);
+        }
+
+        private static string GetTemplateExperiencelPathMonoMission()
+        {
+            string templateDocName = FilesNamesConstantes.ItemExperience_WordTemplateItem_FileNameWithExt_V1_MONO;
             return GetNormalisedFullPathWordTemplate(templateDocName);
         }
 
