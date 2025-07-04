@@ -221,18 +221,20 @@ namespace Altalents.Export.Services
                 int index = 0;
                 foreach (DtExperienceProExportDsoV2 expDso in dt.Candidat_ExperiencesProV2)
                 {
+                    if (expDso.MissionsOrProjects.Count > 1)
+                    {
+                        templatePath = GetTemplateExperiencelPathMultiMission();
+                    }
+                    else
+                    {
+                        templatePath = GetTemplateExperiencelPathMonoMission();
+                    }
+
                     using (WordprocessingDocument docuTemplateExperience = WordprocessingDocument.Open(templatePath, false))
                     {
                         Body bodyTemplateItemExperience = docuTemplateExperience.MainDocumentPart.Document.Body;
                         Table tableauFromTemplate = bodyTemplateItemExperience.Descendants<Table>().FirstOrDefault();
-                        if (expDso.MissionsOrProjects.Count > 1)
-                        {
-                            templatePath = GetTemplateExperiencelPathMultiMission();
-                        }
-                        else
-                        {
-                            templatePath = GetTemplateExperiencelPathMonoMission();
-                        }
+                    
 
                         int numProj = 0;
                         foreach (DtExpProProjetOrMissionV2 dtExpProProjetOrMissionV2 in expDso.MissionsOrProjects)
