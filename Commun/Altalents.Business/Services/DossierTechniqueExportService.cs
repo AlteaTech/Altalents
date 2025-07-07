@@ -574,6 +574,7 @@ namespace Altalents.Business.Services
                         .OrderByDescending(p => p.DateDebut)
                         .Select(p => new DtExpProProjetOrMissionV2
                         {
+                            DateDebut = p.DateDebut,
                             NomClient = p.NomClientOrProjet,
                             DateDebutDateFin = p.DateDebut.HasValue && p.DateFin.HasValue
                                 ? $"Début : {p.DateDebut:MM/yyyy} --> Fin : {p.DateFin:MM/yyyy}"

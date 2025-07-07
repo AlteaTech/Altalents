@@ -14,6 +14,7 @@ namespace Altalents.Export.DSO.OpenXml
         public string DomaineMetierClient { get; set; }
 
         public string DateDebutDateFin { get; set; }
+        public DateTime? DateDebut { get; set; }
         public string Lieu { get; set; }
         public string CompoEquipe { get; set; }
 
