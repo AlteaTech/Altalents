@@ -237,7 +237,7 @@ namespace Altalents.Export.Services
                     
 
                         int numProj = 0;
-                        foreach (DtExpProProjetOrMissionV2 dtExpProProjetOrMissionV2 in expDso.MissionsOrProjects.OrderByDescending(x => x.DateDebut))
+                        foreach (DtExpProProjetOrMissionV2 dtExpProProjetOrMissionV2 in expDso.MissionsOrProjects.OrderBy(x => x.DateDebut))
                         {
                             numProj++;
                             index = index + 1;
